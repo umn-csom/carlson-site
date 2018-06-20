@@ -1,0 +1,27 @@
+<!-- Begin UMN Header -->
+<header id="mandatory-header-wrapper" class="{{ umn_header_classes }}" role="banner">
+    <div class="umnhf" id="umnhf-h">
+        <div class="umnhf" id="umnhf-h-mast">
+            <a class="umnhf" id="umnhf-h-wm" href="{{ home_link }}"><span>Go to the U of M home page</span></a>
+            {% if campus_links == 'links' %}
+            <ul class="umnhf" id="umnhf-h-cl" role="presentation">
+                <li><a href="http://www1.crk.umn.edu/" class="umnhf-campus-c">Crookston</a></li>
+                <li><a href="http://www.d.umn.edu/" class="umnhf-campus-d">Duluth</a></li>
+                <li><a href="http://www.morris.umn.edu/" class="umnhf-campus-m">Morris</a></li>
+                <li><a href="https://r.umn.edu/" class="umnhf-campus-r">Rochester</a></li>
+                <li><a href="http://twin-cities.umn.edu/" class="umnhf-campus-tc">Twin Cities</a></li>
+            </ul>
+            {% endif %}
+            {% if campus_header != 'umnhf-campus-e' %}
+            <ul class="umnhf" id="umnhf-h-ql" role="presentation">
+                <li class="umnhf" id="umnhf-h-onestop"><a href="{{ onestop_link }}">One Stop</a></li>
+                <li class="umnhf" id="umnhf-h-myu"><a href="http://www.myu.umn.edu">MyU<span></span>{% if myu_text == 'sfs' %}: For Students, Faculty, and Staff{% endif %}</a></li>
+            </ul>
+            {% endif %}
+            <!-- Button below is for dropdown toggle, only visible on mobile screens. If using a non-dropdown version you can delete this tag -->
+            {% if mobile_search == 'dropdown' %}<button class="umnhf" id="umnhf-m-search" href="#" title="toggle search field">Search</button>{% endif %}
+        </div>
+        {{ search_block }}
+    </div>
+</header>
+<!-- End UMN Header -->
