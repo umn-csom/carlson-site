@@ -18,10 +18,10 @@ preprocessor.
   extension, not files ending in `.css`.
 
 ## Additional Setup {#setup}
-Download and extract the **latest** 3.x.x version of
-[Bootstrap Framework Source Files] into the root of your new sub-theme. After
-it has been extracted, the directory should be renamed (if needed) so it reads
-`./THEMENAME/bootstrap`.
+Navigate to the theme folder and run the following commands to download required dependencies.
+
+npm install --save-dev
+bower install
 
 If for whatever reason you have an additional `bootstrap` directory wrapping the
 first `bootstrap` directory (e.g. `./THEMENAME/bootstrap/bootstrap`), remove the
@@ -56,3 +56,5 @@ name, using a different extension of course).
 [Bootstrap Framework]: http://getbootstrap.com
 [Bootstrap Framework Source Files]: https://github.com/twbs/bootstrap-sass
 [Sass]: http://sass-lang.com
+
+
