@@ -1,0 +1,601 @@
+$campuses: (
+        (class: umnhf-campus-tc, width: 288px),
+        (class: umnhf-campus-d, width: 361px),
+        (class: umnhf-campus-m, width: 356px),
+        (class: umnhf-campus-c, width: 391px),
+        (class: umnhf-campus-r, width: 389px),
+        (class: umnhf-campus-e, width: 386px),
+);
+$dtd-opts: (
+        dtd: (
+                height: 29px,
+                background-position: 0 -38px,
+                width: 246px
+        ),
+        no-dtd: (
+                height: 30px,
+                background-position: 0 -37px,
+                width: 250px
+        )
+);
+$colors: (
+        gold: (
+                value: $gold,
+                class: umnhf-background-gold,
+                text-color: $slate,
+        ),
+        maroon: (
+                value: $maroon,
+                class:umnhf-background-maroon,
+                text-color: $white,
+        )
+);
+
+@mixin header-sprite($colors, $bgpos) {
+  @each $color, $cdetail in $colors {
+    .#{map-get($cdetail, class)} & {
+      background: transparent url("../images/branding/sprites/lock-search-#{$color}.png") $bgpos no-repeat;
+      @media only screen and (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 192dpi) {
+        background: transparent url("../images/branding/sprites/lock-search-#{$color}@2x.png") $bgpos no-repeat;
+        background-position: $bgpos;
+        background-size: 22px 34px;
+      }
+    }
+  }
+}
+//$dtd-height: (dtd: )
+
+#umnhf-h.umnhf,
+#umnhf-uf.umnhf,
+#umnhf-f.umnhf {
+  @extend %page-width;
+  font: normal normal 400 14px/20px Helvetica, "Helvetica Neue", "Futura", Verdana, "Geneva", sans-serif;
+  line-height: 20px;
+  margin-top: 0;
+  margin-bottom: 0;
+
+  a {
+    text-decoration: none;
+    color: $slate;
+
+    &:hover,
+    &:active,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+}
+
+#mandatory-header-wrapper {
+  min-height: 64px;
+
+  div {
+    display: block;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  #umnhf-h-mast {
+    position: relative;
+  }
+
+  #umnhf-h-wm {
+    display: block;
+    float: left;
+    overflow: hidden;
+    height: 38px;
+    margin: 13px 10px;
+    white-space: nowrap;
+    text-indent: 100%;
+    background-size: 288px 67px;
+  }
+
+  &.links #umnhf-h-wm {
+    margin-bottom: 7px;
+  }
+
+  @each $color, $cdetail in $colors {
+    &.#{map-get($cdetail, class)} {
+      background-color: map-get($cdetail, value);
+      a {color: map-get($cdetail, text-color);}
+    }
+
+    @each $campus in $campuses {
+      @each $dtd, $ddetail in $dtd-opts {
+        &.#{map-get($campus, class)}.#{$dtd}.#{map-get($cdetail, class)} #umnhf-h-wm {
+          width: map-get($campus, width);
+          @if $dtd == 'dtd' {
+            @if (map-get($campus, class) == 'umnhf-campus-e') or (map-get($campus, class) == 'umnhf-campus-m') {
+              height: 36px;
+            }
+          }
+          background: transparent url('../images/branding/wordmarks/#{map-get($campus, class)}-#{$dtd}-#{$color}.png') 0 0 no-repeat;
+          @media only screen and (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 192dpi) {
+            background: transparent url('../images/branding/wordmarks/#{map-get($campus, class)}-#{$dtd}-#{$color}@2x.png') 0 0 no-repeat;
+            @if $dtd == 'no-dtd' {
+              background-size: 288px auto;
+              @if (map-get($campus, class) == 'umnhf-campus-tc') {
+                height: 34px;
+              }
+            }
+            @else {
+              background-size: map-get($campus, width) auto;
+              @if (map-get($campus, class) == 'umnhf-campus-e') or (map-get($campus, class) == 'umnhf-campus-m') {
+                height: 34px;
+              }
+              @else {
+                height: 37px;
+              }
+            }
+          }
+          @media screen and (max-width: 609px) {
+            background-position: 0 -38px;
+            height: 29px;
+            @if (map-get($campus, class) == 'umnhf-campus-c') {
+              @media only screen and (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 192dpi) {
+                background-position: 0 -39px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  @media all and (max-width:609px) {
+    @each $dtd, $ddetail in $dtd-opts {
+      &.#{$dtd} .umnhf-h-logo {
+        @each $prop, $val in $ddetail {
+          #{$prop}: #{$val};
+        }
+      }
+    }
+  }
+}
+
+#umnhf-h-cl {
+  position: relative;
+  clear: both;
+  margin: 0 10px;
+  padding: 0 0 10px;
+  list-style-type: none;
+  text-align: center;
+
+  li {
+    display: inline-block;
+    padding: 0 0.5em;
+    text-align: center;
+    &:first-child {
+      padding-left: 0;
+    }
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+
+  @each $campus in $campuses {
+    .#{map-get($campus, class)} & {
+      width: map-get($campus, width);
+
+      .#{map-get($campus, class)} {
+        font-weight: bold;
+      }
+    }
+  }
+
+  @media screen and (max-width: 609px) {
+    display: none;
+  }
+}
+
+#umnhf-h-ql {
+  list-style-type: none;
+  margin: 0;
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  width: auto;
+
+  .links & {
+    top: 12px;
+  }
+
+  li {
+    margin: 0;
+    display: inline-block;
+    margin-left: 1.25em;
+  }
+
+  #umnhf-h-myu span {
+    @include header-sprite($colors, 0 0);
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 1px;
+  }
+
+  @media screen and (max-width: 775px) {
+    display: none;
+  }
+}
+
+#umnhf-h-search {
+  position: absolute;
+  top: 30px;
+  right: 10px;
+  background-color: inherit;
+  width: 249px;
+  height: 22px;
+
+  .links & {
+    top: 35px;
+    @media screen and (max-width: 609px) {
+      top: 0;
+    }
+  }
+
+  div {
+    position: relative;
+
+    @media screen and (max-width: 609px) {
+      &.form-item, &.form-actions {
+        // width: 190px;
+        display: inline-block;
+        vertical-align: top;
+      }
+    }
+  }
+
+  @media screen and (max-width: 609px) {
+    .dropdown & {
+      display: none;
+    }
+    .dropdown &.mobile {
+      display: block;
+    }
+  }
+
+  label {
+    @extend .element-invisible;
+  }
+
+  #umnhf-h-st {
+    border-radius: 0;
+    position: absolute;
+    right: 30px;
+    width: 175px;
+    height: 22px;
+    padding: 1px 1px 1px 3px;
+    margin: 0;
+    cursor: text;
+    color: $header-dark-gray;
+    border: 0;
+    background-color: $white;
+    font-size: .8em;
+    line-height: 18px;
+    box-shadow: none;
+    -webkit-appearance: none;
+    vertical-align: baseline;
+
+    @media screen and (max-width: 609px) {
+      position: relative;
+      left: initial;
+      right: initial;
+      width: 190px;
+    }
+  }
+
+  #umnhf-h-sb {
+    @include header-sprite($colors, 0 -12px);
+    border: 0;
+    color: $maroon;
+    cursor: pointer;
+    height: 22px;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    top: 0;
+    white-space: nowrap;
+    width: 25px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+
+    @media screen and (max-width: 609px) {
+      position: relative;
+      top: -3px;
+    }
+  }
+
+  @media screen and (max-width: 674px) {
+    width: 184px;
+  }
+
+  @media screen and (max-width: 609px) {
+    position: relative;
+    top: auto;
+    right: auto;
+    display: block;
+    clear: both;
+    width: 226px;
+    margin: 10px 0 0 10px;
+    float: none;
+    height: 33px;
+  }
+}
+
+#umnhf-m-search {
+  display: none;
+
+  @media screen and (max-width: 609px) {
+    .dropdown & {
+      border-radius: 4px;
+      border: 0;
+      cursor: pointer;
+      display: block;
+      font: bold .925em/1.35em arial, helvetica, clean, sans-serif;
+      height: auto;
+      padding: 5px 6px 4px;
+      position: absolute;
+      right: 17px;
+      text-align: left;
+      top: 17px;
+      white-space: nowrap;
+      width: auto;
+    }
+
+    .umnhf-background-gold.dropdown & {
+      background-color: $maroon;
+      color: $gold;
+    }
+
+    .umnhf-background-maroon.dropdown & {
+      background-color: $gold;
+      color: $maroon;
+    }
+
+    .dropdown &.mobile {
+      display: none;
+    }
+  }
+}
+
+// Morris-specific changes
+@media screen and (max-width: 775px) {
+  @each $color, $cdetail in $colors {
+    #mandatory-header-wrapper.umnhf-campus-m.#{map-get($cdetail, class)} #umnhf-h-wm {
+      background-image: url('../branding/wordmarks/umnhf-campus-m-no-dtd-#{$color}.png') !important;
+      height: 37px !important;
+    }
+  }
+  .umnhf-campus-m {
+    #umnhf-h-cl {
+      display: none;
+    }
+    #umnhf-h-search {
+      top: 22px;
+    }
+  }
+}
+
+
+.campus-footer {
+  .social-media-footer-links {
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      margin: 0 5px;
+      background: url("../branding/sprites/social.png") no-repeat;
+      background-size: 160px 16px;
+      @media only screen and (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 192dpi) {
+        background-size: auto 16px;
+      }
+      &:first-child {
+        margin-left: 0;
+      }
+      &.facebook {
+        background-position: 0 0;
+      }
+      &.twitter {
+        background-position: -16px 0;
+      }
+      &.google-plus {
+        background-position: -32px 0;
+      }
+      &.linkedin {
+        background-position: -48px 0;
+      }
+      &.youtube {
+        background-position: -64px 0;
+      }
+      &.instagram {
+        background-position: -80px 0;
+      }
+      &.flickr {
+        background-position: -97px 0;
+      }
+      &.pinterest {
+        background-position: -111px 0;
+      }
+      &.tumblr {
+        background-position: -128px 0;
+      }
+      &.rss {
+        background-position: -144px 0;
+      }
+    }
+    a {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      transition: background-color 0.3s ease 0s, border-color 0.3s ease 0s;
+
+      opacity: 1.0;
+      &:hover,
+      &:focus {
+        border-color: transparent;
+        background-color: $light-slate;
+
+        opacity: 0.75;
+      }
+    }
+  }
+}
+
+// Unit Footer
+#umnhf-uf.umnhf {
+  border-top: 1px solid $lightgray;
+  overflow: hidden;
+  position: relative;
+
+  p {
+    margin: 0;
+  }
+
+  p,
+  li,
+  h3 {
+    color: $slate;
+  }
+
+  h2 {
+    &.umnhf-f-title {
+      margin: 0 0 15px;
+      padding: 16px 8px 16px 54px;
+      text-transform: uppercase;
+      color: $slate;
+      border-bottom: 1px solid $header-gray;
+      font-family: Helvetica, "Helvetica Neue", "Futura", Verdana, "Geneva", sans-serif;
+      font-size: 16px;
+      font-weight: normal;
+    }
+  }
+
+  h3,
+  p {
+    &.umnhf-f-title {
+      margin: 0;
+      text-transform: uppercase;
+      color: $slate;
+      font-family: Helvetica, "Helvetica Neue", "Futura", Verdana, "Geneva", sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  }
+
+  #umnhf-uf-ci,
+  #umnhf-uf-sm {
+    float: left;
+    clear: both;
+    width: 40%;
+    padding: 0;
+    font-style: normal;
+    @media screen and (max-width: 750px) {
+      width: 50%;
+    }
+  }
+
+  #umnhf-uf-ci {
+    margin-top: 10px;
+    p {
+      line-height: 1.5em;
+    }
+    abbr {
+      border-bottom: 0;
+    }
+  }
+
+  #umnhf-uf-sm {
+    // width: 40%;
+    margin: 10px 0;
+    @extend .campus-footer;
+  }
+
+  #umnhf-uf-ul {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40%;
+    // padding-right: 54px;
+    ul {
+      float: right;
+      margin: 0;
+      padding: 30px 0 5px 0;
+      list-style-type: none;
+      text-align: right;
+      li {
+        line-height: 1.5em;
+      }
+    }
+    @media screen and (max-width: 609px) {
+      position: relative;
+      ul {
+        float: none;
+        text-align: inherit;
+        padding-top: 0;
+        li {
+          line-height: 3em;
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 609px) {
+    #umnhf-uf-ci,
+    #umnhf-uf-sm,
+    #umnhf-uf-ul {
+      display: block;
+      float: none;
+      width: 100%;
+    }
+  }
+}
+
+// Footer
+#umnhf-f.umnhf {
+  border-top: 1px solid $lightergray;
+  font-size: 14px;
+  margin: 0 auto 5px;
+  padding: 15px 0 0;
+
+  #umnhf-f-myu {
+    display: none;
+  }
+
+  small {
+    display: block;
+    padding: 5px 54px;
+    text-align: center;
+    font-size: .9em;
+    line-height: 1.15em;
+  }
+
+  @media screen and (max-width: 775px) {
+    #umnhf-f-myu {
+      display: block;
+      ul {
+        margin: 0 0 16px;
+        padding: 0;
+        list-style: none;
+        line-height: 3em;
+        span {
+          display: inline-block;
+          width: 12px;
+          height: 12px;
+          background: transparent url("../branding/sprites/lock-search-gold.png") 0 0 no-repeat;
+          @media only screen and (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 192dpi) {
+            background: transparent url("../branding/sprites/lock-search-gold@2x.png") 0 0 no-repeat;
+            background-size: 22px 34px;
+          }
+        }
+      }
+    }
+
+    small {
+      padding: 5px 17px;
+    }
+  }
+}
