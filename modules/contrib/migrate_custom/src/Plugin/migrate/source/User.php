@@ -45,17 +45,17 @@ class User extends DrupalSqlBase {
 
     // TODO: Figure out how to map custom fields properly from D7 to D8.
     // user_about
-    // $result = $this->getDatabase()->query('
-    //   SELECT
-    //     fld.field_user_about_value
-    //   FROM
-    //     {field_data_field_user_about} fld
-    //   WHERE
-    //     fld.entity_id = :uid
-    // ', array(':uid' => $uid));
-    // foreach ($result as $record) {
-    //   $row->setSourceProperty('field_about_value', $record->field_user_about_value );
-    // }
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_user_about_value
+      FROM
+        {field_data_field_user_about} fld
+      WHERE
+        fld.entity_id = :uid
+    ', array(':uid' => $uid));
+    foreach ($result as $record) {
+      $row->setSourceProperty('user__field_about', $record->field_user_about_value );
+    }
 
     return parent::prepareRow($row);
   }
