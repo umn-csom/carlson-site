@@ -1,7 +1,9 @@
-# drupal-8
+# Drupal 8
+
 Carlson School of Management Drupal 8 Migration
 
-# migrations
+# Migrations
+
 For migrations, you'll need to add this to your 'settings.local.php' file.
 This is assuming your D7 database is in the same location as your D8 one.
 
