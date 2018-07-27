@@ -17,7 +17,7 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
  *   id = "custom_user"
  * )
  */
-class User extends DrupalSqlBase {
+class User extends SqlBase {
 
   /**
    * {@inheritdoc}
@@ -33,7 +33,7 @@ class User extends DrupalSqlBase {
    */
   public function fields() {
     $fields = $this->baseFields();
-    $fields['field_about'] = $this->t('About');
+    $fields['about'] = $this->t('About');
     return $fields;
   }
 
@@ -42,21 +42,6 @@ class User extends DrupalSqlBase {
    */
   public function prepareRow(Row $row) {
     $uid = $row->getSourceProperty('uid');
-
-    // TODO: Figure out how to map custom fields properly from D7 to D8.
-    // user_about
-    $result = $this->getDatabase()->query('
-      SELECT
-        fld.field_user_about_value
-      FROM
-        {field_data_field_user_about} fld
-      WHERE
-        fld.entity_id = :uid
-    ', array(':uid' => $uid));
-    foreach ($result as $record) {
-      $row->setSourceProperty('user__field_about', $record->field_user_about_value );
-    }
-
     return parent::prepareRow($row);
   }
 
