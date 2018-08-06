@@ -37,7 +37,7 @@ var options = {
 
   css: {
     files: paths.styles.destination + '**/*.css',
-    file: paths.styles.destination + '/styles.css',
+    file: paths.styles.destination + '/style.css',
     destination: paths.styles.destination
   },
 
@@ -45,7 +45,7 @@ var options = {
 
   sass: {
     files: paths.styles.source + '**/*.scss',
-    file: paths.styles.source + 'styles.scss',
+    file: paths.styles.source + 'style.scss',
     destination: paths.styles.destination
   },
 
@@ -84,7 +84,7 @@ var options = {
     ],
     destination: 'styleguide/',
     css: [
-      path.relative(paths.styleGuide, paths.styles.destination + 'styles.css'),
+      path.relative(paths.styleGuide, paths.styles.destination + 'style.css'),
       path.relative(paths.styleGuide, paths.styles.destination + 'kss-only.css')
     ],
     js: [],
