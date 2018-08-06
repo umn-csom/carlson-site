@@ -5,6 +5,95 @@ var concat = require("gulp-concat");
 var minifyCss = require("gulp-minify-css");
 var uglify = require("gulp-uglify");
 
+// Setting pattern this way allows non gulp- plugins to be loaded as well.
+var plugins = require('gulp-load-plugins')({
+  pattern: '*',
+  rename: {
+    'node-sass-import-once': 'importOnce',
+    'gulp-sass-glob': 'sassGlob',
+    'run-sequence': 'runSequence',
+    'gulp-clean-css': 'cleanCSS'
+  }
+});
+
+// Used to generate relative paths for style guide output.
+var path = require('path');
+
+// These are used in the options below.
+var paths = {
+  styles: {
+    source: 'scss/',
+    destination: 'css/'
+  },
+  scripts: 'js/',
+  images: 'imgages/',
+  styleGuide: 'styleguide'
+};
+
+// These are passed to each task.
+var options = {
+
+  // ----- CSS ----- //
+
+  css: {
+    files: paths.styles.destination + '**/*.css',
+    file: paths.styles.destination + '/styles.css',
+    destination: paths.styles.destination
+  },
+
+  // ----- Sass ----- //
+
+  sass: {
+    files: paths.styles.source + '**/*.scss',
+    file: paths.styles.source + 'styles.scss',
+    destination: paths.styles.destination
+  },
+
+  // ----- JS ----- //
+  js: {
+    files: paths.scripts + '**/*.js',
+    destination: paths.scripts
+
+  },
+
+  // ----- Images ----- //
+  images: {
+    files: paths.images + '**/*.{png,gif,jpg,svg}',
+    destination: paths.images
+  },
+
+  // ----- eslint ----- //
+  jsLinting: {
+    files: {
+      theme: [
+        paths.scripts + '**/*.js',
+        '!' + paths.scripts + '**/*.min.js'
+      ],
+      gulp: [
+        'gulpfile.js',
+        'gulp-tasks/**/*'
+      ]
+    }
+
+  },
+
+  // ----- KSS Node ----- //
+  styleGuide: {
+    source: [
+      paths.styles.source
+    ],
+    destination: 'styleguide/',
+    css: [
+      path.relative(paths.styleGuide, paths.styles.destination + 'styles.css'),
+      path.relative(paths.styleGuide, paths.styles.destination + 'kss-only.css')
+    ],
+    js: [],
+    homepage: 'style-guide-only/homepage.md',
+    title: 'Living Style Guide'
+  }
+
+};
+
 // Compile sass into CSS & auto-inject into browsers
 gulp.task('sass', function() {
     return gulp.src(['node_modules/bootstrap/scss/bootstrap.scss', 'scss/style.scss'])
@@ -26,11 +115,16 @@ gulp.task('js', function() {
 gulp.task('serve', ['sass'], function() {
 
     browserSync.init({
-        proxy: "http://localhost:32772",
+        proxy: "http://localhost:32792/sites/default/themes/custom/barrio_carlson/styleguide/",
     });
 
     gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'scss/*.scss'], ['sass']);
-    //    gulp.watch("src/*.html").on('change', browserSync.reload);
+    gulp.watch("src/*.html").on('change', browserSync.reload);
 });
 
-gulp.task('default', ['js', 'serve']);
+// Compile the styleguide
+gulp.task('compile:styleguide', function (cb) {
+    plugins.kss(options.styleGuide, cb);
+});
+
+gulp.task('default', ['js', 'compile:styleguide','serve']);
