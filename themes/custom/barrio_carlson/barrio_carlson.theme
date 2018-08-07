@@ -29,7 +29,7 @@ function barrio_carlson_form_system_theme_settings_alter(&$form, FormStateInterf
       'bg-white' => t('White'),
       'bg-transparent' => t('Transparent'),
   );
-  
+
   // Work-around for a core bug affecting admin themes. See issue #943212.
   if (isset($form_id)) {
     return;
@@ -144,7 +144,13 @@ function barrio_carlson_preprocess_html(&$variables) {
   $variables['myu_text'] = theme_get_setting('myu_text');
   $header_color = theme_get_setting('header_color');
   $variables['campus_header'] = theme_get_setting('campus_select');
-  $variables['home_link'] = $home_link[$variables['campus_header']];
+
+  if( isset( $variables['campus_header'] ) ) {
+    $variables['home_link'] = $home_link[$variables['campus_header']];
+  } else {
+    $variables['home_link'] = $home_link['umnhf-campus-tc'];
+  }
+
   $variables['privacy_link'] = theme_get_setting('privacy_link');
   $footer_date = theme_get_setting('footer_date');
 
