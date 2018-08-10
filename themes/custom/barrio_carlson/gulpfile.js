@@ -4,6 +4,7 @@ var sass = require('gulp-sass');
 var concat = require("gulp-concat");
 var minifyCss = require("gulp-minify-css");
 var uglify = require("gulp-uglify");
+var shell = require('gulp-shell')
 
 // Setting pattern this way allows non gulp- plugins to be loaded as well.
 var plugins = require('gulp-load-plugins')({
@@ -53,7 +54,6 @@ var options = {
   js: {
     files: paths.scripts + '**/*.js',
     destination: paths.scripts
-
   },
 
   // ----- Images ----- //
@@ -84,11 +84,15 @@ var options = {
     ],
     destination: 'styleguide/',
     css: [
-      path.relative(paths.styleGuide, paths.styles.destination + 'style.css'),
-      path.relative(paths.styleGuide, paths.styles.destination + 'kss-only.css')
+      path.relative(paths.styleGuide, paths.styles.destination + 'style.css')
     ],
-    js: [],
-    homepage: 'style-guide-only/homepage.md',
+    js: [
+      path.relative(paths.styleGuide, paths.scripts + 'jquery.min.js'),
+      path.relative(paths.styleGuide, paths.scripts + 'bootstrap.min.js'),
+      path.relative(paths.styleGuide, paths.scripts + 'popper.min.js'),
+      // path.relative(paths.styleGuide, paths.scripts + 'global.js')
+    ],
+    homepage: 'styleguide-dev/homepage.md',
     title: 'Living Style Guide'
   }
 
@@ -100,7 +104,7 @@ gulp.task('sass', function() {
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest("css"))
         .pipe(sass({ outputStyle: 'compressed' }))
-        // .pipe(minifyCss())
+        .pipe(minifyCss())
         .pipe(browserSync.stream());
 });
 
@@ -118,8 +122,11 @@ gulp.task('serve', ['sass'], function() {
         proxy: "http://carlsonschool8.lndo.site:8000/sites/default/themes/custom/barrio_carlson/styleguide/",
     });
 
-    gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'scss/*.scss'], ['sass']);
-    gulp.watch("src/*.html").on('change', browserSync.reload);
+    gulp.watch([
+        'node_modules/bootstrap/scss/bootstrap.scss', 
+        'scss/**/*.scss', 
+        '*.html'
+      ], ['sass', 'js']).on('change', browserSync.reload);
 });
 
 // Compile the styleguide
