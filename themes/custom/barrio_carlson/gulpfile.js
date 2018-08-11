@@ -3,8 +3,8 @@ var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
 var concat = require("gulp-concat");
 var minifyCss = require("gulp-minify-css");
-var uglify = require("gulp-uglify");
-var shell = require('gulp-shell')
+var shell = require('gulp-shell');
+var sourcemaps = require('gulp-sourcemaps');
 
 // Setting pattern this way allows non gulp- plugins to be loaded as well.
 var plugins = require('gulp-load-plugins')({
@@ -89,22 +89,27 @@ var options = {
     js: [
       path.relative(paths.styleGuide, paths.scripts + 'jquery.min.js'),
       path.relative(paths.styleGuide, paths.scripts + 'bootstrap.min.js'),
-      path.relative(paths.styleGuide, paths.scripts + 'popper.min.js'),
-      // path.relative(paths.styleGuide, paths.scripts + 'global.js')
+      path.relative(paths.styleGuide, paths.scripts + 'popper.min.js')
     ],
     homepage: 'styleguide-dev/homepage.md',
-    title: 'Living Style Guide'
+    title: 'Carlson Style Guide'
   }
 
 };
 
+// Rebuild styleguide.
+gulp.task('rebuild-styleguide', shell.task('./node_modules/.bin/kss --config ./styleguide-dev/styleguide-config.json'));
+
 // Compile sass into CSS & auto-inject into browsers
 gulp.task('sass', function() {
-    return gulp.src(['node_modules/bootstrap/scss/bootstrap.scss', 'scss/style.scss'])
+    return gulp.src(['scss/style.scss'])
         .pipe(sass().on('error', sass.logError))
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(sourcemaps.write('./'))
+        //.pipe(minifyCss())
         .pipe(gulp.dest("css"))
-        .pipe(sass({ outputStyle: 'compressed' }))
-        .pipe(minifyCss())
+        //.pipe(sass({ outputStyle: 'compressed' }))
         .pipe(browserSync.stream());
 });
 
@@ -121,12 +126,13 @@ gulp.task('serve', ['sass'], function() {
     browserSync.init({
         proxy: "http://carlsonschool8.lndo.site:8000/sites/default/themes/custom/barrio_carlson/styleguide/",
     });
-
+    
     gulp.watch([
         'node_modules/bootstrap/scss/bootstrap.scss', 
-        'scss/**/*.scss', 
+        'scss/**/*.scss',
+        'templates/**/*.twig', 
         '*.html'
-      ], ['sass', 'js']).on('change', browserSync.reload);
+      ], ['rebuild-styleguide', 'sass', 'js']).on('change', browserSync.reload);
 });
 
 // Compile the styleguide
@@ -134,4 +140,4 @@ gulp.task('compile:styleguide', function (cb) {
     plugins.kss(options.styleGuide, cb);
 });
 
-gulp.task('default', ['js', 'compile:styleguide','serve']);
+gulp.task('default', ['rebuild-styleguide', 'sass', 'js', 'serve']);
