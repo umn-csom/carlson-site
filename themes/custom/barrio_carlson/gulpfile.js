@@ -98,6 +98,7 @@ var options = {
 };
 
 // Rebuild styleguide.
+gulp.task('clean-styleguide', shell.task('rm -rf styleguide'));
 gulp.task('rebuild-styleguide', shell.task('./node_modules/.bin/kss --config ./styleguide-dev/styleguide-config.json'));
 
 // Compile sass into CSS & auto-inject into browsers
@@ -128,11 +129,10 @@ gulp.task('serve', ['sass'], function() {
     });
     
     gulp.watch([
-        'node_modules/bootstrap/scss/bootstrap.scss', 
         'scss/**/*.scss',
         'templates/**/*.twig', 
         '*.html'
-      ], ['rebuild-styleguide', 'sass', 'js']).on('change', browserSync.reload);
+      ], ['clean-styleguide', 'rebuild-styleguide', 'sass', 'js']).on('change', browserSync.reload);
 });
 
 // Compile the styleguide
@@ -140,4 +140,4 @@ gulp.task('compile:styleguide', function (cb) {
     plugins.kss(options.styleGuide, cb);
 });
 
-gulp.task('default', ['rebuild-styleguide', 'sass', 'js', 'serve']);
+gulp.task('default', ['clean-styleguide', 'rebuild-styleguide', 'sass', 'js', 'serve']);
