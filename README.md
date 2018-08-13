@@ -17,3 +17,8 @@ $databases['migrate']['default'] = array (
   'driver' => 'mysql',
 );
 ```
+
+## Frontend Style Guide Build
+```
+gulp
+```
