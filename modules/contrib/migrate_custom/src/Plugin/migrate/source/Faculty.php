@@ -23,7 +23,7 @@ class Faculty extends SqlBase {
    * {@inheritdoc}
    */
   public function query() {
-    return $this->select('faculty', 'f')
+    return $this->select('node', 'f')
       ->fields('f', array_keys($this->baseFields()))
       ->condition('nid', 0, '>');
   }
@@ -41,6 +41,12 @@ class Faculty extends SqlBase {
    */
   public function prepareRow(Row $row) {
     $nid = $row->getSourceProperty('nid');
+    $title = $row->getSourceProperty('title');
+
+    if(!$title) {
+      $row->setSourceProperty('title', 'unknown');
+    }
+    
     return parent::prepareRow($row);
   }
 
@@ -49,7 +55,7 @@ class Faculty extends SqlBase {
    */
   public function getIds() {
     return array(
-      'faculty_id' => array(
+      'nid' => array(
         'type' => 'integer',
         'alias' => 'f',
       ),
@@ -64,10 +70,10 @@ class Faculty extends SqlBase {
    */
   protected function baseFields() {
     $fields = array(
-      'faculty_id' => $this->t('faculty_id'),
+      'nid' => $this->t('nid'),
       'title' => $this->t('title'),
-      'first_name' => $this->t('first_name'),
-      'last_name' => $this->t('last_name'),
+      // 'first_name' => $this->t('field_first_name'),
+      // 'last_name' => $this->t('field_last_name'),
     );
     return $fields;
 
