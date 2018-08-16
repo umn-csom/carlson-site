@@ -25,9 +25,11 @@ class Faculty extends SqlBase {
   public function query() {
     $query = $this->select('node', 'f');
     $query->join('field_data_field_first_name', 'n', 'n.entity_id = f.nid');
+    $query->join('field_data_field_last_name', 'a', 'a.entity_id = f.nid');
 
     $query->fields('f', array_keys( $this->baseFields() ) );
     $query->fields('n', array('entity_id', 'field_first_name_value'));
+    $query->fields('a', array('entity_id', 'field_last_name_value'));
 
     $query->condition('f.nid', 0, '>');
     return $query;
@@ -39,6 +41,7 @@ class Faculty extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
     $fields['first_name'] = $this->t('first_name');
+    $fields['last_name'] = $this->t('last_name');
     return $fields;
   }
 
@@ -48,23 +51,21 @@ class Faculty extends SqlBase {
   public function prepareRow(Row $row) {
     $nid = $row->getSourceProperty('nid');
     $title = $row->getSourceProperty('title');
-    
+
     if(!$title) {
       $row->setSourceProperty('title', 'unknown');
     }
 
     // first_name
-    $result = $this->getDatabase()->query('
-      SELECT
-        fld.field_first_name_value
-      FROM
-        {field_data_field_first_name} fld
-      WHERE
-        fld.entity_id = :nid
-    ', array(':nid' => $nid));
-
+    $result = $this->_getCustomField( 'first_name', $nid );
     foreach ($result as $record) {
       $row->setSourceProperty('first_name', $record->field_first_name_value );
+    }
+
+    // last_name
+    $result = $this->_getCustomField( 'last_name', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('last_name', $record->field_last_name_value );
     }
 
     return parent::prepareRow($row);
@@ -97,6 +98,7 @@ class Faculty extends SqlBase {
       'changed' => $this->t('changed'),
       'promote' => $this->t('promote'),
       'sticky' => $this->t('sticky'),
+      'uid' => $this->t('uid'),
     );
     return $fields;
 
@@ -114,6 +116,19 @@ class Faculty extends SqlBase {
    */
   public function entityTypeId() {
     return 'faculty';
+  }
+
+  private function _getCustomField($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_value
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
   }
 
 }
