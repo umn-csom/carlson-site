@@ -12,6 +12,9 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 
 /**
  * Extract faculty from Drupal 7 database.
+ * 
+ * TODO: Figure out how to move over image data.
+ * TODO: Move the 'about_me' field to the main body field instead.
  *
  * @MigrateSource(
  *   id = "custom_faculty"
