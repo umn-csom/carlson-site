@@ -1,0 +1,27 @@
+id: custom_taxonomy_vocabulary
+label: UMN Carlson - Taxonomy All Vocabulary.
+migration_group: custom
+dependencies:
+  enforced:
+    module:
+      - migrate_custom
+source:
+  plugin: custom_taxonomy_vocabulary
+process:
+  vid:
+    -
+      plugin: machine_name
+      source: machine_name
+    -
+      plugin: dedupe_entity
+      entity_type: taxonomy_vocabulary
+      field: vid
+      length: 32
+  label: name
+  name: name
+  description: description
+  hierarchy: hierarchy
+  module: module
+  weight: weight
+destination:
+  plugin: entity:taxonomy_vocabulary
