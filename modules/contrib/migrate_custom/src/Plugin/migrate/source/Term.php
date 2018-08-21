@@ -28,7 +28,6 @@ class Term extends SqlBase {
   public function query() {
     $query = $this->select('taxonomy_term_data', 'td')
       ->fields('td', array('tid', 'vid', 'name', 'description', 'weight', 'format'));
-      //->distinct();
     return $query;
   }
  
