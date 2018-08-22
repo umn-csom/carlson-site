@@ -4,7 +4,7 @@ dependencies:
   config:
     - field.storage.node.field_profile_admin_dept
     - node.type.faculty_profile
-    - taxonomy.vocabulary.news_categories
+    - taxonomy.vocabulary.department_codes
 id: node.faculty_profile.field_profile_admin_dept
 field_name: field_profile_admin_dept
 entity_type: node
@@ -19,10 +19,10 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      news_categories: news_categories
+      department_codes: department_codes
     sort:
       field: name
       direction: asc
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: department_codes
 field_type: entity_reference

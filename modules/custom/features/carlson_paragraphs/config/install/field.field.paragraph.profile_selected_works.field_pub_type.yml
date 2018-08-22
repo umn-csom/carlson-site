@@ -4,7 +4,7 @@ dependencies:
   config:
     - field.storage.paragraph.field_pub_type
     - paragraphs.paragraphs_type.profile_selected_works
-    - taxonomy.vocabulary.news_categories
+    - taxonomy.vocabulary.faculty_publication_type
 id: paragraph.profile_selected_works.field_pub_type
 field_name: field_pub_type
 entity_type: paragraph
@@ -19,10 +19,10 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      news_categories: news_categories
+      faculty_publication_type: faculty_publication_type
     sort:
       field: name
       direction: asc
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: faculty_publication_type
 field_type: entity_reference
