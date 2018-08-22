@@ -1,0 +1,80 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.profile_selected_works.field_pub_file
+    - field.field.paragraph.profile_selected_works.field_pub_title
+    - field.field.paragraph.profile_selected_works.field_pub_type
+    - field.field.paragraph.profile_selected_works.field_pub_url
+    - paragraphs.paragraphs_type.profile_selected_works
+  module:
+    - content_moderation
+    - field_group
+    - file
+    - link
+third_party_settings:
+  field_group:
+    group_selected_work:
+      children:
+        - field_pub_title
+        - field_pub_type
+        - field_pub_url
+        - field_pub_file
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        label: 'Selected Work'
+        open: true
+        required_fields: true
+        id: ''
+        classes: ''
+      label: 'Selected Work'
+      region: content
+id: paragraph.profile_selected_works.default
+targetEntityType: paragraph
+bundle: profile_selected_works
+mode: default
+content:
+  field_pub_file:
+    weight: 5
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_pub_title:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_pub_type:
+    weight: 3
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_pub_url:
+    weight: 4
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 0
+    settings: {  }
+    region: content
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

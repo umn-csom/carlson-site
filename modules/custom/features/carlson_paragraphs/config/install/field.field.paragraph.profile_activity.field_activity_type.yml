@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_activity_type
+    - paragraphs.paragraphs_type.profile_activity
+    - taxonomy.vocabulary.news_categories
+id: paragraph.profile_activity.field_activity_type
+field_name: field_activity_type
+entity_type: paragraph
+bundle: profile_activity
+label: 'Activity Type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      news_categories: news_categories
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
