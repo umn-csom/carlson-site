@@ -3,6 +3,7 @@ var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
 var concat = require("gulp-concat");
 var minifyCss = require("gulp-minify-css");
+var shell = require('gulp-shell');
 
 // Setting pattern this way allows non gulp- plugins to be loaded as well.
 var plugins = require('gulp-load-plugins')({
@@ -88,7 +89,7 @@ var options = {
       "https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700|Lato:300,400,700"
     ],
     js: [],
-    homepage: 'style-guide-only/homepage.md',
+    homepage: 'styleguide-dev/homepage.md',
     title: 'Living Style Guide'
   }
 
@@ -96,7 +97,7 @@ var options = {
 
 // Compile sass into CSS & auto-inject into browsers
 gulp.task('sass', function() {
-    return gulp.src(['node_modules/bootstrap/scss/bootstrap.scss', 'scss/style.scss'])
+    return gulp.src(['node_modules/bootstrap/scss/bootstrap.scss', 'scss/style.scss'], ['sass'])
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest("css"))
         .pipe(sass({ outputStyle: 'compressed' }))
@@ -118,9 +119,20 @@ gulp.task('serve', ['sass'], function() {
         proxy: "http://carlsonschool8.lndo.site:8000/sites/default/themes/custom/barrio_carlson/styleguide/",
     });
 
-    gulp.watch(['node_modules/bootstrap/scss/bootstrap.scss', 'scss/*.scss', 'scss/**/*.scss', 'scss/**/**/*.scss'], ['sass']);
+    gulp.start('watch');
+});
 
-    gulp.watch("src/*.html").on('change', browserSync.reload);
+gulp.task('watch', ['sass'], function() {
+  gulp.watch(
+    [
+      'node_modules/bootstrap/scss/bootstrap.scss', 
+      'scss/*.scss', 
+      'scss/**/*.scss', 
+      'scss/**/**/*.scss',
+      'templates/components/*.twig',
+    ],
+    ['sass', 'refresh-sass']
+  );
 });
 
 // Compile the styleguide
@@ -128,4 +140,8 @@ gulp.task('compile:styleguide', function (cb) {
     plugins.kss(options.styleGuide, cb);
 });
 
-gulp.task('default', ['js', 'compile:styleguide','serve']);
+// Refresh SASS files.
+gulp.task('refresh-sass', shell.task('npm run kss'));
+
+// Default.
+gulp.task('default', ['js','compile:styleguide','refresh-sass','serve']);
