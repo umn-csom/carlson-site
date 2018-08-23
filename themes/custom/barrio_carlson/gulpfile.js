@@ -3,7 +3,6 @@ var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
 var concat = require("gulp-concat");
 var minifyCss = require("gulp-minify-css");
-var uglify = require("gulp-uglify");
 
 // Setting pattern this way allows non gulp- plugins to be loaded as well.
 var plugins = require('gulp-load-plugins')({
