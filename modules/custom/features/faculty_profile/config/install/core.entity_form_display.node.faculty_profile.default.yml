@@ -9,20 +9,28 @@ dependencies:
     - field.field.node.faculty_profile.field_last_name
     - field.field.node.faculty_profile.field_middle_initial
     - field.field.node.faculty_profile.field_office_phone
+    - field.field.node.faculty_profile.field_profile_activities
     - field.field.node.faculty_profile.field_profile_address
+    - field.field.node.faculty_profile.field_profile_admin_dept
     - field.field.node.faculty_profile.field_profile_cvc
+    - field.field.node.faculty_profile.field_profile_degrees
     - field.field.node.faculty_profile.field_profile_dept
+    - field.field.node.faculty_profile.field_profile_expertise
     - field.field.node.faculty_profile.field_profile_image
     - field.field.node.faculty_profile.field_profile_job_candidate
     - field.field.node.faculty_profile.field_profile_owner
+    - field.field.node.faculty_profile.field_profile_programs
+    - field.field.node.faculty_profile.field_profile_status
     - field.field.node.faculty_profile.field_profile_title
     - field.field.node.faculty_profile.field_profile_url
+    - field.field.node.faculty_profile.field_profile_works
     - node.type.faculty_profile
   module:
     - content_moderation
     - entity_browser
     - field_group
     - link
+    - paragraphs
     - path
     - telephone
     - text
@@ -34,6 +42,10 @@ third_party_settings:
         - group_profile_image
         - group_biography
         - group_department_information
+        - group_degree_s_
+        - group_selected_works
+        - group_current_activities
+        - group_expertise
         - group_administrative
       parent_name: ''
       weight: 0
@@ -97,10 +109,13 @@ third_party_settings:
       region: content
     group_administrative:
       children:
+        - field_profile_admin_dept
+        - field_profile_programs
+        - field_profile_status
         - field_profile_owner
         - field_profile_job_candidate
       parent_name: group_profile
-      weight: 24
+      weight: 28
       format_type: tab
       format_settings:
         id: ''
@@ -124,6 +139,63 @@ third_party_settings:
         required_fields: true
       label: 'Profile Image'
       region: content
+    group_degree_s_:
+      children:
+        - field_profile_degrees
+      parent_name: group_profile
+      weight: 24
+      format_type: tab
+      format_settings:
+        label: Degrees
+        formatter: closed
+        description: ''
+        required_fields: true
+        id: ''
+        classes: ''
+      label: Degrees
+      region: content
+    group_selected_works:
+      children:
+        - field_profile_works
+      parent_name: group_profile
+      weight: 25
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Selected Works'
+      region: content
+    group_current_activities:
+      children:
+        - field_profile_activities
+      parent_name: group_profile
+      weight: 26
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Current Activities'
+      region: content
+    group_expertise:
+      children:
+        - field_profile_expertise
+      parent_name: group_profile
+      weight: 27
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Expertise
+      region: content
 id: node.faculty_profile.default
 targetEntityType: node
 bundle: faculty_profile
@@ -140,7 +212,7 @@ content:
     region: content
   created:
     type: datetime_timestamp
-    weight: 3
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -183,6 +255,18 @@ content:
     third_party_settings: {  }
     type: telephone_default
     region: content
+  field_profile_activities:
+    type: entity_reference_paragraphs
+    weight: 28
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
   field_profile_address:
     weight: 16
     settings:
@@ -190,6 +274,15 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_profile_admin_dept:
+    weight: 28
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   field_profile_cvc:
     type: entity_browser_entity_reference
@@ -205,6 +298,18 @@ content:
       open: true
     region: content
     third_party_settings: {  }
+  field_profile_degrees:
+    type: entity_reference_paragraphs
+    weight: 26
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
   field_profile_dept:
     weight: 15
     settings:
@@ -212,6 +317,18 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_profile_expertise:
+    type: entity_reference_paragraphs
+    weight: 9
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
     region: content
   field_profile_image:
     type: entity_browser_entity_reference
@@ -228,19 +345,37 @@ content:
       open: false
     third_party_settings: {  }
   field_profile_job_candidate:
-    weight: 27
+    weight: 32
     settings:
       display_label: true
     third_party_settings: {  }
     type: boolean_checkbox
     region: content
   field_profile_owner:
-    weight: 26
+    weight: 31
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
     type: string_textfield
+    region: content
+  field_profile_programs:
+    weight: 29
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_profile_status:
+    weight: 30
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   field_profile_title:
     weight: 14
@@ -258,15 +393,27 @@ content:
     third_party_settings: {  }
     type: link_default
     region: content
+  field_profile_works:
+    type: entity_reference_paragraphs
+    weight: 4
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
   moderation_state:
     type: moderation_state_default
-    weight: 7
+    weight: 9
     settings: {  }
     region: content
     third_party_settings: {  }
   path:
     type: path
-    weight: 6
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -274,21 +421,21 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 4
+    weight: 3
     region: content
     third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 8
+    weight: 10
     region: content
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 5
+    weight: 7
     region: content
     third_party_settings: {  }
   title:
@@ -301,7 +448,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 2
+    weight: 1
     settings:
       match_operator: CONTAINS
       size: 60

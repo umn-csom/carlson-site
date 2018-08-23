@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_profile_programs
+    - node.type.faculty_profile
+    - taxonomy.vocabulary.degree_program_codes
+id: node.faculty_profile.field_profile_programs
+field_name: field_profile_programs
+entity_type: node
+bundle: faculty_profile
+label: 'Faculty Degree Program'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      degree_program_codes: degree_program_codes
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: degree_program_codes
+field_type: entity_reference

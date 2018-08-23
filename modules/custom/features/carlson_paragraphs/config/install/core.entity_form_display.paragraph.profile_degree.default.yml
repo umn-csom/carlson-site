@@ -1,0 +1,78 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.profile_degree.field_faculty_degree
+    - field.field.paragraph.profile_degree.field_faculty_gradyear
+    - field.field.paragraph.profile_degree.field_faculty_institution
+    - field.field.paragraph.profile_degree.field_faculty_major
+    - paragraphs.paragraphs_type.profile_degree
+  module:
+    - content_moderation
+    - field_group
+third_party_settings:
+  field_group:
+    group_degree:
+      children:
+        - field_faculty_degree
+        - field_faculty_major
+        - field_faculty_gradyear
+        - field_faculty_institution
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        label: Degree
+        open: true
+        required_fields: true
+        id: ''
+        classes: ''
+      label: Degree
+      region: content
+id: paragraph.profile_degree.default
+targetEntityType: paragraph
+bundle: profile_degree
+mode: default
+content:
+  field_faculty_degree:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_faculty_gradyear:
+    weight: 4
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_faculty_institution:
+    weight: 5
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_faculty_major:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 1
+    settings: {  }
+    region: content
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

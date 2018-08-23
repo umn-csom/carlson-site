@@ -1,0 +1,39 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_profile_activities
+    - node.type.faculty_profile
+    - paragraphs.paragraphs_type.profile_activity
+  module:
+    - entity_reference_revisions
+id: node.faculty_profile.field_profile_activities
+field_name: field_profile_activities
+entity_type: node
+bundle: faculty_profile
+label: 'Current Activities'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      profile_activity: profile_activity
+    target_bundles_drag_drop:
+      profile_activity:
+        enabled: true
+        weight: 5
+      profile_degree:
+        weight: 6
+        enabled: false
+      profile_selected_works:
+        weight: 7
+        enabled: false
+      statistic:
+        weight: 8
+        enabled: false
+field_type: entity_reference_revisions
