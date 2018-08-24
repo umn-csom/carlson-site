@@ -6088,36 +6088,164 @@ Alerts
 Markup: ../../templates/components/alert.html.twig
 
 .warning    - This is a warning message.
-.happy      - This is a happy message.
+.success      - This is a happy message.
 
 Style guide: components.alerts
 */
-.warning {
-  background: red;
-  color: white; }
-
-.happy {
-  background: purple;
-  color: pink; }
+.alert {
+  transition: all 0.3s ease-in-out; }
+  .alert:hover {
+    background: grey !important; }
+  .alert.success {
+    background: green; }
+    .alert.success p {
+      color: #fff; }
+  .alert.warning {
+    background: red; }
+    .alert.warning p {
+      color: #fff; }
 
 /**
  * @file
  * Bootstrap Barrio specific styling for the Book module.
  */
 /*
-Book
+Buttons
 
-Markup: ../../templates/components/book.html.twig
+Markup: ../../templates/components/buttons.html.twig
 
-Style guide: components.book
+.btn-primary        - Primary Button
+.btn-secondary      - Secondary button
+.btn-link-primary   - Text Link Button
+.btn-link-secondary   - Text Link Button
+
+Style guide: components.buttons
 */
-.book-navigation .menu {
-  border-top: 1px solid #dee2e6; }
+.btn {
+  font-size: 1.6rem;
+  font-family: 'Lato';
+  text-transform: uppercase;
+  min-width: 200px;
+  height: 50px;
+  transition: all 0.3s ease-in-out; }
+  .btn.btn-primary {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    border: 2px solid #7a0019;
+    background: white;
+    color: #7a0019; }
+    .btn.btn-primary:hover, .btn.btn-primary:active, .btn.btn-primary:focus {
+      border: 2px solid #7a0019;
+      background: #7a0019;
+      color: white; }
+  .btn.btn-secondary {
+    border: 2px solid #ffcc33;
+    color: #363230;
+    background: white; }
+    .btn.btn-secondary:hover, .btn.btn-secondary:active, .btn.btn-secondary:focus {
+      border: 2px solid #ffcc33;
+      background: #ffcc33; }
+  .btn.btn-link-primary {
+    min-width: auto;
+    color: #7a0019; }
+    .btn.btn-link-primary:hover, .btn.btn-link-primary:active, .btn.btn-link-primary:focus {
+      text-decoration: none; }
+      .btn.btn-link-primary:hover:after, .btn.btn-link-primary:active:after, .btn.btn-link-primary:focus:after {
+        content: '';
+        width: 0px; }
+    .btn.btn-link-primary:after {
+      content: '';
+      transition: all 0.3s ease-in-out;
+      width: 100%;
+      height: 2px;
+      display: block;
+      margin: 0 auto;
+      background: #7a0019; }
+  .btn.btn-link-secondary {
+    min-width: auto;
+    color: #363230; }
+    .btn.btn-link-secondary:hover, .btn.btn-link-secondary:active, .btn.btn-link-secondary:focus {
+      text-decoration: none; }
+      .btn.btn-link-secondary:hover:after, .btn.btn-link-secondary:active:after, .btn.btn-link-secondary:focus:after {
+        content: '';
+        width: 0px; }
+    .btn.btn-link-secondary:after {
+      content: '';
+      transition: all 0.3s ease-in-out;
+      width: 100%;
+      height: 2px;
+      display: block;
+      margin: 0 auto;
+      background: #ffcc33; }
 
-.book-navigation .book-pager {
-  border-bottom: 1px solid #dee2e6;
-  border-top: 1px solid #dee2e6;
-  margin: 0; }
+/**
+ * @file
+ * Visual styles for comments in Barrio.
+ */
+/*
+Centered Text Block
+
+
+Markup: ../../templates/components/centeredTextBlock.html.twig
+
+
+Style guide: components.centeredTextBlock
+*/
+.col-centered {
+  margin: 0 auto; }
+  .col-centered .centeredTextBlock {
+    text-align: center; }
+    .col-centered .centeredTextBlock .title-wrapper:after {
+      content: '';
+      height: 2px;
+      width: 100px;
+      margin: 0 auto;
+      display: block;
+      background: gold; }
+    .col-centered .centeredTextBlock .title-wrapper h2 {
+      font-size: 4rem;
+      margin-bottom: 15px; }
+    .col-centered .centeredTextBlock .text-wrapper {
+      margin-top: 15px; }
+
+/**
+ * @file
+ * Visual styles for comments in Barrio.
+ */
+/*
+Hero Basic
+
+
+
+Markup: ../../templates/components/hero-basic.html.twig
+
+Style guide: components.hero-basic
+*/
+.hero-basic {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center; }
+  .hero-basic .img-wrapper {
+    background-color: #d8d8d8;
+    padding: 0px; }
+    .hero-basic .img-wrapper img {
+      width: 100%;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3); }
+  .hero-basic .content-wrapper {
+    padding: 15px 8.33333%;
+    background: #fff;
+    margin-top: -75px;
+    min-height: 200px; }
+    .hero-basic .content-wrapper h2 {
+      color: #363230;
+      font-family: "Crimson Text";
+      font-size: 3.8rem;
+      font-weight: 400;
+      line-height: 3.8rem;
+      padding-bottom: 20px;
+      margin-bottom: 15px;
+      position: relative; }
 
 /**
  * @file
