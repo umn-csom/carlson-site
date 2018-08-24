@@ -23,12 +23,21 @@ dependencies:
     - field.field.node.faculty_profile.field_profile_title
     - field.field.node.faculty_profile.field_profile_url
     - field.field.node.faculty_profile.field_profile_works
+    - image.style.cropped_profile_image
     - node.type.faculty_profile
   module:
     - entity_reference_revisions
     - link
+    - media
+    - panelizer
     - text
     - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
 id: node.faculty_profile.default
 targetEntityType: node
 bundle: faculty_profile
@@ -75,9 +84,10 @@ content:
   field_office_phone:
     weight: 110
     label: above
-    settings: {  }
+    settings:
+      link_to_entity: false
     third_party_settings: {  }
-    type: basic_string
+    type: string
     region: content
   field_profile_activities:
     type: entity_reference_revisions_entity_view
@@ -140,12 +150,12 @@ content:
     third_party_settings: {  }
     region: content
   field_profile_image:
-    type: entity_reference_entity_view
-    weight: 105
+    type: media_thumbnail
+    weight: 124
     label: above
     settings:
-      view_mode: default
-      link: false
+      image_style: cropped_profile_image
+      image_link: ''
     third_party_settings: {  }
     region: content
   field_profile_job_candidate:
@@ -214,4 +224,6 @@ content:
   links:
     weight: 100
     region: content
+    settings: {  }
+    third_party_settings: {  }
 hidden: {  }
