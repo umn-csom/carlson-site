@@ -3,23 +3,43 @@
  * Visual styles for comments in Barrio.
  */
 
- /*
+/*
 Alerts
 
 Markup: ../../templates/components/alert.html.twig
 
 .warning    - This is a warning message.
-.happy      - This is a happy message.
+.success      - This is a happy message.
 
 Style guide: components.alerts
 */
 
-.warning {
-    background: red;
-    color: $white;
-}
 
-.happy {
-    background: purple;
-    color: pink;
+.alert {
+    // position: relative;
+    // bottom: 0;
+    // left: 0;
+    // width: 100%;
+    // z-index: 9999;
+    font-family: 'Lato', sans-serif;
+    transition: all 0.3s ease-in-out;
+    &:hover{
+      background: grey !important;
+    }
+    &.success{
+      background: green;
+      p{
+        margin-bottom: 0px;
+        color: #fff;
+        font-family: 'Lato', sans-serif;
+      }
+    }
+    &.warning {
+    	background: red;
+      p{
+        margin-bottom: 0px;
+        color: #fff;
+        font-family: 'Lato', sans-serif;
+      }
+    }
 }

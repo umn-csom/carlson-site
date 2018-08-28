@@ -1,0 +1,37 @@
+id: custom_taxonomy_term
+label: Drupal 7 taxonomy terms
+migration_group: custom
+dependencies:
+  enforced:
+    module:
+      - migrate_custom
+source:
+  plugin: custom_taxonomy_term
+process:
+  tid: tid
+  vid:
+    plugin: migration_lookup
+    migration: custom_taxonomy_vocabulary
+    source: vid
+  name: name
+  description: description
+  weight: weight
+  parent_id:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: parent
+    -
+      plugin: migration_lookup
+      migration: d7_taxonomy_term
+  parent:
+    plugin: default_value
+    default_value: 0
+    source: '@parent'
+  forum_container: is_container
+  changed: timestamp
+destination:
+  plugin: entity:taxonomy_term
+migration_dependencies:
+  required:
+    - custom_taxonomy_vocabulary

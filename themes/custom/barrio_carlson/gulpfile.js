@@ -4,7 +4,6 @@ var sass = require('gulp-sass');
 var concat = require("gulp-concat");
 var minifyCss = require("gulp-minify-css");
 var shell = require('gulp-shell');
-var sourcemaps = require('gulp-sourcemaps');
 
 // Setting pattern this way allows non gulp- plugins to be loaded as well.
 var plugins = require('gulp-load-plugins')({
@@ -54,6 +53,7 @@ var options = {
   js: {
     files: paths.scripts + '**/*.js',
     destination: paths.scripts
+
   },
 
   // ----- Images ----- //
@@ -84,33 +84,24 @@ var options = {
     ],
     destination: 'styleguide/',
     css: [
-      path.relative(paths.styleGuide, paths.styles.destination + 'style.css')
+      path.relative(paths.styleGuide, paths.styles.destination + 'style.css'),
+      path.relative(paths.styleGuide, paths.styles.destination + 'kss-only.css'),
+      "https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700|Lato:300,400,700"
     ],
-    js: [
-      path.relative(paths.styleGuide, paths.scripts + 'jquery.min.js'),
-      path.relative(paths.styleGuide, paths.scripts + 'bootstrap.min.js'),
-      path.relative(paths.styleGuide, paths.scripts + 'popper.min.js')
-    ],
+    js: [],
     homepage: 'styleguide-dev/homepage.md',
-    title: 'Carlson Style Guide'
+    title: 'Living Style Guide'
   }
 
 };
 
-// Rebuild styleguide.
-gulp.task('clean-styleguide', shell.task('rm -rf styleguide'));
-gulp.task('rebuild-styleguide', shell.task('./node_modules/.bin/kss --config ./styleguide-dev/styleguide-config.json'));
-
 // Compile sass into CSS & auto-inject into browsers
 gulp.task('sass', function() {
-    return gulp.src(['scss/style.scss'])
+    return gulp.src(['node_modules/bootstrap/scss/bootstrap.scss', 'scss/style.scss'], ['sass'])
         .pipe(sass().on('error', sass.logError))
-        .pipe(sourcemaps.init())
-        .pipe(sass().on('error', sass.logError))
-        .pipe(sourcemaps.write('./'))
-        //.pipe(minifyCss())
         .pipe(gulp.dest("css"))
-        //.pipe(sass({ outputStyle: 'compressed' }))
+        .pipe(sass({ outputStyle: 'compressed' }))
+        // .pipe(minifyCss())
         .pipe(browserSync.stream());
 });
 
@@ -125,14 +116,23 @@ gulp.task('js', function() {
 gulp.task('serve', ['sass'], function() {
 
     browserSync.init({
-        proxy: "http://carlsonschool8.lndo.site/sites/default/themes/custom/barrio_carlson/styleguide/",
+        proxy: "http://carlsonschool8.lndo.site:8000/sites/default/themes/custom/barrio_carlson/styleguide/",
     });
-    
-    gulp.watch([
-        'scss/**/*.scss',
-        'templates/**/*.twig', 
-        '*.html'
-      ], ['clean-styleguide', 'rebuild-styleguide', 'sass', 'js']).on('change', browserSync.reload);
+
+    gulp.start('watch');
+});
+
+gulp.task('watch', ['sass'], function() {
+  gulp.watch(
+    [
+      'node_modules/bootstrap/scss/bootstrap.scss', 
+      'scss/*.scss', 
+      'scss/**/*.scss', 
+      'scss/**/**/*.scss',
+      'templates/components/*.twig',
+    ],
+    ['sass', 'refresh-sass']
+  );
 });
 
 // Compile the styleguide
@@ -140,4 +140,8 @@ gulp.task('compile:styleguide', function (cb) {
     plugins.kss(options.styleGuide, cb);
 });
 
-gulp.task('default', ['clean-styleguide', 'rebuild-styleguide', 'sass', 'js', 'serve']);
+// Refresh SASS files.
+gulp.task('refresh-sass', shell.task('npm run kss'));
+
+// Default.
+gulp.task('default', ['js','compile:styleguide','refresh-sass','serve']);

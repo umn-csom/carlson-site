@@ -44,9 +44,99 @@ $font-weight-normal: normal;
 $font-weight-bold: bold;
 $font-weight-base: $font-weight-normal;
 $line-height-base: 1.5;
-$font-size-h1: 2.5rem;
+$font-size-h1: 3.8rem;
 $font-size-h2: 2rem;
 $font-size-h3: 1.75rem;
 $font-size-h4: 1.5rem;
 $font-size-h5: 1.25rem;
 $font-size-h6: 1rem;
+
+html{
+  width: 100%;
+  font-size:10px;
+  box-sizing: border-box;
+  max-width: 100%;
+  zoom: 1;
+  -moz-transform: scale(1);
+  -moz-transform-origin: 0 0;
+  transition: all 0.3s ease-in-out;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'lato', sans-serif !important;
+  font-size:62.5%;
+}
+
+p{
+  color: black;
+  // font-size: 1.2rem;
+  font-size: calc( 12px + (12 - 10) * (100vw - 400px) / (800 - 400) );
+  line-height: calc( 14px + (16 - 12) * (100vw - 400px) / (800 - 400) );
+}
+a{
+  color: blue;
+}
+h1{
+  font-size: 3.8rem;
+  font-family: "Crimson Text";
+}
+h2{
+  font-size: 2.4rem;
+  font-family: "Crimson Text";
+}
+h3{
+  font-size: 2.2rem;
+  font-family: "Crimson Text";
+}
+h4{
+  font-size: 2.0rem;
+  font-family: "Crimson Text";
+}
+h5{
+  font-size: 1.8rem;
+  font-family: "Crimson Text";
+}
+h6{
+  font-size: 1.7rem;
+  font-family: "Crimson Text";
+}
+ul{
+  font-size: calc( 12px + (12 - 10) * (100vw - 400px) / (800 - 400));
+  line-height: calc( 14px + (16 - 12) * (100vw - 400px) / (800 - 400));
+  &.list-group{
+    li{}
+  }
+  &.unstyled{
+    li{}
+  }
+  li{}
+}
+
+/* Older browsers */
+html { font-size: 10px; }
+
+/* Modern browsers only need this one */
+
+@media screen and (min-width: 25em){
+  html {
+    font-size: calc( 10px + (12 - 10) * (100vw - 400px) / (800 - 400) );
+    line-height: calc( 16px + (18 - 12) * (100vw - 400px) / (800 - 400) );
+  }
+}
+
+/* Safari <8 and IE <11 */
+@media screen and (min-width: 25em){
+  html {
+    font-size: calc( 10px + (12 - 10) * (100vw - 400px) / (800 - 400) );
+    line-height: calc( 16px + (18 - 12) * (100vw - 400px) / (800 - 400) );
+  }
+}
+@media screen and (min-width: 50em){
+
+html {
+    font-size: calc( 10px + (12 - 10) * (100vw - 400px) / (800 - 400) );
+    line-height: calc( 16px + (18 - 12) * (100vw - 400px) / (800 - 400) );
+  }
+}
