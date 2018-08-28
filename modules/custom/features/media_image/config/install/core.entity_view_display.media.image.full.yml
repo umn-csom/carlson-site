@@ -1,24 +1,26 @@
 langcode: en
-status: true
+status: false
 dependencies:
   config:
+    - core.entity_view_mode.media.full
     - field.field.media.image.field_media_in_library
     - field.field.media.image.image
     - media.type.image
+    - responsive_image.styles.three_fourths_hero_image
   module:
-    - image
-id: media.image.default
+    - responsive_image
+id: media.image.full
 targetEntityType: media
 bundle: image
-mode: default
+mode: full
 content:
   image:
-    type: image
+    type: responsive_image
     weight: 0
     label: hidden
     settings:
+      responsive_image_style: three_fourths_hero_image
       image_link: ''
-      image_style: ''
     third_party_settings: {  }
     region: content
 hidden:
