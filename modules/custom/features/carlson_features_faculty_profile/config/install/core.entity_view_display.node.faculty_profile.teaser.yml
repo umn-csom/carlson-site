@@ -1,0 +1,67 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.faculty_profile.body
+    - field.field.node.faculty_profile.field_email
+    - field.field.node.faculty_profile.field_first_name
+    - field.field.node.faculty_profile.field_last_name
+    - field.field.node.faculty_profile.field_middle_initial
+    - field.field.node.faculty_profile.field_office_phone
+    - field.field.node.faculty_profile.field_profile_activities
+    - field.field.node.faculty_profile.field_profile_address
+    - field.field.node.faculty_profile.field_profile_admin_dept
+    - field.field.node.faculty_profile.field_profile_cvc
+    - field.field.node.faculty_profile.field_profile_degrees
+    - field.field.node.faculty_profile.field_profile_dept
+    - field.field.node.faculty_profile.field_profile_expertise
+    - field.field.node.faculty_profile.field_profile_image
+    - field.field.node.faculty_profile.field_profile_job_candidate
+    - field.field.node.faculty_profile.field_profile_owner
+    - field.field.node.faculty_profile.field_profile_programs
+    - field.field.node.faculty_profile.field_profile_status
+    - field.field.node.faculty_profile.field_profile_title
+    - field.field.node.faculty_profile.field_profile_url
+    - field.field.node.faculty_profile.field_profile_works
+    - node.type.faculty_profile
+  module:
+    - text
+    - user
+id: node.faculty_profile.teaser
+targetEntityType: node
+bundle: faculty_profile
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_email: true
+  field_first_name: true
+  field_last_name: true
+  field_middle_initial: true
+  field_office_phone: true
+  field_profile_activities: true
+  field_profile_address: true
+  field_profile_admin_dept: true
+  field_profile_cvc: true
+  field_profile_degrees: true
+  field_profile_dept: true
+  field_profile_expertise: true
+  field_profile_image: true
+  field_profile_job_candidate: true
+  field_profile_owner: true
+  field_profile_programs: true
+  field_profile_status: true
+  field_profile_title: true
+  field_profile_url: true
+  field_profile_works: true

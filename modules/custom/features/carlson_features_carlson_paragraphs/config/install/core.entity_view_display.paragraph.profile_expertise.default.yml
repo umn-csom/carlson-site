@@ -1,0 +1,35 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.profile_expertise.field_expertise_desc
+    - field.field.paragraph.profile_expertise.field_expertise_link
+    - paragraphs.paragraphs_type.profile_expertise
+  module:
+    - link
+    - text
+id: paragraph.profile_expertise.default
+targetEntityType: paragraph
+bundle: profile_expertise
+mode: default
+content:
+  field_expertise_desc:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_expertise_link:
+    weight: 1
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+hidden: {  }

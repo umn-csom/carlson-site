@@ -1,0 +1,458 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - entity_browser.browser.media_browser
+    - field.field.node.faculty_profile.body
+    - field.field.node.faculty_profile.field_email
+    - field.field.node.faculty_profile.field_first_name
+    - field.field.node.faculty_profile.field_last_name
+    - field.field.node.faculty_profile.field_middle_initial
+    - field.field.node.faculty_profile.field_office_phone
+    - field.field.node.faculty_profile.field_profile_activities
+    - field.field.node.faculty_profile.field_profile_address
+    - field.field.node.faculty_profile.field_profile_admin_dept
+    - field.field.node.faculty_profile.field_profile_cvc
+    - field.field.node.faculty_profile.field_profile_degrees
+    - field.field.node.faculty_profile.field_profile_dept
+    - field.field.node.faculty_profile.field_profile_expertise
+    - field.field.node.faculty_profile.field_profile_image
+    - field.field.node.faculty_profile.field_profile_job_candidate
+    - field.field.node.faculty_profile.field_profile_owner
+    - field.field.node.faculty_profile.field_profile_programs
+    - field.field.node.faculty_profile.field_profile_status
+    - field.field.node.faculty_profile.field_profile_title
+    - field.field.node.faculty_profile.field_profile_url
+    - field.field.node.faculty_profile.field_profile_works
+    - node.type.faculty_profile
+  module:
+    - content_moderation
+    - entity_browser
+    - field_group
+    - link
+    - paragraphs
+    - path
+    - telephone
+    - text
+third_party_settings:
+  field_group:
+    group_profile:
+      children:
+        - group_personal_information
+        - group_profile_image
+        - group_biography
+        - group_department_information
+        - group_degree_s_
+        - group_selected_works
+        - group_current_activities
+        - group_expertise
+        - group_administrative
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        id: ''
+        classes: ''
+        direction: vertical
+      label: Profile
+      region: content
+    group_personal_information:
+      children:
+        - title
+        - field_first_name
+        - field_last_name
+        - field_middle_initial
+        - field_email
+        - field_profile_url
+      parent_name: group_profile
+      weight: 20
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Personal Information'
+      region: content
+    group_biography:
+      children:
+        - body
+      parent_name: group_profile
+      weight: 22
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Biography
+      region: content
+    group_department_information:
+      children:
+        - field_profile_title
+        - field_profile_dept
+        - field_profile_address
+        - field_office_phone
+        - field_profile_cvc
+      parent_name: group_profile
+      weight: 23
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Department Information'
+      region: content
+    group_administrative:
+      children:
+        - field_profile_admin_dept
+        - field_profile_programs
+        - field_profile_status
+        - field_profile_owner
+        - field_profile_job_candidate
+      parent_name: group_profile
+      weight: 28
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Administrative
+      region: content
+    group_profile_image:
+      children:
+        - field_profile_image
+      parent_name: group_profile
+      weight: 21
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Profile Image'
+      region: content
+    group_degree_s_:
+      children:
+        - field_profile_degrees
+      parent_name: group_profile
+      weight: 24
+      format_type: tab
+      format_settings:
+        label: Degrees
+        formatter: closed
+        description: ''
+        required_fields: true
+        id: ''
+        classes: ''
+      label: Degrees
+      region: content
+    group_selected_works:
+      children:
+        - field_profile_works
+      parent_name: group_profile
+      weight: 25
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Selected Works'
+      region: content
+    group_current_activities:
+      children:
+        - field_profile_activities
+      parent_name: group_profile
+      weight: 26
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: 'Current Activities'
+      region: content
+    group_expertise:
+      children:
+        - field_profile_expertise
+      parent_name: group_profile
+      weight: 27
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Expertise
+      region: content
+id: node.faculty_profile.default
+targetEntityType: node
+bundle: faculty_profile
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 9
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+    third_party_settings: {  }
+    region: content
+  created:
+    type: datetime_timestamp
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_email:
+    weight: 5
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: email_default
+    region: content
+  field_first_name:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_last_name:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_middle_initial:
+    weight: 4
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_office_phone:
+    weight: 17
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: telephone_default
+    region: content
+  field_profile_activities:
+    type: entity_reference_paragraphs
+    weight: 28
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_profile_address:
+    weight: 16
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_profile_admin_dept:
+    weight: 28
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_profile_cvc:
+    type: entity_browser_entity_reference
+    weight: 19
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail
+      open: true
+    region: content
+    third_party_settings: {  }
+  field_profile_degrees:
+    type: entity_reference_paragraphs
+    weight: 26
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  field_profile_dept:
+    weight: 15
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_profile_expertise:
+    type: entity_reference_paragraphs
+    weight: 9
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  field_profile_image:
+    type: entity_browser_entity_reference
+    weight: 33
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail_profile
+    region: content
+    third_party_settings: {  }
+  field_profile_job_candidate:
+    weight: 32
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
+  field_profile_owner:
+    weight: 31
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_profile_programs:
+    weight: 29
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_profile_status:
+    weight: 30
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_profile_title:
+    weight: 14
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_profile_url:
+    weight: 6
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_profile_works:
+    type: entity_reference_paragraphs
+    weight: 4
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 9
+    settings: {  }
+    region: content
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 3
+    region: content
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 10
+    region: content
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 7
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+hidden: {  }
