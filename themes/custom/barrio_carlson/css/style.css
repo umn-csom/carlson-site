@@ -10,6 +10,8 @@ Description: Bootstrap 4 with Sass
  * Copyright 2011-2018 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
+@import url("https://fonts.googleapis.com/css?family=Lato:400,300,300italic,400italic,700,700italic,900,900italic");
+@import url("https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700");
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -7028,6 +7030,497 @@ Style guide: components.hero-home
  * Visual styles for comments in Barrio.
  */
 /*
+Home News Feed
+
+Markup: ../../templates/components/home-news-feed.html.twig
+
+.home-news-feed  - This is a news item
+
+Style guide: components.home-news-feed
+*/
+.home-news-feed h2 {
+  color: #363230;
+  font-family: "Crimson Text";
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 42px;
+  margin-bottom: 30px; }
+
+.home-news-feed .news-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
+  .home-news-feed .news-wrapper .img-wrapper img {
+    width: 100%; }
+  .home-news-feed .news-wrapper .content-wrapper p {
+    color: #363230;
+    font-family: "Lato";
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: uppercase; }
+  .home-news-feed .news-wrapper .content-wrapper a {
+    color: #7a0019;
+    font-family: "Lato";
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.78px; }
+    .home-news-feed .news-wrapper .content-wrapper a:hover, .home-news-feed .news-wrapper .content-wrapper a:focus, .home-news-feed .news-wrapper .content-wrapper a:active {
+      text-decoration: none; }
+  .home-news-feed .news-wrapper .see-all-wrapper {
+    margin-top: 45px; }
+    .home-news-feed .news-wrapper .see-all-wrapper .see-all {
+      display: inline-block;
+      color: #7a0019;
+      font-family: "Lato";
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.78px;
+      position: relative; }
+      .home-news-feed .news-wrapper .see-all-wrapper .see-all:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: #7a0019;
+        visibility: visible;
+        -webkit-transform: scaleX(1);
+        transform: scaleX(1);
+        -webkit-transition: all 0.3s ease-in-out 0s;
+        transition: all 0.3s ease-in-out 0s; }
+      .home-news-feed .news-wrapper .see-all-wrapper .see-all:hover, .home-news-feed .news-wrapper .see-all-wrapper .see-all:focus, .home-news-feed .news-wrapper .see-all-wrapper .see-all:active {
+        text-decoration: none; }
+        .home-news-feed .news-wrapper .see-all-wrapper .see-all:hover:before, .home-news-feed .news-wrapper .see-all-wrapper .see-all:focus:before, .home-news-feed .news-wrapper .see-all-wrapper .see-all:active:before {
+          visibility: hidden;
+          -webkit-transform: scaleX(0);
+          transform: scaleX(0); }
+
+/**
+ * @file
+ * Visual styles for comments in Barrio.
+ */
+/*
+Magazine
+
+Markup: ../../templates/components/magazine.html.twig
+
+.magazine  - This is a news item
+
+Style guide: components.magazine
+*/
+.magazine {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.5) 0%, #f7f4f2 100%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center; }
+  .magazine .magazine-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -ms-flex-line-pack: center;
+    align-content: center; }
+    .magazine .magazine-wrapper .content-container {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      padding: 0 15px; }
+      .magazine .magazine-wrapper .content-container h5 {
+        color: #363230;
+        font-family: "Crimson Text";
+        font-size: 48px;
+        font-weight: 400;
+        line-height: 42px; }
+      .magazine .magazine-wrapper .content-container p {
+        color: #363230;
+        font-family: "Lato";
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 30px; }
+      .magazine .magazine-wrapper .content-container a {
+        color: #7a0019;
+        font-family: "Lato";
+        font-size: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.78px; }
+        .magazine .magazine-wrapper .content-container a:hover, .magazine .magazine-wrapper .content-container a:focus, .magazine .magazine-wrapper .content-container a:active {
+          text-decoration: none; }
+
+/**
+ * @file
+ * Visual styles for comments in Barrio.
+ */
+/*
+Stats
+
+Markup: ../../templates/components/stats.html.twig
+
+.stats  - This is a stats component
+
+Style guide: components.stats
+*/
+.stats {
+  background-image: linear-gradient(180deg, #f7f4f2 0%, #ffffff 100%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  text-align: center;
+  display: -ms-flexbox;
+  display: flex; }
+  .stats h2 {
+    color: #363230;
+    font-family: "Crimson Text";
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 42px;
+    padding-top: 72px;
+    padding-bottom: 50px; }
+  .stats .ceter-col {
+    margin: 0 auto;
+    padding-bottom: 50px; }
+    .stats .ceter-col p {
+      color: #363230;
+      font-family: "Lato";
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 30px; }
+  .stats .stats-col-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row; }
+    .stats .stats-col-wrapper div {
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+      padding: 0 30px; }
+      .stats .stats-col-wrapper div .stats-col-container {
+        box-shadow: 0 6px 30px rgba(230, 219, 214, 0.7);
+        background-color: #f7f4f2;
+        padding: 15px;
+        min-height: 350px; }
+        .stats .stats-col-wrapper div .stats-col-container h5 {
+          color: #7a0019;
+          font-family: "Crimson Text";
+          font-size: 80px;
+          font-weight: 400;
+          line-height: 60px;
+          padding-bottom: 15px; }
+          .stats .stats-col-wrapper div .stats-col-container h5:after {
+            content: '';
+            height: 2px;
+            width: 100px;
+            display: block;
+            background: #ffcc33;
+            margin: 15px auto; }
+        .stats .stats-col-wrapper div .stats-col-container p {
+          color: #363230;
+          font-family: "Lato";
+          font-size: 16px;
+          line-height: 30px; }
+
+/**
+ * @file
+ * Visual styles for comments in Barrio.
+ */
+/*
+Home Video
+
+Markup: ../../templates/components/home-video.html.twig
+
+.home-video  - This is a news item
+
+Style guide: components.home-video
+*/
+/**
+ * @file
+ * Visual styles for comments in Barrio.
+ */
+/*
+Home Advantage
+
+Markup: ../../templates/components/home-advantage.html.twig
+
+.home-advantage  - This is a news item
+
+Style guide: components.home-advantage
+*/
+.home-advantage {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  display: -ms-flexbox;
+  display: flex; }
+  .home-advantage .home-advantage-wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    flex-wrap: wrap; }
+    .home-advantage .home-advantage-wrapper div {
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column; }
+      .home-advantage .home-advantage-wrapper div img {
+        box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3); }
+      .home-advantage .home-advantage-wrapper div .home-advantage-container {
+        box-shadow: 0 6px 30px rgba(230, 219, 214, 0.7);
+        background-color: #f7f4f2;
+        padding: 15px;
+        min-height: 350px; }
+        .home-advantage .home-advantage-wrapper div .home-advantage-container h5 {
+          color: #363230;
+          font-family: "Crimson Text";
+          font-size: 48px;
+          font-weight: 400;
+          line-height: 42px; }
+          .home-advantage .home-advantage-wrapper div .home-advantage-container h5:after {
+            content: '';
+            height: 2px;
+            width: 100px;
+            display: block;
+            background: #ffcc33;
+            margin: 15px 0; }
+        .home-advantage .home-advantage-wrapper div .home-advantage-container p {
+          color: #363230;
+          font-family: "Lato";
+          font-size: 16px;
+          line-height: 30px; }
+
+/**
+ * @file
+ * Visual styles for comments in Barrio.
+ */
+/*
+Home Upcoming Events
+
+Markup: ../../templates/components/home-upcoming-events.html.twig
+
+.home-upcoming-events  - This is a news item
+
+Style guide: components.home-upcoming-events
+*/
+.home-upcoming-events h2 {
+  color: #363230;
+  font-family: "Crimson Text";
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 42px;
+  margin-bottom: 30px; }
+
+.home-upcoming-events .event-wrapper {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .home-upcoming-events .event-wrapper:before {
+    content: '\25CF';
+    margin-right: 10px;
+    font-size: 20px;
+    color: #fff;
+    position: absolute;
+    text-shadow: -1px 0 #e6dbd6, 0 1px #e6dbd6, 1px 0 #e6dbd6, 0 -1px #e6dbd6;
+    left: 0;
+    line-height: 0px;
+    z-index: 100;
+    transition: all 0.3s ease-in-out; }
+  .home-upcoming-events .event-wrapper:after {
+    position: absolute;
+    left: 0;
+    top: 0;
+    content: '';
+    margin-left: 5px;
+    height: 100%;
+    width: 2px;
+    background: #e6dbd6;
+    z-index: 1; }
+  .home-upcoming-events .event-wrapper:nth-last-child(2):after {
+    content: "";
+    background: linear-gradient(#e6dbd6, transparent); }
+  .home-upcoming-events .event-wrapper:hover:before {
+    color: #ffcc33; }
+  .home-upcoming-events .event-wrapper .event-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    border: 1px solid #e6dbd6;
+    margin-bottom: 15px;
+    transition: all 0.3s ease-in-out;
+    width: 98%; }
+    .home-upcoming-events .event-wrapper .event-container:hover {
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); }
+    .home-upcoming-events .event-wrapper .event-container .date-wrapper {
+      border-bottom: 2px solid #ffcc33;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
+      -webkit-box-orient: horizontal;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+      flex-direction: row;
+      -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+      text-align: center;
+      padding-top: 15px;
+      padding-bottom: 15px; }
+      .home-upcoming-events .event-wrapper .event-container .date-wrapper .date-container {
+        margin-bottom: 0; }
+        .home-upcoming-events .event-wrapper .event-container .date-wrapper .date-container .day-post {
+          color: #7a0019;
+          font-family: "Crimson Text";
+          font-size: 80px;
+          font-weight: 400;
+          line-height: 60px; }
+        .home-upcoming-events .event-wrapper .event-container .date-wrapper .date-container .month-post {
+          color: #e6dbd6;
+          font-family: "Lato";
+          font-size: 14px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1.56px;
+          position: absolute;
+          bottom: 5px; }
+    .home-upcoming-events .event-wrapper .event-container .content-wrapper p {
+      color: #363230;
+      font-family: "Lato";
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 20px;
+      text-transform: uppercase; }
+    .home-upcoming-events .event-wrapper .event-container .content-wrapper a {
+      color: #7a0019;
+      font-family: "Lato";
+      font-size: 16px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.78px; }
+      .home-upcoming-events .event-wrapper .event-container .content-wrapper a:hover, .home-upcoming-events .event-wrapper .event-container .content-wrapper a:focus, .home-upcoming-events .event-wrapper .event-container .content-wrapper a:active {
+        text-decoration: none; }
+
+.home-upcoming-events .see-all-wrapper {
+  margin-top: 45px; }
+  .home-upcoming-events .see-all-wrapper .see-all {
+    display: inline-block;
+    color: #7a0019;
+    font-family: "Lato";
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.78px;
+    position: relative; }
+    .home-upcoming-events .see-all-wrapper .see-all:before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: #7a0019;
+      visibility: visible;
+      -webkit-transform: scaleX(1);
+      transform: scaleX(1);
+      -webkit-transition: all 0.3s ease-in-out 0s;
+      transition: all 0.3s ease-in-out 0s; }
+    .home-upcoming-events .see-all-wrapper .see-all:hover, .home-upcoming-events .see-all-wrapper .see-all:focus, .home-upcoming-events .see-all-wrapper .see-all:active {
+      text-decoration: none; }
+      .home-upcoming-events .see-all-wrapper .see-all:hover:before, .home-upcoming-events .see-all-wrapper .see-all:focus:before, .home-upcoming-events .see-all-wrapper .see-all:active:before {
+        visibility: hidden;
+        -webkit-transform: scaleX(0);
+        transform: scaleX(0); }
+
+/**
+ * @file
+ * Visual styles for comments in Barrio.
+ */
+/*
 Images
 
 .shadow             - This image has a shadow
@@ -7040,8 +7533,23 @@ Markup: ../../templates/components/images.html.twig
 
 Style guide: components.images
 */
-.related-list img.shadow {
-  box-shadow: 0px 0px 15px 3px rgba(0, 0, 0, 0.3); }
+.related-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
+  .related-list .img-wrapper img {
+    width: 100%; }
+    .related-list .img-wrapper img.shadow {
+      box-shadow: 0px 0px 15px 3px rgba(0, 0, 0, 0.3); }
 
 /**
  * @file
