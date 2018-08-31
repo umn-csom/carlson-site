@@ -97,7 +97,7 @@ var options = {
 
 // Compile sass into CSS & auto-inject into browsers
 gulp.task('sass', function() {
-    return gulp.src(['node_modules/bootstrap/scss/bootstrap.scss', 'scss/style.scss'], ['sass'])
+    return gulp.src(['scss/style.scss'], ['sass'])
         .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest("css"))
         .pipe(sass({ outputStyle: 'compressed' }))
@@ -125,9 +125,9 @@ gulp.task('serve', ['sass'], function() {
 gulp.task('watch', ['sass'], function() {
   gulp.watch(
     [
-      'node_modules/bootstrap/scss/bootstrap.scss', 
-      'scss/*.scss', 
-      'scss/**/*.scss', 
+      'node_modules/bootstrap/scss/bootstrap.scss',
+      'scss/*.scss',
+      'scss/**/*.scss',
       'scss/**/**/*.scss',
       'templates/components/*.twig',
     ],

@@ -59,6 +59,12 @@ display: flex;
     -webkit-box-direction: normal;
     -ms-flex-direction: row;
     flex-direction: row;
+    @include media-breakpoint-down(md) {
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+      flex-direction: column;
+    }
     div{
       -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -71,6 +77,9 @@ display: flex;
       -ms-flex-direction: column;
       flex-direction: column;
       padding: 0 30px;
+      @include media-breakpoint-down(md) {
+        margin-bottom: 15px;
+      }
         .stats-col-container{
           box-shadow: 0 6px 30px rgba(230, 219, 214, 0.7);
           background-color: #f7f4f2;
