@@ -6142,16 +6142,18 @@ Style guide: components.buttons
     background: white;
     color: #7a0019; }
     .btn.btn-primary:hover, .btn.btn-primary:active, .btn.btn-primary:focus {
-      border: 2px solid #7a0019;
-      background: #7a0019;
-      color: white; }
+      border: 2px solid #7a0019 !important;
+      background: #7a0019 !important;
+      color: white !important;
+      box-shadow: none; }
   .btn.btn-secondary {
     border: 2px solid #ffcc33;
     color: #363230;
     background: white; }
     .btn.btn-secondary:hover, .btn.btn-secondary:active, .btn.btn-secondary:focus {
-      border: 2px solid #ffcc33;
-      background: #ffcc33; }
+      border: 2px solid #ffcc33 !important;
+      background: #ffcc33 !important;
+      box-shadow: none; }
   .btn.btn-link-primary {
     min-width: auto;
     color: #7a0019;
@@ -7229,6 +7231,12 @@ Style guide: components.stats
     -webkit-box-direction: normal;
     -ms-flex-direction: row;
     flex-direction: row; }
+    @media (max-width: 991.98px) {
+      .stats .stats-col-wrapper {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column; } }
     .stats .stats-col-wrapper div {
       -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -7241,6 +7249,9 @@ Style guide: components.stats
       -ms-flex-direction: column;
       flex-direction: column;
       padding: 0 30px; }
+      @media (max-width: 991.98px) {
+        .stats .stats-col-wrapper div {
+          margin-bottom: 15px; } }
       .stats .stats-col-wrapper div .stats-col-container {
         box-shadow: 0 6px 30px rgba(230, 219, 214, 0.7);
         background-color: #f7f4f2;
@@ -7318,9 +7329,6 @@ Style guide: components.home-advantage
     flex-direction: row;
     flex-wrap: wrap; }
     .home-advantage .home-advantage-wrapper div {
-      -webkit-box-pack: center;
-      -ms-flex-pack: center;
-      justify-content: center;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
@@ -7331,10 +7339,10 @@ Style guide: components.home-advantage
       .home-advantage .home-advantage-wrapper div img {
         box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3); }
       .home-advantage .home-advantage-wrapper div .home-advantage-container {
-        box-shadow: 0 6px 30px rgba(230, 219, 214, 0.7);
-        background-color: #f7f4f2;
-        padding: 15px;
-        min-height: 350px; }
+        background-color: #fff;
+        min-height: 350px;
+        height: 100%;
+        position: relative; }
         .home-advantage .home-advantage-wrapper div .home-advantage-container h5 {
           color: #363230;
           font-family: "Crimson Text";
@@ -7353,6 +7361,10 @@ Style guide: components.home-advantage
           font-family: "Lato";
           font-size: 16px;
           line-height: 30px; }
+        .home-advantage .home-advantage-wrapper div .home-advantage-container .btn {
+          position: absolute;
+          bottom: 0;
+          width: 100%; }
 
 /**
  * @file
@@ -7397,6 +7409,9 @@ Style guide: components.home-upcoming-events
     line-height: 0px;
     z-index: 100;
     transition: all 0.3s ease-in-out; }
+    @media (max-width: 767.98px) {
+      .home-upcoming-events .event-wrapper:before {
+        display: none; } }
   .home-upcoming-events .event-wrapper:after {
     position: absolute;
     left: 0;
@@ -7407,6 +7422,9 @@ Style guide: components.home-upcoming-events
     width: 2px;
     background: #e6dbd6;
     z-index: 1; }
+    @media (max-width: 767.98px) {
+      .home-upcoming-events .event-wrapper:after {
+        display: none; } }
   .home-upcoming-events .event-wrapper:nth-last-child(2):after {
     content: "";
     background: linear-gradient(#e6dbd6, transparent); }
@@ -7429,6 +7447,9 @@ Style guide: components.home-upcoming-events
     margin-bottom: 15px;
     transition: all 0.3s ease-in-out;
     width: 98%; }
+    @media (max-width: 767.98px) {
+      .home-upcoming-events .event-wrapper .event-container {
+        width: 100%; } }
     .home-upcoming-events .event-wrapper .event-container:hover {
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); }
     .home-upcoming-events .event-wrapper .event-container .date-wrapper {
@@ -7451,6 +7472,12 @@ Style guide: components.home-upcoming-events
       text-align: center;
       padding-top: 15px;
       padding-bottom: 15px; }
+      @media (max-width: 767.98px) {
+        .home-upcoming-events .event-wrapper .event-container .date-wrapper {
+          flex: 0 0 16.66667% !important;
+          max-width: 16.66667% !important;
+          padding-top: 7px;
+          padding-bottom: 7px; } }
       .home-upcoming-events .event-wrapper .event-container .date-wrapper .date-container {
         margin-bottom: 0; }
         .home-upcoming-events .event-wrapper .event-container .date-wrapper .date-container .day-post {
@@ -7459,15 +7486,23 @@ Style guide: components.home-upcoming-events
           font-size: 80px;
           font-weight: 400;
           line-height: 60px; }
+          @media (max-width: 767.98px) {
+            .home-upcoming-events .event-wrapper .event-container .date-wrapper .date-container .day-post {
+              font-size: 60px; } }
         .home-upcoming-events .event-wrapper .event-container .date-wrapper .date-container .month-post {
           color: #e6dbd6;
           font-family: "Lato";
           font-size: 14px;
           font-weight: 700;
           text-transform: uppercase;
-          letter-spacing: 1.56px;
-          position: absolute;
-          bottom: 5px; }
+          letter-spacing: 1.56px; }
+          @media (max-width: 767.98px) {
+            .home-upcoming-events .event-wrapper .event-container .date-wrapper .date-container .month-post {
+              font-size: 10px; } }
+    @media (max-width: 767.98px) {
+      .home-upcoming-events .event-wrapper .event-container .content-wrapper {
+        flex: 0 0 83.33333% !important;
+        max-width: 83.33333% !important; } }
     .home-upcoming-events .event-wrapper .event-container .content-wrapper p {
       color: #363230;
       font-family: "Lato";
