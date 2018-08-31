@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\migrate_custom\Plugin\migrate\source\Faculty.
+ * Contains \Drupal\migrate_custom\Plugin\migrate\source\FacultyProfile.
  */
 
 namespace Drupal\migrate_custom\Plugin\migrate\source;
@@ -14,13 +14,12 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
  * Extract faculty from Drupal 7 database.
  * 
  * TODO: Figure out how to move over image data.
- * TODO: Move the 'about_me' field to the main body field instead.
  *
  * @MigrateSource(
  *   id = "custom_faculty"
  * )
  */
-class Faculty extends SqlBase {
+class FacultyProfile extends SqlBase {
 
   /**
    * {@inheritdoc}
@@ -29,12 +28,10 @@ class Faculty extends SqlBase {
     $query = $this->select('node', 'f');
     $query->join('field_data_field_first_name', 'n', 'n.entity_id = f.nid');
     $query->join('field_data_field_last_name', 'a', 'a.entity_id = f.nid');
-    $query->join('field_data_field_about_me', 'b', 'b.entity_id = f.nid');
 
     $query->fields('f', array_keys( $this->baseFields() ) );
     $query->fields('n', array('entity_id', 'field_first_name_value'));
     $query->fields('a', array('entity_id', 'field_last_name_value'));
-    $query->fields('b', array('entity_id', 'field_about_me_value'));
 
     $query->condition('f.nid', 0, '>');
     return $query;
@@ -47,7 +44,6 @@ class Faculty extends SqlBase {
     $fields = $this->baseFields();
     $fields['first_name'] = $this->t('first_name');
     $fields['last_name'] = $this->t('last_name');
-    $fields['about_me'] = $this->t('about_me');
     return $fields;
   }
 
@@ -72,12 +68,6 @@ class Faculty extends SqlBase {
     $result = $this->_getCustomField( 'last_name', $nid );
     foreach ($result as $record) {
       $row->setSourceProperty('last_name', $record->field_last_name_value );
-    }
-
-    // about_me
-    $result = $this->_getCustomField( 'about_me', $nid );
-    foreach ($result as $record) {
-      $row->setSourceProperty('about_me', $record->field_about_me_value );
     }
 
     return parent::prepareRow($row);
@@ -127,7 +117,7 @@ class Faculty extends SqlBase {
    * {@inheritdoc}
    */
   public function entityTypeId() {
-    return 'faculty';
+    return 'faculty_profile';
   }
 
   /**
