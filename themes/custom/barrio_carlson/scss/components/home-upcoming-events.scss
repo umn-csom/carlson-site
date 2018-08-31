@@ -45,6 +45,9 @@ Style guide: components.home-upcoming-events
       line-height: 0px;
       z-index: 100;
       transition: all 0.3s ease-in-out;
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
     }
     &:after{
       position: absolute;
@@ -57,6 +60,9 @@ Style guide: components.home-upcoming-events
       width: 2px;
       background: #e6dbd6;
       z-index: 1;
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
     }
     &:first-of-type:after {
       // top: 50%;
@@ -88,7 +94,9 @@ Style guide: components.home-upcoming-events
       margin-bottom: 15px;
       transition: all 0.3s ease-in-out;
       width: 98%;
-
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+      }
       &:hover{
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
       }
@@ -112,6 +120,12 @@ Style guide: components.home-upcoming-events
         text-align: center;
         padding-top: 15px;
         padding-bottom: 15px;
+        @include media-breakpoint-down(sm) {
+          flex: 0 0 16.66667% !important;
+          max-width: 16.66667% !important;
+          padding-top: 7px;
+          padding-bottom: 7px;
+        }
         .date-container{
           margin-bottom: 0;
           .day-post{
@@ -120,6 +134,9 @@ Style guide: components.home-upcoming-events
             font-size: 80px;
             font-weight: 400;
             line-height: 60px;
+            @include media-breakpoint-down(sm) {
+              font-size: 60px;
+            }
           }
           .month-post{
             color: #e6dbd6;
@@ -128,13 +145,18 @@ Style guide: components.home-upcoming-events
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.56px;
-            position: absolute;
-            bottom: 5px;
+            // position: absolute;
+            @include media-breakpoint-down(sm) {
+              font-size: 10px;
+            }
           }
         }
       }
       .content-wrapper{
-
+        @include media-breakpoint-down(sm) {
+          flex: 0 0 83.33333% !important;
+          max-width: 83.33333% !important;
+        }
         p{
           color: #363230;
           font-family:"Lato";
