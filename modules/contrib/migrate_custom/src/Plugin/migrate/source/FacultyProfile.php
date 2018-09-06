@@ -42,6 +42,9 @@ class FacultyProfile extends SqlBase {
     $query->leftjoin('field_data_field_faculty_email', 'i', 'i.entity_id = f.nid');
     $query->leftjoin('field_data_field_personal_url', 'k', 'k.entity_id = f.nid');
     $query->leftjoin('field_data_field_faculty_job_candidate', 'l', 'l.entity_id = f.nid');
+    $query->leftjoin('field_data_field_faculty_department', 'm', 'm.entity_id = f.nid');
+    $query->leftjoin('field_data_field_faculty_degree_program', 'n', 'n.entity_id = f.nid');
+    $query->leftjoin('field_data_field_faculty_status', 'o', 'o.entity_id = f.nid');
 
 
     // Field Mappings.
@@ -86,6 +89,15 @@ class FacultyProfile extends SqlBase {
 
     $fields['faculty_job_candidate'] = $this->t('faculty_job_candidate');
     $fields['profile_job_candidate'] = $this->t('profile_job_candidate');
+
+    $fields['faculty_department'] = $this->t('faculty_department');
+    $fields['profile_admin_dept'] = $this->t('profile_admin_dept');
+
+    $fields['faculty_degree_program'] = $this->t('faculty_degree_program');
+    $fields['profile_programs'] = $this->t('profile_programs');
+
+    $fields['faculty_status'] = $this->t('faculty_status');
+    $fields['profile_status'] = $this->t('profile_status');
 
     return $fields;
   }
@@ -167,7 +179,7 @@ class FacultyProfile extends SqlBase {
     $result = $this->_getEmailField( 'faculty_email', $nid );
     foreach ($result as $record) {
       $row->setSourceProperty('faculty_email', $record->field_faculty_email_email );
-      $row->setSourceProperty('email', $record->field_department_value );
+      $row->setSourceProperty('email', $record->field_faculty_email_email );
     }
 
     // personal_url to profile_url
@@ -182,6 +194,27 @@ class FacultyProfile extends SqlBase {
     foreach ($result as $record) {
       $row->setSourceProperty('faculty_job_candidate', $record->field_faculty_job_candidate_value );
       $row->setSourceProperty('profile_job_candidate', $record->field_faculty_job_candidate_value );
+    }
+
+    // faculty_department to profile_admin_dept
+    $result = $this->_getTaxonomyId( 'faculty_department', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('faculty_department', $record->field_faculty_department_tid );
+      $row->setSourceProperty('profile_admin_dept', $record->field_faculty_department_tid );
+    }
+
+    // faculty_degree_program to profile_admin_dept
+    $result = $this->_getTaxonomyId( 'faculty_degree_program', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('faculty_degree_program', $record->field_faculty_degree_program_tid );
+      $row->setSourceProperty('profile_programs', $record->field_faculty_degree_program_tid );
+    }
+
+    // faculty_status to profile_status
+    $result = $this->_getTaxonomyId( 'faculty_status', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('faculty_status', $record->field_faculty_status_tid );
+      $row->setSourceProperty('profile_status', $record->field_faculty_status_tid );
     }
 
     return parent::prepareRow($row);
@@ -294,6 +327,19 @@ class FacultyProfile extends SqlBase {
     $result = $this->getDatabase()->query('
       SELECT
         fld.field_' . $value . '_email
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
+  private function _getTaxonomyId($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_tid
       FROM
         {field_data_field_' . $value . '} fld
       WHERE
