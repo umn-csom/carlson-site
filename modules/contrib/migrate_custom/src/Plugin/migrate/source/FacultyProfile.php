@@ -185,8 +185,13 @@ class FacultyProfile extends SqlBase {
     // personal_url to profile_url
     $result = $this->_getUrlField( 'personal_url', $nid );
     foreach ($result as $record) {
-      $row->setSourceProperty('personal_url', $record->field_personal_url_url );
-      $row->setSourceProperty('profile_url', $record->field_personal_url_url );
+      $url = $record->field_personal_url_url;
+      if ( strpos($url, 'http') === false) {
+        $url = ('https://' . $url );
+      }
+
+      $row->setSourceProperty('personal_url', $url );
+      $row->setSourceProperty('profile_url', $url );
     }
 
     // faculty_job_candidate to profile_job_candidate
