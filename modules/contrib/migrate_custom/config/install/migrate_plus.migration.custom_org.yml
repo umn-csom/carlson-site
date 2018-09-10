@@ -1,0 +1,35 @@
+id: custom_org
+label: UMN Carlson - Organization Migration.
+migration_group: custom
+
+# define a forced module dependency. this will cause the migration definition to be reloaded
+# when you uninstall and reinstall your custom module.
+dependencies:
+  enforced:
+    module:
+      - migrate_custom
+
+source:
+  plugin: custom_news
+  # The "target" here refers to the database connection where the source data lives.
+  # You will need to configure this database in your settings.php.
+  target: db_migration
+
+destination:
+  plugin: entity:node
+  default_bundle: organization
+
+process:
+  nid: nid
+  title: title
+  status: status
+  created: created
+  changed: changed
+  promote: promote
+  sticky: sticky
+  
+  # Custom Fields
+  body: body
+  'body/format':
+     plugin: default_value
+     default_value: rich_text
