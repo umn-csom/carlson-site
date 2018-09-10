@@ -12,8 +12,6 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 
 /**
  * Extract faculty from Drupal 7 database.
- * 
- * TODO: Figure out how to move over image data.
  *
  * @MigrateSource(
  *   id = "custom_faculty"

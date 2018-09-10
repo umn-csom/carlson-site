@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\migrate_custom\Plugin\migrate\source\Page.
+ * Contains \Drupal\migrate_custom\Plugin\migrate\source\BlogEntry.
  */
 
 namespace Drupal\migrate_custom\Plugin\migrate\source;
@@ -11,13 +11,13 @@ use Drupal\migrate\Plugin\migrate\source\SqlBase;
 use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 
 /**
- * Extract basic page from Drupal 7 database.
- * 
+ * Extract blog entry from Drupal 7 database.
+ *
  * @MigrateSource(
- *   id = "custom_basic"
+ *   id = "custom_blog"
  * )
  */
-class Page extends SqlBase {
+class BlogEntry extends SqlBase {
 
   /**
    * {@inheritdoc}
@@ -33,7 +33,14 @@ class Page extends SqlBase {
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
 
-    $query->condition('f.type', 'ec_basic_page');
+    $or = $query->orConditionGroup();
+    $or->condition('f.type', 'blog_post');
+    $or->condition('f.type', 'full_time_mba_blog_post');
+    $or->condition('f.type', 'cemba_blog_post');
+    $or->condition('f.type', 'dean_s_blog_post');
+    $or->condition('f.type', 'holmes_center_entreed_blog_post');
+    $or->condition('f.type', 'ma_hrir_blog');
+    $query->condition($or);
     return $query;
   }
 
@@ -113,7 +120,7 @@ class Page extends SqlBase {
    * {@inheritdoc}
    */
   public function entityTypeId() {
-    return 'page';
+    return 'blog_entry';
   }
 
   /**

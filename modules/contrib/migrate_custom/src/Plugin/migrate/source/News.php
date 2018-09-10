@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\migrate_custom\Plugin\migrate\source\Page.
+ * Contains \Drupal\migrate_custom\Plugin\migrate\source\News.
  */
 
 namespace Drupal\migrate_custom\Plugin\migrate\source;
@@ -11,13 +11,13 @@ use Drupal\migrate\Plugin\migrate\source\SqlBase;
 use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 
 /**
- * Extract basic page from Drupal 7 database.
- * 
+ * Extract news from Drupal 7 database.
+ *
  * @MigrateSource(
- *   id = "custom_basic"
+ *   id = "custom_news"
  * )
  */
-class Page extends SqlBase {
+class News extends SqlBase {
 
   /**
    * {@inheritdoc}
@@ -33,7 +33,8 @@ class Page extends SqlBase {
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
 
-    $query->condition('f.type', 'ec_basic_page');
+    // Condition.
+    $query->condition('f.type', 'news');
     return $query;
   }
 
@@ -113,7 +114,7 @@ class Page extends SqlBase {
    * {@inheritdoc}
    */
   public function entityTypeId() {
-    return 'page';
+    return 'news';
   }
 
   /**
