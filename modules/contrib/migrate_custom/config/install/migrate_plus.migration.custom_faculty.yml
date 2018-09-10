@@ -17,7 +17,7 @@ source:
 
 destination:
   plugin: entity:node
-  default_bundle: faculty
+  default_bundle: faculty_profile
 
 process:
   nid: nid
@@ -31,4 +31,19 @@ process:
   # Custom Fields
   field_first_name: first_name
   field_last_name: last_name
-  field_about_me: about_me
+  field_profile_title: staff_title
+  field_middle_initial: name_middle_initial
+  field_profile_address: address_1
+  'body/0/value': about_me
+  'body/0/format':
+     plugin: default_value
+     default_value: rich_text
+  field_profile_owner: faculty_profile_owner
+  field_profile_dept: department
+  field_email: faculty_email
+  field_office_phone: office_phone
+  field_profile_url: personal_url
+  field_profile_job_candidate: faculty_job_candidate
+  field_profile_admin_dept: faculty_department
+  field_profile_programs: faculty_degree_program
+  field_profile_status: faculty_status
