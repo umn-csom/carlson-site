@@ -42,6 +42,13 @@ class User extends SqlBase {
    */
   public function prepareRow(Row $row) {
     $uid = $row->getSourceProperty('uid');
+
+    // alias
+    $alias = $this->_setAliasPath( $uid );
+    if ( !empty($alias) ) {
+      $row->setSourceProperty('alias', '/' . $alias);
+    
+    }
     return parent::prepareRow($row);
   }
 
@@ -98,5 +105,13 @@ class User extends SqlBase {
     return 'user';
   }
 
+  /**
+   * Private Methods.
+   */
+  private function _setAliasPath($uid) {
+    $query = $this->select('url_alias', 'ua')->fields('ua', ['alias']);
+    $query->condition('ua.source', 'user/' . $uid);
+    return $query->execute()->fetchField();
+  }
 }
 ?>

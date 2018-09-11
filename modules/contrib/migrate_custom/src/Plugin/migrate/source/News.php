@@ -120,6 +120,12 @@ class News extends SqlBase {
   /**
    * Private Methods.
    */
+  private function _setAliasPath($nid) {
+    $query = $this->select('url_alias', 'ua')->fields('ua', ['alias']);
+    $query->condition('ua.source', 'node/' . $nid);
+    return $query->execute()->fetchField();
+  }
+  
   private function _getBody($nid) {
     $result = $this->getDatabase()->query('
       SELECT

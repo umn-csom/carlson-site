@@ -71,6 +71,12 @@ class BlogEntry extends SqlBase {
         $row->setSourceProperty('body', $record->body_value );
         $row->setSourceProperty('body/0/value', $record->body_value );
     }
+    
+    // alias
+    $alias = $this->_setAliasPath( $nid );
+    if ( !empty($alias) ) {
+      $row->setSourceProperty('alias', '/' . $alias);
+    }
 
     return parent::prepareRow($row);
   }
@@ -126,6 +132,12 @@ class BlogEntry extends SqlBase {
   /**
    * Private Methods.
    */
+  private function _setAliasPath($nid) {
+    $query = $this->select('url_alias', 'ua')->fields('ua', ['alias']);
+    $query->condition('ua.source', 'node/' . $nid);
+    return $query->execute()->fetchField();
+  }
+  
   private function _getBody($nid) {
     $result = $this->getDatabase()->query('
       SELECT

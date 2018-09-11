@@ -53,6 +53,12 @@ class EducationAbroadProgram extends SqlBase {
       $row->setSourceProperty('title', 'unknown');
     }
 
+    // alias
+    $alias = $this->_setAliasPath( $nid );
+    if ( !empty($alias) ) {
+      $row->setSourceProperty('alias', '/' . $alias);
+    }
+
     return parent::prepareRow($row);
   }
 
@@ -104,5 +110,13 @@ class EducationAbroadProgram extends SqlBase {
     return 'education_abroad_program';
   }
 
+  /**
+   * Private Methods.
+   */
+  private function _setAliasPath($nid) {
+    $query = $this->select('url_alias', 'ua')->fields('ua', ['alias']);
+    $query->condition('ua.source', 'node/' . $nid);
+    return $query->execute()->fetchField();
+  }
 }
 ?>

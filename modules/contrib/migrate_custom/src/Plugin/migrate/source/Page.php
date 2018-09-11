@@ -14,7 +14,7 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
  * Extract basic page from Drupal 7 database.
  * 
  * @MigrateSource(
- *   id = "custom_basic"
+ *   id = "custom_page"
  * )
  */
 class Page extends SqlBase {
@@ -63,6 +63,12 @@ class Page extends SqlBase {
     foreach ($result as $record) {
         $row->setSourceProperty('body', $record->body_value );
         $row->setSourceProperty('body/0/value', $record->body_value );
+    }
+
+    // alias
+    $alias = $this->_setAliasPath( $nid );
+    if ( !empty($alias) ) {
+      $row->setSourceProperty('alias', '/' . $alias);
     }
 
     return parent::prepareRow($row);
@@ -119,6 +125,12 @@ class Page extends SqlBase {
   /**
    * Private Methods.
    */
+  private function _setAliasPath($nid) {
+    $query = $this->select('url_alias', 'ua')->fields('ua', ['alias']);
+    $query->condition('ua.source', 'node/' . $nid);
+    return $query->execute()->fetchField();
+  }
+  
   private function _getBody($nid) {
     $result = $this->getDatabase()->query('
       SELECT

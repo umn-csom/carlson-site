@@ -1,4 +1,4 @@
-id: custom_basic
+id: custom_page
 label: UMN Carlson - Basic Page Migration.
 migration_group: custom
 
@@ -10,7 +10,7 @@ dependencies:
       - migrate_custom
 
 source:
-  plugin: custom_basic
+  plugin: custom_page
   # The "target" here refers to the database connection where the source data lives.
   # You will need to configure this database in your settings.php.
   target: db_migration
@@ -33,3 +33,7 @@ process:
   'body/format':
      plugin: default_value
      default_value: rich_text
+  'path/pathauto': 
+    plugin: default_value
+    default_value: 0 # Disable pathauto.
+  'path/alias': alias
