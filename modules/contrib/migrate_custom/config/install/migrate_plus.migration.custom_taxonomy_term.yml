@@ -30,6 +30,12 @@ process:
     source: '@parent'
   forum_container: is_container
   changed: timestamp
+  
+  # Custom Fields
+  'path/pathauto': 
+    plugin: default_value
+    default_value: 0 # Disable pathauto.
+  'path/alias': alias
 destination:
   plugin: entity:taxonomy_term
 migration_dependencies:
