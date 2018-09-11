@@ -66,6 +66,12 @@ class News extends SqlBase {
         $row->setSourceProperty('body/0/value', $record->body_value );
     }
 
+    // alias
+    $alias = $this->_setAliasPath( $nid );
+    if ( !empty($alias) ) {
+      $row->setSourceProperty('alias', '/' . $alias);
+    }
+
     return parent::prepareRow($row);
   }
 
