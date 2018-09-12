@@ -81,17 +81,18 @@
       </h2>
     {% endif %}
     {{ title_suffix }}
-    {% if display_submitted %}
-      <div class="node__meta">
-        {{ author_picture }}
-        {% block submitted %}
-          <em{{ author_attributes }}>
-            {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
-          </em>
-        {% endblock %}
-        {{ metadata }}
-      </div>
+
+    {% if node.field_hero_media.value %}
+      {% include directory ~ '/templates/components/hero-basic.html.twig' with 
+        {
+            'heading': node.label, 
+            'img_src': content.field_hero_media,
+            'published_on': date,
+            'author': author_name,
+        } 
+      %}
     {% endif %}
+
   </header>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'row') }}>
     <section>
