@@ -1,0 +1,60 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_pg_quote
+    - paragraphs.paragraphs_type.quote
+    - paragraphs.paragraphs_type.quote_group
+  module:
+    - entity_reference_revisions
+id: paragraph.quote_group.field_pg_quote
+field_name: field_pg_quote
+entity_type: paragraph
+bundle: quote_group
+label: Quote
+description: 'Add single quotes that will be combined and displayed as a carousel of quotes.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      quote: quote
+    target_bundles_drag_drop:
+      basic_paragraph:
+        weight: 12
+        enabled: false
+      carlson_advantage:
+        weight: 13
+        enabled: false
+      profile_activity:
+        weight: 14
+        enabled: false
+      profile_degree:
+        weight: 15
+        enabled: false
+      profile_expertise:
+        weight: 16
+        enabled: false
+      profile_selected_works:
+        weight: 17
+        enabled: false
+      program_cta:
+        weight: 18
+        enabled: false
+      quote:
+        enabled: true
+        weight: 19
+      quote_group:
+        weight: 20
+        enabled: false
+      statistic:
+        weight: 21
+        enabled: false
+      statistics:
+        weight: 22
+        enabled: false
+field_type: entity_reference_revisions
