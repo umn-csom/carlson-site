@@ -61,8 +61,8 @@ class Page extends SqlBase {
     // body to body
     $result = $this->_getBody( $nid );
     foreach ($result as $record) {
-        $row->setSourceProperty('body', $record->body_value );
-        $row->setSourceProperty('body/0/value', $record->body_value );
+      $row->setSourceProperty('body', $record->body_value );
+      $row->setSourceProperty('body/0/value', $record->body_value );
     }
 
     // alias
