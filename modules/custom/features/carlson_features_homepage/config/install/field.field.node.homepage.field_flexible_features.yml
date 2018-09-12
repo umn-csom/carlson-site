@@ -1,0 +1,50 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_flexible_features
+    - node.type.homepage
+    - paragraphs.paragraphs_type.carlson_advantage
+    - paragraphs.paragraphs_type.statistics
+  module:
+    - entity_reference_revisions
+id: node.homepage.field_flexible_features
+field_name: field_flexible_features
+entity_type: node
+bundle: homepage
+label: 'Flexible Features'
+description: 'Select from various flexible feature components.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      carlson_advantage: carlson_advantage
+      statistics: statistics
+    target_bundles_drag_drop:
+      carlson_advantage:
+        enabled: true
+        weight: 8
+      profile_activity:
+        weight: 9
+        enabled: false
+      profile_degree:
+        weight: 10
+        enabled: false
+      profile_expertise:
+        weight: 11
+        enabled: false
+      profile_selected_works:
+        weight: 12
+        enabled: false
+      statistic:
+        weight: 13
+        enabled: false
+      statistics:
+        enabled: true
+        weight: 14
+field_type: entity_reference_revisions

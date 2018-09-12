@@ -1,0 +1,32 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.slide.field_slide_caption
+    - field.field.paragraph.slide.field_slide_image
+    - image.style.slick_media
+    - paragraphs.paragraphs_type.slide
+  module:
+    - media
+id: paragraph.slide.default
+targetEntityType: paragraph
+bundle: slide
+mode: default
+content:
+  field_slide_caption:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_slide_image:
+    type: media_thumbnail
+    weight: 0
+    label: hidden
+    settings:
+      image_style: slick_media
+      image_link: ''
+    third_party_settings: {  }
+    region: content
+hidden: {  }

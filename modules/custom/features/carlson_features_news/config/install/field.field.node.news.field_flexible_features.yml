@@ -1,0 +1,79 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_flexible_features
+    - node.type.news
+    - paragraphs.paragraphs_type.basic_paragraph
+    - paragraphs.paragraphs_type.program_cta
+    - paragraphs.paragraphs_type.quote
+    - paragraphs.paragraphs_type.quote_group
+    - paragraphs.paragraphs_type.slideshow
+    - paragraphs.paragraphs_type.video
+  module:
+    - entity_reference_revisions
+id: node.news.field_flexible_features
+field_name: field_flexible_features
+entity_type: node
+bundle: news
+label: 'Flexible Features'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      basic_paragraph: basic_paragraph
+      program_cta: program_cta
+      quote: quote
+      quote_group: quote_group
+      slideshow: slideshow
+      video: video
+    target_bundles_drag_drop:
+      carlson_advantage:
+        weight: 8
+        enabled: false
+      basic_paragraph:
+        enabled: true
+        weight: 9
+      profile_activity:
+        weight: 9
+        enabled: false
+      profile_degree:
+        weight: 10
+        enabled: false
+      profile_expertise:
+        weight: 11
+        enabled: false
+      profile_selected_works:
+        weight: 12
+        enabled: false
+      statistic:
+        weight: 13
+        enabled: false
+      statistics:
+        weight: 14
+        enabled: false
+      program_cta:
+        enabled: true
+        weight: 16
+      quote:
+        enabled: true
+        weight: 18
+      quote_group:
+        enabled: true
+        weight: 20
+      slide:
+        weight: 23
+        enabled: false
+      slideshow:
+        enabled: true
+        weight: 24
+      video:
+        enabled: true
+        weight: 28
+field_type: entity_reference_revisions

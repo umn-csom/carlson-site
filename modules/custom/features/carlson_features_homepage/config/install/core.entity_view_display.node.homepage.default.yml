@@ -3,10 +3,12 @@ status: true
 dependencies:
   config:
     - field.field.node.homepage.body
+    - field.field.node.homepage.field_flexible_features
     - field.field.node.homepage.field_hero_media
     - field.field.node.homepage.field_sub_heading
     - node.type.homepage
   module:
+    - entity_reference_revisions
     - panelizer
     - text
     - user
@@ -26,6 +28,15 @@ content:
     type: text_default
     weight: 101
     settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_flexible_features:
+    type: entity_reference_revisions_entity_view
+    weight: 104
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
     third_party_settings: {  }
     region: content
   field_hero_media:

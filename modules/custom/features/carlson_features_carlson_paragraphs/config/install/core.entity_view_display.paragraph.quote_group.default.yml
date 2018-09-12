@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.quote_group.field_pg_quote
+    - paragraphs.paragraphs_type.quote_group
+  module:
+    - entity_reference_revisions
+id: paragraph.quote_group.default
+targetEntityType: paragraph
+bundle: quote_group
+mode: default
+content:
+  field_pg_quote:
+    type: entity_reference_revisions_entity_view
+    weight: 0
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+hidden: {  }
