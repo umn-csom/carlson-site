@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.full_hero
+    - field.field.media.image.field_media_in_library
+    - field.field.media.image.image
+    - image.style.crop_full_hero
+    - media.type.image
+  module:
+    - image
+id: media.image.full_hero
+targetEntityType: media
+bundle: image
+mode: full_hero
+content:
+  image:
+    type: image
+    weight: 0
+    label: hidden
+    settings:
+      image_style: crop_full_hero
+      image_link: ''
+    third_party_settings: {  }
+    region: content
+hidden:
+  created: true
+  field_media_in_library: true
+  name: true
+  thumbnail: true
+  uid: true
