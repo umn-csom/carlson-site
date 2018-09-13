@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\migrate_custom\Plugin\migrate\source\ExecutiveEducationProgram.
+ * Contains \Drupal\migrate_custom\Plugin\migrate\source\ExecutiveEdProgram.
  */
 
 namespace Drupal\migrate_custom\Plugin\migrate\source;
@@ -11,7 +11,7 @@ use Drupal\migrate\Plugin\migrate\source\SqlBase;
 use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 
 /**
- * Extract executive education program from Drupal 7 database.
+ * Extract executive ed program from Drupal 7 database.
  *
  * @MigrateSource(
  *   id = "custom_eep"
