@@ -96,7 +96,7 @@ class D7WebformSubmission extends DrupalSqlBase {
     $submitted_data = array();
     foreach ($wf_submissions as $wf_submission) {
       $extra = unserialize($wf_submission['extra']);
-      if (!empty($extra['multiple'])) {
+      if (!empty($extra['multiple']) && strlen($wf_submission['data']) > 0) {
         $item[$wf_submission['no']] = $wf_submission['data'];
       }
       else {
