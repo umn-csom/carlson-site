@@ -12,8 +12,6 @@ use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 
 /**
  * Extract faculty from Drupal 7 database.
- * 
- * TODO: Figure out how to move over image data.
  *
  * @MigrateSource(
  *   id = "custom_faculty"
@@ -221,6 +219,12 @@ class FacultyProfile extends SqlBase {
       $row->setSourceProperty('faculty_status', $record->field_faculty_status_tid );
       $row->setSourceProperty('profile_status', $record->field_faculty_status_tid );
     }
+    
+    // alias
+    $alias = $this->_setAliasPath( $nid );
+    if ( !empty($alias) ) {
+      $row->setSourceProperty('alias', '/' . $alias);
+    }
 
     return parent::prepareRow($row);
   }
@@ -276,6 +280,12 @@ class FacultyProfile extends SqlBase {
   /**
    * Private Methods.
    */
+  private function _setAliasPath($nid) {
+    $query = $this->select('url_alias', 'ua')->fields('ua', ['alias']);
+    $query->condition('ua.source', 'node/' . $nid);
+    return $query->execute()->fetchField();
+  }
+
   private function _getCustomField($value, $nid) {
     $result = $this->getDatabase()->query('
       SELECT

@@ -1,5 +1,5 @@
-id: custom_user
-label: UMN Carlson - User Migration.
+id: custom_event
+label: UMN Carlson - Event Migration.
 migration_group: custom
 
 # define a forced module dependency. this will cause the migration definition to be reloaded
@@ -10,36 +10,26 @@ dependencies:
       - migrate_custom
 
 source:
-  plugin: custom_user
+  plugin: custom_event
   # The "target" here refers to the database connection where the source data lives.
   # You will need to configure this database in your settings.php.
   target: db_migration
 
 destination:
-  plugin: entity:user
+  plugin: entity:node
+  default_bundle: event
 
 process:
-  uid: uid
-  name: name
-  pass: pass
-  mail: mail
+  nid: nid
+  title: title
   status: status
   created: created
   changed: changed
-  access: access
-  login: login
-  timezone: timezone
-  langcode: language
-  preferred_langcode: language
-  preferred_admin_langcode: language
-  init: init
-
+  promote: promote
+  sticky: sticky
+  
   # Custom Fields
   'path/pathauto': 
     plugin: default_value
     default_value: 0 # Disable pathauto.
   'path/alias': alias
-  'field_about/0/value': user_about
-  'field_about/0/format':
-     plugin: default_value
-     default_value: rich_text

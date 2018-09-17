@@ -23,9 +23,16 @@ class User extends SqlBase {
    * {@inheritdoc}
    */
   public function query() {
-    return $this->select('users', 'u')
-      ->fields('u', array_keys($this->baseFields()))
-      ->condition('uid', 0, '>');
+    // Query.
+    $query = $this->select('users', 'u');
+
+    // Selections.
+    $query->leftjoin('field_data_field_user_about', 'n', 'n.entity_id = u.uid');
+
+    // Field Mappings.
+    $query->fields('u', array_keys( $this->baseFields() ) );
+
+    return $query;
   }
 
   /**
@@ -33,7 +40,8 @@ class User extends SqlBase {
    */
   public function fields() {
     $fields = $this->baseFields();
-    $fields['about'] = $this->t('About');
+    $fields['user_about'] = $this->t('user_about');
+    $fields['about'] = $this->t('about');
     return $fields;
   }
 
@@ -42,6 +50,20 @@ class User extends SqlBase {
    */
   public function prepareRow(Row $row) {
     $uid = $row->getSourceProperty('uid');
+
+    // user_about to about
+    $result = $this->_getCustomField( 'user_about', $uid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('user_about', $record->field_user_about_value );
+      $row->setSourceProperty('about', $record->field_user_about_value );
+    }
+
+    // alias
+    $alias = $this->_setAliasPath( $uid );
+    if ( !empty($alias) ) {
+      $row->setSourceProperty('alias', '/' . $alias);
+    
+    }
     return parent::prepareRow($row);
   }
 
@@ -98,5 +120,26 @@ class User extends SqlBase {
     return 'user';
   }
 
+  /**
+   * Private Methods.
+   */
+  private function _setAliasPath($uid) {
+    $query = $this->select('url_alias', 'ua')->fields('ua', ['alias']);
+    $query->condition('ua.source', 'user/' . $uid);
+    return $query->execute()->fetchField();
+  }
+
+  private function _getCustomField($value, $uid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_value
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :uid
+    ', array(':uid' => $uid));
+
+    return $result;
+  }
 }
 ?>

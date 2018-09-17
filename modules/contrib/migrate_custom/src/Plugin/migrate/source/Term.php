@@ -49,14 +49,24 @@ class Term extends SqlBase {
    * {@inheritdoc}
    */
   public function prepareRow(Row $row) {
+    // Define.
+    $tid = $row->getSourceProperty('tid');
+
     // Find parents for this row.
     $parents = $this->select('taxonomy_term_hierarchy', 'th')
       ->fields('th', array('parent', 'tid'))
-      ->condition('tid', $row->getSourceProperty('tid'))
+      ->condition('tid', $tid)
       ->execute()
       ->fetchCol();
     
     $row->setSourceProperty('parent', $parents);
+
+    // alias
+    $alias = $this->_setAliasPath( $tid );
+    if ( !empty($alias) ) {
+      $row->setSourceProperty('alias', '/' . $alias);
+    }
+
     return parent::prepareRow($row);
   }
  
@@ -67,5 +77,13 @@ class Term extends SqlBase {
     $ids['tid']['type'] = 'integer';
     return $ids;
   }
- 
+
+  /**
+   * Private Methods.
+   */
+  private function _setAliasPath($tid) {
+    $query = $this->select('url_alias', 'ua')->fields('ua', ['alias']);
+    $query->condition('ua.source', 'taxonomy/term/' . $tid);
+    return $query->execute()->fetchField();
+  }
 }
