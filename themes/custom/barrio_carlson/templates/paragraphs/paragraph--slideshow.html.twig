@@ -46,10 +46,15 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+{{ attach_library('barrio_carlson/slick') }}
+
 {% block paragraph %}
-  <div{{ attributes.addClass(classes) }}>
-    {% block content %}
-      {{ content }}
-    {% endblock %}
-  </div>
+  {% block content %}
+    <div class="slider-for">
+        {{ content }}
+    </div>
+    <div class="slider-nav">
+        {{ content }}
+    </div>
+  {% endblock %}
 {% endblock paragraph %}
