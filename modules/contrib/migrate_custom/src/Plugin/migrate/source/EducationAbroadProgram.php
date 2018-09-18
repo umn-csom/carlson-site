@@ -67,8 +67,8 @@ class EducationAbroadProgram extends SqlBase {
     // metatag
     $result = $this->_getMetaTags( $nid );
     foreach ($result as $record) {
-      $row->setSourceProperty('data', $record->data );
-      $row->setSourceProperty('metatag', $record->data );
+      $row->setSourceProperty('data', $record->data);
+      $row->setSourceProperty('metatag', $record->data);
     }
 
     return parent::prepareRow($row);
