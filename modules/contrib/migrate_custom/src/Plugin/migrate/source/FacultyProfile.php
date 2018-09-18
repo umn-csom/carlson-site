@@ -43,7 +43,6 @@ class FacultyProfile extends SqlBase {
     $query->leftjoin('field_data_field_faculty_department', 'm', 'm.entity_id = f.nid');
     $query->leftjoin('field_data_field_faculty_degree_program', 'n', 'n.entity_id = f.nid');
     $query->leftjoin('field_data_field_faculty_status', 'o', 'o.entity_id = f.nid');
-    $query->leftjoin('metatag', 'p', 'p.entity_id = f.nid');
 
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
@@ -96,9 +95,6 @@ class FacultyProfile extends SqlBase {
 
     $fields['faculty_status'] = $this->t('faculty_status');
     $fields['profile_status'] = $this->t('profile_status');
-
-    $fields['data'] = $this->t('data');
-    $fields['metatag'] = $this->t('metatag');
 
     return $fields;
   }
@@ -229,13 +225,6 @@ class FacultyProfile extends SqlBase {
       $row->setSourceProperty('alias', '/' . $alias);
     }
 
-    // metatag
-    $result = $this->_getMetaTags( $nid );
-    foreach ($result as $record) {
-      $row->setSourceProperty('data', $record->data);
-      $row->setSourceProperty('metatag', $record->data);
-    }
-
     return parent::prepareRow($row);
   }
 
@@ -294,18 +283,6 @@ class FacultyProfile extends SqlBase {
     $query = $this->select('url_alias', 'ua')->fields('ua', ['alias']);
     $query->condition('ua.source', 'node/' . $nid);
     return $query->execute()->fetchField();
-  }
-
-  private function _getMetaTags($nid) {
-    $result = $this->getDatabase()->query('
-      SELECT
-        fld.data
-      FROM
-        metatag fld
-      WHERE
-        fld.entity_id = :nid
-    ', array(':nid' => $nid));
-    return $result;
   }
 
   private function _getCustomField($value, $nid) {

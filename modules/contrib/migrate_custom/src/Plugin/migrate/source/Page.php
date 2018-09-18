@@ -29,7 +29,6 @@ class Page extends SqlBase {
 
     // Selections.
     $query->leftjoin('field_data_body', 'n', 'n.entity_id = f.nid');
-    $query->leftjoin('metatag', 'p', 'p.entity_id = f.nid');
 
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
@@ -44,9 +43,6 @@ class Page extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
     $fields['body'] = $this->t('body');
-    $fields['data'] = $this->t('data');
-    $fields['metatag'] = $this->t('metatag');
-
     return $fields;
   }
 
@@ -72,13 +68,6 @@ class Page extends SqlBase {
     $alias = $this->_setAliasPath( $nid );
     if ( !empty($alias) ) {
       $row->setSourceProperty('alias', '/' . $alias);
-    }
-
-    // metatag
-    $result = $this->_getMetaTags( $nid );
-    foreach ($result as $record) {
-      $row->setSourceProperty('data', $record->data );
-      $row->setSourceProperty('metatag', $record->data );
     }
 
     return parent::prepareRow($row);
@@ -141,18 +130,6 @@ class Page extends SqlBase {
     return $query->execute()->fetchField();
   }
 
-  private function _getMetaTags($nid) {
-    $result = $this->getDatabase()->query('
-      SELECT
-        fld.data
-      FROM
-        metatag fld
-      WHERE
-        fld.entity_id = :nid
-    ', array(':nid' => $nid));
-    return $result;
-  }
-  
   private function _getBody($nid) {
     $result = $this->getDatabase()->query('
       SELECT
