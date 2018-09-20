@@ -13,7 +13,137 @@ Markup: ../../../templates/components/footer.html.twig
 Style guide: components.footer
 */
 .container-footer{
+      background-color: #363230;
+      color: white;
   .footer-wrapper{
-    
+    background: none;
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+      .full-footer-wrapper {
+        max-width: 1200px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 15px;
+        padding-right: 15px;
+        font-family: "Lato";
+        .logo {
+          text-align: center;
+            > span {
+              position: relative;
+              display: inline-block;
+
+              &:after, &:before{
+                content: '';
+                position: absolute;
+                top: 50%;
+                border-bottom: 1.5px solid rgba(255,255,255,0.5);
+                width: 591px;
+                margin: 0 20px;
+                color: #ffffff;
+              }
+              &:before{
+                right: 100%;
+              }
+              &:after{
+                left: 100%;
+              }
+              .media, .media-body {
+                overflow: hidden;
+                zoom: 1;
+                margin-top: 0px;
+            }
+          }
+          img{
+            margin-bottom: 0px;
+            max-width: 100%;
+            height: auto;
+            vertical-align: bottom;
+          }
+        }
+        .flex-row{
+          box-sizing: border-box;
+          display: -webkit-flex;
+          display: -ms-flexbox;
+          display: -webkit-box;
+          display: flex;
+          -webkit-flex: 0 1 auto;
+          -ms-flex: 0 1 auto;
+          -webkit-box-flex: 0;
+          flex: 0 1 auto;
+          -webkit-flex-direction: row;
+          -ms-flex-direction: row;
+          -webkit-box-orient: horizontal;
+          -webkit-box-direction: normal;
+          flex-direction: row;
+          -webkit-flex-wrap: wrap;
+          -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+        }
+        .decorated {
+          overflow: hidden;
+          text-align: center;
+      }
+      .marg-bottom2 {
+          margin-bottom: 2rem !important;
+      }
+      p{
+        font-size: 14px;
+        color: white;
+      }
+      a{
+        font-size: 14px;
+        color: white;
+        &:hover{
+          text-decoration: underline;
+        }
+        &.gold{
+          color: #ffd75f !important;
+        }
+      }
+      .social-media {
+        list-style-type: none;
+        padding-left: 0;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 4px;
+        li{
+          display: inline-block;
+          align-items: center;
+          justify-content: center;
+          padding-right: 20px;
+        }
+      }
+      .links{
+        @media only screen and (max-width: 640px){
+          text-align: center;
+          float: none;
+        }
+        li{
+          margin-bottom: 5px;
+        }
+      }
+      .connect{
+        @media only screen and (max-width: 640px){
+          border: 1px solid rgba(255,255,255,0.1);
+          padding-top: 20px;
+          text-align: center;
+          // width: 60%;
+        }
+      }
+
+    }
   }
+}
+.field-name-field-media-tags, .field-name-field-oc-caption {
+    display: none;
+}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.marg-bottom {
+  margin-bottom: 1.5rem!important;
 }
