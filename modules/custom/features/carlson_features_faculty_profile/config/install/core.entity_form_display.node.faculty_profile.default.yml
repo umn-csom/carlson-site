@@ -2,7 +2,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - entity_browser.browser.media_browser
     - field.field.node.faculty_profile.body
     - field.field.node.faculty_profile.field_email
     - field.field.node.faculty_profile.field_first_name
@@ -25,11 +24,14 @@ dependencies:
     - field.field.node.faculty_profile.field_profile_title
     - field.field.node.faculty_profile.field_profile_url
     - field.field.node.faculty_profile.field_profile_works
+    - image.style.crop_profile_image_crop
     - node.type.faculty_profile
   module:
     - content_moderation
-    - entity_browser
     - field_group
+    - file
+    - image_widget_crop
+    - lightning_media
     - link
     - metatag
     - paragraphs
@@ -294,19 +296,12 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_profile_cvc:
-    type: entity_browser_entity_reference
-    weight: 19
+    weight: 35
     settings:
-      entity_browser: media_browser
-      field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
-      field_widget_display_settings:
-        view_mode: thumbnail
-      open: true
-    region: content
+      progress_indicator: throbber
     third_party_settings: {  }
+    type: file_generic
+    region: content
   field_profile_degrees:
     type: entity_reference_paragraphs
     weight: 26
@@ -336,19 +331,22 @@ content:
     type: link_default
     region: content
   field_profile_image:
-    type: entity_browser_entity_reference
-    weight: 33
+    type: image_widget_crop
+    weight: 36
     settings:
-      entity_browser: media_browser
-      field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      open: true
-      selection_mode: selection_append
-      field_widget_display_settings:
-        view_mode: thumbnail_profile
+      show_default_crop: true
+      warn_multiple_usages: true
+      preview_image_style: crop_profile_image_crop
+      crop_preview_image_style: cropped_profile_image
+      crop_list:
+        - profile_image_crop
+      progress_indicator: throbber
+      show_crop_area: false
     region: content
-    third_party_settings: {  }
+    third_party_settings:
+      lightning_media:
+        file_links: true
+        remove_button: true
   field_profile_job_candidate:
     weight: 32
     settings:
