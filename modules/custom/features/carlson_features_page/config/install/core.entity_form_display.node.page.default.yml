@@ -3,21 +3,17 @@ status: true
 dependencies:
   config:
     - entity_browser.browser.media_browser
-    - field.field.node.news.body
-    - field.field.node.news.field_flexible_features
-    - field.field.node.news.field_hero_media
-    - field.field.node.news.field_in_the_media
-    - field.field.node.news.field_in_the_media_source
-    - field.field.node.news.field_meta_tags
-    - field.field.node.news.field_news_channel_features
-    - field.field.node.news.field_news_channels
-    - field.field.node.news.field_sidebar_content
-    - node.type.news
+    - field.field.node.page.body
+    - field.field.node.page.field_cta_block
+    - field.field.node.page.field_flexible_features
+    - field.field.node.page.field_hero_media
+    - field.field.node.page.field_meta_tags
+    - field.field.node.page.panelizer
+    - node.type.page
   module:
     - content_moderation
     - entity_browser
     - field_group
-    - link
     - metatag
     - paragraphs
     - path
@@ -27,9 +23,8 @@ third_party_settings:
     group_content:
       children:
         - group_hero_media
-        - group_body_sidebar
+        - group_main_content
         - group_flexible_features
-        - group_in_the_media
         - group_administrative
       parent_name: ''
       weight: 0
@@ -39,6 +34,20 @@ third_party_settings:
         classes: ''
         direction: vertical
       label: Content
+      region: content
+    group_administrative:
+      children:
+        - field_cta_block
+      parent_name: group_content
+      weight: 16
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+      label: Administrative
       region: content
     group_hero_media:
       children:
@@ -55,22 +64,6 @@ third_party_settings:
         required_fields: true
       label: 'Hero Media'
       region: content
-    group_body_sidebar:
-      children:
-        - body
-        - field_sidebar_content
-      parent_name: group_content
-      weight: 14
-      format_type: tab
-      format_settings:
-        label: 'Body and Sidebar'
-        formatter: closed
-        description: ''
-        required_fields: true
-        id: ''
-        classes: ''
-      label: 'Body and Sidebar'
-      region: content
     group_flexible_features:
       children:
         - field_flexible_features
@@ -85,12 +78,11 @@ third_party_settings:
         required_fields: true
       label: 'Flexible Features'
       region: content
-    group_administrative:
+    group_main_content:
       children:
-        - field_news_channels
-        - field_news_channel_features
+        - body
       parent_name: group_content
-      weight: 17
+      weight: 14
       format_type: tab
       format_settings:
         id: ''
@@ -98,31 +90,16 @@ third_party_settings:
         formatter: closed
         description: ''
         required_fields: true
-      label: Administrative
+      label: 'Main Content'
       region: content
-    group_in_the_media:
-      children:
-        - field_in_the_media_source
-        - field_in_the_media
-      parent_name: group_content
-      weight: 16
-      format_type: tab
-      format_settings:
-        id: ''
-        classes: ''
-        formatter: closed
-        description: 'Some news items are used to highlight when Carlson is featured in the news.  Filling out these fields will promote the news item to be displayed on the "In the Media" page.'
-        required_fields: true
-      label: 'In the Media'
-      region: content
-id: node.news.default
+id: node.page.default
 targetEntityType: node
-bundle: news
+bundle: page
 mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 8
+    weight: 7
     settings:
       rows: 9
       summary_rows: 3
@@ -131,12 +108,18 @@ content:
     region: content
   created:
     type: datetime_timestamp
-    weight: 5
-    region: content
+    weight: 2
     settings: {  }
     third_party_settings: {  }
+    region: content
+  field_cta_block:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   field_flexible_features:
-    weight: 8
+    weight: 11
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -149,108 +132,73 @@ content:
     region: content
   field_hero_media:
     type: entity_browser_entity_reference
-    weight: 9
+    weight: 2
     settings:
       entity_browser: media_browser
       field_widget_display: rendered_entity
       field_widget_edit: true
       field_widget_remove: true
-      open: true
       selection_mode: selection_append
       field_widget_display_settings:
-        view_mode: full_hero
+        view_mode: thumbnail
+      open: true
     region: content
     third_party_settings: {  }
-  field_in_the_media:
-    weight: 4
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
-    type: link_default
-    region: content
-  field_in_the_media_source:
-    weight: 3
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_meta_tags:
-    weight: 11
-    settings: {  }
-    third_party_settings: {  }
     type: metatag_firehose
     region: content
-  field_news_channel_features:
-    weight: 10
+    weight: 8
     settings: {  }
     third_party_settings: {  }
-    type: options_buttons
-    region: content
-  field_news_channels:
-    weight: 9
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
-    region: content
-  field_sidebar_content:
-    weight: 9
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-    type: text_textarea
-    region: content
   moderation_state:
     type: moderation_state_default
-    weight: 9
+    weight: 7
     settings: {  }
     region: content
     third_party_settings: {  }
   path:
     type: path
-    weight: 8
-    region: content
+    weight: 5
     settings: {  }
     third_party_settings: {  }
+    region: content
   promote:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 6
-    region: content
+    weight: 3
     third_party_settings: {  }
+    region: content
   status:
     type: boolean_checkbox
+    weight: 6
     settings:
       display_label: true
-    weight: 10
-    region: content
     third_party_settings: {  }
+    region: content
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 7
-    region: content
+    weight: 4
     third_party_settings: {  }
+    region: content
   title:
     type: string_textfield
-    weight: 8
-    region: content
+    weight: 1
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+    region: content
   uid:
     type: entity_reference_autocomplete
-    weight: 4
+    weight: 1
     settings:
       match_operator: CONTAINS
       size: 60
       placeholder: ''
-    region: content
     third_party_settings: {  }
-hidden: {  }
+    region: content
+hidden:
+  panelizer: true

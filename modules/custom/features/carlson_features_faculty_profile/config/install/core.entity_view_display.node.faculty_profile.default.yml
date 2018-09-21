@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.faculty_profile.field_email
     - field.field.node.faculty_profile.field_first_name
     - field.field.node.faculty_profile.field_last_name
+    - field.field.node.faculty_profile.field_meta_tags
     - field.field.node.faculty_profile.field_middle_initial
     - field.field.node.faculty_profile.field_office_phone
     - field.field.node.faculty_profile.field_profile_activities
@@ -29,6 +30,7 @@ dependencies:
     - entity_reference_revisions
     - link
     - media
+    - metatag
     - panelizer
     - text
     - user
@@ -72,6 +74,13 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
+  field_meta_tags:
+    weight: 126
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   field_middle_initial:
     weight: 106
@@ -141,13 +150,16 @@ content:
     type: string
     region: content
   field_profile_expertise:
-    type: entity_reference_revisions_entity_view
-    weight: 120
+    weight: 125
     label: above
     settings:
-      view_mode: default
-      link: ''
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
     third_party_settings: {  }
+    type: link
     region: content
   field_profile_image:
     type: media_thumbnail
