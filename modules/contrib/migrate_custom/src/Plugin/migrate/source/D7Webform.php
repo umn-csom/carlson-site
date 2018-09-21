@@ -337,10 +337,16 @@ class D7Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
           if (!empty($extra['width'])) {
             $markup .= "$indent  '#size': " . $extra['size'] . "\n";
           }
+          if (!empty($extra['placeholder'])) {
+            $markup .= "$indent  '#placeholder': " . $extra['placeholder'] . "\n";
+          }
           break;
 
         case 'textarea':
           $markup .= "$indent  '#type': textarea\n";
+          if (!empty($extra['placeholder'])) {
+            $markup .= "$indent  '#placeholder': " . $extra['placeholder'] . "\n";
+          }
           break;
 
         case 'select':
@@ -367,6 +373,9 @@ class D7Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
 
         case 'email':
           $markup .= "$indent  '#type': email\n$indent  '#size': 20\n";
+          if (!empty($extra['placeholder'])) {
+            $markup .= "$indent  '#placeholder': " . $extra['placeholder'] . "\n";
+          }
           break;
 
         case 'number':
