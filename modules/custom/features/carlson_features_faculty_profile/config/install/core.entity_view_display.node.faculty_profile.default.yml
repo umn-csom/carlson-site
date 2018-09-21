@@ -28,8 +28,9 @@ dependencies:
     - node.type.faculty_profile
   module:
     - entity_reference_revisions
+    - file
+    - image
     - link
-    - media
     - metatag
     - panelizer
     - text
@@ -124,13 +125,12 @@ content:
     type: entity_reference_label
     region: content
   field_profile_cvc:
-    type: entity_reference_entity_view
-    weight: 113
+    weight: 127
     label: above
     settings:
-      view_mode: default
-      link: false
+      use_description_as_link_text: true
     third_party_settings: {  }
+    type: file_default
     region: content
   field_profile_degrees:
     type: entity_reference_revisions_entity_view
@@ -162,13 +162,13 @@ content:
     type: link
     region: content
   field_profile_image:
-    type: media_thumbnail
-    weight: 124
+    weight: 128
     label: above
     settings:
       image_style: cropped_profile_image
       image_link: ''
     third_party_settings: {  }
+    type: image
     region: content
   field_profile_job_candidate:
     weight: 114
