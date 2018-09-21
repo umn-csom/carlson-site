@@ -308,10 +308,10 @@ class D7Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
               $option = explode('|', $item);
               $valid_options[] = $option[0];
               if (count($option) == 2) {
-                $options .= "$indent$ingroup    " . $option[0] . ": " . $option[1] . "\n";
+                $options .= "$indent$ingroup    " . $option[0] . ": \"" . $option[1] . "\"\n";
               }
               else {
-                $options .= "$indent$ingroup    " . $option[0] . ": " . $option[0] . "\n";
+                $options .= "$indent$ingroup    " . $option[0] . ": \"" . $option[0] . "\"\n";
               }
             }
           }
@@ -364,6 +364,7 @@ class D7Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
           else {
             $select_type = 'radios';
           }
+
           $markup .= "$indent  '#type': $select_type\n";
           $markup .= "$indent  '#options':\n" . $options;
           if (!empty($extra['multiple'])) {
@@ -486,7 +487,7 @@ class D7Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
         $markup .= "$indent  '#title_display': " . $title_display . "\n";
       }
       if ($element['type'] != 'pagebreak') {
-        $markup .= "$indent  '#title': " . $element['name'] . "\n";
+        $markup .= "$indent  '#title': \"" . $element['name'] . "\"\n";
         $markup .= "$indent  '#description': \"" . $description . "\"\n";
       }
       if (!empty($element['required'])) {
