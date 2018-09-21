@@ -2,14 +2,10 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.profile_expertise.field_expertise_desc
-    - field.field.paragraph.profile_expertise.field_expertise_link
     - paragraphs.paragraphs_type.profile_expertise
   module:
     - content_moderation
     - field_group
-    - link
-    - text
 third_party_settings:
   field_group:
     group_expertise:
@@ -31,22 +27,6 @@ targetEntityType: paragraph
 bundle: profile_expertise
 mode: default
 content:
-  field_expertise_desc:
-    weight: 2
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-    type: text_textarea
-    region: content
-  field_expertise_link:
-    weight: 3
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
-    type: link_default
-    region: content
   moderation_state:
     type: moderation_state_default
     weight: 1

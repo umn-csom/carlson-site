@@ -4,7 +4,7 @@ dependencies:
   config:
     - field.field.paragraph.slide.field_slide_caption
     - field.field.paragraph.slide.field_slide_image
-    - image.style.slick_media
+    - image.style.slider_images
     - paragraphs.paragraphs_type.slide
   module:
     - media
@@ -15,7 +15,7 @@ mode: default
 content:
   field_slide_caption:
     weight: 1
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     type: basic_string
@@ -23,10 +23,10 @@ content:
   field_slide_image:
     type: media_thumbnail
     weight: 0
+    region: content
     label: hidden
     settings:
-      image_style: slick_media
+      image_style: slider_images
       image_link: ''
     third_party_settings: {  }
-    region: content
 hidden: {  }

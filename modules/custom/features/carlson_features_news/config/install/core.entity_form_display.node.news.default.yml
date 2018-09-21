@@ -6,6 +6,9 @@ dependencies:
     - field.field.node.news.body
     - field.field.node.news.field_flexible_features
     - field.field.node.news.field_hero_media
+    - field.field.node.news.field_in_the_media
+    - field.field.node.news.field_in_the_media_source
+    - field.field.node.news.field_meta_tags
     - field.field.node.news.field_news_channel_features
     - field.field.node.news.field_news_channels
     - field.field.node.news.field_sidebar_content
@@ -14,6 +17,8 @@ dependencies:
     - content_moderation
     - entity_browser
     - field_group
+    - link
+    - metatag
     - paragraphs
     - path
     - text
@@ -24,6 +29,7 @@ third_party_settings:
         - group_hero_media
         - group_body_sidebar
         - group_flexible_features
+        - group_in_the_media
         - group_administrative
       parent_name: ''
       weight: 0
@@ -84,7 +90,7 @@ third_party_settings:
         - field_news_channels
         - field_news_channel_features
       parent_name: group_content
-      weight: 16
+      weight: 17
       format_type: tab
       format_settings:
         id: ''
@@ -93,6 +99,21 @@ third_party_settings:
         description: ''
         required_fields: true
       label: Administrative
+      region: content
+    group_in_the_media:
+      children:
+        - field_in_the_media_source
+        - field_in_the_media
+      parent_name: group_content
+      weight: 16
+      format_type: tab
+      format_settings:
+        id: ''
+        classes: ''
+        formatter: closed
+        description: 'Some news items are used to highlight when Carlson is featured in the news.  Filling out these fields will promote the news item to be displayed on the "In the Media" page.'
+        required_fields: true
+      label: 'In the Media'
       region: content
 id: node.news.default
 targetEntityType: node
@@ -110,7 +131,7 @@ content:
     region: content
   created:
     type: datetime_timestamp
-    weight: 2
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -140,6 +161,28 @@ content:
         view_mode: full_hero
     region: content
     third_party_settings: {  }
+  field_in_the_media:
+    weight: 4
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_in_the_media_source:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_meta_tags:
+    weight: 11
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_firehose
+    region: content
   field_news_channel_features:
     weight: 10
     settings: {  }
@@ -162,13 +205,13 @@ content:
     region: content
   moderation_state:
     type: moderation_state_default
-    weight: 7
+    weight: 9
     settings: {  }
     region: content
     third_party_settings: {  }
   path:
     type: path
-    weight: 6
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -176,21 +219,21 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 4
+    weight: 6
     region: content
     third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 8
+    weight: 10
     region: content
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 5
+    weight: 7
     region: content
     third_party_settings: {  }
   title:
@@ -203,7 +246,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 1
+    weight: 4
     settings:
       match_operator: CONTAINS
       size: 60

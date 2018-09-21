@@ -1,0 +1,81 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_flexible_features
+    - node.type.page
+    - paragraphs.paragraphs_type.fluid_columns
+    - paragraphs.paragraphs_type.quote
+    - paragraphs.paragraphs_type.quote_group
+    - paragraphs.paragraphs_type.statistics
+  module:
+    - entity_reference_revisions
+id: node.page.field_flexible_features
+field_name: field_flexible_features
+entity_type: node
+bundle: page
+label: 'Flexible Features'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      fluid_columns: fluid_columns
+      quote: quote
+      quote_group: quote_group
+      statistics: statistics
+    target_bundles_drag_drop:
+      basic_paragraph:
+        weight: 15
+        enabled: false
+      carlson_advantage:
+        weight: 16
+        enabled: false
+      profile_activity:
+        weight: 17
+        enabled: false
+      profile_degree:
+        weight: 18
+        enabled: false
+      column:
+        weight: 19
+        enabled: false
+      profile_expertise:
+        weight: 19
+        enabled: false
+      fluid_columns:
+        enabled: true
+        weight: 20
+      profile_selected_works:
+        weight: 20
+        enabled: false
+      program_cta:
+        weight: 21
+        enabled: false
+      quote:
+        enabled: true
+        weight: 22
+      quote_group:
+        enabled: true
+        weight: 23
+      slide:
+        weight: 24
+        enabled: false
+      slideshow:
+        weight: 25
+        enabled: false
+      statistic:
+        weight: 26
+        enabled: false
+      statistics:
+        enabled: true
+        weight: 27
+      video:
+        weight: 28
+        enabled: false
+field_type: entity_reference_revisions

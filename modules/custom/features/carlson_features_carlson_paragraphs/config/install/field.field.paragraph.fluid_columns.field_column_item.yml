@@ -1,0 +1,75 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_column_item
+    - paragraphs.paragraphs_type.column
+    - paragraphs.paragraphs_type.fluid_columns
+  module:
+    - entity_reference_revisions
+id: paragraph.fluid_columns.field_column_item
+field_name: field_column_item
+entity_type: paragraph
+bundle: fluid_columns
+label: 'Column Item'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      column: column
+    target_bundles_drag_drop:
+      basic_paragraph:
+        weight: 17
+        enabled: false
+      carlson_advantage:
+        weight: 18
+        enabled: false
+      column:
+        enabled: true
+        weight: 19
+      fluid_columns:
+        weight: 20
+        enabled: false
+      profile_activity:
+        weight: 21
+        enabled: false
+      profile_degree:
+        weight: 22
+        enabled: false
+      profile_expertise:
+        weight: 23
+        enabled: false
+      profile_selected_works:
+        weight: 24
+        enabled: false
+      program_cta:
+        weight: 25
+        enabled: false
+      quote:
+        weight: 26
+        enabled: false
+      quote_group:
+        weight: 27
+        enabled: false
+      slide:
+        weight: 28
+        enabled: false
+      slideshow:
+        weight: 29
+        enabled: false
+      statistic:
+        weight: 30
+        enabled: false
+      statistics:
+        weight: 31
+        enabled: false
+      video:
+        weight: 32
+        enabled: false
+field_type: entity_reference_revisions

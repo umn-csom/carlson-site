@@ -2,14 +2,18 @@
   <div class="bs-component hero-home">
     <div class="content-container">
       <div class="col-md-8 col-sm-8 content-wrapper">
-        <h2>{{ heading | default('Placeholder')}}</h2>
+        <h2>{{ heading | default('A Heading here')}}</h2>
       </div>
       <div class="col-md-3 col-sm-6">
-        {{ sub_head | default('<p>Placeholder</p>') | raw }}
+        {{ sub_head | default('<p>A sub-heading text that is longer goes here.</p>') | raw }}
       </div>
     </div>
     <div class="col-md-10 img-wrapper img-fluid">
-      {{ img_src | default('<img src="http://placekitten.com/592/412"/>') | raw}}
+      {% if img_src is defined %}
+       {{ img_src | raw }}
+      {% else %}
+        <img src="{{ base_path ~ directory }}/images/placeholders/1290x500.jpg"/>
+      {% endif %}
     </div>
   </div>
 </section>

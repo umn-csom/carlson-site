@@ -1,0 +1,73 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.cta_block
+    - field.field.block_content.cta_block.body
+    - field.field.block_content.cta_block.field_cta_link
+  module:
+    - content_moderation
+    - field_group
+    - paragraphs
+third_party_settings:
+  field_group:
+    group_cta_links:
+      children:
+        - field_cta_link
+      parent_name: group_content
+      weight: 3
+      format_type: tab
+      format_settings:
+        label: 'CTA Links'
+        formatter: open
+        description: ''
+        required_fields: true
+        id: ''
+        classes: ''
+      label: 'CTA Links'
+      region: content
+    group_content:
+      children:
+        - group_cta_links
+      parent_name: ''
+      weight: 2
+      format_type: tabs
+      format_settings:
+        id: ''
+        classes: ''
+        direction: vertical
+      label: Content
+      region: content
+id: block_content.cta_block.default
+targetEntityType: block_content
+bundle: cta_block
+mode: default
+content:
+  field_cta_link:
+    type: entity_reference_paragraphs
+    weight: 3
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  info:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 1
+    settings: {  }
+    region: content
+    third_party_settings: {  }
+hidden:
+  body: true
