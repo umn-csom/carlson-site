@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Default theme implementation to display a paragraph.
+ * Theme template for cutom "CTA block" type links (paragraph bundle)
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -46,10 +46,15 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+
 {% block paragraph %}
   <div{{ attributes.addClass(classes) }}>
     {% block content %}
-
+      {% if '1' in content.field_show_in_modal[0] %}
+          <a class="use-ajax" data-dialog-type="modal" href="{{ content.field_link.0['#url'] }}">{{ content.field_link.0['#title'] }}</a>
+      {% else %}
+          {{ content.field_link }}
+      {% endif %}
     {% endblock %}
   </div>
 {% endblock paragraph %}

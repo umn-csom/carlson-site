@@ -2,15 +2,18 @@ langcode: en
 status: true
 dependencies:
   module:
-    - media
+    - file
     - node
 id: node.field_profile_cvc
 field_name: field_profile_cvc
 entity_type: node
-type: entity_reference
+type: file
 settings:
-  target_type: media
-module: core
+  display_field: false
+  display_default: false
+  uri_scheme: public
+  target_type: file
+module: file
 locked: false
 cardinality: 1
 translatable: true
