@@ -72,60 +72,34 @@
     'clearfix',
   ]
 %}
+
 <article{{ attributes.addClass(classes) }}>
-  <header>
-    {{ title_prefix }}
-    {% if not page %}
-      <h2{{ title_attributes.addClass('node__title') }}>
-        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-      </h2>
-    {% endif %}
-    {{ title_suffix }}
-
-  </header>
-  <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
-
-    {# Render the component that takes the data for title, hero_img, contact info, education and expertise #}
-    <section class="row">
-      <div class="col-md-6">
-        {{ content.hero_img }}
-        <div class="contact-info">
-          <h2>Contact:</h2>
-          <p>{{ content.field_office_phone }}</p>
-          <p>{{ content.field_profile_address }}</p>
-          <p>{{ content.field_profile_url }}</p>
-          <p>{{ content.field_profile_cvc }}</p>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'faculty-profile', 'container') }}>
+    <section class="faculty-profile__top">
+      <div class="row justify-content-center">
+        <div class="col-lg-4">
+          <div class="faculty-profile__bio-img">
+            <img src="{{ node.field_profile_image.entity.uri.value | image_style('crop_profile_image_crop') }}" />
+          </div>
+        </div>
+        <div class="col-lg-8">
+            <h1 class="faculty-profile__name">
+              {{ node.label }}
+            </h1>
+            <div class="faculty-profile__job-title">
+              {{ content.field_profile_title|field_value }}
+            </div>
+            <div class="faculty-profile__dept">
+              {{ content.field_profile_dept|field_value }}
+            </div>
+            <div class="faculty-profile__bio-summary">
+              {{ node.body.summary }}
+            </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <h1>{{ label }}</h1>
-        <p class="">{{ content.field_profile_title }}</p>
-        <p class="">{{ content.field_profile_dept }}</p>
-        <p class="">{{ content.body.summary }}</p>
+      <div class="row">
+
       </div>
     </section>
-
-    <section>
-      {# Render the node.body #}
-      <h2>About {{ content.field_first_name }}</h2>
-      {{ content.body }}
-    </section>
-
-    <div>
-      <h2>Selected Works & Activities</h2>
-      <p>fdsfldsjlfkjsd</p>
-      {# Render Selected works paragraphs as an accodion #}
-
-      <div class="accodion-wrapper">
-        <div class="accodion-item">
-          {{ content.field_profile_works }}
-        </div>
-        <div class="accordion-item">
-          {{ content.field_profile_activities }}
-        </div>
-      </div>
-
-      {# Render Current Activities paragraphs as an accodion #}
-
-    </div>
+  </div>
 </article>
