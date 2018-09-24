@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Default theme implementation to display a paragraph.
+ * Theme implementation for program_cta paragraphs used in news.
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -38,6 +38,7 @@
  * @ingroup themeable
  */
 #}
+
 {%
   set classes = [
     'paragraph',
@@ -46,16 +47,15 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-{# Include hte slick JS for this component #}
-{{ attach_library('barrio_carlson/slick') }}
-
 {% block paragraph %}
-  {% block content %}
-    <div class="slider-for">
-        {{ content }}
-    </div>
-    <div class="slider-nav">
-        {{ content }}
-    </div>
-  {% endblock %}
+    {% block content %}
+      <div class="row">
+        <div class="col-md-6">
+          {{ content.field_heading }}
+        </div>
+        <div class="col-md-6">
+          <a href="/node/{{ content.field_program_cta_link[0] }}">{{ content.field_program_cta_text }}</a>
+        </div>
+      </div>
+    {% endblock %}
 {% endblock paragraph %}

@@ -72,6 +72,11 @@
     'clearfix',
   ]
 %}
+{% if node.field_hero_media.value %}
+  {% 
+    set img = content.field_hero_media
+  %}
+{% endif %}
 <article{{ attributes.addClass(classes) }}>
   <header>
     {{ title_prefix }}
@@ -82,29 +87,31 @@
     {% endif %}
     {{ title_suffix }}
 
-    {% if node.field_hero_media.value %}
-      {% include directory ~ '/templates/components/hero-basic.html.twig' with 
-        {
-            'heading': node.label, 
-            'img_src': content.field_hero_media,
-            'published_on': date,
-            'author': author_name,
-        } 
-      %}
-    {% endif %}
+    {# Render hero with hero-basic component #}
+    {% include directory ~ '/templates/components/hero-basic.html.twig' with 
+      {
+          'heading': node.label, 
+          'img_src': img,
+          'published_on': date,
+          'author': author_name,
+      } 
+    %}
 
   </header>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
+    
+    {# Body and side bar #}
     <section class="row">
       <div class="col-md-9">
-        {# Body and side bar #}
         {{ content.body }}
       </div>
       <div class="col-md-3">
         {{ content.field_sidebar_content }}
       </div>
     </section>
-    
+
+    {# Flexible features are rendered through the paragraph templates specific to the feature #}
     {{ content.field_flexible_features }}
+    
   </div>
 </article>
