@@ -1277,15 +1277,15 @@
   <div class="bs-component hero-home">
     <div class="content-container">
       <div class="col-md-8 col-sm-8 content-wrapper">
-        <h2>Placeholder</h2>
+        <h2>A Heading here</h2>
       </div>
       <div class="col-md-3 col-sm-6">
-        <p>Placeholder</p>
+        <p>A sub-heading text that is longer goes here.</p>
       </div>
     </div>
     <div class="col-md-10 img-wrapper img-fluid">
-      <img src="http://placekitten.com/592/412"/>
-    </div>
+              <img src="/images/placeholders/1290x500.jpg"/>
+          </div>
   </div>
 </section>
 
@@ -1301,14 +1301,18 @@
   &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;bs-component hero-home&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;content-container&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-md-8 col-sm-8 content-wrapper&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ heading | default(&#039;Placeholder&#039;)}}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ heading | default(&#039;A Heading here&#039;)}}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-md-3 col-sm-6&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-        &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ sub_head | default(&#039;&amp;lt;p&amp;gt;Placeholder&amp;lt;/p&amp;gt;&#039;) | raw }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ sub_head | default(&#039;&amp;lt;p&amp;gt;A sub-heading text that is longer goes here.&amp;lt;/p&amp;gt;&#039;) | raw }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-md-10 img-wrapper img-fluid&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-      &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ img_src | default(&#039;&amp;lt;img src=&quot;http://placekitten.com/592/412&quot;/&amp;gt;&#039;) | raw}}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; img_src is defined %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+       &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ img_src | raw }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;else&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ base_path ~ directory }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&lt;span class=&quot;hljs-string&quot;&gt;/images/placeholders/1290x500.jpg&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;
+      &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;section&lt;/span&gt;&amp;gt;&lt;/span&gt;
