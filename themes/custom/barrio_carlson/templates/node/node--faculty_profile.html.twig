@@ -70,13 +70,14 @@
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
     'clearfix',
+    'container',
   ]
 %}
 
 <article{{ attributes.addClass(classes) }}>
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'faculty-profile', 'container') }}>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'faculty-profile') }}>
     <section class="faculty-profile__top">
-      <div class="row justify-content-center">
+      <div class="row">
         <div class="col-lg-4">
           <div class="faculty-profile__bio-img">
             <img src="{{ node.field_profile_image.entity.uri.value | image_style('crop_profile_image_crop') }}" />
