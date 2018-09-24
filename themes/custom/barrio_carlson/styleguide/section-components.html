@@ -576,7 +576,7 @@
 
           
           <div class="kss-modifier__example">
-            <section>
+            <section class="row">
   <div class="col-sm-6 col-centered">
     <div class="centered-text-block">
       <div class="title-wrapper">
@@ -597,7 +597,7 @@
             <summary>
                               Markup: <code>../templates/components/centered-text-block.html.twig</code>
                           </summary>
-            <pre class="hljs"><code class="language-twig">&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;section&lt;/span&gt;&amp;gt;&lt;/span&gt;
+            <pre class="hljs"><code class="language-twig">&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;section&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;row&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-sm-6 col-centered&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;centered-text-block&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;title-wrapper&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
@@ -1149,8 +1149,8 @@
             <section>
     <div class="bs-component hero-basic">
       <div class="col-md-12 img-wrapper">
-        <img src="http://placekitten.com/592/412"/>
-      </div>
+                  <img src="/images/placeholders/1290x500.jpg"/>
+              </div>
       <div class="col-10 col-md-10 content-wrapper">
         <h1>Using Business to Fight for Human Rights</h1>
         <div class="row">
@@ -1176,7 +1176,11 @@
             <pre class="hljs"><code class="language-twig">&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;section&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;bs-component hero-basic&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-md-12 img-wrapper&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-        &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ img_src | default(&#039;&amp;lt;img src=&quot;http://placekitten.com/592/412&quot;/&amp;gt;&#039;) | raw}}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; img_src is defined %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+         &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ img_src | raw }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;else&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ base_path ~ directory }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&lt;span class=&quot;hljs-string&quot;&gt;/images/placeholders/1290x500.jpg&quot;&lt;/span&gt;/&amp;gt;&lt;/span&gt;
+        &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-10 col-md-10 content-wrapper&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h1&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ heading | default(&#039;Using Business to Fight for Human Rights&#039;)}}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h1&lt;/span&gt;&amp;gt;&lt;/span&gt;

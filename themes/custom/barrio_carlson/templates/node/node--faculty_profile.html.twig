@@ -80,18 +80,52 @@
         <a href="{{ url }}" rel="bookmark">{{ label }}</a>
       </h2>
     {% endif %}
-    {{ title_suffix }}    
+    {{ title_suffix }}
+
   </header>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
-    {# Home hero #}
-    {% include directory ~ '/templates/components/hero-home.html.twig' with 
-        {
-            'heading': node.label, 
-            'sub_head': node.field_sub_heading.value,
-            'img_src': content.field_hero_media,
-        } 
-    %}
-    {# Home Flexible feature paragraphs #}
-    {{ content.field_flexible_features }}
-  </div>
+
+    {# Render the component that takes the data for title, hero_img, contact info, education and expertise #}
+    <section class="row">
+      <div class="col-md-6">
+        {{ content.hero_img }}
+        <div class="contact-info">
+          <h2>Contact:</h2>
+          <p>{{ content.field_office_phone }}</p>
+          <p>{{ content.field_profile_address }}</p>
+          <p>{{ content.field_profile_url }}</p>
+          <p>{{ content.field_profile_cvc }}</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h1>{{ label }}</h1>
+        <p class="">{{ content.field_profile_title }}</p>
+        <p class="">{{ content.field_profile_dept }}</p>
+        <p class="">{{ content.body.summary }}</p>
+      </div>
+    </section>
+
+    <section>
+      {# Render the node.body #}
+      <h2>About {{ content.field_first_name }}</h2>
+      {{ content.body }}
+    </section>
+
+    <div>
+      <h2>Selected Works & Activities</h2>
+      <p>fdsfldsjlfkjsd</p>
+      {# Render Selected works paragraphs as an accodion #}
+
+      <div class="accodion-wrapper">
+        <div class="accodion-item">
+          {{ content.field_profile_works }}
+        </div>
+        <div class="accordion-item">
+          {{ content.field_profile_activities }}
+        </div>
+      </div>
+
+      {# Render Current Activities paragraphs as an accodion #}
+
+    </div>
 </article>

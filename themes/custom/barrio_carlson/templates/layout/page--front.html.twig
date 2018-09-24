@@ -112,20 +112,24 @@
           {{ page.breadcrumb }}
           <div class="row row-offcanvas row-offcanvas-left clearfix">
             <main{{ content_attributes }}>
-              <section class="section">
                 <a id="main-content" tabindex="-1"></a>
                 <div class="alert success">
                   <p>During development the frontpage is being used for testing components. To see the node that will become the homepage see /node/[TBD]</p>
                 </div>
                 {# Start import of twig components #}
+                {% include directory ~ '/templates/components/hero-basic.html.twig' %}
+
+                {% include directory ~ '/templates/components/hero-basic-noimg.html.twig' %}
+                
                 {% include directory ~ '/templates/components/hero-home.html.twig' %}
 
                 {% include directory ~ '/templates/components/stats.html.twig' %}
 
                 {% include directory ~ '/templates/components/centered-text-block.html.twig' %}
 
+                {% include directory ~ '/templates/components/magazine.html.twig' %}
+
                 {# End import of twig components #}
-              </section>
             </main>
 
             {# Only rendered if something is placed in this region #}  
