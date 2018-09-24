@@ -1,7 +1,11 @@
 <section>
     <div class="bs-component hero-basic">
       <div class="col-md-12 img-wrapper">
-        {{ img_src | default('<img src="http://placekitten.com/592/412"/>') | raw}}
+        {% if img_src is defined %}
+         {{ img_src | raw }}
+        {% else %}
+          <img src="{{ base_path ~ directory }}/images/placeholders/1290x500.jpg"/>
+        {% endif %}
       </div>
       <div class="col-10 col-md-10 content-wrapper">
         <h1>{{ heading | default('Using Business to Fight for Human Rights')}}</h1>

@@ -83,13 +83,15 @@
     {{ title_suffix }}    
   </header>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
-   {% include directory ~ '/templates/components/hero-home.html.twig' with 
+    {# Home hero #}
+    {% include directory ~ '/templates/components/hero-home.html.twig' with 
         {
             'heading': node.label, 
             'sub_head': node.field_sub_heading.value,
             'img_src': content.field_hero_media,
         } 
     %}
+    {# Home Flexible feature paragraphs #}
     {{ content.field_flexible_features }}
   </div>
 </article>
