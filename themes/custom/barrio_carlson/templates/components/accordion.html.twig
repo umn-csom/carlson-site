@@ -1,3 +1,22 @@
+{% 
+    set accordion_data_sample = [
+        {
+            'label': 'Item 1',
+            'markup': '<li>Item 1 - Sub Item 1</li><li>Item 1 - Sub Item 2</li><li>Item 1 - Sub Item 3</li>',
+            'wrapper': '<ul class="something">'
+        },
+        {
+            'label': 'Item 2',
+            'markup': '<li>Item 2 - Sub Item 1</li>',
+            'wrapper': '<ul class="something">'
+        }
+    ]
+%}
+
+{% if accordion_data is empty %}
+    {% set accordion_data = accordion_data_sample %}
+{% endif %}
+
 <div class="accordion" id="accordion-list">
     {% set inc = 0 %}
     {% for item in accordion_data %}
