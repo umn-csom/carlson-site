@@ -7248,26 +7248,28 @@ Markup: ../../../templates/components/hero-home.html.twig
 
 Style guide: components.hero-home
 */
-.hero-home {
+.hero-home .row {
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
   width: 100%; }
-  .hero-home .img-wrapper {
+  .hero-home .row .img-wrapper {
     background-color: #d8d8d8;
     padding: 0px; }
-    .hero-home .img-wrapper img {
+    .hero-home .row .img-wrapper img {
       width: 100%;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
       box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3); }
-  .hero-home .content-container {
+  .hero-home .row .content-container {
     position: absolute;
     background: transparent;
     left: 0;
     z-index: 100;
-    width: 100%; }
-    .hero-home .content-container .content-wrapper h2 {
+    width: 100%;
+    display: flex;
+    flex-direction: column; }
+    .hero-home .row .content-container .content-wrapper h2 {
       color: #363230;
       font-family: "Crimson Text";
       font-size: 3.8rem;
@@ -7275,29 +7277,29 @@ Style guide: components.hero-home
       line-height: 3.8rem;
       position: relative;
       margin-bottom: 30px; }
-      .hero-home .content-container .content-wrapper h2:after {
+      .hero-home .row .content-container .content-wrapper h2:after {
         content: '';
         height: 2px;
         width: 100px;
         display: block;
         background: #7a0019; }
-    .hero-home .content-container .content-wrapper .post-col {
+    .hero-home .row .content-container .content-wrapper .post-col {
       float: left; }
-      .hero-home .content-container .content-wrapper .post-col .date {
+      .hero-home .row .content-container .content-wrapper .post-col .date {
         font-weight: 700;
         color: #363230;
         font-family: "Lato";
         font-size: 16px;
         font-style: italic; }
-      .hero-home .content-container .content-wrapper .post-col .author {
+      .hero-home .row .content-container .content-wrapper .post-col .author {
         font-weight: 400;
         color: #363230;
         font-family: "Lato";
         font-size: 16px;
         font-style: italic; }
-    .hero-home .content-container .content-wrapper .share-col {
+    .hero-home .row .content-container .content-wrapper .share-col {
       float: left; }
-      .hero-home .content-container .content-wrapper .share-col .share-this {
+      .hero-home .row .content-container .content-wrapper .share-col .share-this {
         color: #363230;
         font-family: "Lato";
         font-size: 16px;
@@ -7703,6 +7705,10 @@ Style guide: components.footer
           float: none; } }
       .container-footer .footer-wrapper .full-footer-wrapper .links li {
         margin-bottom: 5px; }
+        @media (min-width: 768px) {
+          .container-footer .footer-wrapper .full-footer-wrapper .links li a {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important; } }
       @media only screen and (max-width: 640px) {
         .container-footer .footer-wrapper .full-footer-wrapper .connect {
           border: 1px solid rgba(255, 255, 255, 0.1);
