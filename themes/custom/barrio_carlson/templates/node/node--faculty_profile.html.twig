@@ -79,28 +79,107 @@
     <section class="faculty-profile__top">
       <div class="row">
         <div class="col-lg-4">
-          <div class="faculty-profile__bio-img">
+          <div class="faculty-profile__top--headshot">
             <img src="{{ node.field_profile_image.entity.uri.value | image_style('crop_profile_image_crop') }}" />
           </div>
         </div>
         <div class="col-lg-8">
-            <h1 class="faculty-profile__name">
+            <h1 class="faculty-profile__top--name">
               {{ node.label }}
             </h1>
-            <div class="faculty-profile__job-title">
-              {{ content.field_profile_title|field_value }}
+            <div class="faculty-profile__top--title">
+              {% if content.field_profile_title|field_value is not empty %}
+                {{ content.field_profile_title|field_value }}
+              {% endif %}
             </div>
-            <div class="faculty-profile__dept">
+            <div class="faculty-profile__top--dept">
               {{ content.field_profile_dept|field_value }}
             </div>
-            <div class="faculty-profile__bio-summary">
-              {{ node.body.summary }}
+            <div class="faculty-profile__top--summary">
+              {% if node.body.summary is not empty %}
+                {{ node.body.summary }}
+              {% endif %}
             </div>
         </div>
       </div>
       <div class="row">
+          <div class="col-lg-4 faculty-profile__contact">
+            {% if content.field_profile_address|field_value is not empty %}
+              <h2>Contact</h2>
+  
+              {% if content.field_office_phone|field_value is not empty %}
+                <a class="faculty-profile__contact--phone" 
+                  href="tel:{{ content.field_office_phone|field_value }}">
+                  {{ content.field_office_phone|field_value }}
+                </a>
+              {% endif %}
+              
+              <div class="faculty-profile__contact--address">
+                {{ content.field_profile_address|field_value }}
+              </div>
+              
+              {% if content.field_email|field_value is not empty %}
+                <div class="faculty-profile__contact--email">
+                  <a href="mailto:{{ content.field_email|field_value }}">
+                    {{ content.field_email|field_value }}
+                  </a>
+                </div>
+              {% endif %}
+              
+              {% if content.field_profile_url|field_value is not empty %}
+                <div class="faculty-profile__contact--link">
+                    {{ content.field_profile_url|field_value }}
+                </div>
+              {% endif %}
 
+            {% endif %}
+          </div>
+          <div class="col-lg-8">
+            <div class="row">
+              <div class="col-lg-6">
+                {% if content.field_profile_degrees|field_value is not empty %}
+                  <h2>Education:</h2>
+                  <ul class="faculty-profile__education">
+                      {{ content.field_profile_degrees|field_value }}
+                  </ul>
+                {% endif %}
+              </div>
+              <div class="col-lg-6">
+                {% if content.field_profile_expertise|field_value is not empty %}
+                  <h2>Expertise:</h2>
+                  <ul class="faculty-profile__expertise">
+                      {{ content.field_profile_expertise|field_value }}
+                  </ul>
+                {% endif %}
+              </div>
+            </div>
+          </div>
       </div>
     </section>
+
+    {% if node.body.value|raw is not empty %}
+      <section class="faculty-profile__about">
+          <div class="row">
+              <div class="col-12">
+                <h2>About {{ content.field_first_name|field_value }}</h2>
+                <div class="faculty-profile__about--summary">
+                  {{ node.body.value|raw }}
+                </div>
+              </div>
+          </div>
+      </section>
+    {% endif %}
+
+    <hr />
+
+    <section class="faculty-profile__works">
+        <div class="row">
+            <div class="col-12 text-center">
+              <h2>Selected Works & Activities.</h2>
+              <p>Browse some of my work and see what I’ve been up to.</p>
+            </div>
+        </div>
+    </section>
+
   </div>
 </article>
