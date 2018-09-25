@@ -7095,24 +7095,24 @@ Markup: ../../../templates/components/hero-basic.html.twig
 
 Style guide: components.hero-basic
 */
-.hero-basic {
+.hero-basic .row {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   width: 100%; }
-  .hero-basic .img-wrapper {
+  .hero-basic .row .img-wrapper {
     background-color: #d8d8d8;
     padding: 0px;
     margin-bottom: -75px; }
-    .hero-basic .img-wrapper img {
+    .hero-basic .row .img-wrapper img {
       width: 100%;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
       box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3); }
-  .hero-basic .content-wrapper {
+  .hero-basic .row .content-wrapper {
     padding: 15px 8.33333%;
     background: #fff; }
-    .hero-basic .content-wrapper h2 {
+    .hero-basic .row .content-wrapper h2 {
       color: #363230;
       font-family: "Crimson Text";
       font-size: 3.8rem;
@@ -7120,23 +7120,23 @@ Style guide: components.hero-basic
       line-height: 3.8rem;
       position: relative;
       margin-bottom: 30px; }
-    .hero-basic .content-wrapper .post-col {
+    .hero-basic .row .content-wrapper .post-col {
       float: left; }
-      .hero-basic .content-wrapper .post-col .date {
+      .hero-basic .row .content-wrapper .post-col .date {
         font-weight: 700;
         color: #363230;
         font-family: "Lato";
         font-size: 16px;
         font-style: italic; }
-      .hero-basic .content-wrapper .post-col .author {
+      .hero-basic .row .content-wrapper .post-col .author {
         font-weight: 400;
         color: #363230;
         font-family: "Lato";
         font-size: 16px;
         font-style: italic; }
-    .hero-basic .content-wrapper .share-col {
+    .hero-basic .row .content-wrapper .share-col {
       float: left; }
-      .hero-basic .content-wrapper .share-col .share-this {
+      .hero-basic .row .content-wrapper .share-col .share-this {
         color: #363230;
         font-family: "Lato";
         font-size: 16px;
@@ -7226,7 +7226,11 @@ Style guide: components.hero-program
       justify-content: flex-end;
       align-items: center;
       width: 133.33333%;
-      padding: 15px 30px; }
+      padding: 15px 30px;
+      background-image: url("../images/bg/hero_bg.png");
+      background-size: contain;
+      background-position: top left;
+      background-repeat: no-repeat; }
       .hero-program .cta-wrapper .cta-container a {
         color: #363230;
         font-family: "Lato";
@@ -7746,6 +7750,10 @@ Style guide: components.contact-cta
     display: flex;
     align-items: center; }
     .contact-cta .cta-wrapper .row .contact-col {
+      background-image: url("../images/bg/contact_bg.png");
+      background-size: contain;
+      background-position: top left;
+      background-repeat: no-repeat;
       background-color: #ffcc33;
       padding-top: 30px;
       padding-bottom: 30px; }
@@ -7788,6 +7796,8 @@ Style guide: components.contact-cta
       display: flex;
       flex-direction: column;
       align-items: center; }
+      .contact-cta .cta-wrapper .row .social-col .social-wrapper {
+        display: block; }
 
 /**
  * @file
