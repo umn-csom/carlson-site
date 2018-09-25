@@ -4,8 +4,9 @@ dependencies:
   config:
     - field.storage.node.field_profile_expertise
     - node.type.faculty_profile
+    - paragraphs.paragraphs_type.profile_expertise
   module:
-    - link
+    - entity_reference_revisions
 id: node.faculty_profile.field_profile_expertise
 field_name: field_profile_expertise
 entity_type: node
@@ -17,6 +18,61 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  link_type: 17
-  title: 2
-field_type: link
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      profile_expertise: profile_expertise
+    target_bundles_drag_drop:
+      basic_paragraph:
+        weight: 18
+        enabled: false
+      carlson_advantage:
+        weight: 19
+        enabled: false
+      column:
+        weight: 20
+        enabled: false
+      cta_link:
+        weight: 21
+        enabled: false
+      fluid_columns:
+        weight: 22
+        enabled: false
+      profile_activity:
+        weight: 23
+        enabled: false
+      profile_degree:
+        weight: 24
+        enabled: false
+      profile_expertise:
+        enabled: true
+        weight: 25
+      profile_selected_works:
+        weight: 26
+        enabled: false
+      program_cta:
+        weight: 27
+        enabled: false
+      quote:
+        weight: 28
+        enabled: false
+      quote_group:
+        weight: 29
+        enabled: false
+      slide:
+        weight: 30
+        enabled: false
+      slideshow:
+        weight: 31
+        enabled: false
+      statistic:
+        weight: 32
+        enabled: false
+      statistics:
+        weight: 33
+        enabled: false
+      video:
+        weight: 34
+        enabled: false
+field_type: entity_reference_revisions

@@ -2,22 +2,24 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.media.square
     - field.field.media.image.field_media_in_library
     - field.field.media.image.image
+    - image.style.crop_square
     - media.type.image
   module:
     - image
-id: media.image.default
+id: media.image.square
 targetEntityType: media
 bundle: image
-mode: default
+mode: square
 content:
   image:
     type: image
     weight: 0
     label: hidden
     settings:
-      image_style: ''
+      image_style: crop_square
       image_link: ''
     third_party_settings: {  }
     region: content
