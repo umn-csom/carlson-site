@@ -44,7 +44,6 @@ class News extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
     $fields['body'] = $this->t('body');
-
     return $fields;
   }
 
@@ -54,6 +53,7 @@ class News extends SqlBase {
   public function prepareRow(Row $row) {
     $nid = $row->getSourceProperty('nid');
     $title = $row->getSourceProperty('title');
+    $row->setSourceProperty('status', 0);
 
     if(!$title) {
       $row->setSourceProperty('title', 'unknown');
@@ -144,6 +144,5 @@ class News extends SqlBase {
 
     return $result;
   }
-
 }
 ?>

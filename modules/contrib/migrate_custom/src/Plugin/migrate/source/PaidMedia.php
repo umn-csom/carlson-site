@@ -44,7 +44,6 @@ class PaidMedia extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
     $fields['body'] = $this->t('body');
-
     return $fields;
   }
 
@@ -144,6 +143,5 @@ class PaidMedia extends SqlBase {
 
     return $result;
   }
-
 }
 ?>

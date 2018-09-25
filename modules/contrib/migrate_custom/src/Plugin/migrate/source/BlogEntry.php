@@ -50,7 +50,6 @@ class BlogEntry extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
     $fields['body'] = $this->t('body');
-
     return $fields;
   }
 
@@ -137,7 +136,7 @@ class BlogEntry extends SqlBase {
     $query->condition('ua.source', 'node/' . $nid);
     return $query->execute()->fetchField();
   }
-  
+
   private function _getBody($nid) {
     $result = $this->getDatabase()->query('
       SELECT

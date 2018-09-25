@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme implementation for program_cta paragraphs used in news.
+ * Default theme implementation to display a paragraph.
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -47,15 +47,21 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+
+{% if content.field_quote_image.isEmpty %}
+  {% set img = NULL %}
+{% else %}
+  {% set img = content.field_quote_image %}
+{% endif %}
+
 {% block paragraph %}
     {% block content %}
-      <div class="row">
-        <div class="col-md-6">
-          {{ content.field_heading }}
-        </div>
-        <div class="col-md-6">
-          {{ content.field_link }}
-        </div>
-      </div>
+      {% include directory ~ '/templates/components/quote.html.twig' with 
+          {
+              'img_src': img, 
+              'quote_text': content.field_quote_text,
+              'quote_source': content.field_quote_source,
+          } 
+      %}
     {% endblock %}
 {% endblock paragraph %}

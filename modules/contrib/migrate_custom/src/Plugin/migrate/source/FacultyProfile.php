@@ -44,7 +44,6 @@ class FacultyProfile extends SqlBase {
     $query->leftjoin('field_data_field_faculty_degree_program', 'n', 'n.entity_id = f.nid');
     $query->leftjoin('field_data_field_faculty_status', 'o', 'o.entity_id = f.nid');
 
-
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
 

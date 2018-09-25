@@ -72,11 +72,7 @@
     'clearfix',
   ]
 %}
-{% if node.field_hero_media.value %}
-  {% 
-    set img = content.field_hero_media
-  %}
-{% endif %}
+
 <article{{ attributes.addClass(classes) }}>
   <header>
     {{ title_prefix }}
@@ -88,15 +84,24 @@
     {{ title_suffix }}
 
     {# Render hero with hero-basic component #}
-    {% include directory ~ '/templates/components/hero-basic.html.twig' with 
-      {
-          'heading': node.label, 
-          'img_src': img,
-          'published_on': date,
-          'author': author_name,
-      } 
-    %}
-
+    {% if node.field_hero_media.isEmpty %}
+      {% include directory ~ '/templates/components/hero-basic-noimg.html.twig' with 
+        {
+            'heading': label, 
+            'published_on': date,
+            'author': author_name,
+        } 
+      %}
+    {% else %}
+      {% include directory ~ '/templates/components/hero-basic.html.twig' with 
+        {
+            'heading': label, 
+            'img_src': content.field_hero_media,
+            'published_on': date,
+            'author': author_name,
+        } 
+      %}
+    {% endif %}
   </header>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
     

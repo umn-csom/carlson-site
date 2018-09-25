@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Contains \Drupal\migrate_custom\Plugin\migrate\source\Session.
+ * Contains \Drupal\migrate_custom\Plugin\migrate\source\Webform.
  */
 
 namespace Drupal\migrate_custom\Plugin\migrate\source;
@@ -11,13 +11,13 @@ use Drupal\migrate\Plugin\migrate\source\SqlBase;
 use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 
 /**
- * Extract session from Drupal 7 database.
+ * Extract webform node from Drupal 7 database.
  *
  * @MigrateSource(
- *   id = "custom_session"
+ *   id = "custom_webform_node"
  * )
  */
-class Session extends SqlBase {
+class Webform extends SqlBase {
 
   /**
    * {@inheritdoc}
@@ -33,8 +33,7 @@ class Session extends SqlBase {
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
 
-    // Condition.
-    $query->condition('f.type', 'sessions');
+    $query->condition('f.type', 'webform');
     return $query;
   }
 
@@ -44,6 +43,7 @@ class Session extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
     $fields['body'] = $this->t('body');
+
     return $fields;
   }
 
@@ -64,7 +64,7 @@ class Session extends SqlBase {
       $row->setSourceProperty('body', $record->body_value );
       $row->setSourceProperty('body/0/value', $record->body_value );
     }
-
+    
     // alias
     $alias = $this->_setAliasPath( $nid );
     if ( !empty($alias) ) {
@@ -119,7 +119,7 @@ class Session extends SqlBase {
    * {@inheritdoc}
    */
   public function entityTypeId() {
-    return 'session';
+    return 'webform';
   }
 
   /**
@@ -143,5 +143,6 @@ class Session extends SqlBase {
 
     return $result;
   }
+
 }
 ?>

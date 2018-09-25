@@ -44,7 +44,6 @@ class ExecutiveEdProgram extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
     $fields['body'] = $this->t('body');
-
     return $fields;
   }
 
@@ -144,6 +143,6 @@ class ExecutiveEdProgram extends SqlBase {
 
     return $result;
   }
-
+  
 }
 ?>

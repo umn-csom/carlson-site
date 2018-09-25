@@ -42,6 +42,7 @@ class Person extends SqlBase {
    */
   public function fields() {
     $fields = $this->baseFields();
+    $fields['data'] = $this->t('data');
     return $fields;
   }
 
@@ -121,6 +122,5 @@ class Person extends SqlBase {
     $query->condition('ua.source', 'node/' . $nid);
     return $query->execute()->fetchField();
   }
-  
 }
 ?>

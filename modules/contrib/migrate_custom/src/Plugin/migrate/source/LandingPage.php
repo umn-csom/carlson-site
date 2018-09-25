@@ -39,6 +39,7 @@ class LandingPage extends SqlBase {
    */
   public function fields() {
     $fields = $this->baseFields();
+    $fields['data'] = $this->t('data');
     return $fields;
   }
 

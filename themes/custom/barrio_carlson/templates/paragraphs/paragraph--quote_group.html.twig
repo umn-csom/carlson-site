@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme implementation for program_cta paragraphs used in news.
+ * Default theme implementation to display a paragraph.
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -47,15 +47,9 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+
 {% block paragraph %}
     {% block content %}
-      <div class="row">
-        <div class="col-md-6">
-          {{ content.field_heading }}
-        </div>
-        <div class="col-md-6">
-          {{ content.field_link }}
-        </div>
-      </div>
+      {{ content }}
     {% endblock %}
 {% endblock paragraph %}

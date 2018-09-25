@@ -44,7 +44,6 @@ class Student extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
     $fields['body'] = $this->t('body');
-
     return $fields;
   }
 

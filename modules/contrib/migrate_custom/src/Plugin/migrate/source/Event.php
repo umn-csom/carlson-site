@@ -40,7 +40,6 @@ class Event extends SqlBase {
    */
   public function fields() {
     $fields = $this->baseFields();
-
     return $fields;
   }
 
@@ -120,6 +119,6 @@ class Event extends SqlBase {
     $query->condition('ua.source', 'node/' . $nid);
     return $query->execute()->fetchField();
   }
-
+  
 }
 ?>
