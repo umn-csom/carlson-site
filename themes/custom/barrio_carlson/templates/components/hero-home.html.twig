@@ -1,19 +1,21 @@
 <section>
   <div class="bs-component hero-home">
-    <div class="content-container">
-      <div class="col-md-8 col-sm-8 content-wrapper">
-        <h2>{{ heading | default('A Heading here')}}</h2>
+    <div class="row">
+      <div class="content-container">
+        <div class="col-md-8 col-sm-8 content-wrapper">
+          <h2>{{ heading | default('A Heading here')}}</h2>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          {{ sub_head | default('<p>A sub-heading text that is longer goes here.</p>') | raw }}
+        </div>
       </div>
-      <div class="col-md-3 col-sm-6">
-        {{ sub_head | default('<p>A sub-heading text that is longer goes here.</p>') | raw }}
+      <div class="col-md-10 img-wrapper">
+        {% if img_src is defined %}
+        {{ img_src | raw }}
+        {% else %}
+        <img class="img-fluid" src="{{ base_path ~ directory }}/images/placeholders/1290x500.jpg"/>
+        {% endif %}
       </div>
-    </div>
-    <div class="col-md-10 img-wrapper img-fluid">
-      {% if img_src is defined %}
-       {{ img_src | raw }}
-      {% else %}
-        <img src="{{ base_path ~ directory }}/images/placeholders/1290x500.jpg"/>
-      {% endif %}
     </div>
   </div>
 </section>
