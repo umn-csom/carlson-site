@@ -73,6 +73,7 @@
     {# Header that contains main menu/branding #}
     <header id="header" class="header" role="banner" aria-label="{{ 'Site header'|t}}">
       {% block head %}
+        <nav>
         {{ page.header }} {# Logo is placed in page.header #}
 
         {% if page.primary_menu %}
@@ -80,7 +81,7 @@
             {{ page.primary_menu }} {# We Megamenu is placed in page.primary_menu #}
             
         {% endif %}
-            
+        </nav>
       {% endblock %}
 
     </header>
