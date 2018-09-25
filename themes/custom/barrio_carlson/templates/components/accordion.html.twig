@@ -1,0 +1,29 @@
+<div class="accordion" id="accordion-list">
+    {% set inc = 0 %}
+    {% for item in accordion_data %}
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    {% if inc == 0 %}
+                        {% set expanded = 'true' %}
+                        {% set show = 'show' %}
+                    {% else %}
+                        {% set expanded = 'false' %}
+                        {% set show = '' %}
+                    {% endif %}
+
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{ inc }}">
+                        {{ item.label }}
+                    </button>
+                </h5>
+            </div>
+            <div id="collapse{{ inc }}" class="collapse {{ show }}" aria-labelledby="heading{{ inc }}" data-parent="#accordion-list">
+                <div class="card-body">
+                    {{ item.wrapper|raw }}
+                    {{ item.markup|raw }}
+                </div>
+            </div>
+        </div>
+        {% set inc = inc+1 %}
+    {% endfor %}
+</div>
