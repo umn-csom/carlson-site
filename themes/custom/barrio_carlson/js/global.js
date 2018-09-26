@@ -36,5 +36,14 @@ document.getElementById('links').onclick = function (event) {
     }
   };
 
-})(jQuery, Drupal);
 
+        $(window).on('scroll', function () {
+            if ($(window).scrollTop() >= 20) {
+                $('.carlson-header, .umnhf-campus-tc').addClass('compressed');
+            } else {
+                $('.carlson-header, .umnhf-campus-tc').removeClass('compressed');
+            }
+        });
+
+
+})(jQuery, Drupal);

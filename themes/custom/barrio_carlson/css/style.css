@@ -7257,10 +7257,12 @@ Style guide: components.hero-home
   flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
-  width: 100%; }
+  width: 100%;
+  margin: 0px; }
   .hero-home .row .img-wrapper {
     background-color: #d8d8d8;
-    padding: 0px; }
+    padding: 0px;
+    z-index: 1; }
     .hero-home .row .img-wrapper img {
       width: 100%;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
@@ -7269,7 +7271,7 @@ Style guide: components.hero-home
     position: absolute;
     background: transparent;
     left: 0;
-    z-index: 100;
+    z-index: 10;
     width: 100%;
     display: flex;
     flex-direction: column; }
@@ -7515,7 +7517,9 @@ Style guide: components.stats
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
     -ms-flex-direction: row;
-    flex-direction: row; }
+    flex-direction: row;
+    height: 100%;
+    width: 100%; }
     @media (max-width: 991.98px) {
       .stats .stats-col-wrapper {
         -webkit-box-orient: vertical;
@@ -9407,6 +9411,134 @@ summary {
   .navbar-toggleable-xs.collapse.in .navbar-nav .nav-item {
     margin-left: 0;
     float: none; } }
+
+.carlson-nav .we-mega-menu-ul .dropdown-menu .dropdown-menu:first-child > .we-mega-menu-submenu {
+  border: 0px none;
+  box-shadow: none !important;
+  background: transparent !important; }
+  .carlson-nav .we-mega-menu-ul .dropdown-menu .dropdown-menu:first-child > .we-mega-menu-submenu .nav-tabs:first-child {
+    display: flex;
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+    flex-direction: column;
+    position: relative;
+    float: left;
+    width: 100%;
+    border: 0px none; }
+    .carlson-nav .we-mega-menu-ul .dropdown-menu .dropdown-menu:first-child > .we-mega-menu-submenu .nav-tabs:first-child .we-mega-menu-li.active a:after {
+      display: none !important; }
+    .carlson-nav .we-mega-menu-ul .dropdown-menu .dropdown-menu:first-child > .we-mega-menu-submenu .nav-tabs:first-child .we-mega-menu-li:first-child {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start !important; }
+
+.carlson-nav .we-mega-menu-ul .dropdown-menu .dropdown-menu:first-child .we-mega-menu-submenu-inner {
+  padding-right: 15px; }
+  .carlson-nav .we-mega-menu-ul .dropdown-menu .dropdown-menu:first-child .we-mega-menu-submenu-inner a {
+    color: #363230;
+    font-family: "Lato" !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    line-height: 40px !important;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: all 0.3s ease-in-out; }
+    .carlson-nav .we-mega-menu-ul .dropdown-menu .dropdown-menu:first-child .we-mega-menu-submenu-inner a:hover, .carlson-nav .we-mega-menu-ul .dropdown-menu .dropdown-menu:first-child .we-mega-menu-submenu-inner a:focus, .carlson-nav .we-mega-menu-ul .dropdown-menu .dropdown-menu:first-child .we-mega-menu-submenu-inner a:active {
+      padding-left: 15px; }
+
+.carlson-nav .we-mega-menu-ul {
+  position: static !important; }
+
+.carlson-nav .nav-tabs {
+  border-bottom: 0px none; }
+
+.carlson-nav .dropdown-menu {
+  position: static !important;
+  border-left: 0px none; }
+  .carlson-nav .dropdown-menu:first-child > .we-mega-menu-submenu {
+    background-color: #fff;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.11765) !important;
+    width: 100%; }
+  .carlson-nav .dropdown-menu .we-mega-menu-submenu {
+    width: 100% !important;
+    overflow: hidden;
+    padding-bottom: 100%;
+    background-color: transparent;
+    border: 0px none;
+    box-shadow: none !important; }
+    .carlson-nav .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner {
+      width: 100%;
+      float: left; }
+      .carlson-nav .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+        text-align: right;
+        flex-direction: column;
+        position: absolute;
+        width: 50%;
+        border-right: 1px solid #e6dbd6; }
+        .carlson-nav .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li {
+          width: 100%;
+          display: flex;
+          justify-content: flex-end; }
+          .carlson-nav .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li a {
+            margin-right: 30px;
+            color: #363230;
+            font-family: "Crimson Text";
+            font-size: 30px;
+            font-weight: 400;
+            line-height: 48px;
+            cursor: pointer;
+            border: 0px none;
+            position: relative;
+            display: inline-block;
+            text-align: right;
+            width: auto; }
+            .carlson-nav .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li a:before {
+              display: none; }
+            .carlson-nav .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li a:hover, .carlson-nav .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li a:focus, .carlson-nav .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li a:active {
+              background-color: transparent;
+              color: #363230;
+              border: 0px none; }
+          .carlson-nav .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li.active > a:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 10px;
+            background: #ffcc33;
+            display: block !important;
+            transform: rotate(0deg) !important;
+            top: 100%;
+            left: 0;
+            opacity: 1 !important;
+            z-index: -1;
+            margin-top: -1.5rem; }
+
+.carlson-nav .dropdown-menu {
+  margin-top: 0px !important; }
+
+.carlson-header {
+  display: flex;
+  justify-content: center;
+  flex-direction: column; }
+  .carlson-header .navbar-brand {
+    height: auto !important; }
+  .carlson-header.compressed {
+    position: fixed;
+    z-index: 7777;
+    width: 100%;
+    background: #fff;
+    top: 64px; }
+  .carlson-header .carlson-nav {
+    padding: 15px 0; }
+
+.umnhf-campus-tc.compressed {
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  top: 0px; }
 
 /**
  * @file

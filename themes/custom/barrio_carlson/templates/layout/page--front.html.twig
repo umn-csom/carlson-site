@@ -71,18 +71,19 @@
   <div id="page">
 
     {# Header that contains main menu/branding #}
-    <header id="header" class="header" role="banner" aria-label="{{ 'Site header'|t}}">
+    <header id="header" class="header carlson-header" role="banner" aria-label="{{ 'Site header'|t}}">
+      <nav class="carlson-nav" {{ attributes }}>
       {% block head %}
         {{ page.header }} {# Logo is placed in page.header #}
 
         {% if page.primary_menu %}
-          
-            {{ page.primary_menu }} {# We Megamenu is placed in page.primary_menu #}
-            
-        {% endif %}
-            
-      {% endblock %}
 
+            {{ page.primary_menu }} {# We Megamenu is placed in page.primary_menu #}
+
+        {% endif %}
+
+      {% endblock %}
+    </nav>
     </header>
 
     {# Only rendered if something is placed in this region #}
@@ -128,7 +129,7 @@
               </section>
             </main>
 
-            {# Only rendered if something is placed in this region #}  
+            {# Only rendered if something is placed in this region #}
             {% if page.sidebar_first %}
               <div{{ sidebar_first_attributes }}>
                 <aside class="section" role="complementary">
@@ -151,7 +152,7 @@
       {% endblock %}
     </div>
     {# End of the main page wrapper #}
-    
+
     {# Only rendered if something is placed in this region #}
     {% if page.featured_bottom_first or page.featured_bottom_second or page.featured_bottom_third %}
       <div class="featured-bottom">
@@ -172,7 +173,7 @@
             <h2 class="decorated logo marg-bottom2"><span><center><br>
             {# TO-DO dynamically add a logo image here #}
             <p></p></center></span></h2>
-            
+
             {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
             <div class="flex-row marg-bottom">
               <div class="col-md-3 col-sm-4 col-xs-12 links">
