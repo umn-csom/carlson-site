@@ -16,7 +16,7 @@ function block_visibility_groups_uninstall() {
   $blocks = $block_storage->loadMultiple();
   foreach ($blocks as $block) {
     $conditions = $block->getVisibilityConditions();
-    if ($conditions->get('condition_group')) {
+    if ($conditions->has('condition_group')) {
       $conditions->removeInstanceId('condition_group');
       $block->save();
     }
