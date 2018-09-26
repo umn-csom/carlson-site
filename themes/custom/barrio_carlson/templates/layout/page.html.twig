@@ -71,18 +71,19 @@
   <div id="page">
 
     {# Header that contains main menu/branding #}
-    <header id="header" class="header" role="banner" aria-label="{{ 'Site header'|t}}">
+    <header id="header" class="header carlson-header" role="banner" aria-label="{{ 'Site header'|t}}">
+      <nav class="carlson-nav" {{ attributes }}>
       {% block head %}
         {{ page.header }} {# Logo is placed in page.header #}
 
         {% if page.primary_menu %}
-          
-            {{ page.primary_menu }} {# We Megamenu is placed in page.primary_menu #}
-            
-        {% endif %}
-            
-      {% endblock %}
 
+            {{ page.primary_menu }} {# We Megamenu is placed in page.primary_menu #}
+
+        {% endif %}
+
+      {% endblock %}
+    </nav>
     </header>
 
     {# Only rendered if something is placed in this region #}
