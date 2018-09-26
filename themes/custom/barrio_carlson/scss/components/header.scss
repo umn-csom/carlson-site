@@ -64,11 +64,24 @@
               width: 100%;
               border: 0px none;
               .we-mega-menu-li{
-
+                padding: 0px;
+                a{
+                  padding-left: 0px;
+                  &:after{
+                    display: none !important;
+                  }
+                  &:hover{
+                    padding-left: 15px !important;
+                  }
+                }
                 &.active{
                   a{
+                    padding-left: 0px;
                     &:after{
                       display: none !important;
+                    }
+                    &:hover{
+                      padding-left: 15px !important;
                     }
                   }
                 }
@@ -76,10 +89,9 @@
                   width: 100%;
                   display: flex;
                   justify-content: flex-start !important;
+                  padding-left: 0px;
                   margin: 0;
-                  &:hover{
-                    margin-left: 15px;
-                  }
+
                 }
               }
             }
@@ -95,9 +107,9 @@
               text-transform: uppercase;
               letter-spacing: 1.5px;
               transition: all 0.3s ease-in-out;
-              margin-left: 0px;
+              padding-left: 0px;
               &:hover, &:focus, &:active{
-                margin-left: 15px;
+                padding-left: 15px;
               }
 
             }
@@ -115,6 +127,7 @@
       border-left: 0px none;
       display: inline-block;
       position: relative;
+      min-width: auto;
       a{
         display: flex;
         justify-content: center;
