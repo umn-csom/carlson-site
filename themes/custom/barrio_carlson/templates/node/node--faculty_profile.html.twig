@@ -18,11 +18,9 @@
     <section class="faculty-profile__top">
       <div class="row">
         <div class="col-lg-4">
-          {% if node.field_profile_image.entity.uri.value is not empty %}
             <div class="faculty-profile__top--headshot">
-              <img src="{{ node.field_profile_image.entity.uri.value | image_style('crop_profile_image_crop') }}" />
+              {{ content.field_profile_img }}
             </div>
-          {% endif %}
         </div>
         <div class="col-lg-8">
             <h1 class="faculty-profile__top--name">
