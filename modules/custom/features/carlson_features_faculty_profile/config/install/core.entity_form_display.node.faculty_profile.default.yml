@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.media_browser
     - field.field.node.faculty_profile.body
     - field.field.node.faculty_profile.field_email
     - field.field.node.faculty_profile.field_first_name
@@ -17,6 +18,7 @@ dependencies:
     - field.field.node.faculty_profile.field_profile_dept
     - field.field.node.faculty_profile.field_profile_expertise
     - field.field.node.faculty_profile.field_profile_image
+    - field.field.node.faculty_profile.field_profile_img
     - field.field.node.faculty_profile.field_profile_job_candidate
     - field.field.node.faculty_profile.field_profile_owner
     - field.field.node.faculty_profile.field_profile_programs
@@ -28,6 +30,7 @@ dependencies:
     - node.type.faculty_profile
   module:
     - content_moderation
+    - entity_browser
     - field_group
     - file
     - image_widget_crop
@@ -133,6 +136,7 @@ third_party_settings:
     group_profile_image:
       children:
         - field_profile_image
+        - field_profile_img
       parent_name: group_profile
       weight: 21
       format_type: tab
@@ -208,7 +212,7 @@ mode: default
 content:
   body:
     type: text_textarea_with_summary
-    weight: 9
+    weight: 20
     settings:
       rows: 9
       summary_rows: 3
@@ -217,7 +221,7 @@ content:
     region: content
   created:
     type: datetime_timestamp
-    weight: 2
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -296,7 +300,7 @@ content:
     type: entity_reference_autocomplete
     region: content
   field_profile_cvc:
-    weight: 35
+    weight: 18
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
@@ -346,11 +350,26 @@ content:
         - profile_image_crop
       progress_indicator: throbber
       show_crop_area: false
+      crop_types_required: {  }
     region: content
     third_party_settings:
       lightning_media:
         file_links: true
         remove_button: true
+  field_profile_img:
+    type: entity_browser_entity_reference
+    weight: 37
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: true
+      field_widget_remove: true
+      open: true
+      selection_mode: selection_append
+      field_widget_display_settings:
+        view_mode: thumbnail_profile
+    region: content
+    third_party_settings: {  }
   field_profile_job_candidate:
     weight: 32
     settings:
@@ -414,13 +433,13 @@ content:
     region: content
   moderation_state:
     type: moderation_state_default
-    weight: 9
+    weight: 7
     settings: {  }
     region: content
     third_party_settings: {  }
   path:
     type: path
-    weight: 8
+    weight: 6
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -428,21 +447,21 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 3
+    weight: 4
     region: content
     third_party_settings: {  }
   status:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 10
+    weight: 8
     region: content
     third_party_settings: {  }
   sticky:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 7
+    weight: 5
     region: content
     third_party_settings: {  }
   title:
@@ -455,7 +474,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 1
+    weight: 2
     settings:
       match_operator: CONTAINS
       size: 60

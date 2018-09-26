@@ -1,0 +1,110 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.landing_page.body
+    - field.field.node.landing_page.field_event_channels
+    - field.field.node.landing_page.field_flexible_features
+    - field.field.node.landing_page.field_hero_media
+    - field.field.node.landing_page.field_link
+    - field.field.node.landing_page.field_menu_rule
+    - field.field.node.landing_page.field_meta_tags
+    - field.field.node.landing_page.field_news_channels
+    - field.field.node.landing_page.panelizer
+    - node.type.landing_page
+  module:
+    - entity_reference_revisions
+    - link
+    - metatag
+    - text
+    - user
+id: node.landing_page.default
+targetEntityType: node
+bundle: landing_page
+mode: default
+content:
+  body:
+    weight: 102
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    type: text_summary_or_trimmed
+    region: content
+  content_moderation_control:
+    weight: -20
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_event_channels:
+    weight: 107
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_flexible_features:
+    weight: 105
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    type: entity_reference_revisions_entity_view
+    region: content
+  field_hero_media:
+    weight: 104
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_link:
+    weight: 109
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_menu_rule:
+    weight: 108
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_meta_tags:
+    type: metatag_empty_formatter
+    region: content
+    weight: 103
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+  field_news_channels:
+    weight: 106
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  workbench_moderation_control:
+    weight: -20
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  panelizer: true

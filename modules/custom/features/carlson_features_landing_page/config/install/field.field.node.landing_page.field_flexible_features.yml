@@ -1,0 +1,90 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_flexible_features
+    - node.type.landing_page
+    - paragraphs.paragraphs_type.basic_paragraph
+    - paragraphs.paragraphs_type.carlson_advantage
+    - paragraphs.paragraphs_type.fluid_columns
+    - paragraphs.paragraphs_type.quote
+    - paragraphs.paragraphs_type.quote_group
+    - paragraphs.paragraphs_type.statistic
+    - paragraphs.paragraphs_type.statistics
+  module:
+    - entity_reference_revisions
+id: node.landing_page.field_flexible_features
+field_name: field_flexible_features
+entity_type: node
+bundle: landing_page
+label: 'Flexible Features'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      basic_paragraph: basic_paragraph
+      carlson_advantage: carlson_advantage
+      fluid_columns: fluid_columns
+      quote: quote
+      quote_group: quote_group
+      statistic: statistic
+      statistics: statistics
+    target_bundles_drag_drop:
+      basic_paragraph:
+        enabled: true
+        weight: 18
+      carlson_advantage:
+        enabled: true
+        weight: 19
+      column:
+        weight: 20
+        enabled: false
+      cta_link:
+        weight: 21
+        enabled: false
+      fluid_columns:
+        enabled: true
+        weight: 22
+      profile_activity:
+        weight: 23
+        enabled: false
+      profile_degree:
+        weight: 24
+        enabled: false
+      profile_expertise:
+        weight: 25
+        enabled: false
+      profile_selected_works:
+        weight: 26
+        enabled: false
+      program_cta:
+        weight: 27
+        enabled: false
+      quote:
+        enabled: true
+        weight: 28
+      quote_group:
+        enabled: true
+        weight: 29
+      slide:
+        weight: 30
+        enabled: false
+      slideshow:
+        weight: 31
+        enabled: false
+      statistic:
+        enabled: true
+        weight: 32
+      statistics:
+        enabled: true
+        weight: 33
+      video:
+        weight: 34
+        enabled: false
+field_type: entity_reference_revisions
