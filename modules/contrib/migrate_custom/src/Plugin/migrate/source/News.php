@@ -33,7 +33,7 @@ class News extends SqlBase {
     $query->leftjoin('field_data_field_in_the_media_source', 's', 's.entity_id = f.nid');
     $query->leftjoin('field_data_field_sidebar_content', 'c', 'c.entity_id = f.nid');
     $query->leftjoin('field_data_field_news_categories', 't', 't.entity_id = f.nid');
-    $query->leftjoin('field_data_field_featured_news', 'fn', 'fn.entity_id = f.nid');
+    // $query->leftjoin('field_data_field_featured_news', 'g', 'g.entity_id = f.nid');
 
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
@@ -59,8 +59,8 @@ class News extends SqlBase {
     $fields['news_categories'] = $this->t('news_categories');
     $fields['news_channels'] = $this->t('news_channels');
 
-    $fields['featured_news'] = $this->t('featured_news');
-    $fields['news_channel_features'] = $this->t('news_channel_features');
+    // $fields['featured_news'] = $this->t('featured_news');
+    // $fields['news_channel_features'] = $this->t('news_channel_features');
 
     return $fields;
   }
@@ -116,11 +116,11 @@ class News extends SqlBase {
     }
 
     // featured_news to news_channel_features
-    $result = $this->_getCustomField( 'featured_news', $nid );
-    foreach ($result as $record) {
-      $row->setSourceProperty('news_categories', $record->field_featured_news_value );
-      $row->setSourceProperty('news_channel_features', $record->field_featured_news_value );
-    }
+    // $result = $this->_getCustomField( 'featured_news', $nid );
+    // foreach ($result as $record) {
+    //   $row->setSourceProperty('news_categories', $record->field_featured_news_value );
+    //   $row->setSourceProperty('news_channel_features/value', $record->field_featured_news_value );
+    // }
 
     // alias
     $alias = $this->_setAliasPath( $nid );
