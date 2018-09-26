@@ -36,5 +36,14 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1')
     }
   };
 
-})(jQuery, Drupal);
 
+        $(window).on('scroll', function () {
+            if ($(window).scrollTop() >= 20) {
+                $('.carlson-header, .umnhf-campus-tc').addClass('compressed');
+            } else {
+                $('.carlson-header, .umnhf-campus-tc').removeClass('compressed');
+            }
+        });
+
+
+})(jQuery, Drupal);
