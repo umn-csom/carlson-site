@@ -134,6 +134,7 @@
         flex: 0 1 auto;
         padding: 15px;
         background-color: transparent !important;
+        cursor: pointer !important;
         &:before{
           display: none;
         }
@@ -223,6 +224,27 @@
                     color: #363230;
                     border: 0px none;
                   }
+                  &:after{
+                    content: '';
+                    transition: all 0.3s ease-in-out;
+                    transform: rotate(0deg) !important;
+                    position: absolute;
+                    width: 100%;
+                    height: 10px;
+                    background: #ffcc33;
+                    display: block !important;
+                    top: 100%;
+                    left: 0;
+                    opacity: 0;
+                    z-index: -1;
+                    margin-top: -1.05rem !important;
+                    background-image: none;
+                  }
+                    &:hover:after{
+                      content: '';
+                      transform: rotate(0deg) !important;
+                      opacity: 1 !important;
+                    }
                 }
                 &.active{
                 > a{
@@ -265,6 +287,8 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+  transition: all 0.3s ease-in-out;
+  background: #fff;
   .navbar-brand{
     height: auto !important;
   }
@@ -281,6 +305,7 @@
 }
 
 .umnhf-campus-tc{
+  transition: all 0.3s ease-in-out;
   &.compressed{
     position: fixed;
     z-index: 9999;
@@ -298,4 +323,7 @@
     color: #fff !important;
     box-shadow: none;
   }
+}
+.region-we-mega-menu{
+  position: relative;
 }
