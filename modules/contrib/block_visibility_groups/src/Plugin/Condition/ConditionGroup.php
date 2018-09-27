@@ -91,12 +91,12 @@ class ConditionGroup extends ConditionPluginBase implements ContainerFactoryPlug
       $options[$type->id()] = $type->label();
     }
 
-    $form['block_visibility_group'] = array(
+    $form['block_visibility_group'] = [
       '#title' => $this->t('Block Visibility Groups'),
       '#type' => 'select',
       '#options' => $options,
       // '#default_value' => $default,.
-    );
+    ];
     $default = isset($this->configuration['block_visibility_group']) ? $this->configuration['block_visibility_group'] : '';
 
     if (!$default) {

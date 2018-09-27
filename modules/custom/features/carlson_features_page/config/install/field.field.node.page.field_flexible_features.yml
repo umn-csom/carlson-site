@@ -8,6 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.quote
     - paragraphs.paragraphs_type.quote_group
     - paragraphs.paragraphs_type.statistics
+    - paragraphs.paragraphs_type.table
   module:
     - entity_reference_revisions
 id: node.page.field_flexible_features
@@ -29,6 +30,7 @@ settings:
       quote: quote
       quote_group: quote_group
       statistics: statistics
+      table: table
     target_bundles_drag_drop:
       basic_paragraph:
         weight: 15
@@ -48,14 +50,17 @@ settings:
       profile_expertise:
         weight: 19
         enabled: false
-      fluid_columns:
-        enabled: true
-        weight: 20
       profile_selected_works:
         weight: 20
         enabled: false
+      fluid_columns:
+        enabled: true
+        weight: 20
       program_cta:
         weight: 21
+        enabled: false
+      cta_link:
+        weight: 22
         enabled: false
       quote:
         enabled: true
@@ -78,4 +83,7 @@ settings:
       video:
         weight: 28
         enabled: false
+      table:
+        enabled: true
+        weight: 35
 field_type: entity_reference_revisions

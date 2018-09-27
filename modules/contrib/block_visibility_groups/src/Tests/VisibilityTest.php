@@ -20,15 +20,15 @@ class VisibilityTest extends BlockVisibilityGroupsTestBase {
 
     // Create Basic page and Article node types.
     if ($this->profile != 'standard') {
-      $this->drupalCreateContentType(array(
+      $this->drupalCreateContentType([
         'type' => 'page',
         'name' => 'Basic page',
         'display_submitted' => FALSE,
-      ));
-      $this->drupalCreateContentType(array(
+      ]);
+      $this->drupalCreateContentType([
         'type' => 'article',
         'name' => 'Article',
-      ));
+      ]);
     }
   }
 
