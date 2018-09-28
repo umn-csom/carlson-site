@@ -47,15 +47,18 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+{% if content.field_heading|field_value is not empty or
+  content.field_link|field_value is not empty %}
+  {% set content = {
+      'heading': content.field_heading|field_value, 
+      'link': content.field_link|field_value,
+    }
+  %}
+{% endif %}
+sfsdfs
 {% block paragraph %}
     {% block content %}
-      <div class="row">
-        <div class="col-md-6">
-          {{ content.field_heading }}
-        </div>
-        <div class="col-md-6">
-          {{ content.field_link }}
-        </div>
-      </div>
+      {% include directory ~ '/templates/components/program-cta.html.twig' with content
+      %}
     {% endblock %}
 {% endblock paragraph %}
