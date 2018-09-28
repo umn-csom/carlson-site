@@ -1,17 +1,15 @@
-
-{# Quote Image if user adds one, default is quote graphic #}
-<div>
-	{% if img_src is not null %}
-		{{ img_src | raw }}	
-	{% else %}
-		<img class="img-fluid" src="/{{ base_path ~ directory }}/images/placeholders/testimonial-image-155x155.jpg"/>
-	{% endif %}
-</div>
-
-<div>
-	{{ quote_text | default('<p>This is a quote from a source about how great the program is.</p>') | raw }}
-</div>
-
-<div>
-	<p>{{ quote_source | default('John Doe') | raw }}</p>
+<div class="quote">
+	<div class="quote__img">
+		{% if img_src is defined %}
+			{{ img_src }}
+		{% else %}
+			<img src="http://placekitten.com/592/412" />
+		{% endif %}
+	</div>
+	<div class="quote__text">
+		{{ quote_text | default('<p>This is a quote from a source about how great the program is.</p>') | raw }}
+	</div>
+	<div class="quote__source">
+		{{ quote_source | default('John Doe') | raw }}
+	</div>
 </div>

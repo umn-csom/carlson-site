@@ -18,9 +18,11 @@
     <section class="faculty-profile__top">
       <div class="row">
         <div class="col-lg-4">
-            <div class="faculty-profile__top--headshot">
-              {{ content.field_profile_img }}
-            </div>
+            {% if content.field_profile_img|field_value is not empty %}
+              <div class="faculty-profile__top--headshot">
+                {{ content.field_profile_img }}
+              </div>
+            {% endif %}
         </div>
         <div class="col-lg-8">
             <h1 class="faculty-profile__top--name">
