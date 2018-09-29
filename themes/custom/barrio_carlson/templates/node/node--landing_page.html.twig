@@ -73,7 +73,7 @@
   ]
 %}
 
-{% set content = {
+{% set hero_data = {
     'heading': node.label, 
     'image': content.field_hero_media,
     'markup': content.body,
@@ -97,33 +97,44 @@
       <div class="row">
         <div class="col">
           {# Program Hero #}
-          {% include directory ~ '/templates/components/hero-program.html.twig' with content
+          {% include directory ~ '/templates/components/hero-program.html.twig' with hero_data
           %}
         </div>
       </div>
     </section>
     <div class="landing-page__content">
       <div class="row">
+        
+        {# Stick sidebar region #}
+        {% if sticky_sidebar %}
         <div class="col-md-3 sticky_sidebar">
-          {# Stick sidebar region #}
           {{ sticky_sidebar }}
         </div>
-        <div class="col-md-9 landing-page__content-components">
+        {% endif %}
+
+        <div class="{{ sticky_sidebar ? 'col-md-9' : 'col-12' }} landing-page__content-components">
+          
           {# Home Flexible feature paragraphs #}
           {{ content.field_flexible_features }}
-        </div>
-      </div>
-    </div>
 
-    <div class="landing-page__bottom">
-      <div class="row">
-        <div class="col-md-6">
-          {# Contact Info #}
-          Contact
-        </div>
-        <div class="col-md-6">
-          {# Request Info #}
-          Request
+          <section class="landing-page__bottom">
+            <div class="row">
+              <div class="col-md-6">
+                {# Contact Info #}
+                {{ content.email }}
+                {{ content.field_phone }}
+                {{ content.field_request_link }}
+              </div>
+              <div class="col-md-6">
+                {# Request Info #}
+                {{ content.field_social_heading }}
+                {{ content.field_link_facebook }}
+                {{ content.field_link_linkedin }}
+                {{ content.field_link_twitter }}
+                {{ content.field_link_youtube  }}
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </div>
