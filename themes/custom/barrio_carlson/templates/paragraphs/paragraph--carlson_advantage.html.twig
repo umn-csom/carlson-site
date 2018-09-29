@@ -47,16 +47,13 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-{% set content_data = {
-  'image': content.field_heading,
-  'heading': content.field_heading, 
-  'markup': content.field_main_content, 
-  'link': content.field_link, 
-  }
-%} 
 {% block paragraph %}
     {% block content %}
-      {% include directory ~ '/templates/components/column.html.twig' with content_data
+      {% include directory ~ '/templates/components/home-advantages.html.twig' with 
+          {
+              'content': content.field_column_item,
+          } 
       %}
+      
     {% endblock %}
 {% endblock paragraph %}
