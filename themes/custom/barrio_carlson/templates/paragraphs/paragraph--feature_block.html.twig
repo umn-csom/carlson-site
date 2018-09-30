@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Default theme implementation to display a paragraph.
+ * Custom theme implementation to display a Feature Block paragraph.
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -39,21 +39,16 @@
  */
 #}
 
-{%
-  set classes = [
-    'paragraph',
-    'paragraph--type--' ~ paragraph.bundle|clean_class,
-    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
-    not paragraph.isPublished() ? 'paragraph--unpublished'
-  ]
-%}
+{% set content_data = {
+  'image': content.field_image,
+  'heading': content.field_heading, 
+  'markup': content.field_main_content, 
+  'link': content.field_link, 
+  }
+%} 
 {% block paragraph %}
     {% block content %}
-      {% include directory ~ '/templates/components/carlson-advantages.html.twig' with 
-          {
-              'content': content.field_column_item,
-          } 
+      {% include directory ~ '/templates/components/feature-block.html.twig' with content_data
       %}
-      
     {% endblock %}
 {% endblock paragraph %}
