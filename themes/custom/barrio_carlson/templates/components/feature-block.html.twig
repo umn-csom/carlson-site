@@ -11,11 +11,15 @@
     {% set content_data = content_sample %}
 {% endif %}
 
-<div class="col-md-4">
-  <div class="column-container">
+<section>
+  <div class="row">
+    <div class="col-md-6">
     {{ content_data['image'] }}
+    </div>
+    <div class="col-md-6">
     <label>{{ content_data['heading'] }}</label>
     {{ content_data['markup']|raw }}
     {{ content_data['link'] }}
+    </div>
   </div>
-</div>
+</section>
