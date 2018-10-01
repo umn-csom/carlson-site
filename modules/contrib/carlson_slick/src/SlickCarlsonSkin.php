@@ -1,13 +1,13 @@
 <?php
 
-namespace Drupal\carlson_slick\src;
+namespace Drupal\carlson_slick;
 
 use Drupal\slick\SlickSkinInterface;
 
 /**
  * Implements SlickSkinInterface as registered via hook_slick_skins_info().
  */
-class CarlsonSlickSkin implements SlickSkinInterface {
+class SlickCarlsonSkin implements SlickSkinInterface {
 
   /**
    * {@inheritdoc}
@@ -19,7 +19,7 @@ class CarlsonSlickSkin implements SlickSkinInterface {
         'name' => t('Carlson Slick Skin'),
         'description' => t('A Carlson slick skin.'),
         'group' => 'main',
-        'provider' => 'carlson_slick',
+        'provider' => 'slick_extras',
         'css' => [
           'theme' => [
             $path . '/css/slick.carlson.css' => [],
