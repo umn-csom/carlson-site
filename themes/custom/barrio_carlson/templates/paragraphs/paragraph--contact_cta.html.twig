@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme implementation for program_cta paragraphs used in news.
+ * Custom theme implementation to display a "contact cta" paragraph.
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -47,18 +47,23 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-{% if content.field_heading|field_value is not empty or
-  content.field_link|field_value is not empty %}
-  {% set content = {
-      'heading': content.field_heading|field_value, 
-      'link': content.field_link|field_value,
-    }
-  %}
-{% endif %}
-
+{% set contact_data = {
+    'contact_heading': content.field_heading,
+    'email': content.field_email,
+    'phone': content.field_phone,
+    'link': content.field_request_link,
+    'social_heading': content.field_social_heading,
+    'twitter': content.field_link_twitter,
+    'facebook': content.field_link_facebook,
+    'linkedin': content.field_link_linkedin,
+    'youtube': content.field_link_youtube,
+  }
+%}
 {% block paragraph %}
     {% block content %}
-      {% include directory ~ '/templates/components/program-cta.html.twig' with content
+      {# Contact Info #}
+      {% include directory ~ '/templates/components/contact-cta.html.twig' with contact_data
       %}
     {% endblock %}
 {% endblock paragraph %}
+

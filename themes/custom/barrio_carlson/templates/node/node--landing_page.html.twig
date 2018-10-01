@@ -80,18 +80,7 @@
     'link': content.field_link,
   }
 %}
-{% set contact_data = {
-    'contact_heading': content.field_contact_heading,
-    'email': content.email,
-    'phone': content.field_phone,
-    'link': content.field_request_link,
-    'social_heading': content.field_social_heading,
-    'twitter': content.field_link_twitter,
-    'facebook': content.field_link_facebook,
-    'linkedin': content.field_link_linkedin,
-    'youtube': content.field_link_youtube,
-  }
-%}
+
 <article{{ attributes.addClass(classes) }}>
   <header>
     {{ title_prefix }}
@@ -127,9 +116,8 @@
           
           {# Home Flexible feature paragraphs #}
           {{ content.field_flexible_features }}
-          {# Contact Info #}
-          {% include directory ~ '/templates/components/contact-cta.html.twig' with contact_data
-          %}
+
+          {{ content.field_contact_cta }}
         </div>
       </div>
     </div>

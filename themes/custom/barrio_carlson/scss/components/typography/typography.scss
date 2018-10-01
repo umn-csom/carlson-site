@@ -17,3 +17,32 @@ Style guide: components.typography
 .kss-source {
   font-size: 1.4rem !important;
 }
+
+
+.label-border{
+  color: #363230;
+  font-family: "Crimson Text";
+  font-size: 3.8rem;
+  font-weight: 400;
+  line-height: 3.8rem;
+  position: relative;
+  margin-bottom: 30px;
+  &:after{
+    content: '';
+    height: 2px;
+    width: 100px;
+    display: block;
+  }
+  &.red{
+    &:after{
+      content: '';
+      background: #7a0019;
+    }
+  }
+  &.yellow{
+    &:after{
+      content: '';
+      background: #ffcc33;
+    }
+  }
+}

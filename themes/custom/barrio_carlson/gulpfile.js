@@ -116,7 +116,7 @@ gulp.task('js', function() {
 gulp.task('serve', ['sass'], function() {
 
     browserSync.init({
-        proxy: "http://localhost:32778/sites/default/themes/custom/barrio_carlson/styleguide/",
+        proxy: "http://localhost:32770/sites/default/themes/custom/barrio_carlson/styleguide/",
     });
 
     gulp.start('watch');
