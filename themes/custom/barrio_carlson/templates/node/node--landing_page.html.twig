@@ -73,7 +73,7 @@
   ]
 %}
 
-{% set content = {
+{% set hero_data = {
     'heading': node.label, 
     'image': content.field_hero_media,
     'markup': content.body,
@@ -97,33 +97,27 @@
       <div class="row">
         <div class="col">
           {# Program Hero #}
-          {% include directory ~ '/templates/components/hero-program.html.twig' with content
+          {% include directory ~ '/templates/components/hero-program.html.twig' with hero_data
           %}
         </div>
       </div>
     </section>
     <div class="landing-page__content">
       <div class="row">
-        <div class="col-md-3 sticky_sidebar">
-          {# Stick sidebar region #}
+        
+        {# Stick sidebar region #}
+        {% if sticky_sidebar %}
+        <div class="col-md-2 sticky_sidebar">
           {{ sticky_sidebar }}
         </div>
-        <div class="col-md-9 landing-page__content-components">
+        {% endif %}
+
+        <div class="{{ sticky_sidebar ? 'col-md-10' : 'col-12' }} landing-page__content-components">
+          
           {# Home Flexible feature paragraphs #}
           {{ content.field_flexible_features }}
-        </div>
-      </div>
-    </div>
 
-    <div class="landing-page__bottom">
-      <div class="row">
-        <div class="col-md-6">
-          {# Contact Info #}
-          Contact
-        </div>
-        <div class="col-md-6">
-          {# Request Info #}
-          Request
+          {{ content.field_contact_cta }}
         </div>
       </div>
     </div>

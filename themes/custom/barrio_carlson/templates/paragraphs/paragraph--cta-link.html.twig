@@ -38,23 +38,15 @@
  * @ingroup themeable
  */
 #}
-{%
-  set classes = [
-    'paragraph',
-    'paragraph--type--' ~ paragraph.bundle|clean_class,
-    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
-    not paragraph.isPublished() ? 'paragraph--unpublished'
-  ]
-%}
 
 {% block paragraph %}
-  <div{{ attributes.addClass(classes) }}>
-    {% block content %}
-      {% if '1' in content.field_show_in_modal[0] %}
-          <a class="use-ajax" data-dialog-type="modal" href="{{ content.field_link.0['#url'] }}">{{ content.field_link.0['#title'] }}</a>
-      {% else %}
-          {{ content.field_link }}
-      {% endif %}
-    {% endblock %}
+  {% block content %}
+    <div class="{{ content.field_cta_icon|field_value }}">
+    {% if '1' in content.field_show_in_modal[0] %}
+        <a class="use-ajax" data-dialog-type="modal" href="{{ content.field_link.0['#url'] }}">{{ content.field_link.0['#title'] }}</a>
+    {% else %}
+        {{ content.field_link }}
+    {% endif %}
   </div>
+  {% endblock %}
 {% endblock paragraph %}

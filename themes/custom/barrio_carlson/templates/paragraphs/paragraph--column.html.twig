@@ -47,12 +47,16 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
+{% set content_data = {
+  'image': content.field_image,
+  'heading': content.field_heading, 
+  'markup': content.field_main_content, 
+  'link': content.field_link, 
+  }
+%} 
 {% block paragraph %}
     {% block content %}
-      {% include directory ~ '/templates/components/column.html.twig' with 
-          {
-              'content': content.field_main_content, 
-          } 
+      {% include directory ~ '/templates/components/column.html.twig' with content_data
       %}
     {% endblock %}
 {% endblock paragraph %}

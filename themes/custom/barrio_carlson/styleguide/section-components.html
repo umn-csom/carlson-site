@@ -849,7 +849,7 @@
           </details>
               
               <div class="kss-source kss-style">
-          Source: <code>components/centered-text-block/centered-text-block.scss</code>, line 6
+          Source: <code>components/paragraphs/centered-text-block.scss</code>, line 6
         </div>
           </section>
           <section id="kssref-components-contact-cta" class="kss-section kss-section--depth-2 ">
@@ -927,26 +927,28 @@
 
           
           <div class="kss-modifier__example">
-            <section>
+            
+    
+<section>
   <div class="contact-cta container-fluid">
     <div class="cta-wrapper">
       <div class="row">
         <div class="col-sm-12 col-md-6 contact-col">
           <h5>Contact full-time MBA</h5>
           <ul class="list-inline">
-            <li class="list-inline-item">Email: <a href="#">ftmba@umn.edu</a></li>
+            <li class="list-inline-item">Email: <a href="mailto:">&lt;a href=&quot;#&quot;&gt;ftmba@umn.edu&lt;/a&gt;</a></li>
             <li class="list-inline-item">Phone: 612-625-5555</li>
           </ul>
           <a class="contact-large-link" href="#">Request Information</a>
         </div>
         <div class="col-sm-12 col-md-6 social-col">
           <div class="social-wrapper">
-          <h5>Follow full-time MBA</h5>
+          <h5>Find the MBA Program That’s Right for you.</h5>
             <ul class="list-inline">
-              <li class="list-inline-item">Icon1</li>
-              <li class="list-inline-item">Icon2</li>
-              <li class="list-inline-item">Icon3</li>
-              <li class="list-inline-item">Icon4</li>
+              <li class="list-inline-item"><a href="#" class=""></a></li>
+              <li class="list-inline-item"><a href="#" class=""></a></li>
+              <li class="list-inline-item"><a href="#" class=""></a></li>
+              <li class="list-inline-item"><a href="#" class=""></a></li>
             </ul>
           </div>
         </div>
@@ -963,26 +965,44 @@
             <summary>
                               Markup: <code>../templates/components/contact-cta.html.twig</code>
                           </summary>
-            <pre class="hljs"><code class="language-twig">&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;section&lt;/span&gt;&amp;gt;&lt;/span&gt;
+            <pre class="hljs"><code class="language-twig">&lt;span class=&quot;xml&quot;&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{%
+    &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; content_sample = {
+          &#039;contact_heading&#039;: &#039;Contact full-time MBA&#039;,
+          &#039;email&#039;:&#039;&amp;lt;a href=&quot;#&quot;&amp;gt;ftmba@umn.edu&amp;lt;/a&amp;gt;&#039;,
+          &#039;phone&#039;: &#039;612-625-5555&#039;,
+          &#039;link&#039;: &#039;&amp;lt;a class=&quot;contact-large-link&quot; href=&quot;#&quot;&amp;gt;Request Information&amp;lt;/a&amp;gt;&#039;,
+          &#039;social_heading&#039;: &#039;Find the MBA Program That’s Right for you.&#039;,
+          &#039;twitter&#039;: &#039;&amp;lt;a href=&quot;#&quot; class=&quot;&quot;&amp;gt;&amp;lt;/a&amp;gt;&#039;,
+          &#039;facebook&#039;: &#039;&amp;lt;a href=&quot;#&quot; class=&quot;&quot;&amp;gt;&amp;lt;/a&amp;gt;&#039;,
+          &#039;linkedin&#039;: &#039;&amp;lt;a href=&quot;#&quot; class=&quot;&quot;&amp;gt;&amp;lt;/a&amp;gt;&#039;,
+          &#039;youtube&#039;: &#039;&amp;lt;a href=&quot;#&quot; class=&quot;&quot;&amp;gt;&amp;lt;/a&amp;gt;&#039;,
+        }
+%}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+
+&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; contact_data is empty %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; contact_data = content_sample %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+
+&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;section&lt;/span&gt;&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;contact-cta container-fluid&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;cta-wrapper&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;row&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-sm-12 col-md-6 contact-col&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h5&lt;/span&gt;&amp;gt;&lt;/span&gt;Contact full-time MBA&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h5&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h5&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ contact_data[&#039;contact_heading&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h5&lt;/span&gt;&amp;gt;&lt;/span&gt;
           &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;ul&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline-item&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;Email: &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;href&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;#&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;ftmba@umn.edu&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;a&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline-item&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;Phone: 612-625-5555&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline-item&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;Email: &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;href&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;mailto:&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content_data[&#039;email&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&lt;span class=&quot;hljs-string&quot;&gt;&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ contact_data[&#039;email&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;a&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline-item&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;Phone: &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ contact_data[&#039;phone&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;
           &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;contact-large-link&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;href&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;#&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;Request Information&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;a&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ contact_data[&#039;link&#039;]|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-sm-12 col-md-6 social-col&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
           &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;social-wrapper&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h5&lt;/span&gt;&amp;gt;&lt;/span&gt;Follow full-time MBA&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h5&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h5&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ contact_data[&#039;social_heading&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h5&lt;/span&gt;&amp;gt;&lt;/span&gt;
             &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;ul&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-              &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline-item&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;Icon1&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;
-              &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline-item&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;Icon2&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;
-              &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline-item&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;Icon3&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;
-              &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline-item&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;Icon4&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;
+              &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline-item&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ contact_data[&#039;twitter&#039;]|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;
+              &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline-item&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ contact_data[&#039;facebook&#039;]|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;
+              &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline-item&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ contact_data[&#039;youtube&#039;]|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;
+              &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;list-inline-item&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ contact_data[&#039;linkedin&#039;]|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;li&lt;/span&gt;&amp;gt;&lt;/span&gt;
             &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;ul&lt;/span&gt;&amp;gt;&lt;/span&gt;
           &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
@@ -1722,23 +1742,23 @@
         }
 %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
 
-&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; content is empty %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; content = content_sample %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; hero_data is empty %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; hero_data = content_sample %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
 &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
 
 &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;bs-component hero-program container-fluid&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;row&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-md-8 img-wrapper&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-      &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content[&#039;image&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ hero_data[&#039;image&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-md-4 col-sm-12 content-wrapper&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h1&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content[&#039;heading&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h1&lt;/span&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h1&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ hero_data[&#039;heading&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h1&lt;/span&gt;&amp;gt;&lt;/span&gt;
      
-      &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content[&#039;markup&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ hero_data[&#039;markup&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
      
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;cta-wrapper&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;cta-container&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content[&#039;link&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ hero_data[&#039;link&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
@@ -1834,27 +1854,25 @@
     <div class="row">
       <div class="home-advantage-wrapper">
         <div class="col-sm-12 section-title">
-          <p>CARSON ADVANTAGE</p>
+          <p>CARLSON ADVANTAGE</p>
         </div>
+
+        
         <div class="col-md-4 col-sm-12">
           <img class="img-fluid img-shadow" src="http://placekitten.com/518/436" />
         </div>
         <div class="col-md-4 col-sm-12">
-          <div class="home-advantage-container">
-            <h5>Get personal attention from the experts</h5>
-            <p>One-on-one support from faculty ranked no. 3 for intellectual contributions in business among U.S. public universities.</p>
-            <button type="button" class="btn button btn-secondary">Learn More</button>
-          </div>
+          <label>Get personal attention from the experts</label>
+          <p>One-on-one support from faculty ranked no. 3 for intellectual contributions in business among U.S. public universities.</p>
+          <button type="button" class="btn button btn-secondary">Learn More</button>
         </div>
         <div class="col-md-4 col-sm-12">
-          <div class="home-advantage-container">
-            <h5>Connect with the vibrant business community</h5>
-            <p>Minnesota ranks 6th best state for business and is home to 17 Fortune 500 companies.</p>
-            <button type="button" class="btn button btn-secondary">Learn More</button>
-          </div>
+          <label>Connect with the vibrant business community</label>
+          <p>Minnesota ranks 6th best state for business and is home to 17 Fortune 500 companies.</p>
+          <button type="button" class="btn button btn-secondary">Learn More</button>
         </div>
-        <div class="col-sm-12 section-title">
-          <p>CARSON ADVANTAGE</p>
+                <div class="col-sm-12 section-title">
+          <p>CARLSON ADVANTAGE</p>
         </div>
       </div>
     </div>
@@ -1876,27 +1894,25 @@
     <div class="row">
       <div class="home-advantage-wrapper">
         <div class="col-sm-12 section-title">
-          <p>CARSON ADVANTAGE</p>
+          <p>CARLSON ADVANTAGE</p>
         </div>
+
+        
         <div class="col-md-4 col-sm-12">
           <img class="img-fluid img-shadow" src="http://placekitten.com/518/436" />
         </div>
         <div class="col-md-4 col-sm-12">
-          <div class="home-advantage-container">
-            <h5>Get personal attention from the experts</h5>
-            <p>One-on-one support from faculty ranked no. 3 for intellectual contributions in business among U.S. public universities.</p>
-            <button type="button" class="btn button btn-secondary">Learn More</button>
-          </div>
+          <label>Get personal attention from the experts</label>
+          <p>One-on-one support from faculty ranked no. 3 for intellectual contributions in business among U.S. public universities.</p>
+          <button type="button" class="btn button btn-secondary">Learn More</button>
         </div>
         <div class="col-md-4 col-sm-12">
-          <div class="home-advantage-container">
-            <h5>Connect with the vibrant business community</h5>
-            <p>Minnesota ranks 6th best state for business and is home to 17 Fortune 500 companies.</p>
-            <button type="button" class="btn button btn-secondary">Learn More</button>
-          </div>
+          <label>Connect with the vibrant business community</label>
+          <p>Minnesota ranks 6th best state for business and is home to 17 Fortune 500 companies.</p>
+          <button type="button" class="btn button btn-secondary">Learn More</button>
         </div>
-        <div class="col-sm-12 section-title">
-          <p>CARSON ADVANTAGE</p>
+                <div class="col-sm-12 section-title">
+          <p>CARLSON ADVANTAGE</p>
         </div>
       </div>
     </div>
@@ -1908,34 +1924,36 @@
                   </div>
                   <details class="kss-markup kss-style">
             <summary>
-                              Markup: <code>../templates/components/home-advantages.html.twig</code>
+                              Markup: <code>../templates/components/carlson-advantages.html.twig</code>
                           </summary>
             <pre class="hljs"><code class="language-twig">&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;section&lt;/span&gt;&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;home-advantages&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;row&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;home-advantage-wrapper&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-sm-12 section-title&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;CARSON ADVANTAGE&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;CARLSON ADVANTAGE&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+
+        &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; content is defined %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;else&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-md-4 col-sm-12&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
           &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;img-fluid img-shadow&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;http://placekitten.com/518/436&quot;&lt;/span&gt; /&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-md-4 col-sm-12&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;home-advantage-container&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h5&lt;/span&gt;&amp;gt;&lt;/span&gt;Get personal attention from the experts&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h5&lt;/span&gt;&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;One-on-one support from faculty ranked no. 3 for intellectual contributions in business among U.S. public universities.&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;button&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;button&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;btn button btn-secondary&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ btn_data | default(&#039;Learn More&#039;) }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;button&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;label&lt;/span&gt;&amp;gt;&lt;/span&gt;Get personal attention from the experts&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;label&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;One-on-one support from faculty ranked no. 3 for intellectual contributions in business among U.S. public universities.&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;button&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;button&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;btn button btn-secondary&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ btn_data | default(&#039;Learn More&#039;) }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;button&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-md-4 col-sm-12&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;home-advantage-container&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h5&lt;/span&gt;&amp;gt;&lt;/span&gt;Connect with the vibrant business community&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h5&lt;/span&gt;&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;Minnesota ranks 6th best state for business and is home to 17 Fortune 500 companies.&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;
-            &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;button&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;button&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;btn button btn-secondary&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ btn_data | default(&#039;Learn More&#039;) }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;button&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;label&lt;/span&gt;&amp;gt;&lt;/span&gt;Connect with the vibrant business community&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;label&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;Minnesota ranks 6th best state for business and is home to 17 Fortune 500 companies.&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;button&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;type&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;button&quot;&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;btn button btn-secondary&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ btn_data | default(&#039;Learn More&#039;) }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;button&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-sm-12 section-title&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;CARSON ADVANTAGE&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;CARLSON ADVANTAGE&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
@@ -1945,7 +1963,7 @@
           </details>
               
               <div class="kss-source kss-style">
-          Source: <code>components/home/home-advantages.scss</code>, line 6
+          Source: <code>components/paragraphs/carlson-advantages.scss</code>, line 6
         </div>
           </section>
           <section id="kssref-components-home-news-feed" class="kss-section kss-section--depth-2 ">
@@ -3071,7 +3089,7 @@
           </details>
               
               <div class="kss-source kss-style">
-          Source: <code>components/magazine/magazine.scss</code>, line 6
+          Source: <code>components/home/magazine.scss</code>, line 6
         </div>
           </section>
           <section id="kssref-components-program-cta" class="kss-section kss-section--depth-2 ">
@@ -3161,7 +3179,7 @@
       </div>
       <div class="col-sm-3 page-cta-link-container">
         <div class="page-cta-link">
-          &lt;a href=&quot;#&quot; class=&quot;&quot;&gt;Learn More&lt;/a&gt;
+          <a href="#" class="">Learn More</a>
         </div>
       </div>
     </div>
@@ -3196,7 +3214,7 @@
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-sm-3 page-cta-link-container&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;page-cta-link&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content[&#039;link&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content[&#039;link&#039;]|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
@@ -3205,7 +3223,7 @@
           </details>
               
               <div class="kss-source kss-style">
-          Source: <code>components/program-cta/program-cta.scss</code>, line 6
+          Source: <code>components/paragraphs/program-cta.scss</code>, line 6
         </div>
           </section>
           <section id="kssref-components-quote" class="kss-section kss-section--depth-2 ">
@@ -3324,7 +3342,7 @@
           </details>
               
               <div class="kss-source kss-style">
-          Source: <code>components/quote/quote.scss</code>, line 6
+          Source: <code>components/paragraphs/quote.scss</code>, line 6
         </div>
           </section>
           <section id="kssref-components-stats" class="kss-section kss-section--depth-2 ">
@@ -3541,7 +3559,7 @@
           </details>
               
               <div class="kss-source kss-style">
-          Source: <code>components/stats/stats.scss</code>, line 6
+          Source: <code>components/paragraphs/stats.scss</code>, line 6
         </div>
           </section>
           <section id="kssref-components-typography" class="kss-section kss-section--depth-2 ">

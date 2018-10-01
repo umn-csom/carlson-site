@@ -7,23 +7,23 @@
         }
 %}
 
-{% if content is empty %}
-    {% set content = content_sample %}
+{% if hero_data is empty %}
+    {% set hero_data = content_sample %}
 {% endif %}
 
 <div class="bs-component hero-program container-fluid">
   <div class="row">
     <div class="col-md-8 img-wrapper">
-      {{ content['image'] }}
+      {{ hero_data['image'] }}
     </div>
     <div class="col-md-4 col-sm-12 content-wrapper">
-      <h1>{{ content['heading'] }}</h1>
+      <h1>{{ hero_data['heading'] }}</h1>
      
-      {{ content['markup'] }}
+      {{ hero_data['markup'] }}
      
       <div class="cta-wrapper">
         <div class="cta-container">
-          {{ content['link'] }}
+          {{ hero_data['link'] }}
         </div>
       </div>
     </div>
