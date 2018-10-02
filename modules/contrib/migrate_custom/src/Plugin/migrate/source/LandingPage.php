@@ -27,6 +27,10 @@ class LandingPage extends SqlBase {
     // If it's required use 'join', if not use 'leftjoin'.
     $query = $this->select('node', 'f');
 
+    // Selections.
+    $query->leftjoin('field_data_field_news_categories', 't', 't.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_category', 'e', 'e.entity_id = f.nid');
+
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
 
@@ -40,6 +44,13 @@ class LandingPage extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
     $fields['data'] = $this->t('data');
+
+    $fields['news_categories'] = $this->t('news_categories');
+    $fields['news_channels'] = $this->t('news_channels');
+
+    $fields['event_category'] = $this->t('event_category');
+    $fields['event_channels'] = $this->t('event_channels');
+
     return $fields;
   }
 
@@ -52,6 +63,20 @@ class LandingPage extends SqlBase {
 
     if(!$title) {
       $row->setSourceProperty('title', 'unknown');
+    }
+
+    // news_categories to news_channels
+    $result = $this->_getTaxonomyId( 'news_categories', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('news_categories', $record->field_news_categories_tid );
+      $row->setSourceProperty('news_channels', $record->field_news_categories_tid );
+    }
+
+    // event_category to event_channels
+    $result = $this->_getTaxonomyId( 'event_category', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('event_category', $record->field_event_category_tid );
+      $row->setSourceProperty('event_channels', $record->field_event_category_tid );
     }
 
     // alias
@@ -118,6 +143,18 @@ class LandingPage extends SqlBase {
     $query = $this->select('url_alias', 'ua')->fields('ua', ['alias']);
     $query->condition('ua.source', 'node/' . $nid);
     return $query->execute()->fetchField();
+  }
+
+  private function _getTaxonomyId($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_tid
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+    return $result;
   }
 }
 ?>
