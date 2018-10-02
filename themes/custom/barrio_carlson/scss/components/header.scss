@@ -138,9 +138,10 @@
               text-align: left !important;
               position: relative;
               float: left;
-              width: 100%;
+              width: auto;
               .we-mega-menu-li{
                 padding: 0px;
+                width: auto;
                 a{
                   padding-left: 0px;
                   &:after{
@@ -148,13 +149,20 @@
                   }
                   &:hover{
                     padding-left: 15px !important;
+                    text-decoration: underline;
+                    text-underline-position: below;
                   }
                 }
                 &.active{
                   a{
                     padding-left: 0px;
                     &:after{
-                      display: none !important;
+                      content: '';
+                      display: block;
+                      width: 0;
+                      height: 2px;
+                      background: #000;
+                      transition: width .3s;
                     }
                     &:hover{
                       padding-left: 15px !important;
@@ -189,6 +197,7 @@
               padding-left: 0px;
               &:hover, &:focus, &:active{
                 padding-left: 15px;
+
               }
 
             }
@@ -473,4 +482,8 @@
     padding: 0 15px;
     border-left: 1px solid #e6dbd6;
   }
+}
+
+.col-auto{
+  padding: 0px;
 }
