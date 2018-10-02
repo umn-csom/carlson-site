@@ -49,7 +49,7 @@
 %}
 {% if content.field_heading|field_value is not empty or
   content.field_link|field_value is not empty %}
-  {% set content = {
+  {% set content_data = {
       'heading': content.field_heading|field_value, 
       'link': content.field_link|field_value,
     }
@@ -58,7 +58,7 @@
 
 {% block paragraph %}
     {% block content %}
-      {% include directory ~ '/templates/components/program-cta.html.twig' with content
+      {% include directory ~ '/templates/components/program-cta.html.twig' with content_data
       %}
     {% endblock %}
 {% endblock paragraph %}
