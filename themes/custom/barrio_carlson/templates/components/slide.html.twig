@@ -1,0 +1,14 @@
+<div class="row slide">
+	<div class="col-12 text-center">
+		<div class="slide__img">
+			{% if slide_img_src is defined %}
+				{{ slide_img_src }}
+			{% else %}
+				<img src="http://placekitten.com/592/412" />
+			{% endif %}
+		</div>
+		<div class="slide__caption">
+			{{ slide_caption | default('John Doe') }}
+		</div>
+	</div>
+</div>

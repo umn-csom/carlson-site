@@ -1,9 +1,16 @@
+{% if content.field_slide_image|field_value is not empty %}
+  {% set img = content.field_slide_image %}
+{% else %}
+  {% set img = NULL %}
+{% endif %}
 
 {% block paragraph %}
-  <div class="slideshow__slide-item">
-    {% block content %}
-      {{ content.field_slide_image|field_value }}
-      {{ content.field_slide_caption|field_value }}
-    {% endblock %}
-  </div>
+  {% block content %}
+    {% include directory ~ '/templates/components/slide.html.twig' with 
+      {
+        'slide_img_src': img|field_value,
+        'slide_caption': content.field_slide_caption|field_value,
+      } 
+    %}
+  {% endblock %}
 {% endblock paragraph %}
