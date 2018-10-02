@@ -93,5 +93,15 @@
     %}
     {# Home Flexible feature paragraphs #}
     {{ content.field_flexible_features }}
+
+    {% if content.field_bottom_left|field_value is not empty && content.field_bottom_right|field_value is not empty %}
+    <section>
+      <div class="col-md-6">
+        {{ content.field_bottom_left }}
+      </div>
+      <div class="col-md-6">
+        {{ content.field_bottom_right }}
+      </div>
+    </section>
   </div>
 </article>

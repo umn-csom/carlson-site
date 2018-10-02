@@ -43,7 +43,7 @@
                 <h2 class="kss-title kss-title--level-2">
           <a class="kss-title__permalink" href="#kssref-components-slide">
             <span class="kss-title__ref">
-              1.22
+              1.23
               <span class="kss-title__permalink-hash">
                 components.slide
               </span>
@@ -93,8 +93,7 @@
 
           
           <div class="kss-modifier__example">
-            		
-<div class="row slide">
+            <div class="row slide">
 	<div class="col-12 text-center">
 		<div class="slide__img">
 							<img src="http://placekitten.com/592/412" />
@@ -112,20 +111,17 @@
             <summary>
                               Markup: <code>../templates/components/slide.html.twig</code>
                           </summary>
-            <pre class="hljs"><code class="language-twig">&lt;span class=&quot;xml&quot;&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; content is empty %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; slide_img_src = &#039;&amp;lt;img src=&quot;http://placekitten.com/592/412&quot; /&amp;gt;&#039; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-	&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; slide_caption = &#039;John Doe&#039; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-
-&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;row slide&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+            <pre class="hljs"><code class="language-twig">&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;row slide&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
 	&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-12 text-center&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
 		&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;slide__img&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
 			&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; slide_img_src is defined %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-				&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ slide_img_src|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+				&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ slide_img_src }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+			&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;else&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+				&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;http://placekitten.com/592/412&quot;&lt;/span&gt; /&amp;gt;&lt;/span&gt;
 			&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
 		&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
 		&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;slide__caption&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-			&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ slide_caption }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+			&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ slide_caption | default(&#039;John Doe&#039;) }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
 		&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
 	&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
 &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;</code></pre>

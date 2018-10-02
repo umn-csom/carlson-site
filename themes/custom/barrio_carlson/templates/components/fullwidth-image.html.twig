@@ -1,0 +1,19 @@
+{%
+    set content_sample = {
+          'thumb': '<img src="/sites/default/themes/custom/barrio_carlson/images/placeholders/full-width-hero-image-1600x512.jpg"/>',
+			    'caption': 'A caption about the video here',
+        }
+%}
+
+{% if content_data is empty %}
+    {% set content_data = content_sample %}
+{% endif %}
+
+<section>
+	<div class="row fullwidth-image">
+		<div class="col-12">
+			{{ content_data['thumb']|raw }}
+		  <caption class="video-full__caption">{{ content_data['caption']|raw }}</caption>
+		</div>
+	</div>
+</section>
