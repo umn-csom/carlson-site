@@ -38,7 +38,7 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1')
 
 
         $(window).on('scroll', function () {
-            if ($(window).scrollTop() >= 20) {
+            if ($(window).scrollTop() >= 10) {
                 $('.carlson-header, .umnhf-campus-tc').addClass('compressed');
             } else {
                 $('.carlson-header, .umnhf-campus-tc').removeClass('compressed');
