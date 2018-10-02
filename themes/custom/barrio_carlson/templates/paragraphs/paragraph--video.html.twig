@@ -38,44 +38,15 @@
  * @ingroup themeable
  */
 #}
-
-{# 
-Variables for this paragraph:
-  content.field_heading
-  content.field_video_thumb
-  content.field_video_caption
-  content.field_video_embed
-
-View modes:
-  video_full_width - this is used in the News content type and goes full width with a caption below and opens in a modal.
-  video_text_below - this is used in the Homepage with heading overlaying the video with caption below
-  video_text_right - this is used in Landing Page with heading and text to the right
- #}
-
-{%
-  set classes = [
-    'paragraph',
-    'paragraph--type--' ~ paragraph.bundle|clean_class,
-    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
-    not paragraph.isPublished() ? 'paragraph--unpublished'
-  ]
+{% set content_data = {
+    'thumb': content.field_video_thumb, 
+    'caption': content.field_video_caption,
+    'video': content.field_video_embed.0,
+  }
 %}
-{% block paragraph %}
-  {# Full width #}
-  {% if view_mode == 'video_full_width' %}
-  <div{{ attributes.addClass(classes) }}>
-    {% block content %}
-      {# This works and opens the video entity in the Drupal modals #}
-      <a class="use-ajax" data-dialog-type="modal" href="/media/{{ content.field_video_embed.0 }}" data-dialog-options="{&quot;width&quot;:800}">{{ content.field_video_thumb }}</a>
-      <caption>{{ field_video_caption }}</caption>
-    {% endblock %}
-  </div>
-  {% endif %}
-  {# Text Below - to do #}
-  {% if view_mode == 'video_text_below' %}
-  {% endif %}
 
-  {# Text Right - to do #}
-  {% if view_mode == 'video_text_right' %}
-  {% endif %}
+{% block paragraph %}
+  {% block content %}
+    {% include directory ~ '/templates/components/video.html.twig' with content_data %}
+  {% endblock %}
 {% endblock paragraph %}

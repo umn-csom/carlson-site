@@ -46,6 +46,74 @@
   .we-mega-menu-ul {
     .dropdown-menu {
       .dropdown-menu{
+        .second-level{
+          border: 0px none;
+          box-shadow: none !important;
+          background: transparent !important;
+          top: 0 !important;
+          padding-top: 0px;
+          .we-mega-menu-submenu-inner{
+            padding-right: 15px;
+            a{
+              color: #363230;
+              font-family: "Lato" !important;
+              font-size: 14px !important;
+              font-weight: 400 !important;
+              line-height: 40px !important;
+              text-transform: uppercase;
+              letter-spacing: 1.5px;
+              transition: all 0.3s ease-in-out;
+              padding-left: 0px;
+              &:hover, &:focus, &:active{
+                padding-left: 15px;
+              }
+              &:after{
+                display: none !important;
+                width: 0px !important
+              }
+            }
+            .nav-tabs{
+              display: -webkit-box;
+              display: -ms-flexbox;
+              display: flex;
+              -webkit-box-pack: start !important;
+              -ms-flex-pack: start !important;
+                      justify-content: flex-start !important;
+              -webkit-box-align: start !important;
+              -ms-flex-align: start !important;
+                      align-items: flex-start !important;
+              -webkit-box-orient: vertical;
+              -webkit-box-direction: normal;
+              -ms-flex-direction: column;
+                      flex-direction: column;
+              text-align: left !important;
+              position: relative;
+              float: left;
+              width: 100%;
+              border-left: 1px solid #e6dbd6;
+              .we-mega-menu-li{
+                width: 100%;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-box-pack: start !important;
+                -ms-flex-pack: start !important;
+                justify-content: flex-start !important;
+                padding-left: 0px;
+                margin: 0;
+                a{
+                  padding-left: 0px;
+                  &:after{
+                    display: none !important;
+                  }
+                  &:hover{
+                    padding-left: 15px !important;
+                  }
+                }
+              }
+            }
+          }
+        }
         &:first-child{
           >.we-mega-menu-submenu{
             border: 0px none;
@@ -54,15 +122,23 @@
             top: 0 !important;
             padding-top: 0px;
             .nav-tabs:first-child{
+              display: -webkit-box;
+              display: -ms-flexbox;
               display: flex;
+              -webkit-box-pack: start !important;
+              -ms-flex-pack: start !important;
               justify-content: flex-start !important;
+              -webkit-box-align: start !important;
+              -ms-flex-align: start !important;
               align-items: flex-start !important;
-              text-align: left !important;
+              -webkit-box-orient: vertical;
+              -webkit-box-direction: normal;
+              -ms-flex-direction: column;
               flex-direction: column;
+              text-align: left !important;
               position: relative;
               float: left;
               width: 100%;
-              border: 0px none;
               .we-mega-menu-li{
                 padding: 0px;
                 a{
@@ -87,10 +163,13 @@
                 }
                 &:first-child{
                   width: 100%;
+                  display: -webkit-box;
+                  display: -ms-flexbox;
                   display: flex;
+                  -webkit-box-pack: start !important;
+                  -ms-flex-pack: start !important;
                   justify-content: flex-start !important;
                   padding-left: 0px;
-                  margin: 0;
 
                 }
               }
@@ -128,9 +207,21 @@
       display: inline-block;
       position: relative;
       min-width: auto;
+      &:hover{
+        a{
+          &:after{
+            content: '';
+            opacity: 1;
+          }
+        }
+      }
       a{
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
-        justify-content: center;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+                justify-content: center;
         flex: 0 1 auto;
         padding: 15px;
         background-color: transparent !important;
@@ -182,26 +273,56 @@
       margin-top: 0px !important;
       top: 0;
 
+      background-color: #fff;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.11765) !important;
+      width: 100%;
+      top: calc(100% + 10px);
+
       .we-mega-menu-submenu-inner{
         width: 100%;
         float: left;
+        position: relative;
         .we-mega-menu-row{
           .we-mega-menu-col{
+            margin-top: 0 !important;
+            margin-bottom: 0px !important;
             .nav-tabs{
+              display: -webkit-box;
+              display: -ms-flexbox;
               display: flex;
+              -webkit-box-pack: end;
+              -ms-flex-pack: end;
               justify-content: flex-end;
+              -webkit-box-align: end;
+              -ms-flex-align: end;
               align-items: flex-end;
-              text-align: right;
+              -webkit-box-orient: vertical;
+              -webkit-box-direction: normal;
+              -ms-flex-direction: column;
               flex-direction: column;
+              text-align: right;
               position: absolute;
               width: 50%;
-              border-right: 1px solid #e6dbd6;
+              // border-right: 1px solid #e6dbd6;
               .we-mega-menu-li{
                 width: 100%;
+                display: -webkit-box;
+                display: -ms-flexbox;
                 display: flex;
+                -webkit-box-pack: end;
+                -ms-flex-pack: end;
                 justify-content: flex-end;
                 position: relative;
-                a{
+                &:hover{
+                  a, span{
+                    &:after{
+                      content: '';
+                      transform: rotate(0deg) !important;
+                      opacity: 1 !important;
+                    }
+                  }
+                }
+                a, span{
                   margin-right: 30px;
                   color: #363230;
                   font-family: "Crimson Text";
@@ -284,9 +405,16 @@
 }
 
 .carlson-header{
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  flex-direction: column;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+          flex-direction: column;
   transition: all 0.3s ease-in-out;
   background: #fff;
   .navbar-brand{
@@ -326,4 +454,23 @@
 }
 .region-we-mega-menu{
   position: relative;
+}
+
+.img-col{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+  padding: 0 0 0 17px;
+  position: absolute;
+  right: 0;
+  width: 50%;
+  top: 0;
+  .type-of-block{
+    width: 100%;
+    padding: 0 15px;
+    border-left: 1px solid #e6dbd6;
+  }
 }

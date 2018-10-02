@@ -43,7 +43,7 @@
                 <h2 class="kss-title kss-title--level-2">
           <a class="kss-title__permalink" href="#kssref-components-program-cta">
             <span class="kss-title__ref">
-              1.18
+              1.19
               <span class="kss-title__permalink-hash">
                 components.program-cta
               </span>
@@ -126,8 +126,8 @@
         }
 %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
 
-&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; content is empty %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; content = content_sample %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; content_data is empty %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; content_data = content_sample %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
 &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
 
 &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;section&lt;/span&gt;&amp;gt;&lt;/span&gt;
@@ -135,12 +135,12 @@
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;row&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-sm-9 page-cta-intro-container&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;page-cta-intro&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content[&#039;heading&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content_data[&#039;heading&#039;] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;p&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-sm-3 page-cta-link-container&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;page-cta-link&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-          &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content[&#039;link&#039;]|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content_data[&#039;link&#039;]|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
       &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
     &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;

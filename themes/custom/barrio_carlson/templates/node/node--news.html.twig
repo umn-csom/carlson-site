@@ -105,6 +105,9 @@
   </header>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
     
+    {# Call to action block if it exists #}
+    {{ content.field_program_cta_block }}
+
     {# Body and side bar #}
     <section class="row">
       <div class="col-md-9">
@@ -118,5 +121,8 @@
     {# Flexible features are rendered through the paragraph templates specific to the feature #}
     {{ content.field_flexible_features }}
     
+    <div>
+      {{ content.field_news_channels }}
+    </div>
   </div>
 </article>
