@@ -761,3 +761,11 @@ function we_megamenu_preprocess_html(&$vars) {
     }
   }
 }
+
+/**
+ * Function we_megamenu_flush_render_cache.
+ */
+function we_megamenu_flush_render_cache() {
+  $renderCache = \Drupal::service('cache.render');
+  $renderCache->invalidateAll();
+}

@@ -2,8 +2,8 @@
 
 namespace Drupal\we_megamenu\Controller;
 
-use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Url;
+use Drupal\Core\Controller\ControllerBase;
 use Drupal\we_megamenu\WeMegaMenuBuilder;
 
 /**
@@ -50,6 +50,7 @@ class WeMegaMenuAdminController extends ControllerBase {
       $theme = $_POST['theme'];
       $menu_name = $_POST['menu_name'];
       WeMegaMenuBuilder::saveConfig($menu_name, $theme, $data_config);
+      we_megamenu_flush_render_cache();
     }
     exit;
   }
@@ -62,6 +63,7 @@ class WeMegaMenuAdminController extends ControllerBase {
       $theme_array = WeMegaMenuBuilder::renderWeMegaMenuBlock($_POST['menu_name'], $_POST['theme']);
       $markup = render($theme_array);
       echo $markup;
+      we_megamenu_flush_render_cache();
       exit;
     }
 
@@ -73,6 +75,7 @@ class WeMegaMenuAdminController extends ControllerBase {
       $theme_array = WeMegaMenuBuilder::renderWeMegaMenuBlock($_POST['menu_name'], $_POST['theme']);
       $markup = render($theme_array);
       echo $markup;
+      we_megamenu_flush_render_cache();
       exit;
     }
     exit;
@@ -84,6 +87,7 @@ class WeMegaMenuAdminController extends ControllerBase {
   public function styleOfBackendWeMegaMenu() {
     if (isset($_POST['type'])) {
       \Drupal::state()->set('we_megamenu_backend_style', $_POST['type']);
+      we_megamenu_flush_render_cache();
     }
     exit;
   }

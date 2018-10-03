@@ -3,7 +3,7 @@
 namespace Drupal\we_megamenu\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Cache\Cache;
 use Drupal\we_megamenu\WeMegaMenuBuilder;
 
 /**
@@ -32,9 +32,6 @@ class WeMegaMenuBlock extends BlockBase {
           'we_megamenu/form.we-mega-menu-frontend',
         ],
       ],
-      '#cache' => [
-        'max-age' => 0,
-      ]
     ];
     return $build;
   }
@@ -47,19 +44,22 @@ class WeMegaMenuBlock extends BlockBase {
   }
 
   /**
-   * Default cache is disabled. 
-   * 
-   * @param array $form
-   *   Public function buildConfigurationForm array form.
-   * @param \Drupal\we_megamenu\Plugin\Block\FormStateInterface $form_state
-   *   Public function buildConfigurationForm form_state.
-   *
-   * @return int
-   *   Public function buildConfigurationForm int.
-  */
-  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $rebuild_form = parent::buildConfigurationForm($form, $form_state);
-    $rebuild_form['cache']['max_age']['#default_value'] = 0;
-    return $rebuild_form;
+   * {@inheritdoc}
+   */
+  public function getCacheTags() {
+    $menu_name = $this->getDerivativeId();
+    $id_menu = 'config:system.menu.' . $menu_name;
+    $ids = [$id_menu];
+    return Cache::mergeTags(parent::getCacheTags(), $ids);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheContexts() {
+    $menu_name = $this->getDerivativeId();
+    $id_menu = 'route.menu_active_trails:' . $menu_name;
+    $ids = [$id_menu];
+    return Cache::mergeContexts(parent::getCacheContexts(), $ids);
   }
 }
