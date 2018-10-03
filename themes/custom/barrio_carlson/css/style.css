@@ -9797,7 +9797,8 @@ summary {
     width: 25px;
     font-size: 0;
     line-height: 0;
-    text-indent: -9999px; }
+    text-indent: -9999px;
+    box-shadow: none; }
     .umnhf-background-gold #umnhf-h-search #umnhf-h-sb {
       background: transparent url("../images/branding/sprites/lock-search-gold.png") 0 -12px no-repeat; }
       @media only screen and (-webkit-min-device-pixel-ratio: 1.25), (min-resolution: 192dpi) {
@@ -10411,7 +10412,8 @@ summary {
     border: 0px none;
     box-shadow: none;
     padding: 0.5rem 0;
-    font-size: 14px; }
+    font-size: calc( 0.72vw + (12 - 10) * (100vw - 400px) / (800 - 400));
+    line-height: calc( 1.2vw + (18 - 12) * (100vw - 400px) / (800 - 400)); }
     .carlson-nav .we-mega-menu-ul .we-mega-menu-li:hover a:after {
       content: '';
       opacity: 1; }
@@ -10456,12 +10458,13 @@ summary {
 
 .carlson-nav .dropdown-menu {
   position: static !important;
-  border-left: 0px none; }
+  border-left: 0px none;
+  background: transparent !important; }
   .carlson-nav .dropdown-menu:first-child > .we-mega-menu-submenu {
     background-color: #fff;
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.11765) !important;
     width: 100%;
-    top: calc(100% + 3px); }
+    top: calc(100% - 14px); }
   .carlson-nav .dropdown-menu .we-mega-menu-submenu {
     width: 100% !important;
     overflow: hidden;
@@ -10474,7 +10477,7 @@ summary {
     background-color: #fff;
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.11765) !important;
     width: 100%;
-    top: calc(100% + 3px); }
+    top: calc(100% - 14px); }
     .carlson-nav .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner {
       width: 100%;
       float: left;
@@ -10597,7 +10600,14 @@ summary {
     background: #fff;
     top: 64px; }
   .carlson-header .carlson-nav {
-    padding: 15px 0; }
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    position: relative; }
+    .carlson-header .carlson-nav #block-mainnavigation {
+      position: static; }
 
 .umnhf-campus-tc {
   transition: all 0.3s ease-in-out; }
@@ -10617,7 +10627,7 @@ summary {
     box-shadow: none; }
 
 .region-we-mega-menu {
-  position: relative; }
+  position: static; }
   .region-we-mega-menu #menu-toggle .icon-bar {
     background: #5a5450; }
   @media screen and (max-width: 991px) {
@@ -10646,6 +10656,18 @@ body.toggled .navbar-toggle {
 
 .col-auto {
   padding: 0px; }
+
+#block-mainnavigation {
+  white-space: wrap;
+  display: flex;
+  flex: 1 1 100%;
+  width: 100%;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px; }
 
 /**
  * @file
@@ -11422,7 +11444,8 @@ Style guide: components.accordion
     position: relative;
     height: 100%;
     margin-top: -200px;
-    z-index: -1; }
+    z-index: -1;
+    word-wrap: break-word; }
     @media screen and (max-width: 991px) {
       .faculty-profile__experience {
         margin-top: 0px;
@@ -12054,7 +12077,8 @@ ul.toolbar-menu {
     position: relative;
     height: 100%;
     margin-top: -200px;
-    z-index: -1; }
+    z-index: -1;
+    word-wrap: break-word; }
     @media screen and (max-width: 991px) {
       .faculty-profile__experience {
         margin-top: 0px;
@@ -12221,3 +12245,6 @@ a {
 .kss-style, .kss-style pre, .kss-style code, .kss-style kbd, .kss-style samp, .kss-nav__menu-item {
   font-size: 1.4rem !important;
   line-height: 1.8rem !important; }
+
+[class^="col"] {
+  transition: all 0.3s ease-in-out; }

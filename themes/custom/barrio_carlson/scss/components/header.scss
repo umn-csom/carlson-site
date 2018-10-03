@@ -220,7 +220,9 @@
       border:0px none;
       box-shadow: none;
       padding: 0.5rem 0;
-      font-size: 14px;
+      // font-size: 1.2vw;
+      font-size: calc( 0.72vw + (12 - 10) * (100vw - 400px) / (800 - 400) );
+      line-height: calc( 1.2vw + (18 - 12) * (100vw - 400px) / (800 - 400) );
       &:hover{
         a{
           &:after{
@@ -276,11 +278,12 @@
   .dropdown-menu{
     position: static !important;
     border-left: 0px none;
+    background: transparent !important;
     &:first-child > .we-mega-menu-submenu {
       background-color: #fff;
       box-shadow: 0 3px 15px rgba(0,0,0,0.11765) !important;
       width: 100%;
-      top: calc(100% + 3px);
+      top: calc(100% - 14px);
     }
     .we-mega-menu-submenu{
       width: 100% !important;
@@ -295,7 +298,7 @@
       background-color: #fff;
       box-shadow: 0 3px 15px rgba(0,0,0,0.11765) !important;
       width: 100%;
-      top: calc(100% + 3px);
+      top: calc(100% - 14px);
 
       .we-mega-menu-submenu-inner{
         width: 100%;
@@ -447,7 +450,15 @@
     top: 64px;
   }
   .carlson-nav{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    align-items: center;
     padding: 15px 0;
+    position: relative;
+    #block-mainnavigation{
+      position: static;
+    }
   }
 }
 
@@ -472,7 +483,7 @@
   }
 }
 .region-we-mega-menu{
-  position: relative;
+  position: static;
   #menu-toggle{
     .icon-bar{
       background: #5a5450;
@@ -508,4 +519,21 @@ body.toggled .navbar-toggle{
 
 .col-auto{
   padding: 0px;
+}
+
+#block-mainnavigation{
+  // display: flex;
+  white-space: wrap;
+  // flex: 0 0 75%;
+  // max-width: 75%;
+  // position: relative;
+  display: flex;
+  flex: 1 1 100%;
+  width: 100%;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 100%;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
 }
