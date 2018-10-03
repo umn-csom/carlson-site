@@ -48,14 +48,26 @@
 %}
 {# Include the slick JS for this component #}
 {{ attach_library('barrio_carlson/slick') }}
+{% set obj_id = random() %}
 
 {% block paragraph %}
   {% block content %}
-    <div class="slider-for">      
-        {{ content }}
-    </div>
-    <div class="slider-nav">
-        {{ content }}
+    <div class="carlson-slideshow {{ obj_id }}" rel="{{ obj_id }}">
+      <div class="row">
+        <div class="col-12 text-center">
+          <div class="slider-for">      
+              {{ content }}
+          </div>
+          <div class="slider-nav">
+              {{ content }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 text-center">
+          <div class="slideshow__main-caption"></div>
+        </div>
+      </div>
     </div>
   {% endblock %}
 {% endblock paragraph %}
