@@ -1,0 +1,26 @@
+{%
+    set content_sample = {
+          'thumb': '<img class="img-fluid" src="/sites/default/themes/custom/barrio_carlson/images/placeholders/full-width-hero-image-1600x512.jpg"/>',
+			    'caption': 'A caption about the video here',
+			    'video': '66',
+        }
+%}
+
+{% if content_data is empty %}
+    {% set content_data = content_sample %}
+{% endif %}
+
+<section>
+	<div class="row fullwidth-video">
+		<div class="col-10 fullwidth-video__wrapper">
+      <div class="fullwidth-video__inside">
+        <div class="col-12 col-sm-7 fullwidth-video__left">
+  			     <a class="use-ajax video-full__link" data-dialog-type="modal" href="/media/{{ content_data['video'] }}" data-dialog-options="{&quot;width&quot;:800}">{{ content_data['thumb']|raw }}</a>
+        </div>
+        <div class="col-12 col-sm-5 fullwidth-video__right">
+          <span class="fullwidth-video__caption"><caption class="video-full__caption">{{ content_data['caption']|raw }}</caption></span>
+        </div>
+      <div>
+		</div>
+	</div>
+</section>
