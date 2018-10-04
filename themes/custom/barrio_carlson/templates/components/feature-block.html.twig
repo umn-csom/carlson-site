@@ -1,25 +1,25 @@
 {%
-    set content_sample = {
-            'image': '<img class="img-fluid" src="{{ base_path ~ directory }}/images/placeholders/1-2-3-List-Image-300x200.jpg"/>',
-            'heading': 'Carlson Full time MBA',
-            'markup': '<p>The Carlson School invites you to be and do something truly special. Belong to a unique community of inquisitive thinkers and engaged faculty who bring a wealth of experience to the program and bring out the best in one another. </p>',
-            'link': '<a href="#" class="">Read More</a>',
-        }
+  set content_sample = {
+    'image': '<img class="img-fluid" src="http://placekitten.com/592/412" />',
+    'heading': 'Carlson Full time MBA',
+    'markup': '<p>The Carlson School invites you to be and do something truly special. Belong to a unique community of inquisitive thinkers and engaged faculty who bring a wealth of experience to the program and bring out the best in one another. </p>',
+    'link': '<a href="#" class="">Read More</a>',
+  }
 %}
 
 {% if content_data is empty %}
     {% set content_data = content_sample %}
 {% endif %}
 
-<section>
+<section class="feature-block">
   <div class="row">
-    <div class="col-md-6">
-    {{ content_data['image'] }}
+    <div class="col-lg-6 feature-block__img">
+      {{ content_data['image']|raw }}
     </div>
-    <div class="col-md-6">
-    <label>{{ content_data['heading'] }}</label>
-    {{ content_data['markup']|raw }}
-    {{ content_data['link'] }}
+    <div class="col-lg-6 feature-block__content">
+      <h3>{{ content_data['heading'] }}</h3>
+      {{ content_data['markup']|raw }}
+      {{ content_data['link']|raw }}
     </div>
   </div>
 </section>

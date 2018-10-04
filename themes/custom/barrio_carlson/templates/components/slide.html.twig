@@ -1,14 +1,17 @@
-<div class="row slide">
-	<div class="col-6 col-centered text-center">
+{% if content is empty %}
+	{% set slide_img_src = '<img class="img-fluid" src="http://placekitten.com/592/412" />' %}
+	{% set slide_caption = 'John Doe' %}
+{% endif %}
+
+<div class="slide">
+	<div class="text-center">
 		<div class="slide__img">
 			{% if slide_img_src is defined %}
-				{{ slide_img_src }}
-			{% else %}
-				<img src="http://placekitten.com/592/412" />
+				{{ slide_img_src|raw }}
 			{% endif %}
 		</div>
 		<div class="slide__caption">
-			{{ slide_caption | default('John Doe') }}
+			{{ slide_caption }}
 		</div>
 	</div>
 </div>

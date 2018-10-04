@@ -335,50 +335,52 @@ class WeMegaMenuBuilder {
    *   Public static function menuItemInsert menu_child_item.
    */
   public static function menuItemInsert($key_menu, $menu_config, $menu_item, $menu_child_item) {
-    $tmp_col_content = $menu_child_item['col_content'];
-    $tmp_col_cfg = $menu_child_item['col_cfg'];
-    if (isset($menu_item->rows_content)) {
-      $row_count = 0;
-      $col_count = 0;
-      if (count($menu_item->rows_content)) {
-        $li_flag = FALSE;
-        $rows_content = $menu_item->rows_content;
-        foreach ($rows_content as $key_rows => $rows) {
-          if (is_array($rows)) {
-            foreach ($rows as $key_row_col => $row) {
-              if (isset($row->col_content)) {
-                $cols = $row->col_content;
-                if (is_array($cols)) {
-                  foreach ($cols as $key_col => $col) {
-                    if (isset($col->mlid)) {
-                      $row_count = $key_rows;
-                      $col_count = $key_row_col;
-                      $li_flag = TRUE;
+    if (isset($menu_child_item['col_content']) && isset($menu_child_item['col_cfg'])) {
+      $tmp_col_content = $menu_child_item['col_content'];
+      $tmp_col_cfg = $menu_child_item['col_cfg'];
+      if (isset($menu_item->rows_content)) {
+        $row_count = 0;
+        $col_count = 0;
+        if (count($menu_item->rows_content)) {
+          $li_flag = FALSE;
+          $rows_content = $menu_item->rows_content;
+          foreach ($rows_content as $key_rows => $rows) {
+            if (is_array($rows)) {
+              foreach ($rows as $key_row_col => $row) {
+                if (isset($row->col_content)) {
+                  $cols = $row->col_content;
+                  if (is_array($cols)) {
+                    foreach ($cols as $key_col => $col) {
+                      if (isset($col->mlid)) {
+                        $row_count = $key_rows;
+                        $col_count = $key_row_col;
+                        $li_flag = TRUE;
+                      }
                     }
                   }
                 }
               }
             }
           }
-        }
 
-        if (!$li_flag) {
-          $bk_items = $menu_config->menu_config->{$key_menu}->rows_content;
-          $menu_config->menu_config->{$key_menu}->rows_content = [];
-          $menu_config->menu_config->{$key_menu}->rows_content[0] = [];
-          foreach ($bk_items as $key => $value) {
-            $menu_config->menu_config->{$key_menu}->rows_content[] = $value;
+          if (!$li_flag) {
+            $bk_items = $menu_config->menu_config->{$key_menu}->rows_content;
+            $menu_config->menu_config->{$key_menu}->rows_content = [];
+            $menu_config->menu_config->{$key_menu}->rows_content[0] = [];
+            foreach ($bk_items as $key => $value) {
+              $menu_config->menu_config->{$key_menu}->rows_content[] = $value;
+            }
           }
         }
-      }
 
-      $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content[] = $tmp_col_content;
-      $items_validate_serialize = array_map("serialize", $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content);
-      $items_validate_unique = array_unique($items_validate_serialize);
-      $items_validate = array_map("unserialize", $items_validate_unique);
-      $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content = $items_validate;
-      if (!isset($menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_config)) {
-        $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_config = $tmp_col_cfg;
+        $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content[] = $tmp_col_content;
+        $items_validate_serialize = array_map("serialize", $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content);
+        $items_validate_unique = array_unique($items_validate_serialize);
+        $items_validate = array_map("unserialize", $items_validate_unique);
+        $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content = $items_validate;
+        if (!isset($menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_config)) {
+          $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_config = $tmp_col_cfg;
+        }
       }
     }
   }
@@ -392,25 +394,31 @@ class WeMegaMenuBuilder {
    *   Public static function menuItemInsert menu_uuid.
    */
   public static function menuItemDelete($menu_config, $menu_uuid) {
-    $menus = $menu_config->menu_config;
-    if (isset($menus) && is_array($menus)) {
-      foreach ($menus as $key_menu => $menu) {
-        # Remove as root
-        if ($key_menu == $menu_uuid) {
-          unset($menu_config->menu_config[$menu_uuid]);
-        }
+    if (isset($menu_config->menu_config)) {
+      $menus = $menu_config->menu_config;
+      if (isset($menus) && is_array($menus)) {
+        foreach ($menus as $key_menu => $menu) {
+          # Remove as root
+          if ($key_menu == $menu_uuid) {
+            if (isset($menu_config->menu_config[$menu_uuid])) {
+              unset($menu_config->menu_config[$menu_uuid]);
+            }
+          }
 
-        # Remove as leaf
-        $rows_content = $menu->rows_content;
-        foreach ($rows_content as $key_rows => $rows) {
-          if (is_array($rows)) {
-            foreach ($rows as $key_row_col => $row) {
-              if (isset($row->col_content)) {
-                $cols = $row->col_content;
-                if (is_array($cols)) {
-                  foreach ($cols as $key_col => $col) {
-                    if (isset($col->mlid) && $col->mlid == $menu_uuid) {
-                      unset($menu_config->menu_config->{$key_menu}->rows_content[$key_rows][$key_row_col]->col_content[$key_col]);
+          # Remove as leaf
+          if (isset($menu->rows_content)) {
+            $rows_content = $menu->rows_content;
+            foreach ($rows_content as $key_rows => $rows) {
+              if (is_array($rows)) {
+                foreach ($rows as $key_row_col => $row) {
+                  if (isset($row->col_content)) {
+                    $cols = $row->col_content;
+                    if (is_array($cols)) {
+                      foreach ($cols as $key_col => $col) {
+                        if (isset($col->mlid) && $col->mlid == $menu_uuid) {
+                          unset($menu_config->menu_config->{$key_menu}->rows_content[$key_rows][$key_row_col]->col_content[$key_col]);
+                        }
+                      }
                     }
                   }
                 }
@@ -418,7 +426,7 @@ class WeMegaMenuBuilder {
             }
           }
         }
-      }
+      } 
     }
   }
 
@@ -429,71 +437,77 @@ class WeMegaMenuBuilder {
    *   Public static function menuItemInsert menu_config.
    */
   public static function orderMenuItems($menu_config) {
-    $menus = $menu_config->menu_config;
-    if (isset($menus) && is_object($menus)) {
-      foreach ($menus as $key_menu => $menu) {
-        $rows_content = $menu->rows_content;
-        foreach ($rows_content as $key_rows => $rows) {
-          $positions = [];
-          $list_menu_items = [];
-          $list_mega_menu_items = [];
-          $row_count = 0;
-          $col_count = 0;
-          if (is_array($rows)) {
-            foreach ($rows as $key_row_col => $row) {
-              if (isset($row->col_content)) {
-                $cols = $row->col_content;
-                if (is_array($cols) && isset(reset($cols)->mlid)) {
-                  $row_count = $key_rows;
-                  $col_count = $key_row_col;
-                  $positions[] = $row_count . '-' . $col_count . '-' . count($cols);
-                  foreach ($cols as $key_col => $col) {
-                    $menu_item = \Drupal::entityManager()
-                      ->getStorage('menu_link_content')
-                      ->loadByProperties(['uuid' => $col->mlid]);
-                    if (is_array($menu_item)) {
-                      $menu_item = reset($menu_item);
-                      if (method_exists($menu_item, 'get')) {
-                        $list_menu_items[] =  [
-                          'derivativeId' => $menu_item->get('uuid')->getString(),
-                          'title' => $menu_item->get('title')->getString(),
-                          'weight' => $menu_item->get('weight')->getString(),
-                        ];
-                        $list_mega_menu_items[] = $col;
+    if (isset($menu_config->menu_config)) {
+      $menus = $menu_config->menu_config;
+      if (isset($menus) && is_object($menus)) {
+        foreach ($menus as $key_menu => $menu) {
+          if (isset($menu->rows_content)) {
+            $rows_content = $menu->rows_content;
+            foreach ($rows_content as $key_rows => $rows) {
+              $positions = [];
+              $list_menu_items = [];
+              $list_mega_menu_items = [];
+              $row_count = 0;
+              $col_count = 0;
+              if (is_array($rows)) {
+                foreach ($rows as $key_row_col => $row) {
+                  if (isset($row->col_content)) {
+                    $cols = $row->col_content;
+                    if (is_array($cols) && isset(reset($cols)->mlid)) {
+                      $row_count = $key_rows;
+                      $col_count = $key_row_col;
+                      $positions[] = $row_count . '-' . $col_count . '-' . count($cols);
+                      foreach ($cols as $key_col => $col) {
+                        $menu_item = \Drupal::entityManager()
+                          ->getStorage('menu_link_content')
+                          ->loadByProperties(['uuid' => $col->mlid]);
+                        if (is_array($menu_item)) {
+                          $menu_item = reset($menu_item);
+                          if (method_exists($menu_item, 'get')) {
+                            $list_menu_items[] =  [
+                              'derivativeId' => $menu_item->get('uuid')->getString(),
+                              'title' => $menu_item->get('title')->getString(),
+                              'weight' => $menu_item->get('weight')->getString(),
+                            ];
+                            $list_mega_menu_items[] = $col;
+                          }
+                        }
                       }
                     }
                   }
                 }
               }
-            }
-          }
 
-          if (!sizeof($positions)) {
-            continue;
-          }
+              if (!sizeof($positions)) {
+                continue;
+              }
 
-          $list_menu_items = WeMegaMenuBuilder::sortMenu($list_menu_items);
-          foreach ($positions as $key_position => $position) {
-            $pos_params = explode('-', $position);
-            $row = $pos_params[0];
-            $col = $pos_params[1];
-            $size = $pos_params[2];
+              $list_menu_items = WeMegaMenuBuilder::sortMenu($list_menu_items);
+              foreach ($positions as $key_position => $position) {
+                $pos_params = explode('-', $position);
+                $row = $pos_params[0];
+                $col = $pos_params[1];
+                $size = $pos_params[2];
 
-            if ($size >= 0) {
-              if (is_array($list_menu_items)) {
-                $list_item = array_slice($list_menu_items, 0, $size);
-                if (is_array($list_item)) {
-                  $list_menu_items = array_map('unserialize', array_diff_assoc(array_map('serialize', $list_menu_items), array_map('serialize', $list_item)));
+                if ($size >= 0) {
+                  if (is_array($list_menu_items)) {
+                    $list_item = array_slice($list_menu_items, 0, $size);
+                    if (is_array($list_item)) {
+                      $list_menu_items = array_map('unserialize', array_diff_assoc(array_map('serialize', $list_menu_items), array_map('serialize', $list_item)));
 
-                  $menu_config->menu_config->{$key_menu}->rows_content[$row][$col]->col_content = [];
-                  foreach ($list_item as $key_menu_item => $menu_itemnew) {
-                    foreach ($list_mega_menu_items as $key_mega_menu => $mega_menu_item) {
-                      if ($menu_itemnew['derivativeId'] == $mega_menu_item->mlid) {
-                        $menu_config->menu_config->{$key_menu}->rows_content[$row][$col]->col_content[] = $mega_menu_item;
-                        $items_validate_serialize = array_map("serialize", $menu_config->menu_config->{$key_menu}->rows_content[$row][$col]->col_content);
-                        $items_validate_unique = array_unique($items_validate_serialize);
-                        $items_validate = array_map("unserialize", $items_validate_unique);
-                        $menu_config->menu_config->{$key_menu}->rows_content[$row][$col]->col_content = $items_validate;
+                      $menu_config->menu_config->{$key_menu}->rows_content[$row][$col]->col_content = [];
+                      foreach ($list_item as $key_menu_item => $menu_itemnew) {
+                        foreach ($list_mega_menu_items as $key_mega_menu => $mega_menu_item) {
+                          if (isset($mega_menu_item->mlid)) {
+                            if ($menu_itemnew['derivativeId'] == $mega_menu_item->mlid) {
+                              $menu_config->menu_config->{$key_menu}->rows_content[$row][$col]->col_content[] = $mega_menu_item;
+                              $items_validate_serialize = array_map("serialize", $menu_config->menu_config->{$key_menu}->rows_content[$row][$col]->col_content);
+                              $items_validate_unique = array_unique($items_validate_serialize);
+                              $items_validate = array_map("unserialize", $items_validate_unique);
+                              $menu_config->menu_config->{$key_menu}->rows_content[$row][$col]->col_content = $items_validate;
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -520,124 +534,126 @@ class WeMegaMenuBuilder {
    */
   public static function dragDropMenuItems($menu_name, $theme_name = '', $menu_config, $child_item) {
     $list_menu_items = WeMegaMenuBuilder::getMenuItems($menu_name);
-    $tmp_col_content = $child_item['col_content'];
-    $tmp_col_cfg = $child_item['col_cfg'];
-    $menu_items = $menu_config->menu_config;
-    foreach ($list_menu_items as $uuid => $childs) {
-      $uuid = ($uuid == 'standard.front_page') ? base_path() : $uuid;
-      foreach ($menu_items as $key_menu => $menu_item) {
-        if (isset($menu_item->rows_content)) {
-          $rows_content = $menu_item->rows_content;
-          if (count($rows_content)) {
-            foreach ($rows_content as $key_rows => $rows) {
-              if ($key_menu == $uuid) {
-                if (is_array($rows)) {
-                  $list_mega_items = [];
-                  $row_count = 0;
-                  $col_count = 0;
-                  foreach ($rows as $key_row_col => $row) {
-                    if (isset($row->col_content)) {
-                      $cols = $row->col_content;
-                      if (is_array($cols)) {
-                        foreach ($cols as $key_col => $col) {
-                          if (isset($col->mlid)) {
-                            $row_count = $key_rows;
-                            $col_count = $key_row_col;
+    if (isset($child_item['col_content']) && isset($child_item['col_cfg']) && isset($menu_config->menu_config)) {
+      $tmp_col_content = $child_item['col_content'];
+      $tmp_col_cfg = $child_item['col_cfg'];
+      $menu_items = $menu_config->menu_config;
+      foreach ($list_menu_items as $uuid => $childs) {
+        $uuid = ($uuid == 'standard.front_page') ? base_path() : $uuid;
+        foreach ($menu_items as $key_menu => $menu_item) {
+          if (isset($menu_item->rows_content)) {
+            $rows_content = $menu_item->rows_content;
+            if (count($rows_content)) {
+              foreach ($rows_content as $key_rows => $rows) {
+                if ($key_menu == $uuid) {
+                  if (is_array($rows)) {
+                    $list_mega_items = [];
+                    $row_count = 0;
+                    $col_count = 0;
+                    foreach ($rows as $key_row_col => $row) {
+                      if (isset($row->col_content)) {
+                        $cols = $row->col_content;
+                        if (is_array($cols)) {
+                          foreach ($cols as $key_col => $col) {
+                            if (isset($col->mlid)) {
+                              $row_count = $key_rows;
+                              $col_count = $key_row_col;
 
-                            if (!in_array($col->mlid, $childs)) {
-                              unset($menu_config->menu_config->{$key_menu}->rows_content[$key_rows][$key_row_col]->col_content[$key_col]);
-                              if (!count($menu_config->menu_config->{$key_menu}->rows_content[$key_rows][$key_row_col]->col_content)) {
-                                unset($menu_config->menu_config->{$key_menu}->rows_content[$key_rows][$key_row_col]);
-                                if (!count($menu_config->menu_config->{$key_menu}->rows_content[$key_rows])) {
-                                  unset($menu_config->menu_config->{$key_menu}->rows_content[$key_rows]);
+                              if (!in_array($col->mlid, $childs)) {
+                                unset($menu_config->menu_config->{$key_menu}->rows_content[$key_rows][$key_row_col]->col_content[$key_col]);
+                                if (!count($menu_config->menu_config->{$key_menu}->rows_content[$key_rows][$key_row_col]->col_content)) {
+                                  unset($menu_config->menu_config->{$key_menu}->rows_content[$key_rows][$key_row_col]);
+                                  if (!count($menu_config->menu_config->{$key_menu}->rows_content[$key_rows])) {
+                                    unset($menu_config->menu_config->{$key_menu}->rows_content[$key_rows]);
+                                  }
                                 }
+                              } else {
+                                $list_mega_items[] = $col->mlid;
                               }
-                            } else {
-                              $list_mega_items[] = $col->mlid;
                             }
                           }
                         }
                       }
                     }
-                  }
 
-                  foreach ($childs as $key_child => $child_uuid) {
-                    $child_uuid = ($child_uuid == 'standard.front_page') ? base_path() : $child_uuid;
-                    if (!in_array($child_uuid, $list_mega_items)) {
-                      $tmp_col_content->mlid = $child_uuid;
-                      $list_mega_items[] = $child_uuid;
-                      if (is_object($menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content)) {
-                        $tmp = clone $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count];
-                        unset($menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]);
-                        $menu_config->menu_config->{$key_menu}->rows_content[$row_count + 1][$col_count] = $tmp;
-                      }
-                      $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content[] = $tmp_col_content;
-                      $items_validate_serialize = array_map('serialize', $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content);
-                      $items_validate_unique = array_unique($items_validate_serialize);
-                      $items_validate = array_map('unserialize', $items_validate_unique);
-                      $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content = $items_validate;
-                      if (!isset($menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_config)) {
-                        $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_config = $tmp_col_cfg;
+                    foreach ($childs as $key_child => $child_uuid) {
+                      $child_uuid = ($child_uuid == 'standard.front_page') ? base_path() : $child_uuid;
+                      if (!in_array($child_uuid, $list_mega_items)) {
+                        $tmp_col_content->mlid = $child_uuid;
+                        $list_mega_items[] = $child_uuid;
+                        if (is_object($menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content)) {
+                          $tmp = clone $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count];
+                          unset($menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]);
+                          $menu_config->menu_config->{$key_menu}->rows_content[$row_count + 1][$col_count] = $tmp;
+                        }
+                        $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content[] = $tmp_col_content;
+                        $items_validate_serialize = array_map('serialize', $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content);
+                        $items_validate_unique = array_unique($items_validate_serialize);
+                        $items_validate = array_map('unserialize', $items_validate_unique);
+                        $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content = $items_validate;
+                        if (!isset($menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_config)) {
+                          $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_config = $tmp_col_cfg;
+                        }
                       }
                     }
                   }
                 }
               }
-            }
-          } else {
-            if ($key_menu == $uuid) {
-              foreach ($childs as $key_child => $child_uuid) {
-                $tmp_col_content->mlid = $child_uuid;
-                $menu_config->menu_config->{$key_menu}->rows_content[0][0]->col_content[] = $tmp_col_content;
-                $items_validate_serialize = array_map("serialize", $menu_config->menu_config->{$key_menu}->rows_content[0][0]->col_content);
-                $items_validate_unique = array_unique($items_validate_serialize);
-                $items_validate = array_map("unserialize", $items_validate_unique);
-                $menu_config->menu_config->{$key_menu}->rows_content[0][0]->col_content = $items_validate;
-                if (!isset($menu_config->menu_config->{$key_menu}->rows_content[0][0]->col_config)) {
-                  $menu_config->menu_config->{$key_menu}->rows_content[0][0]->col_config = $tmp_col_cfg;
+            } else {
+              if ($key_menu == $uuid) {
+                foreach ($childs as $key_child => $child_uuid) {
+                  $tmp_col_content->mlid = $child_uuid;
+                  $menu_config->menu_config->{$key_menu}->rows_content[0][0]->col_content[] = $tmp_col_content;
+                  $items_validate_serialize = array_map("serialize", $menu_config->menu_config->{$key_menu}->rows_content[0][0]->col_content);
+                  $items_validate_unique = array_unique($items_validate_serialize);
+                  $items_validate = array_map("unserialize", $items_validate_unique);
+                  $menu_config->menu_config->{$key_menu}->rows_content[0][0]->col_content = $items_validate;
+                  if (!isset($menu_config->menu_config->{$key_menu}->rows_content[0][0]->col_config)) {
+                    $menu_config->menu_config->{$key_menu}->rows_content[0][0]->col_config = $tmp_col_cfg;
+                  }
                 }
               }
             }
           }
         }
       }
-    }
 
-    // Remove duplicate items
-    foreach ($menu_items as $key_menu => $menu_item) {
-      if (isset($menu_item->rows_content)) {
-        $rows_content = $menu_item->rows_content;
-        if (count($rows_content)) {
-          foreach ($rows_content as $key_rows => $rows) {
-            if (is_array($rows)) {
-              $list_mega_items = [];
-              $row_count = 0;
-              $col_count = 0;
-              $flag = [];
-              foreach ($rows as $key_row_col => $row) {
-                if (isset($row->col_content)) {
-                  $cols = $row->col_content;
-                  if (is_array($cols)) {
-                    foreach ($cols as $key_col => $col) {
-                      if (isset($col->mlid)) {
-                        $row_count = $key_rows;
-                        $col_count = $key_row_col;
-                        if (isset($flag[$col->mlid])) {
-                          $flag[$col->mlid] ++;
-                          if ($flag[$col->mlid] > 0) {
-                            if (isset($menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count])) {
-                              $col_items_content = $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count];
-                              if (isset($col_items_content) && count($col_items_content->col_content)) {
-                                foreach ($col_items_content->col_content as $key_col_content => $c_content) {
-                                  if (isset($c_content->mlid) && $c_content->mlid == $col->mlid) {
-                                    unset($menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content[$key_col_content]);
+      // Remove duplicate items
+      foreach ($menu_items as $key_menu => $menu_item) {
+        if (isset($menu_item->rows_content)) {
+          $rows_content = $menu_item->rows_content;
+          if (count($rows_content)) {
+            foreach ($rows_content as $key_rows => $rows) {
+              if (is_array($rows)) {
+                $list_mega_items = [];
+                $row_count = 0;
+                $col_count = 0;
+                $flag = [];
+                foreach ($rows as $key_row_col => $row) {
+                  if (isset($row->col_content)) {
+                    $cols = $row->col_content;
+                    if (is_array($cols)) {
+                      foreach ($cols as $key_col => $col) {
+                        if (isset($col->mlid)) {
+                          $row_count = $key_rows;
+                          $col_count = $key_row_col;
+                          if (isset($flag[$col->mlid])) {
+                            $flag[$col->mlid] ++;
+                            if ($flag[$col->mlid] > 0) {
+                              if (isset($menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count])) {
+                                $col_items_content = $menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count];
+                                if (isset($col_items_content) && count($col_items_content->col_content)) {
+                                  foreach ($col_items_content->col_content as $key_col_content => $c_content) {
+                                    if (isset($c_content->mlid) && $c_content->mlid == $col->mlid) {
+                                      unset($menu_config->menu_config->{$key_menu}->rows_content[$row_count][$col_count]->col_content[$key_col_content]);
+                                    }
                                   }
                                 }
                               }
                             }
+                          } else {
+                            $flag[$col->mlid] = 0;
                           }
-                        } else {
-                          $flag[$col->mlid] = 0;
                         }
                       }
                     }

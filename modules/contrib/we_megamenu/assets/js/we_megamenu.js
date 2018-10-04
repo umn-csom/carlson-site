@@ -10,7 +10,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
 
   Drupal.behaviors.kMegaMenuBackendAction = {
     attach: function (context) {
-      Drupal.WeMegaMenu.click();
+      Drupal.WeMegaMenu.clickActions();
       Drupal.WeMegaMenu.initBackend();
       Drupal.WeMegaMenu.loadToolbar();
       Drupal.WeMegaMenu.defineToolbarEvent();
@@ -27,8 +27,8 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
     return this.attr(name) !== undefined;
   };
 
-  Drupal.WeMegaMenu.click = function() {
-    $('li.we-mega-menu-li a').on('click', function(e) {
+  Drupal.WeMegaMenu.clickActions = function() {
+    $('li.we-mega-menu-li a').once('li-we-mega-menu-li-a').on('click', function(e) {
       e.preventDefault();
     });
 
@@ -47,14 +47,14 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       e.stopPropagation();
     });
 
-    $('span.close.icon-remove').on('click', function() {
+    $('span.close.icon-remove').once('span-close-icon-remove').on('click', function() {
       var $col_block = $(this).closest('.we-mega-menu-col');
       $col_block.removeAttr('data-block');
       $col_block.html('');
       self.toolbar.find('.cbx-select-block').eq(0).val('').trigger('chosen:updated');
     });
 
-    $('nav, li.we-mega-menu-li, div.we-mega-menu-submenu, div.we-mega-menu-row-old, div.we-mega-menu-col').on('click', function(e) {
+    $('nav, li.we-mega-menu-li, div.we-mega-menu-submenu, div.we-mega-menu-row-old, div.we-mega-menu-col').once('div.nav-item').on('click', function(e) {
       self.currentSelected = $(this);
       self.menu.find('.selected').removeClass('selected');
       self.currentSelected.addClass('selected');
@@ -142,6 +142,18 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       self.toolbar.find('input.we-mega-menu.we-mega-menu-btn-submenu').prop('checked', true);
     } else {
       self.toolbar.find('input.we-mega-menu.we-mega-menu-btn-submenu').prop('checked', false);
+    }
+
+    if ($(self.currentSelected).find('ul.subul li.we-mega-menu-li').length == 0) {
+      self.toolbar.find('input.we-mega-menu.we-mega-menu-btn-submenu').closest('.submenu-wrapper').show();
+    } else {
+      self.toolbar.find('input.we-mega-menu.we-mega-menu-btn-submenu').closest('.submenu-wrapper').hide();
+    }
+
+    if ($(self.currentSelected).attr('data-level') == '0') {
+      self.toolbar.find('input.we-mega-menu-chx-group').closest('.group-menu-wrapper').hide();
+    } else {
+      self.toolbar.find('input.we-mega-menu-chx-group').closest('.group-menu-wrapper').show();
     }
 
     if (self.currentSelected.hasAttr('data-class')) {
@@ -302,11 +314,11 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
   };
 
   Drupal.WeMegaMenu.defineToolbarEvent = function() {
-    self.toolbar.find('.we-mega-menu-cbx-animation').on('change', function() {
-      Drupal.WeMegaMenu.rebuildMainToolbar();
-    });
+    // self.toolbar.find('.we-mega-menu-cbx-animation').once('we-mega-menu-cbx-animation').on('change', function() {
+    //   Drupal.WeMegaMenu.rebuildMainToolbar();
+    // });
 
-    $('.we-mega-menu.we-mega-menu-btn-submenu').on('change', function() {
+    $('.we-mega-menu.we-mega-menu-btn-submenu').once('we-mega-menu-btn-submenu').on('change', function() {
       if ($(this).is(':checked')) {
         if (self.currentSelected.hasClass('we-mega-menu-li')) {
           var li = self.currentSelected;
@@ -322,7 +334,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
             html += '</div>';
           html += '</div>';
           $(li).append(html);
-          Drupal.WeMegaMenu.click();
+          Drupal.WeMegaMenu.clickActions();
         }
       } else {
         if (self.currentSelected.hasClass('we-mega-menu-li')) {
@@ -330,15 +342,15 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
           $(li).removeClass('dropdown-menu open');
           $(li).attr('data-submenu', 0);
           $(li).find('div.we-mega-menu-submenu').remove();
-          Drupal.WeMegaMenu.click();
+          Drupal.WeMegaMenu.clickActions();
         }
       }
 
       // Rebind event
-      Drupal.WeMegaMenu.click();
+      Drupal.WeMegaMenu.clickActions();
     });
 
-    $(self.toolbar).find('.we-mega-menu-btn-add-row').on('click', function() {
+    $(self.toolbar).find('.we-mega-menu-btn-add-row').once('we-mega-menu-btn-add-row').on('click', function() {
       self.menu.find('.selected').removeClass('selected');
       var html = '';
       html += '<div class="we-mega-menu-row" data-element-type="we-mega-menu-row">';
@@ -350,44 +362,57 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       }, 100);
 
       // Rebind event
-      Drupal.WeMegaMenu.click();
+      Drupal.WeMegaMenu.clickActions();
     });
 
-    $(self.toolbar).find('.we-mega-menu-btn-add-col').on('click', function() {
+    $(self.toolbar).find('.we-mega-menu-btn-add-col').once('we-mega-menu-btn-add-col').on('click', function() {
       if (self.currentSelected.closest('.we-mega-menu-row').children('.we-mega-menu-col').length < 12) {
         self.menu.find('.selected').removeClass('selected');
         var html = Drupal.WeMegaMenu.colMarkup;
         self.currentSelected.after(html);
 
         // Rebind event
-        Drupal.WeMegaMenu.click();
+        Drupal.WeMegaMenu.clickActions();
 
         // Calc Width
         var curCol = self.currentSelected.closest('.we-mega-menu-col');
 
+        // Set width
         Drupal.WeMegaMenu.calcColWidthLayout(curCol.closest('.we-mega-menu-row'));
+
+        // Active current selected
+        self.currentSelected.next().trigger('click');
       }
     });
 
-    $(self.toolbar).find('.we-mega-menu-btn-remove-col').on('click', function() {
-      if (self.currentSelected.closest('.we-mega-menu-row').children('.we-mega-menu-col').length < 12) {
-        var curCol = self.currentSelected.children('.we-mega-menu-col');
-        var closest_row = self.currentSelected.closest('.we-mega-menu-row');
-        var currentSelectedTmp = self.currentSelected.closest('div.we-mega-menu-row');
-        self.currentSelected.remove();
-        self.currentSelected = currentSelectedTmp;
+    $(self.toolbar).find('.we-mega-menu-btn-remove-col').once('we-mega-menu-btn-remove-col').on('click', function() {
+      if (self.currentSelected.closest('.we-mega-menu-row').children('.we-mega-menu-col').length <= 12) {
+        var currentColNumber = self.currentSelected.closest('.we-mega-menu-row').children('.we-mega-menu-col').length;
+        if (currentColNumber == 1) {
+          var tmpCurrentSelected = self.currentSelected.closest('.we-mega-menu-row').parent();
+          self.currentSelected.closest('.we-mega-menu-row').remove();
+          self.currentSelected = tmpCurrentSelected;
+        } else {
+          var curCol = self.currentSelected.children('.we-mega-menu-col');
+          var closest_row = self.currentSelected.closest('.we-mega-menu-row');
+          var currentSelectedTmp = self.currentSelected.prev();
+          self.currentSelected.remove();
+          self.currentSelected = currentSelectedTmp;
+
+          // Rebind event
+          Drupal.WeMegaMenu.clickActions();
+
+          // Calc Width
+          Drupal.WeMegaMenu.calcColWidthLayout(closest_row);
+        }
+
+        // Active current selected
         self.currentSelected.trigger('click');
-
-        // Rebind event
-        Drupal.WeMegaMenu.click();
-
-        // Calc Width
-        Drupal.WeMegaMenu.calcColWidthLayout(closest_row);
       }
     });
 
     var previous_class = null;
-    $(self.toolbar).find('.we-mega-menu-txt-extra-class').on('focus', function () {
+    $(self.toolbar).find('.we-mega-menu-txt-extra-class').once('we-mega-menu-txt-extra-class').on('focus', function () {
       previous_class = this.value;
     }).change(function() {
       var class_val = $(this).val();
@@ -403,7 +428,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       previous_class = this.value;
     });
 
-    $(self.toolbar).find('.we-mega-menu-txt-icon').on('change', function() {
+    $(self.toolbar).find('.we-mega-menu-txt-icon').once('we-mega-menu-txt-icon').on('change', function() {
       var icon = $(this).val();
       if (icon.length) {
         if (self.currentSelected.find('i').length) {
@@ -419,7 +444,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       }
     });
 
-    $(self.toolbar).find('.we-mega-menu-txt-caption').on('change', function() {
+    $(self.toolbar).find('.we-mega-menu-txt-caption').once('we-mega-menu-txt-caption').on('change', function() {
       var caption = $(this).val();
       if (caption.length) {
         if (self.currentSelected.find('span.we-mega-menu-caption').length) {
@@ -435,7 +460,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       }
     });
 
-    $(self.toolbar).find('select.we-mega-menu-cbx-target').on('change', function() {
+    $(self.toolbar).find('select.we-mega-menu-cbx-target').once('we-mega-menu-cbx-target').on('change', function() {
       var target = $(this).val();
       if (target.length) {
         self.currentSelected.attr('data-target', target);
@@ -449,7 +474,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
     });
 
     // SUBMENU
-    self.toolbar.find('.hide-sub-when-collapse').on('change', function() {
+    self.toolbar.find('.hide-sub-when-collapse').once('hide-sub-when-collapse').on('change', function() {
       if (self.currentSelected.hasClass('we-mega-menu-submenu')) {
         if ($(this).is(':checked')) {
           self.currentSelected.closest('li').attr('hide-sub-when-collapse', 1);
@@ -462,12 +487,16 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
     });
 
 
-    self.toolbar.find('.we-mega-menu-txt-sub-menu-width').on('change', function() {
+    self.toolbar.find('.we-mega-menu-txt-sub-menu-width').once('we-mega-menu-txt-sub-menu-width').on('change', function() {
       var width = $(this).val();
       if (self.currentSelected.hasClass('we-mega-menu-submenu')) {
         if (width.length) {
+          width = parseInt(width);
+          width = (width >= 5120) ? 5120 : width; // resolution 5k retina
+          width = (width <= 0) ? '' : width;
           self.currentSelected.attr('data-submenu-width', width);
           self.currentSelected.css('width', width);
+          $(this).val(width);
         } else {
           self.currentSelected.removeAttr('data-submenu-width');
           self.currentSelected.css('width', '');
@@ -475,7 +504,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       }
     });
 
-    self.toolbar.find('.we-mega-menu-align-btn-group button').on('click', function() {
+    self.toolbar.find('.we-mega-menu-align-btn-group button').once('we-mega-menu-align-btn-group').on('click', function() {
       var type = $(this).attr('data-value');
       if ($(this).hasClass('active')) {
         $(this).removeClass('active');
@@ -493,7 +522,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       }
     });
 
-    self.toolbar.find('.we-mega-menu-btn-hide-when-collapse').on('change', function() {
+    self.toolbar.find('.we-mega-menu-btn-hide-when-collapse').once('we-mega-menu-btn-hide-when-collapse').on('change', function() {
       if (self.currentSelected.hasClass('we-mega-menu-col')) {
         if ($(this).is(':checked')) {
           self.currentSelected.addClass('hidden-collapse');
@@ -506,7 +535,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
     });
 
     var previous_class;
-    self.toolbar.find('.cbx-we-mega-menu-col-width').eq(0).on('focus', function () {
+    self.toolbar.find('.cbx-we-mega-menu-col-width').eq(0).once('cbx-we-mega-menu-col-width').on('focus', function () {
       var value = self.currentSelected.attr('data-width');
       previous_class = 'span' + value;
     }).change(function() {
@@ -518,7 +547,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       previous_class = 'span' + this.value;
     });
 
-    self.toolbar.find('.cbx-select-block').on('change', function() {
+    self.toolbar.find('.cbx-select-block').once('cbx-select-block').on('change', function() {
       var bid = $(this).val();
       $.ajax({
         type: "POST",
@@ -536,12 +565,12 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
           } else {
             self.currentSelected.removeAttr('data-block');
           }
-          Drupal.WeMegaMenu.click();
+          Drupal.WeMegaMenu.clickActions();
         }
       });
     });
 
-    self.toolbar.find('.btn-show-block-title').on('change', function() {
+    self.toolbar.find('.btn-show-block-title').once('btn-show-block-title').on('change', function() {
       if (self.currentSelected.hasClass('we-mega-menu-col')) {
         if ($(this).is(':checked')) {
           self.currentSelected.attr('data-blocktitle', 1);  
@@ -553,27 +582,27 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       }
     });
 
-    self.toolbar.find('.we-mega-menu-cbx-style').on('change', function() {
+    self.toolbar.find('.we-mega-menu-cbx-style').once('we-mega-menu-cbx-style').on('change', function() {
       var menu = $('nav.navbar-we-mega-menu');
       menu.attr('data-style', $(this).val());
     });
 
-    self.toolbar.find('.we-mega-menu-cbx-animation').on('change', function() {
+    self.toolbar.find('.we-mega-menu-cbx-animation').once('we-mega-menu-cbx-animation').on('change', function() {
       var menu = $('nav.navbar-we-mega-menu');
       menu.attr('data-animation', $(this).val());
     });
 
-    self.toolbar.find('.we-mega-menu-txt-delay').on('change', function() {
+    self.toolbar.find('.we-mega-menu-txt-delay').once('we-mega-menu-txt-delay').on('change', function() {
       var menu = $('nav.navbar-we-mega-menu');
       menu.attr('data-delay', $(this).val());
     });
 
-    self.toolbar.find('.we-mega-menu-txt-duration').on('change', function() {
+    self.toolbar.find('.we-mega-menu-txt-duration').once('we-mega-menu-txt-duration').on('change', function() {
       var menu = $('nav.navbar-we-mega-menu');
       menu.attr('data-duration', $(this).val());
     });
 
-    self.toolbar.find('.we-mega-menu-chx-auto-arrow').on('change', function() {
+    self.toolbar.find('.we-mega-menu-chx-auto-arrow').once('we-mega-menu-chx-auto-arrow').on('change', function() {
       var menu = $('nav.navbar-we-mega-menu');
       if ($(this).is(':checked')) {
         menu.attr('data-autoarrow', 1);
@@ -582,12 +611,12 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       }
     });
 
-    self.toolbar.find('.we-mega-menu-cbx-action').on('change', function() {
+    self.toolbar.find('.we-mega-menu-cbx-action').once('we-mega-menu-cbx-action').on('change', function() {
       var menu = $('nav.navbar-we-mega-menu');
       menu.attr('data-action', $(this).val());
     });
 
-    self.toolbar.find('.we-mega-menu-chx-alway-show-submenu').on('change', function() {
+    self.toolbar.find('.we-mega-menu-chx-alway-show-submenu').once('we-mega-menu-chx-alway-show-submenu').on('change', function() {
       var menu = $('nav.navbar-we-mega-menu');
       if ($(this).is(':checked')) {
         menu.attr('data-alwayshowsubmenu', 1);
@@ -596,7 +625,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       }
     });
 
-    self.toolbar.find('.we-mega-menu-chx-group').on('change', function() {
+    self.toolbar.find('.we-mega-menu-chx-group').once('we-mega-menu-chx-group').on('change', function() {
       if (self.currentSelected.hasClass('we-mega-menu-li')) {
         if ($(this).is(':checked')) {
           self.currentSelected.addClass('we-mega-menu-group');
@@ -608,7 +637,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       }
     });
 
-    self.toolbar.find('.we-mega-menu-chx-mobile-collapse').on('change', function() {
+    self.toolbar.find('.we-mega-menu-chx-mobile-collapse').once('we-mega-menu-chx-mobile-collapse').on('change', function() {
       var menu = $('nav.navbar-we-mega-menu');
       if ($(this).is(':checked')) {
         menu.attr('data-mobile-collapse', 1);
@@ -619,7 +648,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       }
     });;
 
-    self.toolbar.find('.we-mega-menu-btn-break-col').on('click', function() {
+    self.toolbar.find('.we-mega-menu-btn-break-col').once('we-mega-menu-btn-break-col').on('click', function() {
       if (self.currentSelected.hasClass('we-mega-menu-li')) {
         var type = $(this).val();
         var curCol = self.currentSelected.closest('.we-mega-menu-col');
@@ -644,13 +673,9 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
 
               var prev = curCol.prev('.we-mega-menu-col');
               if (typeof curCol.prev().find('ul').length != 'undefined' && curCol.prev().find('ul').length > 0) {
-                // alert(1);
                 while (typeof prev.attr('data-block') != 'undefined' && prev.attr('data-block').length > 0) {
-                  // alert(2);
                   prev = prev.prev();
                 }
-
-                
 
                 if (typeof prev.find('ul').length != 'undefined' && prev.find('ul').length > 0) {
                   prev.find('ul').append(html);
@@ -663,9 +688,8 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
               }
             }
             
-
             // Rebuild event click
-            Drupal.WeMegaMenu.click();
+            Drupal.WeMegaMenu.clickActions();
             break;
 
           case 'right':
@@ -699,15 +723,14 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
                 curCol.next('.we-mega-menu-col').prepend('<ul class="nav nav-tabs subul">' + html + '</ul>');
               }
             }
-            
 
             // Rebuild event click
-            Drupal.WeMegaMenu.click();
+            Drupal.WeMegaMenu.clickActions();
             break;
         }
 
         // Rebuild event click
-        Drupal.WeMegaMenu.click();
+        Drupal.WeMegaMenu.clickActions();
         Drupal.WeMegaMenu.calcColWidthLayout(curCol.closest('.we-mega-menu-row'));
         self.currentSelected.trigger('click');
       }
@@ -773,7 +796,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
   };
   
   Drupal.WeMegaMenu.saveConfig = function() {
-    $('div.we-mega-menu button.btn-save').on('click', function() {
+    $('div.we-mega-menu button.btn-save').once('we-mega-menu-button-btn-save').on('click', function() {
       $('button.btn.btn-success.btn-save').prop('disabled', true);
       var menu = Drupal.WeMegaMenu.menu;
       var menu_name = menu.attr('data-menu-name');
@@ -929,7 +952,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
   };
 
   Drupal.WeMegaMenu.resetConfig = function() {
-    $('button.btn.btn-danger.btn-reset').on('click', function() {
+    $('button.btn.btn-danger.btn-reset').once('button-btn-btn-danger-btn-reset').on('click', function() {
       $('button.btn.btn-danger.btn-reset').prop('disabled', true);
       var menu = Drupal.WeMegaMenu.menu;
       var menu_name = menu.attr('data-menu-name');
@@ -947,7 +970,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
           Drupal.WeMegaMenu.currentSelected = null;
           Drupal.WeMegaMenu.toolbar = $('.we-mega-menu-toolbar');
           Drupal.WeMegaMenu.menu = $('nav.navbar-we-mega-menu');
-          Drupal.WeMegaMenu.click();
+          Drupal.WeMegaMenu.clickActions();
           $.notify({
             icon: 'glyphicon glyphicon-ok-sign',
             message: 'Reset menu config completed',
@@ -988,7 +1011,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
       });
     });
 
-    $('button.btn.btn-danger.btn-reset-to-default').on('click', function() {
+    $('button.btn.btn-danger.btn-reset-to-default').once('button-btn-btn-danger-btn-reset-to-default').on('click', function() {
       $('button.btn.btn-danger.btn-reset-to-default').prop('disabled', true);
       var menu = Drupal.WeMegaMenu.menu;
       var menu_name = menu.attr('data-menu-name');
@@ -1007,7 +1030,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
           Drupal.WeMegaMenu.currentSelected = null;
           Drupal.WeMegaMenu.toolbar = $('.we-mega-menu-toolbar');
           Drupal.WeMegaMenu.menu = $('nav.navbar-we-mega-menu');
-          Drupal.WeMegaMenu.click();
+          Drupal.WeMegaMenu.clickActions();
           $.notify({
             icon: 'glyphicon glyphicon-ok-sign',
             message: 'Reset menu config completed',
@@ -1068,7 +1091,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
   };
 
   Drupal.WeMegaMenu.backendStyle = function() {
-    $('body.we-mega-menu-backend .we-mega-menu .ico-toolbar.ico-toolbar-horizontal').on('click', function() {
+    $('body.we-mega-menu-backend .we-mega-menu .ico-toolbar.ico-toolbar-horizontal').once('we-mega-menu-backend-toolbar-horizontal').on('click', function() {
       var class_data = '';
       if ($('body').hasClass('we-mega-menu-toolbar-horizontal')) {
         $('body').removeClass('we-mega-menu-toolbar-horizontal');

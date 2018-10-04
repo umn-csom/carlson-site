@@ -56,10 +56,13 @@ Drupal.WeMegaMenuFrontEnd.megamenuActivated = false;
   };
 
   Drupal.WeMegaMenuFrontEnd.mobileMenu = function() {
-      $('#menu-toggle').mobileMenu({
-          pageSelector: 'body',
-          targetWrapper: '.navbar-we-mega-menu'
+    $('div.region-we-mega-menu a.navbar-toggle').mobileMenu();
+    
+    // $('div.region-we-mega-menu a.navbar-toggle').mobileMenu({
+      // pageSelector: 'body',
+      // targetWrapper: '.navbar-we-mega-menu'
+    // });
 
-      });
+    // $('#menu-toggle-wemegamenu').mobileMenu();
   };
 })(jQuery, Drupal, drupalSettings);
