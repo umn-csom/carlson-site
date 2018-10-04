@@ -224,14 +224,14 @@
       font-size: calc( 0.72vw + (12 - 10) * (100vw - 400px) / (800 - 400) );
       line-height: calc( 1.2vw + (18 - 12) * (100vw - 400px) / (800 - 400) );
       &:hover{
-        a{
+        a.we-mega-menu-li{
           &:after{
             content: '';
             opacity: 1;
           }
         }
       }
-      a{
+      a.we-mega-menu-li{
         display: -webkit-box;
         display: -ms-flexbox;
         display: flex;
@@ -283,7 +283,7 @@
       background-color: #fff;
       box-shadow: 0 3px 15px rgba(0,0,0,0.11765) !important;
       width: 100%;
-      top: calc(100% - 14px);
+      top: calc(100% - 27%);
     }
     .we-mega-menu-submenu{
       width: 100% !important;
@@ -298,7 +298,7 @@
       background-color: #fff;
       box-shadow: 0 3px 15px rgba(0,0,0,0.11765) !important;
       width: 100%;
-      top: calc(100% - 14px);
+      top: calc(100% - 27%);
 
       .we-mega-menu-submenu-inner{
         width: 100%;
@@ -327,7 +327,7 @@
               width: 50%;
               // border-right: 1px solid #e6dbd6;
               .we-mega-menu-li{
-                width: 100%;
+                width: auto;
                 display: -webkit-box;
                 display: -ms-flexbox;
                 display: flex;
@@ -344,8 +344,8 @@
                     }
                   }
                 }
+
                 a, span{
-                  margin-right: 30px;
                   color: #363230;
                   font-family: "Crimson Text";
                   font-size: 30px;
@@ -412,6 +412,16 @@
                       transform: rotate(0deg) !important;
                       opacity: 1 !important;
                     }
+                  }
+                }
+              }
+            }
+            &.span6{
+              .nav-tabs{
+                width: 100%;
+                .we-mega-menu-li{
+                  a.we-mega-menu-li{
+                    margin: 0px;
                   }
                 }
               }
@@ -505,7 +515,7 @@ body.toggled .navbar-toggle{
   -webkit-box-pack: end;
   -ms-flex-pack: end;
   justify-content: flex-end;
-  padding: 0 0 0 17px;
+  padding: 0;
   position: absolute;
   right: 0;
   width: 50%;
@@ -536,4 +546,9 @@ body.toggled .navbar-toggle{
   min-height: 1px;
   padding-right: 15px;
   padding-left: 15px;
+}
+
+.navbar{
+  background: transparent;
+  position: static;
 }
