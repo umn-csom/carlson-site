@@ -1,7 +1,7 @@
 {%
     set content_sample = {
     			'heading': 'Some video Heading',
-          'thumb': '<img src="/sites/default/themes/custom/barrio_carlson/images/placeholders/featured-video-placeholder-488x275.jpg"/>',
+          'thumb': '<img class="img-fluid" src="/sites/default/themes/custom/barrio_carlson/images/placeholders/featured-video-placeholder-488x275.jpg"/>',
 			    'caption': 'A caption about the video here',
 			    'video': '66',
         }
@@ -13,12 +13,18 @@
 
 <section>
 	<div class="row video-textright">
-		<div class="col-sm-12 col-md-6">
-			<a class="use-ajax video-textright__link" data-dialog-type="modal" href="/media/{{ content_data['video'] }}" data-dialog-options="{&quot;width&quot;:800}">{{ content_data['thumb']|raw }}</a>
+		<div class="col-sm-12 col-md-6 video-textright__left">
+			<a class="use-ajax video-textright__link" data-dialog-type="modal" href="/media/{{ content_data['video'] }}" data-dialog-options="{&quot;width&quot;:800}">
+      {{ content_data['thumb']|raw }}
+      <div class="video-textright__details">
+        <span class="play-btn">&gt;</span>
+        <hr>
+      </div>
+    </a>
 		</div>
-		<div class="col-sm-12 col-md-6">
+		<div class="col-sm-12 col-md-6 video-textright__right">
 			<label class="video-textright__heading">{{ content_data['heading']|raw }}</label>
-		  <caption class="video-textright__caption">{{ content_data['caption']|raw }}</caption>
+      <span class="video-textright__caption"><caption class="video-textright__caption">{{ content_data['caption']|raw }}</caption></span>
 		</div>
 	</div>
 </section>
