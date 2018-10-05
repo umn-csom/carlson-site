@@ -12,10 +12,10 @@ Style guide: components.feature-block
 */
 
 .feature-block {
-  display: flex;
-  align-items: center;
+  // display: flex;
+  // align-items: center;
   .row{
-    align-items: center;
+    // align-items: center;
   }
     &__img {
       position: relative;
@@ -28,10 +28,14 @@ Style guide: components.feature-block
     }
 
     &__content {
-      // display: flex;
-      // flex-direction: column;
-      // justify-content: center;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       position: relative;
+      padding-top: 30px;
+      @media (max-width: 576px){
+        padding: 45px;
+      }
       &:before{
         content: '';
         display: block;
@@ -39,9 +43,21 @@ Style guide: components.feature-block
         height: 2px;
         width: 100%;
         background: #e6dbd6;
-        top: -50%;
+        top: 15px;
         left: -15px;
         z-index: -1;
+        transition: all 0.3s ease-in-out;
+        @media (max-width: 576px){
+          content: '';
+          display: block;
+          position: absolute;
+          height: 100%;
+          width: 2px;
+          background: #e6dbd6;
+          top: 0;
+          left: 30px;
+          z-index: -1;
+        }
       }
       &:after{
         content: '';
@@ -50,16 +66,31 @@ Style guide: components.feature-block
         height: 2px;
         width: 100%;
         background: #e6dbd6;
-        bottom: -50%;
+        bottom: -15px;
         left: -15px;
         z-index: -1;
+        transition: all 0.3s ease-in-out;
+        @media (max-width: 576px){
+          content: '';
+          display: block;
+          position: absolute;
+          height: 100%;
+          width: 2px;
+          background: #e6dbd6;
+          top: 0px;
+          right: 30px;
+          z-index: -1;
+          left: auto;
+          bottom: auto;
+        }
       }
     }
     &__link{
+      margin-top: 10px;
       color: #363230;
       font-family: "Lato";
       font-size: 16px;
-      line-height: 16px;
+      line-height: 10px;
       font-weight: 700;
       text-transform: uppercase;
       display: inline-block;
