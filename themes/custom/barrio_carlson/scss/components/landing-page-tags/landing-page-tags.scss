@@ -26,7 +26,11 @@ Style guide: components.landing-page-tags
   -ms-flex-pack: center;
   justify-content: center;
   background-color: transparent;
+  border-top: 1px solid #e6dbd6;
+  border-bottom: 1px solid #e6dbd6;
   .page-tags-intro-container{
+
+
     .page-tags-intro{
       display: -webkit-box;
       display: -ms-flexbox;
@@ -34,6 +38,35 @@ Style guide: components.landing-page-tags
       -webkit-box-align: center;
       -ms-flex-align: center;
       align-items: center;
+      .tags-title{
+        color: #363230;
+        font-family: "Crimson Text";
+        font-size: 34px;
+        font-weight: 400;
+        line-height: 31px;
+        padding-right: 15px;
+      }
+      .tag-list{
+        display: inherit;
+        margin: 0;
+        li{
+          color: #7a0019;
+          font-family: "Lato";
+          font-size: 16px;
+          line-height: 30px;
+          padding-right: 7px;
+          font-style: italic;
+          &:last-of-type{
+            &:after{
+              content: '' !important;
+            }
+          }
+          &:after{
+            content: ', ';
+            display: inline;
+          }
+        }
+      }
       p{
         color: #363230;
         font-family: "Crimson Text";
@@ -55,7 +88,7 @@ Style guide: components.landing-page-tags
     -ms-flex-pack: end;
     justify-content: flex-end;
     .page-tags-link{
-      a{
+      .share-title{
         color: #363230;
         font-family: "Lato";
         font-size: 16px;
@@ -63,7 +96,10 @@ Style guide: components.landing-page-tags
         text-transform: uppercase;
         letter-spacing: 1.78px;
       }
-      i{}
+      .social-media{
+        margin-bottom: 0px;
+        li{}
+      }
     }
   }
 }
