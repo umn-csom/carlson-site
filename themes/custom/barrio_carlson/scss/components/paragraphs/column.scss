@@ -12,19 +12,56 @@ Style guide: components.column
 */
 
 .column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+          align-items: center;
+          &__wrapper{
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                    justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+                    align-items: center;
+                    flex-wrap: wrap;
+          }
+          &__content{
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            flex-direction: column;
+            padding-top: 15px;
+            padding-bottom: 15px;
+          }
     &__img {
         display: inline-block;
     }
 
     &__heading {
-
+      color: #363230;
+      font-family: "Crimson Text";
+      font-size: 48px;
+      font-weight: 400;
+      line-height: 42px;
     }
 
     &__markup {
-        
+      color: #363230;
+      font-family: "Lato";
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 30px;
     }
 
     &__link {
-        
+
     }
 }
