@@ -8787,7 +8787,18 @@ Style guide: components.quote
 .quote {
   display: flex;
   flex-direction: column;
-  align-items: center; }
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-image: linear-gradient(180deg, #f7f4f2 0%, #ffffff 100%); }
+  .quote__img {
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .quote__img img {
+      border-radius: 100%;
+      border: 1px solid transparent; }
   .quote__text {
     color: #363230;
     font-family: "Crimson Text";
@@ -11718,9 +11729,12 @@ Markup: ../../../templates/components/slide.html.twig
 Style guide: components.slide
 */
 .slide {
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   align-items: center; }
+  .slide .slick-slider {
+    display: flex !important;
+    justify-content: center; }
   .slide__img {
     display: inline-block; }
   .slide__caption {
