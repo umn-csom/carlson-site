@@ -8501,14 +8501,40 @@ Style guide: components.landing-page-tags
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
-  background-color: transparent; }
+  background-color: transparent;
+  border-top: 1px solid #e6dbd6;
+  border-bottom: 1px solid #e6dbd6; }
   .page-tags-container .page-tags-intro-container .page-tags-intro {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -webkit-box-align: center;
     -ms-flex-align: center;
-    align-items: center; }
+    align-items: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap; }
+    .page-tags-container .page-tags-intro-container .page-tags-intro .tags-title {
+      color: #363230;
+      font-family: "Crimson Text";
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 31px;
+      padding-right: 15px; }
+    .page-tags-container .page-tags-intro-container .page-tags-intro .tag-list {
+      display: inherit;
+      margin: 0; }
+      .page-tags-container .page-tags-intro-container .page-tags-intro .tag-list li {
+        color: #7a0019;
+        font-family: "Lato";
+        font-size: 16px;
+        line-height: 30px;
+        padding-right: 7px;
+        font-style: italic; }
+        .page-tags-container .page-tags-intro-container .page-tags-intro .tag-list li:last-of-type:after {
+          content: '' !important; }
+        .page-tags-container .page-tags-intro-container .page-tags-intro .tag-list li:after {
+          content: ', ';
+          display: inline; }
     .page-tags-container .page-tags-intro-container .page-tags-intro p {
       color: #363230;
       font-family: "Crimson Text";
@@ -8526,13 +8552,21 @@ Style guide: components.landing-page-tags
     -webkit-box-pack: end;
     -ms-flex-pack: end;
     justify-content: flex-end; }
-    .page-tags-container .page-tags-link-container .page-tags-link a {
+    @media (max-width: 576px) {
+      .page-tags-container .page-tags-link-container {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+        padding-top: 15px; } }
+    .page-tags-container .page-tags-link-container .page-tags-link .share-title {
       color: #363230;
       font-family: "Lato";
       font-size: 16px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 1.78px; }
+    .page-tags-container .page-tags-link-container .page-tags-link .social-media {
+      margin-bottom: 0px; }
 
 /**
  * @file
@@ -8765,6 +8799,60 @@ Style guide: components.quote
     font-size: 14px;
     font-weight: 700;
     text-transform: uppercase; }
+
+/**
+* @file
+* Visual styles for comments in Barrio.
+*/
+/*
+Column
+
+Markup: ../../../templates/components/column.html.twig
+
+Style guide: components.column
+*/
+.column {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center; }
+  .column__wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    flex-wrap: wrap; }
+  .column__content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+    padding-top: 15px;
+    padding-bottom: 15px; }
+  .column__img {
+    display: inline-block; }
+  .column__heading {
+    color: #363230;
+    font-family: "Crimson Text";
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 42px; }
+  .column__markup {
+    color: #363230;
+    font-family: "Lato";
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 30px; }
 
 /**
  * @file
@@ -9199,9 +9287,7 @@ Style guide: components.carlson-advantages
   justify-content: center;
   -webkit-box-align: center;
   -ms-flex-align: center;
-  align-items: center;
-  display: -ms-flexbox;
-  display: flex; }
+  align-items: center; }
   .carlson-advantages .home-advantage-wrapper {
     display: -webkit-box;
     display: -ms-flexbox;

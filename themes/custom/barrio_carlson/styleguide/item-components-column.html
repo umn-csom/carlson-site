@@ -95,19 +95,26 @@
           <div class="kss-modifier__example">
                     
 <div class="column">
-  <div class="column__img">
-          <img src="http://placekitten.com/592/412" />
+  <div class="row">
+    <div class="column__wrapper">
+      <div class="column__img col-12 col-sm-6">
+                  <img class="img-fluid" src="http://placekitten.com/592/412" />
+              </div>
+      <div class="column__content col-12 col-sm-6">
+        <div class="column__heading">
+          <h2>Carlson Full time MBA</h2>
+        </div>
+        <div class="column__markup">
+          <p>The Carlson School invites you to be and do something truly special. Belong to a unique community of inquisitive thinkers and engaged faculty who bring a wealth of experience to the program and bring out the best in one another.</p>
+        </div>
+        <div class="column__link">
+          <button type="button" class="btn button btn-secondary" href="#">Read More</button>
+        </div>
       </div>
-  <div class="column__heading">
-    <h2>Carlson Full time MBA</h2>
-  </div>
-  <div class="column__markup">
-    <p>The Carlson School invites you to be and do something truly special. Belong to a unique community of inquisitive thinkers and engaged faculty who bring a wealth of experience to the program and bring out the best in one another.</p>
-  </div>
-  <div class="column__link">
-    <a href="#">Read More</a>
+    </div>
   </div>
 </div>
+
             <div class="kss-modifier__example-footer"></div>
           </div>
 
@@ -117,28 +124,35 @@
                               Markup: <code>../templates/components/column.html.twig</code>
                           </summary>
             <pre class="hljs"><code class="language-twig">&lt;span class=&quot;xml&quot;&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; content is empty %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; column_imgsrc = &#039;&amp;lt;img src=&quot;http://placekitten.com/592/412&quot; /&amp;gt;&#039; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; column_imgsrc = &#039;&amp;lt;img class=&quot;img-fluid&quot; src=&quot;http://placekitten.com/592/412&quot; /&amp;gt;&#039; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
   &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; column_heading = &#039;Carlson Full time MBA&#039; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
   &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; column_markup = &#039;&amp;lt;p&amp;gt;The Carlson School invites you to be and do something truly special. Belong to a unique community of inquisitive thinkers and engaged faculty who bring a wealth of experience to the program and bring out the best in one another.&amp;lt;/p&amp;gt;&#039; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; column_link = &#039;&amp;lt;a href=&quot;#&quot;&amp;gt;Read More&amp;lt;/a&amp;gt;&#039; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; column_link = &#039;&amp;lt;button type=&quot;button&quot; class=&quot;btn button btn-secondary&quot; href=&quot;#&quot;&amp;gt;Read More&amp;lt;/button&amp;gt;&#039; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
 &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
 
 &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;column&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;column__img&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-    &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; column_imgsrc is defined %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-      &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ column_imgsrc|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-    &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;row&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;column__wrapper&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;column__img col-12 col-sm-6&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; column_imgsrc is defined %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ column_imgsrc|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;endif&lt;/span&gt;&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+      &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;column__content col-12 col-sm-6&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;column__heading&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ column_heading }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;column__markup&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ column_markup|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;column__link&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ column_link |&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+        &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+      &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
   &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;column__heading&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ column_heading }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;h2&lt;/span&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;column__markup&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-    &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ column_markup|&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;column__link&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
-    &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ column_link |&lt;span class=&quot;hljs-keyword&quot;&gt;raw&lt;/span&gt; }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-  &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;</code></pre>
+&lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+&lt;/span&gt;</code></pre>
           </details>
               
               <div class="kss-source kss-style">
