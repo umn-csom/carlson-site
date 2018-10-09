@@ -9,16 +9,15 @@
         $('.' + classId + ' .slider-for').slick({
           slidesToShow: 1,
           slidesToScroll: 1,
-          arrows: false,
+          arrows: true,
           dots: false,
           fade: false,
           infinite: true,
           centerMode: true,
           asNavFor: ('.' + classId + ' .slider-nav' ),
           draggable: true,
-          customPaging: function(slick,index) {
-                return $('.thumbnails').eq(index).find('img').prop('outerHTML');
-            },
+          variableWidth: true,
+          centerPadding: '15px',
             responsive: [
               {
                 breakpoint: 640,
@@ -27,9 +26,7 @@
                   dots: true,
                   centerMode: true,
                   slidesToShow: 1,
-                  customPaging: function(slick,index) {
-                      return '<button type="button" data-role="none">' + (index + 1) + '</button>';
-                    }
+
                   }
                 }
               ]
@@ -42,8 +39,8 @@
           dots: false,
           arrows: true,
           infinite: true,
-          centerMode: false,
-          centerPadding: '0px',
+          centerMode: true,
+          centerPadding: '15px',
           focusOnSelect: true,
           draggable: false,
           variableWidth: true,
