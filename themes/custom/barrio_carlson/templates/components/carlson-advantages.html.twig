@@ -7,8 +7,16 @@
         </div>
 
         {% if content is defined %}
-          {{ content }}
-        {% else %}
+          {% set data = content|field_value %}
+          {% set len = data|length %}
+          {% set divide = 12/len %}
+
+          {% for key,value in data %}
+            <div class="col-lg-{{ divide }}">
+              {{ data[key] }}
+            </div>
+          {% endfor %}
+        {% else %} 
 
         <div class="col-md-4">
           <div class="column-container">
