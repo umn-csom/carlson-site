@@ -1,6 +1,35 @@
+
+
 .carlson-nav {
     .region-we-mega-menu {
         width: 100%;
+        background: none;
+
+        .navbar-toggle {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-items: center;
+            position: absolute;
+            right: 15px;
+            margin-top: -5px;
+
+            @include media-breakpoint-up(lg) {
+                display: none;
+            }
+
+            .icon-bar {
+                background-color: $hamburger-grey;
+                width: 35px;
+                margin-bottom: 5px;
+            }
+
+            .icon-label {
+                font-family: "Lato";
+                color: $maroon;
+                font-size: 2.8em;
+            }
+        }
     }
 
     .we-mega-menu-li {
@@ -10,10 +39,28 @@
         }
     }
 
-    .navbar-we-mega-menu.navbar .dropdown-menu {
+    .dropdown-menu {
         width: 100%;
         @include media-breakpoint-up(lg) {
             width: inherit;
         }
     }
+}
+
+.navbar-brand {
+    padding: 0;
+    margin: 0;
+    max-width: 70%;
+    padding-top: 35px;
+    padding-left: 15px;
+
+    @include media-breakpoint-up(lg) {
+        padding-right: 15px;
+        max-width: 20%;
+        padding-top: 18px;
+    }
+}
+
+.overlay {
+    background: none;
 }
