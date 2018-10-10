@@ -4,7 +4,6 @@
  *
  */
 (function ($, Drupal) {
-
   'use strict';
 
   Drupal.behaviors.bootstrap_barrio_subtheme = {
@@ -20,7 +19,7 @@ $('body').addClass(classes[randomnumber]);
 $('.path-galerias #block-sass-starterkit-content').append("<div id='blueimp-gallery' class='blueimp-gallery'><div class='slides' /><h3 class='title' /><a class='prev'>‹</a><a class='next'>›</a><a class='close'>×</a><a class='play-pause' /><ol class='indicator' /></div>");
 $('.view-galerias').attr('id', 'links');
 
-$('.triple .view-content').addClass('ml-sm-1 mr-sm-1')
+$('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
 
 // document.getElementById('links').onclick = function (event) {
 //     event = event || window.event;
@@ -37,13 +36,12 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1')
   };
 
 
-        $(window).on('scroll', function () {
-            if ($(window).scrollTop() >= 10) {
-                $('.carlson-header, .umnhf-campus-tc').addClass('compressed');
-            } else {
-                $('.carlson-header, .umnhf-campus-tc').removeClass('compressed');
-            }
-        });
-
+    $(window).on('scroll', function () {
+        if ($(window).scrollTop() >= 10) {
+            $('.carlson-header, .umnhf-campus-tc').addClass('compressed');
+        } else {
+            $('.carlson-header, .umnhf-campus-tc').removeClass('compressed');
+        }
+    });
 
 })(jQuery, Drupal);

@@ -5,14 +5,18 @@
         width: 100%;
         background: none;
 
+        @include media-breakpoint-up(lg) {
+            height: 80px;
+        }
+
         .navbar-toggle {
             display: flex;
             flex-direction: column;
             flex-wrap: nowrap;
             align-items: center;
             position: absolute;
-            right: 15px;
-            margin-top: -5px;
+            right: 25px;
+            margin-top: -8px;
 
             @include media-breakpoint-up(lg) {
                 display: none;
@@ -27,22 +31,52 @@
             .icon-label {
                 font-family: "Lato";
                 color: $maroon;
-                font-size: 2.8em;
+                font-size: 2em;
             }
         }
-    }
 
-    .we-mega-menu-li {
-        width: 100%;
-        @include media-breakpoint-up(lg) {
-            width: inherit;
+        .navbar {
+            background: $white;
+            height: 100vh;
+            width: 100%;
+            top: 186px;
+            left: -1400px;
+            transition: opacity .25s;
+            opacity: 0;
+
+            &.we-mobile-megamenu-active {
+                left: 0;
+                opacity: 1;
+            }
+
+            @include media-breakpoint-up(sm) {
+                top: 155px;
+            }
+
+            @include media-breakpoint-up(lg) {
+                top: inherit;
+                bottom: 25px;
+                opacity: 1;
+                left: 0;
+                width: 99%;
+                height: inherit;
+                margin: 0;
+                padding: 0;
+                display: block;
+                background: none;
+
+                .container-fluid {
+                    justify-content: flex-end;
+                }
+            }
         }
-    }
 
-    .dropdown-menu {
-        width: 100%;
-        @include media-breakpoint-up(lg) {
-            width: inherit;
+        .dropdown-menu,
+        .we-mega-menu-li {
+            width: 100%;
+            @include media-breakpoint-up(lg) {
+                width: inherit;
+            }
         }
     }
 }
@@ -55,12 +89,51 @@
     padding-left: 15px;
 
     @include media-breakpoint-up(lg) {
-        padding-right: 15px;
-        max-width: 20%;
-        padding-top: 18px;
+        padding-right: 0;
+        max-width: 100%;
+        padding-top: 25px;
     }
 }
 
 .overlay {
     background: none;
+}
+
+.btn-close {
+    top: 90px;
+    right: 7px;
+    background: $white;
+    box-shadow: none;
+    width: 70px;
+    height: 100px;
+    border-radius: 0px;
+    text-align: center;
+    animation: none;
+    transition: none;
+
+    &:before,
+    &:after {
+        background-color: $hamburger-grey;
+        top: 37%;
+        margin-left: -14px;
+        width: 30px;
+    }
+
+    label {
+        font-family: "Lato";
+        font-weight: normal;
+        color: $maroon;
+        font-size: 2em;
+        margin-top: 57px;
+    }
+
+    @include media-breakpoint-up(sm) {
+        top: 64px;
+    }
+}
+
+body {
+    &.toggled {
+        right: 0;
+    }
 }

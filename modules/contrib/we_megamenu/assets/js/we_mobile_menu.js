@@ -72,7 +72,7 @@
           $('body').css('position', 'relative');
         }
         if (wrapper.find('.btn-close').length == 0) {
-          var btnClose = $('<span class="btn-close"></span>');
+          var btnClose = $('<span class="btn-close"><label>CLOSE</label></span>');
           btnClose.prependTo(wrapper);
 
           $('.btn-close').on('click', function (e) {
