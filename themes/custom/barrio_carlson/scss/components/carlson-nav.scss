@@ -89,21 +89,15 @@
                         }
                     }
 
-                    &.open {
-                        .we-mega-menu-li {
-                            background: none;
-                        }
-                    }
-
                     &.dropdown-menu {
                         width: 100%;
                         .we-mega-menu-li {
                             padding-left: 35px;
 
                             &:after {
-                                color: $menu-gold;
-                                content: '\f067';
-                                margin-top: -10px;
+                                content: '';
+                                @include plus-icon();
+                                margin-top: -13px;
                                 left: 0;
                             }
                         }
@@ -123,6 +117,18 @@
 
                             &:after {
                                 content: '';
+                            }
+                        }
+                    }
+
+                    &.open {
+                        .we-mega-menu-li {
+                            background: none;
+
+                            &:after {
+                                content: '';
+                                @include minus-icon();
+                                margin-top: 0;
                             }
                         }
                     }

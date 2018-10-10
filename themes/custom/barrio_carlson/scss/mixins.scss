@@ -34,3 +34,21 @@ $value in $theme-colors {
     letter-spacing: 0.5em;
     line-height: 1.3em;
 }
+
+@mixin base-icon() {
+    background-size: 70%;
+    background-repeat: no-repeat;
+    width: 35px;
+    height: 25px;
+}
+
+@mixin plus-icon() {
+    background: url('../images/svg/plus-icon.svg');
+    @include base-icon();
+}
+
+@mixin minus-icon() {
+    background: url('../images/svg/minus-icon.svg');
+    @include base-icon();
+    height: 2px;
+}
