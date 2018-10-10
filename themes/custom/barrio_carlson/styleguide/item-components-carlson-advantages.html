@@ -104,7 +104,8 @@
           <p>CARLSON ADVANTAGE</p>
         </div>
 
-        
+         
+
         <div class="col-md-4">
           <div class="column-container">
             <img class="img-fluid img-shadow" src="http://placekitten.com/518/436" />
@@ -150,7 +151,8 @@
           <p>CARLSON ADVANTAGE</p>
         </div>
 
-        
+         
+
         <div class="col-md-4">
           <div class="column-container">
             <img class="img-fluid img-shadow" src="http://placekitten.com/518/436" />
@@ -194,8 +196,16 @@
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
 
         &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;if&lt;/span&gt;&lt;/span&gt; content is defined %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-          &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ content }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
-        &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;else&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; data = content|field_value %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; len = data|&lt;span class=&quot;hljs-keyword&quot;&gt;length&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;set&lt;/span&gt;&lt;/span&gt; divide = 12/len %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;for&lt;/span&gt;&lt;/span&gt; key,value in data %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+            &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-lg-&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ divide }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;hljs-tag&quot;&gt;&lt;span class=&quot;hljs-string&quot;&gt;&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
+              &lt;/span&gt;&lt;span class=&quot;hljs-template-variable&quot;&gt;{{ data[key] }}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+            &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;/&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;
+          &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;&lt;span class=&quot;hljs-keyword&quot;&gt;endfor&lt;/span&gt;&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt;
+        &lt;/span&gt;&lt;span class=&quot;hljs-template-tag&quot;&gt;{% &lt;span class=&quot;hljs-name&quot;&gt;else&lt;/span&gt; %}&lt;/span&gt;&lt;span class=&quot;xml&quot;&gt; 
 
         &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;col-md-4&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
           &lt;span class=&quot;hljs-tag&quot;&gt;&amp;lt;&lt;span class=&quot;hljs-name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;hljs-attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;hljs-string&quot;&gt;&quot;column-container&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;
