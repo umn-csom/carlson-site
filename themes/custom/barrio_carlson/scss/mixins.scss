@@ -42,13 +42,70 @@ $value in $theme-colors {
     height: 25px;
 }
 
-@mixin plus-icon() {
-    background: url('../images/svg/plus-icon.svg');
+@function str-replace($string, $search, $replace: '') {
+    $index: str-index($string, $search);
+    @if $index {
+        @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+    }
+    @return $string;
+}
+
+@function url-encode($string) {
+    $map: (
+        "%": "%25",
+        "<": "%3C",
+        ">": "%3E",
+        " ": "%20",
+        "!": "%21",
+        "*": "%2A",
+        "'": "%27",
+        '"': "%22",
+        "(": "%28",
+        ")": "%29",
+        ";": "%3B",
+        ":": "%3A",
+        "@": "%40",
+        "&": "%26",
+        "=": "%3D",
+        "+": "%2B",
+        "$": "%24",
+        ",": "%2C",
+        "/": "%2F",
+        "?": "%3F",
+        "#": "%23",
+        "[": "%5B",
+        "]": "%5D"
+    );
+    $new: $string;
+    @each $search, $replace in $map {
+        $new: str-replace($new, $search, $replace);
+    }
+    @return $new;
+}
+
+@function inline-svg($string) {
+    @return url('data:image/svg+xml;utf8,#{url-encode($string)}');
+}
+
+@mixin plus-icon($color) {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="' + $color + '"><path d="M15.059 15.059v-15.059h1.882v15.059h15.059v1.882h-15.059v15.059h-1.882v-15.059h-15.059v-1.882z"></path></svg>');
     @include base-icon();
 }
 
-@mixin minus-icon() {
-    background: url('../images/svg/minus-icon.svg');
+@mixin minus-icon($color) {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="' + $color + '"><path d="M0 32v-32h544v32z"></path></svg>');
     @include base-icon();
     height: 2px;
+}
+
+@mixin line-marker($color) {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="' + $color + '"><path d="M0 32v-32h544v32z"></path></svg>');
+    background-position: 36px 30px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@mixin right-arrow-icon($color) {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="21" height="32" viewBox="0 0 21 32" fill="' + $color + '"><path d="M1.646 5.55l2.427-2.599 15.614 14.581-15.454 14.432-2.427-2.599 12.671-11.833z"></path></svg>');
+    @include base-icon();
 }
