@@ -57,7 +57,7 @@
       var targetWrapper = $(this).closest('div.region-we-mega-menu').find('nav.navbar-we-mega-menu');
       var wrapper = $(settings.pageSelector);
       if (!wrapper.hasClass(settings.toggledClass)) {
-        wrapper.addClass(settings.toggledClass).css('position', 'relative');
+        wrapper.addClass(settings.toggledClass).css('position', 'fixed');
         $(settings.targetWrapper).addClass('mobile-main-menu');
         targetWrapper.addClass('we-mobile-megamenu-active');
         if (wrapper.find('.overlay').length == 0) {
@@ -69,7 +69,7 @@
           $('body').css('overflow', 'hidden');
           $('body').css('btn-close', 'hidden');
           $('body').css('height', '100%');
-          $('body').css('position', 'relative');
+          $('body').css('position', 'fixed');
         }
         if (wrapper.find('.btn-close').length == 0) {
           var btnClose = $('<span class="btn-close"><label>CLOSE</label></span>');
