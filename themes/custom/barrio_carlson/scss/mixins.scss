@@ -18,6 +18,10 @@ $value in $theme-colors {
 @mixin heading-title($size: $font-medium, $color: $gold, $align:'center') {
     @include font-crimson-base();
     line-height: $size;
+    font-size: $size + '-mobile';
+    @include media-breakpoint-up(md) {
+        font-size: $size;
+    }
     position: relative;
     margin-bottom: 2.4rem;
     &:after{
@@ -36,12 +40,10 @@ $value in $theme-colors {
 
 @mixin font-crimson-base() {
     font-family: $font-crimson;
-    font-weight: 400;
 }
 
 @mixin font-lato-base() {
     font-family: $font-lato;
-    font-weight: 400;
 }
 
 @mixin sans-serif-font($size) {
@@ -74,7 +76,6 @@ $value in $theme-colors {
 /* Button mixins */
 @mixin button() {
     padding: 1.5rem 2rem;
-    box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20); 
     @include sans-serif-font($font-base);
     text-transform: uppercase;
     transition: all 0.3s ease-in-out;
@@ -91,7 +92,7 @@ $value in $theme-colors {
     }
     &:hover, &:active, &:focus{
       background: $color;
-      box-shadow: none;
+      box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20); 
       color: $white;
     }
 }
@@ -103,7 +104,7 @@ $value in $theme-colors {
     color: $white;
     &:hover, &:active, &:focus{
       background: $white;
-      box-shadow: none;
+      box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20);
       color: $color;
     }
 }

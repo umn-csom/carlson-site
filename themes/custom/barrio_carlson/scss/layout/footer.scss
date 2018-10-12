@@ -2,181 +2,48 @@
  * @file
  * Visual styles for comments in Barrio.
  */
-
-.container-footer{
-      background-color: #363230;
-      width: 100%;
-      color: #ffffff;
-      font-family: 'Lato';
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 30px;
-  .footer-wrapper{
-    background: none;
-    padding-right: 0px;
-    padding-left: 0px;
-    padding-top: 30px;
-    padding-bottom: 30px;
-      .full-footer-wrapper {
-        max-width: 1200px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-left: 15px;
-        padding-right: 15px;
-        @include font-lato-base();
-        .logo {
-          text-align: center;
-            > span {
-              position: relative;
-              display: inline-block;
-
-              // &:after, &:before{
-              //   content: '';
-              //   position: absolute;
-              //   top: 50%;
-              //   border-bottom: 1.5px solid rgba(255,255,255,0.5);
-              //   width: 591px;
-              //   margin: 0 20px;
-              //   color: #ffffff;
-              // }
-              // &:before{
-              //   right: 100%;
-              // }
-              // &:after{
-              //   left: 100%;
-              // }
-              .media, .media-body {
-                overflow: hidden;
-                zoom: 1;
-                margin-top: 0px;
-            }
-          }
-          img{
-            margin-bottom: 0px;
-            max-width: 100%;
-            height: auto;
-            vertical-align: bottom;
-          }
-        }
-        .flex-row{
-          box-sizing: border-box;
-          display: -webkit-flex;
-          display: -ms-flexbox;
-          display: -webkit-box;
-          display: flex;
-          -webkit-flex: 0 1 auto;
-          -ms-flex: 0 1 auto;
-          -webkit-box-flex: 0;
-          flex: 0 1 auto;
-          -webkit-flex-direction: row;
-          -ms-flex-direction: row;
-          -webkit-box-orient: horizontal;
-          -webkit-box-direction: normal;
-          flex-direction: row;
-          -webkit-flex-wrap: wrap;
-          -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
-          padding-top: 30px;
-          padding-bottom: 30px;
-          border-top: 1px solid rgba(255, 255, 255, 0.3);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        .decorated {
-          overflow: hidden;
-          text-align: center;
-      }
-      .marg-bottom2 {
-          margin-bottom: 2rem !important;
-      }
-      p{
-        color: #ffffff;
-        font-family: 'Lato';
-        font-size: 16px;
-        font-weight: 700;
-        line-height: 30px;
-      }
-      a{
-        color: #ffcc33;
-        font-family: 'Lato';
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 30px;
-        background: transparent;
-        &:hover{
-          text-decoration: underline;
-          background: transparent;
-        }
-        &.gold{
-          color: #ffcc33 !important;
-        }
-        &.email-link{
-          letter-spacing: 2px;
-        }
-      }
-      .social-media {
-        list-style-type: none;
-        padding-left: 0;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 4px;
-        li{
-          display: inline-block;
-          align-items: center;
-          justify-content: center;
-          padding-right: 20px;
-        }
-      }
-      .links{
-        @media only screen and (max-width: 640px){
-          text-align: center;
-          float: none;
-        }
-        li{
-          margin-bottom: 5px;
-          a{
-            @media (min-width: 768px){
-              padding-top: 0 !important;
-              padding-bottom: 0 !important;
-            }
-          }
-        }
-      }
-      .connect{
-        @media only screen and (max-width: 640px){
-          border: 1px solid rgba(255,255,255,0.1);
-          padding-top: 20px;
-          text-align: center;
-          // width: 60%;
-        }
-      }
-
-    }
-    .footer-title{
-      color: #ffffff;
-      font-family: 'Lato';
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 30px;
-    }
-    .contact-list{
-      li{
-        color: #ffffff;
-        font-family: 'Lato';
-        font-size: 16px;
-        font-weight: 700;
-        line-height: 30px;
-      }
+.footer {
+  padding: 40px 0;
+  background-color: #363230;
+  color: $white;
+  text-align: center;
+  a {
+    color: $menu-gold;
+    &:hover{
+      text-decoration: underline;
+      background: transparent;
     }
   }
-}
-.field-name-field-media-tags, .field-name-field-oc-caption {
-    display: none;
-}
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-.marg-bottom {
-  margin-bottom: 1.5rem!important;
+  &__logo {
+    text-align: center;
+    padding-bottom: 3rem;
+    margin-bottom: 3rem;
+    border-bottom: solid 1px #D8D8D8;
+    img {
+      margin: 0 auto;
+    }
+  }
+  &__info {
+
+  }
+  &__links {
+    label {
+      color: $white;
+    }
+    li {
+      width: 100%;
+    }
+    .nav>li>a {
+      padding-top: 0;
+    }
+  }
+  &__connect {
+
+  }
+  @include media-breakpoint-up(md) {
+    text-align: left;
+    .container {
+      max-width: 1000px;
+    }
+  }
 }

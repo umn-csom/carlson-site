@@ -217,6 +217,14 @@ function barrio_carlson_preprocess_node(&$variables) {
     $allowed_regions = ['sticky_sidebar'];
     barrio_carlson_add_regions_to_node($allowed_regions, $variables);
   }
+  switch($bundle) {
+    case 'news':
+      $sidebar = $node->field_sidebar_content->getValue();
+      if(!empty($sidebar)) {
+        $variables['has_sidebar'] = TRUE;
+      }
+    break;
+  }
 }
 
 /**

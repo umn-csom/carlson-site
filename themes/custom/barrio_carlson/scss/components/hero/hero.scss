@@ -132,64 +132,47 @@
   }
 }
 
-.hero-basic{
-  .row{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    .img-wrapper{
-      background-color: transparent;
-      padding: 0px;
-      margin-bottom: -75px;
-      img{
-        width: 100%;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-        box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
-      }
+.basic-hero {
+  &__img {
+    margin-bottom: -5rem;
+  }
+  &__title {
+    text-align: center;
+    border-bottom: solid 1px #D8D8D8;
+    h1 {
+      margin-bottom: 2rem;
     }
-    .content-wrapper{
-      padding: 15px 8.33333%;
-      background: #fff;
-      h2{
-        color: #363230;
-        @include font-crimson-base();
-        font-size: 3.8rem;
-        font-weight: 400;
-        line-height: 3.8rem;
-        position: relative;
-        margin-bottom: 30px;
-      }
-      p{}
-      .post-col{
-        float: left;
-        .date{
-          font-weight: 700;
-          color: #363230;
-          @include font-lato-base();
-          font-size: 16px;
-          font-style: italic;
-        }
-        .author{
-          font-weight: 400;
-          color: #363230;
-          @include font-lato-base();
-          font-size: 16px;
-          font-style: italic;
-        }
-      }
-      .share-col{
-        float: left;
-        .share-this{
-          color: #363230;
-          @include font-lato-base();
-          font-size: 16px;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 1.78px;
-        }
-      }
+  }
+  &__title-inner{
+    padding: 20px;
+    background: $white;
+  }
+  &__pub {
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+  }
+  &__share {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 1.78px;
+  }
+  @include media-breakpoint-up(md) {
+    &__title {
+      text-align: left;
+    }
+    &__title-inner {
+      margin: 0 20px;
+      padding: 20px 30px;
+    }
+    &__pub {
+      text-align: left;
+
+    }
+    &__share {
+      text-align: left;
+
     }
   }
 }
