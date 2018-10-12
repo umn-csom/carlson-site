@@ -44,4 +44,33 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
         }
     });
 
+    $('.we-megamenu-nolink').on('click', function(e) {
+        $(this).addClass('slide-left');
+        $(this).next().addClass('slide-in');
+        var label = $(this).html();
+        $(this).next().prepend('<span class="mobile-third-tier-menu__label">' + label + '</span>');
+        $(this).next().prepend('<button class="mobile-third-tier-menu__back-btn">BACK</button>');
+        $('.we-mega-menu-ul').addClass('slide-left');
+    });
+
+    $(document).on('click', '.overlay', function(e) {
+        $('.we-mega-menu-ul').removeClass('slide-left');
+    });
+
+    $(document).on('click', '.mobile-third-tier-menu__back-btn', function(e) {
+        e.preventDefault();
+        var self = $(this);
+        self.parent().removeClass('slide-in');
+        self.parent().addClass('fade-out');
+
+        setTimeout(function() {
+            self.parent().prev().removeClass('slide-left');
+            $('.we-mega-menu-ul').removeClass('slide-left');
+            self.parent().removeClass('fade-out');
+            self.next().remove();
+            self.remove();
+        }, 800);
+
+    });
+
 })(jQuery, Drupal);
