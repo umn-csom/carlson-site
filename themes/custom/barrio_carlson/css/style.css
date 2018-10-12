@@ -11787,12 +11787,14 @@ Style guide: components.accordion
   font-weight: 700;
   text-transform: uppercase; }
 
+@media (min-width: 992px) {
+  .carlson-nav {
+    max-width: 1600px;
+    margin: auto; } }
+
 .carlson-nav .region-we-mega-menu {
   width: 100%;
   background: none; }
-  @media (min-width: 992px) {
-    .carlson-nav .region-we-mega-menu {
-      height: 80px; } }
   .carlson-nav .region-we-mega-menu .navbar-toggle {
     display: flex;
     flex-direction: column;
@@ -11836,18 +11838,20 @@ Style guide: components.accordion
         top: 155px; } }
     @media (min-width: 992px) {
       .carlson-nav .region-we-mega-menu .navbar {
-        top: inherit;
+        top: -20px;
         bottom: 25px;
         opacity: 1;
         left: 0;
-        width: 99%;
+        width: 100%;
         height: inherit;
         margin: 0;
         padding: 0;
         display: block;
-        background: none; }
+        background: none;
+        position: relative; }
         .carlson-nav .region-we-mega-menu .navbar .container-fluid {
-          justify-content: flex-end; } }
+          justify-content: flex-end;
+          width: initial; } }
     .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul {
       top: 0;
       position: absolute;
@@ -11857,19 +11861,55 @@ Style guide: components.accordion
       @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul {
           position: relative; } }
+      @media (min-width: 992px) {
+        .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul {
+          flex-wrap: initial;
+          max-width: 610px;
+          width: 100%;
+          transition: none;
+          top: -12px; } }
+      @media (min-width: 1200px) {
+        .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul {
+          max-width: 830px;
+          top: 0; } }
       .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul.slide-left {
         top: 0;
         position: absolute;
         transform: translateX(-105%); }
+        @media (min-width: 992px) {
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul.slide-left {
+            position: relative;
+            transform: none; } }
+      @media (min-width: 992px) {
+        .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul {
+          position: relative; } }
       .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu,
       .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li {
         width: 100%;
         padding-left: 5px;
         padding-bottom: 5px;
         padding-top: 5px;
-        list-style: none; }
+        list-style: none;
+        border: none; }
+        @media (min-width: 992px) {
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu,
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li {
+            background: none;
+            width: initial !important;
+            padding: 0;
+            padding-left: 15px !important;
+            padding-right: 15px !important; }
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu a.we-mega-menu-li,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li a.we-mega-menu-li {
+              padding-left: 0 !important;
+              padding-right: 0 !important; } }
+        @media (min-width: 992px) {
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu:before,
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li:before {
+            background: none; } }
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.active .we-mega-menu-li,
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.active .we-mega-menu-li {
+          border: none;
           background: none;
           padding-left: 35px;
           font-family: "Crimson Text", serif;
@@ -11878,13 +11918,21 @@ Style guide: components.accordion
           color: black !important;
           font-size: 3rem;
           list-style: none; }
+          @media (min-width: 992px) {
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.active .we-mega-menu-li,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.active .we-mega-menu-li {
+              font-family: "Lato", Arial, Verdana, sans-serif;
+              font-weight: 400;
+              font-size: 1.4rem;
+              padding: 0; } }
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu,
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.dropdown-menu {
           width: 100%; }
           .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu .we-mega-menu-li,
           .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.dropdown-menu .we-mega-menu-li {
             padding-left: 35px;
-            list-style: none; }
+            list-style: none;
+            border: none; }
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu .we-mega-menu-li:after,
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.dropdown-menu .we-mega-menu-li:after {
               content: '';
@@ -11901,6 +11949,16 @@ Style guide: components.accordion
                   background: url("../images/svg/plus-icon.svg");
                   background-size: 60%;
                   background-repeat: no-repeat; } }
+              @media (min-width: 992px) {
+                .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu .we-mega-menu-li:after,
+                .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.dropdown-menu .we-mega-menu-li:after {
+                  background: none;
+                  display: none; } }
+            @media (min-width: 992px) {
+              .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu .we-mega-menu-li,
+              .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.dropdown-menu .we-mega-menu-li {
+                width: 100% !important;
+                padding: 0; } }
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-li,
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-li {
           border-top: none;
@@ -11910,7 +11968,35 @@ Style guide: components.accordion
           font-weight: 400;
           text-shadow: none;
           color: black !important;
-          font-size: 3rem; }
+          font-size: 3rem;
+          border: none; }
+          @media (min-width: 992px) {
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-li,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-li {
+              font-family: "Lato", Arial, Verdana, sans-serif;
+              font-weight: 400;
+              font-size: 1.4rem;
+              padding-left: 0; }
+              .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-li:hover,
+              .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-li:hover {
+                text-decoration: underline; } }
+        @media (min-width: 992px) {
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu,
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu {
+            border: none;
+            box-shadow: none !important;
+            background: none;
+            padding-top: 25px;
+            position: absolute;
+            left: -78vw;
+            top: 0;
+            cursor: pointer; }
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner {
+              background: wheat;
+              min-height: 580px;
+              width: 100vw;
+              text-align: center; } }
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li,
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li {
           font-family: "Lato", Arial, Verdana, sans-serif;
@@ -11925,7 +12011,12 @@ Style guide: components.accordion
           padding-left: 10px;
           padding-right: 10px;
           background: none !important;
-          list-style: none; }
+          list-style: none;
+          border: none; }
+          @media (min-width: 992px) {
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li {
+              padding: 0; } }
           .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li:after,
           .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li:after {
             content: ''; }
@@ -11941,9 +12032,19 @@ Style guide: components.accordion
               .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu,
               .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu {
                 left: 56%; } }
+            @media (min-width: 992px) {
+              .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu,
+              .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu {
+                top: 0;
+                right: 0;
+                opacity: 1; } }
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner,
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner {
               padding-top: 60px; }
+              @media (min-width: 992px) {
+                .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner,
+                .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner {
+                  padding-top: 0; } }
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu.slide-in,
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu.slide-in {
               transition-delay: .25s;
@@ -11972,6 +12073,10 @@ Style guide: components.accordion
                 padding-top: 0;
                 padding-left: 15px;
                 padding-right: 5px; }
+                @media (min-width: 992px) {
+                  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu .nav .we-mega-menu-li,
+                  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu .nav .we-mega-menu-li {
+                    padding: 0; } }
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-megamenu-nolink,
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-megamenu-nolink {
           font-family: "Lato", Arial, Verdana, sans-serif;
@@ -11984,10 +12089,20 @@ Style guide: components.accordion
           letter-spacing: 1.5px;
           line-height: 1.3em;
           cursor: pointer;
-          margin-left: 10px; }
+          margin-left: 10px;
+          border: none; }
+          @media (min-width: 992px) {
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-megamenu-nolink:before,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-megamenu-nolink:before {
+              background: none; } }
           .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-megamenu-nolink:after,
           .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-megamenu-nolink:after {
             display: none; }
+          @media (min-width: 992px) {
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-megamenu-nolink,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-megamenu-nolink {
+              margin: 0;
+              padding: 0; } }
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.open .we-mega-menu-li,
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.open .we-mega-menu-li {
           background: none;
@@ -12014,7 +12129,8 @@ Style guide: components.accordion
   margin: 0;
   max-width: 70%;
   padding-top: 35px;
-  padding-left: 15px; }
+  padding-left: 15px;
+  float: inherit; }
   @media (min-width: 992px) {
     .navbar-brand {
       padding-right: 0;
@@ -12035,7 +12151,11 @@ Style guide: components.accordion
   text-align: center;
   animation: none;
   transition: none;
-  z-index: 35; }
+  z-index: 35;
+  display: block; }
+  @media (min-width: 992px) {
+    .btn-close {
+      display: none; } }
   .btn-close:before, .btn-close:after {
     background-color: #5a5450;
     top: 37%;

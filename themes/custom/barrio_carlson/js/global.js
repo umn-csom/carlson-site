@@ -72,7 +72,6 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
             $('.mobile-third-tier-menu__label').remove();
             self.remove();
         }, 800);
-
     });
 
 })(jQuery, Drupal);
