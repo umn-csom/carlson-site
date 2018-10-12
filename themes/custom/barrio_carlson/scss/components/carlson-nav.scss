@@ -35,6 +35,7 @@
 
             .icon-label {
                 @include font-lato-base();
+                font-size: 1.2rem;
                 color: $maroon;
             }
         }
@@ -85,6 +86,10 @@
                 transition-timing-function: ease-in;
                 transition: 0.75s;
                 width: 100%;
+
+                @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                    position: relative;
+                }
 
                 &.slide-left {
                     top: 0;
@@ -150,6 +155,10 @@
                                 transition: opacity .35s;
                                 opacity: 0;
                                 width: 100%!important;
+
+                                @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                                    left: 56%;
+                                }
 
                                 .we-mega-menu-submenu-inner {
                                     padding-top: 60px;
@@ -251,6 +260,7 @@
 
     label {
         @include font-lato-base();
+        font-size: 1.2rem;
         color: $maroon;
         margin-top: 57px;
     }
@@ -264,6 +274,16 @@ body {
     &.toggled {
         right: 0;
     }
+
+    &.toolbar-vertical {
+        .btn-close {
+            top: 130px;
+        }
+
+        .carlson-nav .region-we-mega-menu .navbar {
+            top: 205px;
+        }
+    }
 }
 
 .mobile-third-tier-menu {
@@ -272,7 +292,7 @@ body {
             content: '';
             position: absolute;
             left: 0;
-            top: 4px;
+            top: 2px;
             @include long-left-arrow-icon($maroon);
         }
 
@@ -281,6 +301,13 @@ body {
         top: -40px;
         position: absolute;
         left: 0;
+        border: none;
+        background: none;
+        font-size: 1.4rem;
+
+        &:focus {
+            outline: 0;
+        }
     }
 
     &__label {

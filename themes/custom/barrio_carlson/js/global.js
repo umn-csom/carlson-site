@@ -50,7 +50,7 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
         var label = $(this).html();
         $(this).next().prepend('<span class="mobile-third-tier-menu__label">' + label + '</span>');
         $(this).next().prepend('<hr class="mobile-third-tier-menu__hr" />');
-        $(this).next().prepend('<button class="mobile-third-tier-menu__back-btn">BACK</button>');
+        $(this).next().prepend('<button class="button mobile-third-tier-menu__back-btn">BACK</button>');
         $('.we-mega-menu-ul').addClass('slide-left');
     });
 
