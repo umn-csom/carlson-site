@@ -16,21 +16,10 @@ $value in $theme-colors {
         @include button-outline-variant($value);
     }
 }
-/* Font mixins for serif and sans-serif */
-@mixin sans-serif-font($size) {
-	font-family: $font-lato;
-	font-size: $size;
-}
-
-@mixin serif-font($size) {
-	font-family: $font-crimson;
-	font-size: $size;
-}
 
 /* Font mixins embellished headings */
 @mixin heading-title($size: $font-medium, $color: $gold, $align:'center') {
-  @include serif-font($size);
-  font-weight: 400;
+    @include font-crimson-base();
   line-height: $size;
   position: relative;
   margin-bottom: 2.4rem;
@@ -47,21 +36,36 @@ $value in $theme-colors {
     margin-top: 1.6rem;
   }
 }
-@mixin font-lato-base() {
-    font-family: "Lato", Arial, Verdana, sans-serif;
+
+@mixin font-crimson-base() {
+    font-family: $font-crimson;
     font-weight: 400;
 }
 
+@mixin font-lato-base() {
+    font-family: $font-lato;
+    font-weight: 400;
+}
+
+@mixin sans-serif-font($size) {
+    @include font-lato-base();
+    font-size: $size;
+}
+
+@mixin serif-font($size) {
+    @include font-crimson-base();
+    font-size: $size;
+}
+
 @mixin menu-title-font() {
-    font-family: "Crimson Text", serif;
+    @include font-crimson-base();
     font-size: 2em;
     text-shadow: none;
     color: black!important;
 }
 
 @mixin menu-sub-font() {
-    font-family: "Lato", Arial, Verdana, sans-serif;
-    font-weight: 400;
+    @include font-lato-base();
     font-size: 1em;
     text-shadow: none;
     color: $menu-grey!important;
