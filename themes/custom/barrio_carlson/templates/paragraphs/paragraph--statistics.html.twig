@@ -49,13 +49,20 @@
 %}
 {% block paragraph %}
     {% block content %}
-      {% include directory ~ '/templates/components/stats.html.twig' with 
-          {
-              'heading': content.field_heading, 
-              'sub_head': content.field_main_content,
-              'content': content.field_statistic,
-          } 
-      %}
-      
+      <div class="row stats">
+        <div class="col-12">
+          <h2 class="stats__heading text-center">{{ content.field_heading }}</h2>
+        </div>
+        <div class="col-md-8 offset-md-2 text-center">
+          <p>{{ content.field_main_content }}</p>
+        </div>
+        <div class="col-12">
+          <div class="row stats__blocks">
+            {% if content.field_statistic | field_value is not empty %}
+              {{ content.field_statistic }}
+            {% endif %}
+          </div>
+        </div>
+      </div>
     {% endblock %}
 {% endblock paragraph %}

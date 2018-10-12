@@ -49,11 +49,11 @@
 %}
 {% block paragraph %}
     {% block content %}
-      {% include directory ~ '/templates/components/stat.html.twig' with 
-          {
-              'statistic_value': content.field_statistic_data, 
-              'statistic_desc': content.field_statistic_desc,
-          } 
-      %}
+      <div class="col-md">
+        <div class="stats__single text-center">
+          <label class="stats__single-value">{{ content.field_statistic_data }}</label>
+          <p class="stats__single-desc">{{ content.field_statistic_desc }}</p>
+        </div>
+      </div>
     {% endblock %}
 {% endblock paragraph %}

@@ -48,18 +48,23 @@
   ]
 %}
 
-{% if content.field_heading|field_value is not empty or
-  content.field_main_content|field_value is not empty %}
-  {% set content = {
-      'heading': content.field_heading|field_value, 
-      'markup': content.field_main_content|field_value,
-    }
-  %}
-{% endif %}
-
 {% block paragraph %}
     {% block content %}
-      {% include directory ~ '/templates/components/centered-text-block.html.twig' with content
-      %}
+    <section>
+      <div class="centered-text-wrapper">
+        <div class="row justify-content-center">
+          <div class="col-sm-6 col-centered">
+            <div class="centered-text-block">
+              <div class="title-wrapper">
+                <h2 class="label-border yellow">{{ content.field_heading|field_value }}</h2>
+              </div>
+              <div class="text-wrapper">
+                {{ content.field_main_content|field_value }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
     {% endblock %}
 {% endblock paragraph %}

@@ -6,14 +6,23 @@
 
 {% block paragraph %}
   {% block content %}
-    {% include directory ~ '/templates/components/column.html.twig' with 
-      {
-        'column_imgsrc': img|field_value, 
-        'column_heading': content.field_heading|field_value,
-        'column_markup': content.field_main_content|field_value,
-        'column_link': content.field_link|field_value,
-      } 
-    %}
+    <div class="col column">
+      <div class="column__img">
+        {% if img|field_value is not empty %}
+          {{ img|field_value }}
+        {% endif %}
+      </div>
+      <div class="column__content">
+        <div class="column__heading">
+          <h2>{{ content.field_heading|field_value }}</h2>
+        </div>
+        <div class="column__markup">
+          {{ content.field_main_content|field_value }}
+        </div>
+        <div class="column__link">
+          {{ content.field_link|field_value }}
+        </div>
+      </div>
+    </div>
   {% endblock %}
 {% endblock paragraph %}
-

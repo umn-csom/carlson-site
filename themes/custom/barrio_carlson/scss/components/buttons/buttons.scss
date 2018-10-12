@@ -3,55 +3,20 @@
  * Bootstrap Barrio specific styling for the Book module.
  */
 
- /*
-Buttons
-
-Markup: ../../../templates/components/buttons.html.twig
-
-.btn-primary        - Primary Button
-.btn-secondary      - Secondary button
-.btn-link-primary   - Text Link Button
-.btn-link-secondary   - Text Link Button
-
-Style guide: components.buttons
-*/
-
 .btn{
-  font-size: 1.6rem;
-  font-family: 'Lato';
-  text-transform: uppercase;
-  min-width: 200px;
-  height: 50px;
-  transition: all 0.3s ease-in-out;
-  line-height: 0px;
-  &.btn-primary{
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-    border: 2px solid #7a0019;
-    background: white;
-    color: #7a0019;
-    &:hover, &:active, &:focus{
-      border: 2px solid #7a0019 !important;
-      background: #7a0019 !important;
-      color: white !important;
-      box-shadow: none;
-    }
+  
+  &.btn-primary--yellow{
+    @include button-outline($menu-gold);
+    background-color: transparent;
+  }
+  &.btn-primary--maroon{
+    @include button-outline($maroon);
+    background-color: transparent;
   }
   &.btn-secondary{
-    border: 2px solid #ffcc33;
-    color: #363230;
-    background: white;
-    &:hover, &:active, &:focus{
-      border: 2px solid #ffcc33 !important;
-      background: #ffcc33 !important;
-      box-shadow: none;
-    }
+    @include button-solid($maroon);
   }
-  &.btn-success{}
-  &.btn-danger{}
-  &.btn-warning{}
-  &.btn-info{}
-  &.btn-light{}
-  &.btn-dark{}
+  
   &.btn-link-primary{
     min-width: auto;
     color: #7a0019;

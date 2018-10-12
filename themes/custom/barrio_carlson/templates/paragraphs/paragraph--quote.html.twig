@@ -6,12 +6,18 @@
 
 {% block paragraph %}
   {% block content %}
-    {% include directory ~ '/templates/components/quote.html.twig' with 
-      {
-        'img_src': img|field_value, 
-        'quote_text': content.field_quote_text|field_value,
-        'quote_source': content.field_quote_source|field_value,
-      } 
-    %}
+    <div class="quote">
+      <div class="text-center">
+        <div class="quote__img">
+          {{ img|field_value }}
+        </div>
+        <div class="quote__text">
+          {{ content.field_quote_text|field_value }}
+        </div>
+        <div class="quote__source">
+          {{ content.field_quote_source|field_value }}
+        </div>
+      </div>
+    </div>
   {% endblock %}
 {% endblock paragraph %}

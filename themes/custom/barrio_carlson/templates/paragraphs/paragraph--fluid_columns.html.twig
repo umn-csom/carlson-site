@@ -1,9 +1,19 @@
 {% block paragraph %}
     {% block content %}
-      {% include directory ~ '/templates/components/fluid-columns.html.twig' with 
-          {
-            'content': content.field_column_item,
-          } 
-      %}
+      <section>
+			  <div class="row">
+			    {% if content.field_column_item is not empty %}
+			      {% set data = content.field_column_item|field_value %}
+			      {% set len = data|length %}
+			      {% set divide = 12/len %}
+
+			      {% for key,value in data %}
+			        <div class="col-lg-{{ divide }}">
+			          {{ data[key] }}
+			        </div>
+			      {% endfor %}
+			    {% endif %}  
+			  </div>
+			</section>
     {% endblock %}
 {% endblock paragraph %}
