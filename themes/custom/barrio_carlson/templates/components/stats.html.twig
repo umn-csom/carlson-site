@@ -1,41 +1,36 @@
-<section>
-
-  <div class="stats">
-    <div class="row">
-    <div class="col-12">
-      <h2>{{ heading | default('Results that stand out')}}</h2>
-      <div class="col-7 center-col">
-        <p>{{ sub_head | default('<p>But don’t just take our word for it, the facts speak for themselves. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec risus urna, lacinia non magna ut, commodo ultrices risus.</p>') | raw }}</p>
-      </div>
-    </div>
-    <div class="stats-col-wrapper">
-
+<div class="row stats">
+  <div class="col-12">
+    <h2 class="stats__heading text-center">{{ heading | default('Results that stand out')}}</h2>
+  </div>
+  <div class="col-md-8 offset-md-2 text-center">
+    <p>{{ sub_head | default('<p>But don’t just take our word for it, the facts speak for themselves. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec risus urna, lacinia non magna ut, commodo ultrices risus.</p>') | raw }}</p>
+  </div>
+  <div class="col-12">
+    <div class="row stats__blocks">
       {% if content is defined %}
         {{ content }}
       {% endif %}
 
       {% if content is empty %}
-        <div class="col-lg-4 col-md-12">
-          <div class="stats-col-container">
-            <h5>96%</h5>
-            <p>96% of graduates received job offers 90 days after graduation.</p>
+        <div class="col-md">
+          <div class="stats__single text-center">
+            <label class="stats__single-value">96%</label>
+            <p class="stats__single-desc">96% of graduates received job offers 90 days after graduation.<p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-12">
-          <div class="stats-col-container">
-            <h5>#3</h5>
-            <p>96% of graduates received job offers 90 days after graduation.</p>
+        <div class="col-md">
+          <div class="stats__single text-center">
+            <label class="stats__single-value">96%</label>
+            <p class="stats__single-desc">96% of graduates received job offers 90 days after graduation.<p>
           </div>
         </div>
-        <div class="col-lg-4 col-md-12">
-          <div class="stats-col-container">
-            <h5>$393k</h5>
-            <p>96% of graduates received job offers 90 days after graduation.</p>
+        <div class="col-md">
+          <div class="stats__single text-center">
+            <label class="stats__single-value">96%</label>
+            <p class="stats__single-desc">96% of graduates received job offers 90 days after graduation.<p>
           </div>
-        </div>
+        </div>        
       {% endif %}
-
     </div>
   </div>
 </div>
-</section>

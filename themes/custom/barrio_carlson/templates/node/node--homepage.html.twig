@@ -69,32 +69,40 @@
     node.isSticky() ? 'node--sticky',
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'container',
     'clearfix',
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
-  <header>
-    {{ title_prefix }}
-    {% if not page %}
-      <h2{{ title_attributes.addClass('node__title') }}>
-        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-      </h2>
-    {% endif %}
-    {{ title_suffix }}    
-  </header>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
     {# Home hero #}
-    {% include directory ~ '/templates/components/hero-home.html.twig' with 
-        {
-            'heading': node.label, 
-            'sub_head': node.field_sub_heading.value,
-            'img_src': content.field_hero_media,
-        } 
-    %}
-    {# Home Flexible feature paragraphs #}
-    {{ content.field_flexible_features }}
+    <div class="row align-items-center home-hero">
+      <div class="col-lg-9 order-lg-2 home-hero__image">
+        {{ content.field_hero_media }}
+      </div>
+      <div class="col-lg-4 order-lg-1 home-hero__intro">
+        <h1 class="home-hero__title">{{ label }}</h1>
+        <div class="home-hero__subhead">
+          {{ content.field_sub_heading }}
+        </div>
+      </div>
+    </div>
 
-    {% if content.field_bottom_left|field_value is not empty && content.field_bottom_right|field_value is not empty %}
+    {# Program Finder #}
+    <div class="row program-finder">
+      <div class="col-md-10 offset-md-1 program-finder__inner">
+      </div>
+    </div>
+
+    <div class="row flex-section">
+      <div class="col-md-10 offset-md-1">
+        {# Home Flexible feature paragraphs #}
+        {{ content.field_flexible_features }}
+      </div>
+    </div>    
+    
+
+    {% if (content.field_bottom_left|field_value is not empty) and (content.field_bottom_right|field_value is not empty) %}
     <section>
       <div class="col-md-6">
         {{ content.field_bottom_left }}
@@ -103,5 +111,6 @@
         {{ content.field_bottom_right }}
       </div>
     </section>
+    {% endif %}
   </div>
 </article>

@@ -1,21 +1,24 @@
-<section>
-  <div class="bs-component hero-home container-fluid">
-    <div class="row">
-      <div class="content-container">
-        <div class="col-md-8 col-sm-8 content-wrapper">
+{%
+    set content_sample = {
+          'heading': '<img src="/sites/default/themes/custom/barrio_carlson/images/placeholders/full-width-hero-image-1600x512.jpg"/>',
+          'sub_head': 'A caption about the video here',
+        }
+%}
+
+{% if content_data is empty %}
+    {% set content_data = content_sample %}
+{% endif %}
+
+<div class="home-hero">
+  <div class="row">
           <h2>{{ heading | default('A Heading here')}}</h2>
-        </div>
-        <div class="col-md-3 col-sm-6">
+      
           {{ sub_head | default('<p>A sub-heading text that is longer goes here.</p>') | raw }}
-        </div>
-      </div>
-      <div class="col-md-10 img-wrapper">
+        
         {% if img_src is defined %}
-        {{ img_src | raw }}
+          {{ img_src | raw }}
         {% else %}
-        <img class="img-fluid" src="{{ base_path ~ directory }}/images/placeholders/home-hero-image-1290x500.jpg"/>
+          <img class="img-fluid" src="{{ base_path ~ directory }}/images/placeholders/home-hero-image-1290x500.jpg"/>
         {% endif %}
-      </div>
-    </div>
-  </div>
-</section>
+
+</div>

@@ -16,7 +16,37 @@ $value in $theme-colors {
         @include button-outline-variant($value);
     }
 }
+/* Font mixins for serif and sans-serif */
+@mixin sans-serif-font($size) {
+	font-family: $font-lato;
+	font-size: $size;
+}
 
+@mixin serif-font($size) {
+	font-family: $font-crimson;
+	font-size: $size;
+}
+
+/* Font mixins embellished headings */
+@mixin heading-title($size: $font-medium, $color: $gold, $align:'center') {
+  @include serif-font($size);
+  font-weight: 400;
+  line-height: $size;
+  position: relative;
+  margin-bottom: 2.4rem;
+  &:after{
+    content: '';
+    height: 2px;
+    width: 100px;
+    display: block;
+    background: $color;
+    @if ($align == 'center') {
+        margin: 0 auto;
+    } @else {
+    }
+    margin-top: 1.6rem;
+  }
+}
 @mixin font-lato-base() {
     font-family: "Lato", Arial, Verdana, sans-serif;
     font-weight: 400;
