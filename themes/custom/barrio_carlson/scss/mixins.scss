@@ -1,8 +1,5 @@
 /* MIXINS */
 
-//
-// Alternate buttons
-//
 @each $color,
 $value in $theme-colors {
     .btn-#{$color} a {
@@ -20,21 +17,21 @@ $value in $theme-colors {
 /* Font mixins embellished headings */
 @mixin heading-title($size: $font-medium, $color: $gold, $align:'center') {
     @include font-crimson-base();
-  line-height: $size;
-  position: relative;
-  margin-bottom: 2.4rem;
-  &:after{
-    content: '';
-    height: 2px;
-    width: 100px;
-    display: block;
-    background: $color;
-    @if ($align == 'center') {
-        margin: 0 auto;
-    } @else {
+    line-height: $size;
+    position: relative;
+    margin-bottom: 2.4rem;
+    &:after{
+        content: '';
+        height: 2px;
+        width: 100px;
+        display: block;
+        background: $color;
+        @if ($align == 'center') {
+            margin: 0 auto;
+        } @else {
+        }
+        margin-top: 1.6rem;
     }
-    margin-top: 1.6rem;
-  }
 }
 
 @mixin font-crimson-base() {
@@ -61,7 +58,7 @@ $value in $theme-colors {
     @include font-crimson-base();
     font-size: 2em;
     text-shadow: none;
-    color: black!important;
+    color: $black!important;
 }
 
 @mixin menu-sub-font() {
