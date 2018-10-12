@@ -12,81 +12,30 @@ Markup: ../../../templates/components/hero-home.html.twig
 
 Style guide: components.hero-home
 */
-
-.hero-home{
-  .row{
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: flex-end;
-    width: 100%;
-    margin: 0px;
-    .img-wrapper{
-      background-color: transparent;
-      padding: 0px;
-      z-index: 1;
-      img{
-        width: 100%;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-        box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
-      }
-    }
-    .content-container{
-      position: absolute;
-      background: transparent;
-      left: 0;
-      z-index: 10;
+.home-hero {
+  &__image {
+    img{
       width: 100%;
-      display: flex;
-      flex-direction: column;
-      .content-wrapper{
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
+    }
+  }
+  &__title {
+    margin-top: 2rem;
+    @include heading-title($font-large, $maroon, 'left');
+  }
+  @include media-breakpoint-up(lg) {
+    &__image {
 
-        h2{
-          color: #363230;
-          font-family: "Crimson Text";
-          font-size: 3.8rem;
-          font-weight: 400;
-          line-height: 3.8rem;
-          position: relative;
-          margin-bottom: 30px;
-          &:after{
-            content: '';
-            height: 2px;
-            width: 100px;
-            display: block;
-            background: #7a0019;
-          }
-        }
-        p{}
-        .post-col{
-          float: left;
-          .date{
-            font-weight: 700;
-            color: #363230;
-            font-family: "Lato";
-            font-size: 16px;
-            font-style: italic;
-          }
-          .author{
-            font-weight: 400;
-            color: #363230;
-            font-family: "Lato";
-            font-size: 16px;
-            font-style: italic;
-          }
-        }
-        .share-col{
-          float: left;
-          .share-this{
-            color: #363230;
-            font-family: "Lato";
-            font-size: 16px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.78px;
-          }
-        }
-      }
+    }
+    &__intro {
+      margin-top: 0;
+      position: relative;
+      margin-right: -8.4%;
+      z-index: 1;
+    }
+    &__subhead {
+      padding-right: 40%;
     }
   }
 }
