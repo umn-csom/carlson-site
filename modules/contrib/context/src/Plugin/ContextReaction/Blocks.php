@@ -6,6 +6,7 @@ use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Render\Element;
+use Drupal\Core\Block\BlockManager;
 use Drupal\context\ContextInterface;
 use Drupal\context\Form\AjaxFormTrait;
 use Drupal\Core\Form\FormStateInterface;
@@ -84,6 +85,11 @@ class Blocks extends ContextReactionPluginBase implements ContainerFactoryPlugin
   protected $account;
 
   /**
+   * @var BlockManager
+   */
+  protected $blockManager;
+
+  /**
    * {@inheritdoc}
    */
   function __construct(
@@ -95,7 +101,8 @@ class Blocks extends ContextReactionPluginBase implements ContainerFactoryPlugin
     ThemeHandlerInterface $themeHandler,
     ContextRepositoryInterface $contextRepository,
     ContextHandlerInterface $contextHandler,
-    AccountInterface $account
+    AccountInterface $account,
+    BlockManager $blockManager
   ) {
     parent::__construct($configuration, $pluginId, $pluginDefinition);
 
@@ -105,6 +112,7 @@ class Blocks extends ContextReactionPluginBase implements ContainerFactoryPlugin
     $this->contextRepository = $contextRepository;
     $this->contextHandler = $contextHandler;
     $this->account = $account;
+    $this->blockManager = $blockManager;
   }
 
   /**
@@ -120,7 +128,8 @@ class Blocks extends ContextReactionPluginBase implements ContainerFactoryPlugin
       $container->get('theme_handler'),
       $container->get('context.repository'),
       $container->get('context.handler'),
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('plugin.manager.block')
     );
   }
 
@@ -192,12 +201,13 @@ class Blocks extends ContextReactionPluginBase implements ContainerFactoryPlugin
         $blockBuild = [
           '#theme' => 'block',
           '#attributes' => [
-            'class' => [$block->getConfiguration()['css_class']]
+            'class' => [$configuration['css_class']]
           ],
           '#configuration' => $configuration,
           '#plugin_id' => $block->getPluginId(),
           '#base_plugin_id' => $block->getBaseId(),
           '#derivative_plugin_id' => $block->getDerivativeId(),
+          '#id' => $block->getConfiguration()['custom_id'],
           '#block_plugin' => $block,
           '#pre_render' => [[$this, 'preRenderBlock']],
           '#cache' => [
@@ -226,6 +236,11 @@ class Blocks extends ContextReactionPluginBase implements ContainerFactoryPlugin
         if (array_key_exists('weight', $configuration)) {
           $blockBuild['#weight'] = $configuration['weight'];
         }
+
+        // Invoke block_view_alter().
+        // If an alter hook wants to modify the block contents, it can append
+        // another #pre_render hook.
+        \Drupal::moduleHandler()->alter(['block_view', 'block_view_' . $block->getBaseId()], $blockBuild, $block);
 
         $build[$region][$block_placement_key] = $blockBuild;
 
@@ -334,8 +349,7 @@ class Blocks extends ContextReactionPluginBase implements ContainerFactoryPlugin
    */
   public function getBlocks() {
     if (!$this->blocksCollection) {
-      $blockManager = \Drupal::service('plugin.manager.block');
-      $this->blocksCollection = new BlockCollection($blockManager, $this->blocks);
+      $this->blocksCollection = new BlockCollection($this->blockManager, $this->blocks);
     }
 
     return $this->blocksCollection;
