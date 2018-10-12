@@ -72,19 +72,40 @@
     'clearfix',
   ]
 %}
+{# Set the hero image to be used as a background image #}
+{% set image = file_url(content.field_hero_media|field_target_entity.image.entity.uri.value | image_style('crop_full_hero')) %}
+
 <article{{ attributes.addClass(classes) }}>
-  <header>
-    {{ title_prefix }}
-    {% if not page %}
-      <h2{{ title_attributes.addClass('node__title') }}>
-        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-      </h2>
-    {% endif %}
-    {{ title_suffix }}    
-  </header>
-  <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
-  
-    {{ content }}
+
+  <div{{ content_attributes.addClass('node__content', 'clearfix paid-media') }}>
+    
+    <div class="row" style="background: url('{{ image }}')">
+      <div class="container">
+        <h1>{{ label }}</h1>
+      </div>
+    </div> 
+
+    <div class="row">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3 order-md-2 paid-media__webform">
+            {{ content.field_pm_linkedin }}
+            {{ content.webform }}
+          </div>
+          <div class="col-md-9 order-md-1">
+            {{ content.body }}
+
+            {% if content.field_pm_statistics|field_value is not empty %}
+            <div class="row text-center paid-media__stats">
+            {% for key, item in content.field_pm_statistics if key|first != '#' %}
+              <div class="col paid-media__stat">{{ item }}</div>
+            {% endfor %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div> 
 
   </div>
 </article>

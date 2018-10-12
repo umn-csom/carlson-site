@@ -72,45 +72,13 @@
 
     {# Header that contains main menu/branding #}
     <header id="header" class="header carlson-header" role="banner" aria-label="{{ 'Site header'|t}}">
-      <nav class="carlson-nav" {{ attributes }}>
-      {% block head %}
-        {{ page.header }} {# Logo is placed in page.header #}
-
-        {% if page.primary_menu %}
-
-            {{ page.primary_menu }} {# We Megamenu is placed in page.primary_menu #}
-
-        {% endif %}
-
-      {% endblock %}
-    </nav>
+      {# Add in Carlson inverted logo #}
     </header>
-
-    {# Only rendered if something is placed in this region #}
-    {% if page.highlighted %}
-      <div class="highlighted">
-        <aside class="{{ container }} section clearfix" role="complementary">
-          {{ page.highlighted }}
-        </aside>
-      </div>
-    {% endif %}
-
-    {# Only rendered if something is placed in this region #}
-    {% if page.featured_top %}
-      {% block featured %}
-        <div class="featured-top">
-          <aside class="featured-top__inner section {{ container }} clearfix" role="complementary">
-            {{ page.featured_top }}
-          </aside>
-        </div>
-      {% endblock %}
-    {% endif %}
 
     {# Start of main page wrapper #}
     <div id="main-wrapper" class="layout-main-wrapper clearfix">
       {% block content %}
         <div id="main">
-          <div class="container">{{ page.breadcrumb }}</div>
           <div class="row row-offcanvas row-offcanvas-left clearfix"></div>
             <main{{ content_attributes }}>
                 <a id="main-content" tabindex="-1"></a>
@@ -118,40 +86,11 @@
                 {{ page.content }}
             </main>
 
-            {# Only rendered if something is placed in this region #}  
-            {% if page.sidebar_first %}
-              <div{{ sidebar_first_attributes }}>
-                <aside class="section" role="complementary">
-                  {{ page.sidebar_first }}
-                </aside>
-              </div>
-            {% endif %}
-
-            {# Only rendered if something is placed in this region #}
-            {% if page.sidebar_second %}
-              <div{{ sidebar_second_attributes }}>
-                <aside class="section" role="complementary">
-                  {{ page.sidebar_second }}
-                </aside>
-              </div>
-            {% endif %}
-
           </div>
         </div>
       {% endblock %}
     </div>
     {# End of the main page wrapper #}
-    
-    {# Only rendered if something is placed in this region #}
-    {% if page.featured_bottom_first or page.featured_bottom_second or page.featured_bottom_third %}
-      <div class="featured-bottom">
-        <aside class="{{ container }} clearfix" role="complementary">
-          {{ page.featured_bottom_first }}
-          {{ page.featured_bottom_second }}
-          {{ page.featured_bottom_third }}
-        </aside>
-      </div>
-    {% endif %}
 
     {# Beginning of footer #}
     <footer>

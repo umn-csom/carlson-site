@@ -200,6 +200,13 @@ function barrio_carlson_theme_suggestions_page_alter(array &$suggestions, array 
 * Implements hook_preprocess_node() for NODE document templates.
 */
 function barrio_carlson_preprocess_node(&$variables) {
+
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $variables['node'];
+  
+  // Check the type
+  $bundle = $node->bundle();
+  
   // Allowed view modes
   $view_mode = $variables['view_mode']; // Retrieve view mode
   $allowed_view_modes = ['full']; // Array of allowed view modes (for performance so as to not execute on unneeded nodes)
