@@ -68,7 +68,8 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
             self.parent().prev().removeClass('slide-left');
             $('.we-mega-menu-ul').removeClass('slide-left');
             self.parent().removeClass('fade-out');
-            self.next().remove();
+            $('.mobile-third-tier-menu__hr').remove();
+            $('.mobile-third-tier-menu__label').remove();
             self.remove();
         }, 800);
 
