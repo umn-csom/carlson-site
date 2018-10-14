@@ -17,10 +17,12 @@ $value in $theme-colors {
 /* Font mixins embellished headings */
 @mixin heading-title($size: $font-medium, $color: $gold, $align:'center') {
     @include font-crimson-base();
-    line-height: $size;
-    font-size: $size + '-mobile';
+    word-break: break-word;
+    font-size: $font-large-mobile;
+    line-height: $font-medium-mobile;
     @include media-breakpoint-up(md) {
         font-size: $size;
+        line-height: $size;
     }
     position: relative;
     margin-bottom: 2.4rem;
@@ -48,12 +50,22 @@ $value in $theme-colors {
 
 @mixin sans-serif-font($size) {
     @include font-lato-base();
-    font-size: $size;
+    font-size: $font-large-mobile;
+    line-height: $font-medium-mobile;
+    @include media-breakpoint-up(md) {
+        font-size: $size;
+        line-height: $size;
+    }
 }
 
 @mixin serif-font($size) {
     @include font-crimson-base();
-    font-size: $size;
+    font-size: $font-large-mobile;
+    line-height: $font-medium-mobile;
+    @include media-breakpoint-up(md) {
+        font-size: $size;
+        line-height: $size;
+    }
 }
 
 @mixin menu-title-font() {

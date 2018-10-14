@@ -7789,7 +7789,8 @@ Style guide: components.alerts
 .btn.btn-primary--yellow {
   padding: 1.5rem 2rem;
   font-family: "Lato", Arial, Verdana, sans-serif;
-  font-size: 1.6rem;
+  font-size: 3.4rem;
+  line-height: 2.8rem;
   text-transform: uppercase;
   transition: all 0.3s ease-in-out;
   font-weight: bold;
@@ -7797,6 +7798,10 @@ Style guide: components.alerts
   border-width: 2px;
   color: #363230;
   background-color: transparent; }
+  @media (min-width: 768px) {
+    .btn.btn-primary--yellow {
+      font-size: 1.6rem;
+      line-height: 1.6rem; } }
   .btn.btn-primary--yellow:hover, .btn.btn-primary--yellow:active, .btn.btn-primary--yellow:focus {
     background: #FFCC33;
     box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
@@ -7805,7 +7810,8 @@ Style guide: components.alerts
 .btn.btn-primary--maroon {
   padding: 1.5rem 2rem;
   font-family: "Lato", Arial, Verdana, sans-serif;
-  font-size: 1.6rem;
+  font-size: 3.4rem;
+  line-height: 2.8rem;
   text-transform: uppercase;
   transition: all 0.3s ease-in-out;
   font-weight: bold;
@@ -7813,6 +7819,10 @@ Style guide: components.alerts
   border-width: 2px;
   color: #7a0019;
   background-color: transparent; }
+  @media (min-width: 768px) {
+    .btn.btn-primary--maroon {
+      font-size: 1.6rem;
+      line-height: 1.6rem; } }
   .btn.btn-primary--maroon:hover, .btn.btn-primary--maroon:active, .btn.btn-primary--maroon:focus {
     background: #7a0019;
     box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
@@ -7821,13 +7831,18 @@ Style guide: components.alerts
 .btn.btn-secondary {
   padding: 1.5rem 2rem;
   font-family: "Lato", Arial, Verdana, sans-serif;
-  font-size: 1.6rem;
+  font-size: 3.4rem;
+  line-height: 2.8rem;
   text-transform: uppercase;
   transition: all 0.3s ease-in-out;
   font-weight: bold;
   background-color: #7a0019;
   border: 2px solid #7a0019;
   color: white; }
+  @media (min-width: 768px) {
+    .btn.btn-secondary {
+      font-size: 1.6rem;
+      line-height: 1.6rem; } }
   .btn.btn-secondary:hover, .btn.btn-secondary:active, .btn.btn-secondary:focus {
     background: white;
     box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
@@ -7868,31 +7883,6 @@ Style guide: components.alerts
     display: block;
     margin: 0 auto;
     background: #ffcc33; }
-
-/**
-* @file
-* Visual styles for Lead Paragaraph in Barrio.
-*/
-.centered-text-wrapper .col-centered {
-  margin: 0 auto; }
-  .centered-text-wrapper .col-centered .centered-text-block {
-    text-align: center; }
-    .centered-text-wrapper .col-centered .centered-text-block .title-wrapper h2 {
-      font-family: "Crimson Text", serif;
-      font-size: 6vw;
-      line-height: 6.5vw;
-      margin-bottom: 15px; }
-      .centered-text-wrapper .col-centered .centered-text-block .title-wrapper h2:after {
-        content: '';
-        height: 2px;
-        width: 100px;
-        margin: 0 auto;
-        display: block;
-        background: #ffcc33; }
-    .centered-text-wrapper .col-centered .centered-text-block .text-wrapper {
-      margin-top: 15px; }
-      .centered-text-wrapper .col-centered .centered-text-block .text-wrapper p {
-        font-size: 1.2rem; }
 
 .kss-sidebar {
   background-image: none !important; }
@@ -8493,13 +8483,15 @@ Style guide: components.alerts
 .home-hero__title {
   margin-top: 2rem;
   font-family: "Crimson Text", serif;
-  line-height: 7.5rem;
-  font-size: "7.5rem-mobile";
+  word-break: break-word;
+  font-size: 3.4rem;
+  line-height: 2.8rem;
   position: relative;
   margin-bottom: 2.4rem; }
   @media (min-width: 768px) {
     .home-hero__title {
-      font-size: 7.5rem; } }
+      font-size: 7.5rem;
+      line-height: 7.5rem; } }
   .home-hero__title:after {
     content: '';
     height: 2px;
@@ -8522,87 +8514,58 @@ Style guide: components.alerts
     margin-bottom: 0; } }
 
 /* Program page hero */
-.hero-program {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: center;
-  width: 100%; }
-  .hero-program .img-wrapper {
-    background-color: transparent;
-    padding: 0px; }
-    .hero-program .img-wrapper img {
-      width: 100%;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3); }
-  .hero-program .content-wrapper {
-    position: relative;
-    padding: 15px 30px;
-    background: transparent; }
-    .hero-program .content-wrapper h2 {
-      color: #363230;
-      font-family: "Crimson Text", serif;
-      font-size: 3.8rem;
-      font-weight: 400;
-      line-height: 3.8rem;
-      position: relative;
-      margin-bottom: 30px; }
-      .hero-program .content-wrapper h2:after {
-        content: '';
-        height: 2px;
-        width: 100px;
-        display: block;
-        background: #7a0019; }
-    .hero-program .content-wrapper .post-col {
-      float: left; }
-      .hero-program .content-wrapper .post-col .date {
-        font-weight: 700;
-        color: #363230;
-        font-family: "Lato", Arial, Verdana, sans-serif;
-        font-size: 16px;
-        font-style: italic; }
-      .hero-program .content-wrapper .post-col .author {
-        font-weight: 400;
-        color: #363230;
-        font-family: "Lato", Arial, Verdana, sans-serif;
-        font-size: 16px;
-        font-style: italic; }
-    .hero-program .content-wrapper .share-col {
-      float: left; }
-      .hero-program .content-wrapper .share-col .share-this {
-        color: #363230;
-        font-family: "Lato", Arial, Verdana, sans-serif;
-        font-size: 16px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1.78px; }
-  .hero-program .cta-wrapper {
-    width: 100%;
-    z-index: 100;
-    min-height: 100px;
-    position: relative;
-    display: flex; }
-    .hero-program .cta-wrapper .cta-container {
-      background-color: #ffcc33;
-      position: absolute;
-      min-height: 100px;
-      right: 0;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      width: 133.33333%;
-      padding: 15px 30px;
-      background-image: url("../images/bg/hero_bg.png");
-      background-size: contain;
-      background-position: top left;
-      background-repeat: no-repeat; }
-      .hero-program .cta-wrapper .cta-container a {
-        color: #363230;
-        font-family: "Lato", Arial, Verdana, sans-serif;
-        font-size: 16px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1.78px; }
+.hero-program__img {
+  margin-bottom: 3rem; }
+  .hero-program__img img {
+    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3); }
+
+.hero-program__title {
+  font-family: "Crimson Text", serif;
+  word-break: break-word;
+  font-size: 3.4rem;
+  line-height: 2.8rem;
+  position: relative;
+  margin-bottom: 2.4rem; }
+  @media (min-width: 768px) {
+    .hero-program__title {
+      font-size: 7.5rem;
+      line-height: 7.5rem; } }
+  .hero-program__title:after {
+    content: '';
+    height: 2px;
+    width: 100px;
+    display: block;
+    background: #7a0019;
+    margin-top: 1.6rem; }
+
+.hero-program__link {
+  margin-bottom: 2rem;
+  text-align: center; }
+  .hero-program__link a {
+    color: #363230;
+    font-family: "Lato", Arial, Verdana, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 1.78px; }
+
+.hero-program__link-inner {
+  background-color: #FFCC33;
+  background-image: url("../images/bg/hero_bg.png");
+  background-size: contain;
+  background-position: top left;
+  background-repeat: no-repeat;
+  padding: 20px 30px; }
+
+@media (min-width: 768px) {
+  .hero-program__link {
+    text-align: right;
+    position: absolute;
+    bottom: -20px;
+    left: -150px;
+    width: calc(100% + 150px);
+    max-width: calc(100% + 150px); } }
 
 .basic-hero__img {
   margin-bottom: -5rem; }
@@ -8885,58 +8848,6 @@ Style guide: components.magazine
  * @file
  * Visual styles for comments in Barrio.
  */
-.stats {
-  margin-bottom: 3rem;
-  padding: 3rem 0;
-  background-image: linear-gradient(180deg, #f7f4f2 0%, #ffffff 100%); }
-  @media (min-width: 768px) {
-    .stats {
-      padding: 3rem; } }
-  .stats__heading {
-    font-family: "Crimson Text", serif;
-    line-height: 4.8rem;
-    font-size: "4.8rem-mobile";
-    position: relative;
-    margin-bottom: 2.4rem; }
-    @media (min-width: 768px) {
-      .stats__heading {
-        font-size: 4.8rem; } }
-    .stats__heading:after {
-      content: '';
-      height: 2px;
-      width: 100px;
-      display: block;
-      background: #ffd75f;
-      margin: 0 auto;
-      margin-top: 1.6rem; }
-  .stats__blocks {
-    margin-top: 2rem; }
-  .stats__single {
-    padding: 3rem 0;
-    background: #F7F4F2;
-    box-shadow: 0 6px 30px 0 rgba(230, 219, 214, 0.7);
-    margin-bottom: 2.5rem; }
-  .stats__single-value {
-    font-family: "Lato", Arial, Verdana, sans-serif;
-    font-size: 8rem;
-    font-weight: 400;
-    color: #7a0019;
-    position: relative; }
-    .stats__single-value:after {
-      content: '';
-      height: 2px;
-      width: 100px;
-      display: block;
-      background: #ffd75f;
-      margin: 1.2rem auto 0; }
-  .stats__single-desc {
-    margin-top: 2rem;
-    font-style: italic; }
-
-/**
- * @file
- * Visual styles for comments in Barrio.
- */
 /*
 Typography
 
@@ -8965,74 +8876,6 @@ Style guide: components.typography
   .label-border.yellow:after {
     content: '';
     background: #ffcc33; }
-
-/**
-* @file
-* Visual styles for quotes in Barrio.
-*/
-.quote {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  background-image: linear-gradient(180deg, #f7f4f2 0%, #ffffff 100%); }
-  .quote__img {
-    min-height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center; }
-    .quote__img img {
-      border-radius: 100%;
-      border: 1px solid transparent; }
-  .quote__text {
-    color: #363230;
-    font-family: "Crimson Text", serif;
-    font-size: 36px;
-    line-height: 44px; }
-  .quote__source {
-    color: #e6dbd6;
-    font-family: "Lato", Arial, Verdana, sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase; }
-
-/**
-* @file
-* Visual styles for column in Barrio.
-*/
-.column__img {
-  display: inline-block;
-  width: 100%; }
-
-.column__heading {
-  font-family: "Crimson Text", serif;
-  line-height: 4.8rem;
-  font-size: "4.8rem-mobile";
-  position: relative;
-  margin-bottom: 2.4rem;
-  line-height: 42px; }
-  @media (min-width: 768px) {
-    .column__heading {
-      font-size: 4.8rem; } }
-  .column__heading:after {
-    content: '';
-    height: 2px;
-    width: 100px;
-    display: block;
-    background: #ffd75f;
-    margin-top: 1.6rem; }
-
-.column__markup {
-  color: #363230;
-  font-family: "Lato", Arial, Verdana, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 30px;
-  margin-bottom: 2.5rem; }
-
-.column__link > * {
-  display: block; }
 
 /**
  * @file
@@ -9109,151 +8952,6 @@ Style guide: components.events
 
 /**
  * @file
- * Visual styles for Program CTA in Barrio.
- */
-.page-cta-container {
-  padding-top: 30px;
-  padding-bottom: 30px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  background-color: #ffcc33;
-  background-image: url("../images/bg/page_cta_bg.png");
-  background-size: contain;
-  background-position: top left;
-  background-repeat: no-repeat; }
-  .page-cta-container .page-cta-intro-container .page-cta-intro {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center; }
-    .page-cta-container .page-cta-intro-container .page-cta-intro p {
-      color: #363230;
-      font-family: "Crimson Text", serif;
-      font-size: 34px;
-      font-weight: 400;
-      line-height: 31px;
-      margin: 0; }
-  .page-cta-container .page-cta-link-container {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: end;
-    -ms-flex-pack: end;
-    justify-content: flex-end; }
-    .page-cta-container .page-cta-link-container .page-cta-link a {
-      color: #363230;
-      font-family: "Lato", Arial, Verdana, sans-serif;
-      font-size: 16px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1.78px; }
-
-/**
-* @file
-* Visual styles for comments in Barrio.
-*/
-.feature-block__img {
-  position: relative;
-  z-index: 1001;
-  display: flex;
-  flex-direction: column; }
-  .feature-block__img img {
-    width: 100%;
-    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3); }
-
-.feature-block__content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  position: relative;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  display: flex;
-  flex-direction: column; }
-  @media (max-width: 576px) {
-    .feature-block__content {
-      padding: 45px; } }
-  .feature-block__content:before {
-    content: '';
-    display: block;
-    position: absolute;
-    height: 2px;
-    width: 100%;
-    background: #e6dbd6;
-    top: 15px;
-    left: -15px;
-    z-index: -1;
-    transition: all 0.3s ease-in-out; }
-    @media (max-width: 576px) {
-      .feature-block__content:before {
-        content: '';
-        display: block;
-        position: absolute;
-        height: 100%;
-        width: 2px;
-        background: #e6dbd6;
-        top: 0;
-        left: 30px;
-        z-index: -1; } }
-  .feature-block__content:after {
-    content: '';
-    display: block;
-    position: absolute;
-    height: 2px;
-    width: 100%;
-    background: #e6dbd6;
-    bottom: 15px;
-    left: -15px;
-    z-index: -1;
-    transition: all 0.3s ease-in-out; }
-    @media (max-width: 576px) {
-      .feature-block__content:after {
-        content: '';
-        display: block;
-        position: absolute;
-        height: 100%;
-        width: 2px;
-        background: #e6dbd6;
-        top: 0px;
-        right: 30px;
-        z-index: -1;
-        left: auto;
-        bottom: auto; } }
-
-.feature-block__link {
-  margin-top: 10px;
-  color: #363230;
-  font-family: "Lato", Arial, Verdana, sans-serif;
-  font-size: 16px;
-  line-height: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  display: inline-block; }
-  .feature-block__link:after {
-    content: '';
-    width: 100%;
-    height: 2px;
-    background: #ffcc33;
-    display: inline-block; }
-  .feature-block__link:hover {
-    text-decoration: none;
-    color: #363230; }
-
-/**
- * @file
  * Visual styles for comments in Barrio.
  */
 /*
@@ -9270,52 +8968,6 @@ Style guide: components.home-video
 
 .modal-backdrop {
   display: none; }
-
-/**
- * @file
- * Visual styles for Carlson Advantages in Barrio.
- */
-.carlson-advantages img {
-  box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
-  margin-bottom: 3rem; }
-
-.carlson-advantages label {
-  color: #363230;
-  font-family: "Crimson Text", serif;
-  font-size: 48px;
-  font-weight: 400;
-  line-height: 42px; }
-  .carlson-advantages label:after {
-    content: '';
-    height: 2px;
-    width: 100px;
-    display: block;
-    background: #ffcc33;
-    margin: 15px 0; }
-
-.carlson-advantages__items > div {
-  justify-content: space-between;
-  margin-bottom: 3rem; }
-
-.carlson-advantages__label {
-  padding: 30px 15px; }
-  .carlson-advantages__label:last-of-type {
-    text-align: right; }
-  .carlson-advantages__label span {
-    color: #e6dbd6;
-    font-family: "Lato", Arial, Verdana, sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.56px;
-    margin: 0; }
-    .carlson-advantages__label span:after {
-      content: "";
-      display: inline-block;
-      width: 100%;
-      height: 1px;
-      float: left;
-      background: #e6dbd6; }
 
 /**
  * @file
@@ -11499,34 +11151,6 @@ Style guide: components.accordion
       .accordion .card .inner.show {
         opacity: 1; }
 
-/**
-* @file
-* Visual styles for slide in Barrio.
-*/
-.slide {
-  display: flex !important;
-  flex-direction: column;
-  align-items: center; }
-  .slide .slick-slider {
-    display: flex !important;
-    justify-content: center; }
-  .slide__img {
-    display: inline-block; }
-  .slide__caption {
-    color: #e6dbd6;
-    font-family: "Lato", Arial, Verdana, sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    display: none; }
-
-.slideshow__main-caption {
-  color: #e6dbd6;
-  font-family: "Lato", Arial, Verdana, sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  text-transform: uppercase; }
-
 .carlson-nav .region-we-mega-menu {
   width: 100%;
   background: none; }
@@ -11840,6 +11464,199 @@ body.toolbar-vertical .carlson-nav .region-we-mega-menu .navbar {
   margin-left: -5px;
   width: 96.5%; }
 
+.component-paragraph {
+  margin-bottom: 3rem; }
+  @media (min-width: 768px) {
+    .component-paragraph {
+      margin-bottom: 4.5rem; } }
+
+/**
+ * @file
+ * Visual styles for comments in Barrio.
+ */
+.stats {
+  margin-bottom: 3rem;
+  padding: 3rem 0;
+  background-image: linear-gradient(180deg, #f7f4f2 0%, #ffffff 100%); }
+  .stats__heading {
+    font-family: "Crimson Text", serif;
+    word-break: break-word;
+    font-size: 3.4rem;
+    line-height: 2.8rem;
+    position: relative;
+    margin-bottom: 2.4rem; }
+    @media (min-width: 768px) {
+      .stats__heading {
+        font-size: 4.8rem;
+        line-height: 4.8rem; } }
+    .stats__heading:after {
+      content: '';
+      height: 2px;
+      width: 100px;
+      display: block;
+      background: #ffd75f;
+      margin: 0 auto;
+      margin-top: 1.6rem; }
+  .stats__blocks {
+    margin-top: 2rem; }
+  .stats__single {
+    padding: 3rem 0;
+    background: #F7F4F2;
+    box-shadow: 0 6px 30px 0 rgba(230, 219, 214, 0.7);
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
+  .stats__single-value {
+    font-family: "Lato", Arial, Verdana, sans-serif;
+    font-size: 3.4rem;
+    line-height: 2.8rem;
+    font-weight: 400;
+    color: #7a0019;
+    position: relative; }
+    @media (min-width: 768px) {
+      .stats__single-value {
+        font-size: 8rem;
+        line-height: 8rem; } }
+    .stats__single-value:after {
+      content: '';
+      height: 2px;
+      width: 100px;
+      display: block;
+      background: #ffd75f;
+      margin: 1.2rem auto 0; }
+  .stats__single-desc {
+    margin-top: 2rem;
+    font-style: italic; }
+  @media (min-width: 768px) {
+    .stats {
+      padding: 3rem; }
+      .stats__single {
+        min-height: 300px; } }
+
+/**
+* @file
+* Visual styles for Lead Paragaraph in Barrio.
+*/
+.centered-text-wrapper .col-centered {
+  margin: 0 auto; }
+  .centered-text-wrapper .col-centered .centered-text-block {
+    text-align: center; }
+    .centered-text-wrapper .col-centered .centered-text-block .title-wrapper h2 {
+      font-family: "Crimson Text", serif;
+      font-size: 6vw;
+      line-height: 6.5vw;
+      margin-bottom: 15px; }
+      .centered-text-wrapper .col-centered .centered-text-block .title-wrapper h2:after {
+        content: '';
+        height: 2px;
+        width: 100px;
+        margin: 0 auto;
+        display: block;
+        background: #ffcc33; }
+    .centered-text-wrapper .col-centered .centered-text-block .text-wrapper {
+      margin-top: 15px; }
+      .centered-text-wrapper .col-centered .centered-text-block .text-wrapper p {
+        font-size: 1.2rem; }
+
+/**
+* @file
+* Visual styles for quotes in Barrio.
+*/
+.quote {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-image: linear-gradient(180deg, #f7f4f2 0%, #ffffff 100%); }
+  .quote__img {
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
+    .quote__img img {
+      border-radius: 100%;
+      border: 1px solid transparent; }
+  .quote__text {
+    color: #363230;
+    font-family: "Crimson Text", serif;
+    font-size: 36px;
+    line-height: 44px; }
+  .quote__source {
+    color: #e6dbd6;
+    font-family: "Lato", Arial, Verdana, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase; }
+
+/**
+* @file
+* Visual styles for column in Barrio.
+*/
+.column__img {
+  display: inline-block;
+  width: 100%; }
+
+.column__heading {
+  font-family: "Crimson Text", serif;
+  word-break: break-word;
+  font-size: 3.4rem;
+  line-height: 2.8rem;
+  position: relative;
+  margin-bottom: 2.4rem;
+  line-height: 42px; }
+  @media (min-width: 768px) {
+    .column__heading {
+      font-size: 4.8rem;
+      line-height: 4.8rem; } }
+  .column__heading:after {
+    content: '';
+    height: 2px;
+    width: 100px;
+    display: block;
+    background: #ffd75f;
+    margin-top: 1.6rem; }
+
+.column__markup {
+  color: #363230;
+  font-family: "Lato", Arial, Verdana, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 30px;
+  margin-bottom: 2.5rem; }
+
+.column__link > * {
+  display: block; }
+
+/**
+* @file
+* Visual styles for slide in Barrio.
+*/
+.slide {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center; }
+  .slide .slick-slider {
+    display: flex !important;
+    justify-content: center; }
+  .slide__img {
+    display: inline-block; }
+  .slide__caption {
+    color: #e6dbd6;
+    font-family: "Lato", Arial, Verdana, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: none; }
+
+.slideshow__main-caption {
+  color: #e6dbd6;
+  font-family: "Lato", Arial, Verdana, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase; }
+
 /**
  * @file
  * Visual styles for Videos in Barrio.
@@ -11919,19 +11736,23 @@ body.toolbar-vertical .carlson-nav .region-we-mega-menu .navbar {
     background: #ffcc33; }
 
 .video-textbelow__heading {
+  display: block;
   font-family: "Crimson Text", serif;
-  font-size: 4rem;
+  font-size: 3.4rem;
+  line-height: 2.8rem;
+  font-weight: 400;
   font-style: italic;
   margin-top: 30px; }
+  @media (min-width: 768px) {
+    .video-textbelow__heading {
+      font-size: 4.8rem;
+      line-height: 4.8rem; } }
 
-.video-textbelow .caption {
+.video-textbelow__caption {
+  display: block;
   color: #363230;
-  font-family: "Lato", Arial, Verdana, sans-serif;
   font-size: 16px;
-  line-height: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center; }
+  line-height: 30px; }
 
 .fullwidth-video,
 .fullwidth-image {
@@ -11975,7 +11796,191 @@ body.toolbar-vertical .carlson-nav .region-we-mega-menu .navbar {
     width: 100%;
     height: auto; }
 
+/**
+ * @file
+ * Visual styles for Program CTA in Barrio.
+ */
+.program-cta {
+  padding: 30px;
+  background-color: #ffcc33;
+  background-image: url("../images/bg/page_cta_bg.png");
+  background-size: cover;
+  background-position: top left;
+  background-repeat: no-repeat; }
+  .program-cta__intro {
+    font-family: "Crimson Text", serif;
+    font-size: 3.4rem;
+    line-height: 2.8rem;
+    margin-bottom: 2rem; }
+    @media (min-width: 768px) {
+      .program-cta__intro {
+        font-size: 3.4rem;
+        line-height: 3.4rem; } }
+    .program-cta__intro > * {
+      font-weight: 400; }
+  .program-cta__link {
+    text-transform: uppercase; }
+  @media (min-width: 768px) {
+    .program-cta {
+      background-size: contain; }
+      .program-cta__intro {
+        margin-bottom: 0; }
+      .program-cta__link {
+        text-align: right; } }
+
+/**
+* @file
+* Visual styles for comments in Barrio.
+*/
+.feature-block__img {
+  position: relative;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column; }
+  .feature-block__img img {
+    width: 100%;
+    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3); }
+
+.feature-block__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: column; }
+  @media (max-width: 576px) {
+    .feature-block__content {
+      padding: 45px; } }
+  .feature-block__content:before {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: #e6dbd6;
+    top: 15px;
+    left: -15px;
+    z-index: -1;
+    transition: all 0.3s ease-in-out; }
+    @media (max-width: 576px) {
+      .feature-block__content:before {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 100%;
+        width: 2px;
+        background: #e6dbd6;
+        top: 0;
+        left: 30px;
+        z-index: -1; } }
+  .feature-block__content:after {
+    content: '';
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: #e6dbd6;
+    bottom: 15px;
+    left: -15px;
+    z-index: -1;
+    transition: all 0.3s ease-in-out; }
+    @media (max-width: 576px) {
+      .feature-block__content:after {
+        content: '';
+        display: block;
+        position: absolute;
+        height: 100%;
+        width: 2px;
+        background: #e6dbd6;
+        top: 0px;
+        right: 30px;
+        z-index: -1;
+        left: auto;
+        bottom: auto; } }
+
+.feature-block__link {
+  margin-top: 10px;
+  color: #363230;
+  font-family: "Lato", Arial, Verdana, sans-serif;
+  font-size: 16px;
+  line-height: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: inline-block; }
+  .feature-block__link:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: #ffcc33;
+    display: inline-block; }
+  .feature-block__link:hover {
+    text-decoration: none;
+    color: #363230; }
+
+/**
+ * @file
+ * Visual styles for Carlson Advantages in Barrio.
+ */
+.carlson-advantages img {
+  box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
+  margin-bottom: 3rem; }
+
+.carlson-advantages label {
+  color: #363230;
+  font-family: "Crimson Text", serif;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 42px; }
+  .carlson-advantages label:after {
+    content: '';
+    height: 2px;
+    width: 100px;
+    display: block;
+    background: #ffcc33;
+    margin: 15px 0; }
+
+.carlson-advantages__items > div {
+  justify-content: space-between;
+  margin-bottom: 3rem; }
+
+.carlson-advantages__label {
+  padding: 30px 15px; }
+  .carlson-advantages__label:last-of-type {
+    text-align: right; }
+  .carlson-advantages__label span {
+    color: #e6dbd6;
+    font-family: "Lato", Arial, Verdana, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.56px;
+    margin: 0; }
+    .carlson-advantages__label span:after {
+      content: "";
+      display: inline-block;
+      width: 100%;
+      height: 1px;
+      float: left;
+      background: #e6dbd6; }
+
 /* News Page styles */
+.news .program-cta,
+.news .fullwidth-video {
+  max-width: 1330px;
+  margin-left: auto;
+  margin-right: auto; }
+
+.news__body,
+.news .basic-paragraph,
+.news .carlson-slideshow,
+.news .quote,
+.news .quote-group {
+  max-width: 1060px;
+  margin-left: auto;
+  margin-right: auto; }
+
 /* Styles for the sticky sidebar rendered in the node template */
 .block-cta {
   background: #7a0019; }

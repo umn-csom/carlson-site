@@ -126,23 +126,19 @@
   </header>
 
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'news') }}>
-    <div class="row">
-      <div class="col-md-10 offset-md-1">
-        {# Body and side bar #}
-        <section class="row news__body">
+      {# Body and side bar #}
+      <section class="row news__body">
 
-          <div class="{{ (has_sidebar == TRUE) ? 'col-md-9' : 'col-12' }}">
-            {{ content.body }}
+        <div class="{{ (has_sidebar == TRUE) ? 'col-md-9' : 'col-12' }}">
+          {{ content.body }}
+        </div>
+
+        {% if content.field_sidebar_content|field_value is not empty %}
+          <div class="col-md-3">
+            {{ content.field_sidebar_content }}
           </div>
-
-          {% if content.field_sidebar_content|field_value is not empty %}
-            <div class="col-md-3">
-              {{ content.field_sidebar_content }}
-            </div>
-          {% endif %}
-        </section>
-      </div>
-    </div>
+        {% endif %}
+      </section>
 
     {# Flexible features are rendered through the paragraph templates specific to the feature #}
     {{ content.field_flexible_features }}
