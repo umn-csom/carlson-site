@@ -85,45 +85,51 @@
   </header>
 
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
-    <section class="landing-page__top">
-      {# Program Hero #}
-      <div class="row hero-program">
-        <div class="col-md-7 hero-program__img">
-          {{ content.field_hero_media }}
-        </div>
-        <div class="col-md-5 col-sm-12 hero-program__content">
-          <div class="row">
-            <div class="col-12">
-              <h1 class="hero-program__title" >{{ node.label }}</h1>
-            </div>
-            <div class="col-12 order-md-2 hero-program__link">
-              <div class="hero-program__link-inner">
-                {{ content.field_link }}
+    <section class="row landing-page__top">
+      <div class="col-md-10 offset-md-1">
+        {# Program Hero #}
+        <div class="row hero-program">
+          <div class="col-md-7 hero-program__img">
+            {{ content.field_hero_media }}
+          </div>
+          <div class="col-md-5 col-sm-12 hero-program__content">
+            <div class="row">
+              <div class="col-12">
+                <h1 class="hero-program__title" >{{ node.label }}</h1>
               </div>
-            </div>
-            <div class="col-12 order-md-1">
-              {{ content.body }}
+              <div class="col-12 order-md-2 hero-program__link">
+                <div class="hero-program__link-inner">
+                  {{ content.field_link }}
+                </div>
+              </div>
+              <div class="col-12 order-md-1">
+                {{ content.body }}
+              </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-    <div class="landing-page__content">
-      <div class="row">
-        
-        {# Stick sidebar region #}
-        {% if sticky_sidebar %}
-        <div class="col-md-2 sticky_sidebar">
-          {{ sticky_sidebar }}
-        </div>
-        {% endif %}
-
-        <div class="{{ sticky_sidebar ? 'col-md-10' : 'col-12' }} landing-page__content-components">
+    <div class="row landing-page__content">
+      <div class="col-md-10 offset-md-1">
+        <div class="row">
           
-          {# Home Flexible feature paragraphs #}
-          {{ content.field_flexible_features }}
+          {# Stick sidebar region #}
+          {% if sticky_sidebar %}
+          <div class="col-lg-2 sticky_sidebar">
+            <div class="row">
+            {{ sticky_sidebar }}
+            </div>
+          </div>
+          {% endif %}
 
-          {{ content.field_contact_info }}
+          <div class="{{ sticky_sidebar ? 'col-lg-10' : 'col-12' }} landing-page__content-components">
+            
+            {# Home Flexible feature paragraphs #}
+            {{ content.field_flexible_features }}
+
+            {{ content.field_contact_info }}
+          </div>
         </div>
       </div>
     </div>

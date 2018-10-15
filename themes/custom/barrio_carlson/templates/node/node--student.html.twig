@@ -9,115 +9,67 @@
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
     'clearfix',
-    'container',
   ]
 %}
 
 <article{{ attributes.addClass(classes) }}>
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'faculty-profile') }}>
-    <section class="faculty-profile__top">
-      <div class="row">
-        <div class="col-sm-12 col-md-4">
-            {% if content.field_profile_img|field_value is not empty %}
-              <div class="faculty-profile__top--headshot">
-                {{ content.field_profile_img|field_value }}
-              </div>
-            {% endif %}
-        </div>
-        <div class="col-sm-12 col-md-8 profile-content-wrapper">
-            <h1 class="faculty-profile__top--name label-border red">
-              {{ node.label }}
-            </h1>
-            <div class="faculty-profile__top--title">
-              {% if content.field_profile_title|field_value is not empty %}
-                {{ content.field_profile_title|field_value }}
-              {% endif %}
-            </div>
-            <div class="faculty-profile__top--dept">
-              {{ content.field_profile_dept|field_value }}
-            </div>
-            <div class="faculty-profile__top--summary">
-              {% if node.body.summary is not empty %}
-                {{ node.body.summary }}
-              {% endif %}
-            </div>
-        </div>
-      </div>
-      <div class="row">
-          <div class="col-sm-12 col-md-3 faculty-profile__contact">
-            {% if content.field_profile_address|field_value is not empty %}
-              <h2>Contact</h2>
-
-              {% if content.field_office_phone|field_value is not empty %}
-                <a class="faculty-profile__contact--phone"
-                  href="tel:{{ content.field_office_phone|field_value }}">
-                  {{ content.field_office_phone|field_value }}
-                </a>
-              {% endif %}
-
-              <div class="faculty-profile__contact--address">
-                {{ content.field_profile_address|field_value }}
-              </div>
-
-              {% if content.field_email|field_value is not empty %}
-                <div class="faculty-profile__contact--email">
-                  <a href="mailto:{{ content.field_email|field_value }}">
-                    {{ content.field_email|field_value }}
-                  </a>
-                </div>
-              {% endif %}
-
-              {% if content.field_profile_cvc|field_value is not empty %}
-                <div class="faculty-profile__contact--cvc">
-                    <a href="{{ file_url( node.field_profile_cvc.entity.uri.value ) }}">
-                      Curriculum Vitae
-                    </a>
-                </div>
-              {% endif %}
-
-              {% if content.field_profile_url|field_value is not empty %}
-                <div class="faculty-profile__contact--link">
-                    {{ content.field_profile_url|field_value }}
-                </div>
-              {% endif %}
-
-            {% endif %}
-          </div>
-          <div class="col-sm-12 col-md-8 col-md-offset-1 faculty-profile__experience">
-            <div class="row">
-              <div class="col-12 col-sm-6 col-md-6">
-                {% if content.field_profile_degrees|field_value is not empty %}
-                  <h2>Education:</h2>
-                  <ul class="faculty-profile__education">
-                      {{ content.field_profile_degrees|field_value }}
-                  </ul>
-                {% endif %}
-              </div>
-              <div class="col-12 col-sm-6 col-md-6">
-                {% if content.field_profile_expertise|field_value is not empty %}
-                  <h2>Expertise:</h2>
-                  <ul class="faculty-profile__expertise">
-                      {{ content.field_profile_expertise|field_value }}
-                  </ul>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-      </div>
-    </section>
-
-    {% if node.body.value|raw is not empty %}
-      <section class="faculty-profile__about">
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'student-profile') }}>
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+        <section class="student-profile__top">
           <div class="row">
-              <div class="col-12">
-                <h2>About {{ content.field_first_name|field_value }}</h2>
-                <div class="faculty-profile__about--summary">
-                  {{ node.body.value|raw }}
+            <div class="col-sm-12 col-md-4">
+                {% if content.field_profile_img|field_value is not empty %}
+                  <div class="student-profile__top--headshot">
+                    {{ content.field_profile_img|field_value }}
+                  </div>
+                {% endif %}
+            </div>
+            <div class="col-sm-12 col-md-8 student-profile__top--wrap">
+                <h1 class="student-profile__top--name">
+                  {{ node.label }}
+                </h1>
+                <div class="student-profile__top--summary">
+                  {% if node.body.summary is not empty %}
+                    {{ node.body.summary }}
+                  {% endif %}
                 </div>
-              </div>
+                <div class="student-profile__top--quote">
+                  {% if content.field_profile_quote|field_value is not empty %}
+                    {{ content.field_profile_quote|field_value }}
+                  {% endif %}
+                </div>
+            </div>
           </div>
-      </section>
-    {% endif %}
+         
+        </section>
 
+        {% if node.body.value|raw is not empty %}
+          <section class="student-profile__about">
+              <div class="row">
+                  <div class="col-12 col-md-9">
+                    <div class="student-profile__about--summary">
+                      {{ node.body.value|raw }}
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3 student-profile__sidebar">
+                    <div>
+                      <h3 class="student-profile__sidebar--label">About {{ content.field_first_name|field_value }}</h3>
+
+                      {{ content.field_profile_hometown }}
+                      {{ content.field_profile_experience }}
+                      {{ content.field_profile_carlson_activities }}
+                      {{ content.field_profile_internship }}
+                      {{ content.field_profile_interests }}
+                      {{ content.field_profile_undergrad }}
+                      {{ content.field_profile_company }}
+                      {{ content.field_profile_job }}
+                    </div>
+                  </div>
+              </div>
+          </section>
+        {% endif %}
+      </div>
+    </div>
   </div>
 </article>

@@ -38,15 +38,19 @@
  * @ingroup themeable
  */
 #}
-{% set content_data = {
-    'thumb': content.field_video_thumb, 
-    'caption': content.field_video_caption,
-    'video': content.field_video_embed.0,
-  }
-%}
 
 {% block paragraph %}
   {% block content %}
-    {% include directory ~ '/templates/components/video-text_right.html.twig' with content_data %}
+		<div class="row video-textright">
+			<div class="col-md-6 video-textright__left">
+				{{ content.field_video_thumb }}
+			</div>
+			<div class="col-md-6 video-textright__details text-center">
+				<a class="use-ajax video-textright__link" data-dialog-type="modal" href="/media/{{ content.field_video_embed.0 }}" data-dialog-options="{&quot;width&quot;:800}">></a>
+	      <hr>
+	      <label class="video-textright__heading text-center">{{ content.field_heading }}</label>
+     		<span class="video-textright__caption text-center">{{ content.field_video_caption }}</span>
+	    </div>
+		</div>
   {% endblock %}
 {% endblock paragraph %}

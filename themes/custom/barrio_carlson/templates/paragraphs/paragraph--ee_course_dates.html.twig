@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme implementation for program_cta paragraphs used in news.
+ * Theme template for cutom "CTA block" type links (paragraph bundle)
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -39,24 +39,19 @@
  */
 #}
 
-{%
-  set classes = [
-    'paragraph',
-    'paragraph--type--' ~ paragraph.bundle|clean_class,
-    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
-    not paragraph.isPublished() ? 'paragraph--unpublished'
-  ]
-%}
-
 {% block paragraph %}
-    {% block content %}
-        <div class="row component-paragraph align-items-center program-cta">
-          <div class="col-sm-9 program-cta__intro">
-            <h3>{{ content.field_heading|field_value }}</h3>
-          </div>
-          <div class="col-sm-3 program-cta__link">
-            {{ content.field_link|field_value }}
-          </div>
-      </div>
-    {% endblock %}
+  {% block content %}
+    <div class="col-12 ee-program__date">
+    	<div class="row">
+    		<div class="col-md-6">
+    			{{ content.field_ee_program_dates }}
+    		</div>
+    		<div class="col-md-6">
+		    	<a href="" class="btn btn-primary--maroon">{{ content.field_ee_register_text }}</a>
+		    	<a href="{{ content.field_ee_register.0['url'] }}" class="btn btn-secondary">Register with Credit Card</a>
+		    	<a href="{{ content.field_ee_request_invoice.0['url'] }}" class="btn btn-primary--maroon">Request Invoice</a>
+		    </div>
+    	</div>
+    </div>
+  {% endblock %}
 {% endblock paragraph %}

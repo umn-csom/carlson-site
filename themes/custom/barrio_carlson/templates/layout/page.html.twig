@@ -71,7 +71,7 @@
   <div id="page">
 
     {# Header that contains main menu/branding #}
-    <header id="header" class="header carlson-header" role="banner" aria-label="{{ 'Site header'|t}}">
+    <header id="header" class="header carlson-header container-fluid" role="banner" aria-label="{{ 'Site header'|t}}">
       <nav class="carlson-nav" {{ attributes }}>
       {% block head %}
         {{ page.header }} {# Logo is placed in page.header #}
@@ -110,7 +110,11 @@
     <div id="main-wrapper" class="layout-main-wrapper clearfix">
       {% block content %}
         <div id="main" class="container">
-          {{ page.breadcrumb }}
+          <div class="row">
+            <div class="col breadcrumb">
+            {{ page.breadcrumb }}
+            </div>
+          </div>
           <div class="row row-offcanvas row-offcanvas-left clearfix">
               <main{{ content_attributes }}>
                 <section class="section">

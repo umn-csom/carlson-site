@@ -7786,7 +7786,7 @@ Style guide: components.alerts
  * @file
  * Bootstrap Barrio specific styling for the Book module.
  */
-.btn.btn-primary--yellow {
+.btn .btn-primary--yellow {
   padding: 1.5rem 2rem;
   font-family: "Lato", Arial, Verdana, sans-serif;
   font-size: 3.4rem;
@@ -7799,15 +7799,15 @@ Style guide: components.alerts
   color: #363230;
   background-color: transparent; }
   @media (min-width: 768px) {
-    .btn.btn-primary--yellow {
+    .btn .btn-primary--yellow {
       font-size: 1.6rem;
       line-height: 1.6rem; } }
-  .btn.btn-primary--yellow:hover, .btn.btn-primary--yellow:active, .btn.btn-primary--yellow:focus {
+  .btn .btn-primary--yellow:hover, .btn .btn-primary--yellow:active, .btn .btn-primary--yellow:focus {
     background: #FFCC33;
     box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
     color: white; }
 
-.btn.btn-primary--maroon {
+.btn .btn-primary--maroon {
   padding: 1.5rem 2rem;
   font-family: "Lato", Arial, Verdana, sans-serif;
   font-size: 3.4rem;
@@ -7820,15 +7820,15 @@ Style guide: components.alerts
   color: #7a0019;
   background-color: transparent; }
   @media (min-width: 768px) {
-    .btn.btn-primary--maroon {
+    .btn .btn-primary--maroon {
       font-size: 1.6rem;
       line-height: 1.6rem; } }
-  .btn.btn-primary--maroon:hover, .btn.btn-primary--maroon:active, .btn.btn-primary--maroon:focus {
+  .btn .btn-primary--maroon:hover, .btn .btn-primary--maroon:active, .btn .btn-primary--maroon:focus {
     background: #7a0019;
     box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
     color: white; }
 
-.btn.btn-secondary {
+.btn .btn-secondary {
   padding: 1.5rem 2rem;
   font-family: "Lato", Arial, Verdana, sans-serif;
   font-size: 3.4rem;
@@ -7840,24 +7840,24 @@ Style guide: components.alerts
   border: 2px solid #7a0019;
   color: white; }
   @media (min-width: 768px) {
-    .btn.btn-secondary {
+    .btn .btn-secondary {
       font-size: 1.6rem;
       line-height: 1.6rem; } }
-  .btn.btn-secondary:hover, .btn.btn-secondary:active, .btn.btn-secondary:focus {
+  .btn .btn-secondary:hover, .btn .btn-secondary:active, .btn .btn-secondary:focus {
     background: white;
     box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
     color: #7a0019; }
 
-.btn.btn-link-primary {
+.btn .btn-link-primary {
   min-width: auto;
   color: #7a0019;
   line-height: 1.6rem; }
-  .btn.btn-link-primary:hover, .btn.btn-link-primary:active, .btn.btn-link-primary:focus {
+  .btn .btn-link-primary:hover, .btn .btn-link-primary:active, .btn .btn-link-primary:focus {
     text-decoration: none; }
-    .btn.btn-link-primary:hover:after, .btn.btn-link-primary:active:after, .btn.btn-link-primary:focus:after {
+    .btn .btn-link-primary:hover:after, .btn .btn-link-primary:active:after, .btn .btn-link-primary:focus:after {
       content: '';
       width: 0px; }
-  .btn.btn-link-primary:after {
+  .btn .btn-link-primary:after {
     content: '';
     transition: all 0.3s ease-in-out;
     width: 100%;
@@ -7866,16 +7866,16 @@ Style guide: components.alerts
     margin: 0 auto;
     background: #7a0019; }
 
-.btn.btn-link-secondary {
+.btn .btn-link-secondary {
   min-width: auto;
   color: #363230;
   line-height: 1.6rem; }
-  .btn.btn-link-secondary:hover, .btn.btn-link-secondary:active, .btn.btn-link-secondary:focus {
+  .btn .btn-link-secondary:hover, .btn .btn-link-secondary:active, .btn .btn-link-secondary:focus {
     text-decoration: none; }
-    .btn.btn-link-secondary:hover:after, .btn.btn-link-secondary:active:after, .btn.btn-link-secondary:focus:after {
+    .btn .btn-link-secondary:hover:after, .btn .btn-link-secondary:active:after, .btn .btn-link-secondary:focus:after {
       content: '';
       width: 0px; }
-  .btn.btn-link-secondary:after {
+  .btn .btn-link-secondary:after {
     content: '';
     transition: all 0.3s ease-in-out;
     width: 100%;
@@ -8559,6 +8559,8 @@ Style guide: components.alerts
   padding: 20px 30px; }
 
 @media (min-width: 768px) {
+  .hero-program__title {
+    margin-top: 40px; }
   .hero-program__link {
     text-align: right;
     position: absolute;
@@ -8689,15 +8691,6 @@ Style guide: components.home-news-feed
  * @file
  * Visual styles for comments in Barrio.
  */
-/*
-Landing Page Tags
-
-
-Markup: ../../../templates/components/landing-page-tags.html.twig
-
-
-Style guide: components.landing-page-tags
-*/
 .page-tags-container {
   padding-top: 30px;
   padding-bottom: 30px;
@@ -8848,34 +8841,43 @@ Style guide: components.magazine
  * @file
  * Visual styles for comments in Barrio.
  */
-/*
-Typography
-
-
-Markup: ../../../templates/components/typography.html.twig
-
-Style guide: components.typography
-*/
-.kss-source {
-  font-size: 1.4rem !important; }
-
-.label-border {
-  color: #363230;
+.label-border.red {
   font-family: "Crimson Text", serif;
-  font-weight: 400;
+  word-break: break-word;
+  font-size: 3.4rem;
+  line-height: 2.8rem;
   position: relative;
-  margin-bottom: 30px; }
-  .label-border:after {
+  margin-bottom: 2.4rem; }
+  @media (min-width: 768px) {
+    .label-border.red {
+      font-size: 4.8rem;
+      line-height: 4.8rem; } }
+  .label-border.red:after {
     content: '';
     height: 2px;
     width: 100px;
-    display: block; }
-  .label-border.red:after {
-    content: '';
-    background: #7a0019; }
+    display: block;
+    background: #7a0019;
+    margin: 1.6rem auto 0 auto; }
+
+.label-border.yellow {
+  font-family: "Crimson Text", serif;
+  word-break: break-word;
+  font-size: 3.4rem;
+  line-height: 2.8rem;
+  position: relative;
+  margin-bottom: 2.4rem; }
+  @media (min-width: 768px) {
+    .label-border.yellow {
+      font-size: 4.8rem;
+      line-height: 4.8rem; } }
   .label-border.yellow:after {
     content: '';
-    background: #ffcc33; }
+    height: 2px;
+    width: 100px;
+    display: block;
+    background: #FFCC33;
+    margin: 1.6rem auto 0 auto; }
 
 /**
  * @file
@@ -8890,66 +8892,6 @@ Markup: ../../../templates/components/events.html.twig
 
 Style guide: components.events
 */
-/**
- * @file
- * Visual styles for comments in Barrio.
- */
-.contact-cta .cta-wrapper {
-  display: flex; }
-  .contact-cta .cta-wrapper .row {
-    width: 100%;
-    display: flex;
-    align-items: center; }
-    .contact-cta .cta-wrapper .row .contact-col {
-      background-image: url("../images/bg/contact_bg.png");
-      background-size: contain;
-      background-position: top left;
-      background-repeat: no-repeat;
-      background-color: #ffcc33;
-      padding-top: 30px;
-      padding-bottom: 30px; }
-      .contact-cta .cta-wrapper .row .contact-col h5 {
-        color: #363230;
-        font-family: "Crimson Text", serif;
-        font-size: 34px;
-        font-weight: 400;
-        line-height: 31px; }
-      .contact-cta .cta-wrapper .row .contact-col .contact-large-link {
-        color: #7a0019;
-        font-family: Lato;
-        font-size: 16px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1.78px; }
-      .contact-cta .cta-wrapper .row .contact-col ul {
-        color: #363230;
-        font-family: "Lato", Arial, Verdana, sans-serif;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 30px;
-        display: flex; }
-        .contact-cta .cta-wrapper .row .contact-col ul li {
-          display: flex; }
-          .contact-cta .cta-wrapper .row .contact-col ul li:after {
-            content: '';
-            width: 1px;
-            height: 100%;
-            background: #363230;
-            display: inline-block;
-            margin-left: 7px; }
-          .contact-cta .cta-wrapper .row .contact-col ul li:last-of-type:after {
-            display: none; }
-          .contact-cta .cta-wrapper .row .contact-col ul li a {
-            color: #7a0019; }
-    .contact-cta .cta-wrapper .row .social-col {
-      padding-top: 30px;
-      padding-bottom: 30px;
-      display: flex;
-      flex-direction: column;
-      align-items: center; }
-      .contact-cta .cta-wrapper .row .social-col .social-wrapper {
-        display: block; }
-
 /**
  * @file
  * Visual styles for comments in Barrio.
@@ -9233,7 +9175,7 @@ Style guide: components.images
  * Styles for Bootstrap Barrio's breadcrumbs.
  */
 .breadcrumb {
-  font-size: 0.929em 0.875rem; }
+  background: transparent; }
 
 .region-breadcrumb {
   padding: 0 15px 0.25em;
@@ -11464,6 +11406,36 @@ body.toolbar-vertical .carlson-nav .region-we-mega-menu .navbar {
   margin-left: -5px;
   width: 96.5%; }
 
+/**
+ * @file
+ * Visual styles for comments in Barrio.
+ */
+.contact-cta__contact {
+  background-image: url("../images/bg/contact_bg.png");
+  background-size: contain;
+  background-position: top left;
+  background-repeat: no-repeat;
+  background-color: #ffcc33;
+  padding-top: 30px;
+  padding-bottom: 30px; }
+  .contact-cta__contact h5 {
+    color: #363230;
+    font-family: "Crimson Text", serif;
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 31px; }
+
+.contact-cta__social {
+  padding-top: 30px;
+  padding-bottom: 30px; }
+
+.sidebar-cta {
+  background: #7a0019; }
+  .sidebar-cta a {
+    color: white;
+    text-transform: uppercase;
+    font-size: 1.2rem; }
+
 .component-paragraph {
   margin-bottom: 3rem; }
   @media (min-width: 768px) {
@@ -11495,8 +11467,7 @@ body.toolbar-vertical .carlson-nav .region-we-mega-menu .navbar {
       width: 100px;
       display: block;
       background: #ffd75f;
-      margin: 0 auto;
-      margin-top: 1.6rem; }
+      margin: 1.6rem auto 0 auto; }
   .stats__blocks {
     margin-top: 2rem; }
   .stats__single {
@@ -11664,55 +11635,6 @@ body.toolbar-vertical .carlson-nav .region-we-mega-menu .navbar {
 .video-textright__left img {
   width: 100%;
   box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3); }
-
-.video-textright__details {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  top: 0; }
-  .video-textright__details .play-btn {
-    font-size: 26px;
-    line-height: 0;
-    border: 2px solid #ffcc33;
-    color: #fff;
-    border-radius: 100%;
-    height: 100px;
-    width: 100px;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center; }
-  .video-textright__details hr {
-    height: 2px;
-    width: 32%;
-    background: #ffcc33;
-    position: absolute;
-    right: 0px;
-    z-index: 1001;
-    margin: 0; }
-
-.video-textright__right {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; }
-
-.video-textright__heading {
-  color: #34302e;
-  font-family: "Crimson Text", serif;
-  font-size: 48px;
-  line-height: 44px;
-  display: flex;
-  flex-direction: column; }
-
-.video-textright__caption {
-  color: #363230;
-  font-family: "Lato", Arial, Verdana, sans-serif;
-  font-size: 16px;
-  line-height: 30px; }
 
 .video-textbelow img {
   width: 100%;
@@ -11981,9 +11903,12 @@ body.toolbar-vertical .carlson-nav .region-we-mega-menu .navbar {
   margin-left: auto;
   margin-right: auto; }
 
-/* Styles for the sticky sidebar rendered in the node template */
-.block-cta {
-  background: #7a0019; }
+.news .label-border {
+  font-size: 3.4rem;
+  line-height: 3.4rem;
+  font-weight: 400; }
+  .news .label-border:after {
+    margin: 1.6rem 0 0 0; }
 
 .faculty-profile {
   /** Top Profile - Block. **/
@@ -11992,6 +11917,24 @@ body.toolbar-vertical .carlson-nav .region-we-mega-menu .navbar {
   .faculty-profile__top--headshot img {
     width: 100%;
     height: auto; }
+  .faculty-profile__top--name {
+    font-family: "Crimson Text", serif;
+    word-break: break-word;
+    font-size: 3.4rem;
+    line-height: 2.8rem;
+    position: relative;
+    margin-bottom: 2.4rem; }
+    @media (min-width: 768px) {
+      .faculty-profile__top--name {
+        font-size: 4.8rem;
+        line-height: 4.8rem; } }
+    .faculty-profile__top--name:after {
+      content: '';
+      height: 2px;
+      width: 100px;
+      display: block;
+      background: #7a0019;
+      margin-top: 1.6rem; }
   .faculty-profile__top--title {
     color: #363230;
     font-family: "Lato", Arial, Verdana, sans-serif;
@@ -12150,6 +12093,91 @@ body.toolbar-vertical .carlson-nav .region-we-mega-menu .navbar {
       .faculty-profile .profile-content-wrapper {
         margin-bottom: 30px; } }
 
+.student-profile {
+  /** Top Profile - Block. **/ }
+  .student-profile__top--headshot {
+    margin-bottom: 2rem; }
+    .student-profile__top--headshot img {
+      width: 100%;
+      height: auto; }
+  .student-profile__top--name {
+    font-family: "Crimson Text", serif;
+    word-break: break-word;
+    font-size: 3.4rem;
+    line-height: 2.8rem;
+    position: relative;
+    margin-bottom: 2.4rem; }
+    @media (min-width: 768px) {
+      .student-profile__top--name {
+        font-size: 4.8rem;
+        line-height: 4.8rem; } }
+    .student-profile__top--name:after {
+      content: '';
+      height: 2px;
+      width: 100px;
+      display: block;
+      background: #7a0019;
+      margin-top: 1.6rem; }
+  .student-profile__top--title {
+    color: #363230;
+    font-family: "Lato", Arial, Verdana, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.78px; }
+  .student-profile__top--dept {
+    color: #363230;
+    font-family: "Lato", Arial, Verdana, sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 20px; }
+  .student-profile__top--quote {
+    background: #FFCC33;
+    padding: 30px;
+    background-image: url("../images/bg/experience_bg.png");
+    margin-bottom: 2rem; }
+  .student-profile__about--summary {
+    margin-bottom: 3rem; }
+  .student-profile__sidebar {
+    border: solid 1px #e6dbd6;
+    margin-bottom: 3rem; }
+    .student-profile__sidebar > div {
+      padding-top: 20px;
+      padding-bottom: 20px; }
+    .student-profile__sidebar--label {
+      font-family: "Crimson Text", serif;
+      word-break: break-word;
+      font-size: 3.4rem;
+      line-height: 2.8rem;
+      position: relative;
+      margin-bottom: 2.4rem; }
+      @media (min-width: 768px) {
+        .student-profile__sidebar--label {
+          font-size: 3.4rem;
+          line-height: 3.4rem; } }
+      .student-profile__sidebar--label:after {
+        content: '';
+        height: 2px;
+        width: 100px;
+        display: block;
+        background: #7a0019;
+        margin-top: 1.6rem; }
+    .student-profile__sidebar .field__label {
+      font-weight: 700; }
+    .student-profile__sidebar .field--label-above {
+      margin-bottom: 1.6rem; }
+  @media (min-width: 768px) {
+    .student-profile__sidebar > div {
+      padding: 20px; } }
+
+.ee-program__cost {
+  padding: 26px 30px;
+  background: #7a0019;
+  text-transform: uppercase;
+  color: white; }
+  .ee-program__cost a {
+    color: #FFCC33; }
+
 /* Homepage speific styles*/
 .program-finder {
   margin-bottom: 3rem; }
@@ -12255,3 +12283,9 @@ a {
 
 #icons {
   display: none; }
+
+.node__content {
+  font-size: 1.4rem; }
+  @media (min-width: 768px) {
+    .node__content {
+      font-size: 1.6rem; } }
