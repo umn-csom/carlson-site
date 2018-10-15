@@ -103,7 +103,6 @@
 
                 @include media-breakpoint-up(xl) {
                     max-width: 830px;
-                    top: 0;
                 }
 
                 &.slide-left {
@@ -125,15 +124,12 @@
                 .we-mega-menu-li {
                     width: 100%;
                     padding-left: 5px;
-                    padding-bottom: 5px;
-                    padding-top: 5px;
                     list-style: none;
                     border: none;
 
                     @include media-breakpoint-up(lg) {
                         background: none;
                         width: initial!important;
-                        padding: 0;
                         padding-left: 15px!important;
                         padding-right: 15px!important;
 
@@ -161,7 +157,6 @@
                             @include media-breakpoint-up(lg) {
                                 @include font-lato-base();
                                 font-size: 1.4rem;
-                                padding: 0;
                             }
                         }
                     }
@@ -187,7 +182,6 @@
 
                             @include media-breakpoint-up(lg) {
                                 width: 100%!important;
-                                padding: 0;
                             }
                         }
                     }
@@ -204,9 +198,6 @@
                             @include font-lato-base();
                             font-size: 1.4rem;
                             padding-left: 0;
-                            &:hover {
-                                text-decoration: underline;
-                            }
                         }
                     }
 
@@ -215,17 +206,43 @@
                             border: none;
                             box-shadow: none!important;
                             background: none;
-                            padding-top: 25px;
-                            position: absolute;
-                            left: -78vw;
-                            top: 0;
-                            cursor: pointer;
+                            padding: 0;
+                            margin: auto;
+                            transition: none;
+                            width: 100%;
+                            position: fixed;
+                            padding-top: 43px;
+                            left: 0;
+                            top: 94px;
 
                             .we-mega-menu-submenu-inner {
-                                background: wheat;
+                                @include box-shadow-a();
+                                background: $white;
                                 min-height: 580px;
-                                width: 100vw;
-                                text-align: center;
+
+                                .we-mega-menu-row {
+                                    padding-top: 120px;
+
+                                    .we-mega-menu-col {
+                                        margin: 0;
+                                        .nav-tabs {
+                                            .we-mega-menu-li {
+                                                height: 50px;
+                                                padding: 0;
+                                                text-align: center;
+
+                                                .we-mega-menu-submenu {
+                                                    z-index: 1;
+                                                    .we-mega-menu-submenu-inner {
+                                                        .we-mega-menu-row {
+                                                            padding-top: 0;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
 
@@ -236,14 +253,7 @@
                             background: none!important;
                             list-style: none;
                             border: none;
-
-                            @include media-breakpoint-up(lg) {
-                                padding: 0;
-                            }
-
-                            &:after {
-                                content: '';
-                            }
+                            min-height: 50px;
 
                             .we-mega-menu-submenu {
                                 top: -4000px;
@@ -258,27 +268,31 @@
                                 }
 
                                 @include media-breakpoint-up(lg) {
-                                    top:0;
+                                    top:0!important;
+                                    left: 50%;
                                     right: 0;
                                     opacity: 1;
+                                    padding-top: 0;
                                 }
 
                                 .we-mega-menu-submenu-inner {
-                                    padding-top: 60px;
+                                    padding-top: 50px;
                                     @include media-breakpoint-up(lg) {
                                         padding-top: 0;
+                                        background: none;
+                                        box-shadow: none;
                                     }
                                 }
                                 
                                 &.slide-in {
                                     transition-delay: .25s;
-                                    top: 0;
+                                    top: 0!important;
                                     opacity: 1;
                                 }
 
                                 &.fade-out {
                                     transition-delay: .45s;
-                                    top: 0;
+                                    top: 0!important;
                                     opacity: 0;
                                 }
 
@@ -286,14 +300,9 @@
                                     padding-left: 10px;
                                     .we-mega-menu-li {
                                         @include menu-sub-font();
-                                        padding-bottom: 10px;
-                                        padding-top: 0;
-                                        padding-left: 15px;
-                                        padding-right: 5px;
-
-                                        @include media-breakpoint-up(lg) {
-                                            padding: 0;
-                                        }
+                                        padding-left: 0;
+                                        padding-right: 0;
+                                        margin-left: 10px;
                                     }
                                 }
                             }
@@ -304,6 +313,8 @@
                             cursor: pointer;
                             margin-left: 10px;
                             border: none;
+                            display: inline-block;
+                            padding-right: 0;
 
                             &:before {
                                 @include media-breakpoint-up(lg) {
@@ -315,9 +326,39 @@
                                 display: none;
                             }
 
+                            &:hover {
+                                @include yellow-line();
+                            }
+
                             @include media-breakpoint-up(lg) {
-                                margin: 0;
-                                padding: 0;
+                                position: absolute;
+                                right: 50%;
+                                font-family: $font-crimson!important;
+                                text-transform: none!important;
+                                letter-spacing: 0!important;
+                                font-size: 3rem!important;
+                            }                            
+                        }
+
+                        a.we-mega-menu-li {
+                            display: inline!important;
+                            padding-right: 0;
+                            padding-left: 0;
+                            top: 10px;
+                            margin-left: 10px;
+
+                            @include media-breakpoint-up(lg) {
+                                text-align: center;
+                                font-family: $font-crimson!important;
+                                text-transform: none!important;
+                                letter-spacing: 0!important;
+                                font-size: 3rem!important;
+                                max-width: 75%!important;
+                                margin: auto!important;
+                            }
+
+                            &:hover {
+                                @include yellow-line();
                             }
                         }
                     }
@@ -338,6 +379,25 @@
             }
         }
     }
+
+    .navbar-we-mega-menu {
+        .we-mega-menu-row {
+            @include media-breakpoint-up(lg) {
+                max-width: 50%;
+                height: 580px;
+                margin-left: auto;
+                margin-right: auto;
+
+                .nav {
+                    width: 100%;
+
+                    .we-mega-menu-row {
+                        margin: 0!important;
+                    }
+                }
+            }
+        }
+    } 
 }
 
 .navbar-brand {
@@ -451,5 +511,80 @@ body {
         margin-top: 0;
         margin-left: -5px;
         width: 96.5%;
+    }
+}
+
+// Specific styles applied when the class: '.third-tier' is applied.
+.carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li {
+    &.third-tier {
+        .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li {
+            @include media-breakpoint-up(lg) {
+                max-width: inherit!important;
+                margin: inherit!important;
+            }
+
+            a.we-mega-menu-li {
+                @include media-breakpoint-up(lg) {
+                    text-align: right;
+                    right: 50%;
+                    position: absolute;
+                    display: block!important;
+                    top: inherit!important;
+                    max-width: 50%!important;
+
+                    &:hover {
+                        @include yellow-line();
+                        background-position: 350px -6px!important;
+                        background-repeat: no-repeat!important;
+                    }
+                }
+            }
+
+            .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li {
+                a.we-mega-menu-li {
+                    @include media-breakpoint-up(lg) {
+                        text-align: left;
+                        right: inherit;
+                        position: relative;
+                        font-family: $font-lato!important;
+                        text-transform: inherit!important;
+                        font-size: 1.4rem!important;
+                        transition: padding-left .35s!important;
+
+                        &:before {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            @include long-right-arrow-icon($slate);
+                            transform: rotate(0deg);
+                            margin-top: 2px;
+                            opacity: 0;
+                            transition: opacity .25s;
+                        }
+                        
+                        &:hover {
+                            text-decoration: underline!important;
+                            background: none!important;
+                            padding-left: 40px!important;
+
+                            &:before {
+                                opacity: 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li {
+            .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs {
+                @include media-breakpoint-up(lg) {
+                    position: fixed;
+                    //top: -9999px;
+                    top: 285px;
+                }
+            }
+        }
     }
 }

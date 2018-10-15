@@ -64,7 +64,7 @@ $value in $theme-colors {
     @include font-lato-base();
     font-size: 1.4rem;
     text-shadow: none;
-    color: $menu-grey!important;
+    color: $slate!important;
     text-transform: uppercase;
     font-weight: normal;
     letter-spacing: 1.5px;
@@ -84,7 +84,7 @@ $value in $theme-colors {
     border-color: $color;
     border-width: 2px;
     @if($color == $menu-gold) {
-        color: $menu-grey;
+        color: $slate;
     }@else {
        color: $color; 
     }
@@ -205,4 +205,19 @@ $value in $theme-colors {
         background-size: 60%;
         background-repeat: no-repeat;
     }
+}
+
+@mixin box-shadow-a() {
+    -webkit-box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.38);
+    -moz-box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.38);
+    box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.38);
+}
+
+@mixin yellow-line() {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+60,ffcc33+60,ffcc33+90,ffffff+90 */
+    background: #ffffff!important; /* Old browsers */
+    background: -moz-linear-gradient(top, #ffffff 60%, #ffcc33 60%, #ffcc33 90%, #ffffff 90%)!important; /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #ffffff 60%,#ffcc33 60%,#ffcc33 90%,#ffffff 90%)!important; /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #ffffff 60%,#ffcc33 60%,#ffcc33 90%,#ffffff 90%)!important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 )!important; /* IE6-9 */
 }

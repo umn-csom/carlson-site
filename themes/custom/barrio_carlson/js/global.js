@@ -74,4 +74,35 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
         }, 800);
     });
 
+    $('.carlson-nav .navbar .we-mega-menu-li').mouseenter(function() {
+        $('body').css('overflow', 'hidden');
+
+        var offset = $('.carlson-nav .navbar').offset().top;
+        offset = ( ( offset + 15 ) - $(window).scrollTop() );
+        $('.carlson-nav .navbar .we-mega-menu-submenu').css('top', offset + 'px');
+    });
+
+    $('.carlson-nav .navbar .we-mega-menu-li').mouseleave(function() {
+        $('body').css('overflow', 'inherit');
+    });
+
+    $('.carlson-nav .navbar .we-mega-menu-submenu').mousemove(function() {
+        $('body').css('overflow', 'hidden');
+
+        var offset = $('.carlson-nav .navbar').offset().top;
+        offset = ( ( offset + 15 ) - $(window).scrollTop() );
+        $(this).css('top', offset + 'px');
+    });
+
+    $('.carlson-nav .navbar .we-mega-menu-submenu').mouseleave(function() {
+        $('body').css('overflow', 'inherit');
+    });
+
+    $('.subul').each(function() {
+        var inc = $(this).children().length;
+        $(this).children('li').each(function() {
+            $(this).css('z-index', inc--);
+        });
+    });
+
 })(jQuery, Drupal);
