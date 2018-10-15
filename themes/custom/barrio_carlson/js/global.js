@@ -105,4 +105,14 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
         });
     });
 
+    $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mousemove(function() {
+        $(this).css('z-index', 9995);
+        $(this).children().last().children().children().children().children().addClass('show');
+    });
+
+    $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mouseleave(function() {
+        $(this).css('z-index', 'inherit');
+        $(this).children().last().children().children().children().children().removeClass('show');
+    });
+
 })(jQuery, Drupal);

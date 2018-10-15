@@ -207,17 +207,25 @@ $value in $theme-colors {
     }
 }
 
+@mixin vert-line-icon($color) {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="3" height="32" viewBox="0 0 3 32" fill="' + $color + '"><path d="M0 0h3.2v32h-3.2v-32z"></path></svg>')!important;
+
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        background: url('../images/svg/ver-line-icon.svg')!important;
+    }
+}
+
 @mixin box-shadow-a() {
-    -webkit-box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.38);
-    -moz-box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.38);
-    box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.38);
+    -webkit-box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.2);
 }
 
 @mixin yellow-line() {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+60,ffcc33+60,ffcc33+90,ffffff+90 */
-    background: #ffffff!important; /* Old browsers */
-    background: -moz-linear-gradient(top, #ffffff 60%, #ffcc33 60%, #ffcc33 90%, #ffffff 90%)!important; /* FF3.6-15 */
-    background: -webkit-linear-gradient(top, #ffffff 60%,#ffcc33 60%,#ffcc33 90%,#ffffff 90%)!important; /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to bottom, #ffffff 60%,#ffcc33 60%,#ffcc33 90%,#ffffff 90%)!important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 )!important; /* IE6-9 */
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90 */
+    background: $white!important; /* Old browsers */
+    background: -moz-linear-gradient(top, $white 60%, $menu-gold 60%, $menu-gold 90%, $white 90%)!important; /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, $white 60%,$menu-gold 60%,$menu-gold 90%,$white 90%)!important; /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, $white 60%,$menu-gold 60%,$menu-gold 90%,$white 90%)!important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$white', endColorstr='$white',GradientType=0 )!important; /* IE6-9 */
 }

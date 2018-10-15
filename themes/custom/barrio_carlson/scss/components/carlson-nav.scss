@@ -221,15 +221,17 @@
                                 min-height: 580px;
 
                                 .we-mega-menu-row {
-                                    padding-top: 120px;
+                                    padding-top: 0;
+                                    background: none!important;
 
                                     .we-mega-menu-col {
                                         margin: 0;
                                         .nav-tabs {
                                             .we-mega-menu-li {
-                                                height: 50px;
+                                                min-height: 50px;
                                                 padding: 0;
                                                 text-align: center;
+                                                line-height: .8em;
 
                                                 .we-mega-menu-submenu {
                                                     z-index: 1;
@@ -331,6 +333,7 @@
                             }
 
                             @include media-breakpoint-up(lg) {
+                                margin-right: 15px;
                                 position: absolute;
                                 right: 50%;
                                 font-family: $font-crimson!important;
@@ -517,10 +520,25 @@ body {
 // Specific styles applied when the class: '.third-tier' is applied.
 .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li {
     &.third-tier {
+        .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+            @include media-breakpoint-up(lg) {
+                @include vert-line-icon($border-gray);
+                background-size: 1px 10px!important;
+                background-repeat-x: no-repeat!important;
+                background-position-x: center!important;
+
+                border-top: 135px solid $white;
+                border-bottom: 125px solid $white;
+                overflow: hidden;
+                padding-top: 0;
+            }
+        }
+
         .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li {
             @include media-breakpoint-up(lg) {
                 max-width: inherit!important;
                 margin: inherit!important;
+                text-align: right;
             }
 
             a.we-mega-menu-li {
@@ -530,13 +548,21 @@ body {
                     position: absolute;
                     display: block!important;
                     top: inherit!important;
-                    max-width: 50%!important;
+                    margin-top: 10px!important;
+                    margin-right: 15px!important;
 
                     &:hover {
                         @include yellow-line();
-                        background-position: 350px -6px!important;
+                        background-position: 350px -15px!important;
                         background-repeat: no-repeat!important;
                     }
+                }
+            }
+
+            .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+                @include media-breakpoint-up(lg) {
+                    background: none!important;
+                    margin-left: 7px!important;
                 }
             }
 
@@ -558,7 +584,7 @@ body {
                             top: 0;
                             @include long-right-arrow-icon($slate);
                             transform: rotate(0deg);
-                            margin-top: 2px;
+                            margin-top: -1px;
                             opacity: 0;
                             transition: opacity .25s;
                         }
@@ -581,8 +607,55 @@ body {
             .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs {
                 @include media-breakpoint-up(lg) {
                     position: fixed;
-                    //top: -9999px;
-                    top: 285px;
+                    top: -9999px;
+                    z-index: inherit;
+                    height: auto;
+                    max-height: 300px;
+
+                    .we-mega-menu-li {
+                        min-height: 40px!important;
+                    }
+                    
+                    &.show {
+                        top: 280px;
+                        z-index: 9999;
+                        height: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li {
+    .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+        @include media-breakpoint-up(lg) {
+            padding-top: 180px;
+        }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul {
+        li.we-mega-menu-li {
+            a.we-mega-menu-li {
+                &:before {
+                    @include minus-icon($menu-gold);
+                    background-size: 100%;
+                    background-repeat: no-repeat;
+                    width: 100%;
+                    height: 6px;
+                    left: 0;
+                    position: absolute;
+                    top: 67px;
+                    opacity: 0;
+                    transition: opacity .5s;
+                }
+
+                &:hover {
+                    &:before {
+                        opacity: 1;
+                    }
                 }
             }
         }
