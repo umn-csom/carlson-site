@@ -79,7 +79,7 @@ $value in $theme-colors {
     @include font-lato-base();
     font-size: 1.4rem;
     text-shadow: none;
-    color: $menu-grey!important;
+    color: $slate!important;
     text-transform: uppercase;
     font-weight: normal;
     letter-spacing: 1.5px;
@@ -98,7 +98,7 @@ $value in $theme-colors {
     border-color: $color;
     border-width: 2px;
     @if($color == $menu-gold) {
-        color: $menu-grey;
+        color: $slate;
     }@else {
        color: $color; 
     }
@@ -219,4 +219,36 @@ $value in $theme-colors {
         background-size: 60%;
         background-repeat: no-repeat;
     }
+}
+
+@mixin vert-line-icon($color) {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="3" height="32" viewBox="0 0 3 32" fill="' + $color + '"><path d="M0 0h3.2v32h-3.2v-32z"></path></svg>')!important;
+
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        background: url('../images/svg/vert-line-icon.svg')!important;
+    }
+}
+
+@mixin box-shadow-a() {
+    -webkit-box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.2);
+    box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.2);
+}
+
+@mixin yellow-line() {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90 */
+    background: $white!important; /* Old browsers */
+    background: -moz-linear-gradient(top, $white 60%, $menu-gold 60%, $menu-gold 90%, $white 90%)!important; /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, $white 60%,$menu-gold 60%,$menu-gold 90%,$white 90%)!important; /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, $white 60%,$menu-gold 60%,$menu-gold 90%,$white 90%)!important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$white', endColorstr='$white',GradientType=0 )!important; /* IE6-9 */
+}
+
+@mixin grey-line() {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+50,d8d8d8+51,ffffff+52,ffffff+52 */
+    background: #ffffff!important; /* Old browsers */
+    background: -moz-linear-gradient(left, #ffffff 50%, #d8d8d8 51%, #ffffff 50%)!important; /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #ffffff 50%,#d8d8d8 51%,#ffffff 50%)!important; /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #ffffff 50%,#d8d8d8 51%,#ffffff 50%)!important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 )!important; /* IE6-9 */
 }

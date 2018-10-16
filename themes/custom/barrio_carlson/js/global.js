@@ -72,7 +72,55 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
             $('.mobile-third-tier-menu__label').remove();
             self.remove();
         }, 800);
+    });
 
+    $('.carlson-nav .navbar .we-mega-menu-li').mouseenter(function(e) {
+        e.preventDefault();
+        $('body').css('overflow', 'hidden');
+
+        var offset = $('.carlson-nav .navbar').offset().top;
+        var add = ( ( $(window).width() > 1024 ) ? 35 : 40 );
+        offset = ( ( offset + add ) - $(window).scrollTop() );
+        $('.carlson-nav .navbar .we-mega-menu-submenu').css('top', offset + 'px');
+    });
+
+    $('.carlson-nav .navbar .we-mega-menu-li').mouseleave(function(e) {
+        e.preventDefault();
+        $('body').css('overflow', 'inherit');
+    });
+
+    $('.carlson-nav .navbar .we-mega-menu-submenu').mousemove(function(e) {
+        e.preventDefault();
+        $('body').css('overflow', 'hidden');
+
+        var offset = $('.carlson-nav .navbar').offset().top;
+        var add = ( ( $(window).width() > 1024 ) ? 35 : 40 );
+        offset = ( ( offset + add ) - $(window).scrollTop() );
+        $(this).css('top', offset + 'px');
+    });
+
+    $('.carlson-nav .navbar .we-mega-menu-submenu').mouseleave(function(e) {
+        e.preventDefault();
+        $('body').css('overflow', 'inherit');
+    });
+
+    $('.subul').each(function() {
+        var inc = $(this).children().length;
+        $(this).children('li').each(function() {
+            $(this).css('z-index', inc--);
+        });
+    });
+
+    $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mousemove(function(e) {
+        e.preventDefault();
+        $(this).css('z-index', 9995);
+        $(this).children().last().children().children().children().children().addClass('show');
+    });
+
+    $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mouseleave(function(e) {
+        e.preventDefault();
+        $(this).css('z-index', 'inherit');
+        $(this).children().last().children().children().children().children().removeClass('show');
     });
 
 })(jQuery, Drupal);

@@ -10987,12 +10987,14 @@ Style guide: components.accordion
       .accordion .card .inner.show {
         opacity: 1; }
 
+@media (min-width: 992px) {
+  .carlson-nav {
+    max-width: 1600px;
+    margin: auto; } }
+
 .carlson-nav .region-we-mega-menu {
   width: 100%;
   background: none; }
-  @media (min-width: 992px) {
-    .carlson-nav .region-we-mega-menu {
-      height: 80px; } }
   .carlson-nav .region-we-mega-menu .navbar-toggle {
     display: flex;
     flex-direction: column;
@@ -11035,18 +11037,23 @@ Style guide: components.accordion
         top: 155px; } }
     @media (min-width: 992px) {
       .carlson-nav .region-we-mega-menu .navbar {
-        top: inherit;
+        top: -20px;
         bottom: 25px;
         opacity: 1;
         left: 0;
-        width: 99%;
+        width: 100%;
         height: inherit;
         margin: 0;
         padding: 0;
         display: block;
-        background: none; }
+        background: none;
+        position: relative; }
         .carlson-nav .region-we-mega-menu .navbar .container-fluid {
-          justify-content: flex-end; } }
+          justify-content: flex-end;
+          width: initial; } }
+    @media screen and (min-width: 992px) and (-ms-high-contrast: active), (min-width: 992px) and (-ms-high-contrast: none) {
+      .carlson-nav .region-we-mega-menu .navbar .container-fluid {
+        justify-content: space-around; } }
     .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul {
       top: 0;
       position: absolute;
@@ -11056,33 +11063,73 @@ Style guide: components.accordion
       @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul {
           position: relative; } }
+      @media (min-width: 992px) {
+        .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul {
+          flex-wrap: nowrap;
+          max-width: 610px;
+          width: 100%;
+          transition: none;
+          top: -12px; } }
+      @media (min-width: 1200px) {
+        .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul {
+          max-width: 830px; } }
+  @media screen and (min-width: 1200px) and (-ms-high-contrast: active), (min-width: 1200px) and (-ms-high-contrast: none) {
+    .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul {
+      max-width: 1200px;
+      top: -33px;
+      left: 15%; } }
       .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul.slide-left {
         top: 0;
         position: absolute;
         transform: translateX(-105%); }
+        @media (min-width: 992px) {
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul.slide-left {
+            position: relative;
+            transform: none; } }
+      @media (min-width: 992px) {
+        .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul {
+          position: relative; } }
       .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu,
       .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li {
         width: 100%;
         padding-left: 5px;
-        padding-bottom: 5px;
-        padding-top: 5px;
-        list-style: none; }
+        list-style: none;
+        border: none; }
+        @media (min-width: 992px) {
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu,
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li {
+            background-color: inherit !important;
+            width: initial !important;
+            padding-left: 15px !important;
+            padding-right: 15px !important; }
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu a.we-mega-menu-li,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li a.we-mega-menu-li {
+              padding-left: 0 !important;
+              padding-right: 0 !important;
+              font-weight: 400 !important; } }
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.active .we-mega-menu-li,
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.active .we-mega-menu-li {
-          background: none;
+          border: none;
           padding-left: 35px;
           font-family: "Crimson Text", serif;
           text-shadow: none;
           color: black !important;
           font-size: 3rem;
-          list-style: none; }
+          list-style: none;
+          background-color: inherit; }
+          @media (min-width: 992px) {
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.active .we-mega-menu-li,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.active .we-mega-menu-li {
+              font-family: "Lato", Arial, Verdana, sans-serif;
+              font-size: 1.4rem; } }
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu,
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.dropdown-menu {
           width: 100%; }
           .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu .we-mega-menu-li,
           .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.dropdown-menu .we-mega-menu-li {
             padding-left: 35px;
-            list-style: none; }
+            list-style: none;
+            border: none; }
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu .we-mega-menu-li:after,
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.dropdown-menu .we-mega-menu-li:after {
               content: '';
@@ -11099,6 +11146,15 @@ Style guide: components.accordion
                   background: url("../images/svg/plus-icon.svg");
                   background-size: 60%;
                   background-repeat: no-repeat; } }
+              @media (min-width: 992px) {
+                .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu .we-mega-menu-li:after,
+                .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.dropdown-menu .we-mega-menu-li:after {
+                  background: none;
+                  display: none; } }
+            @media (min-width: 992px) {
+              .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu .we-mega-menu-li,
+              .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.dropdown-menu .we-mega-menu-li {
+                width: 100% !important; } }
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-li,
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-li {
           border-top: none;
@@ -11107,7 +11163,59 @@ Style guide: components.accordion
           font-family: "Crimson Text", serif;
           text-shadow: none;
           color: black !important;
-          font-size: 3rem; }
+          font-size: 3rem;
+          border: none; }
+          @media (min-width: 992px) {
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-li,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-li {
+              font-family: "Lato", Arial, Verdana, sans-serif;
+              font-size: 1.4rem;
+              padding-left: 0; } }
+        @media (min-width: 992px) {
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu,
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu {
+            border: none;
+            box-shadow: none !important;
+            background: none;
+            padding: 0;
+            margin: auto;
+            transition: none;
+            width: 100%;
+            position: fixed;
+            padding-top: 19px;
+            left: 0;
+            top: 94px; } }
+  @media screen and (min-width: 992px) and (-ms-high-contrast: active), (min-width: 992px) and (-ms-high-contrast: none) {
+    .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu,
+    .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu {
+      padding-top: 0; } }
+        @media (min-width: 992px) {
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner {
+              -webkit-box-shadow: 0px 0px 67px 0px rgba(0, 0, 0, 0.2);
+              -moz-box-shadow: 0px 0px 67px 0px rgba(0, 0, 0, 0.2);
+              box-shadow: 0px 0px 67px 0px rgba(0, 0, 0, 0.2);
+              background: white;
+              min-height: 580px; }
+              .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row,
+              .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+                padding-top: 10px;
+                background: none !important; }
+                .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col,
+                .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col {
+                  margin: 0; }
+                  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li,
+                  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li {
+                    min-height: 50px;
+                    padding: 0;
+                    text-align: center;
+                    line-height: .8em; }
+                    .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu,
+                    .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu {
+                      z-index: 1; }
+                      .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row,
+                      .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+                        padding-top: 0; } }
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li,
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li {
           font-family: "Lato", Arial, Verdana, sans-serif;
@@ -11120,11 +11228,9 @@ Style guide: components.accordion
           line-height: 1.3em;
           padding-left: 10px;
           padding-right: 10px;
-          background: none !important;
-          list-style: none; }
-          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li:after,
-          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li:after {
-            content: ''; }
+          list-style: none;
+          border: none;
+          min-height: 50px; }
           .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu,
           .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu {
             top: -4000px;
@@ -11137,18 +11243,32 @@ Style guide: components.accordion
               .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu,
               .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu {
                 left: 56%; } }
+            @media (min-width: 992px) {
+              .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu,
+              .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu {
+                top: 0 !important;
+                left: 50%;
+                right: 0;
+                opacity: 1;
+                padding-top: 0; } }
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner,
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner {
-              padding-top: 60px; }
+              padding-top: 50px; }
+              @media (min-width: 992px) {
+                .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner,
+                .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner {
+                  padding-top: 0;
+                  background: none;
+                  box-shadow: none; } }
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu.slide-in,
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu.slide-in {
               transition-delay: .25s;
-              top: 0;
+              top: 0 !important;
               opacity: 1; }
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu.fade-out,
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu.fade-out {
               transition-delay: .45s;
-              top: 0;
+              top: 0 !important;
               opacity: 0; }
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu .nav,
             .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li .we-mega-menu-submenu .nav {
@@ -11163,10 +11283,9 @@ Style guide: components.accordion
                 font-weight: normal;
                 letter-spacing: 1.5px;
                 line-height: 1.3em;
-                padding-bottom: 10px;
-                padding-top: 0;
-                padding-left: 15px;
-                padding-right: 5px; }
+                padding-left: 0;
+                padding-right: 0;
+                margin-left: 10px; }
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-megamenu-nolink,
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-megamenu-nolink {
           font-family: "Lato", Arial, Verdana, sans-serif;
@@ -11178,10 +11297,70 @@ Style guide: components.accordion
           letter-spacing: 1.5px;
           line-height: 1.3em;
           cursor: pointer;
-          margin-left: 10px; }
+          margin-left: 10px;
+          border: none;
+          display: inline-block;
+          padding-right: 0; }
+          @media (min-width: 992px) {
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-megamenu-nolink:before,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-megamenu-nolink:before {
+              background: none; } }
           .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-megamenu-nolink:after,
           .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-megamenu-nolink:after {
             display: none; }
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-megamenu-nolink:hover,
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-megamenu-nolink:hover {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90 */
+            background: white !important;
+            /* Old browsers */
+            background: -moz-linear-gradient(top, white 60%, #FFCC33 60%, #FFCC33 90%, white 90%) !important;
+            /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, white 60%, #FFCC33 60%, #FFCC33 90%, white 90%) !important;
+            /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, white 60%, #FFCC33 60%, #FFCC33 90%, white 90%) !important;
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$white', endColorstr='$white',GradientType=0 ) !important;
+            /* IE6-9 */ }
+          @media (min-width: 992px) {
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-megamenu-nolink,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-megamenu-nolink {
+              margin-right: 15px;
+              position: relative;
+              right: 50%;
+              font-family: "Crimson Text", serif !important;
+              text-transform: none !important;
+              letter-spacing: 0 !important;
+              font-size: 3rem !important; } }
+        .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu a.we-mega-menu-li,
+        .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu a.we-mega-menu-li {
+          display: inline !important;
+          padding-right: 0;
+          padding-left: 0;
+          top: 10px;
+          margin-left: 10px; }
+          @media (min-width: 992px) {
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu a.we-mega-menu-li,
+            .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu a.we-mega-menu-li {
+              text-align: center;
+              font-family: "Crimson Text", serif !important;
+              text-transform: none !important;
+              letter-spacing: 0 !important;
+              font-size: 3rem !important;
+              max-width: 75% !important;
+              margin: auto !important; } }
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu a.we-mega-menu-li:hover,
+          .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu a.we-mega-menu-li:hover {
+            /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90 */
+            background: white !important;
+            /* Old browsers */
+            background: -moz-linear-gradient(top, white 60%, #FFCC33 60%, #FFCC33 90%, white 90%) !important;
+            /* FF3.6-15 */
+            background: -webkit-linear-gradient(top, white 60%, #FFCC33 60%, #FFCC33 90%, white 90%) !important;
+            /* Chrome10-25,Safari5.1-6 */
+            background: linear-gradient(to bottom, white 60%, #FFCC33 60%, #FFCC33 90%, white 90%) !important;
+            /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$white', endColorstr='$white',GradientType=0 ) !important;
+            /* IE6-9 */ }
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.open .we-mega-menu-li,
         .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.open .we-mega-menu-li {
           background: none;
@@ -11203,12 +11382,24 @@ Style guide: components.accordion
                 background-size: 60%;
                 background-repeat: no-repeat; } }
 
+@media (min-width: 992px) {
+  .carlson-nav .navbar-we-mega-menu .we-mega-menu-row {
+    max-width: 60%;
+    height: 580px;
+    margin-left: auto;
+    margin-right: auto; }
+    .carlson-nav .navbar-we-mega-menu .we-mega-menu-row .nav {
+      width: 100%; }
+      .carlson-nav .navbar-we-mega-menu .we-mega-menu-row .nav .we-mega-menu-row {
+        margin: 0 !important; } }
+
 .navbar-brand {
   padding: 0;
   margin: 0;
   max-width: 70%;
   padding-top: 35px;
-  padding-left: 15px; }
+  padding-left: 15px;
+  float: inherit; }
   @media (min-width: 992px) {
     .navbar-brand {
       padding-right: 0;
@@ -11229,7 +11420,11 @@ Style guide: components.accordion
   text-align: center;
   animation: none;
   transition: none;
-  z-index: 35; }
+  z-index: 35;
+  display: block; }
+  @media (min-width: 992px) {
+    .btn-close {
+      display: none; } }
   .btn-close:before, .btn-close:after {
     background-color: #5a5450;
     top: 37%;
@@ -11297,6 +11492,150 @@ body.toolbar-vertical .carlson-nav .region-we-mega-menu .navbar {
   margin-top: 0;
   margin-left: -5px;
   width: 96.5%; }
+
+@media (min-width: 992px) {
+  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+50,d8d8d8+51,ffffff+52,ffffff+52 */
+    background: #ffffff !important;
+    /* Old browsers */
+    background: -moz-linear-gradient(left, #ffffff 50%, #d8d8d8 51%, #ffffff 50%) !important;
+    /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, #ffffff 50%, #d8d8d8 51%, #ffffff 50%) !important;
+    /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #ffffff 50%, #d8d8d8 51%, #ffffff 50%) !important;
+    /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 ) !important;
+    /* IE6-9 */
+    border-top: 135px solid white;
+    border-bottom: 125px solid white;
+    overflow: hidden;
+    padding-top: 0; } }
+
+@media (min-width: 992px) {
+  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li {
+    max-width: inherit !important;
+    margin: inherit !important;
+    text-align: right; } }
+
+@media (min-width: 992px) {
+  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li a.we-mega-menu-li {
+    text-align: right;
+    right: 50%;
+    position: absolute;
+    display: block !important;
+    top: inherit !important;
+    margin-top: 10px !important;
+    margin-right: 15px !important; }
+    .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li a.we-mega-menu-li:hover {
+      /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90 */
+      background: white !important;
+      /* Old browsers */
+      background: -moz-linear-gradient(top, white 60%, #FFCC33 60%, #FFCC33 90%, white 90%) !important;
+      /* FF3.6-15 */
+      background: -webkit-linear-gradient(top, white 60%, #FFCC33 60%, #FFCC33 90%, white 90%) !important;
+      /* Chrome10-25,Safari5.1-6 */
+      background: linear-gradient(to bottom, white 60%, #FFCC33 60%, #FFCC33 90%, white 90%) !important;
+      /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$white', endColorstr='$white',GradientType=0 ) !important;
+      /* IE6-9 */
+      background-position: 350px -15px !important;
+      background-repeat: no-repeat !important; } }
+
+@media (min-width: 992px) {
+  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+    background: none !important;
+    margin-left: 25px !important; } }
+
+@media (min-width: 992px) {
+  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li a.we-mega-menu-li {
+    text-align: left;
+    right: inherit;
+    position: relative;
+    font-family: "Lato", Arial, Verdana, sans-serif !important;
+    text-transform: inherit !important;
+    font-size: 1.4rem !important;
+    transition: padding-left 0.35s !important; }
+    .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li a.we-mega-menu-li:before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: url("data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2264%22%20height%3D%2232%22%20viewBox%3D%220%200%2064%2032%22%20fill%3D%22%23363230%22%3E%3Cpath%20d%3D%22M59.474%2017.166h-59.474v-2.331h59.291l-13.925-13.131%201.575-1.703%2017.058%2016.085-16.875%2015.915-1.577-1.703z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+      background-size: 70%;
+      background-repeat: no-repeat;
+      width: 35px;
+      height: 25px;
+      background-size: 100%;
+      width: 28px;
+      transform: rotate(0deg);
+      margin-top: -1px;
+      opacity: 0;
+      transition: opacity .25s; } }
+    @media screen and (min-width: 992px) and (-ms-high-contrast: active), (min-width: 992px) and (-ms-high-contrast: none) {
+      .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li a.we-mega-menu-li:before {
+        background: url("../images/svg/long-right-arrow-icon.svg");
+        background-size: 60%;
+        background-repeat: no-repeat; } }
+
+@media (min-width: 992px) {
+    .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li a.we-mega-menu-li:hover {
+      text-decoration: underline !important;
+      background: none !important;
+      padding-left: 40px !important; }
+      .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li a.we-mega-menu-li:hover:before {
+        opacity: 1; } }
+
+@media (min-width: 992px) {
+  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs {
+    position: fixed;
+    top: -9999px;
+    z-index: inherit;
+    height: auto;
+    max-height: 300px; }
+    .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li {
+      min-height: 40px !important; }
+    .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs.show {
+      top: 280px;
+      z-index: 9999;
+      height: 100%; } }
+
+@media (min-width: 992px) {
+  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+    padding-top: 180px; } }
+
+@media (min-width: 992px) {
+  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul li.we-mega-menu-li a.we-mega-menu-li:before {
+    content: '';
+    background: url("data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22%23FFCC33%22%3E%3Cpath%20d%3D%22M0%2032v-32h544v32z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+    background-size: 70%;
+    background-repeat: no-repeat;
+    width: 35px;
+    height: 25px;
+    height: 2px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 6px;
+    left: 0;
+    position: relative;
+    top: 48px;
+    opacity: 0;
+    transition: opacity .5s; } }
+  @media screen and (min-width: 992px) and (-ms-high-contrast: active), (min-width: 992px) and (-ms-high-contrast: none) {
+    .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul li.we-mega-menu-li a.we-mega-menu-li:before {
+      background: url("../images/svg/minus-icon.svg");
+      background-size: 60%;
+      background-repeat: no-repeat; } }
+
+@media (min-width: 992px) {
+  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul li.we-mega-menu-li a.we-mega-menu-li:hover:before {
+    opacity: 1; }
+  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul li.we-mega-menu-li.active a.we-mega-menu-li:before {
+    opacity: 1; } }
+
+@media (min-width: 992px) {
+  .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu {
+    padding-top: 6px; } }
 
 /**
  * @file
