@@ -38,11 +38,11 @@
     'col-12',
   ]
 %}
-<div{{ attributes.addClass(classes) }}>
-  {% block content %}
-    <div class="col-12 sidebar-cta">
-      {# cta_link paragraphs are rendered here #}
-      {{ content }}
+{% block content %}
+  <div class="row sidebar-cta">
+    <div class="col-12">
+    {# cta_link paragraphs are rendered here #}
+    {{ content }}
     </div>
-  {% endblock %}
-</div>
+  </div>
+{% endblock %}

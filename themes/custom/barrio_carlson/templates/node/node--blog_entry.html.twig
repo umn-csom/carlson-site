@@ -82,11 +82,9 @@
       </h2>
     {% endif %}
     {{ title_suffix }}
-
-
   </header>
 
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'news') }}>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'blog-entry') }}>
     {# Render hero with hero-basic component #}
     {% if node.field_hero_media.isEmpty %}
       <section>
@@ -127,14 +125,14 @@
       </section>
     {% endif %}
     {# Body and side bar #}
-    <section class="row news__body">
+    <section class="row blog-entry__body">
 
       <div class="{{ (has_sidebar == TRUE) ? 'col-md-8' : 'col-12' }}">
         {{ content.body }}
       </div>
 
       {% if content.field_sidebar_content|field_value is not empty %}
-        <div class="col-md-4 news__body--sidebar">
+        <div class="col-md-4 blog-entry--sidebar">
           <div>
             {{ content.field_sidebar_content }}
           </div>
