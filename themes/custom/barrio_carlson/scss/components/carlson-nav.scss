@@ -128,7 +128,7 @@
                     border: none;
 
                     @include media-breakpoint-up(lg) {
-                        background: none;
+                        background-color: inherit!important;
                         width: initial!important;
                         padding-left: 15px!important;
                         padding-right: 15px!important;
@@ -139,20 +139,14 @@
                         }
                     }
 
-                    &:before {
-                        @include media-breakpoint-up(lg) {
-                            background: none;
-                        }
-                    }
-
                     &.active {
                         .we-mega-menu-li {
                             border: none;
-                            background: none;
                             padding-left: 35px;
                             @include menu-title-font();
                             font-size: 3rem;
                             list-style: none;
+                            background-color: inherit;
 
                             @include media-breakpoint-up(lg) {
                                 @include font-lato-base();
@@ -211,7 +205,7 @@
                             transition: none;
                             width: 100%;
                             position: fixed;
-                            padding-top: 43px;
+                            padding-top: 19px;
                             left: 0;
                             top: 94px;
 
@@ -252,7 +246,6 @@
                             @include menu-sub-font();
                             padding-left: 10px;
                             padding-right: 10px;
-                            background: none!important;
                             list-style: none;
                             border: none;
                             min-height: 50px;
@@ -334,7 +327,7 @@
 
                             @include media-breakpoint-up(lg) {
                                 margin-right: 15px;
-                                position: absolute;
+                                position: relative;
                                 right: 50%;
                                 font-family: $font-crimson!important;
                                 text-transform: none!important;
@@ -386,7 +379,7 @@
     .navbar-we-mega-menu {
         .we-mega-menu-row {
             @include media-breakpoint-up(lg) {
-                max-width: 50%;
+                max-width: 60%;
                 height: 580px;
                 margin-left: auto;
                 margin-right: auto;
@@ -531,6 +524,10 @@ body {
                 border-bottom: 125px solid $white;
                 overflow: hidden;
                 padding-top: 0;
+
+                .we-mega-menu-col {
+                    background-color: $white;
+                }
             }
         }
 
@@ -562,7 +559,7 @@ body {
             .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
                 @include media-breakpoint-up(lg) {
                     background: none!important;
-                    margin-left: 7px!important;
+                    margin-left: 15px!important;
                 }
             }
 
@@ -640,14 +637,15 @@ body {
         li.we-mega-menu-li {
             a.we-mega-menu-li {
                 &:before {
+                    content: '';
                     @include minus-icon($menu-gold);
                     background-size: 100%;
                     background-repeat: no-repeat;
                     width: 100%;
                     height: 6px;
                     left: 0;
-                    position: absolute;
-                    top: 67px;
+                    position: relative;
+                    top: 50px;
                     opacity: 0;
                     transition: opacity .5s;
                 }
@@ -658,6 +656,20 @@ body {
                     }
                 }
             }
+
+            &.active {
+                a.we-mega-menu-li {
+                    &:before {
+                        opacity: 1;
+                    }
+                }
+            }
         }
+    }
+}
+
+.carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu {
+    @include media-breakpoint-up(lg) {
+        padding-top: 2px;
     }
 }

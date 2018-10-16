@@ -74,27 +74,33 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
         }, 800);
     });
 
-    $('.carlson-nav .navbar .we-mega-menu-li').mouseenter(function() {
+    $('.carlson-nav .navbar .we-mega-menu-li').mouseenter(function(e) {
+        e.preventDefault();
         $('body').css('overflow', 'hidden');
 
         var offset = $('.carlson-nav .navbar').offset().top;
-        offset = ( ( offset + 15 ) - $(window).scrollTop() );
+        var add = ( ( $(window).width() > 1024 ) ? 35 : 40 );
+        offset = ( ( offset + add ) - $(window).scrollTop() );
         $('.carlson-nav .navbar .we-mega-menu-submenu').css('top', offset + 'px');
     });
 
-    $('.carlson-nav .navbar .we-mega-menu-li').mouseleave(function() {
+    $('.carlson-nav .navbar .we-mega-menu-li').mouseleave(function(e) {
+        e.preventDefault();
         $('body').css('overflow', 'inherit');
     });
 
-    $('.carlson-nav .navbar .we-mega-menu-submenu').mousemove(function() {
+    $('.carlson-nav .navbar .we-mega-menu-submenu').mousemove(function(e) {
+        e.preventDefault();
         $('body').css('overflow', 'hidden');
 
         var offset = $('.carlson-nav .navbar').offset().top;
-        offset = ( ( offset + 15 ) - $(window).scrollTop() );
+        var add = ( ( $(window).width() > 1024 ) ? 35 : 40 );
+        offset = ( ( offset + add ) - $(window).scrollTop() );
         $(this).css('top', offset + 'px');
     });
 
-    $('.carlson-nav .navbar .we-mega-menu-submenu').mouseleave(function() {
+    $('.carlson-nav .navbar .we-mega-menu-submenu').mouseleave(function(e) {
+        e.preventDefault();
         $('body').css('overflow', 'inherit');
     });
 
@@ -105,12 +111,14 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
         });
     });
 
-    $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mousemove(function() {
+    $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mousemove(function(e) {
+        e.preventDefault();
         $(this).css('z-index', 9995);
         $(this).children().last().children().children().children().children().addClass('show');
     });
 
-    $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mouseleave(function() {
+    $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mouseleave(function(e) {
+        e.preventDefault();
         $(this).css('z-index', 'inherit');
         $(this).children().last().children().children().children().children().removeClass('show');
     });
