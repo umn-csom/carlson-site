@@ -115,6 +115,10 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
         e.preventDefault();
         $(this).css('z-index', 9995);
         $(this).children().last().children().children().children().children().addClass('show');
+
+        var offset = $('.carlson-nav .navbar').offset().top;
+        offset = ( ( offset + 140 ) - $(window).scrollTop() );
+        $(this).children().last().children().children().children().children().css('top', offset + 'px');
     });
 
     $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mouseleave(function(e) {

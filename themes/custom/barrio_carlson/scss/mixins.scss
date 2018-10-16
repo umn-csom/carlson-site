@@ -245,10 +245,14 @@ $value in $theme-colors {
 }
 
 @mixin grey-line() {
-    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+50,d8d8d8+51,ffffff+52,ffffff+52 */
-    background: #ffffff!important; /* Old browsers */
-    background: -moz-linear-gradient(left, #ffffff 50%, #d8d8d8 51%, #ffffff 50%)!important; /* FF3.6-15 */
-    background: -webkit-linear-gradient(left, #ffffff 50%,#d8d8d8 51%,#ffffff 50%)!important; /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(to right, #ffffff 50%,#d8d8d8 51%,#ffffff 50%)!important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=1 )!important; /* IE6-9 */
+    &:after {
+        content: '';
+        position: absolute;
+        z-index: 0;
+        top: 60px;
+        bottom: 60px;
+        left: 50.5%;
+        border-left: 1px solid $menu-line-grey;
+        transform: translate(-50%);
+    }
 }
