@@ -1,112 +1,55 @@
 /**
  * @file
- * Visual styles for comments in Barrio.
+ * Visual styles for Carlson Advantages in Barrio.
  */
 
-/*
-Carlson Advantages
-
-Markup: ../../../templates/components/carlson-advantages.html.twig
-
-.carlson-advantages  - This is a news item
-
-Style guide: components.carlson-advantages
-*/
 .carlson-advantages{
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-          align-items: center;
-  .home-advantage-wrapper{
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    flex-wrap: wrap;
-    div{
-      // -webkit-box-pack: center;
-      // -ms-flex-pack: center;
-      // justify-content: center;
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .column-container {
-      background-color: #fff;
-      min-height: 350px;
-      height: 100%;
-      position: relative;
-    }
-    img{
-      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
-    }
 
-    label {
-      color: #363230;
-      font-family: "Crimson Text";
-      font-size: 48px;
-      font-weight: 400;
-      line-height: 42px;
-      &:after {
-        content: '';
-        height: 2px;
-        width: 100px;
-        display: block;
-        background: #ffcc33;
-        margin: 15px 0;
-      }
-    }
-    p{
-      color: #363230;
-      font-family: "Lato";
-      font-size: 16px;
-      line-height: 30px;
-    }
-    a {
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-    }
+  img{
+    box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
+    margin-bottom: 3rem;
+  }
 
-    .section-title{
-      padding: 30px 15px;
-      &:last-of-type{
-        text-align: right;
-      }
-      p{
-        color: #e6dbd6;
-        font-family: "Lato";
-        font-size: 14px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1.56px;
-        margin: 0;
-        &:before{}
-        &:after{
-          content: "";
-          display: inline-block;
-          width: 100%;
-          height: 1px;
-          float: left;
-          background: #e6dbd6;
-        }
+  label {
+    color: #363230;
+    @include font-crimson-base();
+    font-size: 48px;
+    font-weight: 400;
+    line-height: 42px;
+    &:after {
+      content: '';
+      height: 2px;
+      width: 100px;
+      display: block;
+      background: #ffcc33;
+      margin: 15px 0;
+    }
+  }
+  &__items > div {
+    justify-content: space-between;
+    margin-bottom: 3rem;
+  }
+  &__label {
+    padding: 30px 15px;
+    &:last-of-type{
+      text-align: right;
+    }
+    span{
+      color: $light-gray;
+      @include font-lato-base();
+      font-size: 14px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.56px;
+      margin: 0;
+      &:before{}
+      &:after{
+        content: "";
+        display: inline-block;
+        width: 100%;
+        height: 1px;
+        float: left;
+        background: $light-gray;
       }
     }
   }

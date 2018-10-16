@@ -1,106 +1,46 @@
 /* TYPOGRAPHY */
 
-// Fonts
-//
-// Font, line-height, and color for body text, headings, and more.
-/*$font-family-sans-serif: -apple-system,
-system-ui,
-BlinkMacSystemFont,
-"Segoe UI",
-Roboto,
-"Helvetica Neue",
-Arial,
-sans-serif !default;
-$font-family-serif: Georgia,
-"Times New Roman",
-Times,
-serif !default;
-$font-family-monospace: Menlo,
-Monaco,
-Consolas,
-"Liberation Mono",
-"Courier New",
-monospace;
-$font-family-base: $font-family-sans-serif;
-$font-size-base: 1rem; // Assumes the browser default, typically `16px`
-$font-size-lg: 1.25rem;
-$font-size-sm: .875rem;
-$font-size-xs: .75rem;
-$font-weight-normal: normal;
-$font-weight-bold: bold;
-$font-weight-base: $font-weight-normal;
-$line-height-base: 1.5;
-$font-size-h1: 3.8rem;
-$font-size-h2: 2rem;
-$font-size-h3: 1.75rem;
-$font-size-h4: 1.5rem;
-$font-size-h5: 1.25rem;
-$font-size-h6: 1rem;*/
-
-p{
-  line-height: 3rem;
-  @include sans-serif-font($font-base);
+p, a {
+  @include font-lato-base();
+  font-size: $font-base-mobile;
+  
+  @include media-breakpoint-up(lg) {
+    font-size: $font-base;
+  }
 }
 
 h1{
-  @include serif-font($font-large);
+  @include font-crimson-base();
+  font-size: $font-large-mobile;
+
+  @include media-breakpoint-up(lg) {
+    font-size: $font-large;
+  }
 }
+
 h2{
-  @include serif-font($font-medium);
+  @include font-crimson-base();
+  font-size: $font-medium-mobile;
+
+  @include media-breakpoint-up(lg) {
+    font-size: $font-medium;
+  }
 }
+
 h3{
-  @include serif-font($font-small);
-}
-h4, h5,h6{
-  @include serif-font($font-base);
-}
+  @include font-crimson-base();
+  font-size: $font-small-mobile;
 
-ul{
-  // font-size: 1.4rem;
-  // line-height: 1.8rem;
-  font-size: calc( 1.2rem + (12 - 12) * (100vw - 400px) / (800 - 400)) !important;
-  line-height: calc( 1.4rem + (16 - 16) * (100vw - 400px) / (800 - 400)) !important;
-  &.list-group{
-    // font-size: 1.4rem;
-    // line-height: 1.8rem;
-    li{}
-  }
-  &.unstyled{
-    // font-size: 1.4rem;
-    // line-height: 1.8rem;
-    li{}
-  }
-  li{}
-}
-
-/* Older browsers */
-/*html { font-size: 10px; }*/
-
-/* Modern browsers only need this one */
-
-/*@media screen and (min-width: 25em){
-  html {
-    font-size: calc( 10px + (12 - 10) * (100vw - 400px) / (800 - 400) );
-    line-height: calc( 16px + (18 - 12) * (100vw - 400px) / (800 - 400) );
-  }
-}*/
-
-/* Safari <8 and IE <11 */
-/*@media screen and (min-width: 25em){
-  html {
-    font-size: calc( 10px + (12 - 10) * (100vw - 400px) / (800 - 400) );
-    line-height: calc( 16px + (18 - 12) * (100vw - 400px) / (800 - 400) );
+  @include media-breakpoint-up(lg) {
+    font-size: $font-small;
   }
 }
-@media screen and (min-width: 50em){
 
-html {
-    font-size: calc( 10px + (12 - 10) * (100vw - 400px) / (800 - 400) );
-    line-height: calc( 16px + (18 - 12) * (100vw - 400px) / (800 - 400) );
+h4,h5,h6{
+  @include font-crimson-base();
+  font-size: $font-base-mobile;
+
+  @include media-breakpoint-up(lg) {
+    font-size: $font-base;
   }
-}*/
-
-/* Account for admin toolbar */
-ul.toolbar-menu {
-	font-size: 1rem !important;
 }

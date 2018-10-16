@@ -34,12 +34,15 @@
     'block',
     'block-' ~ configuration.provider|clean_class,
     'block-' ~ plugin_id|clean_class,
-    'block-cta'
+    'block-cta',
+    'col-12',
   ]
 %}
-<div{{ attributes.addClass(classes) }}>
-  {% block content %}
+{% block content %}
+  <div class="row sidebar-cta">
+    <div class="col-12">
     {# cta_link paragraphs are rendered here #}
     {{ content }}
-  {% endblock %}
-</div>
+    </div>
+  </div>
+{% endblock %}

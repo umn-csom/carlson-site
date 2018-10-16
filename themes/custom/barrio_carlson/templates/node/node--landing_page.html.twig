@@ -70,16 +70,7 @@
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
     'clearfix',
-    'container',
   ]
-%}
-
-{% set hero_data = {
-    'heading': node.label, 
-    'image': content.field_hero_media,
-    'markup': content.body,
-    'link': content.field_link,
-  }
 %}
 
 <article{{ attributes.addClass(classes) }}>
@@ -94,33 +85,61 @@
   </header>
 
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
-    <section class="landing-page__top">
-      <div class="row">
-        <div class="col">
-          {# Program Hero #}
-          {% include directory ~ '/templates/components/hero-program.html.twig' with hero_data
-          %}
+    <section class="row landing-page__top">
+      <div class="col-md-10 offset-md-1">
+        {# Program Hero #}
+        <div class="row hero-program">
+          <div class="col-md-7 hero-program__img">
+            {{ content.field_hero_media }}
+          </div>
+          <div class="col-md-5 col-sm-12 hero-program__content">
+            <div class="row">
+              <div class="col-12">
+                <h1 class="hero-program__title" >{{ node.label }}</h1>
+              </div>
+              <div class="col-12 order-md-2 hero-program__link">
+                <div class="hero-program__link-inner">
+                  {{ content.field_link }}
+                </div>
+              </div>
+              <div class="col-12 order-md-1">
+                {{ content.body }}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-    <div class="landing-page__content">
-      <div class="row">
-        
-        {# Stick sidebar region #}
-        {% if sticky_sidebar %}
-        <div class="col-md-2 sticky_sidebar">
-          {{ sticky_sidebar }}
-        </div>
-        {% endif %}
-
-        <div class="{{ sticky_sidebar ? 'col-md-10' : 'col-12' }} landing-page__content-components">
+    <section class="row landing-page__content">
+      <div class="col-md-10 offset-md-1">
+        <div class="row">
           
-          {# Home Flexible feature paragraphs #}
-          {{ content.field_flexible_features }}
+          {# Stick sidebar region #}
+          {% if sticky_sidebar %}
+          <div class="col-lg-2 sticky_sidebar">
+            {{ sticky_sidebar }}
+          </div>
+          {% endif %}
 
-          {{ content.field_contact_info }}
+          <div class="{{ sticky_sidebar ? 'col-lg-10' : 'col-12' }} landing-page__content-components">
+            
+            {# Home Flexible feature paragraphs #}
+            {{ content.field_flexible_features }}
+
+            {{ content.field_contact_info }}
+            <div class="row page-links">
+              <div class="col-md-6 page-links__tags">
+                <span class="page-links__tags-label">Tags:</span>
+                {{ content.field_news_channels }} {{ content.field_event_channels }}
+              </div>
+              <div class="col-md-6">
+
+              </div>          
+            </div>
+
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   </div>
 </article>

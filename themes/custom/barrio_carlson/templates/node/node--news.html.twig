@@ -70,7 +70,6 @@
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
     'clearfix',
-    'container',
   ]
 %}
 
@@ -84,42 +83,68 @@
     {% endif %}
     {{ title_suffix }}
 
+
+  </header>
+
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'news') }}>
     {# Render hero with hero-basic component #}
     {% if node.field_hero_media.isEmpty %}
-      {% include directory ~ '/templates/components/hero-basic-noimg.html.twig' with 
-        {
-            'heading': label, 
-            'published_on': date,
-        } 
-      %}
+      <section>
+        <div class="row basic-hero">
+          <div class="col-11 col-md-12 basic-hero__title">
+            <h1>{{ label }}</h1>
+            <div class="row">
+              <div class="col col-sm-12 col-md-6 d-none d-sm-block post-col">
+                <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
+              </div>
+              <div class="col col-sm-12 col-md-6 d-none d-sm-block share-col">
+                <p class="share-this">Share This: {{ content.addtoany }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     {% else %}
-      {% include directory ~ '/templates/components/hero-basic.html.twig' with 
-        {
-            'heading': label, 
-            'img_src': content.field_hero_media,
-            'published_on': date,
-        } 
-      %}
+      <section>
+        <div class="row basic-hero">
+          <div class="col-md-12 basic-hero__img">
+            {{ content.field_hero_media }}
+          </div>
+          <div class="col-10 offset-1 basic-hero__title">
+            <div class="basic-hero__title-inner">
+              <h1>{{ label }}</h1>
+              <div class="row">
+                <div class="col-md-6 basic-hero__pub">
+                  <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
+                </div>
+                <div class="col-md-6 basic-hero__share">
+                  <p class="share-this">Share This: {{ content.addtoany }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     {% endif %}
-  </header>
-  <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
-    
-    {# Call to action block if it exists #}
-    {{ content.field_program_cta_block }}
-
     {# Body and side bar #}
-    <section class="row">
-      <div class="col-md-9">
+    <section class="row news__body">
+
+      <div class="{{ (has_sidebar == TRUE) ? 'col-md-8' : 'col-12' }}">
         {{ content.body }}
       </div>
-      <div class="col-md-3">
-        {{ content.field_sidebar_content }}
-      </div>
+
+      {% if content.field_sidebar_content|field_value is not empty %}
+        <div class="col-md-4 news__body--sidebar">
+          <div>
+            {{ content.field_sidebar_content }}
+          </div>
+        </div>
+      {% endif %}
     </section>
 
     {# Flexible features are rendered through the paragraph templates specific to the feature #}
     {{ content.field_flexible_features }}
-    
+
     <div>
       {{ content.field_news_channels }}
     </div>

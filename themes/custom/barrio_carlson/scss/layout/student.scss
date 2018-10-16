@@ -1,0 +1,67 @@
+.student-profile {
+  /** Top Profile - Block. **/
+  &__top {
+      &--headshot {
+          img {
+              width: 100%;
+              height: auto;
+          }
+          margin-bottom: 2rem;
+      }
+      &--name {
+        @include heading-title($font-medium,$maroon, 'left')
+      }
+      &--title {
+          color: #363230;
+          @include font-lato-base();
+          font-size: 16px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 1.78px;
+      }
+
+      &--dept {
+        color: #363230;
+        @include font-lato-base();
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 20px;
+      }
+
+      &--quote{
+        background: $menu-gold;
+        padding: 30px;
+        background-image: url('../images/bg/experience_bg.png'); 
+        margin-bottom: 2rem;
+      }
+  }
+  &__about {
+    &--summary{
+      margin-bottom: 3rem;
+    }
+  }
+  &__sidebar {
+    border: solid 1px $light-gray;
+    margin-bottom: 3rem;
+    > div {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
+    &--label {
+      @include heading-title($font-small, $maroon,'left');
+    }
+    .field__label {
+      font-weight: 700;
+    }
+    .field--label-above {
+      margin-bottom: 1.6rem;
+    }
+  }
+  @include media-breakpoint-up(md) {
+    &__sidebar {
+      > div {
+        padding: 30px 20px;
+      }
+    }
+  }
+}

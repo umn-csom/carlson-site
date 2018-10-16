@@ -71,14 +71,14 @@
   <div id="page">
 
     {# Header that contains main menu/branding #}
-    <header id="header" class="header carlson-header" role="banner" aria-label="{{ 'Site header'|t}}">
+    <header id="header" class="header carlson-header container-fluid" role="banner" aria-label="{{ 'Site header'|t}}">
       <nav class="carlson-nav" {{ attributes }}>
       {% block head %}
         {{ page.header }} {# Logo is placed in page.header #}
 
         {% if page.primary_menu %}
-
-            {{ page.primary_menu }} {# We Megamenu is placed in page.primary_menu #}
+            {# We Megamenu is placed in page.primary_menu #}
+            {{ page.primary_menu }} 
 
         {% endif %}
 
@@ -109,16 +109,19 @@
     {# Start of main page wrapper #}
     <div id="main-wrapper" class="layout-main-wrapper clearfix">
       {% block content %}
-        <div id="main">
-          <div class="container">{{ page.breadcrumb }}</div>
-          <div class="row row-offcanvas row-offcanvas-left clearfix"></div>
-            <main{{ content_attributes }}>
-                <a id="main-content" tabindex="-1"></a>
-                {# Node templates are rendered here #}  
-                {{ page.content }}
-            </main>
-
-            {# Only rendered if something is placed in this region #}  
+        <div id="main" class="container">
+          <div class="row">
+            <div class="col breadcrumb">
+            {{ page.breadcrumb }}
+            </div>
+          </div>
+          <div class="row row-offcanvas row-offcanvas-left clearfix">
+              <main{{ content_attributes }}>
+                <section class="section">
+                  <a id="main-content" tabindex="-1"></a>
+                  {{ page.content }}
+                </section>
+              </main>
             {% if page.sidebar_first %}
               <div{{ sidebar_first_attributes }}>
                 <aside class="section" role="complementary">
@@ -126,8 +129,6 @@
                 </aside>
               </div>
             {% endif %}
-
-            {# Only rendered if something is placed in this region #}
             {% if page.sidebar_second %}
               <div{{ sidebar_second_attributes }}>
                 <aside class="section" role="complementary">
@@ -135,7 +136,6 @@
                 </aside>
               </div>
             {% endif %}
-
           </div>
         </div>
       {% endblock %}
@@ -154,27 +154,24 @@
     {% endif %}
 
     {# Beginning of footer #}
-    <footer>
-      {% block footer %}
-      <div class="container-footer">
-        <div class="footer-wrapper">
-          <div class="full-footer-wrapper">
-            <h2 class="decorated logo marg-bottom2"><span><center><br>
-            {# TO-DO dynamically add a logo image here #}
-            <p></p></center></span></h2>
-            
+    <footer class="footer">
+      <div class="container">
+        <div class="row footer__logo">
+          <img src="/{{ directory }}/images/footer-logo.svg">
+        </div>
+        <div class="row">
+          {% block footer %}
             {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
-            <div class="flex-row marg-bottom">
-              <div class="col-md-3 col-sm-4 col-xs-12 links">
+              <div class="col-md-3 footer__info">
                 {{ page.footer_first }}
               </div>
-              <div class="col-md-3 col-sm-4 col-xs-12 links">
+              <div class="col-md-3 footer__links">
                 {{ page.footer_second }}
               </div>
-              <div class="col-md-3 col-sm-4 col-xs-12 links">
+              <div class="col-md-3 footer__links">
                 {{ page.footer_third }}
               </div>
-              <div class="col-md-3 col-sm-12 col-xs-12 connect">
+              <div class="col-md-3 footer_connect">
                 <div>
                   <ul class="social-media list-unstyled list-inline">
                     <li><a href="#"><i class="fa fa-2x fa-facebook"></i></a></li>
@@ -190,11 +187,9 @@
                   </ul>
                 </div>
               </div>
-            </div>
             {% endif %}
           </div>
         </div>
-      </div>
       {% endblock %}
     </footer>
   </div>

@@ -1,73 +1,34 @@
 /**
  * @file
- * Visual styles for comments in Barrio.
+ * Visual styles for Program CTA in Barrio.
  */
-
-/*
-Program CTA
-
-
-Markup: ../../../templates/components/program-cta.html.twig
-
-
-Style guide: components.program-cta
-*/
-.page-cta-container{
-  padding-top: 30px;
-  padding-bottom: 30px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -ms-flex-direction: column;
-  flex-direction: column;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
+.program-cta {
+  padding: 30px;
   background-color: #ffcc33;
   background-image: url('../images/bg/page_cta_bg.png');
-  background-size: contain;
+  background-size: cover;
   background-position: top left;
   background-repeat: no-repeat;
-  .page-cta-intro-container{
-    .page-cta-intro{
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-align: center;
-      -ms-flex-align: center;
-      align-items: center;
-      p{
-        color: #363230;
-        font-family: "Crimson Text";
-        font-size: 34px;
-        font-weight: 400;
-        line-height: 31px;
-        margin: 0;
-      }
+  &__intro {
+    @include serif-font($font-small);
+    > *          {
+      font-weight: 400;
     }
+    margin-bottom: 2rem;
   }
-  .page-cta-link-container{
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: end;
-    -ms-flex-pack: end;
-    justify-content: flex-end;
-    .page-cta-link{
-      a{
-        color: #363230;
-        font-family: "Lato";
-        font-size: 16px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1.78px;
+  &__link {
+    text-transform: uppercase;
+  }
+  @include media-breakpoint-up(md) {
+      background-size: contain;
+      &__intro {
+        margin-bottom: 0;
       }
-      i{}
-    }
+      &__link {
+        text-align: right;
+        &:after {
+
+        }
+      }
   }
 }

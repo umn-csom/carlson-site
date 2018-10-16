@@ -9,12 +9,13 @@ Description: Bootstrap 4 with Sass
 /* GENERAL STYLES
 -------------------------------------------------*/
 html {
-  font-size: 62.5%;
+    font-size: 62.5%;
 }
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family:'Lato', Arial, Verdana, sans-serif;
+  @include font-lato-base();
   color: $slate;
   font-size: 1.6rem;
 }
@@ -26,8 +27,11 @@ body {
 
 a {
     color: $accent-shade;
+    font-size: 1.6rem;
 }
-
+.img-fluid {
+  width: 100%;
+}
 .bg-inverse {
     background: $primary-shade !important;
 }
@@ -77,4 +81,10 @@ a {
 
 #icons {
     display: none;
+}
+.node__content {
+  font-size: 1.4rem;
+  @include media-breakpoint-up(md) {
+    font-size: 1.6rem;
+  }
 }

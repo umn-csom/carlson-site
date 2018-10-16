@@ -1,0 +1,75 @@
+{{ attach_library('bootstrap_barrio/node') }}
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix',
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'student-profile') }}>
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+        <section class="student-profile__top">
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+                {% if content.field_profile_img|field_value is not empty %}
+                  <div class="student-profile__top--headshot">
+                    {{ content.field_profile_img|field_value }}
+                  </div>
+                {% endif %}
+            </div>
+            <div class="col-sm-12 col-md-8 student-profile__top--wrap">
+                <h1 class="student-profile__top--name">
+                  {{ node.label }}
+                </h1>
+                <div class="student-profile__top--summary">
+                  {% if node.body.summary is not empty %}
+                    {{ node.body.summary }}
+                  {% endif %}
+                </div>
+                <div class="student-profile__top--quote">
+                  {% if content.field_profile_quote|field_value is not empty %}
+                    {{ content.field_profile_quote|field_value }}
+                  {% endif %}
+                </div>
+            </div>
+          </div>
+         
+        </section>
+
+        {% if node.body.value|raw is not empty %}
+          <section class="student-profile__about">
+              <div class="row">
+                  <div class="col-12 col-md-9">
+                    <div class="student-profile__about--summary">
+                      {{ node.body.value|raw }}
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-3 student-profile__sidebar">
+                    <div>
+                      <h3 class="student-profile__sidebar--label">About {{ content.field_first_name|field_value }}</h3>
+
+                      {{ content.field_profile_hometown }}
+                      {{ content.field_profile_experience }}
+                      {{ content.field_profile_carlson_activities }}
+                      {{ content.field_profile_internship }}
+                      {{ content.field_profile_interests }}
+                      {{ content.field_profile_undergrad }}
+                      {{ content.field_profile_company }}
+                      {{ content.field_profile_job }}
+                    </div>
+                  </div>
+              </div>
+          </section>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</article>

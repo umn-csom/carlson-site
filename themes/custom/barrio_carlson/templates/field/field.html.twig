@@ -51,40 +51,22 @@
     label_display == 'visually_hidden' ? 'visually-hidden',
   ]
 %}
-{% set excluded = 'field_column_item, field_statistic, field_statistics, field_heading, field_link, field_main_content field_slide field_slideshow'%}
 
-{% for item in items %}
-  {{ item.content }}
-{% endfor %}
-{# {% if field_name in excluded %}
+{% if label_hidden %}
   {% for item in items %}
     {{ item.content }}
   {% endfor %}
 {% else %}
-  {% if label_hidden %}
+  <div{{ attributes.addClass(classes) }}>
+    <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
     {% if multiple %}
-      <div{{ attributes.addClass(classes, 'field__items') }}>
-        {% for item in items %}
-          <div{{ item.attributes.addClass('field__item') }}>{{ item.content }}</div>
-        {% endfor %}
-      </div>
-    {% else %}
-      {% for item in items %}
-        <div{{ attributes.addClass(classes, 'field__item') }}>{{ item.content }}</div>
-      {% endfor %}
+      <div class='field__items'>
     {% endif %}
-  {% else %}
-    <div{{ attributes.addClass(classes) }}>
-      <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
-      {% if multiple %}
-        <div class='field__items'>
-      {% endif %}
-      {% for item in items %}
-        <div{{ item.attributes.addClass('field__item') }}>{{ item.content }}</div>
-      {% endfor %}
-      {% if multiple %}
-        </div>
-      {% endif %}
-    </div>
-  {% endif %}
-{% endif %} #}
+    {% for item in items %}
+      <div{{ item.attributes.addClass('field__item') }}>{{ item.content }}</div>
+    {% endfor %}
+    {% if multiple %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}

@@ -3,44 +3,11 @@
  * Visual styles for comments in Barrio.
  */
 
-/*
-Typography
 
-
-Markup: ../../../templates/components/typography.html.twig
-
-Style guide: components.typography
-*/
-
-
-// KSS override Typography
-.kss-source {
-  font-size: 1.4rem !important;
+.label-border.red {
+  @include heading-title($font-medium,$maroon,'center');
 }
-
-
-.label-border {
-  color: #363230;
-  font-family: "Crimson Text";
-  font-weight: 400;
-  position: relative;
-  margin-bottom: 30px;
-  &:after{
-    content: '';
-    height: 2px;
-    width: 100px;
-    display: block;
-  }
-  &.red{
-    &:after{
-      content: '';
-      background: #7a0019;
-    }
-  }
-  &.yellow{
-    &:after{
-      content: '';
-      background: #ffcc33;
-    }
-  }
+  
+.label-border.yellow {
+  @include heading-title($font-medium,$menu-gold,'center');
 }

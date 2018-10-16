@@ -47,17 +47,16 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-{% if content.field_heading|field_value is not empty or
-  content.field_link|field_value is not empty %}
-  {% set content_data = {
-      'heading': content.field_heading|field_value, 
-      'link': content.field_link|field_value,
-    }
-  %}
-{% endif %}
 
 {% block paragraph %}
     {% block content %}
-      {% include directory ~ '/templates/components/program-cta.html.twig' with content_data %}
+        <div class="row component-paragraph align-items-center program-cta">
+          <div class="col-sm-9 program-cta__intro">
+            <h3>{{ content.field_heading|field_value }}</h3>
+          </div>
+          <div class="col-sm-3 program-cta__link">
+            {{ content.field_link|field_value }}
+          </div>
+      </div>
     {% endblock %}
 {% endblock paragraph %}

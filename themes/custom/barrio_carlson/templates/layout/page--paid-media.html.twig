@@ -78,14 +78,13 @@
     {# Start of main page wrapper #}
     <div id="main-wrapper" class="layout-main-wrapper clearfix">
       {% block content %}
-        <div id="main">
-          <div class="row row-offcanvas row-offcanvas-left clearfix"></div>
+        <div id="main" class="container">
+          <div class="row row-offcanvas row-offcanvas-left clearfix">
             <main{{ content_attributes }}>
                 <a id="main-content" tabindex="-1"></a>
                 {# Node templates are rendered here #}  
                 {{ page.content }}
             </main>
-
           </div>
         </div>
       {% endblock %}
@@ -93,27 +92,24 @@
     {# End of the main page wrapper #}
 
     {# Beginning of footer #}
-    <footer>
-      {% block footer %}
-      <div class="container-footer">
-        <div class="footer-wrapper">
-          <div class="full-footer-wrapper">
-            <h2 class="decorated logo marg-bottom2"><span><center><br>
-            {# TO-DO dynamically add a logo image here #}
-            <p></p></center></span></h2>
-            
+    <footer class="footer">
+      <div class="container">
+        <div class="row footer__logo">
+          <img src="/{{ directory }}/images/footer-logo.svg">
+        </div>
+        <div class="row">
+          {% block footer %}
             {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
-            <div class="flex-row marg-bottom">
-              <div class="col-md-3 col-sm-4 col-xs-12 links">
+              <div class="col-md-3 footer__info">
                 {{ page.footer_first }}
               </div>
-              <div class="col-md-3 col-sm-4 col-xs-12 links">
+              <div class="col-md-3 footer__links">
                 {{ page.footer_second }}
               </div>
-              <div class="col-md-3 col-sm-4 col-xs-12 links">
+              <div class="col-md-3 footer__links">
                 {{ page.footer_third }}
               </div>
-              <div class="col-md-3 col-sm-12 col-xs-12 connect">
+              <div class="col-md-3 footer_connect">
                 <div>
                   <ul class="social-media list-unstyled list-inline">
                     <li><a href="#"><i class="fa fa-2x fa-facebook"></i></a></li>
@@ -129,11 +125,9 @@
                   </ul>
                 </div>
               </div>
-            </div>
             {% endif %}
           </div>
         </div>
-      </div>
       {% endblock %}
     </footer>
   </div>

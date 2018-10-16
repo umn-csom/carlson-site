@@ -9,159 +9,161 @@
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
     'clearfix',
-    'container',
   ]
 %}
 
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'faculty-profile') }}>
-    <section class="faculty-profile__top">
-      <div class="row">
-        <div class="col-sm-12 col-md-4">
-            {% if content.field_profile_img|field_value is not empty %}
-              <div class="faculty-profile__top--headshot">
-                {{ content.field_profile_img|field_value }}
-              </div>
-            {% endif %}
-        </div>
-        <div class="col-sm-12 col-md-8 profile-content-wrapper">
-            <h1 class="faculty-profile__top--name label-border red">
-              {{ node.label }}
-            </h1>
-            <div class="faculty-profile__top--title">
-              {% if content.field_profile_title|field_value is not empty %}
-                {{ content.field_profile_title|field_value }}
-              {% endif %}
+    <div class="row">
+      <div class="col-md-10 offset-md-1">
+        <section class="faculty-profile__top">
+          <div class="row">
+            <div class="col-12 col-md-4">
+                {% if content.field_profile_img|field_value is not empty %}
+                  <div class="faculty-profile__top--headshot">
+                    {{ content.field_profile_img|field_value }}
+                  </div>
+                {% endif %}
             </div>
-            <div class="faculty-profile__top--dept">
-              {{ content.field_profile_dept|field_value }}
-            </div>
-            <div class="faculty-profile__top--summary">
-              {% if node.body.summary is not empty %}
-                {{ node.body.summary }}
-              {% endif %}
-            </div>
-        </div>
-      </div>
-      <div class="row">
-          <div class="col-sm-12 col-md-3 faculty-profile__contact">
-            {% if content.field_profile_address|field_value is not empty %}
-              <h2>Contact</h2>
-
-              {% if content.field_office_phone|field_value is not empty %}
-                <a class="faculty-profile__contact--phone"
-                  href="tel:{{ content.field_office_phone|field_value }}">
-                  {{ content.field_office_phone|field_value }}
-                </a>
-              {% endif %}
-
-              <div class="faculty-profile__contact--address">
-                {{ content.field_profile_address|field_value }}
-              </div>
-
-              {% if content.field_email|field_value is not empty %}
-                <div class="faculty-profile__contact--email">
-                  <a href="mailto:{{ content.field_email|field_value }}">
-                    {{ content.field_email|field_value }}
-                  </a>
+            <div class="col-sm-12 col-md-8 profile-content-wrapper">
+                <h1 class="faculty-profile__top--name">
+                  {{ node.label }}
+                </h1>
+                <div class="faculty-profile__top--title">
+                  {% if content.field_profile_title|field_value is not empty %}
+                    {{ content.field_profile_title|field_value }}
+                  {% endif %}
                 </div>
-              {% endif %}
+                <div class="faculty-profile__top--dept">
+                  {{ content.field_profile_dept|field_value }}
+                </div>
+                <div class="faculty-profile__top--summary">
+                  {% if node.body.summary is not empty %}
+                    {{ node.body.summary }}
+                  {% endif %}
+                </div>
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-12 col-md-3 faculty-profile__contact">
+                {% if content.field_profile_address|field_value is not empty %}
+                  <h2>Contact</h2>
 
-              {% if content.field_profile_cvc|field_value is not empty %}
-                <div class="faculty-profile__contact--cvc">
-                    <a href="{{ file_url( node.field_profile_cvc.entity.uri.value ) }}">
-                      Curriculum Vitae
+                  {% if content.field_office_phone|field_value is not empty %}
+                    <a class="faculty-profile__contact--phone"
+                      href="tel:{{ content.field_office_phone|field_value }}">
+                      {{ content.field_office_phone|field_value }}
                     </a>
-                </div>
-              {% endif %}
+                  {% endif %}
 
-              {% if content.field_profile_url|field_value is not empty %}
-                <div class="faculty-profile__contact--link">
-                    {{ content.field_profile_url|field_value }}
-                </div>
-              {% endif %}
+                  <div class="faculty-profile__contact--address">
+                    {{ content.field_profile_address|field_value }}
+                  </div>
 
-            {% endif %}
-          </div>
-          <div class="col-sm-12 col-md-8 col-md-offset-1 faculty-profile__experience">
-            <div class="row">
-              <div class="col-12 col-sm-6 col-md-6">
-                {% if content.field_profile_degrees|field_value is not empty %}
-                  <h2>Education:</h2>
-                  <ul class="faculty-profile__education">
-                      {{ content.field_profile_degrees|field_value }}
-                  </ul>
+                  {% if content.field_email|field_value is not empty %}
+                    <div class="faculty-profile__contact--email">
+                      <a href="mailto:{{ content.field_email|field_value }}">
+                        {{ content.field_email|field_value }}
+                      </a>
+                    </div>
+                  {% endif %}
+
+                  {% if content.field_profile_cvc|field_value is not empty %}
+                    <div class="faculty-profile__contact--cvc">
+                        <a href="{{ file_url( node.field_profile_cvc.entity.uri.value ) }}">
+                          Curriculum Vitae
+                        </a>
+                    </div>
+                  {% endif %}
+
+                  {% if content.field_profile_url|field_value is not empty %}
+                    <div class="faculty-profile__contact--link">
+                        {{ content.field_profile_url|field_value }}
+                    </div>
+                  {% endif %}
+
                 {% endif %}
               </div>
-              <div class="col-12 col-sm-6 col-md-6">
-                {% if content.field_profile_expertise|field_value is not empty %}
-                  <h2>Expertise:</h2>
-                  <ul class="faculty-profile__expertise">
-                      {{ content.field_profile_expertise|field_value }}
-                  </ul>
-                {% endif %}
+              <div class="col-sm-12 col-md-8 col-md-offset-1 faculty-profile__experience">
+                <div class="row">
+                  <div class="col-12 col-sm-6 col-md-6">
+                    {% if content.field_profile_degrees|field_value is not empty %}
+                      <h2>Education:</h2>
+                      <ul class="faculty-profile__education">
+                          {{ content.field_profile_degrees|field_value }}
+                      </ul>
+                    {% endif %}
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6">
+                    {% if content.field_profile_expertise|field_value is not empty %}
+                      <h2>Expertise:</h2>
+                      <ul class="faculty-profile__expertise">
+                          {{ content.field_profile_expertise|field_value }}
+                      </ul>
+                    {% endif %}
+                  </div>
+                </div>
               </div>
-            </div>
           </div>
+        </section>
+
+        {% if node.body.value|raw is not empty %}
+          <section class="faculty-profile__about">
+              <div class="row">
+                  <div class="col-12">
+                    <h2>About {{ content.field_first_name|field_value }}</h2>
+                    <div class="faculty-profile__about--summary">
+                      {{ node.body.value|raw }}
+                    </div>
+                  </div>
+              </div>
+          </section>
+        {% endif %}
+
+        <hr />
+
+        {% if content.field_profile_works|field_value is not empty or
+          content.field_profile_activities|field_value is not empty %}
+          <section class="faculty-profile__works">
+              <div class="row">
+                  <div class="col-12 text-center">
+                    <h2>Selected Works & Activities.</h2>
+                    <p>Browse some of my work and see what I’ve been up to.</p>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                    {% set accordion_data = [] %}
+                    {% if content.field_profile_works|field_value is not empty %}
+                      {% set accordion_data = accordion_data|merge([
+                          {
+                            'label': 'Selected Works',
+                            'markup': content.field_profile_works|field_value,
+                            'wrapper':'<ul class="faculty-profile__works--selected">'
+                          }
+                        ])
+                      %}
+                    {% endif %}
+
+                    {% if content.field_profile_activities|field_value is not empty %}
+                    {% set accordion_data = accordion_data|merge([
+                        {
+                          'label': 'Current Activities',
+                          'markup': content.field_profile_activities|field_value,
+                          'wrapper':'<ul class="faculty-profile__works--activities">'
+                        }
+                      ])
+                    %}
+                  {% endif %}
+
+                    {% if accordion_data is not empty %}
+                      {% include directory ~ '/templates/components/accordion.html.twig' with { 'accordion_data': accordion_data } %}
+                    {% endif %}
+                </div>
+              </div>
+          </section>
+        {% endif %}
       </div>
-    </section>
-
-    {% if node.body.value|raw is not empty %}
-      <section class="faculty-profile__about">
-          <div class="row">
-              <div class="col-12">
-                <h2>About {{ content.field_first_name|field_value }}</h2>
-                <div class="faculty-profile__about--summary">
-                  {{ node.body.value|raw }}
-                </div>
-              </div>
-          </div>
-      </section>
-    {% endif %}
-
-    <hr />
-
-    {% if content.field_profile_works|field_value is not empty or
-      content.field_profile_activities|field_value is not empty %}
-      <section class="faculty-profile__works">
-          <div class="row">
-              <div class="col-12 text-center">
-                <h2>Selected Works & Activities.</h2>
-                <p>Browse some of my work and see what I’ve been up to.</p>
-              </div>
-          </div>
-          <div class="row">
-            <div class="col-12">
-                {% set accordion_data = [] %}
-                {% if content.field_profile_works|field_value is not empty %}
-                  {% set accordion_data = accordion_data|merge([
-                      {
-                        'label': 'Selected Works',
-                        'markup': content.field_profile_works|field_value,
-                        'wrapper':'<ul class="faculty-profile__works--selected">'
-                      }
-                    ])
-                  %}
-                {% endif %}
-
-                {% if content.field_profile_activities|field_value is not empty %}
-                {% set accordion_data = accordion_data|merge([
-                    {
-                      'label': 'Current Activities',
-                      'markup': content.field_profile_activities|field_value,
-                      'wrapper':'<ul class="faculty-profile__works--activities">'
-                    }
-                  ])
-                %}
-              {% endif %}
-
-                {% if accordion_data is not empty %}
-                  {% include directory ~ '/templates/components/accordion.html.twig' with { 'accordion_data': accordion_data } %}
-                {% endif %}
-            </div>
-          </div>
-      </section>
-    {% endif %}
-
+    </div>
   </div>
 </article>
