@@ -79,6 +79,10 @@
                 .container-fluid {
                     justify-content: flex-end;
                     width: initial;
+
+                    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                        justify-content: space-around;
+                    }
                 }
             }
 
@@ -94,7 +98,7 @@
                 }
 
                 @include media-breakpoint-up(lg) {
-                    flex-wrap: initial;
+                    flex-wrap: nowrap;
                     max-width: 610px;
                     width: 100%;
                     transition: none;
@@ -103,6 +107,12 @@
 
                 @include media-breakpoint-up(xl) {
                     max-width: 830px;
+
+                    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                        max-width: 1200px;
+                        top: -33px;
+                        left: 15%;
+                    }
                 }
 
                 &.slide-left {
@@ -136,6 +146,7 @@
                         a.we-mega-menu-li {
                             padding-left: 0!important;
                             padding-right: 0!important;
+                            font-weight: 400!important;
                         }
                     }
 
@@ -208,6 +219,10 @@
                             padding-top: 19px;
                             left: 0;
                             top: 94px;
+
+                            @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                                padding-top: 0;
+                            }
 
                             .we-mega-menu-submenu-inner {
                                 @include box-shadow-a();
