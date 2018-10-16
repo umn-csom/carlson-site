@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Default theme implementation to display a paragraph.
+ * Theme template for cutom "CTA block" type links (paragraph bundle)
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -39,30 +39,19 @@
  */
 #}
 
-{%
-  set classes = [
-    'paragraph',
-    'paragraph--type--' ~ paragraph.bundle|clean_class,
-    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
-    not paragraph.isPublished() ? 'paragraph--unpublished'
-  ]
-%}
 {% block paragraph %}
-    {% block content %}
-      <div class="row component-paragraph stats">
-        <div class="col-12">
-          <h2 class="stats__heading text-center">{{ content.field_heading }}</h2>
-        </div>
-        <div class="col-md-8 offset-md-2 text-center">
-          <p>{{ content.field_main_content }}</p>
-        </div>
-        <div class="col-12">
-          <div class="row stats__blocks">
-            {% if content.field_statistic | field_value is not empty %}
-              {{ content.field_statistic }}
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    {% endblock %}
+  {% block content %}
+    <div class="col-12 ee-program__date">
+    	<div class="row">
+    		<div class="col-md-6">
+    			{{ content.field_ee_program_dates }}
+    		</div>
+    		<div class="col-md-6">
+		    	<a href="" class="btn btn-primary--maroon">{{ content.field_ee_register_text }}</a>
+		    	<a href="{{ content.field_ee_register.0['url'] }}" class="btn btn-secondary">Register with Credit Card</a>
+		    	<a href="{{ content.field_ee_request_invoice.0['url'] }}" class="btn btn-primary--maroon">Request Invoice</a>
+		    </div>
+    	</div>
+    </div>
+  {% endblock %}
 {% endblock paragraph %}

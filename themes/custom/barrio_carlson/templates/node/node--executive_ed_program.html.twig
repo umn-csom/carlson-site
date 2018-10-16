@@ -84,11 +84,11 @@
     {{ title_suffix }}    
   </header>
 
-  <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
-    <section class="row landing-page__top">
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'ee-program') }}>
+    <section class="row ee-program__top">
       <div class="col-md-10 offset-md-1">
-        {# Program Hero #}
-        <div class="row hero-program">
+      {# Program Hero #}
+        <div class="row component-paragraph hero-program">
           <div class="col-md-7 hero-program__img">
             {{ content.field_hero_media }}
           </div>
@@ -97,51 +97,59 @@
               <div class="col-12">
                 <h1 class="hero-program__title" >{{ node.label }}</h1>
               </div>
-              <div class="col-12 order-md-2 hero-program__link">
-                <div class="hero-program__link-inner">
-                  {{ content.field_link }}
-                </div>
-              </div>
               <div class="col-12 order-md-1">
-                {{ content.body }}
+                {{ content.field_ee_program_teaser }}
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-    <section class="row landing-page__content">
-      <div class="col-md-10 offset-md-1">
-        <div class="row">
-          
-          {# Stick sidebar region #}
-          {% if sticky_sidebar %}
-          <div class="col-lg-2 sticky_sidebar">
-            <div class="row">
-            {{ sticky_sidebar }}
-            </div>
+    </section> 
+
+    <div class="row">
+      <div class="col-md-10 offset-md-1">  
+        {# Course brochure link #}
+        <div class="row ee-program__catalog">
+          <div class="col-12">
+
           </div>
-          {% endif %}
-
-          <div class="{{ sticky_sidebar ? 'col-lg-10' : 'col-12' }} landing-page__content-components">
-            
-            {# Home Flexible feature paragraphs #}
-            {{ content.field_flexible_features }}
-
-            {{ content.field_contact_info }}
-            <div class="row page-links">
-              <div class="col-md-6 page-links__tags">
-                <span class="page-links__tags-label">Tags:</span>
-                {{ content.field_news_channels }} {{ content.field_event_channels }}
-              </div>
-              <div class="col-md-6">
-
-              </div>          
-            </div>
-
+        </div>    
+        {# inner_nav region #}
+        {% if inner_nav %}
+        <div class="row inner_nav">
+          <div class="col-12">
+          {{ inner_nav }}
           </div>
         </div>
+
+        {% endif %}
+        <div class="ee-program__content">
+          <div class="row component-paragraph">
+            <div class="col-12 col-md-10 offset-md-1">
+              {{ content.body }}  
+            </div>
+          </div>
+
+          <div class="row ee-program__cost">
+            <div class="col-md-6">Program Details</div>
+            <div class="col-md-3">Cost: <span class="ee_program__cost-label">{{ content.field_ee_cost }}</span></div>
+            <div class="col-md-3 "><a href="{{ content.field_ee_course_brochure.0['url'] }}">Request Brochure</a></div>
+          </div>
+          <div class="row ee-program__dates">
+            {{ content.field_ee_course_dates }}
+          </div>
+
+          {# Home Flexible feature paragraphs #}
+          {{ content.field_flexible_features }}
+
+          {{ content.field_accordion }}
+
+          {{ content.field_ee_featured_faculty }}
+
+          {{ content.field_contact_info }}
+
+        </div>
       </div>
-    </section>
+    </div>
   </div>
 </article>

@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Custom theme implementation to display a CTA Custom block type
+ * Default theme implementation to display a block.
  *
  * Available variables:
  * - plugin_id: The ID of the block implementation.
@@ -34,14 +34,16 @@
     'block',
     'block-' ~ configuration.provider|clean_class,
     'block-' ~ plugin_id|clean_class,
-    'block-cta',
-    'col-12',
   ]
 %}
 <div{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {% if label %}
+    <label{{ title_attributes }}>{{ label }}</label>
+  {% endif %}
+  {{ title_suffix }}
   {% block content %}
-    <div class="col-12 sidebar-cta">
-      {# cta_link paragraphs are rendered here #}
+    <div{{ content_attributes.addClass('content') }}>
       {{ content }}
     </div>
   {% endblock %}

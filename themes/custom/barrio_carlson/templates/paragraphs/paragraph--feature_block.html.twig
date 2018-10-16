@@ -8,6 +8,15 @@
 
 {% block paragraph %}
     {% block content %}
-      {% include directory ~ '/templates/components/feature-block.html.twig' with content_data %}
+			<div class="row component-paragraph feature-block">
+		    <div class="col-sm-6 feature-block__img">
+		      {{ content_data['image']|raw }}
+		    </div>
+		    <div class="col-sm-6 feature-block__content">
+		      <h3>{{ content_data['heading'] }}</h3>
+		      {{ content_data['markup']|raw }}
+		      {{ content_data['link']|raw }}
+		    </div>
+		  </div>
     {% endblock %}
 {% endblock paragraph %}

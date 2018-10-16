@@ -17,7 +17,13 @@ $value in $theme-colors {
 /* Font mixins embellished headings */
 @mixin heading-title($size: $font-medium, $color: $gold, $align:'center') {
     @include font-crimson-base();
-    line-height: $size;
+    word-break: break-word;
+    font-size: $font-large-mobile;
+    line-height: $font-medium-mobile;
+    @include media-breakpoint-up(md) {
+        font-size: $size;
+        line-height: $size;
+    }
     position: relative;
     margin-bottom: 2.4rem;
     &:after{
@@ -26,32 +32,41 @@ $value in $theme-colors {
         width: 100px;
         display: block;
         background: $color;
+
         @if ($align == 'center') {
-            margin: 0 auto;
+            margin: 1.6rem auto 0 auto;
         } @else {
+            margin-top: 1.6rem;
         }
-        margin-top: 1.6rem;
     }
 }
 
 @mixin font-crimson-base() {
     font-family: $font-crimson;
-    font-weight: 400;
 }
 
 @mixin font-lato-base() {
     font-family: $font-lato;
-    font-weight: 400;
 }
 
 @mixin sans-serif-font($size) {
     @include font-lato-base();
-    font-size: $size;
+    font-size: $font-large-mobile;
+    line-height: $font-medium-mobile;
+    @include media-breakpoint-up(md) {
+        font-size: $size;
+        line-height: $size;
+    }
 }
 
 @mixin serif-font($size) {
     @include font-crimson-base();
-    font-size: $size;
+    font-size: $font-large-mobile;
+    line-height: $font-medium-mobile;
+    @include media-breakpoint-up(md) {
+        font-size: $size;
+        line-height: $size;
+    }
 }
 
 @mixin menu-title-font() {
@@ -73,7 +88,6 @@ $value in $theme-colors {
 /* Button mixins */
 @mixin button() {
     padding: 1.5rem 2rem;
-    box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20); 
     @include sans-serif-font($font-base);
     text-transform: uppercase;
     transition: all 0.3s ease-in-out;
@@ -90,7 +104,7 @@ $value in $theme-colors {
     }
     &:hover, &:active, &:focus{
       background: $color;
-      box-shadow: none;
+      box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20); 
       color: $white;
     }
 }
@@ -102,7 +116,7 @@ $value in $theme-colors {
     color: $white;
     &:hover, &:active, &:focus{
       background: $white;
-      box-shadow: none;
+      box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20);
       color: $color;
     }
 }

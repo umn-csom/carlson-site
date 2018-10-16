@@ -50,21 +50,13 @@
 
 {% block paragraph %}
     {% block content %}
-      <section>
-        <div class="page-cta-container container-fluid">
-          <div class="row">
-            <div class="col-sm-9 page-cta-intro-container">
-              <div class="page-cta-intro">
-                <p>{{ content.field_heading|field_value }}</p>
-              </div>
-            </div>
-            <div class="col-sm-3 page-cta-link-container">
-              <div class="page-cta-link">
-                {{ content.field_link|field_value }}
-              </div>
-            </div>
+        <div class="row component-paragraph align-items-center program-cta">
+          <div class="col-sm-9 program-cta__intro">
+            <h3>{{ content.field_heading|field_value }}</h3>
           </div>
-        </div>
-      </section>
+          <div class="col-sm-3 program-cta__link">
+            {{ content.field_link|field_value }}
+          </div>
+      </div>
     {% endblock %}
 {% endblock paragraph %}

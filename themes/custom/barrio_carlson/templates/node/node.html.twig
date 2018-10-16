@@ -72,7 +72,6 @@
     'clearfix',
   ]
 %}
-
 <article{{ attributes.addClass(classes) }}>
   <header>
     {{ title_prefix }}
@@ -81,67 +80,20 @@
         <a href="{{ url }}" rel="bookmark">{{ label }}</a>
       </h2>
     {% endif %}
-    {{ title_suffix }}    
+    {{ title_suffix }}
+    {% if display_submitted %}
+      <div class="node__meta">
+        {{ author_picture }}
+        {% block submitted %}
+          <em{{ author_attributes }}>
+            {% trans %}Submitted by {{ author_name }} on {{ date }}{% endtrans %}
+          </em>
+        {% endblock %}
+        {{ metadata }}
+      </div>
+    {% endif %}
   </header>
-
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
-    <section class="row landing-page__top">
-      <div class="col-md-10 offset-md-1">
-        {# Program Hero #}
-        <div class="row hero-program">
-          <div class="col-md-7 hero-program__img">
-            {{ content.field_hero_media }}
-          </div>
-          <div class="col-md-5 col-sm-12 hero-program__content">
-            <div class="row">
-              <div class="col-12">
-                <h1 class="hero-program__title" >{{ node.label }}</h1>
-              </div>
-              <div class="col-12 order-md-2 hero-program__link">
-                <div class="hero-program__link-inner">
-                  {{ content.field_link }}
-                </div>
-              </div>
-              <div class="col-12 order-md-1">
-                {{ content.body }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="row landing-page__content">
-      <div class="col-md-10 offset-md-1">
-        <div class="row">
-          
-          {# Stick sidebar region #}
-          {% if sticky_sidebar %}
-          <div class="col-lg-2 sticky_sidebar">
-            <div class="row">
-            {{ sticky_sidebar }}
-            </div>
-          </div>
-          {% endif %}
-
-          <div class="{{ sticky_sidebar ? 'col-lg-10' : 'col-12' }} landing-page__content-components">
-            
-            {# Home Flexible feature paragraphs #}
-            {{ content.field_flexible_features }}
-
-            {{ content.field_contact_info }}
-            <div class="row page-links">
-              <div class="col-md-6 page-links__tags">
-                <span class="page-links__tags-label">Tags:</span>
-                {{ content.field_news_channels }} {{ content.field_event_channels }}
-              </div>
-              <div class="col-md-6">
-
-              </div>          
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </section>
+    {{ content }}
   </div>
 </article>
