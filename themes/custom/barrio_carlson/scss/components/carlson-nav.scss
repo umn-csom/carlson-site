@@ -216,7 +216,7 @@
                             transition: none;
                             width: 100%;
                             position: fixed;
-                            padding-top: 19px;
+                            padding-top: 20px;
                             left: 0;
                             top: 94px;
 
@@ -234,7 +234,6 @@
                                     background: none!important;
 
                                     .we-mega-menu-col {
-                                        margin: 0;
                                         .nav-tabs {
                                             .we-mega-menu-li {
                                                 min-height: 50px;
@@ -312,7 +311,6 @@
                                         @include menu-sub-font();
                                         padding-left: 0;
                                         padding-right: 0;
-                                        margin-left: 10px;
                                     }
                                 }
                             }
@@ -394,7 +392,6 @@
     .navbar-we-mega-menu {
         .we-mega-menu-row {
             @include media-breakpoint-up(lg) {
-                max-width: 60%;
                 height: 580px;
                 margin-left: auto;
                 margin-right: auto;
@@ -415,14 +412,11 @@
     padding: 0;
     margin: 0;
     max-width: 70%;
-    padding-top: 35px;
-    padding-left: 15px;
+    margin-top: 35px;
     float: inherit;
 
     @include media-breakpoint-up(lg) {
-        padding-right: 0;
         max-width: 100%;
-        padding-top: 25px;
     }
 }
 
@@ -465,22 +459,6 @@
 
     @include media-breakpoint-up(sm) {
         top: 64px;
-    }
-}
-
-body {
-    &.toggled {
-        right: 0;
-    }
-
-    &.toolbar-vertical {
-        .btn-close {
-            top: 130px;
-        }
-
-        .carlson-nav .region-we-mega-menu .navbar {
-            top: 205px;
-        }
     }
 }
 
@@ -527,14 +505,41 @@ body {
 
 // Specific styles applied when the class: '.third-tier' is applied.
 .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li {
+
+    &.two-tier {
+        .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+            @include media-breakpoint-up(lg) {
+                @include grey-line();
+                border-top: 135px solid $white;
+                border-bottom: 125px solid $white;
+                padding-top: 0;
+                max-width: 100%;
+
+                .we-mega-menu-col {
+                    .type-of-block {
+                        margin: 0;
+                        margin-left: 22px;
+                    }
+
+                    .nav .we-mega-menu-li {
+                        text-align: right;
+                        line-height: 1.4em;
+                        padding-right: 0!important;
+                    }
+                }
+            }
+        }
+    }
+
     &.third-tier {
         .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
             @include media-breakpoint-up(lg) {
                 @include grey-line();
                 border-top: 135px solid $white;
                 border-bottom: 125px solid $white;
-                overflow: hidden;
                 padding-top: 0;
+                overflow: hidden;
+                max-width: 60%;
             }
         }
 
@@ -543,6 +548,7 @@ body {
                 max-width: inherit!important;
                 margin: inherit!important;
                 text-align: right;
+                padding-left: 0!important;
             }
 
             a.we-mega-menu-li {
@@ -611,17 +617,19 @@ body {
             .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs {
                 @include media-breakpoint-up(lg) {
                     position: fixed;
-                    top: -9999px;
+                    //top: -9999px;
+                    top: 285px;
                     z-index: inherit;
                     height: auto;
                     max-height: 300px;
+                    margin-left: -8px;
 
                     .we-mega-menu-li {
                         min-height: 40px!important;
                     }
                     
                     &.show {
-                        top: 280px;
+                        top: 285px;
                         z-index: 9999;
                         height: 100%;
                     }
@@ -652,7 +660,7 @@ body {
                     height: 6px;
                     left: 0;
                     position: relative;
-                    top: 48px;
+                    top: 48.2px;
                     opacity: 0;
                     transition: opacity .5s;
                 }
@@ -678,5 +686,49 @@ body {
 .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu.dropdown-menu {
     @include media-breakpoint-up(lg) {
         padding-top: 6px;
+    }
+}
+
+body {
+    &.toggled {
+        right: 0;
+    }
+
+    &.toolbar-vertical {
+        .btn-close {
+            top: 130px;
+        }
+
+        .carlson-nav .region-we-mega-menu .navbar {
+            top: 205px;
+        }
+    }
+
+    &.toolbar-fixed .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li.third-tier .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs {
+        @include media-breakpoint-up(lg) {
+            &.show {
+                top: 355px;
+            }
+        }
+    }
+}
+
+.navbar-we-mega-menu.navbar ul>li ul {
+    padding-left: 20px;
+}
+
+.block-we-megamenu {
+    position: absolute;
+    right: 0;
+    top: 135px;
+    
+    @include media-breakpoint-up(sm) {
+        top: 115px;
+    }
+
+    @include media-breakpoint-up(lg) {
+        position: absolute;
+        right: 5%;
+        top: 123px;
     }
 }
