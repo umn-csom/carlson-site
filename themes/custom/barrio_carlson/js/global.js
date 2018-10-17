@@ -117,7 +117,7 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
         $(this).children().last().children().children().children().children().addClass('show');
 
         var offset = $('.carlson-nav .navbar').offset().top;
-        offset = ( ( offset + 140 ) - $(window).scrollTop() );
+        offset = ( ( offset + 100 ) - $(window).scrollTop() );
         $(this).children().last().children().children().children().children().css('top', offset + 'px');
     });
 
