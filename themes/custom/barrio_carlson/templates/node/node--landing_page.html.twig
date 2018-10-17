@@ -97,11 +97,13 @@
               <div class="col-12">
                 <h1 class="hero-program__title" >{{ node.label }}</h1>
               </div>
+              {% if content.field_link|field_value is not empty %}
               <div class="col-12 order-md-2 hero-program__link">
                 <div class="hero-program__link-inner">
                   {{ content.field_link }}
                 </div>
               </div>
+              {% endif %}
               <div class="col-12 order-md-1">
                 {{ content.body }}
               </div>
@@ -127,15 +129,6 @@
             {{ content.field_flexible_features }}
 
             {{ content.field_contact_info }}
-            <div class="row page-links">
-              <div class="col-md-6 page-links__tags">
-                <span class="page-links__tags-label">Tags:</span>
-                {{ content.field_news_channels }} {{ content.field_event_channels }}
-              </div>
-              <div class="col-md-6">
-
-              </div>          
-            </div>
 
           </div>
         </div>

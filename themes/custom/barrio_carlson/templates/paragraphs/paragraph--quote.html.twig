@@ -1,15 +1,10 @@
-{% if content.field_quote_image|field_value is not empty %}
-  {% set img = content.field_quote_image %}
-{% else %}
-  {% set img = NULL %}
-{% endif %}
 
 {% block paragraph %}
   {% block content %}
     <div class="row quote">
       <div class="col-12 text-center">
         <div class="quote__img">
-          {{ img|field_value }}
+          {{ content.field_quote_image }}
         </div>
         <div class="quote__text">
           {{ content.field_quote_text|field_value }}

@@ -145,8 +145,14 @@
     {# Flexible features are rendered through the paragraph templates specific to the feature #}
     {{ content.field_flexible_features }}
 
-    <div>
-      {{ content.field_news_channels }}
+    <div class="row page-links">
+      <div class="col-md-6 page-links__tags">
+        <span class="page-links__tags-label">Tags:</span>
+        {{ content.field_news_channels }}
+      </div>
+      <div class="col-md-6">
+         <p class="share-this">Share This: {{ content.addtoany }}</p>
+      </div>          
     </div>
   </div>
 </article>
