@@ -81,58 +81,61 @@
         <a href="{{ url }}" rel="bookmark">{{ label }}</a>
       </h2>
     {% endif %}
-    {{ title_suffix }}    
+    {{ title_suffix }}
+
+
   </header>
 
-  <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
-    <section class="row landing-page__top">
-      <div class="col-md-10 offset-md-1">
-        {# Program Hero #}
-        <div class="row component-paragraph hero-program">
-          <div class="col-md-7 hero-program__img">
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'event') }}>
+    {# Render hero with hero-basic component #}
+    {% if node.field_hero_media.isEmpty %}
+      <section>
+        <div class="row basic-hero">
+          <div class="col-11 col-md-12 basic-hero__title">
+            <h1>{{ label }}</h1>
+          </div>
+        </div>
+      </section>
+    {% else %}
+      <section>
+        <div class="row basic-hero">
+          <div class="col-md-12 basic-hero__img">
             {{ content.field_hero_media }}
           </div>
-          <div class="col-md-5 col-sm-12 hero-program__content">
-            <div class="row">
-              <div class="col-12">
-                <h1 class="hero-program__title" >{{ node.label }}</h1>
-              </div>
-              {% if content.field_link|field_value is not empty %}
-              <div class="col-12 order-md-2 hero-program__link">
-                <div class="hero-program__link-inner">
-                  {{ content.field_link }}
-                </div>
-              </div>
-              {% endif %}
-              <div class="col-12 order-md-1">
-                {{ content.body }}
-              </div>
+          <div class="col-10 offset-1 basic-hero__title">
+            <div class="basic-hero__title-inner">
+              <h1>{{ label }}</h1>
             </div>
           </div>
         </div>
+      </section>
+    {% endif %}
+    {# Body and side bar #}
+    <section class="row news__body">
+
+      <div class="{{ (has_sidebar == TRUE) ? 'col-md-8' : 'col-12' }}">
+        {{ content.body }}
       </div>
+
     </section>
-    <section class="row landing-page__content">
-      <div class="col-md-10 offset-md-1">
-        <div class="row">
-          
-          {# Stick sidebar region #}
-          {% if sticky_sidebar %}
-          <div class="col-lg-2 sticky_sidebar">
-            {{ sticky_sidebar }}
-          </div>
+
+    <div class="row component-paragraph contact-cta">
+      <div class="col-md-6 contact-cta__contact">
+        <h5>Contact Information</h5>
+        <div class="contact-cta__contact--fullname">{{ content.field_full_name }}</div>
+        <ul class="list-inline">
+          {% if content.field_email|field_value is not empty %}
+          <li class="list-inline-item">Email: {{ content.field_email }}</li>
           {% endif %}
-
-          <div class="{{ sticky_sidebar ? 'col-lg-10' : 'col-12' }} landing-page__content-components">
-            
-            {# Home Flexible feature paragraphs #}
-            {{ content.field_flexible_features }}
-
-            {{ content.field_contact_info }}
-
-          </div>
-        </div>
+          {% if content.field_phone|field_value is not empty %}
+          <li class="list-inline-item">Phone: {{ content.field_phone }}</li>
+          {% endif %}
+        </ul>
       </div>
-    </section>
+      <div class="col-md-6 contact-cta__social">
+        <h5>Share This Event</h5>
+        <div>{{ content.addtoany }}</div>
+      </div>
+    </div>
   </div>
 </article>
