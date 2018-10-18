@@ -29,8 +29,9 @@ class BlogEntry extends SqlBase {
 
     // Selections.
     $query->leftjoin('field_data_body', 'n', 'n.entity_id = f.nid');
-    $query->leftjoin('field_data_blog_by_line', 'j', 'j.entity_id = f.nid');
-    $query->leftjoin('field_data_mba_blog_categories', 'k', 'k.entity_id = f.nid');
+    $query->leftjoin('field_data_field_blog_by_line', 'j', 'j.entity_id = f.nid');
+    $query->leftjoin('field_data_field_mba_blog_categories', 'k', 'k.entity_id = f.nid');
+    $query->leftjoin('field_data_field_news_teaser', 'p', 'p.entity_id = f.nid');
 
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
@@ -57,6 +58,9 @@ class BlogEntry extends SqlBase {
 
     $fields['blog_categories'] = $this->t('blog_categories');
     $fields['mba_blog_categories'] = $this->t('mba_blog_categories');
+
+    $fields['news_teaser'] = $this->t('news_teaser');
+    $fields['teaser'] = $this->t('teaser');
 
     return $fields;
   }
@@ -96,6 +100,13 @@ class BlogEntry extends SqlBase {
     foreach ($result as $record) {
       $row->setSourceProperty('mba_blog_categories', $record->field_mba_blog_categories_tid );
       $row->setSourceProperty('blog_categories', $record->field_mba_blog_categories_tid );
+    }
+
+    // news_teaser to field_teaser
+    $result = $this->_getCustomField( 'news_teaser', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('news_teaser', $record->field_news_teaser_value );
+      $row->setSourceProperty('teaser', $record->field_news_teaser_value );
     }
     
     // alias
