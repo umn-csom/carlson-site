@@ -131,7 +131,7 @@ gulp.task('watch', ['sass'], function() {
       'scss/**/**/*.scss',
       'templates/components/*.twig',
     ],
-    ['sass', 'refresh-sass']
+    ['sass']
   );
 });
 
@@ -144,4 +144,4 @@ gulp.task('compile:styleguide', function (cb) {
 gulp.task('refresh-sass', shell.task('npm run kss'));
 
 // Default.
-gulp.task('default', ['js','compile:styleguide','refresh-sass','serve']);
+gulp.task('default', ['js','sass','watch']);
