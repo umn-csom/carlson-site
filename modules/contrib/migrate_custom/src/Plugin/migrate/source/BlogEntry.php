@@ -29,6 +29,8 @@ class BlogEntry extends SqlBase {
 
     // Selections.
     $query->leftjoin('field_data_body', 'n', 'n.entity_id = f.nid');
+    $query->leftjoin('field_data_blog_by_line', 'j', 'j.entity_id = f.nid');
+    $query->leftjoin('field_data_mba_blog_categories', 'k', 'k.entity_id = f.nid');
 
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
@@ -49,7 +51,13 @@ class BlogEntry extends SqlBase {
    */
   public function fields() {
     $fields = $this->baseFields();
+
     $fields['body'] = $this->t('body');
+    $fields['blog_by_line'] = $this->t('blog_by_line');
+
+    $fields['blog_categories'] = $this->t('blog_categories');
+    $fields['mba_blog_categories'] = $this->t('mba_blog_categories');
+
     return $fields;
   }
 
@@ -69,6 +77,25 @@ class BlogEntry extends SqlBase {
     foreach ($result as $record) {
       $row->setSourceProperty('body', $record->body_value );
       $row->setSourceProperty('body/0/value', $record->body_value );
+    }
+
+    // blog_by_line
+    $result = $this->_getCustomField( 'blog_by_line', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('blog_by_line', $record->field_blog_by_line_value );
+    }
+
+    // type to blog_group
+    $result = $this->_getCustomField( 'blog_group', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('blog_group', $record->type );
+    }
+
+    // mba_blog_categories to blog_categories
+    $result = $this->_getTaxonomyId( 'mba_blog_categories', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('mba_blog_categories', $record->field_mba_blog_categories_tid );
+      $row->setSourceProperty('blog_categories', $record->field_mba_blog_categories_tid );
     }
     
     // alias
@@ -137,12 +164,38 @@ class BlogEntry extends SqlBase {
     return $query->execute()->fetchField();
   }
 
+  private function _getCustomField($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_value
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
   private function _getBody($nid) {
     $result = $this->getDatabase()->query('
       SELECT
         fld.body_value
       FROM
         {field_data_body} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
+  private function _getTaxonomyId($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_tid
+      FROM
+        {field_data_field_' . $value . '} fld
       WHERE
         fld.entity_id = :nid
     ', array(':nid' => $nid));
