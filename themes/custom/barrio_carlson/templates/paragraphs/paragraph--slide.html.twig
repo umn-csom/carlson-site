@@ -7,11 +7,12 @@
 
 {% block paragraph %}
   {% block content %}
-    {% include directory ~ '/templates/components/slide.html.twig' with 
-      {
-        'slide_img_src': img|field_value,
-        'slide_caption': content.field_slide_caption|field_value,
-      } 
-    %}
+    <div class="slide">
+      <div class="text-center">
+        <div class="slide__img">
+            {{ content.field_slide_image }}
+        </div>
+      </div>
+    </div>
   {% endblock %}
 {% endblock paragraph %}
