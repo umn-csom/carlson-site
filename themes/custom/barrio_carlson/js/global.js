@@ -56,6 +56,11 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
 
     $(document).on('click', '.overlay', function(e) {
         $('.we-mega-menu-ul').removeClass('slide-left');
+        $('.carlson-nav .navbar .container-fluid').css('min-height', 'inherit');
+    });
+
+    $('.navbar-toggle').on('click', function(e) {
+        $('.carlson-nav .navbar .container-fluid').css('min-height', '1100px');
     });
 
     $(document).on('click', '.mobile-third-tier-menu__back-btn', function(e) {

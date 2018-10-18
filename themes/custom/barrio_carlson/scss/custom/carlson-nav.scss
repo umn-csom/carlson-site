@@ -41,7 +41,6 @@
         }
 
         .navbar {
-            padding-bottom: 180px;
             background: $white;
             height: 100%;
             width: 100%;
@@ -57,10 +56,17 @@
             &.we-mobile-megamenu-active {
                 left: 0;
                 opacity: 1;
+                overflow-x: hidden;
             }
 
             @include media-breakpoint-up(sm) {
                 top: 155px;
+            }
+
+            .container-fluid {
+                &.expand {
+                    min-height: 1150px; 
+                }
             }
 
             @include media-breakpoint-up(lg) {
@@ -79,6 +85,7 @@
                 .container-fluid {
                     justify-content: flex-end;
                     width: initial;
+                    min-height: inherit;
 
                     @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
                         justify-content: space-around;
@@ -171,18 +178,6 @@
                             list-style: none;
                             border: none;
 
-                            &:after {
-                                content: '';
-                                @include plus-icon($menu-gold);
-                                margin-top: -13px;
-                                left: 0;
-
-                                @include media-breakpoint-up(lg) {
-                                    background: none;
-                                    display: none;
-                                }
-                            }
-
                             @include media-breakpoint-up(lg) {
                                 width: 100%!important;
                             }
@@ -261,7 +256,7 @@
                             .we-mega-menu-submenu {
                                 top: -4000px;
                                 left: 105%;
-                                position: absolute;
+                                position: fixed;
                                 transition: opacity .35s;
                                 opacity: 0;
                                 width: 100%!important;
@@ -289,13 +284,13 @@
                                 
                                 &.slide-in {
                                     transition-delay: .25s;
-                                    top: 0!important;
+                                    top: 50px!important;
                                     opacity: 1;
                                 }
 
                                 &.fade-out {
                                     transition-delay: .45s;
-                                    top: 0!important;
+                                    top: 50px!important;
                                     opacity: 0;
                                 }
 
@@ -373,7 +368,6 @@
                             
                             &:after {
                                 content: '';
-                                @include minus-icon($menu-gold);
                                 margin-top: -2px;
                             }
                         }
@@ -419,7 +413,7 @@
 
 .btn-close {
     top: 90px;
-    right: 7px;
+    right: 6px;
     background: $white;
     box-shadow: none;
     width: 70px;
@@ -496,8 +490,38 @@
     }
 }
 
-// Specific styles applied when the class: '.third-tier' is applied.
+// Specific styles applied when the class: '.third-tier' or '.two-tier' is applied.
 .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li {
+
+    &:before {
+        content: '';
+        position: absolute;
+        @include plus-icon($menu-gold);
+        margin-top: 19px;
+
+        @include media-breakpoint-up(lg) {
+            background: none;
+        }
+    }
+
+    &.open {
+        &:before {
+            content: '';
+            position: absolute;
+            @include minus-icon($menu-gold);
+            margin-top: 30px;
+    
+            @include media-breakpoint-up(lg) {
+                background: none;
+            }
+        }
+    }
+
+    .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li {
+        &:before {
+            background: none;
+        }
+    }
 
     &.two-tier {
         .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
@@ -652,7 +676,6 @@
             a.we-mega-menu-li {
                 &:before {
                     content: '';
-                    @include minus-icon($menu-gold);
                     background-size: 100%;
                     background-repeat: no-repeat;
                     width: 100%;
@@ -737,7 +760,11 @@ body {
 }
 
 .navbar-we-mega-menu.navbar ul>li ul {
-    padding-left: 20px;
+    padding-left: 18px;
+
+    @include media-breakpoint-up(lg) {
+        padding-left: 20px;
+    }
 }
 
 .block-we-megamenu {

@@ -57,7 +57,7 @@
       var targetWrapper = $(this).closest('div.region-we-mega-menu').find('nav.navbar-we-mega-menu');
       var wrapper = $(settings.pageSelector);
       var isiOSSafari = (navigator.userAgent.match(/like Mac OS X/i)) ? true: false;
-      var wrapperPosition = (isiOSSafari) ? 'fixed': 'relative';
+      var wrapperPosition = 'fixed';
 
       if (!wrapper.hasClass(settings.toggledClass)) {
         wrapper.addClass(settings.toggledClass).css('position', wrapperPosition);
@@ -73,6 +73,7 @@
           $('body').css('btn-close', 'hidden');
           $('body').css('height', '100%');
           $('body').css('position', wrapperPosition);
+          $('body').css('left', '0');
         }
         if (wrapper.find('.btn-close').length == 0) {
           var btnClose = $('<span class="btn-close"><label>CLOSE</label></span>');
