@@ -1,6 +1,10 @@
 
 
 .carlson-nav {
+    border-bottom: 1px solid $menu-line-grey;
+    min-height: 110px;
+    background: $white;
+
     @include media-breakpoint-up(lg) {
         max-width: 1600px;
         margin: auto;
@@ -209,14 +213,17 @@
                             transition: none;
                             width: 100%;
                             position: fixed;
-                            padding-top: 20px;
+                            padding-top: 35px;
                             left: 0;
                             top: 94px;
-
+                            
                             .we-mega-menu-submenu-inner {
                                 @include box-shadow-a();
                                 background: $white;
                                 min-height: 500px;
+                                border-top: 1px solid $menu-line-grey;
+                                border-left: 40px solid white;
+                                border-right: 40px solid white;
 
                                 .we-mega-menu-row {
                                     padding-top: 10px;
@@ -233,6 +240,10 @@
                                                 .we-mega-menu-submenu {
                                                     z-index: 1;
                                                     .we-mega-menu-submenu-inner {
+                                                        border-top: none;
+                                                        border-left: none;
+                                                        border-right: none;
+
                                                         .we-mega-menu-row {
                                                             padding-top: 0;
                                                         }
@@ -716,6 +727,7 @@
 }
 
 body {
+
     &.toggled {
         right: 0;
     }
