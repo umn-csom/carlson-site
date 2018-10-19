@@ -90,10 +90,7 @@ class BlogEntry extends SqlBase {
     }
 
     // type to blog_group
-    $result = $this->_getCustomField( 'blog_group', $nid );
-    foreach ($result as $record) {
-      $row->setSourceProperty('blog_group', $record->type );
-    }
+    $row->setSourceProperty('blog_group', $record->type );
 
     // mba_blog_categories to blog_categories
     $result = $this->_getTaxonomyId( 'mba_blog_categories', $nid );

@@ -29,6 +29,7 @@ class Page extends SqlBase {
 
     // Selections.
     $query->leftjoin('field_data_body', 'n', 'n.entity_id = f.nid');
+    $query->leftjoin('field_data_field_ec_section', 'j', 'j.entity_id = f.nid');
 
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
@@ -43,6 +44,10 @@ class Page extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
     $fields['body'] = $this->t('body');
+
+    $fields['ec_section'] = $this->t('ec_section');
+    $fields['section'] = $this->t('section');
+
     return $fields;
   }
 
@@ -68,6 +73,12 @@ class Page extends SqlBase {
     $alias = $this->_setAliasPath( $nid );
     if ( !empty($alias) ) {
       $row->setSourceProperty('alias', '/' . $alias);
+    }
+
+    // ec_section to section
+    $result = $this->_getEntityReference( 'ec_section', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('section', $record->field_ec_section_target_id );
     }
 
     return parent::prepareRow($row);
@@ -136,6 +147,19 @@ class Page extends SqlBase {
         fld.body_value
       FROM
         {field_data_body} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
+  private function _getEntityReference($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_target_id
+      FROM
+        {field_data_field_' . $value . '} fld
       WHERE
         fld.entity_id = :nid
     ', array(':nid' => $nid));
