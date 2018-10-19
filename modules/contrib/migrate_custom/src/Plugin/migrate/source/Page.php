@@ -30,6 +30,8 @@ class Page extends SqlBase {
     // Selections.
     $query->leftjoin('field_data_body', 'n', 'n.entity_id = f.nid');
     $query->leftjoin('field_data_field_ec_section', 'j', 'j.entity_id = f.nid');
+    $query->leftjoin('field_data_field_menu_position_rule', 'r', 'r.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_category', 's', 's.entity_id = f.nid');
 
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
@@ -47,6 +49,12 @@ class Page extends SqlBase {
 
     $fields['ec_section'] = $this->t('ec_section');
     $fields['section'] = $this->t('section');
+
+    $fields['menu_position_rule'] = $this->t('menu_position_rule');
+    $fields['menu_rule'] = $this->t('menu_rule');
+
+    $fields['event_category'] = $this->t('event_category');
+    $fields['event_channels'] = $this->t('event_channels');
 
     return $fields;
   }
@@ -79,6 +87,20 @@ class Page extends SqlBase {
     $result = $this->_getEntityReference( 'ec_section', $nid );
     foreach ($result as $record) {
       $row->setSourceProperty('section', $record->field_ec_section_target_id );
+    }
+
+    // event_category to event_channels
+    $result = $this->_getTaxonomyId( 'event_category', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('event_category', $record->field_event_category_tid );
+      $row->setSourceProperty('event_channels', $record->field_event_category_tid );
+    }
+
+    // menu_position_rule to menu_rule
+    $result = $this->_getTaxonomyId( 'menu_position_rule', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('menu_position_rule', $record->field_menu_position_rule_tid );
+      $row->setSourceProperty('menu_rule', $record->field_menu_position_rule_tid );
     }
 
     return parent::prepareRow($row);
@@ -158,6 +180,19 @@ class Page extends SqlBase {
     $result = $this->getDatabase()->query('
       SELECT
         fld.field_' . $value . '_target_id
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
+  private function _getTaxonomyId($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_tid
       FROM
         {field_data_field_' . $value . '} fld
       WHERE

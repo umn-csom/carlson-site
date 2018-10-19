@@ -175,8 +175,6 @@ class ExecutiveEdProgram extends SqlBase {
     // menu_position_rule to menu_rule
     $result = $this->_getTaxonomyId( 'menu_position_rule', $nid );
     foreach ($result as $record) {
-      var_dump($record->field_menu_position_rule_tid);
-
       $row->setSourceProperty('menu_position_rule', $record->field_menu_position_rule_tid );
       $row->setSourceProperty('menu_rule', $record->field_menu_position_rule_tid );
     }
