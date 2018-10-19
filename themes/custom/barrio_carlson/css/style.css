@@ -10227,6 +10227,80 @@ nav.tabs {
   margin-left: auto;
   margin-right: auto; }
 
+/* GENERAL STYLES
+-------------------------------------------------*/
+html {
+  font-size: 62.5%; }
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: "Lato", Arial, Verdana, sans-serif;
+  color: #363230;
+  font-size: 1.6rem;
+  line-height: 3rem; }
+
+.container {
+  max-width: 1600px; }
+
+/* COLORS
+--------------------------------------------------*/
+a {
+  color: #7a0019;
+  font-size: 1.6rem; }
+
+hr {
+  margin-top: 2rem;
+  margin-bottom: 2rem; }
+
+.img-fluid {
+  width: 100%; }
+
+.bg-inverse {
+  background: #A8CF45 !important; }
+
+.site-footer {
+  background: #7a0019 !important; }
+
+.menu--main li a {
+  color: #A8CF45; }
+
+.menu--account li a {
+  color: #A8CF45; }
+
+.site-name-slogan a {
+  text-decoration: none; }
+
+.card-group img {
+  margin: 0;
+  width: 100%;
+  height: auto; }
+
+.card-group .field--type-image {
+  margin: 0; }
+
+.kss-style, .kss-style pre, .kss-style code, .kss-style kbd, .kss-style samp, .kss-nav__menu-item {
+  font-size: 1.4rem !important;
+  line-height: 1.8rem !important; }
+
+[class^="col"] {
+  transition: all 0.3s ease-in-out; }
+
+.slick-prev {
+  z-index: 1; }
+
+.slick-slide {
+  outline: none; }
+
+#icons {
+  display: none; }
+
+.node__content {
+  font-size: 1.4rem; }
+  @media (min-width: 768px) {
+    .node__content {
+      font-size: 1.6rem; } }
+
 /**
  * @file
  * Bootstrap Barrio specific styling for the Book module.
@@ -12142,14 +12216,18 @@ img {
   /** Education Degrees - Block. **/ }
   .faculty-profile__top--headshot img {
     width: 100%;
-    height: auto; }
+    height: auto;
+    -webkit-box-shadow: 0 15px 60px 0 rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 15px 60px 0 rgba(0, 0, 0, 0.3);
+    box-shadow: 0 15px 60px 0 rgba(0, 0, 0, 0.3); }
   .faculty-profile__top--name {
     font-family: "Crimson Text", serif;
     word-break: break-word;
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem; }
+    margin-bottom: 2.4rem;
+    margin-top: 2rem; }
     @media (min-width: 768px) {
       .faculty-profile__top--name {
         font-size: 4.8rem;
@@ -12161,163 +12239,226 @@ img {
       display: block;
       background: #7a0019;
       margin-top: 1.6rem; }
+    @media (min-width: 768px) {
+      .faculty-profile__top--name {
+        margin-top: 0; } }
   .faculty-profile__top--title {
-    color: #363230;
-    font-family: "Lato", Arial, Verdana, sans-serif;
-    font-size: 16px;
-    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.78px; }
+    letter-spacing: 0.178rem;
+    font-weight: 700; }
   .faculty-profile__top--dept {
-    color: #363230;
-    font-family: "Lato", Arial, Verdana, sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    line-height: 20px; }
-  .faculty-profile__top--summary {
-    color: #363230;
-    font-family: "Lato", Arial, Verdana, sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 30px; }
-  .faculty-profile__contact {
-    word-break: break-word; }
-    .faculty-profile__contact--phone {
-      font-style: italic; }
-  .faculty-profile__degree--type {
-    font-weight: bold; }
+    font-weight: 700; }
+  .faculty-profile__experience h2, .faculty-profile__contact h2 {
+    font-family: "Crimson Text", serif;
+    word-break: break-word;
+    font-size: 3.4rem;
+    line-height: 2.8rem;
+    position: relative;
+    margin-bottom: 2.4rem;
+    margin-top: 2rem; }
+    @media (min-width: 768px) {
+      .faculty-profile__experience h2, .faculty-profile__contact h2 {
+        font-size: 4.8rem;
+        line-height: 4.8rem; } }
+  .faculty-profile__about {
+    margin-bottom: 4rem; }
+    .faculty-profile__about h2 {
+      font-family: "Crimson Text", serif;
+      word-break: break-word;
+      font-size: 3.4rem;
+      line-height: 2.8rem;
+      position: relative;
+      margin-bottom: 2.4rem;
+      margin-top: 4rem; }
+      @media (min-width: 768px) {
+        .faculty-profile__about h2 {
+          font-size: 4.8rem;
+          line-height: 4.8rem; } }
+  .faculty-profile__contact--address {
+    padding-left: 2.5rem;
+    position: relative;
+    line-height: 3rem; }
+    .faculty-profile__contact--address::before {
+      background: url("data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2222%22%20height%3D%2232%22%20viewBox%3D%220%200%2022%2032%22%20fill%3D%22%237a0019%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%237a0019%22%20stroke-width%3D%221.6842%22%20stroke-miterlimit%3D%224%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22miter%22%20d%3D%22M11.158%2032c6.316-10.407%209.474-17.354%209.474-20.842%200-5.232-4.242-9.474-9.474-9.474s-9.474%204.242-9.474%209.474c0%203.488%203.158%2010.435%209.474%2020.842z%22%3E%3C%2Fpath%3E%3Cpath%20d%3D%22M13.474%2010.947c0%201.395-1.131%202.526-2.526%202.526s-2.526-1.131-2.526-2.526c0-1.395%201.131-2.526%202.526-2.526s2.526%201.131%202.526%202.526z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+      background-size: 70%;
+      background-repeat: no-repeat;
+      width: 35px;
+      height: 25px;
+      content: '';
+      height: 1.8rem;
+      width: 1.2rem;
+      background-size: contain;
+      position: absolute;
+      margin-left: -2.5rem;
+      margin-top: 0.6rem; }
+      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        .faculty-profile__contact--address::before {
+          background: url("../images/svg/map-icon.svg"); } }
+  .faculty-profile__contact--phone {
+    padding-left: 2.5rem;
+    position: relative;
+    line-height: 3rem; }
+    .faculty-profile__contact--phone::before {
+      background: url("data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2219%22%20height%3D%2232%22%20viewBox%3D%220%200%2019%2032%22%20fill%3D%22none%22%20stroke%3D%22%237a0019%22%20stroke-width%3D%221.28%22%20stroke-miterlimit%3D%224%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22miter%22%3E%3Cpath%20d%3D%22M3.2%200.64h12.8c1.414%200%202.56%201.146%202.56%202.56v25.6c0%201.414-1.146%202.56-2.56%202.56h-12.8c-1.414%200-2.56-1.146-2.56-2.56v-25.6c0-1.414%201.146-2.56%202.56-2.56z%22%3E%3C%2Fpath%3E%3Cpath%20stroke-linecap%3D%22square%22%20d%3D%22M7.040%203.2h5.12%22%3E%3C%2Fpath%3E%3Cpath%20d%3D%22M10.88%2027.52c0%200.707-0.573%201.28-1.28%201.28s-1.28-0.573-1.28-1.28c0-0.707%200.573-1.28%201.28-1.28s1.28%200.573%201.28%201.28z%22%3E%3C%2Fpath%3E%3Cpath%20d%3D%22M3.2%207.040h12.8v16.64h-12.8v-16.64z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+      background-size: 70%;
+      background-repeat: no-repeat;
+      width: 35px;
+      height: 25px;
+      content: '';
+      height: 1.8rem;
+      width: 1.2rem;
+      background-size: contain;
+      position: absolute;
+      margin-left: -2.5rem;
+      margin-top: 0.6rem; }
+      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        .faculty-profile__contact--phone::before {
+          background: url("../images/svg/phone-icon.svg"); } }
+  .faculty-profile__contact--email {
+    padding-left: 2.5rem;
+    position: relative;
+    line-height: 3rem; }
+    .faculty-profile__contact--email::before {
+      background: url("data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2243%22%20height%3D%2232%22%20viewBox%3D%220%200%2043%2032%22%20fill%3D%22none%22%20stroke%3D%22%237a0019%22%20stroke-width%3D%222.2857%22%20stroke-miterlimit%3D%224%22%20stroke-linejoin%3D%22miter%22%3E%3Cpath%20stroke-linecap%3D%22butt%22%20d%3D%22M1.143%201.143v29.714h41.143v-29.714h-41.143z%22%3E%3C%2Fpath%3E%3Cpath%20stroke-linecap%3D%22square%22%20d%3D%22M1.693%2023.598l12.74-8.466%22%3E%3C%2Fpath%3E%3Cpath%20stroke-linecap%3D%22square%22%20d%3D%22M41.861%2023.598l-12.74-8.466%22%3E%3C%2Fpath%3E%3Cpath%20stroke-linecap%3D%22butt%22%20d%3D%22M1.298%208.011l20.444%209.825%2020.444-10.011%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+      background-size: 70%;
+      background-repeat: no-repeat;
+      width: 35px;
+      height: 25px;
+      content: '';
+      height: 1.8rem;
+      width: 1.2rem;
+      background-size: contain;
+      position: absolute;
+      margin-left: -2.5rem;
+      margin-top: 0.6rem;
+      margin-top: 1.2rem; }
+      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        .faculty-profile__contact--email::before {
+          background: url("../images/svg/email-icon.svg"); } }
+  .faculty-profile__contact--cvc {
+    padding-left: 2.5rem;
+    position: relative;
+    line-height: 3rem; }
+    .faculty-profile__contact--cvc::before {
+      background: url("data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2219%22%20height%3D%2232%22%20viewBox%3D%220%200%2019%2032%22%20fill%3D%22none%22%3E%3Cpath%20stroke%3D%22%237a0019%22%20stroke-width%3D%221.3913%22%20stroke-miterlimit%3D%224%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22miter%22%20d%3D%22M0.696%200.696v23.652h18.087v-18.402l-4.421-5.25h-13.665z%22%3E%3C%2Fpath%3E%3Cpath%20stroke%3D%22%237a0019%22%20stroke-width%3D%221.3913%22%20stroke-miterlimit%3D%224%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22miter%22%20d%3D%22M13.646%200.93v5.345h4.783%22%3E%3C%2Fpath%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M5.565%2023.652h6.957v1.391h-6.957v-1.391z%22%3E%3C%2Fpath%3E%3Cpath%20stroke%3D%22%237a0019%22%20stroke-width%3D%221.3913%22%20stroke-miterlimit%3D%224%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22miter%22%20d%3D%22M5.565%2027.13l3.645%203.645%203.645-3.645%22%3E%3C%2Fpath%3E%3Cpath%20stroke%3D%22%237a0019%22%20stroke-width%3D%221.3913%22%20stroke-miterlimit%3D%224%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22miter%22%20d%3D%22M9.043%2029.913v-13.913%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+      background-size: 70%;
+      background-repeat: no-repeat;
+      width: 35px;
+      height: 25px;
+      content: '';
+      height: 1.8rem;
+      width: 1.2rem;
+      background-size: contain;
+      position: absolute;
+      margin-left: -2.5rem;
+      margin-top: 0.6rem; }
+      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        .faculty-profile__contact--cvc::before {
+          background: url("../images/svg/download-icon.svg"); } }
+  .faculty-profile__contact--link {
+    padding-left: 2.5rem;
+    position: relative;
+    line-height: 3rem; }
+    .faculty-profile__contact--link::before {
+      background: url("data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22%237a0019%22%3E%3Cpath%20d%3D%22M7.731%2018.173l-4.557%204.038c-0.943%200.943-0.953%202.461-0.023%203.391l3.348%203.348c0.93%200.93%202.448%200.92%203.391-0.023l8.491-8.491c0.943-0.943%200.953-2.461%200.023-3.391l-2.707-2.706%201.707-1.707%202.707%202.706c1.86%201.86%201.84%204.896-0.046%206.782l-8.491%208.491c-1.885%201.885-4.922%201.906-6.782%200.046l-3.348-3.348c-1.86-1.86-1.839-4.896%200.046-6.782l5.708-5.189c-0.013%200.792%200.004%201.353%200.052%201.682s0.208%200.714%200.48%201.154z%22%3E%3C%2Fpath%3E%3Cpath%20d%3D%22M23.502%2015.126l4.862-4.673c0.943-0.943%200.953-2.461%200.023-3.391l-3.348-3.348c-0.93-0.93-2.448-0.92-3.391%200.023l-8.491%208.491c-0.943%200.943-0.953%202.461-0.023%203.391l2.541%202.343-1.707%201.707-2.541-2.343c-1.86-1.86-1.839-4.896%200.046-6.782l8.491-8.491c1.885-1.885%204.922-1.906%206.782-0.046l3.348%203.348c1.86%201.86%201.84%204.896-0.046%206.782l-6.013%205.825c0.013-0.792-0.004-1.353-0.052-1.682s-0.208-0.714-0.48-1.153z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+      background-size: 70%;
+      background-repeat: no-repeat;
+      width: 35px;
+      height: 25px;
+      content: '';
+      height: 1.8rem;
+      width: 1.2rem;
+      background-size: contain;
+      position: absolute;
+      margin-left: -2.5rem;
+      margin-top: 0.6rem;
+      margin-top: 1rem; }
+      @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        .faculty-profile__contact--link::before {
+          background: url("../images/svg/link-icon.svg"); } }
+  .faculty-profile__works h2 {
+    font-family: "Crimson Text", serif;
+    word-break: break-word;
+    font-size: 3.4rem;
+    line-height: 2.8rem;
+    position: relative;
+    margin-bottom: 2.4rem;
+    margin-top: 2rem; }
+    @media (min-width: 768px) {
+      .faculty-profile__works h2 {
+        font-size: 4.8rem;
+        line-height: 4.8rem; } }
+    .faculty-profile__works h2:after {
+      content: '';
+      height: 2px;
+      width: 100px;
+      display: block;
+      background: #FFCC33;
+      margin: 1.6rem auto 0 auto; }
+  .faculty-profile__expertise, .faculty-profile__education {
+    list-style: none; }
+    .faculty-profile__expertise--item, .faculty-profile__education--item {
+      line-height: 2.5rem; }
+      .faculty-profile__expertise--item::before, .faculty-profile__education--item::before {
+        background: url("data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%3E%3Cpath%20fill%3D%22%237a0019%22%20d%3D%22M16%201.601l14.399%2014.399-14.399%2014.399-14.399-14.399%2014.399-14.399z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+        background-size: 70%;
+        background-repeat: no-repeat;
+        width: 35px;
+        height: 25px;
+        content: '';
+        height: 1.8rem;
+        width: 1.2rem;
+        background-size: contain;
+        position: absolute;
+        margin-left: -2.5rem;
+        margin-top: 0.6rem;
+        width: 0.7rem;
+        height: 0.7rem;
+        margin-top: 0.9rem;
+        margin-left: -1.5rem; }
+      .faculty-profile__expertise--item--type, .faculty-profile__education--item--type {
+        font-weight: bold; }
   .faculty-profile__experience {
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-top: 0px;
+    z-index: -1;
+    height: 100%;
+    position: relative;
     padding-top: 30px;
     padding-bottom: 30px;
-    background-color: #ffcc33;
-    position: relative;
-    height: 100%;
-    margin-top: -200px;
-    z-index: -1;
-    word-wrap: break-word; }
-    @media screen and (max-width: 991px) {
+    background-color: #ffcc33; }
+    @media (min-width: 768px) {
       .faculty-profile__experience {
-        margin-top: 0px;
-        background-image: url("../images/bg/experience_bg.png");
-        background-size: contain;
-        background-position: top left;
-        background-repeat: no-repeat; } }
+        word-wrap: break-word;
+        padding-top: 0;
+        margin-right: 0;
+        margin-left: 0; } }
+    @media (min-width: 1200px) {
+      .faculty-profile__experience {
+        padding-left: 12rem;
+        margin-top: -150px;
+        padding-top: 30px;
+        padding-bottom: 150px; } }
     .faculty-profile__experience:before {
       content: '';
       position: absolute;
-      left: -8.3333%;
-      top: 0;
+      left: 0;
+      top: -6.5rem;
       width: 100%;
       height: 100%;
-      background-color: #ffcc33;
       background-image: url("../images/bg/experience_bg.png");
       background-size: contain;
       background-position: top left;
-      background-repeat: no-repeat; }
-      @media screen and (max-width: 991px) {
+      background-repeat: no-repeat;
+      -webkit-transform: rotate(90deg);
+      transform: rotate(90deg); }
+      @media (min-width: 768px) {
         .faculty-profile__experience:before {
-          display: none; } }
-    .faculty-profile__experience h2 {
-      color: #363230;
-      font-family: "Crimson Text", serif;
-      font-size: 48px;
-      font-weight: 400;
-      line-height: 42px;
-      margin-top: 10px;
-      margin-bottom: 20px; }
-  .faculty-profile__education, .faculty-profile__expertise {
-    list-style: none;
-    margin-left: 0px;
-    margin-bottom: 0px;
-    padding: 0; }
-    .faculty-profile__education li, .faculty-profile__expertise li {
-      margin: 0;
-      margin-bottom: 1em;
-      padding-left: 15px;
-      position: relative;
-      color: #363230;
-      font-family: "Lato", Arial, Verdana, sans-serif;
-      font-size: 16px;
-      font-weight: 400; }
-      .faculty-profile__education li:before, .faculty-profile__expertise li:before {
-        content: '';
-        height: .4em;
-        width: .4em;
-        background: #7a0019;
-        display: block;
-        position: absolute;
-        transform: rotate(45deg);
-        top: .52em;
-        left: 0; }
-  .faculty-profile__about {
-    margin-bottom: 30px; }
-    .faculty-profile__about h2 {
-      color: #363230;
-      font-family: "Crimson Text", serif;
-      font-size: 34px;
-      font-weight: 400;
-      line-height: 31px; }
-    .faculty-profile__about--summary {
-      color: #363230;
-      font-family: "Lato", Arial, Verdana, sans-serif;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 30px; }
-  .faculty-profile__contact {
-    word-break: break-word;
-    margin-top: 30px;
-    margin-bottom: 30px; }
-    .faculty-profile__contact h2 {
-      color: #363230;
-      font-family: "Crimson Text", serif;
-      font-size: 48px;
-      font-weight: 400;
-      line-height: 42px; }
-    .faculty-profile__contact--phone {
-      color: #7a0019;
-      font-family: "Lato", Arial, Verdana, sans-serif;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 30px; }
-      .faculty-profile__contact--phone a {
-        color: #7a0019; }
-    .faculty-profile__contact--email {
-      color: #363230;
-      font-family: "Lato", Arial, Verdana, sans-serif;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 30px; }
-      .faculty-profile__contact--email a {
-        color: #7a0019; }
-    .faculty-profile__contact--address {
-      color: #363230;
-      font-family: "Lato", Arial, Verdana, sans-serif;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 30px; }
-      .faculty-profile__contact--address a {
-        color: #7a0019; }
-    .faculty-profile__contact--cvc {
-      color: #363230;
-      font-family: "Lato", Arial, Verdana, sans-serif;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 30px; }
-      .faculty-profile__contact--cvc a {
-        color: #7a0019; }
-    .faculty-profile__contact--link {
-      color: #363230;
-      font-family: "Lato", Arial, Verdana, sans-serif;
-      font-size: 16px;
-      font-weight: 400;
-      line-height: 30px; }
-      .faculty-profile__contact--link a {
-        color: #7a0019; }
-  .faculty-profile .profile-content-wrapper {
-    margin-bottom: 200px; }
-    @media screen and (max-width: 991px) {
-      .faculty-profile .profile-content-wrapper {
-        margin-bottom: 30px; } }
+          top: 0;
+          background-position: top left;
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg); } }
 
 .student-profile {
   /** Top Profile - Block. **/ }
@@ -12479,72 +12620,3 @@ img {
 .views-ui-display-tab-actions .dropbutton .form-submit:hover,
 .views-ui-display-tab-actions .dropbutton .form-submit:focus {
   color: #7a0019; }
-
-/* GENERAL STYLES
--------------------------------------------------*/
-html {
-  font-size: 62.5%; }
-
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-family: "Lato", Arial, Verdana, sans-serif;
-  color: #363230;
-  font-size: 1.6rem; }
-
-.container {
-  max-width: 1600px; }
-
-/* COLORS
---------------------------------------------------*/
-a {
-  color: #7a0019;
-  font-size: 1.6rem; }
-
-.img-fluid {
-  width: 100%; }
-
-.bg-inverse {
-  background: #A8CF45 !important; }
-
-.site-footer {
-  background: #7a0019 !important; }
-
-.menu--main li a {
-  color: #A8CF45; }
-
-.menu--account li a {
-  color: #A8CF45; }
-
-.site-name-slogan a {
-  text-decoration: none; }
-
-.card-group img {
-  margin: 0;
-  width: 100%;
-  height: auto; }
-
-.card-group .field--type-image {
-  margin: 0; }
-
-.kss-style, .kss-style pre, .kss-style code, .kss-style kbd, .kss-style samp, .kss-nav__menu-item {
-  font-size: 1.4rem !important;
-  line-height: 1.8rem !important; }
-
-[class^="col"] {
-  transition: all 0.3s ease-in-out; }
-
-.slick-prev {
-  z-index: 1; }
-
-.slick-slide {
-  outline: none; }
-
-#icons {
-  display: none; }
-
-.node__content {
-  font-size: 1.4rem; }
-  @media (min-width: 768px) {
-    .node__content {
-      font-size: 1.6rem; } }

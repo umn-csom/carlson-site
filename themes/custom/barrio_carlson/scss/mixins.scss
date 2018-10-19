@@ -26,17 +26,19 @@ $value in $theme-colors {
     }
     position: relative;
     margin-bottom: 2.4rem;
-    &:after{
-        content: '';
-        height: 2px;
-        width: 100px;
-        display: block;
-        background: $color;
+    @if($color != 'none') {
+        &:after{
+            content: '';
+            height: 2px;
+            width: 100px;
+            display: block;
+            background: $color;
 
-        @if ($align == 'center') {
-            margin: 1.6rem auto 0 auto;
-        } @else {
-            margin-top: 1.6rem;
+            @if ($align == 'center') {
+                margin: 1.6rem auto 0 auto;
+            } @else {
+                margin-top: 1.6rem;
+            }
         }
     }
 }
@@ -100,11 +102,11 @@ $value in $theme-colors {
     @if($color == $menu-gold) {
         color: $slate;
     }@else {
-       color: $color; 
+       color: $color;
     }
     &:hover, &:active, &:focus{
       background: $color;
-      box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20); 
+      box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20);
       color: $white;
     }
 
@@ -182,6 +184,21 @@ $value in $theme-colors {
     height: 25px;
 }
 
+@mixin element-with-icon-before(){
+    padding-left: 2.5rem;
+    position: relative;
+    line-height: 3rem;
+}
+@mixin base-icon-before-content() {
+    content: '';
+    height: 1.8rem;
+    width: 1.2rem;
+    background-size: contain;
+    position: absolute;
+    margin-left: -2.5rem;
+    margin-top: 0.6rem;
+}
+
 @mixin plus-icon($color) {
     background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="' + $color + '"><path d="M15.059 15.059v-15.059h1.882v15.059h15.059v1.882h-15.059v15.059h-1.882v-15.059h-15.059v-1.882z"></path></svg>');
     @include base-icon();
@@ -237,10 +254,82 @@ $value in $theme-colors {
     }
 }
 
+@mixin download-icon($color, $background:'#fff') {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="19" height="32" viewBox="0 0 19 32" fill="none"><path stroke="'+$color+'" stroke-width="1.3913" stroke-miterlimit="4" stroke-linecap="butt" stroke-linejoin="miter" d="M0.696 0.696v23.652h18.087v-18.402l-4.421-5.25h-13.665z"></path><path stroke="'+$color+'" stroke-width="1.3913" stroke-miterlimit="4" stroke-linecap="butt" stroke-linejoin="miter" d="M13.646 0.93v5.345h4.783"></path><path fill="'+$background+'" d="M5.565 23.652h6.957v1.391h-6.957v-1.391z"></path><path stroke="'+$color+'" stroke-width="1.3913" stroke-miterlimit="4" stroke-linecap="butt" stroke-linejoin="miter" d="M5.565 27.13l3.645 3.645 3.645-3.645"></path><path stroke="#7a0019" stroke-width="1.3913" stroke-miterlimit="4" stroke-linecap="square" stroke-linejoin="miter" d="M9.043 29.913v-13.913"></path></svg>');
+    @include base-icon();
+    @include base-icon-before-content();
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        background: url('../images/svg/download-icon.svg');
+    }
+}
+
+@mixin edit-icon($color, $background: '#fff') {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="'+$color+'" d="M26.888 21.461l-5.92 5.92 10.105 4.186z"></path><path fill="'+$background+'" d="M14.458 3.739l-2.728-2.728-0.559 20.878 2.941 2.941z"></path><path fill="none" stroke="'+$color+'" stroke-width="1.6842" stroke-miterlimit="4" stroke-linecap="square" stroke-linejoin="miter" d="M23.639 20.066l-17.864-17.864-4.764 4.764 17.864 17.864"></path><path fill="none" stroke="'+$color+'" stroke-width="1.6842" stroke-miterlimit="4" stroke-linecap="square" stroke-linejoin="miter" d="M8.951 6.172l-3.97 3.97"></path></svg>');
+    @include base-icon();
+    @include base-icon-before-content();
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        background: url('../images/svg/edit-icon.svg');
+    }
+}
+
+@mixin email-icon($color) {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="43" height="32" viewBox="0 0 43 32" fill="none" stroke="'+$color+'" stroke-width="2.2857" stroke-miterlimit="4" stroke-linejoin="miter"><path stroke-linecap="butt" d="M1.143 1.143v29.714h41.143v-29.714h-41.143z"></path><path stroke-linecap="square" d="M1.693 23.598l12.74-8.466"></path><path stroke-linecap="square" d="M41.861 23.598l-12.74-8.466"></path><path stroke-linecap="butt" d="M1.298 8.011l20.444 9.825 20.444-10.011"></path></svg>');
+    @include base-icon();
+    @include base-icon-before-content();
+    margin-top: 1.2rem;
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        background: url('../images/svg/email-icon.svg');
+    }
+}
+
+@mixin link-icon($color) {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="'+$color+'"><path d="M7.731 18.173l-4.557 4.038c-0.943 0.943-0.953 2.461-0.023 3.391l3.348 3.348c0.93 0.93 2.448 0.92 3.391-0.023l8.491-8.491c0.943-0.943 0.953-2.461 0.023-3.391l-2.707-2.706 1.707-1.707 2.707 2.706c1.86 1.86 1.84 4.896-0.046 6.782l-8.491 8.491c-1.885 1.885-4.922 1.906-6.782 0.046l-3.348-3.348c-1.86-1.86-1.839-4.896 0.046-6.782l5.708-5.189c-0.013 0.792 0.004 1.353 0.052 1.682s0.208 0.714 0.48 1.154z"></path><path d="M23.502 15.126l4.862-4.673c0.943-0.943 0.953-2.461 0.023-3.391l-3.348-3.348c-0.93-0.93-2.448-0.92-3.391 0.023l-8.491 8.491c-0.943 0.943-0.953 2.461-0.023 3.391l2.541 2.343-1.707 1.707-2.541-2.343c-1.86-1.86-1.839-4.896 0.046-6.782l8.491-8.491c1.885-1.885 4.922-1.906 6.782-0.046l3.348 3.348c1.86 1.86 1.84 4.896-0.046 6.782l-6.013 5.825c0.013-0.792-0.004-1.353-0.052-1.682s-0.208-0.714-0.48-1.153z"></path></svg>');
+    @include base-icon();
+    @include base-icon-before-content();
+    margin-top: 1rem;
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        background: url('../images/svg/link-icon.svg');
+    }
+}
+
+@mixin map-icon($color) {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="22" height="32" viewBox="0 0 22 32" fill="'+$color+'"><path fill="none" stroke="'+$color+'" stroke-width="1.6842" stroke-miterlimit="4" stroke-linecap="butt" stroke-linejoin="miter" d="M11.158 32c6.316-10.407 9.474-17.354 9.474-20.842 0-5.232-4.242-9.474-9.474-9.474s-9.474 4.242-9.474 9.474c0 3.488 3.158 10.435 9.474 20.842z"></path><path d="M13.474 10.947c0 1.395-1.131 2.526-2.526 2.526s-2.526-1.131-2.526-2.526c0-1.395 1.131-2.526 2.526-2.526s2.526 1.131 2.526 2.526z"></path></svg>');
+    @include base-icon();
+    @include base-icon-before-content();
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        background: url('../images/svg/map-icon.svg');
+    }
+}
+
+@mixin phone-icon($color) {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="19" height="32" viewBox="0 0 19 32" fill="none" stroke="'+$color+'" stroke-width="1.28" stroke-miterlimit="4" stroke-linecap="butt" stroke-linejoin="miter"><path d="M3.2 0.64h12.8c1.414 0 2.56 1.146 2.56 2.56v25.6c0 1.414-1.146 2.56-2.56 2.56h-12.8c-1.414 0-2.56-1.146-2.56-2.56v-25.6c0-1.414 1.146-2.56 2.56-2.56z"></path><path stroke-linecap="square" d="M7.040 3.2h5.12"></path><path d="M10.88 27.52c0 0.707-0.573 1.28-1.28 1.28s-1.28-0.573-1.28-1.28c0-0.707 0.573-1.28 1.28-1.28s1.28 0.573 1.28 1.28z"></path><path d="M3.2 7.040h12.8v16.64h-12.8v-16.64z"></path></svg>');
+    @include base-icon();
+    @include base-icon-before-content();
+    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+        background: url('../images/svg/phone-icon.svg');
+    }
+}
+
+@mixin diamond-list-type($color) {
+    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path fill="'+$color+'" d="M16 1.601l14.399 14.399-14.399 14.399-14.399-14.399 14.399-14.399z"></path></svg>');
+    @include base-icon();
+    @include base-icon-before-content();
+    width: 0.7rem;
+    height: 0.7rem;
+    margin-top: 0.9rem;
+    margin-left: -1.5rem;
+}
+
 @mixin box-shadow-a() {
     -webkit-box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.2);
     -moz-box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.2);
     box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.2);
+}
+
+@mixin profile-image-box-shadow() {
+    -webkit-box-shadow: 0 15px 60px 0 rgba(0,0,0,0.30);
+    -moz-box-shadow: 0 15px 60px 0 rgba(0,0,0,0.30);
+    box-shadow: 0 15px 60px 0 rgba(0,0,0,0.30);
 }
 
 @mixin yellow-line() {
