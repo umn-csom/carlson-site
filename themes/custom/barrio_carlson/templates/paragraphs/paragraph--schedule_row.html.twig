@@ -49,25 +49,14 @@
 %}
 {% block paragraph %}
     {% block content %}
-    <div class="row component-paragraph carlson-advantages">
-      <div class="col-12 carlson-advantages__label">
-        <span>Carlson Advantage</span>
-      </div>
-      <div class="col-12 carlson-advantages__items">
-        <div class="row">
-        {% set data = content.field_column_item|field_value %}
-        {% set len = data|length %}
-        {% set divide = 12/len %}
-
-        {% for key,value in data %}
-          <div class="col-lg-{{ divide }} carlson-advantages__item">
-            {{ data[key] }}
-          </div>
-        {% endfor %}
+    <div class="col-12 schedule__row">
+      <div class="row schedule__item">
+        <div class="col-12 col-lg-3 schedule__item--time">
+          {{ content.field_schedule_time }}
         </div>
-      </div>        
-      <div class="col-12 carlson-advantages__label">
-        <span>Carlson Advantage</span>
+        <div class="col-12 col-lg-9 schedule__item--details">
+          {{ content.field_schedule_time_details }}
+        </div>
       </div>
     </div>
     {% endblock %}
