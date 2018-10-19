@@ -91,7 +91,7 @@
     {% if node.field_hero_media.isEmpty %}
       <section>
         <div class="row basic-hero">
-          <div class="col-11 col-md-12 basic-hero__title">
+          <div class="col-11 col-lg-12 basic-hero__title">
             <h1>{{ label }}</h1>
           </div>
         </div>
@@ -99,7 +99,7 @@
     {% else %}
       <section>
         <div class="row basic-hero">
-          <div class="col-md-12 basic-hero__img">
+          <div class="col-lg-12 basic-hero__img">
             {{ content.field_hero_media }}
           </div>
           <div class="col-10 offset-1 basic-hero__title">
@@ -110,17 +110,55 @@
         </div>
       </section>
     {% endif %}
-    {# Body and side bar #}
-    <section class="row news__body">
-
-      <div class="{{ (has_sidebar == TRUE) ? 'col-md-8' : 'col-12' }}">
-        {{ content.body }}
+    {# Event Details #}
+    <section class="row component-paragraph event__details">
+      <div class="col-12 col-lg-2 event__details--date">
+        {% if content.field_event_date|field_value is not empty %}
+        <div class="date">
+          <div class="date__start">
+            <div class="date__start--day">
+            {{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('day') }}
+            </div>
+            <div class="date__start--month">
+              {{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('month_long') }}
+            </div>
+          </div>    
+        </div>
+        {% endif %}
       </div>
-
+      <div class="col-12 col-lg-7">
+        <div class="row">
+          <div class="col-12 col-lg-6 event__details--time">
+            <span>Time: </span>{{ content.field_event_date }}
+          </div>
+          <div class="col-12 col-lg-6 event__details--cost">
+            <span>Cost: </span>{{ content.field_event_cost }}
+          </div>
+          <div class="col-12">
+            <span>Address: </span>{{ content.field_event_location }}
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-3">
+        {{ content.field_link }}
+      </div>
     </section>
 
+    {# Body #}
+    <section class="row component-paragraph event__body">
+      <div class="col-12">
+        {{ content.body }}
+      </div>
+    </section>
+
+    {% if content.field_google_map|field_value is not empty %}
+    <section class="row event__map">
+      {{ content.field_google_map }}
+    </section>
+    {% endif %}
+
     <div class="row component-paragraph contact-cta">
-      <div class="col-md-6 contact-cta__contact">
+      <div class="col-lg-6 contact-cta__contact">
         <h5>Contact Information</h5>
         <div class="contact-cta__contact--fullname">{{ content.field_full_name }}</div>
         <ul class="list-inline">
@@ -132,7 +170,7 @@
           {% endif %}
         </ul>
       </div>
-      <div class="col-md-6 contact-cta__social">
+      <div class="col-lg-6 text-center contact-cta__social">
         <h5>Share This Event</h5>
         <div>{{ content.addtoany }}</div>
       </div>

@@ -88,7 +88,7 @@ $value in $theme-colors {
 /* Button mixins */
 @mixin button() {
     padding: 1.5rem 2rem;
-    @include sans-serif-font($font-base);
+    font-size: $font-base;
     text-transform: uppercase;
     transition: all 0.3s ease-in-out;
 }
@@ -107,6 +107,7 @@ $value in $theme-colors {
       box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20); 
       color: $white;
     }
+
 }
 @mixin button-solid($color) {
     @include button();
@@ -119,6 +120,12 @@ $value in $theme-colors {
       box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20);
       color: $color;
     }
+}
+/** Inner page width settings for narrow and wide insets **/
+@mixin page-inset($inset) {
+    max-width: $inset;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /** SVG Icons. **/

@@ -4,8 +4,8 @@
  */
 
 .stats{
-  margin-bottom: 3rem;
-  padding: 3rem 0;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
   background-image: linear-gradient(180deg, #f7f4f2 0%, #ffffff 100%);
   &__heading {
     @include heading-title($font-medium, $gold, 'center');
@@ -21,9 +21,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-height: 300px;
   }
   &__single-value {
-    @include sans-serif-font(8rem);
+    @include sans-serif-font(6rem);
     font-weight: 400;
     color: $maroon;
     position: relative;
@@ -41,9 +42,10 @@
     font-style: italic;
   }
   @include media-breakpoint-up(md) {
-    padding: 3rem;
-    &__single {
-      min-height: 300px;
+    padding: 5rem 3rem 0 3rem;
+
+    &__single-value {
+      @include sans-serif-font(8rem);
     }
   }
 }

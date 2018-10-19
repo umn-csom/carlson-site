@@ -15,17 +15,17 @@
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'student-profile') }}>
     <div class="row">
-      <div class="col-md-10 offset-md-1">
+      <div class="col-lg-10 offset-lg-1">
         <section class="student-profile__top">
           <div class="row">
-            <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 col-lg-4">
                 {% if content.field_profile_img|field_value is not empty %}
                   <div class="student-profile__top--headshot">
                     {{ content.field_profile_img|field_value }}
                   </div>
                 {% endif %}
             </div>
-            <div class="col-sm-12 col-md-8 student-profile__top--wrap">
+            <div class="col-sm-12 col-lg-8 student-profile__top--wrap">
                 <h1 class="student-profile__top--name">
                   {{ node.label }}
                 </h1>
@@ -47,12 +47,12 @@
         {% if node.body.value|raw is not empty %}
           <section class="student-profile__about">
               <div class="row">
-                  <div class="col-12 col-md-9">
+                  <div class="col-12 col-lg-9">
                     <div class="student-profile__about--summary">
                       {{ node.body.value|raw }}
                     </div>
                   </div>
-                  <div class="col-12 col-md-3 student-profile__sidebar">
+                  <div class="col-12 col-lg-3 student-profile__sidebar">
                     <div>
                       <h3 class="student-profile__sidebar--label">About {{ content.field_first_name|field_value }}</h3>
 
