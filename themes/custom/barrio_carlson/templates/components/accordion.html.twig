@@ -24,14 +24,16 @@
             <div class="card-header">
                 <h5 class="mb-0">
                     {% if inc == 0 %}
+                        {% set collapsed = '' %}
                         {% set expanded = 'true' %}
                         {% set show = 'show' %}
                     {% else %}
+                        {% set collapsed = 'collapsed' %}
                         {% set expanded = 'false' %}
                         {% set show = '' %}
                     {% endif %}
 
-                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{ inc }}">
+                    <button class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{ inc }}">
                         {{ item.label }}
                     </button>
                 </h5>
