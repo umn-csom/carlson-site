@@ -81,74 +81,98 @@
         <a href="{{ url }}" rel="bookmark">{{ label }}</a>
       </h2>
     {% endif %}
-    {{ title_suffix }}    
+    {{ title_suffix }}
+
+
   </header>
 
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'ee-program', 'col') }}>
-    <section class="row ee-program__top">
-      <div class="col-lg-10 offset-lg-1">
-      {# Program Hero #}
-        <div class="row component-paragraph hero-program">
-          <div class="col-lg-7 hero-program__img">
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'event', 'col') }}>
+    {# Render hero with hero-basic component #}
+    {% if node.field_hero_media.isEmpty %}
+      <section>
+        <div class="row basic-hero">
+          <div class="col-11 col-lg-12 basic-hero__title">
+            <h1>{{ label }}</h1>
+          </div>
+        </div>
+      </section>
+    {% else %}
+      <section>
+        <div class="row basic-hero">
+          <div class="col-lg-12 basic-hero__img">
             {{ content.field_hero_media }}
           </div>
-          <div class="col-lg-5 col-sm-12 hero-program__content">
-            <div class="row">
-              <div class="col-12">
-                <h1 class="hero-program__title" >{{ node.label }}</h1>
-              </div>
-              <div class="col-12 order-lg-1">
-                {{ content.field_ee_program_teaser }}
-              </div>
+          <div class="col-10 offset-1 basic-hero__title">
+            <div class="basic-hero__title-inner">
+              <h1>{{ label }}</h1>
             </div>
+          </div>
+        </div>
+      </section>
+    {% endif %}
+    {# Event Details #}
+    <section class="row component-paragraph event__details">
+      <div class="col-12 col-lg-2 event__details--date">
+        {% if content.field_event_date|field_value is not empty %}
+        <div class="date">
+          <div class="date__start">
+            <div class="date__start--day">
+            {{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('day') }}
+            </div>
+            <div class="date__start--month">
+              {{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('month_long') }}
+            </div>
+          </div>    
+        </div>
+        {% endif %}
+      </div>
+      <div class="col-12 col-lg-7">
+        <div class="row">
+          <div class="col-12 col-lg-6 event__details--time">
+            <span>Time: </span>{{ content.field_event_date }}
+          </div>
+          <div class="col-12 col-lg-6 event__details--cost">
+            <span>Cost: </span>{{ content.field_event_cost }}
+          </div>
+          <div class="col-12">
+            <span>Address: </span>{{ content.field_event_location }}
           </div>
         </div>
       </div>
-    </section> 
+      <div class="col-12 col-lg-3">
+        {{ content.field_link }}
+      </div>
+    </section>
 
-    <div class="row">
-      <div class="col-lg-10 offset-lg-1">  
-        {# Course brochure link #}
-        <div class="row ee-program__catalog">
-          <div class="col-12">
+    {# Body #}
+    <section class="row component-paragraph event__body">
+      <div class="col-12">
+        {{ content.body }}
+      </div>
+    </section>
 
-          </div>
-        </div>    
-        {# inner_nav region #}
-        {% if inner_nav %}
-        <div class="row inner_nav">
-          <div class="col-12">
-          {{ inner_nav }}
-          </div>
-        </div>
+    {% if content.field_google_map|field_value is not empty %}
+    <section class="row event__map">
+      {{ content.field_google_map }}
+    </section>
+    {% endif %}
 
-        {% endif %}
-        <div class="ee-program__content">
-          <div class="row component-paragraph">
-            <div class="col-12 col-lg-10 offset-lg-1">
-              {{ content.body }}  
-            </div>
-          </div>
-
-          <div class="row ee-program__cost">
-            <div class="col-lg-6">Program Details</div>
-            <div class="col-lg-3">Cost: <span class="ee_program__cost-label">{{ content.field_ee_cost }}</span></div>
-            <div class="col-lg-3 "><a href="{{ content.field_ee_course_brochure.0['url'] }}">Request Brochure</a></div>
-          </div>
-          <div class="row ee-program__dates">
-            {{ content.field_ee_course_dates }}
-          </div>
-
-          {# Home Flexible feature paragraphs #}
-          {{ content.field_flexible_features }}
-
-          {{ content.field_accordion }}
-
-          {{ content.field_ee_featured_faculty }}
-
-          {{ content.field_contact_info }}
-
-        </div>
+    <div class="row component-paragraph contact-cta">
+      <div class="col-lg-6 contact-cta__contact">
+        <h5>Contact Information</h5>
+        <div class="contact-cta__contact--fullname">{{ content.field_full_name }}</div>
+        <ul class="list-inline">
+          {% if content.field_email|field_value is not empty %}
+          <li class="list-inline-item">Email: {{ content.field_email }}</li>
+          {% endif %}
+          {% if content.field_phone|field_value is not empty %}
+          <li class="list-inline-item">Phone: {{ content.field_phone }}</li>
+          {% endif %}
+        </ul>
+      </div>
+      <div class="col-lg-6 text-center contact-cta__social">
+        <h5>Share This Event</h5>
+        <div>{{ content.addtoany }}</div>
       </div>
     </div>
   </div>

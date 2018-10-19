@@ -39,36 +39,14 @@
  */
 #}
 
-{%
-  set classes = [
-    'paragraph',
-    'paragraph--type--' ~ paragraph.bundle|clean_class,
-    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
-    not paragraph.isPublished() ? 'paragraph--unpublished'
-  ]
-%}
+{% if content.field_schedule_color|field_value is not empty %}
+  {% set class = content.field_schedule_color %}
+{% endif %}
+
 {% block paragraph %}
     {% block content %}
-    <div class="row component-paragraph carlson-advantages">
-      <div class="col-12 carlson-advantages__label">
-        <span>Carlson Advantage</span>
-      </div>
-      <div class="col-12 carlson-advantages__items">
-        <div class="row">
-        {% set data = content.field_column_item|field_value %}
-        {% set len = data|length %}
-        {% set divide = 12/len %}
-
-        {% for key,value in data %}
-          <div class="col-lg-{{ divide }} carlson-advantages__item">
-            {{ data[key] }}
-          </div>
-        {% endfor %}
-        </div>
-      </div>        
-      <div class="col-12 carlson-advantages__label">
-        <span>Carlson Advantage</span>
-      </div>
+    <div class="{{class}}">
+        {{ content.field_schedule_details }}
     </div>
     {% endblock %}
 {% endblock paragraph %}

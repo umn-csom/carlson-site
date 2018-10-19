@@ -13,7 +13,7 @@
 %}
 
 <article{{ attributes.addClass(classes) }}>
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'faculty-profile') }}>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'faculty-profile', 'col') }}>
     <div class="row">
       <div class="col-md-10 offset-md-1">
         <section class="faculty-profile__top">
@@ -25,7 +25,7 @@
                   </div>
                 {% endif %}
             </div>
-            <div class="col-sm-12 col-md-8 profile-content-wrapper">
+            <div class="col-sm-12 col-md-7 profile-content-wrapper">
                 <h1 class="faculty-profile__top--name">
                   {{ node.label }}
                 </h1>
@@ -50,10 +50,11 @@
                   <h2>Contact</h2>
 
                   {% if content.field_office_phone|field_value is not empty %}
-                    <a class="faculty-profile__contact--phone"
-                      href="tel:{{ content.field_office_phone|field_value }}">
-                      {{ content.field_office_phone|field_value }}
-                    </a>
+                    <div class="faculty-profile__contact--phone">
+                      <a href="tel:{{ content.field_office_phone|field_value }}">
+                        {{ content.field_office_phone|field_value }}
+                      </a>
+                    </div>
                   {% endif %}
 
                   <div class="faculty-profile__contact--address">
@@ -84,7 +85,7 @@
 
                 {% endif %}
               </div>
-              <div class="col-sm-12 col-md-8 col-md-offset-1 faculty-profile__experience">
+              <div class="col-sm-12 col-md-9 faculty-profile__experience">
                 <div class="row">
                   <div class="col-12 col-sm-6 col-md-6">
                     {% if content.field_profile_degrees|field_value is not empty %}
@@ -110,7 +111,7 @@
         {% if node.body.value|raw is not empty %}
           <section class="faculty-profile__about">
               <div class="row">
-                  <div class="col-12">
+                  <div class="col-12 col-md-10 col-md-offset-1">
                     <h2>About {{ content.field_first_name|field_value }}</h2>
                     <div class="faculty-profile__about--summary">
                       {{ node.body.value|raw }}

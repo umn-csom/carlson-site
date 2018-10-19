@@ -84,18 +84,18 @@
     {{ title_suffix }}
   </header>
 
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'blog-entry') }}>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'blog-entry', 'col') }}>
     {# Render hero with hero-basic component #}
     {% if node.field_hero_media.isEmpty %}
       <section>
         <div class="row basic-hero">
-          <div class="col-11 col-md-12 basic-hero__title">
+          <div class="col-11 col-lg-12 basic-hero__title">
             <h1>{{ label }}</h1>
             <div class="row">
-              <div class="col col-sm-12 col-md-6 d-none d-sm-block post-col">
+              <div class="col col-sm-12 col-lg-6 d-none d-sm-block post-col">
                 <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
               </div>
-              <div class="col col-sm-12 col-md-6 d-none d-sm-block share-col">
+              <div class="col col-sm-12 col-lg-6 d-none d-sm-block share-col">
                 <p class="share-this">Share This: {{ content.addtoany }}</p>
               </div>
             </div>
@@ -105,17 +105,17 @@
     {% else %}
       <section>
         <div class="row basic-hero">
-          <div class="col-md-12 basic-hero__img">
+          <div class="col-lg-12 basic-hero__img">
             {{ content.field_hero_media }}
           </div>
           <div class="col-10 offset-1 basic-hero__title">
             <div class="basic-hero__title-inner">
               <h1>{{ label }}</h1>
               <div class="row">
-                <div class="col-md-6 basic-hero__pub">
+                <div class="col-lg-6 basic-hero__pub">
                   <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
                 </div>
-                <div class="col-md-6 basic-hero__share">
+                <div class="col-lg-6 basic-hero__share">
                   <p class="share-this">Share This: {{ content.addtoany }}</p>
                 </div>
               </div>
@@ -127,12 +127,12 @@
     {# Body and side bar #}
     <section class="row blog-entry__body">
 
-      <div class="{{ (has_sidebar == TRUE) ? 'col-md-8' : 'col-12' }}">
+      <div class="{{ (has_sidebar == TRUE) ? 'col-lg-8' : 'col-12' }}">
         {{ content.body }}
       </div>
 
       {% if content.field_sidebar_content|field_value is not empty %}
-        <div class="col-md-4 blog-entry--sidebar">
+        <div class="col-lg-4 blog-entry--sidebar">
           <div>
             {{ content.field_sidebar_content }}
           </div>
