@@ -10,28 +10,43 @@
 }
 
 .accordion {
-  color: #363230;
-  @include font-lato-base();
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 30px;
   margin-bottom: 30px;
   .card{
     border: 0px none;
     .card-header{
-      background: transparent;
-      border-bottom: 1px solid #e6dbd6;
-      h5{
-        .btn-link{
-          color: #363230;
-          @include font-crimson-base();
-          font-size: 34px;
-          font-weight: 400;
-          line-height: 31px;
-          text-align: left;
-          &:hover, &:focus, &:active, &:visited{
-            text-decoration: none;
-            outline: none;
+      background-color: transparent;
+      padding: 0;
+      border-top: 1px solid $light-gray;
+      border-bottom: 0;
+      position: relative;
+      .btn-link{
+        background: $mid-gray;
+        cursor: pointer;
+        @include font-crimson-base();
+        word-break: break-word;
+        font-size: $font-medium-mobile;
+        line-height: $font-medium-mobile;
+        padding: 2rem;
+        padding-left: 7rem;
+        color: $slate;
+        width: 100%;
+        text-align: left;
+        @include media-breakpoint-up(md) {
+            font-size: $font-small;
+            line-height: $font-small;
+        }
+        &::before {
+            @include accordion-minus($maroon);
+        }
+        &:hover, &:focus, &:active, &:visited{
+          text-decoration: none;
+          outline: none;
+        }
+        &.collapsed {
+          background: transparent;
+          &::before {
+            @include plus-icon($maroon);
+            top: 2.2rem;
           }
         }
       }
@@ -39,36 +54,25 @@
       .inner{
         opacity: 0;
         transition: all 0.26s ease-in-out;
-        background-image: linear-gradient(180deg, #f7f4f2 0%, #ffffff 100%);
+        background-image: linear-gradient(180deg, $mid-gray 0%, $white 100%);
         .card-body{
           ul {
             list-style: none;
             margin-left: 40px;
+            margin-right: 50px;
             margin-bottom: 0px;
             padding: 0;
 
             li {
               margin: 0;
+              padding-bottom: 1em;
               margin-bottom: 1em;
               padding-left: 15px;
               position: relative;
-              color: #363230;
-              @include font-lato-base();
-              font-size: 16px;
-              font-weight: 400;
-
-              &:before {
-                content: '';
-                height: .4em;
-                width: .4em;
-                background: #7a0019;
-                display: block;
-                position: absolute;
-                transform: rotate(45deg);
-                top: .52em;
-                left: 0;
+              border-bottom: 1px solid $light-gray;
+              &:last-child {
+                border-bottom: 0;
               }
-
             }
 
           }
@@ -78,7 +82,4 @@
         }
       }
     }
-
-
-
 }

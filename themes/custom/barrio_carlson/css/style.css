@@ -11593,55 +11593,90 @@ img {
   margin-bottom: 2.2rem; }
 
 .accordion {
-  color: #363230;
-  font-family: "Lato", Arial, Verdana, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 30px;
   margin-bottom: 30px; }
   .accordion .card {
     border: 0px none; }
     .accordion .card .card-header {
-      background: transparent;
-      border-bottom: 1px solid #e6dbd6; }
-      .accordion .card .card-header h5 .btn-link {
-        color: #363230;
+      background-color: transparent;
+      padding: 0;
+      border-top: 1px solid #e6dbd6;
+      border-bottom: 0;
+      position: relative; }
+      .accordion .card .card-header .btn-link {
+        background: #F7F4F2;
+        cursor: pointer;
         font-family: "Crimson Text", serif;
-        font-size: 34px;
-        font-weight: 400;
-        line-height: 31px;
+        word-break: break-word;
+        font-size: 2.8rem;
+        line-height: 2.8rem;
+        padding: 2rem;
+        padding-left: 7rem;
+        color: #363230;
+        width: 100%;
         text-align: left; }
-        .accordion .card .card-header h5 .btn-link:hover, .accordion .card .card-header h5 .btn-link:focus, .accordion .card .card-header h5 .btn-link:active, .accordion .card .card-header h5 .btn-link:visited {
+        @media (min-width: 768px) {
+          .accordion .card .card-header .btn-link {
+            font-size: 3.4rem;
+            line-height: 3.4rem; } }
+        .accordion .card .card-header .btn-link::before {
+          background: url("data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22544%22%20height%3D%2232%22%20viewBox%3D%220%200%20544%2032%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%237a0019%22%20stroke-width%3D%2216%22%20stroke-miterlimit%3D%224%22%20stroke-linecap%3D%22square%22%20stroke-linejoin%3D%22miter%22%20d%3D%22M16%2016h512%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+          background-size: 70%;
+          background-repeat: no-repeat;
+          width: 35px;
+          height: 25px;
+          background-size: 100%;
+          content: '';
+          display: inline-block;
+          position: absolute;
+          left: 2rem;
+          height: 2.8rem;
+          width: 2.8rem;
+          top: 3.4rem; }
+          @media (min-width: 768px) {
+            .accordion .card .card-header .btn-link::before {
+              height: 3.4rem;
+              width: 3.4rem; } }
+          @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+            .accordion .card .card-header .btn-link::before {
+              background: url("../images/svg/accordion-minus-icon.svg");
+              background-size: 60%;
+              background-repeat: no-repeat; } }
+        .accordion .card .card-header .btn-link:hover, .accordion .card .card-header .btn-link:focus, .accordion .card .card-header .btn-link:active, .accordion .card .card-header .btn-link:visited {
           text-decoration: none;
           outline: none; }
+        .accordion .card .card-header .btn-link.collapsed {
+          background: transparent; }
+          .accordion .card .card-header .btn-link.collapsed::before {
+            background: url("data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2232%22%20height%3D%2232%22%20viewBox%3D%220%200%2032%2032%22%20fill%3D%22%237a0019%22%3E%3Cpath%20d%3D%22M15.059%2015.059v-15.059h1.882v15.059h15.059v1.882h-15.059v15.059h-1.882v-15.059h-15.059v-1.882z%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+            background-size: 70%;
+            background-repeat: no-repeat;
+            width: 35px;
+            height: 25px;
+            top: 2.2rem; }
+            @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+              .accordion .card .card-header .btn-link.collapsed::before {
+                background: url("../images/svg/plus-icon.svg");
+                background-size: 60%;
+                background-repeat: no-repeat; } }
     .accordion .card .inner {
       opacity: 0;
       transition: all 0.26s ease-in-out;
-      background-image: linear-gradient(180deg, #f7f4f2 0%, #ffffff 100%); }
+      background-image: linear-gradient(180deg, #F7F4F2 0%, white 100%); }
       .accordion .card .inner .card-body ul {
         list-style: none;
         margin-left: 40px;
+        margin-right: 50px;
         margin-bottom: 0px;
         padding: 0; }
         .accordion .card .inner .card-body ul li {
           margin: 0;
+          padding-bottom: 1em;
           margin-bottom: 1em;
           padding-left: 15px;
           position: relative;
-          color: #363230;
-          font-family: "Lato", Arial, Verdana, sans-serif;
-          font-size: 16px;
-          font-weight: 400; }
-          .accordion .card .inner .card-body ul li:before {
-            content: '';
-            height: .4em;
-            width: .4em;
-            background: #7a0019;
-            display: block;
-            position: absolute;
-            transform: rotate(45deg);
-            top: .52em;
-            left: 0; }
+          border-bottom: 1px solid #e6dbd6; }
+          .accordion .card .inner .card-body ul li:last-child {
+            border-bottom: 0; }
       .accordion .card .inner.show {
         opacity: 1; }
 
