@@ -49,19 +49,15 @@
 %}
 {% block paragraph %}
     {% block content %}
-    <div class="row component-paragraph speaker">
-      <div class="col-12 text-center speaker__heading">
-        <h2 class="speaker__heading--title">Speakers</h2>
+    <div class="col-12 schedule__row">
+      <div class="row schedule__item">
+        <div class="col-12 col-lg-3 schedule__item--time">
+          {{ content.field_schedule_time }}
+        </div>
+        <div class="col-12 col-lg-9 schedule__item--details">
+          {{ content.field_schedule_time_details }}
+        </div>
       </div>
-      <div class="col-12 col-md-3 speaker__img">
-        {{ content.field_person_headshot }}
-      </div>
-      <div class="col-12 col-md-9 speaker__bio">
-        <p class="speaker__bio--name">{{ content.field_person_name }}</p>
-        <p class="speaker__bio--title">{{ content.field_person_organization }} - {{ content.field_person_role }}</p>
-        {{ content.field_main_content }}
-      </div>
-      
     </div>
     {% endblock %}
 {% endblock paragraph %}

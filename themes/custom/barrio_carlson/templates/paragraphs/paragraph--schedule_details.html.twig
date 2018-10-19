@@ -39,29 +39,14 @@
  */
 #}
 
-{%
-  set classes = [
-    'paragraph',
-    'paragraph--type--' ~ paragraph.bundle|clean_class,
-    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
-    not paragraph.isPublished() ? 'paragraph--unpublished'
-  ]
-%}
+{% if content.field_schedule_color|field_value is not empty %}
+  {% set class = content.field_schedule_color %}
+{% endif %}
+
 {% block paragraph %}
     {% block content %}
-    <div class="row component-paragraph speaker">
-      <div class="col-12 text-center speaker__heading">
-        <h2 class="speaker__heading--title">Speakers</h2>
-      </div>
-      <div class="col-12 col-md-3 speaker__img">
-        {{ content.field_person_headshot }}
-      </div>
-      <div class="col-12 col-md-9 speaker__bio">
-        <p class="speaker__bio--name">{{ content.field_person_name }}</p>
-        <p class="speaker__bio--title">{{ content.field_person_organization }} - {{ content.field_person_role }}</p>
-        {{ content.field_main_content }}
-      </div>
-      
+    <div class="{{class}}">
+        {{ content.field_schedule_details }}
     </div>
     {% endblock %}
 {% endblock paragraph %}
