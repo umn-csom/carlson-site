@@ -40,7 +40,7 @@ class ExecutiveEdProgram extends SqlBase {
     $query->leftjoin('field_data_field_ee_faculty', 'a', 'a.entity_id = f.nid');
     $query->leftjoin('field_data_field_ee_related_courses', 'u', 'u.entity_id = f.nid');
     $query->leftjoin('field_data_field_menu_position_rule', 'r', 'r.entity_id = f.nid');
-    $query->leftjoin('field_data_field_ee_mili_program', 'q', 'q.entity_id = f.nid');
+    $query->leftjoin('field_data_field_mili_program', 'q', 'q.entity_id = f.nid');
 
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
@@ -84,6 +84,7 @@ class ExecutiveEdProgram extends SqlBase {
     $fields['menu_position_rule'] = $this->t('menu_position_rule');
     $fields['menu_rule'] = $this->t('menu_rule');
 
+    $fields['mili_program'] = $this->t('mili_program');
     $fields['ee_mili_program'] = $this->t('ee_mili_program');
 
     return $fields;
@@ -151,10 +152,11 @@ class ExecutiveEdProgram extends SqlBase {
       $row->setSourceProperty('ee_program_body', $record->field_ee_program_body_value );
     }
 
-    // ee_mili_program
-    $result = $this->_getCustomField( 'ee_mili_program', $nid );
+    // mili_program to ee_mili_program
+    $result = $this->_getCustomField( 'mili_program', $nid );
     foreach ($result as $record) {
-      $row->setSourceProperty('ee_mili_program', $record->field_ee_mili_program_value );
+      $row->setSourceProperty('mili_program', $record->field_mili_program_value );
+      $row->setSourceProperty('ee_mili_program', $record->field_mili_program_value );
     }
 
     // ee_level
