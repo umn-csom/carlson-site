@@ -12,12 +12,21 @@
       </div>
     {% endif %}
     
+    {% if content.field_heading|field_value  is not empty %}
     <h4 class="column__heading">{{ content.field_heading|field_value }}</h4>
+    {% endif %}
+
+    {% if content.field_main_content|field_value  is not empty %}
     <div class="column__markup">
       {{ content.field_main_content|field_value }}
     </div>
+    {% endif %}
+
+    {% if content.field_link|field_value  is not empty %}
     <div class="column__link">
       {{ content.field_link|field_value }}
     </div>
+    
+    {% endif %}
   {% endblock %}
 {% endblock paragraph %}
