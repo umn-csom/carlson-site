@@ -11295,6 +11295,43 @@ img {
   padding: 0 15px 0.25em;
   width: 100%; }
 
+.card-flip {
+  perspective: 1000px; }
+  .card-flip:hover .flip,
+  .card-flip.hover .flip {
+    transform: rotateY(180deg); }
+  .card-flip .card {
+    border: none; }
+
+.card-flip,
+.card-flip__front,
+.card-flip__back {
+  width: 100%;
+  min-height: 300px; }
+
+.flip {
+  transition: 0.6s;
+  transform-style: preserve-3d;
+  position: relative; }
+
+.card-flip__front,
+.card-flip__back {
+  backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: solid 1px #e6dbd6;
+  display: flex;
+  align-items: center;
+  justify-content: center; }
+
+.card-flip__front {
+  z-index: 2;
+  transform: rotateY(0deg); }
+
+.card-flip__back {
+  transform: rotateY(180deg); }
+
 /**
  * @file
  * Visual styles for comments in Barrio.
