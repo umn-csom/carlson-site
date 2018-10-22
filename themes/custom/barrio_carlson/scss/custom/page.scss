@@ -6,9 +6,36 @@
   }
   .card {
     border:none;
+    background: transparent;
   }
-}
+  .flip {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+  }
 
+  &__front,
+  &__back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: solid 1px $light-gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__front {
+    z-index: 2;
+    transform: rotateY(0deg);
+  }
+
+  &__back {
+    transform: rotateY(180deg);
+  }
+
+}
 .card-flip,
 .card-flip__front,
 .card-flip__back {
@@ -16,29 +43,3 @@
   min-height: 300px;
 }
 
-.flip {
-  transition: 0.6s;
-  transform-style: preserve-3d;
-  position: relative;
-}
-
-.card-flip__front,
-.card-flip__back {
-  backface-visibility: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border: solid 1px $light-gray;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.card-flip__front {
-  z-index: 2;
-  transform: rotateY(0deg);
-}
-
-.card-flip__back {
-  transform: rotateY(180deg);
-}

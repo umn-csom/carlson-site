@@ -11115,7 +11115,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
   font-size: 3.4rem;
   line-height: 2.8rem;
   position: relative;
-  margin-bottom: 2.4rem; }
+  margin-bottom: 2rem; }
   @media (min-width: 768px) {
     .home-hero__title {
       font-size: 7.5rem;
@@ -11153,7 +11153,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
   font-size: 3.4rem;
   line-height: 2.8rem;
   position: relative;
-  margin-bottom: 2.4rem; }
+  margin-bottom: 2rem; }
   @media (min-width: 768px) {
     .hero-program__title {
       font-size: 7.5rem;
@@ -11243,7 +11243,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
   font-size: 3.4rem;
   line-height: 2.8rem;
   position: relative;
-  margin-bottom: 2.4rem; }
+  margin-bottom: 2rem; }
   @media (min-width: 768px) {
     .label-border.red {
       font-size: 4.8rem;
@@ -11254,7 +11254,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
     width: 100px;
     display: block;
     background: #7a0019;
-    margin: 1.6rem auto 0 auto; }
+    margin: 2.4rem auto 0 auto; }
 
 .label-border.yellow {
   font-family: "Crimson Text", serif;
@@ -11262,7 +11262,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
   font-size: 3.4rem;
   line-height: 2.8rem;
   position: relative;
-  margin-bottom: 2.4rem; }
+  margin-bottom: 2rem; }
   @media (min-width: 768px) {
     .label-border.yellow {
       font-size: 4.8rem;
@@ -11273,7 +11273,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
     width: 100px;
     display: block;
     background: #FFCC33;
-    margin: 1.6rem auto 0 auto; }
+    margin: 2.4rem auto 0 auto; }
 
 /**
  * @file
@@ -11301,36 +11301,32 @@ img {
   .card-flip.hover .flip {
     transform: rotateY(180deg); }
   .card-flip .card {
-    border: none; }
+    border: none;
+    background: transparent; }
+  .card-flip .flip {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative; }
+  .card-flip__front, .card-flip__back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: solid 1px #e6dbd6;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+  .card-flip__front {
+    z-index: 2;
+    transform: rotateY(0deg); }
+  .card-flip__back {
+    transform: rotateY(180deg); }
 
 .card-flip,
 .card-flip__front,
 .card-flip__back {
   width: 100%;
   min-height: 300px; }
-
-.flip {
-  transition: 0.6s;
-  transform-style: preserve-3d;
-  position: relative; }
-
-.card-flip__front,
-.card-flip__back {
-  backface-visibility: hidden;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border: solid 1px #e6dbd6;
-  display: flex;
-  align-items: center;
-  justify-content: center; }
-
-.card-flip__front {
-  z-index: 2;
-  transform: rotateY(0deg); }
-
-.card-flip__back {
-  transform: rotateY(180deg); }
 
 /**
  * @file
@@ -11712,6 +11708,35 @@ img {
       .accordion .card .inner.show {
         opacity: 1; }
 
+.tabbed-content {
+  /* Specifically targetting mobile since we only want to override 
+       BS tab styles for mobile to make them a drop down to match design
+    */ }
+  @media (max-width: 991.98px) {
+    .tabbed-content .nav {
+      padding-left: 2px;
+      padding-right: 2px; }
+    .tabbed-content .nav li {
+      display: block !important;
+      width: 100%;
+      margin: 0px; }
+    .tabbed-content .nav li.active {
+      border-bottom: 1px solid #ddd !important;
+      margin: 0px; } }
+
+/* Course grid paragarph */
+.course-grid .card-flip__front--title, .course-grid .card-flip__back--title {
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1.78px; }
+
+.course-grid .card-flip__back {
+  background: #7a0019;
+  color: white; }
+  .course-grid .card-flip__back--text {
+    margin: 1rem 3.2rem;
+    line-height: 3rem; }
+
 .component-paragraph {
   margin-bottom: 3rem; }
   @media (min-width: 992px) {
@@ -11732,7 +11757,7 @@ img {
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem; }
+    margin-bottom: 2rem; }
     @media (min-width: 768px) {
       .stats__heading {
         font-size: 4.8rem;
@@ -11743,7 +11768,7 @@ img {
       width: 100px;
       display: block;
       background: #FFCC33;
-      margin: 1.6rem auto 0 auto; }
+      margin: 2.4rem auto 0 auto; }
   .stats__blocks {
     margin-top: 2rem; }
   .stats__single {
@@ -11862,7 +11887,7 @@ img {
   font-size: 3.4rem;
   line-height: 2.8rem;
   position: relative;
-  margin-bottom: 2.4rem;
+  margin-bottom: 2rem;
   line-height: 42px; }
   @media (min-width: 768px) {
     .column__heading {
@@ -12184,7 +12209,7 @@ img {
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem;
+    margin-bottom: 2rem;
     margin-bottom: 3rem; }
     @media (min-width: 768px) {
       .speaker__heading--title {
@@ -12196,7 +12221,7 @@ img {
       width: 100px;
       display: block;
       background: #FFCC33;
-      margin: 1.6rem auto 0 auto; }
+      margin: 2.4rem auto 0 auto; }
 
 .schedule {
   border-bottom: solid 1px #e6dbd6; }
@@ -12225,22 +12250,6 @@ img {
     background: #edc6a6; }
   .schedule__item--details .color-5 {
     background: #e6dbd6; }
-
-.tabbed-content {
-  /* Specifically targetting mobile since we only want to override 
-       BS tab styles for mobile to make them a drop down to match design
-    */ }
-  @media (max-width: 991.98px) {
-    .tabbed-content .nav {
-      padding-left: 2px;
-      padding-right: 2px; }
-    .tabbed-content .nav li {
-      display: block !important;
-      width: 100%;
-      margin: 0px; }
-    .tabbed-content .nav li.active {
-      border-bottom: 1px solid #ddd !important;
-      margin: 0px; } }
 
 .event__details {
   max-width: 1330px;
@@ -12316,7 +12325,7 @@ img {
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem;
+    margin-bottom: 2rem;
     margin-top: 2rem; }
     @media (min-width: 768px) {
       .faculty-profile__top--name {
@@ -12344,7 +12353,7 @@ img {
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem;
+    margin-bottom: 2rem;
     margin-top: 2rem; }
     @media (min-width: 768px) {
       .faculty-profile__experience h2, .faculty-profile__contact h2 {
@@ -12358,7 +12367,7 @@ img {
       font-size: 3.4rem;
       line-height: 2.8rem;
       position: relative;
-      margin-bottom: 2.4rem;
+      margin-bottom: 2rem;
       margin-top: 4rem; }
       @media (min-width: 768px) {
         .faculty-profile__about h2 {
@@ -12472,7 +12481,7 @@ img {
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem;
+    margin-bottom: 2rem;
     margin-top: 2rem; }
     @media (min-width: 768px) {
       .faculty-profile__works h2 {
@@ -12484,7 +12493,7 @@ img {
       width: 100px;
       display: block;
       background: #FFCC33;
-      margin: 1.6rem auto 0 auto; }
+      margin: 2.4rem auto 0 auto; }
   .faculty-profile__expertise, .faculty-profile__education {
     list-style: none; }
     .faculty-profile__expertise--item, .faculty-profile__education--item {
@@ -12563,7 +12572,7 @@ img {
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem; }
+    margin-bottom: 2rem; }
     @media (min-width: 768px) {
       .student-profile__top--name {
         font-size: 4.8rem;
@@ -12607,7 +12616,7 @@ img {
       font-size: 3.4rem;
       line-height: 2.8rem;
       position: relative;
-      margin-bottom: 2.4rem; }
+      margin-bottom: 2rem; }
       @media (min-width: 768px) {
         .student-profile__sidebar--label {
           font-size: 3.4rem;

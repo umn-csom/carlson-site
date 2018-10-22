@@ -92,21 +92,21 @@
         {% set items = content.field_course_grid_item|field_value %}
       {% endif %}
 
-      {# {% if (content.field_heading is not empty) or (content.field_main_content is not empty) %}
+      {% if (content.field_heading is not empty) or (content.field_main_content is not empty) %}
       <div class="col-12 col-md-10 offset-md-1 course-grid__heading text-center">
         <h3 class="label-border yellow">{{ content.field_heading }}</h3>
         {{ content.field_main_content }}
       </div>
-      {% endif %} #}
+      {% endif %}
 
       <div class="col-12 component-paragraph course-grid__items">
         <div class="row">
           {% set inc = 0 %}
           {% for item in items %}
-              {{ vardumper(item['#paragraph'].field_course_icon.0.value) }}
-                <div class="col-12 col-lg-4">
+            {# {{ vardumper(item['#paragraph'].field_course_icon.0.value) }} #}
+                <div class="col-12 col-lg-4 px-0">
                   <!-- Card Flip -->
-                  <div class="card-flip text-center ">
+                  <div class="card-flip text-center {{ item['#paragraph'].field_course_icon.0.value }}">
                     <div class="flip">
                       <div class="card-flip__front">
                         <!-- front content -->
@@ -121,8 +121,7 @@
                         <div class="card">
                           <div class="card-block">
                             <p class="card-flip__back--title">{{ item['#paragraph'].field_heading.0.value }}</p>
-                            {{ item['#paragraph'].field_main_content.0.value|raw }}
-                            {{ item['#paragraph'].link.0.value }}
+                            <p class="card-flip__back--text">{{ item['#paragraph'].field_main_content.0.value|raw|striptags }}</p>
                           </div>
                         </div>
                       </div>
