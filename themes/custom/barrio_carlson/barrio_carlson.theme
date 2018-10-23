@@ -225,8 +225,16 @@ function barrio_carlson_preprocess_node(&$variables) {
         $variables['has_sidebar'] = TRUE;
       }
     break;
-    case 'event':
-      
+    case 'blog_entry':
+      // Check if there is a sidebar so we can add the right classes
+      $sidebar = $node->field_blog_categories->getValue();
+      if(!empty($sidebar)) {
+        $variables['has_sidebar'] = TRUE;
+      }     
+      $byline = $node->field_blog_by_line->getString();
+      if(!empty($sidebar)) {
+        $variables['byline'] = '<span class="basic-hero__title--byline"> — by '.$byline."</span>";
+      } 
     break;
   }
 }

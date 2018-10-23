@@ -92,8 +92,8 @@
         {% set items = content.field_course_grid_item|field_value %}
       {% endif %}
 
-      {% if (content.field_heading is not empty) or (content.field_main_content is not empty) %}
-      <div class="col-12 col-md-10 offset-md-1 course-grid__heading text-center">
+      {% if (content.field_heading|field_value is not empty) or (content.field_main_content|field_value is not empty) %}
+      <div class="col-12 col-md-10 offset-md-1 course-grid__heading text-center"> 
         <h3 class="label-border yellow">{{ content.field_heading }}</h3>
         {{ content.field_main_content }}
       </div>
@@ -122,6 +122,7 @@
                           <div class="card-block">
                             <p class="card-flip__back--title">{{ item['#paragraph'].field_heading.0.value }}</p>
                             <p class="card-flip__back--text">{{ item['#paragraph'].field_main_content.0.value|raw|striptags }}</p>
+                            {{ item['#paragraph'].field_link|field_value }}
                           </div>
                         </div>
                       </div>
