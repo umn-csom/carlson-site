@@ -63,25 +63,29 @@
 
         <div class="col-12">
           {# Create the tabs #}
-          <ul class="nav nav-tabs" role="tablist">
-            {% set inc = 0 %}
-            {% for item in items %}
+          <div class="tabbed-content__nav--container">
+            <div class="tabbed-content__nav--positioner">
+              <ul class="nav nav-tabs" role="tablist">
+                {% set inc = 0 %}
+                {% for item in items %}
 
-              {% if inc == 0 %}
-                  {% set selected = 'true' %}
-                  {% set active = 'active' %}
-              {% else %}
-                  {% set selected = 'false' %}
-                  {% set active = '' %}
-              {% endif %}
+                  {% if inc == 0 %}
+                      {% set selected = 'true' %}
+                      {% set active = 'active show' %}
+                  {% else %}
+                      {% set selected = 'false' %}
+                      {% set active = '' %}
+                  {% endif %}
 
-              <li class="nav-item">
-                <a class="nav-link {{ active }}" id="tab-{{ inc }}" data-toggle="tab" href="#content-{{ inc }}" role="tab" aria-controls="content-{{ inc }}" aria-selected="{{ selected }}">{{ item['#paragraph'].field_heading.0.value }}</a>
-              </li>       
-              {% set inc = inc+1 %}
+                  <li class="nav-item">
+                    <a class="nav-link {{ active }}" id="tab-{{ inc }}" data-toggle="tab" href="#content-{{ inc }}" role="tab" aria-controls="content-{{ inc }}" aria-selected="{{ selected }}">{{ item['#paragraph'].field_heading.0.value }}</a>
+                  </li>
+                  {% set inc = inc+1 %}
 
-            {% endfor %}
-          </ul>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
 
           {# Create the tab content #}
           <div class="tab-content tabbed-content__content">
@@ -93,12 +97,12 @@
                 {% else %}
                     {% set active = '' %}
                 {% endif %}
-                <div class="tabbed-content__content--itemtab-pane {{ active }}" id="content-{{ cont }}" role="tabpanel" aria-labelledby="content-{{ cont }}">{{ item['#paragraph'].field_main_content.0.value |raw}}</div>
+                <div class="tab-pane tabbed-content__content--itemtab-pane {{ active }}" id="content-{{ cont }}" role="tabpanel" aria-labelledby="content-{{ cont }}">{{ item['#paragraph'].field_main_content.0.value |raw}}</div>
             {% set cont = cont+1 %}
 
             {% endfor %}
           </div>
-        </div> 
+        </div>
       {% endif %}
     </div>
     {% endblock %}
