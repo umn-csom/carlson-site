@@ -156,6 +156,7 @@
                             padding-left: 0!important;
                             padding-right: 0!important;
                             font-weight: 400!important;
+                            min-height: 41px;
                         }
                     }
 
@@ -416,6 +417,7 @@
 
     @include media-breakpoint-up(lg) {
         max-width: 100%;
+        min-width: 296px;
     }
 }
 
@@ -803,6 +805,7 @@ body {
 }
 
 .carlson-header {
+    background-color: $white;
     &.sticky {
         z-index: 6;
         position: fixed;
@@ -833,6 +836,10 @@ body {
                 position: fixed;
                 top: 113px;
                 z-index: 99999;
+
+                @include media-breakpoint-up(lg) {
+                    top: 40px
+                }
             }
         }
     }
