@@ -93,7 +93,7 @@
             <h1>{{ label }}</h1>
             <div class="row">
               <div class="col col-sm-12 col-lg-6 d-none d-sm-block post-col">
-                <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
+                <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span>{{ byline|raw }}</p>
               </div>
               <div class="col col-sm-12 col-lg-6 d-none d-sm-block share-col">
                 <p class="share-this">Share This: {{ content.addtoany }}</p>
@@ -113,7 +113,7 @@
               <h1>{{ label }}</h1>
               <div class="row">
                 <div class="col-lg-6 basic-hero__pub">
-                  <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
+                  <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span>{{ byline|raw }}</p>
                 </div>
                 <div class="col-lg-6 basic-hero__share">
                   <p class="share-this">Share This: {{ content.addtoany }}</p>
