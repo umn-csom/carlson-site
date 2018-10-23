@@ -102,7 +102,6 @@
     // For the sticky header.
     $(window).on("mousewheel", function() {
         var top = $(window).scrollTop();
-        console.log(top);
         if( top > 0 ) {
             $('.carlson-header').addClass('sticky');
         } else {
