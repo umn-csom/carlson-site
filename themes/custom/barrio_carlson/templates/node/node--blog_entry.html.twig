@@ -84,7 +84,7 @@
     {{ title_suffix }}
   </header>
 
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'blog-entry') }}>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'blog') }}>
     {# Render hero with hero-basic component #}
     {% if node.field_hero_media.isEmpty %}
       <section>
@@ -125,16 +125,16 @@
       </section>
     {% endif %}
     {# Body and side bar #}
-    <section class="row blog-entry__body">
+    <section class="row blog__body">
 
       <div class="{{ (has_sidebar == TRUE) ? 'col-lg-8' : 'col-12' }}">
         {{ content.body }}
       </div>
 
-      {% if content.field_sidebar_content|field_value is not empty %}
-        <div class="col-lg-4 blog-entry--sidebar">
+      {% if content.field_blog_categories|field_value is not empty %}
+        <div class="col-lg-4 blog__body--sidebar">
           <div>
-            {{ content.field_sidebar_content }}
+            {{ content.field_blog_categories }}
           </div>
         </div>
       {% endif %}
@@ -143,8 +143,5 @@
     {# Flexible features are rendered through the paragraph templates specific to the feature #}
     {{ content.field_flexible_features }}
 
-    <div>
-      {{ content.field_news_channels }}
-    </div>
   </div>
 </article>

@@ -1,0 +1,41 @@
+
+.blog {
+	.program-cta,
+	.fullwidth-video,
+	.program-promo {
+		@include page-inset($inset-wide);	
+	}
+	&__body,
+	.basic-paragraph,
+	.carlson-slideshow,
+	.quote,
+	.quote-group {
+		@include page-inset($inset-narrow);
+		&--sidebar {
+			
+    	margin-bottom: 3rem;
+    	> div {
+    		border: solid 1px $light-gray;
+	      padding: 20px;
+	    }
+		}
+	}
+	.label-border {
+		font-size: 3.4rem;
+		line-height: 3.4rem;
+		font-weight: 400;
+		&:after {
+			margin: 1.6rem 0 0 0;
+		}
+	}
+
+	@include media-breakpoint-up(lg) {
+    &__body {
+    	&--sidebar {
+      	> div {
+	        padding: 30px 35px;
+	      }    		
+    	}
+    }
+  }
+}
