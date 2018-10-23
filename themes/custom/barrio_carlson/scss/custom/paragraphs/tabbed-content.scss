@@ -1,30 +1,119 @@
 
 .tabbed-content {
-    &__heading {
-
+    &__nav {
+        &--container {
+            background-color: $gold;
+            display: inline-block;
+            width: 100%;
+            min-height: 6.5rem;
+            position: relative;
+            text-align: center;
+            &:before{
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url('../images/bg/page_cta_bg.png');
+                background-position: top left;
+                background-repeat: no-repeat;
+            }
+        }
+        &--positioner {
+            display: inline-block;
+            position: absolute;
+            top: -.8rem;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            text-align: center;
+            @include media-breakpoint-up(lg){
+                position: relative;
+                top: 0;
+            }
+        }
     }
-    /* Specifically targetting mobile since we only want to override 
-       BS tab styles for mobile to make them a drop down to match design
-    */
-    @include media-breakpoint-down(md) {
-        .nav {
-            padding-left:2px;
-            padding-right:2px;
+    .nav-tabs {
+        text-transform: uppercase;
+        min-height: 6.5rem;
+        display: inline-block;
+        border: 0;
+        max-width: 90%;
+        @include tab-box-shadow();
+        @include media-breakpoint-up(lg){
+            @include clear-box-shadow();
+            max-width: 100%;
         }
-        .nav li {
-            display:block !important;
-            width:100%;
-            margin:0px;
+        .nav-item {
+            width: 100%;
+            @include media-breakpoint-up(lg){
+                width: auto;
+                margin: 0 .8rem;
+            }
+            .nav-link {
+                background: $white;
+                border: none;
+                height: 6.5rem;
+                line-height: 4.5rem;
+                display: none;
+                min-width: 20rem;
+                width: 100%;
+                text-align: left;
+                color: $slate;
+                font-weight: bold;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                &.active {
+                    display: block;
+                    position: relative;
+                    padding-right: 4rem;
+                    font-weight: normal;
+                    &::after{
+                        @include down-arrow-icon($maroon);
+                        width: 1.7rem;
+                        right: 2rem;
+                        top: 2.2rem;
+                    }
+                }
+                &:hover {
+                    background-color: $gray-100;
+                }
+                @include media-breakpoint-up(lg){
+                    display: block;
+                    width: auto;
+                    background: transparent;
+                    text-align: center;
+                    &:hover {
+                        background-color: inherit;
+                    }
+                    &.active {
+                        padding-right: 2rem;
+                        background: $white;
+                        @include tab-box-shadow();
+                        margin-top: -.8rem;
+                        margin-bottom: .8rem;
+                    }
+                    &::after {
+                        display: none;
+                    }
+                }
+            }
         }
-        .nav li.active {
-            border-bottom:1px solid #ddd!important;
-            margin: 0px;
+        &.open {
+            .nav-link {
+                display: block;
+                &::after {
+                    display: none;
+                }
+            }
         }
-    } 
+    }
     &__content {
-        &--item {
-            
+        padding-top: 2.2rem;
+        @include media-breakpoint-up(lg){
+            padding: 5rem 6rem;
         }
-
-    }   
+    }
 }

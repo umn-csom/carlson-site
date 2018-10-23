@@ -10572,9 +10572,9 @@ hr {
               top: 94px; }
               .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .dropdown-menu .we-mega-menu-submenu .we-mega-menu-submenu-inner,
               .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner {
-                -webkit-box-shadow: 0px 0px 67px 0px rgba(0, 0, 0, 0.2);
-                -moz-box-shadow: 0px 0px 67px 0px rgba(0, 0, 0, 0.2);
-                box-shadow: 0px 0px 67px 0px rgba(0, 0, 0, 0.2);
+                -webkit-box-shadow: 0 0 67px 0 rgba(0, 0, 0, 0.2);
+                -moz-box-shadow: 0 0 67px 0 rgba(0, 0, 0, 0.2);
+                box-shadow: 0 0 67px 0 rgba(0, 0, 0, 0.2);
                 background: white;
                 min-height: 500px;
                 border-top: 1px solid #D8D8D8;
@@ -11710,21 +11710,130 @@ img {
       .accordion .card .inner.show {
         opacity: 1; }
 
-.tabbed-content {
-  /* Specifically targetting mobile since we only want to override 
-       BS tab styles for mobile to make them a drop down to match design
-    */ }
-  @media (max-width: 991.98px) {
-    .tabbed-content .nav {
-      padding-left: 2px;
-      padding-right: 2px; }
-    .tabbed-content .nav li {
-      display: block !important;
+.tabbed-content__nav--container {
+  background-color: #FFCC33;
+  display: inline-block;
+  width: 100%;
+  min-height: 6.5rem;
+  position: relative;
+  text-align: center; }
+  .tabbed-content__nav--container:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../images/bg/page_cta_bg.png");
+    background-position: top left;
+    background-repeat: no-repeat; }
+
+.tabbed-content__nav--positioner {
+  display: inline-block;
+  position: absolute;
+  top: -.8rem;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  text-align: center; }
+  @media (min-width: 992px) {
+    .tabbed-content__nav--positioner {
+      position: relative;
+      top: 0; } }
+
+.tabbed-content .nav-tabs {
+  text-transform: uppercase;
+  min-height: 6.5rem;
+  display: inline-block;
+  border: 0;
+  max-width: 90%;
+  -webkit-box-shadow: 0 4px 30px 0 rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 4px 30px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 30px 0 rgba(0, 0, 0, 0.2); }
+  @media (min-width: 992px) {
+    .tabbed-content .nav-tabs {
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+      max-width: 100%; } }
+  .tabbed-content .nav-tabs .nav-item {
+    width: 100%; }
+    @media (min-width: 992px) {
+      .tabbed-content .nav-tabs .nav-item {
+        width: auto;
+        margin: 0 .8rem; } }
+    .tabbed-content .nav-tabs .nav-item .nav-link {
+      background: white;
+      border: none;
+      height: 6.5rem;
+      line-height: 4.5rem;
+      display: none;
+      min-width: 20rem;
       width: 100%;
-      margin: 0px; }
-    .tabbed-content .nav li.active {
-      border-bottom: 1px solid #ddd !important;
-      margin: 0px; } }
+      text-align: left;
+      color: #363230;
+      font-weight: bold;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap; }
+      .tabbed-content .nav-tabs .nav-item .nav-link.active {
+        display: block;
+        position: relative;
+        padding-right: 4rem;
+        font-weight: normal; }
+        .tabbed-content .nav-tabs .nav-item .nav-link.active::after {
+          background: url("data:image/svg+xml;utf8,%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2255%22%20height%3D%2232%22%20viewBox%3D%220%200%2055%2032%22%3E%3Cpath%20fill%3D%22none%22%20stroke%3D%22%237a0019%22%20stroke-width%3D%225.8182%22%20stroke-miterlimit%3D%224%22%20stroke-linecap%3D%22butt%22%20stroke-linejoin%3D%22miter%22%20d%3D%22M2.909%202.909l24.608%2024.608%2024.608-24.608%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
+          background-size: 70%;
+          background-repeat: no-repeat;
+          width: 35px;
+          height: 25px;
+          content: '';
+          height: 1.8rem;
+          width: 1.2rem;
+          background-size: contain;
+          position: absolute;
+          margin-left: -2.5rem;
+          margin-top: 0.6rem;
+          background-size: 100%;
+          width: 2.8rem;
+          width: 1.7rem;
+          right: 2rem;
+          top: 2.2rem; }
+          @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+            .tabbed-content .nav-tabs .nav-item .nav-link.active::after {
+              background: url("../images/svg/down-arrow-icon.svg");
+              background-size: 60%;
+              background-repeat: no-repeat; } }
+      .tabbed-content .nav-tabs .nav-item .nav-link:hover {
+        background-color: #f8f9fa; }
+      @media (min-width: 992px) {
+        .tabbed-content .nav-tabs .nav-item .nav-link {
+          display: block;
+          width: auto;
+          background: transparent;
+          text-align: center; }
+          .tabbed-content .nav-tabs .nav-item .nav-link:hover {
+            background-color: inherit; }
+          .tabbed-content .nav-tabs .nav-item .nav-link.active {
+            padding-right: 2rem;
+            background: white;
+            -webkit-box-shadow: 0 4px 30px 0 rgba(0, 0, 0, 0.2);
+            -moz-box-shadow: 0 4px 30px 0 rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 30px 0 rgba(0, 0, 0, 0.2);
+            margin-top: -.8rem;
+            margin-bottom: .8rem; }
+          .tabbed-content .nav-tabs .nav-item .nav-link::after {
+            display: none; } }
+  .tabbed-content .nav-tabs.open .nav-link {
+    display: block; }
+    .tabbed-content .nav-tabs.open .nav-link::after {
+      display: none; }
+
+.tabbed-content__content {
+  padding-top: 2.2rem; }
+  @media (min-width: 992px) {
+    .tabbed-content__content {
+      padding: 5rem 6rem; } }
 
 /* Course grid paragarph */
 .course-grid .card-flip__front--title, .course-grid .card-flip__back--title {
@@ -12595,7 +12704,7 @@ img {
     position: relative;
     padding-top: 30px;
     padding-bottom: 30px;
-    background-color: #ffcc33; }
+    background-color: #FFCC33; }
     @media (min-width: 768px) {
       .faculty-profile__experience {
         word-wrap: break-word;
