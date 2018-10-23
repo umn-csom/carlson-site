@@ -97,7 +97,25 @@
             $(this).css('z-index', 'inherit');
             $(this).children().last().children().children().children().children().removeClass('show');
         });
+    }
 
+    // For the sticky header.
+    $(window).on("mousewheel", function() {
+        var top = $(window).scrollTop();
+        console.log(top);
+        if( top > 0 ) {
+            $('.carlson-header').addClass('sticky');
+        } else {
+            $('.carlson-header').removeClass('sticky');
+        }
+    });
+
+    // Scroll top init.
+    var top = $(window).scrollTop();
+    if( top > 0 ) {
+        $('.carlson-header').addClass('sticky');
+    } else {
+        $('.carlson-header').removeClass('sticky');
     }
   
   })(jQuery, Drupal);  

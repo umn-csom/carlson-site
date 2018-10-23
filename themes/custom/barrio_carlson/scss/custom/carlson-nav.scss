@@ -1,5 +1,3 @@
-
-
 .carlson-nav {
     border-bottom: 1px solid $menu-line-grey;
     min-height: 110px;
@@ -20,8 +18,10 @@
             flex-wrap: nowrap;
             align-items: center;
             position: absolute;
-            right: 25px;
-            margin-top: -8px;
+            right: 8px;
+            margin-top: -2px;
+            width: 50px;
+            height: 60px;
 
             @include media-breakpoint-up(lg) {
                 display: none;
@@ -232,7 +232,7 @@
                                     .we-mega-menu-col {
                                         .nav-tabs {
                                             .we-mega-menu-li {
-                                                min-height: 50px;
+                                                min-height: 45px;
                                                 padding: 0;
                                                 text-align: center;
                                                 line-height: .8em;
@@ -262,7 +262,7 @@
                             padding-right: 10px;
                             list-style: none;
                             border: none;
-                            min-height: 50px;
+                            min-height: 45px;
 
                             .we-mega-menu-submenu {
                                 top: -4000px;
@@ -411,6 +411,7 @@
     margin: 0;
     max-width: 70%;
     margin-top: 35px;
+    min-width: 242px;
     float: inherit;
 
     @include media-breakpoint-up(lg) {
@@ -452,7 +453,7 @@
         @include font-lato-base();
         font-size: 1.2rem;
         color: $maroon;
-        margin-top: 57px;
+        margin-top: 49px;
     }
 
     @include media-breakpoint-up(sm) {
@@ -650,7 +651,7 @@
                     transition: opacity .5s;
 
                     .we-mega-menu-li {
-                        min-height: 40px!important;
+                        min-height: 30px!important;
                     }
                     
                     &.show {
@@ -730,6 +731,12 @@ body {
 
     &.toggled {
         right: 0;
+
+        .btn-close {
+            &.sticky {
+                top: 6px;
+            }
+        }
     }
 
     &.toolbar-vertical {
@@ -792,5 +799,41 @@ body {
         position: absolute;
         right: 5%;
         top: 123px;
+    }
+}
+
+.carlson-header {
+    &.sticky {
+        z-index: 6;
+        position: fixed;
+        padding-left: 0;
+        padding-right: 0;
+        top: 0;
+
+        .navbar-brand {
+            padding-left: 15px;
+            padding-right: 0;
+            padding-top: 0;
+            padding-right: 0;
+        }
+
+        .region-we-mega-menu {
+            padding: 0;
+            margin: 0;
+            top: 0;
+            margin-top: -67px;
+            z-index: 99;
+            position: absolute;
+
+            @include media-breakpoint-up(sm) {
+                margin-top: -48px;
+            }
+
+            .navbar-we-mega-menu {
+                position: fixed;
+                top: 113px;
+                z-index: 99999;
+            }
+        }
     }
 }

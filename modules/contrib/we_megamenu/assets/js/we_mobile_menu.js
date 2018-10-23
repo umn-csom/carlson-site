@@ -15,6 +15,7 @@
     }
 
     var toggleButton = this;
+    var isSticky = false;
 
     $(window).resize(function () {
       if ($(window).width() <= 991) {
@@ -30,6 +31,11 @@
         item.removeClass('open');
         item.find('ul').css('display', '');
       }
+    });
+
+    $(window).on("mousewheel", function() {
+      var top = $(window).scrollTop();
+      isSticky = ( top > 0 ) ? true : false;
     });
 
     function _weMegaMenuClear() {
@@ -63,7 +69,7 @@
         wrapper.addClass(settings.toggledClass).css('position', wrapperPosition);
         $(settings.targetWrapper).addClass('mobile-main-menu');
         targetWrapper.addClass('we-mobile-megamenu-active');
-        if (wrapper.find('.overlay').length == 0) {
+        if (wrapper.find('.overlay').length == 0 && !isSticky) {
           var overlay = $('<div class="overlay"></div>');
           overlay.prependTo(wrapper);
           overlay.click(function () {
@@ -76,7 +82,8 @@
           $('body').css('left', '0');
         }
         if (wrapper.find('.btn-close').length == 0) {
-          var btnClose = $('<span class="btn-close"><label>CLOSE</label></span>');
+
+          var btnClose = (isSticky) ? $('<span class="btn-close sticky"><label>CLOSE</label></span>') : $('<span class="btn-close"><label>CLOSE</label></span>') ;
           btnClose.prependTo(wrapper);
 
           $('.btn-close').on('click', function (e) {
