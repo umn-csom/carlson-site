@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Custom theme implementation to display a "contact cta" paragraph.
+ * Default theme implementation to display a paragraph.
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -47,23 +47,59 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-{% set contact_data = {
-    'contact_heading': content.field_heading,
-    'email': content.field_email,
-    'phone': content.field_phone,
-    'link': content.field_request_link,
-    'social_heading': content.field_social_heading,
-    'twitter': content.field_link_twitter,
-    'facebook': content.field_link_facebook,
-    'linkedin': content.field_link_linkedin,
-    'youtube': content.field_link_youtube,
-  }
-%}
 {% block paragraph %}
     {% block content %}
-      {# Contact Info #}
-      {% include directory ~ '/templates/components/contact-cta.html.twig' with contact_data
-      %}
+
+    <div class="row component-paragraph tabbed-content">
+      {% if content.field_tab_accordion_item   is not empty %}
+        {% set items = content.field_tab_accordion_item |field_value %}
+
+        {% if (content.field_heading is not empty) or (content.field_main_content is not empty) %}
+        <div class="col-12 col-md-10 offset-md-1 tabbed-content__heading text-center">
+          <h3 class="label-border yellow">{{ content.field_heading }}</h3>
+          {{ content.field_main_content }}
+        </div>
+        {% endif %}
+
+        <div class="col-12">
+          {# Create the tabs #}
+          <ul class="nav nav-tabs" role="tablist">
+            {% set inc = 0 %}
+            {% for item in items %}
+
+              {% if inc == 0 %}
+                  {% set selected = 'true' %}
+                  {% set active = 'active' %}
+              {% else %}
+                  {% set selected = 'false' %}
+                  {% set active = '' %}
+              {% endif %}
+
+              <li class="nav-item">
+                <a class="nav-link {{ active }}" id="tab-{{ inc }}" data-toggle="tab" href="#content-{{ inc }}" role="tab" aria-controls="content-{{ inc }}" aria-selected="{{ selected }}">{{ item['#paragraph'].field_heading.0.value }}</a>
+              </li>       
+              {% set inc = inc+1 %}
+
+            {% endfor %}
+          </ul>
+
+          {# Create the tab content #}
+          <div class="tab-content tabbed-content__content">
+            {% set cont = 0 %}
+
+            {% for item in items %}
+                {% if cont == 0 %}
+                  {% set active = 'show active' %}
+                {% else %}
+                    {% set active = '' %}
+                {% endif %}
+                <div class="tabbed-content__content--itemtab-pane {{ active }}" id="content-{{ cont }}" role="tabpanel" aria-labelledby="content-{{ cont }}">{{ item['#paragraph'].field_main_content.0.value |raw}}</div>
+            {% set cont = cont+1 %}
+
+            {% endfor %}
+          </div>
+        </div> 
+      {% endif %}
+    </div>
     {% endblock %}
 {% endblock paragraph %}
-

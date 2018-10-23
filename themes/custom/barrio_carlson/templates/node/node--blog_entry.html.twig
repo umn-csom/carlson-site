@@ -84,7 +84,7 @@
     {{ title_suffix }}
   </header>
 
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'blog-entry', 'col') }}>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'blog') }}>
     {# Render hero with hero-basic component #}
     {% if node.field_hero_media.isEmpty %}
       <section>
@@ -93,7 +93,7 @@
             <h1>{{ label }}</h1>
             <div class="row">
               <div class="col col-sm-12 col-lg-6 d-none d-sm-block post-col">
-                <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
+                <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span>{{ byline|raw }}</p>
               </div>
               <div class="col col-sm-12 col-lg-6 d-none d-sm-block share-col">
                 <p class="share-this">Share This: {{ content.addtoany }}</p>
@@ -113,7 +113,7 @@
               <h1>{{ label }}</h1>
               <div class="row">
                 <div class="col-lg-6 basic-hero__pub">
-                  <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
+                  <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span>{{ byline|raw }}</p>
                 </div>
                 <div class="col-lg-6 basic-hero__share">
                   <p class="share-this">Share This: {{ content.addtoany }}</p>
@@ -125,16 +125,16 @@
       </section>
     {% endif %}
     {# Body and side bar #}
-    <section class="row blog-entry__body">
+    <section class="row blog__body">
 
       <div class="{{ (has_sidebar == TRUE) ? 'col-lg-8' : 'col-12' }}">
         {{ content.body }}
       </div>
 
-      {% if content.field_sidebar_content|field_value is not empty %}
-        <div class="col-lg-4 blog-entry--sidebar">
+      {% if content.field_blog_categories|field_value is not empty %}
+        <div class="col-lg-4 blog__body--sidebar">
           <div>
-            {{ content.field_sidebar_content }}
+            {{ content.field_blog_categories }}
           </div>
         </div>
       {% endif %}
@@ -143,8 +143,5 @@
     {# Flexible features are rendered through the paragraph templates specific to the feature #}
     {{ content.field_flexible_features }}
 
-    <div>
-      {{ content.field_news_channels }}
-    </div>
   </div>
 </article>

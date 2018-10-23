@@ -11115,7 +11115,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
   font-size: 3.4rem;
   line-height: 2.8rem;
   position: relative;
-  margin-bottom: 2.4rem; }
+  margin-bottom: 2rem; }
   @media (min-width: 768px) {
     .home-hero__title {
       font-size: 7.5rem;
@@ -11153,7 +11153,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
   font-size: 3.4rem;
   line-height: 2.8rem;
   position: relative;
-  margin-bottom: 2.4rem; }
+  margin-bottom: 2rem; }
   @media (min-width: 768px) {
     .hero-program__title {
       font-size: 7.5rem;
@@ -11204,6 +11204,8 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
   text-align: center;
   border-bottom: solid 1px #D8D8D8;
   margin-bottom: 3rem; }
+  .basic-hero__title--byline {
+    font-weight: 400; }
   .basic-hero__title h1 {
     margin-bottom: 2rem; }
 
@@ -11227,7 +11229,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
     text-align: left; }
   .basic-hero__title-inner {
     margin: 0 20px;
-    padding: 20px 30px; }
+    padding: 22px 60px; }
   .basic-hero__pub {
     text-align: left; }
   .basic-hero__share {
@@ -11243,7 +11245,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
   font-size: 3.4rem;
   line-height: 2.8rem;
   position: relative;
-  margin-bottom: 2.4rem; }
+  margin-bottom: 2rem; }
   @media (min-width: 768px) {
     .label-border.red {
       font-size: 4.8rem;
@@ -11254,7 +11256,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
     width: 100px;
     display: block;
     background: #7a0019;
-    margin: 1.6rem auto 0 auto; }
+    margin: 2.4rem auto 0 auto; }
 
 .label-border.yellow {
   font-family: "Crimson Text", serif;
@@ -11262,7 +11264,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
   font-size: 3.4rem;
   line-height: 2.8rem;
   position: relative;
-  margin-bottom: 2.4rem; }
+  margin-bottom: 2rem; }
   @media (min-width: 768px) {
     .label-border.yellow {
       font-size: 4.8rem;
@@ -11273,7 +11275,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
     width: 100px;
     display: block;
     background: #FFCC33;
-    margin: 1.6rem auto 0 auto; }
+    margin: 2.4rem auto 0 auto; }
 
 /**
  * @file
@@ -11294,6 +11296,39 @@ img {
 .region-breadcrumb {
   padding: 0 15px 0.25em;
   width: 100%; }
+
+.card-flip {
+  perspective: 1000px; }
+  .card-flip:hover .flip,
+  .card-flip.hover .flip {
+    transform: rotateY(180deg); }
+  .card-flip .card {
+    border: none;
+    background: transparent; }
+  .card-flip .flip {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative; }
+  .card-flip__front, .card-flip__back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: solid 1px #e6dbd6;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+  .card-flip__front {
+    z-index: 2;
+    transform: rotateY(0deg); }
+  .card-flip__back {
+    transform: rotateY(180deg); }
+
+.card-flip,
+.card-flip__front,
+.card-flip__back {
+  width: 100%;
+  min-height: 300px; }
 
 /**
  * @file
@@ -11675,6 +11710,35 @@ img {
       .accordion .card .inner.show {
         opacity: 1; }
 
+.tabbed-content {
+  /* Specifically targetting mobile since we only want to override 
+       BS tab styles for mobile to make them a drop down to match design
+    */ }
+  @media (max-width: 991.98px) {
+    .tabbed-content .nav {
+      padding-left: 2px;
+      padding-right: 2px; }
+    .tabbed-content .nav li {
+      display: block !important;
+      width: 100%;
+      margin: 0px; }
+    .tabbed-content .nav li.active {
+      border-bottom: 1px solid #ddd !important;
+      margin: 0px; } }
+
+/* Course grid paragarph */
+.course-grid .card-flip__front--title, .course-grid .card-flip__back--title {
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1.78px; }
+
+.course-grid .card-flip__back {
+  background: #7a0019;
+  color: white; }
+  .course-grid .card-flip__back--text {
+    margin: 1rem 3.2rem;
+    line-height: 3rem; }
+
 .component-paragraph {
   margin-bottom: 3rem; }
   @media (min-width: 992px) {
@@ -11695,7 +11759,7 @@ img {
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem; }
+    margin-bottom: 2rem; }
     @media (min-width: 768px) {
       .stats__heading {
         font-size: 4.8rem;
@@ -11706,7 +11770,7 @@ img {
       width: 100px;
       display: block;
       background: #FFCC33;
-      margin: 1.6rem auto 0 auto; }
+      margin: 2.4rem auto 0 auto; }
   .stats__blocks {
     margin-top: 2rem; }
   .stats__single {
@@ -11799,8 +11863,9 @@ img {
   .quote__text p {
     font-style: italic;
     font-family: "Crimson Text", serif;
-    font-size: 36px;
-    line-height: 44px;
+    font-size: 32px;
+    line-height: 34px;
+    letter-spacing: -.53px;
     text-transform: capitalize; }
   .quote__source {
     color: #e6dbd6;
@@ -11825,7 +11890,7 @@ img {
   font-size: 3.4rem;
   line-height: 2.8rem;
   position: relative;
-  margin-bottom: 2.4rem;
+  margin-bottom: 2rem;
   line-height: 42px; }
   @media (min-width: 768px) {
     .column__heading {
@@ -12147,7 +12212,7 @@ img {
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem;
+    margin-bottom: 2rem;
     margin-bottom: 3rem; }
     @media (min-width: 768px) {
       .speaker__heading--title {
@@ -12159,7 +12224,7 @@ img {
       width: 100px;
       display: block;
       background: #FFCC33;
-      margin: 1.6rem auto 0 auto; }
+      margin: 2.4rem auto 0 auto; }
 
 .schedule {
   border-bottom: solid 1px #e6dbd6; }
@@ -12190,51 +12255,117 @@ img {
     background: #e6dbd6; }
 
 .event__details {
-  max-width: 1330px;
-  margin-left: auto;
-  margin-right: auto; }
+  max-width: 1330px; }
+  @media (min-width: 992px) {
+    .event__details {
+      margin-left: auto;
+      margin-right: auto; } }
 
 .event__body {
-  max-width: 1060px;
-  margin-left: auto;
-  margin-right: auto; }
+  max-width: 1060px; }
+  @media (min-width: 992px) {
+    .event__body {
+      margin-left: auto;
+      margin-right: auto; } }
 
 .event__map,
 .event .contact-cta {
-  max-width: 1330px;
-  margin-left: auto;
-  margin-right: auto; }
+  max-width: 1330px; }
+  @media (min-width: 992px) {
+    .event__map,
+    .event .contact-cta {
+      margin-left: auto;
+      margin-right: auto; } }
+
+.blog .program-cta,
+.blog .fullwidth-video,
+.blog .program-promo {
+  max-width: 1330px; }
+  @media (min-width: 992px) {
+    .blog .program-cta,
+    .blog .fullwidth-video,
+    .blog .program-promo {
+      margin-left: auto;
+      margin-right: auto; } }
+
+.blog__body,
+.blog .basic-paragraph,
+.blog .carlson-slideshow,
+.blog .quote,
+.blog .quote-group {
+  max-width: 1060px; }
+  @media (min-width: 992px) {
+    .blog__body,
+    .blog .basic-paragraph,
+    .blog .carlson-slideshow,
+    .blog .quote,
+    .blog .quote-group {
+      margin-left: auto;
+      margin-right: auto; } }
+  .blog__body--sidebar,
+  .blog .basic-paragraph--sidebar,
+  .blog .carlson-slideshow--sidebar,
+  .blog .quote--sidebar,
+  .blog .quote-group--sidebar {
+    margin-bottom: 3rem; }
+    .blog__body--sidebar > div,
+    .blog .basic-paragraph--sidebar > div,
+    .blog .carlson-slideshow--sidebar > div,
+    .blog .quote--sidebar > div,
+    .blog .quote-group--sidebar > div {
+      border: solid 1px #e6dbd6;
+      padding: 20px; }
+
+.blog .label-border {
+  font-size: 3.4rem;
+  line-height: 3.4rem;
+  font-weight: 400; }
+  .blog .label-border:after {
+    margin: 1.6rem 0 0 0; }
+
+@media (min-width: 992px) {
+  .blog__body--sidebar > div {
+    padding: 30px 35px; } }
 
 /* News Page styles */
 .news .program-cta,
 .news .fullwidth-video,
 .news .program-promo {
-  max-width: 1330px;
-  margin-left: auto;
-  margin-right: auto; }
+  max-width: 1330px; }
+  @media (min-width: 992px) {
+    .news .program-cta,
+    .news .fullwidth-video,
+    .news .program-promo {
+      margin-left: auto;
+      margin-right: auto; } }
 
 .news__body,
 .news .basic-paragraph,
 .news .carlson-slideshow,
 .news .quote,
 .news .quote-group {
-  max-width: 1060px;
-  margin-left: auto;
-  margin-right: auto; }
+  max-width: 1060px; }
+  @media (min-width: 992px) {
+    .news__body,
+    .news .basic-paragraph,
+    .news .carlson-slideshow,
+    .news .quote,
+    .news .quote-group {
+      margin-left: auto;
+      margin-right: auto; } }
   .news__body--sidebar,
   .news .basic-paragraph--sidebar,
   .news .carlson-slideshow--sidebar,
   .news .quote--sidebar,
   .news .quote-group--sidebar {
-    border: solid 1px #e6dbd6;
     margin-bottom: 3rem; }
     .news__body--sidebar > div,
     .news .basic-paragraph--sidebar > div,
     .news .carlson-slideshow--sidebar > div,
     .news .quote--sidebar > div,
     .news .quote-group--sidebar > div {
-      padding-top: 20px;
-      padding-bottom: 20px; }
+      border: solid 1px #e6dbd6;
+      padding: 20px; }
 
 .news .label-border {
   font-size: 3.4rem;
@@ -12245,7 +12376,7 @@ img {
 
 @media (min-width: 992px) {
   .news__body--sidebar > div {
-    padding: 30px 20px; } }
+    padding: 30px 35px; } }
 
 .faculty-profile {
   /** Top Profile - Block. **/
@@ -12263,7 +12394,7 @@ img {
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem;
+    margin-bottom: 2rem;
     margin-top: 2rem; }
     @media (min-width: 768px) {
       .faculty-profile__top--name {
@@ -12291,7 +12422,7 @@ img {
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem;
+    margin-bottom: 2rem;
     margin-top: 2rem; }
     @media (min-width: 768px) {
       .faculty-profile__experience h2, .faculty-profile__contact h2 {
@@ -12305,7 +12436,7 @@ img {
       font-size: 3.4rem;
       line-height: 2.8rem;
       position: relative;
-      margin-bottom: 2.4rem;
+      margin-bottom: 2rem;
       margin-top: 4rem; }
       @media (min-width: 768px) {
         .faculty-profile__about h2 {
@@ -12419,7 +12550,7 @@ img {
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem;
+    margin-bottom: 2rem;
     margin-top: 2rem; }
     @media (min-width: 768px) {
       .faculty-profile__works h2 {
@@ -12431,7 +12562,7 @@ img {
       width: 100px;
       display: block;
       background: #FFCC33;
-      margin: 1.6rem auto 0 auto; }
+      margin: 2.4rem auto 0 auto; }
   .faculty-profile__expertise, .faculty-profile__education {
     list-style: none; }
     .faculty-profile__expertise--item, .faculty-profile__education--item {
@@ -12510,7 +12641,7 @@ img {
     font-size: 3.4rem;
     line-height: 2.8rem;
     position: relative;
-    margin-bottom: 2.4rem; }
+    margin-bottom: 2rem; }
     @media (min-width: 768px) {
       .student-profile__top--name {
         font-size: 4.8rem;
@@ -12554,7 +12685,7 @@ img {
       font-size: 3.4rem;
       line-height: 2.8rem;
       position: relative;
-      margin-bottom: 2.4rem; }
+      margin-bottom: 2rem; }
       @media (min-width: 768px) {
         .student-profile__sidebar--label {
           font-size: 3.4rem;

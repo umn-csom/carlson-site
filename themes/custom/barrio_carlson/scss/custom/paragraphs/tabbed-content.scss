@@ -1,0 +1,30 @@
+
+.tabbed-content {
+    &__heading {
+
+    }
+    /* Specifically targetting mobile since we only want to override 
+       BS tab styles for mobile to make them a drop down to match design
+    */
+    @include media-breakpoint-down(md) {
+        .nav {
+            padding-left:2px;
+            padding-right:2px;
+        }
+        .nav li {
+            display:block !important;
+            width:100%;
+            margin:0px;
+        }
+        .nav li.active {
+            border-bottom:1px solid #ddd!important;
+            margin: 0px;
+        }
+    } 
+    &__content {
+        &--item {
+            
+        }
+
+    }   
+}

@@ -86,7 +86,7 @@
 
   </header>
 
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'news', 'col') }}>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'news') }}>
     {# Render hero with hero-basic component #}
     {% if node.field_hero_media.isEmpty %}
       <section>
@@ -107,7 +107,7 @@
     {% else %}
       <section>
         <div class="row basic-hero">
-          <div class="col-md-12 basic-hero__img">
+          <div class="col-md-12 basic-hero__img px-0">
             {{ content.field_hero_media }}
           </div>
           <div class="col-10 offset-1 basic-hero__title">

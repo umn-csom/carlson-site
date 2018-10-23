@@ -44,4 +44,6 @@ $('.triple .view-content').addClass('ml-sm-1 mr-sm-1');
         }
     });
 
+    document.querySelector(".card-flip").classList.toggle("flip");
+
 })(jQuery, Drupal);
