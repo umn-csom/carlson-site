@@ -34,7 +34,7 @@ class Person extends SqlBase {
     $query->leftjoin('field_data_field_name_middle_initial', 'c', 'c.entity_id = f.nid');
     $query->leftjoin('field_data_field_additional_title', 'd', 'd.entity_id = f.nid');
     $query->leftjoin('field_data_field_brief_bio', 'e', 'e.entity_id = f.nid');
-    $query->leftjoin('field_data_body', 'g', 'g.entity_id = f.nid');
+    $query->leftjoin('field_data_field_about_me', 'g', 'g.entity_id = f.nid');
 
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
@@ -52,6 +52,8 @@ class Person extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
     $fields['data'] = $this->t('data');
+
+    $fields['about_me'] = $this->t('about_me');
     $fields['body'] = $this->t('body');
 
     $fields['ec_section'] = $this->t('ec_section');
@@ -136,11 +138,11 @@ class Person extends SqlBase {
       $row->setSourceProperty('teaser', $record->field_brief_bio_value );
     }
 
-    // body to body
-    $result = $this->_getBody( $nid );
+    // about_me to body
+    $result = $this->_getCustomField( 'about_me', $nid );
     foreach ($result as $record) {
-      $row->setSourceProperty('body', $record->body_value );
-      $row->setSourceProperty('body/0/value', $record->body_value );
+      $row->setSourceProperty('about_me', $record->field_about_me_value );
+      $row->setSourceProperty('body/0/value', $record->field_about_me_value );
     }
 
     // type to blog_group
