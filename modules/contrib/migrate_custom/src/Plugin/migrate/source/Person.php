@@ -27,6 +27,15 @@ class Person extends SqlBase {
     // If it's required use 'join', if not use 'leftjoin'.
     $query = $this->select('node', 'f');
 
+    // Selections.
+    $query->leftjoin('field_data_field_ec_section', 'j', 'j.entity_id = f.nid');
+    $query->leftjoin('field_data_field_first_name', 'a', 'a.entity_id = f.nid');
+    $query->leftjoin('field_data_field_last_name', 'b', 'b.entity_id = f.nid');
+    $query->leftjoin('field_data_field_name_middle_initial', 'c', 'c.entity_id = f.nid');
+    $query->leftjoin('field_data_field_additional_title', 'd', 'd.entity_id = f.nid');
+    $query->leftjoin('field_data_field_brief_bio', 'e', 'e.entity_id = f.nid');
+    $query->leftjoin('field_data_body', 'g', 'g.entity_id = f.nid');
+
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
 
@@ -43,6 +52,23 @@ class Person extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
     $fields['data'] = $this->t('data');
+    $fields['body'] = $this->t('body');
+
+    $fields['ec_section'] = $this->t('ec_section');
+    $fields['section'] = $this->t('section');
+
+    $fields['first_name'] = $this->t('first_name');
+    $fields['last_name'] = $this->t('last_name');
+
+    $fields['name_middle_initial'] = $this->t('name_middle_initial');
+    $fields['middle_initial'] = $this->t('middle_initial');
+
+    $fields['additional_title'] = $this->t('additional_title');
+    $fields['profile_title'] = $this->t('profile_title');
+
+    $fields['brief_bio'] = $this->t('brief_bio');
+    $fields['teaser'] = $this->t('teaser');
+
     return $fields;
   }
 
@@ -62,6 +88,63 @@ class Person extends SqlBase {
     if ( !empty($alias) ) {
       $row->setSourceProperty('alias', '/' . $alias);
     }
+
+    // ec_section to section
+    $result = $this->_getEntityReference( 'ec_section', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('ec_section', $record->field_ec_section_target_id );
+      $row->setSourceProperty('section', $record->field_ec_section_target_id );
+    }
+
+    // first_name
+    $result = $this->_getCustomField( 'first_name', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('first_name', $record->field_first_name_value );
+    }
+
+    // last_name
+    $result = $this->_getCustomField( 'last_name', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('last_name', $record->field_last_name_value );
+    }
+
+    // name_middle_initial to middle_initial
+    $result = $this->_getCustomField( 'name_middle_initial', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('name_middle_initial', $record->field_name_middle_initial_value );
+      $row->setSourceProperty('middle_initial', $record->field_name_middle_initial_value );
+    }
+
+    // additional_title to profile_title
+    $result = $this->_getTitleField( 'additional_title', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('additional_title', $record->field_additional_title_title );
+      $row->setSourceProperty('profile_title', $record->field_additional_title_title );
+    }
+
+    // carlson_group to profile_group
+    $result = $this->_getCustomField( 'carlson_group', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('carlson_group', $record->field_carlson_group_value );
+      $row->setSourceProperty('profile_group', $record->field_carlson_group_value );
+    }
+
+    // brief_bio to teaser
+    $result = $this->_getCustomField( 'brief_bio', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('brief_bio', $record->field_brief_bio_value );
+      $row->setSourceProperty('teaser', $record->field_brief_bio_value );
+    }
+
+    // body to body
+    $result = $this->_getBody( $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('body', $record->body_value );
+      $row->setSourceProperty('body/0/value', $record->body_value );
+    }
+
+    // type to blog_group
+    $row->setSourceProperty('person_type', $record->type );
 
     return parent::prepareRow($row);
   }
@@ -117,10 +200,62 @@ class Person extends SqlBase {
   /**
    * Private Methods.
    */
+  private function _getBody($nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.body_value
+      FROM
+        {field_data_body} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
   private function _setAliasPath($nid) {
     $query = $this->select('url_alias', 'ua')->fields('ua', ['alias']);
     $query->condition('ua.source', 'node/' . $nid);
     return $query->execute()->fetchField();
+  }
+
+  private function _getEntityReference($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_target_id
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
+  private function _getCustomField($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_value
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
+  private function _getTitleField($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_title
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
   }
 }
 ?>

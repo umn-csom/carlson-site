@@ -121,7 +121,7 @@ class ExecutiveEdProgram extends SqlBase {
       $row->setSourceProperty('section', $record->field_ec_section_target_id );
     }
 
-    // ec_section to section
+    // ee_business_topic to ee_business_topic
     $result = $this->_getEntityReference( 'ee_business_topic', $nid );
     foreach ($result as $record) {
       $row->setSourceProperty('ee_business_topic', $record->field_ee_business_topic_target_id );
