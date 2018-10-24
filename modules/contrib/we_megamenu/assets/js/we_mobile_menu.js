@@ -75,12 +75,14 @@
           overlay.click(function () {
             _weMegaMenuClear();
           });
-          $('body').css('overflow', 'hidden');
-          $('body').css('btn-close', 'hidden');
-          $('body').css('height', '100%');
-          $('body').css('position', wrapperPosition);
-          $('body').css('left', '0');
         }
+
+        $('body').css('overflow', 'hidden');
+        $('body').css('btn-close', 'hidden');
+        $('body').css('height', '100%');
+        //$('body').css('position', wrapperPosition);
+        $('body').css('left', '0');
+
         if (wrapper.find('.btn-close').length == 0) {
 
           var btnClose = (isSticky) ? $('<span class="btn-close sticky"><label>CLOSE</label></span>') : $('<span class="btn-close"><label>CLOSE</label></span>') ;
