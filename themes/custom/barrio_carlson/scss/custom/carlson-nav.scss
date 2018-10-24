@@ -466,11 +466,12 @@
 .mobile-third-tier-menu {
     &__back-btn {
         &:before {
-            content: '';
-            position: absolute;
             left: 0;
-            top: 2px;
-            @include long-left-arrow-icon($maroon);
+            top: 0;
+            color: $maroon;
+            @include carlson-icons($icon-arrow-left);
+            position: absolute;
+            font-size: 2.7rem;
         }
 
         padding-left: 45px;
@@ -481,6 +482,7 @@
         border: none;
         background: none;
         font-size: 1.4rem;
+        padding-top: 4px;
 
         &:focus {
             outline: 0;
@@ -515,19 +517,19 @@
         font-size: 2.4rem;
 
         @include media-breakpoint-up(lg) {
-            background: none;
+            content: '';
         }
     }
 
     &.open {
         &:before {
-            content: '';
+            @include carlson-icons($icon-minus);
             position: absolute;
-            @include minus-icon($menu-gold);
-            margin-top: 30px;
+            color: $gold;
+            font-size: 2.4rem;
     
             @include media-breakpoint-up(lg) {
-                background: none;
+                content: '';
             }
         }
     }
@@ -616,15 +618,16 @@
                         transition: padding-left .35s!important;
 
                         &:before {
-                            content: '';
-                            position: absolute;
                             left: 0;
                             top: 0;
-                            @include long-right-arrow-icon($slate);
+                            @include carlson-icons($icon-arrow-right);
+                            color: $slate;
                             transform: rotate(0deg);
-                            margin-top: -1px;
+                            position: absolute;
+                            margin-top: -5px;
                             opacity: 0;
                             transition: opacity .25s;
+                            text-transform: none;
                         }
                         
                         &:hover {
