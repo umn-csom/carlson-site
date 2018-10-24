@@ -25,12 +25,22 @@
       color: $slate;
       letter-spacing: 1.78px;
       margin-right: 41px;
-      
-
-      &:after {
-        @include carlson-icons($icon-arrow-in-square);
-        font-size: 3.4rem;
+      &:hover {
+        text-decoration: none;
         color: $maroon;
+      }
+      &:after{
+        color: $maroon;
+        font-size: 2.8rem;
+        top: 5px;
+        margin-left: 1.5rem;
+        border: solid 2px $maroon;
+        padding: 4px;
+        @include carlson-icons($icon-arrow-right);
+      }
+      &:hover:after {
+        color: $white;
+        background: $maroon;
       }
     }
   }
