@@ -121,7 +121,7 @@ class ExecutiveEdProgram extends SqlBase {
       $row->setSourceProperty('section', $record->field_ec_section_target_id );
     }
 
-    // ec_section to section
+    // ee_business_topic to ee_business_topic
     $result = $this->_getEntityReference( 'ee_business_topic', $nid );
     foreach ($result as $record) {
       $row->setSourceProperty('ee_business_topic', $record->field_ee_business_topic_target_id );
@@ -175,8 +175,6 @@ class ExecutiveEdProgram extends SqlBase {
     // menu_position_rule to menu_rule
     $result = $this->_getTaxonomyId( 'menu_position_rule', $nid );
     foreach ($result as $record) {
-      var_dump($record->field_menu_position_rule_tid);
-
       $row->setSourceProperty('menu_position_rule', $record->field_menu_position_rule_tid );
       $row->setSourceProperty('menu_rule', $record->field_menu_position_rule_tid );
     }
