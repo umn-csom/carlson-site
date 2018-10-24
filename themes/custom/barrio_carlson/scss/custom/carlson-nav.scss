@@ -67,12 +67,6 @@
                 top: 155px;
             }
 
-            .container-fluid {
-                &.expand {
-                    min-height: 1150px; 
-                }
-            }
-
             @include media-breakpoint-up(lg) {
                 top: -20px;
                 bottom: 25px;
@@ -427,7 +421,7 @@
 
 .btn-close {
     top: 92px;
-    right: 0;
+    right: 4px;
     background: $white;
     box-shadow: none;
     width: 70px;
@@ -438,6 +432,12 @@
     transition: none;
     z-index: 35;
     display: block;
+    visibility: visible!important;
+    opacity: 1!important;
+
+    &.sticky {
+        top: 9px;
+    }
 
     @include media-breakpoint-up(lg) {
         display: none;
@@ -733,12 +733,6 @@ body {
 
     &.toggled {
         right: 0;
-
-        .btn-close {
-            &.sticky {
-                top: 6px;
-            }
-        }
     }
 
     &.toolbar-vertical {
@@ -774,7 +768,7 @@ body {
     &.toolbar-fixed {
         .carlson-nav .block-we-megamenu {
             @include media-breakpoint-up(lg) {
-                top: 211px;
+                top: 219px;
             }
         }
     }
@@ -813,6 +807,13 @@ body {
         padding-right: 0;
         top: 0;
 
+        .carlson-nav {
+            position: fixed;
+            top: 0;
+            z-index: 999;
+            width: 100%;
+        }
+
         .navbar-brand {
             padding-left: 15px;
             padding-right: 0;
@@ -834,7 +835,7 @@ body {
 
             .navbar-we-mega-menu {
                 position: fixed;
-                top: 113px;
+                top: 110px;
                 z-index: 99999;
 
                 @include media-breakpoint-up(lg) {

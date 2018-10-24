@@ -10442,8 +10442,6 @@ hr {
       @media (min-width: 576px) {
         .carlson-nav .region-we-mega-menu .navbar {
           top: 155px; } }
-      .carlson-nav .region-we-mega-menu .navbar .container-fluid.expand {
-        min-height: 1150px; }
       @media (min-width: 992px) {
         .carlson-nav .region-we-mega-menu .navbar {
           top: -20px;
@@ -10782,7 +10780,7 @@ hr {
 
 .btn-close {
   top: 92px;
-  right: 0;
+  right: 4px;
   background: white;
   box-shadow: none;
   width: 70px;
@@ -10792,7 +10790,11 @@ hr {
   animation: none;
   transition: none;
   z-index: 35;
-  display: block; }
+  display: block;
+  visibility: visible !important;
+  opacity: 1 !important; }
+  .btn-close.sticky {
+    top: 9px; }
   @media (min-width: 992px) {
     .btn-close {
       display: none; } }
@@ -11058,8 +11060,6 @@ hr {
 
 body.toggled {
   right: 0; }
-  body.toggled .btn-close.sticky {
-    top: 6px; }
 
 body.toolbar-vertical .btn-close {
   top: 139px; }
@@ -11084,7 +11084,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
 
 @media (min-width: 992px) {
   body.toolbar-fixed .carlson-nav .block-we-megamenu {
-    top: 211px; } }
+    top: 219px; } }
 
 .navbar-we-mega-menu.navbar ul > li ul {
   padding-left: 18px; }
@@ -11113,6 +11113,11 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
     padding-left: 0;
     padding-right: 0;
     top: 0; }
+    .carlson-header.sticky .carlson-nav {
+      position: fixed;
+      top: 0;
+      z-index: 999;
+      width: 100%; }
     .carlson-header.sticky .navbar-brand {
       padding-left: 15px;
       padding-right: 0;
@@ -11130,7 +11135,7 @@ body.toolbar-vertical .carlson-nav .block-we-megamenu {
           margin-top: -48px; } }
       .carlson-header.sticky .region-we-mega-menu .navbar-we-mega-menu {
         position: fixed;
-        top: 113px;
+        top: 110px;
         z-index: 99999; }
         @media (min-width: 992px) {
           .carlson-header.sticky .region-we-mega-menu .navbar-we-mega-menu {
