@@ -33,10 +33,22 @@
       }
     });
 
-    $(window).on("mousewheel", function() {
+    function setSticky() {
       var top = $(window).scrollTop();
       isSticky = ( top > 0 ) ? true : false;
+    }
+
+    $(window).on("mousewheel", function() {
+      setSticky();
     });
+
+    $('body').on({
+        'touchmove': function(e) { 
+          setSticky();
+        }
+    });
+
+    setSticky();
 
     function _weMegaMenuClear() {
       var wrapper = $(settings.pageSelector);
@@ -49,13 +61,16 @@
       wrapper.removeClass(settings.toggledClass);
       wrapper.find('div.region-we-mega-menu nav').removeClass('we-mobile-megamenu-active');
 
-      if (overlay.length > 0) {
-        wrapper.find('.btn-close').remove();
-        overlay.remove();
-        $('body').css('overflow', '');
-        $('body').css('height', '');
-        $('body').css('position', '');
-      }
+      // if (overlay.length > 0) {
+      //   wrapper.find('.btn-close').remove();
+      //   overlay.remove();
+      //   $('body').css('overflow', '');
+      //   $('body').css('height', '');
+      //   $('body').css('position', '');
+      // }
+
+      wrapper.find('.btn-close').remove();
+      $('body').css('overflow', '');
     }
 
     this.off('click.mobileMenu');
@@ -66,7 +81,7 @@
       var wrapperPosition = 'fixed';
 
       if (!wrapper.hasClass(settings.toggledClass)) {
-        wrapper.addClass(settings.toggledClass).css('position', wrapperPosition);
+        //wrapper.addClass(settings.toggledClass).css('position', wrapperPosition);
         $(settings.targetWrapper).addClass('mobile-main-menu');
         targetWrapper.addClass('we-mobile-megamenu-active');
         if (wrapper.find('.overlay').length == 0 && !isSticky) {
@@ -79,9 +94,9 @@
 
         $('body').css('overflow', 'hidden');
         $('body').css('btn-close', 'hidden');
-        $('body').css('height', '100%');
+        //$('body').css('height', '100%');
         //$('body').css('position', wrapperPosition);
-        $('body').css('left', '0');
+        //$('body').css('left', '0');
 
         if (wrapper.find('.btn-close').length == 0) {
 

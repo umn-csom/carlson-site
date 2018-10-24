@@ -18,14 +18,29 @@
             $(this).next().prepend('<button class="button mobile-third-tier-menu__back-btn">BACK</button>');
             $('.we-mega-menu-ul').addClass('slide-left');
         });
+
+        function setExpandedMenuHeight(height) {
+            var mainHeight = $('.carlson-nav .region-we-mega-menu .main').height();
+            var halfHeight = ( mainHeight/2 );
+
+            if( height > halfHeight ) {
+                $('.carlson-nav .navbar .container-fluid').css('min-height', (height + mainHeight + 'px') );
+            } else {
+                $('.carlson-nav .navbar .container-fluid').css('min-height', '' );
+            }
+        }
+
+        $('.third-tier a.we-mega-menu-li').on('click', function(e) {
+            setExpandedMenuHeight( $(this).next().height() );
+        });
+
+        $('.we-mega-menu-li a.we-mega-menu-li').on('click', function(e) {
+            setExpandedMenuHeight( $(this).next().height() );
+        });
     
         $(document).on('click', '.overlay', function(e) {
             $('.we-mega-menu-ul').removeClass('slide-left');
             $('.carlson-nav .navbar .container-fluid').css('min-height', 'inherit');
-        });
-    
-        $('.navbar-toggle').on('click', function(e) {
-            $('.carlson-nav .navbar .container-fluid').css('min-height', '1100px');
         });
     
         $(document).on('click', '.mobile-third-tier-menu__back-btn', function(e) {
@@ -99,22 +114,28 @@
         });
     }
 
-    // For the sticky header.
-    $(window).on("mousewheel", function() {
+    function setSticky() {
         var top = $(window).scrollTop();
         if( top > 0 ) {
             $('.carlson-header').addClass('sticky');
         } else {
             $('.carlson-header').removeClass('sticky');
         }
+    }
+
+    // For the sticky header.
+    $(window).on('mousewheel', function() {
+        setSticky();
+    });
+
+    // For touch move.
+    $('body').on({
+        'touchmove': function(e) { 
+            setSticky();
+        }
     });
 
     // Scroll top init.
-    var top = $(window).scrollTop();
-    if( top > 0 ) {
-        $('.carlson-header').addClass('sticky');
-    } else {
-        $('.carlson-header').removeClass('sticky');
-    }
+    setSticky();
   
   })(jQuery, Drupal);  
