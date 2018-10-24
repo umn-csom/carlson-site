@@ -25,7 +25,13 @@
       color: $slate;
       letter-spacing: 1.78px;
       margin-right: 41px;
-      @include carlson-icons($icon-arrow-in-square,'after', 3.4rem,$maroon);
+      
+
+      &:after {
+        @include carlson-icons($icon-arrow-in-square);
+        font-size: 3.4rem;
+        color: $maroon;
+      }
     }
   }
   @include media-breakpoint-up(lg) {
