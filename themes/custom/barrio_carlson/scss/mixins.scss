@@ -353,7 +353,58 @@ $value in $theme-colors {
     margin-top: 0.9rem;
     margin-left: -1.5rem;
 }
+/* Icon font */
+@mixin carlson-icons($icon, $position: 'before', $size: '16px',$color: '', $hover: '') {
+    
+    @if($position == 'before') {
+        &:before {
+            font-family: 'carlson-icons' !important;
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
 
+            /* Better Font Rendering =========== */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            content: $icon;
+            color: $color;
+            font-size: $size;
+        }        
+        &:hover:before {
+            color: $hover;
+        }
+
+    }
+    @else {
+        &:after {
+            /* use !important to prevent issues with browser extensions that change fonts */
+            font-family: 'carlson-icons' !important;
+            speak: none;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+
+            /* Better Font Rendering =========== */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            content: $icon;
+            color: $color;
+            font-size: $size;
+        }        
+        &:hover:after {
+            color: $hover;
+        }
+
+    }
+
+
+}
+/* Box shadows */
 @mixin box-shadow-a() {
     -webkit-box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.2);
     -moz-box-shadow: 0px 0px 67px 0px rgba(0,0,0,0.2);
