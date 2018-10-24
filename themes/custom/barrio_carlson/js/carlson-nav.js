@@ -24,7 +24,6 @@
             var halfHeight = ( mainHeight/2 );
 
             if( height > halfHeight ) {
-                console.log(mainHeight);
                 $('.carlson-nav .navbar .container-fluid').css('min-height', (height + mainHeight + 'px') );
             } else {
                 $('.carlson-nav .navbar .container-fluid').css('min-height', '' );
