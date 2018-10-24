@@ -515,19 +515,19 @@
         font-size: 2.4rem;
 
         @include media-breakpoint-up(lg) {
-            background: none;
+            content: '';
         }
     }
 
     &.open {
         &:before {
-            content: '';
+            @include carlson-icons($icon-minus);
             position: absolute;
-            @include minus-icon($menu-gold);
-            margin-top: 30px;
+            color: $gold;
+            font-size: 2.4rem;
     
             @include media-breakpoint-up(lg) {
-                background: none;
+                content: '';
             }
         }
     }
