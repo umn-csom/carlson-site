@@ -27,6 +27,9 @@ class Event extends SqlBase {
     // If it's required use 'join', if not use 'leftjoin'.
     $query = $this->select('node', 'f');
 
+    // Selections.
+    $query->leftjoin('field_event_description', 'a', 'a.entity_id = f.nid');
+
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
 
@@ -40,6 +43,9 @@ class Event extends SqlBase {
    */
   public function fields() {
     $fields = $this->baseFields();
+
+    $fields['body'] = $this->t('body');
+
     return $fields;
   }
 
