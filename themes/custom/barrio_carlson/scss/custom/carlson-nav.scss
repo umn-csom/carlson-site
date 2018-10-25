@@ -799,18 +799,22 @@ body {
 
     &.toolbar-vertical {
         .btn-close {
-            top: 139px;
+            top: 141px;
 
+            &.sticky {
+                top: 9px;
+            }
+            
             @include media-breakpoint-up(sm) {
                 top: 119px;
             }
         }
 
         .carlson-nav .region-we-mega-menu .navbar {
-            top: 211px;
+            top: 248px;
 
             @include media-breakpoint-up(sm) {
-                top: 195px;
+                top: 223px;
             }
         }
 
@@ -825,12 +829,30 @@ body {
                 top: 211px;
             }
         }
+
+        .carlson-header {
+            &.sticky {
+                .region-we-mega-menu {
+                    margin-top: -120px;
+
+                    .navbar-we-mega-menu {
+                        top: 110px;
+                    }
+                }
+            }
+        }
     }
 
     &.toolbar-fixed {
         .carlson-nav .block-we-megamenu {
             @include media-breakpoint-up(lg) {
                 top: 219px;
+            }
+        }
+
+        .carlson-header {
+            &.sticky {
+                display: none;
             }
         }
     }

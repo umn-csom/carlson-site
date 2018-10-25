@@ -28,7 +28,18 @@ class Event extends SqlBase {
     $query = $this->select('node', 'f');
 
     // Selections.
-    $query->leftjoin('field_event_description', 'a', 'a.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_description', 'a', 'a.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_teaser', 'b', 'b.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_id', 'c', 'c.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_category', 'd', 'd.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_date', 'e', 'e.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_cost', 'g', 'g.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_register', 'h', 'h.entity_id = f.nid');
+    $query->leftjoin('field_data_field_google_map', 'i', 'i.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_location', 'j', 'j.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_contact_name', 'k', 'k.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_contact_phone', 'l', 'l.entity_id = f.nid');
+    $query->leftjoin('field_data_field_event_contact_email', 'm', 'm.entity_id = f.nid');
 
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
@@ -44,7 +55,29 @@ class Event extends SqlBase {
   public function fields() {
     $fields = $this->baseFields();
 
+    $fields['event_teaser'] = $this->t('event_teaser');
+    $fields['event_id'] = $this->t('event_id');
+    $fields['event_category'] = $this->t('event_category');
+    $fields['event_channels'] = $this->t('event_channels');
+    $fields['event_date'] = $this->t('event_date');
+    $fields['event_cost'] = $this->t('event_cost');
+    $fields['google_map'] = $this->t('google_map');
+    $fields['event_location'] = $this->t('event_location');
+
     $fields['body'] = $this->t('body');
+    $fields['event_description'] = $this->t('event_description');
+
+    $fields['event_register'] = $this->t('event_register');
+    $fields['link'] = $this->t('link');
+
+    $fields['event_contact_name'] = $this->t('event_contact_name');
+    $fields['full_name'] = $this->t('full_name');
+
+    $fields['event_contact_phone'] = $this->t('event_contact_phone');
+    $fields['phone'] = $this->t('phone');
+
+    $fields['event_contact_email'] = $this->t('event_contact_email');
+    $fields['email'] = $this->t('email');
 
     return $fields;
   }
