@@ -58,7 +58,7 @@
     <h5>{{ item.content.field_block_heading }}</h5>
     <ul class="list-inline">
       {% if item.content.field_email|field_value is not empty %}
-      <li class="list-inline-item">Email: {{ item.content.field_email }}</li>
+      <li class="list-inline-item">Email: <a href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></li>
       {% endif %}
       {% if item.content.field_phone|field_value is not empty %}
       <li class="list-inline-item">Phone: {{ item.content.field_phone }}</li>

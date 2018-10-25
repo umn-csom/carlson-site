@@ -122,7 +122,7 @@
             <div class="date__start--month">
               {{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('month_long') }}
             </div>
-          </div>    
+          </div>
         </div>
         {% endif %}
       </div>
@@ -160,10 +160,10 @@
     <div class="row component-paragraph contact-cta">
       <div class="col-lg-6 contact-cta__contact">
         <h5>Contact Information</h5>
-        <div class="contact-cta__contact--fullname">{{ content.field_full_name }}</div>
+        <div class="contact-cta__contact--fullname">Event Contact: {{ content.field_full_name }}</div>
         <ul class="list-inline">
           {% if content.field_email|field_value is not empty %}
-          <li class="list-inline-item">Email: {{ content.field_email }}</li>
+          <li class="list-inline-item">Email: <a href="mailto:{{ content.field_email }}" title="email {{ content.field_email }}">{{ content.field_email }}</a></li>
           {% endif %}
           {% if content.field_phone|field_value is not empty %}
           <li class="list-inline-item">Phone: {{ content.field_phone }}</li>
