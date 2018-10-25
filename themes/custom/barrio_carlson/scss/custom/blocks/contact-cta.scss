@@ -11,7 +11,7 @@
     background-color: #ffcc33;
     padding-top: 30px;
     padding-bottom: 30px;
-    h5 {
+    &--heading {
       font-size: $font-medium-mobile;
       @include media-breakpoint-up(lg) {
         font-size: $font-small;
@@ -28,9 +28,28 @@
         display: inline-block;
       }
     }
+    @include media-breakpoint-up(lg){
+      &--email + &--phone {
+        &::before {
+          content: '|';
+          margin-right: 1.5rem;
+        }
+      }
+    }
+    &--phone {
+        a {
+        color: $slate;
+      }
+    }
   }
   &__social {
     padding-top: 30px;
     padding-bottom: 30px;
+    &--heading {
+      font-size: $font-medium-mobile;
+      @include media-breakpoint-up(lg) {
+        font-size: $font-small;
+      }
+    }
   }
 }

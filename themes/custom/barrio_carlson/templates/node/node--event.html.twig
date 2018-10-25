@@ -159,19 +159,19 @@
 
     <div class="row component-paragraph contact-cta">
       <div class="col-lg-6 contact-cta__contact">
-        <h5>Contact Information</h5>
+        <h5 class="contact-cta__contact--heading">Contact Information</h5>
         <div class="contact-cta__contact--fullname">Event Contact: {{ content.field_full_name }}</div>
         <ul class="list-inline">
           {% if content.field_email|field_value is not empty %}
-          <li class="list-inline-item">Email: <a href="mailto:{{ content.field_email }}" title="email {{ content.field_email }}">{{ content.field_email }}</a></li>
+          <li class="list-inline-item contact-cta__contact--email">Email: <a href="mailto:{{ content.field_email }}" title="email {{ content.field_email }}">{{ content.field_email }}</a></li>
           {% endif %}
           {% if content.field_phone|field_value is not empty %}
-          <li class="list-inline-item">Phone: {{ content.field_phone }}</li>
+          <li class="list-inline-item contact-cta__contact--phone">Phone: {{ content.field_phone }}</li>
           {% endif %}
         </ul>
       </div>
       <div class="col-lg-6 text-center contact-cta__social">
-        <h5>Share This Event</h5>
+        <h5 class="contact-cta__social--heading">Share This Event</h5>
         <div>{{ content.addtoany }}</div>
       </div>
     </div>
