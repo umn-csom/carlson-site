@@ -6,7 +6,7 @@
 (function ($, Drupal) {
     'use strict';
 
-    var isDesktop = ( ( $(window).width() > 768 ) ? true : false );
+    var isDesktop = ( ( $(window).width() > 1024 ) ? true : false );
     
     if(!isDesktop) {
         $('.we-megamenu-nolink').on('click', function(e) {
@@ -21,13 +21,15 @@
 
         function setExpandedMenuHeight(height) {
             var mainHeight = $('.carlson-nav .region-we-mega-menu .main').height();
-            var halfHeight = ( mainHeight/2 );
+            var halfHeight = ( mainHeight / 2 );
 
-            if( height > halfHeight ) {
-                $('.carlson-nav .navbar .container-fluid').css('min-height', (height + mainHeight + 'px') );
-            } else {
-                $('.carlson-nav .navbar .container-fluid').css('min-height', '' );
-            }
+            setTimeout(function() {
+                if( height > halfHeight ) {
+                    $('.carlson-nav .region-we-mega-menu .navbar .container-fluid').css('min-height', (height + mainHeight + 75 + 'px') );  
+                } else {
+                    $('.carlson-nav .region-we-mega-menu .navbar .container-fluid').css('min-height', '600px');  
+                }
+            }, 500);
         }
 
         $('.third-tier a.we-mega-menu-li').on('click', function(e) {
@@ -40,7 +42,6 @@
     
         $(document).on('click', '.overlay', function(e) {
             $('.we-mega-menu-ul').removeClass('slide-left');
-            $('.carlson-nav .navbar .container-fluid').css('min-height', 'inherit');
         });
     
         $(document).on('click', '.mobile-third-tier-menu__back-btn', function(e) {
@@ -65,7 +66,7 @@
             $('body').css('overflow', 'hidden');
 
             var offset = $('.carlson-nav .navbar').offset().top;
-            var add = ( ( $(window).width() > 1024 ) ? 35 : 40 );
+            var add = ( ( $(window).width() > 1024 ) ? 34 : 15 );
             offset = ( ( offset + add ) - $(window).scrollTop() );
             $('.carlson-nav .navbar .we-mega-menu-submenu').css('top', offset + 'px');
         });
@@ -80,7 +81,7 @@
             $('body').css('overflow', 'hidden');
 
             var offset = $('.carlson-nav .navbar').offset().top;
-            var add = ( ( $(window).width() > 1024 ) ? 35 : 40 );
+            var add = ( ( $(window).width() > 1024 ) ? 34 : 15 );
             offset = ( ( offset + add ) - $(window).scrollTop() );
             $(this).css('top', offset + 'px');
         });
