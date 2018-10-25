@@ -179,6 +179,21 @@ $value in $theme-colors {
     @return url('data:image/svg+xml;utf8,#{url-encode($string)}');
 }
 
+@mixin icon-font-family() {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: '#{$icomoon-font-family}' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 @mixin base-icon() {
     background-size: 70%;
     background-repeat: no-repeat;
