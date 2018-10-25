@@ -11,21 +11,80 @@
     background-color: #ffcc33;
     padding-top: 30px;
     padding-bottom: 30px;
-    
-    &--fullname {
-
+    &--heading {
+      font-size: $font-medium-mobile;
+      @include media-breakpoint-up(lg) {
+        font-size: $font-small;
+      }
     }
-    h5{
-      color: #363230;
-      @include font-crimson-base();
-      font-size: 34px;
-      font-weight: 400;
-      line-height: 31px;
+    &--fullname {
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 1.78px;
+    }
+    .list-inline-item {
+      display: block;
+      @include media-breakpoint-up(lg){
+        display: inline-block;
+      }
+    }
+    &--phone {
+        a {
+        color: $slate;
+      }
+    }
+    &--email + &--phone{
+      @include media-breakpoint-up(lg){
+        &::before {
+          content: '|';
+          margin-right: 1.5rem;
+        }
+      }
     }
   }
   &__social {
     padding-top: 30px;
     padding-bottom: 30px;
+    text-align: center;
+    &--heading {
+      font-size: $font-medium-mobile;
+      @include media-breakpoint-up(lg) {
+        font-size: $font-small;
+      }
+    }
+    .addtoany_list {
+        a {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            text-align: center;
+        }
+    }
+    &--list-item {
+      font-size: 3.2rem;
+      a {
+        display: inline-block;
+        font-size: 3.2rem;
+        margin-top: 2rem;
+        padding: 1.5rem;
+        text-align: center;
+      }
+    }
   }
 }
-
+// attempt to change how the contact block behaves on a page with a sidebar
+.landing-page__content-components.col-lg-9 {
+  .contact-cta__contact--email + .contact-cta__contact--phone {
+    @include media-breakpoint-up(lg){
+      &::before {
+        content: '';
+        margin: 0;
+      }
+    }
+    @include media-breakpoint-up(xl){
+      &::before {
+        content: '|';
+        margin-right: 1.5rem;
+      }
+    }
+  }
+}

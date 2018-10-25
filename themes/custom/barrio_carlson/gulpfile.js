@@ -3,6 +3,7 @@ var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
 var concat = require("gulp-concat");
 var minifyCss = require("gulp-minify-css");
+var sourcemaps = require("gulp-sourcemaps");
 var shell = require('gulp-shell');
 
 // Setting pattern this way allows non gulp- plugins to be loaded as well.
@@ -97,8 +98,10 @@ var options = {
 
 // Compile sass into CSS & auto-inject into browsers
 gulp.task('sass', function() {
-    return gulp.src(['scss/style.scss'], ['sass'])
+  return gulp.src(['scss/style.scss'], ['sass'])
+        .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest("css"))
         .pipe(sass({ outputStyle: 'compressed' }))
         // .pipe(minifyCss())

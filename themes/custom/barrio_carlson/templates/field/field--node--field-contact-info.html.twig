@@ -55,24 +55,24 @@
 <div class="row component-paragraph contact-cta">
 {% for item in items %}
   <div class="col-md-6 contact-cta__contact">
-    <h5>{{ item.content.field_block_heading }}</h5>
+    <h5 class="contact-cta__contact--heading">{{ item.content.field_block_heading }}</h5>
     <ul class="list-inline">
       {% if item.content.field_email|field_value is not empty %}
-      <li class="list-inline-item">Email: {{ item.content.field_email }}</li>
+      <li class="list-inline-item contact-cta__contact--email">Email: <a href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></li>
       {% endif %}
       {% if item.content.field_phone|field_value is not empty %}
-      <li class="list-inline-item">Phone: {{ item.content.field_phone }}</li>
+      <li class="list-inline-item contact-cta__contact--phone">Phone: {{ item.content.field_phone }}</li>
       {% endif %}
     </ul>
     <div>{{ item.content.field_request_link }}</div>
   </div>
   <div class="col-md-6 contact-cta__social">
-    <h5>{{ item.content.field_social_heading }}</h5>
+    <h5 class="contact-cta__social--heading">{{ item.content.field_social_heading }}</h5>
     <ul class="list-inline">
-      <li class="list-inline-item"><a href="{{ item.content.field_link_twitter.0['#url'] }}">TW</a></li>
-      <li class="list-inline-item"><a href="{{ item.content.field_link_youtube.0['#url'] }}">YT<i class="f"></i></a></li>
-      <li class="list-inline-item"><a href="{{ item.content.field_link_linkedin.0['#url'] }}">LI<i class="f"></i></a></li>
-      <li class="list-inline-item"><a href="{{ item.content.field_link_facebook.0['#url'] }}">FB<i class="f"></i></a></li>
+      <li class="list-inline-item contact-cta__social--list-item"><a href="{{ item.content.field_link_twitter.0['#url'] }}"><i class="icon icon-twitter" title="Twitter" alt="Twitter"></i></a></li>
+      <li class="list-inline-item contact-cta__social--list-item"><a href="{{ item.content.field_link_youtube.0['#url'] }}"><i class="icon icon-youtube" title="YouTube" alt="YouTube"></i></a></li>
+      <li class="list-inline-item contact-cta__social--list-item"><a href="{{ item.content.field_link_linkedin.0['#url'] }}"><i class="icon icon-linkedin" title="LinkedIn" alt="LinkedIn"></i></a></li>
+      <li class="list-inline-item contact-cta__social--list-item"><a href="{{ item.content.field_link_facebook.0['#url'] }}"><i class="icon icon-facebook" title="Facebook" alt="Facebook"></i></a></li>
     </ul>
   </div>
 
