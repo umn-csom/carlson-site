@@ -1,24 +1,50 @@
 
 .sidebar-cta {
 	background: $maroon;
-	> div {
-
-	}
-	a {
-		color: $white;
-		text-transform: uppercase;
-		font-size: 1.2rem;
-	}
-	.icon-attend {
-
-	}
-	.icon-apply {
-
-	}
-	.icon-request {
-
-	}
+	padding: .5rem 0;
+	text-align: center;
 	@include media-breakpoint-up(lg) {
-		margin-right: 0px;
+		margin-right: 0;
+		text-align: left;
 	}
+    .cta-link {
+		padding: 1rem;
+		display: inline-block;
+		vertical-align: top;
+		max-width: 15rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		@include media-breakpoint-up(lg){
+			display: block;
+			padding: 1rem 0;
+			max-width: unset;
+		}
+        &__icon {
+			display: block;
+			font-size: 2.5rem;
+			text-align: center;
+			margin-bottom: .5rem;
+			@include media-breakpoint-up(lg){
+				display: inline-block;
+				width: 3rem;
+				font-size: 1.8rem;
+				margin-bottom: 0;
+			}
+            .icon:before {
+                color: $gold;
+            }
+        }
+		a {
+			display: inline-block;
+			vertical-align: top;
+			color: $white;
+			text-transform: uppercase;
+			font-size: 1.2rem;
+			line-height: 1.8rem;
+			letter-spacing: 1.33px;
+			@include media-breakpoint-up(lg){
+				vertical-align: middle;
+			}
+		}
+    }
 }
