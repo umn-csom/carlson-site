@@ -40,6 +40,7 @@ class Event extends SqlBase {
     $query->leftjoin('field_data_field_event_contact_name', 'k', 'k.entity_id = f.nid');
     $query->leftjoin('field_data_field_event_contact_phone', 'l', 'l.entity_id = f.nid');
     $query->leftjoin('field_data_field_event_contact_email', 'm', 'm.entity_id = f.nid');
+    $query->leftjoin('field_data_field_ec_section', 'n', 'n.entity_id = f.nid');
 
     // Field Mappings.
     $query->fields('f', array_keys( $this->baseFields() ) );
@@ -57,8 +58,6 @@ class Event extends SqlBase {
 
     $fields['event_teaser'] = $this->t('event_teaser');
     $fields['event_id'] = $this->t('event_id');
-    $fields['event_category'] = $this->t('event_category');
-    $fields['event_channels'] = $this->t('event_channels');
     $fields['event_date'] = $this->t('event_date');
     $fields['event_cost'] = $this->t('event_cost');
     $fields['google_map'] = $this->t('google_map');
@@ -79,6 +78,12 @@ class Event extends SqlBase {
     $fields['event_contact_email'] = $this->t('event_contact_email');
     $fields['email'] = $this->t('email');
 
+    $fields['ec_section'] = $this->t('ec_section');
+    $fields['section'] = $this->t('section');
+
+    $fields['event_category'] = $this->t('event_category');
+    $fields['event_channels'] = $this->t('event_channels');
+
     return $fields;
   }
 
@@ -97,6 +102,103 @@ class Event extends SqlBase {
     $alias = $this->_setAliasPath( $nid );
     if ( !empty($alias) ) {
       $row->setSourceProperty('alias', '/' . $alias);
+    }
+
+    // event_description to body
+    $result = $this->_getCustomField( 'event_description', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('body', $record->field_event_description_value );
+      $row->setSourceProperty('body/0/value', $record->field_event_description_value );
+    }
+
+    // ec_section to section
+    $result = $this->_getEntityReference( 'ec_section', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('ec_section', $record->field_ec_section_target_id );
+      $row->setSourceProperty('section', $record->field_ec_section_target_id );
+    }
+
+    // event_teaser to event_teaser
+    $result = $this->_getCustomField( 'event_teaser', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('event_teaser', $record->field_event_teaser_value );
+    }
+
+    // event_teaser to event_teaser
+    $result = $this->_getCustomField( 'event_id', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('event_id', $record->field_event_id_value );
+    }
+
+    // event_teaser to event_teaser
+    $result = $this->_getCustomField( 'event_id', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('event_id', $record->field_event_id_value );
+    }
+
+    // event_category to event_channels
+    $result = $this->_getTaxonomyId( 'event_category', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('event_category', $record->field_event_category_tid );
+      $row->setSourceProperty('event_channels', $record->field_event_category_tid );
+    }
+
+    // event_date to event_date
+    $result = $this->_getDateField( 'event_date', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('event_date', $record->field_event_date_value );
+      $row->setSourceProperty('event_date/0/end_value', $record->field_event_date_value2 );
+    }
+
+    // event_cost to event_cost
+    $result = $this->_getCustomField( 'event_cost', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('event_cost', $record->field_event_cost_value );
+    }
+
+    // event_register to link
+    $result = $this->_getUrlField( 'event_register', $nid );
+    foreach ($result as $record) {
+      $url = $record->field_event_register_url;
+      if ( strpos($url, 'http') === false ) {
+        $url = ('https://' . $url );
+      }
+
+      $row->setSourceProperty('event_register', $url );
+      $row->setSourceProperty('link', $url );
+    }
+
+    // google_map to google_map
+    $result = $this->_getCustomField( 'google_map', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('google_map', $record->field_google_map_value );
+    }
+
+    // event_location to event_location
+    $result = $this->_getCustomField( 'event_location', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('event_location', $record->field_event_location_value );
+    }
+
+    // contact_name to full_name
+    $result = $this->_getCustomField( 'contact_name', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('contact_name', $record->field_contact_name_value );
+      $row->setSourceProperty('full_name', $record->field_contact_name_value );
+    }
+
+    // contact_phone to phone
+    $result = $this->_getCustomField( 'contact_phone', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('contact_phone', $record->field_contact_phone_value );
+      $row->setSourceProperty('phone', $record->field_contact_phone_value );
+    }
+
+    // contact_email to email
+    $result = $this->_getCustomField( 'contact_email', $nid );
+    foreach ($result as $record) {
+      $row->setSourceProperty('contact_email', $record->field_contact_email_value );
+      $row->setSourceProperty('email', $record->field_contact_email_value );
     }
 
     return parent::prepareRow($row);
@@ -159,5 +261,57 @@ class Event extends SqlBase {
     return $query->execute()->fetchField();
   }
   
+  private function _getCustomField($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_value
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
+  private function _getEntityReference($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_target_id
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
+  private function _getTaxonomyId($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_tid
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
+  private function _getDateField($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_value, 
+        fld.field_' . $value . '_value2
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
 }
 ?>
