@@ -6,7 +6,7 @@
 (function ($, Drupal) {
     'use strict';
 
-    var isDesktop = ( ( $(window).width() > 768 ) ? true : false );
+    var isDesktop = ( ( $(window).width() > 1024 ) ? true : false );
     
     if(!isDesktop) {
         $('.we-megamenu-nolink').on('click', function(e) {
@@ -18,14 +18,30 @@
             $(this).next().prepend('<button class="button mobile-third-tier-menu__back-btn">BACK</button>');
             $('.we-mega-menu-ul').addClass('slide-left');
         });
+
+        function setExpandedMenuHeight(height) {
+            var mainHeight = $('.carlson-nav .region-we-mega-menu .main').height();
+            var halfHeight = ( mainHeight / 2 );
+
+            setTimeout(function() {
+                if( height > halfHeight ) {
+                    $('.carlson-nav .region-we-mega-menu .navbar .container-fluid').css('min-height', (height + mainHeight + 75 + 'px') );  
+                } else {
+                    $('.carlson-nav .region-we-mega-menu .navbar .container-fluid').css('min-height', '600px');  
+                }
+            }, 500);
+        }
+
+        $('.third-tier a.we-mega-menu-li').on('click', function(e) {
+            setExpandedMenuHeight( $(this).next().height() );
+        });
+
+        $('.we-mega-menu-li a.we-mega-menu-li').on('click', function(e) {
+            setExpandedMenuHeight( $(this).next().height() );
+        });
     
         $(document).on('click', '.overlay', function(e) {
             $('.we-mega-menu-ul').removeClass('slide-left');
-            $('.carlson-nav .navbar .container-fluid').css('min-height', 'inherit');
-        });
-    
-        $('.navbar-toggle').on('click', function(e) {
-            $('.carlson-nav .navbar .container-fluid').css('min-height', '1100px');
         });
     
         $(document).on('click', '.mobile-third-tier-menu__back-btn', function(e) {
@@ -50,7 +66,7 @@
             $('body').css('overflow', 'hidden');
 
             var offset = $('.carlson-nav .navbar').offset().top;
-            var add = ( ( $(window).width() > 1024 ) ? 35 : 40 );
+            var add = ( ( $(window).width() > 1024 ) ? 34 : 15 );
             offset = ( ( offset + add ) - $(window).scrollTop() );
             $('.carlson-nav .navbar .we-mega-menu-submenu').css('top', offset + 'px');
         });
@@ -65,7 +81,7 @@
             $('body').css('overflow', 'hidden');
 
             var offset = $('.carlson-nav .navbar').offset().top;
-            var add = ( ( $(window).width() > 1024 ) ? 35 : 40 );
+            var add = ( ( $(window).width() > 1024 ) ? 34 : 15 );
             offset = ( ( offset + add ) - $(window).scrollTop() );
             $(this).css('top', offset + 'px');
         });
@@ -97,7 +113,30 @@
             $(this).css('z-index', 'inherit');
             $(this).children().last().children().children().children().children().removeClass('show');
         });
-
     }
+
+    function setSticky() {
+        var top = $(window).scrollTop();
+        if( top > 0 ) {
+            $('.carlson-header').addClass('sticky');
+        } else {
+            $('.carlson-header').removeClass('sticky');
+        }
+    }
+
+    // For the sticky header.
+    $(window).on('mousewheel', function() {
+        setSticky();
+    });
+
+    // For touch move.
+    $('body').on({
+        'touchmove': function(e) { 
+            setSticky();
+        }
+    });
+
+    // Scroll top init.
+    setSticky();
   
   })(jQuery, Drupal);  

@@ -10,14 +10,39 @@
   background-position: top left;
   background-repeat: no-repeat;
   &__intro {
-    @include serif-font($font-small);
     > *          {
       font-weight: 400;
+      @include serif-font($font-medium);
     }
     margin-bottom: 2rem;
   }
   &__link {
+    text-align: center;
     text-transform: uppercase;
+    a {
+      line-height: 40px;
+      font-weight: bold;
+      color: $slate;
+      letter-spacing: 1.78px;
+      margin-right: 41px;
+      &:hover {
+        text-decoration: none;
+        color: $maroon;
+      }
+      &:after{
+        color: $maroon;
+        font-size: 2.8rem;
+        top: 5px;
+        margin-left: 1.5rem;
+        border: solid 2px $maroon;
+        padding: 4px;
+        @include carlson-icons($icon-arrow-right);
+      }
+      &:hover:after {
+        color: $white;
+        background: $maroon;
+      }
+    }
   }
   @include media-breakpoint-up(lg) {
       background-size: contain;
@@ -26,9 +51,6 @@
       }
       &__link {
         text-align: right;
-        &:after {
-
-        }
       }
   }
 }
