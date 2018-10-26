@@ -143,13 +143,6 @@ class Event extends SqlBase {
       $row->setSourceProperty('event_channels', $record->field_event_category_tid );
     }
 
-    // event_date to event_date
-    $result = $this->_getDateField( 'event_date', $nid );
-    foreach ($result as $record) {
-      $row->setSourceProperty('event_date', $record->field_event_date_value );
-      $row->setSourceProperty('event_date/0/end_value', $record->field_event_date_value2 );
-    }
-
     // event_cost to event_cost
     $result = $this->_getCustomField( 'event_cost', $nid );
     foreach ($result as $record) {
@@ -180,25 +173,25 @@ class Event extends SqlBase {
       $row->setSourceProperty('event_location', $record->field_event_location_value );
     }
 
-    // contact_name to full_name
-    $result = $this->_getCustomField( 'contact_name', $nid );
+    // event_contact_name to full_name
+    $result = $this->_getCustomField( 'event_contact_name', $nid );
     foreach ($result as $record) {
-      $row->setSourceProperty('contact_name', $record->field_contact_name_value );
-      $row->setSourceProperty('full_name', $record->field_contact_name_value );
+      $row->setSourceProperty('event_contact_name', $record->field_event_contact_name_value );
+      $row->setSourceProperty('full_name', $record->field_event_contact_name_value );
     }
 
-    // contact_phone to phone
-    $result = $this->_getCustomField( 'contact_phone', $nid );
+    // event_contact_phone to phone
+    $result = $this->_getCustomField( 'event_contact_phone', $nid );
     foreach ($result as $record) {
-      $row->setSourceProperty('contact_phone', $record->field_contact_phone_value );
-      $row->setSourceProperty('phone', $record->field_contact_phone_value );
+      $row->setSourceProperty('event_contact_phone', $record->field_event_contact_phone_value );
+      $row->setSourceProperty('phone', $record->field_event_contact_phone_value );
     }
 
-    // contact_email to email
-    $result = $this->_getCustomField( 'contact_email', $nid );
+    // event_contact_email to email
+    $result = $this->_getEmailField( 'event_contact_email', $nid );
     foreach ($result as $record) {
-      $row->setSourceProperty('contact_email', $record->field_contact_email_value );
-      $row->setSourceProperty('email', $record->field_contact_email_value );
+      $row->setSourceProperty('event_contact_email', $record->field_event_contact_email_email );
+      $row->setSourceProperty('email', $record->field_event_contact_email_email );
     }
 
     return parent::prepareRow($row);
@@ -305,6 +298,32 @@ class Event extends SqlBase {
       SELECT
         fld.field_' . $value . '_value, 
         fld.field_' . $value . '_value2
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
+  private function _getUrlField($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_url
+      FROM
+        {field_data_field_' . $value . '} fld
+      WHERE
+        fld.entity_id = :nid
+    ', array(':nid' => $nid));
+
+    return $result;
+  }
+
+  private function _getEmailField($value, $nid) {
+    $result = $this->getDatabase()->query('
+      SELECT
+        fld.field_' . $value . '_email
       FROM
         {field_data_field_' . $value . '} fld
       WHERE
