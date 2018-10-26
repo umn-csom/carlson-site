@@ -1,34 +1,90 @@
 /* Course grid paragarph */
 .course-grid {
-	&__items {
+    &__items {
 
-	}
-	.card-flip {
-	  .card {
-	  }
-	  .flip {
+    }
+    .card-flip {
 
-	  }
+        .card-block:before {
+            content: ' ';
+            font-size: 4rem;
+            border: 1px solid $light-gray;
+            border-radius: 4rem;
+            padding: 2rem 0;
+            width: 8rem;
+            height: 8rem;
+            display: inline-block;
+        }
 
-	  &__front,
-	  &__back {
-	  	&--title {
-	  		text-transform: uppercase;
-	  		font-weight: 700;
-	  		letter-spacing: 1.78px;
-	  	}
-	  }
+        &__front,
+        &__back {
+            &--title {
+                text-transform: uppercase;
+                font-weight: 700;
+                letter-spacing: 1.78px;
+            }
+        }
 
-	  &__front {
-	  }
-	  &__back {
-	  	background: $maroon;
-	  	color: $white;
-	  	&--text {
-	  		margin: 1rem 3.2rem;
-	  		line-height: 3rem;
-	  	}
-	  }
+        &__back {
+            background: $maroon;
+            color: $white;
+            &--text {
+                margin: 1rem 3.2rem;
+                line-height: 3rem;
+            }
+            .card-block:before {
+                color: $gold;
+                border: 0;
+            }
+        }
 
-	}
+        &.icon {
+            &-1 {
+                .card-block:before {
+                    @include carlson-icons($icon-data-line);
+                }
+            }
+            &-2 {
+                .card-block:before {
+                    @include carlson-icons($icon-monitor);
+                }
+            }
+            &-3 {
+                .card-block:before {
+                    @include carlson-icons($icon-rotate-arrow);
+                }
+            }
+            &-4 {
+                .card-block:before {
+                    @include carlson-icons($icon-dollar-sign);
+                }
+            }
+            &-5 {
+                .card-block:before {
+                    @include carlson-icons($icon-lightbulb);
+                }
+            }
+            &-6 {
+                .card-block:before {
+                    @include carlson-icons($icon-hands);
+                }
+            }
+            &-7 {
+                .card-block:before {
+                    @include carlson-icons($icon-lightbulb);
+                }
+            }
+            &-8 {
+                .card-block:before {
+                    @include carlson-icons($icon-grids);
+                }
+            }
+            &-9 {
+                .card-block:before {
+                    @include carlson-icons($icon-location-arrow);
+                }
+            }
+        }
+
+    }
 }
