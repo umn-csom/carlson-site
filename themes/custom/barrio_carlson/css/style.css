@@ -7804,6 +7804,7 @@ a.text-dark:hover, a.text-dark:focus {
 /* Font mixins embellished headings */
 /* Button mixins */
 /** Inner page width settings for narrow and wide insets **/
+/** Icon fonts **/
 /** SVG Icons. **/
 /* Icon font */
 /* Box shadows */
@@ -12951,7 +12952,8 @@ img {
 .faculty-profile {
   /** Top Profile - Block. **/
   /** Contact - Block. **/
-  /** Education Degrees - Block. **/ }
+  /** Education Degrees - Block. **/
+  /* Tease View mode */ }
   .faculty-profile__top--headshot img {
     width: 100%;
     height: auto;
@@ -13197,6 +13199,39 @@ img {
           background-position: top left;
           -webkit-transform: rotate(0deg);
           transform: rotate(0deg); } }
+  .faculty-profile__teaser {
+    margin-bottom: 3rem; }
+    .faculty-profile__teaser img {
+      -webkit-box-shadow: 0 15px 60px 0 rgba(0, 0, 0, 0.3);
+      -moz-box-shadow: 0 15px 60px 0 rgba(0, 0, 0, 0.3);
+      box-shadow: 0 15px 60px 0 rgba(0, 0, 0, 0.3); }
+    .faculty-profile__teaser--name {
+      margin: 1rem 3rem 1rem 5rem;
+      font-family: "Crimson Text", serif;
+      font-size: 3.4rem;
+      line-height: 3.4rem;
+      color: #363230;
+      display: block; }
+      @media (min-width: 992px) {
+        .faculty-profile__teaser--name {
+          font-size: 3.4rem;
+          line-height: 3.4rem; } }
+      .faculty-profile__teaser--name:hover, .faculty-profile__teaser--name:active, .faculty-profile__teaser--name:focus {
+        color: #7a0019; }
+      .faculty-profile__teaser--name::before {
+        content: '';
+        position: absolute;
+        width: 2px;
+        left: 45px;
+        background: #FFCC33;
+        height: 100px;
+        bottom: 30px; }
+    @media (min-width: 768px) {
+      .faculty-profile__teaser--name::before {
+        left: 65px; } }
+    @media (min-width: 1200px) {
+      .faculty-profile__teaser--name::before {
+        bottom: 70px; } }
 
 .student-profile {
   /** Top Profile - Block. **/ }
@@ -13316,7 +13351,32 @@ img {
     min-height: 20rem;
     background: #FFCC33; }
 
+/* Misc custom page overrides */
 /* Faculty finder node with placed View block */
+.page-node-11641 .basic-hero__title {
+  border-bottom: none;
+  margin-bottom: 0; }
+  .page-node-11641 .basic-hero__title-inner {
+    text-align: center; }
+    .page-node-11641 .basic-hero__title-inner h1 {
+      font-family: "Crimson Text", serif;
+      word-break: break-word;
+      font-size: 3.4rem;
+      line-height: 2.8rem;
+      position: relative;
+      margin-bottom: 2rem; }
+      @media (min-width: 768px) {
+        .page-node-11641 .basic-hero__title-inner h1 {
+          font-size: 4.8rem;
+          line-height: 4.8rem; } }
+      .page-node-11641 .basic-hero__title-inner h1:after {
+        content: '';
+        height: 2px;
+        width: 100px;
+        display: block;
+        background: #FFCC33;
+        margin: 2.4rem auto 0 auto; }
+
 /**
  * @file
  * Visual styles for comments in Barrio.
@@ -13380,3 +13440,8 @@ img {
 .views-ui-display-tab-actions .dropbutton .form-submit:hover,
 .views-ui-display-tab-actions .dropbutton .form-submit:focus {
   color: #7a0019; }
+
+@media (min-width: 768px) {
+  .faculty-directory .faculty-profile__teaser {
+    padding-right: 20px;
+    padding-left: 20px; } }
