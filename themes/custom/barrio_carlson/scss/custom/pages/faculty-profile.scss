@@ -140,4 +140,45 @@
             }
         }
     }
+    /* Tease View mode */
+    &__teaser {
+        margin-bottom: 3rem;
+        img {
+            @include profile-image-box-shadow();
+        }
+        &--name {
+            margin:1rem 3rem 1rem 5rem;
+            @include serif-font($font-small);
+            color: $slate;
+            display: block;
+            &:hover,
+            &:active,
+            &:focus {
+                color: $maroon;
+            }
+            &::before {
+                content: '';
+                position: absolute;
+                width: 2px;
+                left: 45px;
+                background: #FFCC33;
+                height: 100px;
+                bottom: 30px;
+            }
+        }
+        @include media-breakpoint-up(md) {
+            &--name {
+                &::before {
+                    left: 65px;
+                }
+            } 
+        }
+        @include media-breakpoint-up(xl) {
+            &--name {
+                &::before {
+                    bottom: 70px;
+                }
+            } 
+        }
+    }
 }
