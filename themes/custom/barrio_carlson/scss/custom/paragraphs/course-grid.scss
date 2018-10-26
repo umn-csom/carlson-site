@@ -1,34 +1,112 @@
 /* Course grid paragarph */
 .course-grid {
-	&__items {
+    &__items {
 
-	}
-	.card-flip {
-	  .card {
-	  }
-	  .flip {
+    }
+    .card-flip {
 
-	  }
+        .card-block:before {
+            content: ' ';
+            font-size: 4rem;
+            border: 1px solid $light-gray;
+            border-radius: 4rem;
+            padding: 2rem 0;
+            width: 8rem;
+            height: 8rem;
+            display: inline-block;
+            margin-bottom: 2.6rem;
+        }
 
-	  &__front,
-	  &__back {
-	  	&--title {
-	  		text-transform: uppercase;
-	  		font-weight: 700;
-	  		letter-spacing: 1.78px;
-	  	}
-	  }
+        &__front,
+        &__back {
+            &--title {
+                text-transform: uppercase;
+                font-weight: 700;
+                letter-spacing: 1.78px;
+                font-size: 1.9rem;
+            }
+        }
 
-	  &__front {
-	  }
-	  &__back {
-	  	background: $maroon;
-	  	color: $white;
-	  	&--text {
-	  		margin: 1rem 3.2rem;
-	  		line-height: 3rem;
-	  	}
-	  }
+        &__back {
+            background: $maroon;
+            color: $white;
+            &--text {
+                margin: 1rem 3.2rem;
+                line-height: 3rem;
+            }
+            &--link {
+                font-size: 1.9rem;
+                color: $white;
+                font-weight: bold;
+                text-transform: uppercase;
+                letter-spacing: 1.78px;
+                padding: .5rem 0;
+                border-bottom: .2rem solid $gold;
+            }
+            .card-block:before {
+                color: $gold;
+                border: 0;
+                padding-top: 1rem;
+                margin-bottom: 0;
+            }
+        }
 
-	}
+        &.icon {
+            /* data icon */
+            &-1 {
+                .card-block:before {
+                    @include carlson-icons($icon-data-line);
+                }
+            }
+            /* monitor icon */
+            &-2 {
+                .card-block:before {
+                    @include carlson-icons($icon-monitor);
+                }
+            }
+            /* target icon */
+            &-3 {
+                .card-block:before {
+                    @include carlson-icons($icon-rotate-arrow);
+                }
+            }
+            /* dollar icon */
+            &-4 {
+                .card-block:before {
+                    @include carlson-icons($icon-dollar-sign);
+                }
+            }
+            /* navigation icon */
+            &-5 {
+                .card-block:before {
+                    @include carlson-icons($icon-location-arrow);
+                }
+            }
+            /* hands icon */
+            &-6 {
+                .card-block:before {
+                    @include carlson-icons($icon-hands);
+                }
+            }
+            /* lightbulb icon */
+            &-7 {
+                .card-block:before {
+                    @include carlson-icons($icon-lightbulb);
+                }
+            }
+            /* squares icon */
+            &-8 {
+                .card-block:before {
+                    @include carlson-icons($icon-grids);
+                }
+            }
+            /* arrow icon */
+            &-9 {
+                .card-block:before {
+                    @include carlson-icons($icon-arrow-right);
+                }
+            }
+        }
+
+    }
 }
