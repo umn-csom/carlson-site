@@ -5,6 +5,30 @@
 
 .breadcrumb {
     background: transparent;
+    padding: 0 15px;
+    margin: 0;
+    @include make-col(12);
+    .breadcrumb-item {
+        &:before {
+            content: '|';
+            padding: 0 1.5rem;
+        }
+        &:first-child {
+            &:before {
+                display: none;
+            }
+        }
+        &:last-child a {
+            color: $slate;
+        }
+    }
+    @include media-breakpoint-up(lg){
+        &.col {
+            padding: 0;
+            @include make-col(10);
+            @include make-col-offset(1);
+        }
+    }
 }
 
 .region-breadcrumb {

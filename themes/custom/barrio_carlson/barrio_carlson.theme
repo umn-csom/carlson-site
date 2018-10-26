@@ -214,7 +214,7 @@ function barrio_carlson_preprocess_node(&$variables) {
   // If view mode is in allowed view modes list, pass to THEME_add_regions_to_node()
   if(in_array($view_mode, $allowed_view_modes)) {
     // Allowed regions (for performance so as to not execute for unneeded region)
-    $allowed_regions = ['sticky_sidebar', 'inner_nav'];
+    $allowed_regions = ['sticky_sidebar', 'inner_nav','node_content'];
     barrio_carlson_add_regions_to_node($allowed_regions, $variables);
   }
   switch($bundle) {
