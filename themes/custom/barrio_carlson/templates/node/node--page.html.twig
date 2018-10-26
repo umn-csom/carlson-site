@@ -69,7 +69,7 @@
     node.isSticky() ? 'node--sticky',
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
-    'clearfix',
+    'clearfix'
   ]
 %}
 
@@ -84,12 +84,12 @@
     {{ title_suffix }}    
   </header>
 
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'basic-page') }}>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'basic-page', 'col') }}>
     {# Render hero with hero-basic component #}
-    {% if node.field_hero_media.isEmpty %}
+    {% if node.field_hero_media|field_value is not empty %}
       <section>
         <div class="row basic-hero">
-          <div class="col-11 col-lg-12 basic-hero__title">
+          <div class="col-12 col-lg-12 basic-hero__title">
             <h1>{{ label }}</h1>
           </div>
         </div>
@@ -132,7 +132,11 @@
             
             {# Home Flexible feature paragraphs #}
             {{ content.body }}
-            
+                      {# Stick sidebar region #}
+            {% if node_content %}
+              {{ node_content }}
+            {% endif %}
+
             {{ content.field_flexible_features }}
 
             {{ content.field_contact_info }}
