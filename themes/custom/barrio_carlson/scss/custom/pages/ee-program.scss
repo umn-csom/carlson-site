@@ -9,16 +9,44 @@
 	&__content {
 
 	}
-	&__cost {
-		padding: 26px 30px;
+	&__details {
+		padding: 1.6rem 1.5rem;
 		background: $maroon;
 		text-transform: uppercase;
 		color: $white;
-		span {
-
+		font-weight: bold;
+		&--cost {
+			> * {
+				display: inline-block;
+				vertical-align: middle;
+				line-height: 4.5rem;
+			}
+		}
+		&--label {
+			font-style: italic;
+			@include font-crimson-base();
+			font-size: 3.4rem;
+			font-weight: normal;
 		}
 		a {
 			color: $menu-gold;
+		}
+	}
+	&__dates {
+		padding: 2rem;
+		background: $mid-gray;
+	}
+	&__date {
+		.date-cal {
+			justify-content: center;
+		}
+	}
+
+	@include media-breakpoint-up(lg) {
+		&__date {
+			.date-cal {
+				justify-content: flex-start;
+			}
 		}
 	}
 }
