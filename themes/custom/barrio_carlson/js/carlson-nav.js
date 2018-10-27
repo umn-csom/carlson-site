@@ -66,7 +66,7 @@
             $('body').css('overflow', 'hidden');
 
             var offset = $('.carlson-nav .navbar').offset().top;
-            var add = ( ( $(window).width() > 1024 ) ? 34 : 15 );
+            var add = ( ( $(window).width() < 1200 ) ? 25 : 50 );
             offset = ( ( offset + add ) - $(window).scrollTop() );
             $('.carlson-nav .navbar .we-mega-menu-submenu').css('top', offset + 'px');
         });
@@ -81,7 +81,7 @@
             $('body').css('overflow', 'hidden');
 
             var offset = $('.carlson-nav .navbar').offset().top;
-            var add = ( ( $(window).width() > 1024 ) ? 34 : 15 );
+            var add = ( ( $(window).width() < 1200 ) ? 25 : 50 );
             offset = ( ( offset + add ) - $(window).scrollTop() );
             $(this).css('top', offset + 'px');
         });
@@ -116,7 +116,7 @@
     }
 
     function setSticky() {
-        var top = $(window).scrollTop();
+        var top = $(document).scrollTop();
         if( top > 0 ) {
             $('.carlson-header').addClass('sticky');
         } else {
