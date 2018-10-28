@@ -87,14 +87,34 @@
       </div>
     </div>
 
-    {# Program Finder #}
-    <div class="row program-finder">
-      <div class="col-lg-10 offset-lg-1 program-finder__inner">
-      </div>
-    </div>
-
     <div class="row flex-section">
       <div class="col-lg-10 offset-lg-1">
+        {# inner_nav region #}
+        {% if inner_nav %}
+        <div class="row inner_nav">
+          <div class="col-12">
+          {{ inner_nav }}
+          </div>
+        </div>
+        {% endif %}
+
+        {# Course brochure link #}
+        {% if content.field_ee_catalog_link|field_value is not empty %}
+        <div class="row ee-landing__catalog">
+          <div class="col-12 text-center">
+            {{ content.field_ee_catalog_link }}
+          </div>
+        </div> 
+        {% endif %}
+
+        {% if content.body|field_value is not empty %}
+        <div class="row ee-landing__body">
+          <div class="col-12">
+            {{ content.body }}
+          </div>
+        </div>
+        {% endif %}
+
         {# Home Flexible feature paragraphs #}
         {{ content.field_flexible_features }}
 
@@ -108,9 +128,7 @@
           </div>
         </div>
         {% endif %}
-        <div class="row home__magazine">
-          
-        </div>
+
       </div>
     </div>    
   </div>
