@@ -128,28 +128,36 @@
         font-style: italic;
       }
   }
+
   @include media-breakpoint-up(md){
-     &__details {
+    &__media {
+      &--link{
+        &::before {
+          top: 40%;
+        }
+      }
+    }
+    &__details {
       position: relative;
       z-index: 1;
-      margin-top: -16rem;
+      margin-top: -18rem;
       &--heading {
         color: $white;
+        &::after {
+          position: absolute;
+          content: '';
+          height: 100px;
+          background: #FFCC33;
+          width: 2px;
+          bottom: 26%;
+          right: 50%;
+        }
       }
       &--caption {
         margin-top: 13rem;
         max-width: 80%;
         margin-left: auto;
         margin-right: auto;
-        &::before {
-          position: absolute;
-          content: '';
-          height: 100px;
-          background: #FFCC33;
-          width: 2px;
-          top: 26%;
-          right: 50%;
-        }
       }
     }
   }
