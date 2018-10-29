@@ -5,76 +5,153 @@
 
 .video-textright {
 	&__left{
-
-		img{
-			width: 100%;
-      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
-		}
+  
 	}
-  &__details{
 
-    .play-btn{
+  &__link{
 
+    &::before {
+      position:absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      -webkit-transform: translate(-50%, -50%);
+      @include carlson-icons($icon-button-play);
+      font-size: 30px;
+      color: $white;
+      z-index: 1;
+      border-radius: 50%;
+      padding: 60px 65px;
+      border: solid 2px $gold;
+      background: rgba(54, 50, 48, .8);
+      transition: all 0.3s ease-in-out;
     }
-    hr{
-
+    &:hover::before,
+    &:active::before,
+    &:focus::before {
+        background: $gold;
+    }
+    &::after {
+      position: absolute;
+      content: '';
+      height: 25%;
+      background: #FFCC33;
+      width: 2px;
+      bottom: -10px;
+      right: 50%;
     }
   }
   &__heading {
- 
-  }
-  &__link {
-
-  }
+    margin-top: 2rem;
+    font-style: italic;
+    @include serif-font($font-medium);
+  }  
   &__caption {
+    margin-top: 1.5rem;
+    color: $dark-gray;
+    line-height: 25px;
+    @include font-crimson-base();
+    text-align: center;
+    font-style: italic;
+    margin-left:auto;
+    margin-right: auto;
+  }
 
+
+
+  @include media-breakpoint-up(md) {
+    &__link{
+      &::after {
+        height: 2px;
+        background: #FFCC33;
+        width: 30%;
+        top: 50%;
+        right: 0;
+      }
+    }
   }
 }
 
 .video-textbelow {
- 
-	img{
+	img {
     width: 100%;
     box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
   }
-
-  &__details{
-    position: absolute;
-    top: 25%;
-    width: 95%;
-    a {
-      border: 2px solid #ffcc33;
-      border-radius: 100%;
-      height: 100px;
-      width: 100px;
-      display: block;
-      margin: 0 auto;
-      &:hover,
-      &:active,
-      &:visited {
-        text-decoration: none;
+  &__inner {
+    max-width: 800px;
+  }
+  &__media {
+    position:relative;
+    &--link{
+      &::before {
+        position:absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        @include carlson-icons($icon-button-play);
+        font-size: 30px;
+        color: $white;
+        z-index: 2;
+        border-radius: 50%;
+        padding: 60px 65px;
+        border: solid 2px $gold;
+        background: rgba(54, 50, 48, .8);
+        transition: all 0.3s ease-in-out;
+      }
+      &:hover::before,
+      &:active::before,
+      &:focus::before {
+          background: $gold;
       }
     }
-    hr{
-      width: 2px;
-      background: #ffcc33;
+    &--overlay {
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: rgba(90, 84, 80, .7);
+      top: 0;
     }
   }
-  &__heading {
-    display: block;
-    @include serif-font($font-medium);
-    font-weight: 400;
-    font-style: italic;
-    margin-top: 30px;
+  &__details {
+    &--heading {  
+        font-style: italic;
+        margin-top: 2rem;
+        @include serif-font($font-medium);
+      }
+      &--caption {
+        color: $dark-gray;
+        line-height: 25px;
+        @include font-crimson-base();
+        text-align: center;
+        font-style: italic;
+      }
   }
-  &__link {
-
-  }
-  &__caption {
-    display: block;
-    color: #363230;
-    font-size: 16px;
-    line-height: 30px;
+  @include media-breakpoint-up(md){
+     &__details {
+      position: relative;
+      z-index: 1;
+      margin-top: -16rem;
+      &--heading {
+        color: $white;
+      }
+      &--caption {
+        margin-top: 13rem;
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        &::before {
+          position: absolute;
+          content: '';
+          height: 100px;
+          background: #FFCC33;
+          width: 2px;
+          top: 26%;
+          right: 50%;
+        }
+      }
+    }
   }
 }
 
@@ -93,7 +170,7 @@
 
     &::before {
       position:absolute;
-      top: 40%;
+      top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       -webkit-transform: translate(-50%, -50%);
@@ -116,7 +193,7 @@
 	&__caption {
     margin-top: 1.5rem;
 		color: rgba(90, 84, 80, .6);
-    line-height: 20px;
+    line-height: 25px;
 		@include font-crimson-base();
 		text-align: center;
     font-style: italic;
@@ -130,7 +207,6 @@
   @include media-breakpoint-up(md) {
     &__link{
       &::before {
-        top: 45%;
       }
     }
     &__caption {

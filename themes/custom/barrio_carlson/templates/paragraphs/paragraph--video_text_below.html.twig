@@ -46,16 +46,17 @@
 %}
 {% block paragraph %}
   {% block content %}
-		<div class="video-textbelow">
-			<div class="video-textbelow__thumb">
-				{{ content.field_video_thumb }}
-			</div>
-			<div class="video-textbelow__details text-center">
-				<a class="use-ajax video-textbelow__link" data-dialog-type="modal" href="/media/{{ content.field_video_embed.0 }}" data-dialog-options="{&quot;width&quot;:800}">></a>
-	      <hr>
-	    </div>
-      <label class="video-textbelow__heading text-center">{{ content.field_heading }}</label>
-      <span class="video-textbelow__caption text-center">{{ content.field_video_caption }}</span>
+		<div class="row justify-content-center component-paragraph video-textbelow">
+			<div class="col-12 video-textbelow__inner">
+				<div class="video-textbelow__media">
+		      <a class="use-ajax video-textbelow__media--link" data-dialog-type="modal" href="/media/{{ content.field_video_embed.0 }}" data-dialog-options="{&quot;width&quot;:800}">{{ content.field_video_thumb }}</a>
+		      <div class="video-textbelow__media--overlay"></div>
+		    </div>
+		    <div class="video-textbelow__details">
+		      <h3 class="text-center video-textbelow__details--heading">{{ content.field_heading }}</h3>
+	     		<div class="text-center video-textbelow__details--caption">{{ content.field_video_caption }}</div>
+	     	</div>
+		  </div>
 		</div>
   {% endblock %}
 {% endblock paragraph %}
