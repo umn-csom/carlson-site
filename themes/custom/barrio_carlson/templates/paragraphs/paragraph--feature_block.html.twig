@@ -9,13 +9,15 @@
 {% block paragraph %}
     {% block content %}
 			<div class="row component-paragraph feature-block">
-		    <div class="col-sm-6 feature-block__img">
+		    <div class="col-md-6 pr-md-0 feature-block__img">
 		      {{ content_data['image']|raw }}
 		    </div>
-		    <div class="col-sm-6 feature-block__content">
-		      <h3>{{ content_data['heading'] }}</h3>
-		      {{ content_data['markup']|raw }}
-		      {{ content_data['link']|raw }}
+		    <div class="col-md-6 pl-md-0 feature-block__content">
+		    	<div class="feature-block__content--inner">
+			      <h3 class="feature-block__content--title">{{ content_data['heading'] }}</h3>
+			      {{ content_data['markup']|raw }}
+			      <span class="feature-block__content--link">{{ content_data['link']|raw }}</span>
+			    </div>
 		    </div>
 		  </div>
     {% endblock %}
