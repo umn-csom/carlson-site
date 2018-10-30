@@ -3,8 +3,8 @@
  * Visual styles for comments in Barrio.
  */
 .footer {
-  padding: 40px 0;
-  background-color: #363230;
+  padding-top: 4rem;
+  background-color: $dark-gray;
   color: $white;
   text-align: center;
   a {
@@ -14,17 +14,26 @@
       background: transparent;
     }
   }
+  p {
+    margin-bottom: 0;
+  }
   &__logo {
     text-align: center;
     padding-bottom: 3rem;
-    margin-bottom: 3rem;
-    border-bottom: solid 1px #D8D8D8;
+    border-bottom: solid 1px $menu-line-grey;
     img {
       margin: 0 auto;
     }
   }
-  &__info {
-
+  &__content {
+    text-align: left;
+  }
+  &__info,
+  &__links {
+    padding: 3rem 5.5rem 0 5.5rem;
+    @include media-breakpoint-up(md){
+      padding: 3rem 0 0 0;
+    }
   }
   &__links {
     label {
@@ -34,11 +43,36 @@
       width: 100%;
     }
     .nav>li>a {
-      padding-top: 0;
+      padding: 0;
+      &:hover,
+      &:active {
+        text-decoration: underline;
+        background-color: inherit;
+      }
     }
   }
   &__connect {
-
+    text-align: center;
+    padding: 2rem 0;
+    border-top: 1px solid $menu-line-grey;
+    margin-top: 2rem;
+    @include media-breakpoint-up(lg){
+      border-top: 0;
+      margin-top: 0;
+      padding: 3rem 0 0 0;
+    }
+    a {
+      display: inline-block;
+      font-size: 3rem;
+      padding: 1rem 2rem;
+      @include media-breakpoint-up(lg) {
+        margin-right: 1rem;
+      }
+      &:hover {
+        text-decoration: none;
+        color: $white;
+      }
+    }
   }
   @include media-breakpoint-up(lg) {
     text-align: left;
