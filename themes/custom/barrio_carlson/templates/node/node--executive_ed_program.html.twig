@@ -81,7 +81,7 @@
         <a href="{{ url }}" rel="bookmark">{{ label }}</a>
       </h2>
     {% endif %}
-    {{ title_suffix }}    
+    {{ title_suffix }}
   </header>
 
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'ee-program') }}>
@@ -104,16 +104,16 @@
           </div>
         </div>
       </div>
-    </section> 
+    </section>
 
     <div class="row">
-      <div class="col-lg-10 offset-lg-1">  
+      <div class="col-lg-10 offset-lg-1">
         {# Course brochure link #}
         <div class="row ee-program__catalog">
           <div class="col-12">
 
           </div>
-        </div>    
+        </div>
         {# inner_nav region #}
         {% if inner_nav %}
         <div class="row inner_nav">
@@ -126,14 +126,14 @@
         <div class="ee-program__content">
           <div class="row component-paragraph">
             <div class="col-12 col-lg-10 offset-lg-1">
-              {{ content.body }}  
+              {{ content.body }}
             </div>
           </div>
 
           <div class="row ee-program__details">
             <div class="col-lg-6">Program Details</div>
             <div class="col-lg-3 ee-program__details--cost"><span>Cost:</span> <span class="ee-program__details--label">{{ content.field_ee_cost }}</span></div>
-            <div class="col-lg-3 "><a href="{{ content.field_ee_course_brochure.0['url'] }}">Request Brochure</a></div>
+            <div class="col-lg-3 ee-program__details--brochure"><a href="{{ content.field_ee_course_brochure.0.uri }}">Request Brochure</a></div>
           </div>
           <div class="row ee-program__dates">
             {{ content.field_ee_course_dates }}
