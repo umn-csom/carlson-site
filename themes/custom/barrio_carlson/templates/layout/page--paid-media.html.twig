@@ -82,7 +82,7 @@
           <div class="row row-offcanvas row-offcanvas-left clearfix">
             <main{{ content_attributes }}>
                 <a id="main-content" tabindex="-1"></a>
-                {# Node templates are rendered here #}  
+                {# Node templates are rendered here #}
                 {{ page.content }}
             </main>
           </div>
@@ -97,38 +97,41 @@
         <div class="row footer__logo">
           <img src="/{{ directory }}/images/footer-logo.svg">
         </div>
-        <div class="row">
-          {% block footer %}
-            {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
-              <div class="col-md-3 footer__info">
-                {{ page.footer_first }}
-              </div>
-              <div class="col-md-3 footer__links">
-                {{ page.footer_second }}
-              </div>
-              <div class="col-md-3 footer__links">
-                {{ page.footer_third }}
-              </div>
-              <div class="col-md-3 footer_connect">
-                <div>
-                  <ul class="social-media list-unstyled list-inline">
-                    <li><a href="#"><i class="fa fa-2x fa-facebook"></i></a></li>
-                    <li><a href="#"><i class="fa fa-2x fa-twitter"></i></a></li>
-                    <li><a href="#"><i class="fa fa-2x fa-linkedin"></i></a></li>
-                  </ul>
+        <div class="row footer__content">
+          <div class="col-12 col-md-10 offset-md-1 col-lg-12 offset-lg-0 pb-md-5">
+            <div class="row">
+            {% block footer %}
+              {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
+                <div class="col-md-4 col-lg-3 footer__info {{ (page.footer_first|render|striptags|trim is not empty) ? '' : 'd-sm-none d-md-flex' }}">
+                  {{ page.footer_first }}
                 </div>
-                <div>
-                  <ul class="social-media social-media list-unstyled list-inline">
-                    <li><a href="#"><i class="fa fa-2x fa-youtube"></i></a></li>
-                    <li><a href="#"><i class="fa fa-2x fa-google-plus"></i></a></li>
-                    <li><a href="#"><i class="fa fa-2x fa-tumblr"></i></a></li>
-                  </ul>
+                <div class="col-md-4 col-lg-3 footer__links {{ (page.footer_second|render|striptags|trim is not empty) ? '' : 'd-sm-none d-md-flex' }}">
+                  {{ page.footer_second }}
                 </div>
-              </div>
-            {% endif %}
+                <div class="col-md-4 col-lg-3 footer__links {{ (page.footer_third|render|striptags|trim is not empty) ? '' : 'd-sm-none d-md-flex' }}">
+                  {{ page.footer_third }}
+                </div>
+                <div class="col-lg-3 footer__connect">
+                  <div class="row">
+                    <div class="col-12 col-md-5 text-md-right text-lg-left col-lg-12">
+                      Connect with Carlson on:
+                    </div>
+                    <div class="col-12 col-md-7 text-md-left col-lg-12">
+                      <ul class="social-media list-unstyled list-inline">
+                        <li><a href="#fb"><i class="icon icon-facebook"></i></a></li>
+                        <li><a href="#tw"><i class="icon icon-twitter"></i></a></li>
+                        <li><a href="#li"><i class="icon icon-linkedin"></i></a></li>
+                        <li><a href="#yt"><i class="icon icon-youtube"></i></a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            {% endblock %}
+            </div>
           </div>
         </div>
-      {% endblock %}
+      </div>
     </footer>
   </div>
 </div>
