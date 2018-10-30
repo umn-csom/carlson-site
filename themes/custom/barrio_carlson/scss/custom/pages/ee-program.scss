@@ -15,30 +15,82 @@
 		text-transform: uppercase;
 		color: $white;
 		font-weight: bold;
-		&--cost {
-			> * {
+		> * {
+			display: inline-block;
+			vertical-align: middle;
+			line-height: 3.4rem;
+			letter-spacing: 1.78px;
+			@include media-breakpoint-up(lg){
+				line-height: 4.5rem;
+			}
+			span {
 				display: inline-block;
 				vertical-align: middle;
-				line-height: 4.5rem;
+				line-height: 3.4rem;
+				@include media-breakpoint-up(lg){
+					line-height: 4.5rem;
+				}
 			}
 		}
 		&--label {
-			font-style: italic;
 			@include font-crimson-base();
 			font-size: 3.4rem;
 			font-weight: normal;
+			letter-spacing: normal;
 		}
-		a {
+		&--brochure {
 			color: $menu-gold;
+			a {
+				color: $menu-gold;
+				&:after {
+					@include carlson-icons($icon-arrow-left);
+					font-size: 2.8rem;
+					vertical-align: middle;
+					margin-left: 1rem;
+				}
+			}
 		}
 	}
 	&__dates {
 		padding: 2rem;
 		background: $mid-gray;
+		.ee-program__date {
+			border-bottom: 1px solid $light-gray;
+			padding: 3rem 0;
+			&:last-child {
+				border-bottom: 0;
+			}
+		}
 	}
 	&__date {
 		.date-cal {
 			justify-content: center;
+		}
+		&--dates {
+			padding-bottom: 3rem;
+			@include media-breakpoint-up(lg){
+				margin-bottom: 0;
+			}
+		}
+		&--details {
+			border-top: 1px solid $light-gray;
+			padding-top: 3rem;
+			@include media-breakpoint-up(lg){
+				border-top: 0;
+				border-left: 1px solid $light-gray;
+				padding-top: 0;
+				padding-left: 3.5rem;
+			}
+			&--view-only-btn,
+			&--action-btn {
+				margin: .5rem 0;
+			}
+			&--action-btn {
+				display: none;
+				&.do-show {
+					display: inline-block;
+				}
+			}
 		}
 	}
 
