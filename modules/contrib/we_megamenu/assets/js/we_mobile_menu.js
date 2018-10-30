@@ -38,7 +38,7 @@
       isSticky = ( top > 0 ) ? true : false;
     }
 
-    $(window).on("mousewheel", function() {
+    $(window).on("wheel", function() {
       setSticky();
     });
 
