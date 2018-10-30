@@ -22,21 +22,21 @@
             var wrap_width = $('.landing-page__content--inner').width();
             var sidebar_width = (wrap_width * .25) - 25;
 
-            // $(window).scroll(function(){
-            //   if( $(window).scrollTop() > stickyHeaderTop-109 ) {
-            //     $('.sticky-sidebar__inner').css({position: 'fixed', top: '109px',width: sidebar_width});  
-            //   } else {
-            //     $('.sticky-sidebar__inner').css({position: 'relative', top: '0px',width: 'inherit'});
-            //   }
-            // });
+            $(window).scroll(function(){
+              if( $(window).scrollTop() > stickyHeaderTop-109 ) {
+                $('.sticky-sidebar__inner').css({position: 'fixed', top: '109px',width: sidebar_width});  
+              } else {
+                $('.sticky-sidebar__inner').css({position: 'relative', top: '0px',width: 'inherit'});
+              }
+            });
 
-            // $(window).on('scroll', function () {
-            //   if ($(window).scrollTop() >= 10) {
-            //     $('.carlson-header, .umnhf-campus-tc').addClass('compressed');
-            //   } else {
-            //     $('.carlson-header, .umnhf-campus-tc').removeClass('compressed');
-            //   }
-            // });
+            $(window).on('scroll', function () {
+              if ($(window).scrollTop() >= 10) {
+                $('.carlson-header, .umnhf-campus-tc').addClass('compressed');
+              } else {
+                $('.carlson-header, .umnhf-campus-tc').removeClass('compressed');
+              }
+            });
           }else {
             $('.sticky-sidebar__inner').css({position: 'relative', top: '0px',width: 'inherit'});
           }
