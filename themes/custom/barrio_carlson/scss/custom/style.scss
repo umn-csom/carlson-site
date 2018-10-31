@@ -92,3 +92,52 @@ hr {
     font-size: 1.6rem;
   }
 }
+
+/* GENERIC TABLE STYLES */
+.table,
+.table-striped,
+table {
+    border: 0;
+    thead {
+        > tr {
+            border-bottom: 4px double $light-gray;
+            > th {
+                border-bottom: 0;
+            }
+        }
+        tr {
+            background: transparent;
+            th {
+                background: transparent;
+                color: $slate;
+            }
+        }
+    }
+    > tbody {
+        border-bottom: 1px solid $light-gray;
+        > tr {
+            > td {
+                border: 0;
+            }
+        }
+        tr {
+            border-top: 1px solid $light-gray;
+            border-bottom: 0;
+            background: transparent;
+            &:nth-of-type(odd) {
+                background: rgba(230,216,214,0.3);
+            }
+            &:nth-of-type(even) {
+                background: transparent;
+            }
+            td {
+                border: 0;
+                background: transparent;
+            }
+        }
+    }
+}
+.table-responsive {
+    border-color: $light-gray;
+    border-bottom: 0;
+}
