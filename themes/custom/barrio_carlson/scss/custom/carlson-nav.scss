@@ -4,7 +4,7 @@
     background: $white;
 
     @include media-breakpoint-up(lg) {
-        max-width: 1680px;
+        max-width: 100%;
         margin: auto;
     }
 
@@ -467,9 +467,8 @@
 .navbar-brand {
     padding: 0;
     margin: 0;
-    max-width: 70%;
     margin-top: 35px;
-    min-width: 266px;
+    max-width: 300px;
     float: inherit;
 
     @include media-breakpoint-up(lg) {
@@ -483,8 +482,8 @@
 }
 
 .btn-close {
-    top: 136px;
-    right: 4px;
+    top: 135px;
+    right: 0;
     background: $white;
     box-shadow: none;
     width: 70px;
@@ -499,7 +498,7 @@
     opacity: 1!important;
 
     &.sticky {
-        top: 9px;
+        top: 8px;
     }
 
     @include media-breakpoint-up(sm) {
@@ -719,7 +718,7 @@
                     top: -9999px;
                     z-index: inherit;
                     height: auto;
-                    max-height: 300px;
+                    max-height: 280px;
                     margin-left: -8px;
                     opacity: 0;
                     transition: opacity .5s;
@@ -899,14 +898,7 @@ body {
         position: fixed;
         padding-left: 0;
         padding-right: 0;
-        top: 0;
-
-        .carlson-nav {
-            position: fixed;
-            top: 0;
-            z-index: 999;
-            width: 100%;
-        }
+        top: -1px;
 
         .navbar-brand {
             padding-left: 15px;
@@ -929,7 +921,7 @@ body {
 
             .navbar-we-mega-menu {
                 position: fixed;
-                top: 110px;
+                top: 109px;
                 z-index: 99999;
 
                 @include media-breakpoint-up(lg) {
@@ -943,7 +935,15 @@ body {
 
             .navbar-toggle {
                 top: -36px;
+                right: 6px;
             }
         }
     }
+}
+
+.lock-screen {
+    overflow: hidden;
+    width: 100%;
+    position: fixed;
+    display: inline-flex;
 }
