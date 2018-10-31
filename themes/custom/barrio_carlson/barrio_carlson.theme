@@ -236,6 +236,9 @@ function barrio_carlson_preprocess_node(&$variables) {
         $variables['byline'] = '<span class="basic-hero__title--byline"> — by '.$byline."</span>";
       } 
     break;
+    case "homepage":
+      $variables['program_finder'] = views_embed_view('home_program_finder', 'block_1');
+    break;
   }
 }
 
@@ -285,4 +288,10 @@ function barrio_carlson_theme_suggestions_block_alter(array &$suggestions, array
   if (isset($variables['elements']['content']['#block_content'])) {
     array_splice($suggestions, 1, 0, 'block__bundle__' . $variables['elements']['content']['#block_content']->bundle());
   }
+}
+
+function barrio_carlson_preprocess_views_exposed_form(&$variables) {
+  $form = $variables['form'];
+  $id = $form['#id'];
+  // Do code here
 }

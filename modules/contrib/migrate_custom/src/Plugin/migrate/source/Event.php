@@ -32,7 +32,6 @@ class Event extends SqlBase {
     $query->leftjoin('field_data_field_event_teaser', 'b', 'b.entity_id = f.nid');
     $query->leftjoin('field_data_field_event_id', 'c', 'c.entity_id = f.nid');
     $query->leftjoin('field_data_field_event_category', 'd', 'd.entity_id = f.nid');
-    $query->leftjoin('field_data_field_event_date', 'e', 'e.entity_id = f.nid');
     $query->leftjoin('field_data_field_event_cost', 'g', 'g.entity_id = f.nid');
     $query->leftjoin('field_data_field_event_register', 'h', 'h.entity_id = f.nid');
     $query->leftjoin('field_data_field_google_map', 'i', 'i.entity_id = f.nid');
@@ -58,7 +57,6 @@ class Event extends SqlBase {
 
     $fields['event_teaser'] = $this->t('event_teaser');
     $fields['event_id'] = $this->t('event_id');
-    $fields['event_date'] = $this->t('event_date');
     $fields['event_cost'] = $this->t('event_cost');
     $fields['google_map'] = $this->t('google_map');
     $fields['event_location'] = $this->t('event_location');

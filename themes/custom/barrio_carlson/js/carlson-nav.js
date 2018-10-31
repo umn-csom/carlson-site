@@ -116,11 +116,13 @@
     }
 
     function setSticky() {
-        var top = $(window).scrollTop();
-        if( top > 0 ) {
-            $('.carlson-header').addClass('sticky');
-        } else {
-            $('.carlson-header').removeClass('sticky');
+        if( !$('html').hasClass('lock-screen') ) {
+            var top = $(window).scrollTop();
+            if( top > 0 ) {
+                $('.carlson-header').addClass('sticky');
+            } else {
+                $('.carlson-header').removeClass('sticky');
+            }
         }
     }
 
