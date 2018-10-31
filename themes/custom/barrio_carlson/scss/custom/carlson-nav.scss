@@ -8,6 +8,10 @@
         margin: auto;
     }
 
+    @include media-breakpoint-up(xl) {
+        max-width: 1600px;
+    }
+
     .region-we-mega-menu {
         width: 100%;
         background: none;
@@ -18,14 +22,10 @@
             flex-wrap: nowrap;
             align-items: center;
             position: absolute;
-            right: 14px;
-            top: 25px;
+            right: 10px;
+            top: 160px;
             width: 50px;
             height: 60px;
-
-            @include media-breakpoint-up(sm) {
-                top: 0;
-            }
 
             @include media-breakpoint-up(lg) {
                 display: none;
@@ -96,10 +96,6 @@
                     justify-content: flex-end;
                     width: initial;
                     min-height: inherit;
-
-                    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-                        justify-content: space-around;
-                    }
                 }
             }
 
@@ -468,13 +464,10 @@
     padding: 0;
     margin: 0;
     margin-top: 35px;
-    max-width: 300px;
+    max-width: 260px;
     float: inherit;
-
-    @include media-breakpoint-up(lg) {
-        max-width: 100%;
-        min-width: 296px;
-    }
+    width: 260px;
+    height: auto;
 }
 
 .overlay {
@@ -483,7 +476,7 @@
 
 .btn-close {
     top: 135px;
-    right: 0;
+    right: 4px;
     background: $white;
     box-shadow: none;
     width: 70px;
@@ -855,7 +848,7 @@ body {
     &.toolbar-fixed {
         .carlson-nav .block-we-megamenu {
             @include media-breakpoint-up(lg) {
-                top: 219px;
+                /*top: 219px;*/
             }
         }
 
@@ -876,19 +869,9 @@ body {
 }
 
 .block-we-megamenu {
-    position: absolute;
     right: 0;
-    top: 135px;
-    
-    @include media-breakpoint-up(sm) {
-        top: 115px;
-    }
-
-    @include media-breakpoint-up(lg) {
-        position: absolute;
-        right: 5%;
-        top: 123px;
-    }
+    float: right;
+    margin-top: 39px;
 }
 
 .carlson-header {
@@ -899,6 +882,10 @@ body {
         padding-left: 0;
         padding-right: 0;
         top: -1px;
+
+        .carlson-nav {
+            max-width: 100%!important;
+        }
 
         .navbar-brand {
             padding-left: 15px;
@@ -934,8 +921,9 @@ body {
             }
 
             .navbar-toggle {
-                top: -36px;
-                right: 6px;
+                top: 30px;
+                right: 16px;
+                position: fixed;
             }
         }
     }
