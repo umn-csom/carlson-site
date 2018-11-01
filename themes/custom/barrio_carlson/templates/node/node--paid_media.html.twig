@@ -78,34 +78,50 @@
 <article{{ attributes.addClass(classes) }}>
 
   <div{{ content_attributes.addClass('node__content', 'clearfix paid-media') }}>
-    
-    <div class="row" style="background: url('{{ image }}')">
-      <div class="container">
+
+    <div class="row paid-media__hero" style="background-image: url('{{ image }}')">
+      <img src="/{{ directory }}/images/paid-media-logo.svg" alt="Carlson School of Management | University of Minnesota" class="paid-media__hero--logo">
+      <div class="container col-7 offset-1">
         <h1>{{ label }}</h1>
       </div>
-    </div> 
+    </div>
 
     <div class="row">
-      <div class="container">
+      <div class="container col-10 offset-1">
         <div class="row">
           <div class="col-md-3 order-md-2 paid-media__webform">
-            {{ content.field_pm_linkedin }}
-            {{ content.webform }}
+            <div class="paid-media__webform--wrapper">
+              {{ content.field_pm_linkedin }}
+              {{ content.webform }}
+            </div>
           </div>
-          <div class="col-md-9 order-md-1">
+          <div class="col-md-9 order-md-1 paid-media__content">
             {{ content.body }}
 
             {% if content.field_pm_statistics|field_value is not empty %}
             <div class="row text-center paid-media__stats">
             {% for key, item in content.field_pm_statistics if key|first != '#' %}
-              <div class="col paid-media__stat">{{ item }}</div>
+              <div class="col-10 offset-1 col-lg-6 offset-lg-0 paid-media__stat">{{ item }}</div>
             {% endfor %}
             </div>
             {% endif %}
+
+            <div class="paid-media__content--flexible-features">
+              {# Flexible feature paragraphs #}
+              {{ content.field_flexible_features }}
+            </div>
+
+            <div class="paid-media__content--event-channels">
+              {# Event Channels #}
+              {{ content.field_event_channels }}
+            </div>
+          </div>
+          <div class="col-12 order-md-3">
+            {{ content.field_cta }}
           </div>
         </div>
       </div>
-    </div> 
+    </div>
 
   </div>
 </article>
