@@ -1,0 +1,133 @@
+.paid-media__page-wrapper {
+    #main {
+        margin-top: 0;
+    }
+}
+.paid-media {
+    margin-top: 0;
+    &__hero {
+        background-position: top center;
+        height: 41.8rem;
+        @include box-shadow(0,15px,60px,0.30);
+        position: relative;
+        &:before {
+            content: '';
+            display: block;
+            height: 100%;
+            width: 100%;
+            background: rgba(54,50,48,.5);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            h1 {
+                color: $white;
+                font-size: $font-medium;
+                margin: auto 0;
+                @include media-breakpoint-up(lg){
+                    font-size: 7.5rem;
+                }
+            }
+        }
+        &--logo {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            height: 8.5rem;
+            width: 28.7rem;
+            @include media-breakpoint-up(lg){
+                right: auto;
+                @include make-col-offset(1);
+                padding-left: 1.5rem;
+                box-sizing: content-box; //without this, additional spacing is added once padding is added
+            }
+        }
+    }
+    &__webform {
+        &--wrapper {
+            margin-top: -7.5rem;
+            background-color: $gold;
+            padding: 2rem .5rem;
+            @include box-shadow(0,4px,4px,0.10);
+            @include media-breakpoint-up(lg){
+                margin-top: -15rem;
+            }
+            &:before {
+                content: '';
+                position: absolute;
+                left: 1.5rem;
+                top: -7.5rem;
+                width: calc(100% - 3rem);
+                height: calc(100% + 7.5rem);
+                background-image: url('../images/bg/experience_bg.png');
+                background-position: top left;
+                background-repeat: no-repeat;
+                @include media-breakpoint-up(lg){
+                    top: -15rem;
+                    height: calc(100% + 15rem);
+                }
+            }
+            > h1, > h2, > h3, > h4 {
+                @include heading-title($font-medium, $maroon);
+            }
+            > p, > h1, > h2, > h3, > h4 {
+                padding: 0 1.5rem;
+                text-align: center;
+            }
+            input[type="submit"] {
+                @include button-solid($maroon);
+                height: auto;
+            }
+        }
+    }
+    &__content {
+        padding-top: 5rem;
+        &--flexible-features {
+            padding-top: 5rem;
+        }
+    }
+    &__stats {
+        padding-top: 5rem;
+        .stats{
+            &__single {
+                background: transparent;
+                box-shadow: none;
+                justify-content: start;
+                min-height: unset;
+                @include media-breakpoint-up(lg){
+                    min-height: 20rem;
+                }
+                &-value {
+                    font-size: 6rem;
+                    line-height: 6rem;
+                    @include media-breakpoint-up(lg){
+                        font-size: 8rem;
+                        line-height: 8rem;
+                    }
+                }
+            }
+        }
+    }
+    &__stat {
+        border-bottom: 1px solid $light-gray;
+        @include media-breakpoint-up(lg){
+            border-bottom: 0;
+            &:last-child {
+                border-left: 1px solid $light-gray;
+            }
+        }
+    }
+    .program-cta {
+        &__intro > * {
+            @include media-breakpoint-up(lg) {
+                font-size: 3.4rem;
+                line-height: 4.8rem;
+            }
+        }
+    }
+}

@@ -86,11 +86,34 @@ hr {
 #icons {
     display: none;
 }
+.list-inline li {
+    display: inline-block;
+}
 .node__content {
-  font-size: 1.4rem;
-  @include media-breakpoint-up(md) {
-    font-size: 1.6rem;
-  }
+    font-size: 1.4rem;
+    @include media-breakpoint-up(md) {
+        font-size: 1.6rem;
+    }
+    ul {
+        list-style-type: none;
+        padding-left: 1rem;
+        li {
+            position: relative;
+            padding-left: 2rem;
+            padding-bottom: 1rem;
+            &:before {
+                    content: '';
+                    height: .8rem;
+                    width: .8rem;
+                    background: $maroon;
+                    transform: rotate(45deg);
+                    display: inline-block;
+                    position: absolute;
+                    top: .8em;
+                    left: .4rem;
+            }
+        }
+    }
 }
 
 /* GENERIC TABLE STYLES */
