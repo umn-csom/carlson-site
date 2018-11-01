@@ -114,6 +114,25 @@ class MenuPositionRuleForm extends EntityForm {
       ],
     ];
 
+    // Menu taxonomy term.
+    $tag_terms = $this->entity_manager->getStorage('taxonomy_term')->loadTree('menu_position_rules');
+    if( !empty($tag_terms) ) {
+      $tags = array();
+      foreach ($tag_terms as $tag_term) {
+        $tags[$tag_term->tid] = $tag_term->name;
+      }
+
+      if( !empty($tags) ) {
+        $form['taxonomy_term'] = array(
+          '#type' => 'select',
+          '#required' => TRUE,
+          '#options' => $tags,
+          '#title' => $this->t('Taxonomy term'),
+          '#description' => $this->t('Only show this menu on nodes with this taxonomy term.'),
+        );
+      }
+    }
+
     // Menu position conditions vertical tabs.
     $form['conditions'] = [
       'conditions_tabs' => [
@@ -126,57 +145,29 @@ class MenuPositionRuleForm extends EntityForm {
       ],
     ];
 
+    // Allow these conditions in.
+    $allow = [];
+
     // Get all available plugins from the plugin manager.
     foreach ($this->condition_plugin_manager->getDefinitionsForContexts($form_state->getTemporaryValue('gathered_contexts')) as $condition_id => $definition) {
-      // If this condition exists already on the rule, use that.
-      if ($rule->getConditions()->has($condition_id)) {
-        $condition = $rule->getConditions()->get($condition_id);
-      } else {
-        $condition = $this->condition_plugin_manager->createInstance($condition_id, []);
+      if( in_array($condition_id, $allow) ) {
+        // If this condition exists already on the rule, use that.
+        if ($rule->getConditions()->has($condition_id)) {
+          $condition = $rule->getConditions()->get($condition_id);
+        } else {
+          $condition = $this->condition_plugin_manager->createInstance($condition_id, []);
+        }
+
+        // Set conditions in the form state for extracti+on later.
+        $form_state->set(['conditions', $condition_id], $condition);
+
+        // Allow condition plugins to build their own forms.
+        $condition_form = $condition->buildConfigurationForm([], $form_state);
+        $condition_form['#type'] = 'details';
+        $condition_form['#title'] = $condition->getPluginDefinition()['label'];
+        $condition_form['#group'] = 'conditions_tabs';
+        $form['conditions'][$condition_id] = $condition_form;
       }
-
-      // Set conditions in the form state for extraction later.
-      $form_state->set(['conditions', $condition_id], $condition);
-
-      // Allow condition plugins to build their own forms.
-      $condition_form = $condition->buildConfigurationForm([], $form_state);
-      $condition_form['#type'] = 'details';
-      $condition_form['#title'] = $condition->getPluginDefinition()['label'];
-      $condition_form['#group'] = 'conditions_tabs';
-      $form['conditions'][$condition_id] = $condition_form;
-    }
-
-    // Custom form alters for core conditions (lifted from BlockForm.php).
-    if (isset($form['conditions']['node_type'])) {
-      $form['conditions']['node_type']['#title'] = $this->t('Content types');
-      $form['conditions']['node_type']['bundles']['#title'] = $this->t('Content types');
-      $form['conditions']['node_type']['negate']['#type'] = 'value';
-      $form['conditions']['node_type']['negate']['#title_display'] = 'invisible';
-      $form['conditions']['node_type']['negate']['#value'] = $form['conditions']['node_type']['negate']['#default_value'];
-    }
-    if (isset($form['conditions']['user_role'])) {
-      $form['conditions']['user_role']['#title'] = $this->t('Roles');
-      unset($form['conditions']['user_role']['roles']['#description']);
-      $form['conditions']['user_role']['negate']['#type'] = 'value';
-      $form['conditions']['user_role']['negate']['#value'] = $form['conditions']['user_role']['negate']['#default_value'];
-    }
-    if (isset($form['conditions']['current_theme'])) {
-      $form['conditions']['current_theme']['theme']['#empty_value'] = '';
-      $form['conditions']['current_theme']['theme']['#empty_option'] = $this->t('- Any -');
-    }
-    if (isset($form['conditions']['request_path'])) {
-      $form['conditions']['request_path']['#title'] = $this->t('Pages');
-      $form['conditions']['request_path']['negate']['#type'] = 'radios';
-      $form['conditions']['request_path']['negate']['#default_value'] = (int) $form['conditions']['request_path']['negate']['#default_value'];
-      $form['conditions']['request_path']['negate']['#title_display'] = 'invisible';
-      $form['conditions']['request_path']['negate']['#options'] = [
-        $this->t('Show for the listed pages'),
-        $this->t('Hide for the listed pages'),
-      ];
-    }
-    if (isset($form['conditions']['language'])) {
-      $form['conditions']['language']['negate']['#type'] = 'value';
-      $form['conditions']['language']['negate']['#value'] = $form['conditions']['language']['negate']['#default_value'];
     }
 
     return $form;
@@ -232,25 +223,27 @@ class MenuPositionRuleForm extends EntityForm {
     ] + $definition);
 
     // Submit visibility condition settings.
-    foreach ($form_state->getValue('conditions') as $condition_id => $values) {
-      // Allow the condition to submit the form.
-      $condition = $form_state->get(['conditions', $condition_id]);
-      $condition_values = (new FormState())
-        ->setValues($values);
-      $condition->submitConfigurationForm($form, $condition_values);
-
-      // Set context mapping values.
-      if ($condition instanceof ContextAwarePluginInterface) {
-        $context_mapping = isset($values['context_mapping']) ? $values['context_mapping'] : [];
-        $condition->setContextMapping($context_mapping);
+    if( !empty($form_state->getValue('conditions')) ) {
+      foreach ($form_state->getValue('conditions') as $condition_id => $values) {
+        // Allow the condition to submit the form.
+        $condition = $form_state->get(['conditions', $condition_id]);
+        $condition_values = (new FormState())
+          ->setValues($values);
+        $condition->submitConfigurationForm($form, $condition_values);
+  
+        // Set context mapping values.
+        if ($condition instanceof ContextAwarePluginInterface) {
+          $context_mapping = isset($values['context_mapping']) ? $values['context_mapping'] : [];
+          $condition->setContextMapping($context_mapping);
+        }
+  
+        // Update the original form values.
+        $condition_configuration = $condition->getConfiguration();
+        $form_state->setValue(['conditions', $condition_id], $condition_configuration);
+  
+        // Update the conditions on the menu position rule.
+        $rule->getConditions()->addInstanceId($condition_id, $condition_configuration);
       }
-
-      // Update the original form values.
-      $condition_configuration = $condition->getConfiguration();
-      $form_state->setValue(['conditions', $condition_id], $condition_configuration);
-
-      // Update the conditions on the menu position rule.
-      $rule->getConditions()->addInstanceId($condition_id, $condition_configuration);
     }
 
     // Save the menu position rule and get the status for messaging.
