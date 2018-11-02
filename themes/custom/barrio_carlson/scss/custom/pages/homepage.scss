@@ -9,16 +9,60 @@
 	@include media-breakpoint-up(lg) {
 			margin-top: -20px;
 			position: relative;
-	}	
+	}
 	&__inner {
 		min-height: 20rem;
 		background: $gold;
-		
+
+	}
+	&__choice {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		min-height: 6.5rem;
+		display: inline-block;
+		@include box-shadow(0, 4px, 30px);
+		&--option {
+			width: 100%;
+			&-label {
+				height: 6.5rem;
+				line-height: 4.5rem;
+				display: none;
+				min-width: 20rem;
+				width: 100%;
+				text-align: left;
+				color: $slate;
+				font-weight: bold;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				white-space: nowrap;
+				padding: 1rem 2rem;
+				&.active {
+					display: block;
+					position: relative;
+					font-weight: normal;
+                    &::after{
+                        @include down-arrow-icon($maroon);
+                        width: 1.7rem;
+                        right: 2rem;
+                        top: 2.2rem;
+                    }
+				}
+			}
+		}
+		&.open {
+			.program-finder__choice--option-label {
+				display: block;
+				&::after {
+					display: none;
+				}
+			}
+		}
 	}
 }
 
 .home {
 	&__magazine {
-		
+
 	}
 }
