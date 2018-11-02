@@ -13,7 +13,11 @@
 	&__inner {
 		min-height: 20rem;
 		background: $gold;
-
+		display: flex;
+		align-items: center;
+	}
+	&__choices {
+		display: flex;
 	}
 	&__choice {
 		list-style: none;
@@ -32,15 +36,11 @@
 				width: 100%;
 				text-align: left;
 				color: $slate;
-				font-weight: bold;
-				text-overflow: ellipsis;
-				overflow: hidden;
 				white-space: nowrap;
-				padding: 1rem 2rem;
+				padding: 1rem 5rem 1rem 2rem;
 				&.active {
 					display: block;
 					position: relative;
-					font-weight: normal;
                     &::after{
                         @include down-arrow-icon($maroon);
                         width: 1.7rem;
@@ -50,11 +50,38 @@
 				}
 			}
 		}
+		&--container {
+			margin-left: 2rem;
+		}
 		&.open {
 			.program-finder__choice--option-label {
 				display: block;
 				&::after {
 					display: none;
+				}
+				&.active {
+					font-weight: bold;
+					background: rgba(54,50,48,.1);
+				}
+				&:hover,
+				&:focus {
+					background: rgba(54,50,48,.3);
+				}
+			}
+		}
+	}
+	&__result {
+		margin-left: 2rem;
+		#program-finder__result-go {
+			@include button-solid($maroon);
+			&[disabled] {
+				@include button-solid($dark-gray);
+				color: $gold;
+				&:hover,
+				&:focus {
+					background: $dark-gray;
+					color: $gold;
+					cursor: not-allowed;
 				}
 			}
 		}

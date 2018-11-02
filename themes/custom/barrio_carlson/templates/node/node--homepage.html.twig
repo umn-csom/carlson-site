@@ -89,19 +89,21 @@
 
     {# Program Finder #}
     <script type="text/template" id="carlson-tpl-program-finder-dropdown">
-      <ul class="program-finder__choice">
-        <li class="program-finder__choice--option" value=""><span class="program-finder__choice--option-label" onclick="programFinder.choose(this)">- choose -</span></li>
-        <% _.each(actions, function(action) { %>
-        <li class="program-finder__choice--option" value="<%= action.path %>"><span class="program-finder__choice--option-label" onclick="programFinder.choose(this)"><%= action.label %></span></li>
-        <% }); %>
-      </ul>
+      <div class="program-finder__choice--container">
+        <ul class="program-finder__choice">
+          <li class="program-finder__choice--option" data-value=""><span class="program-finder__choice--option-label active" onclick="programFinder.choose(this)">- choose -</span></li>
+          <% _.each(actions, function(action) { %>
+          <li class="program-finder__choice--option" data-value="<%= action.path %>"><span class="program-finder__choice--option-label" onclick="programFinder.choose(this)"><%= action.label %></span></li>
+          <% }); %>
+        </ul>
+      </div>
     </script>
     <div class="row program-finder">
       <div class="col-lg-10 offset-lg-1 program-finder__inner">
         <div class="program-finder__choices">
         </div>
         <div class="program-finder__result">
-          <a href="#" id="program-finder__result-go" disabled class="disabled" onclick="return false;">GO</a>
+          <button id="program-finder__result-go" disabled onclick="programFinder.go(this)">GO</button>
       </div>
     </div>
 
