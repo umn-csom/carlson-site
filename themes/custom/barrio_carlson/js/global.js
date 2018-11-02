@@ -19,7 +19,6 @@
       //Function to the css rule
       function checkStickySize() {
         var wrap_width = $('html').width();
-        console.log('recalculating for '+wrap_width);
         if (wrap_width >= 992) {
           $('.paid-media__webform--wrapper').sticky({
             topSpacing: 170,
