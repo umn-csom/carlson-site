@@ -18,15 +18,16 @@
 
       //Function to the css rule
       function checkStickySize() {
-          var wrap_width = $('.main-content').width();
-          if (wrap_width >= 768){
-            $('.paid-media__webform--wrapper').sticky({
-              topSpacing: 170,
-              bottomSpacing: 400
-            });
-          } else {
-            $('.paid-media__webform--wrapper').unstick();
-          }
+        var wrap_width = $('html').width();
+        console.log('recalculating for '+wrap_width);
+        if (wrap_width >= 992) {
+          $('.paid-media__webform--wrapper').sticky({
+            topSpacing: 170,
+            bottomSpacing: 470
+          });
+        } else {
+          $('.paid-media__webform--wrapper').unstick();
+        }
       }
 
     }
