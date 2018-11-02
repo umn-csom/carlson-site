@@ -60,43 +60,21 @@
  * @see template_preprocess_node()
  */
 #}
-<section>
-  <div class="row">
-    <div class="bs-component home-upcoming-events container-fluid">
-      <h2>Upcoming Events:</h2>
-      <div class="event-wrapper">
-        <div class="event-container">
-          <div class="date-wrapper col-md-1 col-sm-2">
-            <ul class="list-unstyled date-container">
-              <li class="day-post">11</li>
-              <li class="month-post">August</li>
-            </ul>
-          </div>
-          <div class="content-wrapper col-md-11 col-sm-10">
-            <p>MA-HRIR Information Session</p>
-            <a href="#">READ MORE</a>
-          </div>
-        </div>
+<div class="row ml-1 mr-1 mr-lg-0 ml-lg-5 event-items__item">
+  {% if content.field_event_date|field_value is not empty %}
+    {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
+    <div class="col-4 col-lg-3 date-cal">
+      <div class="date-cal__item">
+        <time datetime="{{ timestamp }}">
+          <span class="date-cal__item--day">{{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('day') }}
+          </span>
+          <span class="date-cal__item--month">{{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('month_long') }}</span>
+        </time>
       </div>
-
-      <div class="event-wrapper">
-        <div class="event-container">
-          <div class="date-wrapper col-md-1 col-sm-2">
-            <ul class="list-unstyled date-container">
-              <li class="day-post">12</li>
-              <li class="month-post">August</li>
-            </ul>
-          </div>
-          <div class="content-wrapper col-md-11 col-sm-10">
-            <p>MA-HRIR Information Session</p>
-            <a href="#">READ MORE</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-12 see-all-wrapper">
-        <a class="see-all" href="#">See All Events</a>
-      </div>
-
     </div>
-  </div>
-</section>
+    <div class="col-8 col-lg-9 event-items__details">
+      <h4 class="event-items__item--title">{{ label }}</h4>
+      <a href="{{ url }}" class="event-items__item--link">Read More</a>
+    </div>
+  {% endif %}
+</div>

@@ -16,7 +16,7 @@
  */
 #}
 <div class="col-12">
-	<h3 class="news-items__heading">Latest Carlson News</h3>
+	<h3 class="news-items__heading">Latest Carlson News:</h3>
 </div>
 {% for row in rows %}
   {%
@@ -27,5 +27,8 @@
   <div{{ row.attributes.addClass(row_classes) }}>
     {{ row.content }}
   </div>
-
 {% endfor %}
+
+<div class="col-12">
+	<a href="/news" class="btn btn-link-secondary news-items__more">See All News</a>
+</div>

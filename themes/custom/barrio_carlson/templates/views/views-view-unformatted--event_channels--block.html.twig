@@ -16,16 +16,18 @@
  */
 #}
 <div class="col-12">
-	<h3 class="news-items__heading">Latest Carlson News</h3>
+	<h3 class="event-items__heading">Events:</h3>
 </div>
 {% for row in rows %}
   {%
     set row_classes = [
-      default_row_class ? 'col-12 news-items__item--row',
+      default_row_class ? 'col-12 event-items__item--row',
     ]
   %}
   <div{{ row.attributes.addClass(row_classes) }}>
     {{ row.content }}
   </div>
-
 {% endfor %}
+<div class="col-12">
+	<a href="/events" class="btn btn-link-secondary news-items__more">See All News</a>
+</div>

@@ -44,7 +44,8 @@
 
 .news-items {
 	&__heading {
-
+		@include serif-font($font-medium);
+		margin-bottom: 3.7rem;
 	}
 	&__item {
 		margin-bottom: 2rem;
@@ -52,19 +53,17 @@
 
 		}
 		&--title {
-
+			@include font-lato-base();
+			line-height: 2rem;
+			font-size: 1.6rem;
+			font-weight: 700;	
+			text-transform: uppercase;
   	}
   	&--link {
-
+  		font-weight: bold;
+  		text-transform: uppercase;
+  		color: $maroon;
+  		letter-spacing: 1.78px;
   	}
-	}
-}
-/* When this is the only bottom node block */
-.node__bottom--single {
-	@include media-breakpoint-up(lg) {
-		.news-items__item--row {
-			flex: 0 0 50%;
-	    max-width: 50%;
-		}		
 	}
 }
