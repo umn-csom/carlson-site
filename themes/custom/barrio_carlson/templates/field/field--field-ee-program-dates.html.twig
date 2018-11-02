@@ -20,15 +20,22 @@
  */
 #}
   {% for key,item in items %}
+  	{% set start_timestamp = item.content.start_date['#attributes']['datetime'] %}
+  	{% set end_timestamp = item.content.end_date['#attributes']['datetime'] %}
+  	
   	<div class="date-cal">
 	    <div class="date-cal__item">
-	    	<div class="date-cal__item--day">{{ item.content.start_date['#attributes']['datetime']|date('U')|format_date('day') }}</div>
-	    	<div class="date-cal__item--month">{{ item.content.start_date['#attributes']['datetime']|date('U')|format_date('month_long') }}</div>
+		    <time datetime="{{ start_timestamp }}">
+		    	<span class="date-cal__item--day">{{ item.content.start_date['#attributes']['datetime']|date('U')|format_date('day') }}</span>
+		    	<span class="date-cal__item--month">{{ item.content.start_date['#attributes']['datetime']|date('U')|format_date('month_long') }}</span>
+		    </time>
 	    </div>
 	    <div class="date-cal__divider">- to -</div>
 	    <div class="date-cal__item">
-				<div class="date-cal__item--day">{{ item.content.end_date['#attributes']['datetime']|date('U')|format_date('day') }}</div>
-				<div class="date-cal__item--month">{{ item.content.end_date['#attributes']['datetime']|date('U')|format_date('month_long') }}</div>
+	    	<time datetime="{{ end_timestamp }}">
+					<span class="date-cal__item--day">{{ item.content.end_date['#attributes']['datetime']|date('U')|format_date('day') }}</span>
+					<span class="date-cal__item--month">{{ item.content.end_date['#attributes']['datetime']|date('U')|format_date('month_long') }}</span>
+				</time>
 			</div>
   	</div>
   {% endfor %}

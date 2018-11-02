@@ -6,6 +6,8 @@
 (function ($, Drupal) {
   'use strict';
 
+  $(".card-flip").toggleClass("flip");
+
   Drupal.behaviors.bootstrap_barrio_subtheme = {
     attach: function (context, settings) {
       // run test on initial page load
@@ -15,34 +17,17 @@
       $(window).resize(checkStickySize);
 
       //Function to the css rule
-      function checkStickySize(){
-          if ($(".sticky-sidebar").css("max-width") === "25%" ){
-            // Check the initial Position of the fixed_nav_container
-            var stickyHeaderTop = $('.sticky-sidebar__inner').offset().top;
-            var wrap_width = $('.main-content').width();
-            var sidebar_width = (wrap_width * .25) - 25;
-
-            // $(window).scroll(function(){
-            //   if( $(window).scrollTop() > stickyHeaderTop-109 ) {
-            //     $('.sticky-sidebar__inner').css({position: 'fixed', top: '109px',width: sidebar_width});  
-            //   } else {
-            //     $('.sticky-sidebar__inner').css({position: 'relative', top: '0px',width: 'inherit'});
-            //   }
-            // });
-
-            // $(window).on('scroll', function () {
-            //   if ($(window).scrollTop() >= 10) {
-            //     $('.carlson-header, .umnhf-campus-tc').addClass('compressed');
-            //   } else {
-            //     $('.carlson-header, .umnhf-campus-tc').removeClass('compressed');
-            //   }
-            // });
-          }else {
-            $('.sticky-sidebar__inner').css({position: 'relative', top: '0px',width: 'inherit'});
-          }
+      function checkStickySize() {
+        var wrap_width = $('html').width();
+        if (wrap_width >= 992) {
+          $('.paid-media__webform--wrapper').sticky({
+            topSpacing: 170,
+            bottomSpacing: 470
+          });
+        } else {
+          $('.paid-media__webform--wrapper').unstick();
+        }
       }
-
-      document.querySelector(".card-flip").classList.toggle("flip");
 
     }
   }

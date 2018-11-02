@@ -1,6 +1,11 @@
+/* Event Full page styles*/
 .event {
 	&__details {
 		@include page-inset($inset-wide);
+		&--date {
+			display: flex;
+    	justify-content: center;
+		}
 	}
 
 	&__body{
@@ -12,15 +17,44 @@
 	}
 }
 
-.date {
-	&__start,
-	&__end {
-		&--day {
 
-		}
-		&--month {
-
-		}
+/* Event Teaser Compact styles */
+.event-items {
+	&__heading {
+		@include serif-font($font-medium);
+		margin-bottom: 3.7rem;
 	}
+	&__item {
+		border: solid 1px $warm-gray;
+		padding: 2rem 2rem 2rem 0;
+		margin-bottom: 2rem;
+		.date-cal {
 
+		  &__item {
+
+		    &--day {
+		    	line-height: 6rem;
+		    }
+		    &--month {
+		    	color: $warm-gray;
+		    }
+		  }
+		}
+
+		&--image {
+
+		}
+		&--title {
+			@include font-lato-base();
+			line-height: 2rem;
+			font-size: 1.6rem;
+			font-weight: 700;
+  	}
+  	&--link {
+  		font-weight: bold;
+  		text-transform: uppercase;
+  		color: $maroon;
+  		letter-spacing: 1.78px;
+  	}
+	}
 }
