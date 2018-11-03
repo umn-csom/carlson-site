@@ -127,6 +127,7 @@ class MenuPositionRuleForm extends EntityForm {
           '#type' => 'select',
           '#required' => TRUE,
           '#options' => $tags,
+          '#default_value' => $rule->getTaxonomyTerm(),
           '#title' => $this->t('Taxonomy term'),
           '#description' => $this->t('Only show this menu on nodes with this taxonomy term.'),
         );
@@ -192,10 +193,12 @@ class MenuPositionRuleForm extends EntityForm {
     $link_parts = explode(':', $form_state->getValue('parent'));
     $menu_name = array_shift($link_parts);
     $parent = implode(':', $link_parts);
+    $taxonomy_term = $form_state->getValue('taxonomy_term');
 
     // @todo Add storage and get/set methods for these attributes.
     $form_state->setValue('menu_name', $menu_name);
     $form_state->setValue('parent', $parent);
+    $form_state->setValue('taxonomy_term', $taxonomy_term);
 
     parent::submitForm($form, $form_state);
   }
@@ -208,6 +211,11 @@ class MenuPositionRuleForm extends EntityForm {
     /* @var \Drupal\menu_position\Entity\MenuPositionRule $rule */
     $rule = $this->entity;
     $is_new = $rule->isNew();
+
+    if( !empty($form_state->getValue('taxonomy_term')) ) {
+      $rule->setTaxonomyTerm( $form_state->getValue('taxonomy_term') );
+      $rule->save();
+    }
 
     $menu_link_id = 'menu_position_link:' . $rule->id();
     if (!$this->menu_link_manager->hasDefinition($menu_link_id)) {

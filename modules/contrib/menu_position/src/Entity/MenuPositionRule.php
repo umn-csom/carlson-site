@@ -94,6 +94,13 @@ class MenuPositionRule extends ConfigEntityBase implements MenuPositionRuleInter
   protected $weight;
 
   /**
+   * The taxonomy term associated with this rule.
+   *
+   * @var integer
+   */
+  protected $taxonomy_term;
+
+  /**
    * The condition plugin manager.
    *
    * @var \Drupal\Core\Executable\ExecutableManagerInterface
@@ -189,6 +196,13 @@ class MenuPositionRule extends ConfigEntityBase implements MenuPositionRuleInter
   /**
    * {@inheritdoc}
    */
+  public function getTaxonomyTerm() {
+    return $this->taxonomy_term;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setLabel($label) {
     $this->label = $label;
   }
@@ -233,6 +247,13 @@ class MenuPositionRule extends ConfigEntityBase implements MenuPositionRuleInter
    */
   public function setWeight($weight) {
     $this->weight = $weight;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setTaxonomyTerm($taxonomy_term) {
+    $this->taxonomy_term = $taxonomy_term;
   }
 
   /**
