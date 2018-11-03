@@ -86,9 +86,81 @@ hr {
 #icons {
     display: none;
 }
+.list-inline li {
+    display: inline-block;
+}
 .node__content {
-  font-size: 1.4rem;
-  @include media-breakpoint-up(md) {
-    font-size: 1.6rem;
-  }
+    font-size: 1.4rem;
+    @include media-breakpoint-up(md) {
+        font-size: 1.6rem;
+    }
+    ul[class="^nav"] {
+        list-style-type: none;
+        padding-left: 1rem;
+        li {
+            position: relative;
+            padding-left: 2rem;
+            padding-bottom: 1rem;
+            &:before {
+                    content: '';
+                    height: .8rem;
+                    width: .8rem;
+                    background: $maroon;
+                    transform: rotate(45deg);
+                    display: inline-block;
+                    position: absolute;
+                    top: .8em;
+                    left: .4rem;
+            }
+        }
+    }
+}
+
+/* GENERIC TABLE STYLES */
+.table,
+.table-striped,
+table {
+    border: 0;
+    thead {
+        > tr {
+            border-bottom: 4px double $light-gray;
+            > th {
+                border-bottom: 0;
+            }
+        }
+        tr {
+            background: transparent;
+            th {
+                background: transparent;
+                color: $slate;
+            }
+        }
+    }
+    > tbody {
+        border-bottom: 1px solid $light-gray;
+        > tr {
+            > td {
+                border: 0;
+            }
+        }
+        tr {
+            border-top: 1px solid $light-gray;
+            border-bottom: 0;
+            background: transparent;
+            &:nth-of-type(odd) {
+                background: rgba(230,216,214,0.3);
+            }
+            &:nth-of-type(even) {
+                background: transparent;
+            }
+            td {
+                border: 0;
+                background: transparent;
+            }
+        }
+    }
+}
+.table-responsive {
+    border-color: $light-gray;
+    border-bottom: 0;
 }

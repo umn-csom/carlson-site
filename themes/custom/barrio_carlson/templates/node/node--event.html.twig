@@ -114,14 +114,12 @@
     <section class="row component-paragraph event__details">
       <div class="col-12 col-lg-2 event__details--date">
         {% if content.field_event_date|field_value is not empty %}
-        <div class="date">
-          <div class="date__start">
-            <div class="date__start--day">
-            {{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('day') }}
-            </div>
-            <div class="date__start--month">
-              {{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('month_long') }}
-            </div>
+        <div class="date-cal">
+          <div class="date-cal__item">
+            <time datetime="{{ start_timestamp }}">
+              <span class="date-cal__item--day">{{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('day') }}</span>
+              <span class="date-cal__item--month">{{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('month_long') }}</span>
+            </time>
           </div>
         </div>
         {% endif %}

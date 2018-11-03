@@ -58,6 +58,8 @@
       line-height: 8rem;
       @include font-crimson-base();
       color: $maroon;
+      display: block;
+      text-align: center;
     }
     &--month {
       text-transform: uppercase;
@@ -65,6 +67,8 @@
       font-size: 1.4rem;
       letter-spacing: 1.56px;
       font-weight: bold;
+      display: block;
+      text-align: center;
       &:after{
         content: '';
         height: 2px;
@@ -93,4 +97,17 @@
 .sticky-sidebar {
   &__inner {
   }
+}
+/* Component spacing */
+.component-paragraph {
+  margin-bottom: 3rem;
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 5rem;
+  }
+}
+
+/* Node regions */
+.node__bottom--left,
+.node__bottom--right {
+  margin-bottom: 5rem;
 }
