@@ -87,7 +87,6 @@ class MenuInjectorOrderForm extends FormBase {
 
     // Display table of rules.
     foreach ($rules as $rule) {
-
       $form['rules'][$rule->getId()] = [
         '#attributes' => ['class' => ['draggable']],
         'title' => [

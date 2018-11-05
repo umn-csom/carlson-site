@@ -31,6 +31,13 @@ interface MenuInjectorRuleInterface extends ConfigEntityInterface {
   public function getEnabled();
 
   /**
+   * Returns the vocabulary list of the menu injector rule
+   * @return string
+   *    The vocabulary list of the menu injector rule
+   */
+  public function getVocabList();
+
+  /**
    * Sets the administrative title of the menu injector rule
    * @param string $label
    *    The administrative title of the menu injector rule
@@ -43,4 +50,11 @@ interface MenuInjectorRuleInterface extends ConfigEntityInterface {
    *    The status of the menu injector rule
    */
   public function setEnabled($enabled);
+
+  /**
+   * Sets the vocabulary list of the menu injector rule
+   * @param string $vocab_list
+   *    The vocabulary list of the menu injector rule
+   */
+  public function setVocabList($vocab_list);
 }

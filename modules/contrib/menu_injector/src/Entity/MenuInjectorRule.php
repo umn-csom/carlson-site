@@ -58,6 +58,20 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
   protected $enabled;
 
   /**
+   * Vocabulary list id.
+   *
+   * @var string
+   */
+  protected $vocab_list;
+
+  /**
+   * Taxonomy term.
+   *
+   * @var int
+   */
+  protected $taxonomy_term;
+
+  /**
    * The context manager service.
    *
    * @var \Drupal\Core\Plugin\Context\ContextRepositoryInterface
@@ -95,6 +109,20 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
   /**
    * {@inheritdoc}
    */
+  public function getVocabList() {
+    return $this->vocab_list;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getTaxonomyTerm() {
+    return $this->taxonomy_term;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setLabel($label) {
     $this->label = $label;
   }
@@ -104,6 +132,20 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
    */
   public function setEnabled($enabled) {
     $this->enabled = $enabled;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setVocabList($vocab_list) {
+    $this->vocab_list = $vocab_list;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setTaxonomyTerm($taxonomy_term) {
+    $this->taxonomy_term = $taxonomy_term;
   }
 
   /**

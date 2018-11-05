@@ -29,3 +29,12 @@ entity.menu_injector_rule.delete_form:
     _title: 'Delete Menu Injector'
   requirements:
     _permission: 'administer_injector_permissions'
+
+entity.menu_injector_rule.autocomplete:
+  path: '/admin/structure/menu-injector/autocomplete/{field_name}'
+  defaults:
+    _controller: '\Drupal\menu_injector\Controller\AutocompleteController::handleAutocomplete'
+    _format: json
+  requirements:
+    _access: 'TRUE'
+    _permission: 'administer_injector_permissions'

@@ -15,6 +15,10 @@ use Drupal\Core\Plugin\Context\ContextRepositoryInterface;
 use Drupal\Core\ProxyClass\Routing\RouteBuilder;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\menu_injector\Entity\MenuInjectorRule;
+use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\AppendCommand;
+use Drupal\Core\Ajax\ReplaceCommand;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class MenuInjectorRuleForm extends EntityForm {
@@ -74,8 +78,20 @@ class MenuInjectorRuleForm extends EntityForm {
     // Set these for use when attaching condition forms.
     $form_state->setTemporaryValue('gathered_contexts', $this->context_repository->getAvailableContexts());
 
+    // Get all vocabularies.
+    $vocabs = array();
+    $vocabs_types = Vocabulary::loadMultiple();
+
+    if (!empty($vocabs_types)) {
+      foreach ($vocabs_types as $vocab_name => $vocab) {
+        $vocabs[$vocab_name] = $vocab->label();
+      }
+      asort($vocabs);
+    }
+
     // Get the menu injector rule entity.
     $rule = $this->entity;
+    //$form_state->setCached(false);
 
     // Menu injector label.
     $form['label'] = [
@@ -84,7 +100,7 @@ class MenuInjectorRuleForm extends EntityForm {
       '#maxlength' => 255,
       '#default_value' => $rule->getLabel(),
       '#description' => $this->t("Label for the Menu Injector rule."),
-      '#required' => TRUE,
+      '#required' => true,
     ];
 
     // Menu injector machine name.
@@ -97,8 +113,113 @@ class MenuInjectorRuleForm extends EntityForm {
       '#disabled' => !$rule->isNew(),
     ];
 
+    $form['wrapper'] = array(
+      '#type' => 'container',
+      '#attributes' => array('id' => 'data-wrapper'),
+    );
+
+    $form['wrapper']['data_media'] = array(
+      '#type' => 'select',
+      '#required' => false,
+      '#title' => $this->t('Options'),
+      '#options' => array('aaa','bbb','cccc'),
+      '#attributes' => array('id' => 'data-media-select'),
+    );
+    
+    $form['wrapper']['more_data'] = array(
+      '#type' => 'button',
+      '#required' => true,
+      '#value' => 'Show more',
+      '#ajax' => array(
+        // The callback to invoke to handle the server side of the Ajax event.
+        //'callback' => [$form_state->getBuildInfo()['callback_object'], 'ajaxLoadMore'],
+        // or: //'callback' => [$this, 'ajaxLoadMore'],
+        'callback' => '::ajaxLoadMore',
+        // @see: http://api.jquery.com/category/manipulation/
+        'method' => 'replace', // May be: 'replaceWith' (default), 'append', 'prepend', 'before', 'after', or 'html'.
+        // The HTML 'id' attribute of the area where the content returned by the callback should be placed.
+        'wrapper' => 'data-wrapper',
+      ),
+    );
+
+  //   // Vocab list wrapper
+  //   $form['vocab_list_wrapper'] = array(
+  //     '#type' => 'container',
+  //     '#attributes' => array('id' => 'vocab-list-wrapper'),
+  //   );
+
+  //   // Menu injector vocabulary list.
+  //   $form['vocab_list_wrapper']['vocab_list'] = array(
+  //     '#type' => 'select',
+  //     '#required' => TRUE,
+  //     '#options' => $vocabs,
+  //     '#default_value' => $rule->getVocabList(),
+  //     '#title' => $this->t('Vocabulary List'),
+  //     '#description' => $this->t('Select the vocabulary list.')
+  //   );
+
+  //   $form['vocab_list_wrapper']['refresh_taxonomy_terms_btn'] = array(
+  //     '#type' => 'button',
+  //     '#value' => 'Refresh',
+  //     '#ajax' => array(
+  //         'callback' => '::changeTaxonomyTerms',
+  //         'wrapper' => 'refresh-terms-btn-wrapper',
+  //     ),
+  // );
+
+  //   // Menu injector taxonomy term
+  //   $vocab_list_value = $rule->getVocabList();
+  //   $taxonomy_options = [];
+
+  //   $terms = $this->entity_manager->getStorage('taxonomy_term')->loadTree($vocab_list_value);
+  //   if( !empty($terms) ) {
+  //     foreach ($terms as $term) {
+  //       $taxonomy_options[$term->tid] = $term->name;
+  //     }
+  //   }
+
+  //   $form['taxonomy_term_wrapper'] = array(
+  //     '#type' => 'container',
+  //     '#attributes' => array('id' => 'taxonomy-term-wrapper'),
+  //   );
+
     return $form;
   }
+
+  /**
+   * Ajax handler for loading more radio options.
+   */
+  public function ajaxLoadMore(array &$form, FormStateInterface $form_state){
+    // Add more options for radios.
+    $trigger = $form_state->getTriggeringElement();
+    if ($trigger['#value'] == 'Show more') {
+      $form['wrapper']['data_media']['#title'] = $this->t('Options');
+      $form['wrapper']['data_media']['#options'] = array('123','1234','4356','34WD');
+    }
+    return $form['wrapper'];
+  }
+
+  /**
+   * The callback function for when the `change_taxonomy_terms` element is changed.
+   *
+   * What this returns will be replace the wrapper provided.
+   */
+  // public function changeTaxonomyTerms(array $form, FormStateInterface $form_state) {
+
+  //   $rule = $this->entity;
+  //   $vocab_list_value = $rule->getVocabList();
+  //   $taxonomy_options = [];
+
+  //   $terms = $this->entity_manager->getStorage('taxonomy_term')->loadTree($vocab_list_value);
+  //   if( !empty($terms) ) {
+  //     foreach ($terms as $term) {
+  //       $taxonomy_options[$term->tid] = $term->name;
+  //     }
+  //   }
+    
+  //   $form['taxonomy_term']['#options'] = $taxonomy_options;
+  //   return $form['taxonomy_term_wrapper'];
+  // }
 
   /**
    * {@inheritdoc}
