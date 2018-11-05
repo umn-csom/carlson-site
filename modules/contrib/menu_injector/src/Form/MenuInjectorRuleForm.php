@@ -113,113 +113,82 @@ class MenuInjectorRuleForm extends EntityForm {
       '#disabled' => !$rule->isNew(),
     ];
 
+    // Menu injector vocabulary list.
+    $form['vocab_list'] = array(
+      '#type' => 'select',
+      '#required' => true,
+      '#options' => $vocabs,
+      '#default_value' => $rule->getVocabList(),
+      '#title' => $this->t('Vocabulary List'),
+      '#description' => $this->t('Select the vocabulary list.')
+    );
+
+    // Vocab list wrapper
     $form['wrapper'] = array(
       '#type' => 'container',
       '#attributes' => array('id' => 'data-wrapper'),
     );
 
-    $form['wrapper']['data_media'] = array(
-      '#type' => 'select',
-      '#required' => false,
-      '#title' => $this->t('Options'),
-      '#options' => array('aaa','bbb','cccc'),
-      '#attributes' => array('id' => 'data-media-select'),
-    );
-    
-    $form['wrapper']['more_data'] = array(
+    // Menu injector taxonomy term
+    $vocab_list_value = $rule->getVocabList();
+    $taxonomy_options = [];
+
+    $terms = $this->entity_manager->getStorage('taxonomy_term')->loadTree($vocab_list_value);
+    if( !empty($terms) ) {
+      foreach ($terms as $term) {
+        $taxonomy_options[$term->tid] = $term->name;
+      }
+    }
+
+    $form['wrapper']['refresh_taxonomy_terms_btn'] = array(
       '#type' => 'button',
-      '#required' => true,
-      '#value' => 'Show more',
+      '#value' => 'Refresh Taxonomy Terms',
       '#ajax' => array(
-        // The callback to invoke to handle the server side of the Ajax event.
-        //'callback' => [$form_state->getBuildInfo()['callback_object'], 'ajaxLoadMore'],
-        // or: //'callback' => [$this, 'ajaxLoadMore'],
-        'callback' => '::ajaxLoadMore',
-        // @see: http://api.jquery.com/category/manipulation/
-        'method' => 'replace', // May be: 'replaceWith' (default), 'append', 'prepend', 'before', 'after', or 'html'.
-        // The HTML 'id' attribute of the area where the content returned by the callback should be placed.
-        'wrapper' => 'data-wrapper',
+          'callback' => '::changeTaxonomyTerms',
+          'wrapper' => 'data-wrapper',
+          'method' => 'replace',
       ),
     );
 
-  //   // Vocab list wrapper
-  //   $form['vocab_list_wrapper'] = array(
-  //     '#type' => 'container',
-  //     '#attributes' => array('id' => 'vocab-list-wrapper'),
-  //   );
-
-  //   // Menu injector vocabulary list.
-  //   $form['vocab_list_wrapper']['vocab_list'] = array(
-  //     '#type' => 'select',
-  //     '#required' => TRUE,
-  //     '#options' => $vocabs,
-  //     '#default_value' => $rule->getVocabList(),
-  //     '#title' => $this->t('Vocabulary List'),
-  //     '#description' => $this->t('Select the vocabulary list.')
-  //   );
-
-  //   $form['vocab_list_wrapper']['refresh_taxonomy_terms_btn'] = array(
-  //     '#type' => 'button',
-  //     '#value' => 'Refresh',
-  //     '#ajax' => array(
-  //         'callback' => '::changeTaxonomyTerms',
-  //         'wrapper' => 'refresh-terms-btn-wrapper',
-  //     ),
-  // );
-
-  //   // Menu injector taxonomy term
-  //   $vocab_list_value = $rule->getVocabList();
-  //   $taxonomy_options = [];
-
-  //   $terms = $this->entity_manager->getStorage('taxonomy_term')->loadTree($vocab_list_value);
-  //   if( !empty($terms) ) {
-  //     foreach ($terms as $term) {
-  //       $taxonomy_options[$term->tid] = $term->name;
-  //     }
-  //   }
-
-  //   $form['taxonomy_term_wrapper'] = array(
-  //     '#type' => 'container',
-  //     '#attributes' => array('id' => 'taxonomy-term-wrapper'),
-  //   );
+    $showHide = ( !empty($taxonomy_options) ) ? 'display: block;' : 'display: none;';
+    $form['wrapper']['taxonomy_term'] = array(
+      '#type' => 'select',
+      '#required' => false,
+      '#options' => $taxonomy_options,
+      '#default_value' => $rule->getTaxonomyTerm(),
+      '#title' => $this->t('Taxonomy Term'),
+      '#description' => $this->t('Select the taxonomy term.'),
+      '#attributes' => array(
+          'id' => 'taxonomy-term-select',
+      ),
+    );
 
     return $form;
   }
 
   /**
-   * Ajax handler for loading more radio options.
+   * Ajax handler for changing the taxonomy terms based on the vocabulary list.
    */
-  public function ajaxLoadMore(array &$form, FormStateInterface $form_state){
-    // Add more options for radios.
+  public function changeTaxonomyTerms(array &$form, FormStateInterface $form_state) {
+    $rule = $this->entity;
+    $vocab_list_value = $rule->getVocabList();
+    $taxonomy_options = [];
+
+    $terms = $this->entity_manager->getStorage('taxonomy_term')->loadTree($vocab_list_value);
+    if( !empty($terms) ) {
+      foreach ($terms as $term) {
+        $taxonomy_options[$term->tid] = $term->name;
+      }
+    }
+    
+    $showHide = ( !empty($taxonomy_options) ) ? 'display: block;' : 'display: none;';
     $trigger = $form_state->getTriggeringElement();
-    if ($trigger['#value'] == 'Show more') {
-      $form['wrapper']['data_media']['#title'] = $this->t('Options');
-      $form['wrapper']['data_media']['#options'] = array('123','1234','4356','34WD');
+
+    if ($trigger['#value'] == 'Refresh Taxonomy Terms') {
+      $form['wrapper']['taxonomy_term']['#options'] = $taxonomy_options;
     }
     return $form['wrapper'];
   }
-
-  /**
-   * The callback function for when the `change_taxonomy_terms` element is changed.
-   *
-   * What this returns will be replace the wrapper provided.
-   */
-  // public function changeTaxonomyTerms(array $form, FormStateInterface $form_state) {
-
-  //   $rule = $this->entity;
-  //   $vocab_list_value = $rule->getVocabList();
-  //   $taxonomy_options = [];
-
-  //   $terms = $this->entity_manager->getStorage('taxonomy_term')->loadTree($vocab_list_value);
-  //   if( !empty($terms) ) {
-  //     foreach ($terms as $term) {
-  //       $taxonomy_options[$term->tid] = $term->name;
-  //     }
-  //   }
-    
-  //   $form['taxonomy_term']['#options'] = $taxonomy_options;
-  //   return $form['taxonomy_term_wrapper'];
-  // }
 
   /**
    * {@inheritdoc}
@@ -231,6 +200,9 @@ class MenuInjectorRuleForm extends EntityForm {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $rule = $this->entity;
+    $taxonomy_term = $form['wrapper']['taxonomy_term']['#value'];
+    $form_state->setValue('taxonomy_term', $taxonomy_term);
     parent::submitForm($form, $form_state);
   }
 
