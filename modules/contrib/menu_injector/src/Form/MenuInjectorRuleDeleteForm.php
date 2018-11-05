@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\menu_position\Form;
+namespace Drupal\menu_injector\Form;
 
 use Drupal\Core\Entity\EntityConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Builds the form to delete a Example.
  */
 
-class MenuPositionRuleDeleteForm extends EntityConfirmFormBase {
+class MenuInjectorRuleDeleteForm extends EntityConfirmFormBase {
 
   /**
    * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query
@@ -48,7 +48,7 @@ class MenuPositionRuleDeleteForm extends EntityConfirmFormBase {
    * {@inheritdoc}
    */
   public function getCancelUrl() {
-    return new Url('entity.menu_position_rule.order_form');
+    return new Url('entity.menu_injector_rule.order_form');
   }
 
   /**
@@ -62,7 +62,6 @@ class MenuPositionRuleDeleteForm extends EntityConfirmFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->menu_link_manager->removeDefinition($this->entity->getMenuLink());
     $this->entity->delete();
     drupal_set_message($this->t('The %label rule has been deleted.', ['%label' => $this->entity->getLabel()]));
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\menu_position\Plugin\Menu;
+namespace Drupal\menu_injector\Plugin\Menu;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Menu\MenuLinkBase;
@@ -8,11 +8,11 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Defines menu links provided by menu position rules.
+ * Defines menu links provided by menu injector rules.
  *
- * @see \Drupal\menu_position\Plugin\Derivative\MenuPositionLink
+ * @see \Drupal\menu_injector\Plugin\Derivative\MenuInjectorLink
  */
-class MenuPositionLink extends MenuLinkBase implements ContainerFactoryPluginInterface {
+class MenuInjectorLink extends MenuLinkBase implements ContainerFactoryPluginInterface {
 
   /**
    * The entity type manager.
@@ -37,7 +37,7 @@ class MenuPositionLink extends MenuLinkBase implements ContainerFactoryPluginInt
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
     $this->entityTypeManager = $entity_type_manager;
-    $this->settings = \Drupal::config('menu_position.settings');
+    $this->settings = \Drupal::config('menu_injector.settings');
 
   }
 
@@ -56,10 +56,7 @@ class MenuPositionLink extends MenuLinkBase implements ContainerFactoryPluginInt
   /**
    * {@inheritdoc}
    */
-  protected $overrideAllowed = [
-    'parent' => 1,
-    'weight' => 1,
-  ];
+  protected $overrideAllowed = [];
 
   /**
    * {@inheritdoc}
@@ -95,10 +92,8 @@ class MenuPositionLink extends MenuLinkBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function updateLink(array $new_definition_values, $persist) {
-    // Filter the list of updates to only those that are allowed.
-    $overrides = array_intersect_key($new_definition_values, $this->overrideAllowed);
     // Update the definition.
-    $this->pluginDefinition = $overrides + $this->getPluginDefinition();
+    $this->pluginDefinition = $this->getPluginDefinition();
 
     return $this->pluginDefinition;
   }
@@ -125,7 +120,7 @@ class MenuPositionLink extends MenuLinkBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function getEditRoute() {
-    $storage = $this->entityTypeManager->getStorage('menu_position_rule');
+    $storage = $this->entityTypeManager->getStorage('menu_injector_rule');
     $entity_id = $this->pluginDefinition['metadata']['entity_id'];
     $entity = $storage->load($entity_id);
     return $entity->toUrl();

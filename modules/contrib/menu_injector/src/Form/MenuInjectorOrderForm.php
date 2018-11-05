@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\menu_position\Form;
+namespace Drupal\menu_injector\Form;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -13,11 +13,11 @@ use Drupal\Core\Menu\MenuLinkManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class MenuPositionRuleOrderForm.
+ * Class MenuInjectorOrderForm.
  *
- * @package Drupal\menu_position\Form
+ * @package Drupal\menu_injector\Form
  */
-class MenuPositionRuleOrderForm extends FormBase {
+class MenuInjectorOrderForm extends FormBase {
 
   /**
    * The entity type manager.
@@ -58,21 +58,21 @@ class MenuPositionRuleOrderForm extends FormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'menu_position_rule_order_form';
+    return 'menu_injector_order_form';
   }
 
   /**
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('menu_position.menupositionruleorder_config');
+    $config = $this->config('menu_injector.menuinjectorororder_config');
 
     // Get all the rules.
-    $query = $this->entity_query->get('menu_position_rule');
-    $results = $query->sort('weight')->execute();
-    $rules = $this->entityTypeManager->getStorage('menu_position_rule')->loadMultiple($results);
+    $query = $this->entity_query->get('menu_injector_rule');
+    $results = $query->sort('label')->execute();
+    $rules = $this->entityTypeManager->getStorage('menu_injector_rule')->loadMultiple($results);
 
-    // Menu Position rules order (tabledrag).
+    // Menu Injector rules order (tabledrag).
     $form['#tree'] = TRUE;
     $form['rules'] = [
       '#type' => 'table',
@@ -80,59 +80,33 @@ class MenuPositionRuleOrderForm extends FormBase {
       '#title' => $this->t('Rules processing order'),
       '#header' => [
         $this->t('Rule'),
-        $this->t('Affected Menu'),
         $this->t('Enabled'),
-        $this->t('Weight'),
         $this->t('Operations'),
-      ],
-      '#tabledrag' => [
-        [
-         'action' => 'order',
-         'relationship' => 'sibling',
-         'group' => 'rules-weight',
-        ],
       ],
     ];
 
     // Display table of rules.
     foreach ($rules as $rule) {
-      /* @var \Drupal\menu_position\Entity\MenuPositionRule $rule */
-      /* @var \Drupal\menu_position\Plugin\Menu\MenuPositionLink $menu_link */
-      $menu_link = $rule->getMenuLinkPlugin();
-      $parent = $this->menu_link_manager->createInstance($menu_link->getParent());
-      // @todo Because we're in a loop, try to cache this unless the entity
-      //   manager handles all that for us. At least only get the storage once?
-      $menu = $this->entityTypeManager->getStorage('menu')->load($menu_link->getMenuName());
+
       $form['rules'][$rule->getId()] = [
         '#attributes' => ['class' => ['draggable']],
         'title' => [
-          '#markup' => '<strong>' . $rule->getLabel() . '</strong> (' . $this->t('Positioned under: %title', ['%title' => $parent->getTitle()]) . ')',
-        ],
-        'menu_name' => [
-          '#markup' => $menu->label(),
+          '#markup' => '<strong>' . $rule->getLabel() . '</strong>',
         ],
         'enabled' => [
           '#type' => 'checkbox',
           '#default_value' => $rule->getEnabled(),
-        ],
-        'weight' => [
-          '#type' => 'weight',
-          '#title' => $this->t('Weight for @title', ['@title' => $rule->getLabel()]),
-          '#title_display' => 'invisible',
-          '#default_value' => $rule->getWeight(),
-          '#delta' => ceil(count($rules)/2),
-          '#attributes' => ['class' => ['rules-weight']],
         ],
         'operations' => [
           '#type' => 'dropbutton',
           '#links' => [
             'edit' => [
               'title' => $this->t('Edit'),
-              'url' => Url::fromRoute('entity.menu_position_rule.edit_form', ['menu_position_rule' => $rule->getId()]),
+              'url' => Url::fromRoute('entity.menu_injector_rule.edit_form', ['menu_injector_rule' => $rule->getId()]),
             ],
             'delete' => [
               'title' => $this->t('Delete'),
-              'url' => Url::fromRoute('entity.menu_position_rule.delete_form', ['menu_position_rule' => $rule->getId()]),
+              'url' => Url::fromRoute('entity.menu_injector_rule.delete_form', ['menu_injector_rule' => $rule->getId()]),
             ],
           ],
         ],
@@ -160,14 +134,13 @@ class MenuPositionRuleOrderForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $storage = $this->entityTypeManager->getStorage('menu_position_rule');
+    $storage = $this->entityTypeManager->getStorage('menu_injector_rule');
     $values = $form_state->getValue('rules');
     $rules = $storage->loadMultiple(array_keys($values));
 
     foreach ($rules as $rule) {
       $value = $values[$rule->getId()];
       $rule->setEnabled((bool) $value['enabled']);
-      $rule->setWeight((float) $value['weight']);
       $storage->save($rule);
     }
 
