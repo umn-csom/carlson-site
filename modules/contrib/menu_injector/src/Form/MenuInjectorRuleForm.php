@@ -150,16 +150,19 @@ class MenuInjectorRuleForm extends EntityForm {
       ),
     );
 
+    $default_terms = explode(',', $rule->getTaxonomyTerm());
     $showHide = ( !empty($taxonomy_options) ) ? 'display: block;' : 'display: none;';
     $form['wrapper']['taxonomy_term'] = array(
       '#type' => 'select',
       '#required' => false,
+      '#multiple' => true,
       '#options' => $taxonomy_options,
-      '#default_value' => $rule->getTaxonomyTerm(),
+      '#default_value' => $default_terms,
       '#title' => $this->t('Taxonomy Term'),
       '#description' => $this->t('Select the taxonomy term.'),
       '#attributes' => array(
           'id' => 'taxonomy-term-select',
+          'style' => 'background: none; padding: 0; width: 300px; height: 100px;'
       ),
     );
 
@@ -172,6 +175,7 @@ class MenuInjectorRuleForm extends EntityForm {
   public function changeTaxonomyTerms(array &$form, FormStateInterface $form_state) {
     $rule = $this->entity;
     $vocab_list_value = $rule->getVocabList();
+    $default_terms = explode(',', $rule->getTaxonomyTerm());
     $taxonomy_options = [];
 
     $terms = $this->entity_manager->getStorage('taxonomy_term')->loadTree($vocab_list_value);
@@ -186,6 +190,7 @@ class MenuInjectorRuleForm extends EntityForm {
 
     if ($trigger['#value'] == 'Refresh Taxonomy Terms') {
       $form['wrapper']['taxonomy_term']['#options'] = $taxonomy_options;
+      $form['wrapper']['taxonomy_term']['#default_value'] = $default_terms;
     }
     return $form['wrapper'];
   }
@@ -202,6 +207,7 @@ class MenuInjectorRuleForm extends EntityForm {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $rule = $this->entity;
     $taxonomy_term = $form['wrapper']['taxonomy_term']['#value'];
+    $taxonomy_term = implode(',', $taxonomy_term);
     $form_state->setValue('taxonomy_term', $taxonomy_term);
     parent::submitForm($form, $form_state);
   }
