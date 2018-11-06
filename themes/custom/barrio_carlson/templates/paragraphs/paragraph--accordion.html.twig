@@ -63,6 +63,7 @@
         <div class="accordion col-12" id="accordion-list">
           {% set inc = 0 %}
           {% for item in items %}
+              {% set paragraph = item['#paragraph'] %}
               <div class="card">
                   <div class="card-header">
                       <h5 class="mb-0">
@@ -77,13 +78,18 @@
                           {% endif %}
 
                           <button class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{ inc }}">
-                              {{ item['#paragraph'].field_heading.0.value }}
+                              {{ paragraph.field_heading.0.value }}
                           </button>
                       </h5>
                   </div>
                   <div id="collapse{{ inc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{ inc }}" data-parent="#accordion-list">
                       <div class="card-body">
-                          {{ item['#paragraph'].field_main_content.0.value|raw }}
+                            {% set body = {
+                            '#type': 'processed_text',
+                            '#text': paragraph.field_main_content.0.value,
+                            '#format': paragraph.field_main_content.0.format
+                            } %}
+                          {{ body }}
                       </div>
                   </div>
               </div>

@@ -52,7 +52,7 @@
 
     <div class="row component-paragraph tabbed-content">
       {% if content.field_tab_accordion_item   is not empty %}
-        {% set items = content.field_tab_accordion_item |field_value %}
+        {% set items = content.field_tab_accordion_item|field_value %}
 
         {% if (content.field_heading is not empty) or (content.field_main_content is not empty) %}
         <div class="col-12 col-md-10 offset-md-1 tabbed-content__heading text-center">
@@ -67,8 +67,8 @@
             <div class="tabbed-content__nav--positioner">
               <ul class="nav nav-tabs" role="tablist">
                 {% set inc = 0 %}
-                {% for item in items %}
-
+                {% for item in items  %}
+                  {% set paragraph = item['#paragraph'] %}
                   {% if inc == 0 %}
                       {% set selected = 'true' %}
                       {% set active = 'active show' %}
@@ -78,7 +78,7 @@
                   {% endif %}
 
                   <li class="nav-item">
-                    <a class="nav-link {{ active }}" id="tab-{{ inc }}" data-toggle="tab" href="#content-{{ inc }}" role="tab" aria-controls="content-{{ inc }}" aria-selected="{{ selected }}">{{ item['#paragraph'].field_heading.0.value }}</a>
+                    <a class="nav-link {{ active }}" id="tab-{{ inc }}" data-toggle="tab" href="#content-{{ inc }}" role="tab" aria-controls="content-{{ inc }}" aria-selected="{{ selected }}">{{ paragraph.field_heading.0.value }}</a>
                   </li>
                   {% set inc = inc+1 %}
 
@@ -92,12 +92,18 @@
             {% set cont = 0 %}
 
             {% for item in items %}
+                {% set paragraph = item['#paragraph'] %}
+                {% set body = {
+                  '#type': 'processed_text',
+                  '#text': paragraph.field_main_content.0.value,
+                  '#format': paragraph.field_main_content.0.format
+                } %}
                 {% if cont == 0 %}
                   {% set active = 'show active' %}
                 {% else %}
                     {% set active = '' %}
                 {% endif %}
-                <div class="tab-pane tabbed-content__content--itemtab-pane {{ active }}" id="content-{{ cont }}" role="tabpanel" aria-labelledby="content-{{ cont }}">{{ item['#paragraph'].field_main_content.0.value |raw}}</div>
+                <div class="tab-pane tabbed-content__content--itemtab-pane {{ active }}" id="content-{{ cont }}" role="tabpanel" aria-labelledby="content-{{ cont }}">{{ body }}</div>
             {% set cont = cont+1 %}
 
             {% endfor %}
