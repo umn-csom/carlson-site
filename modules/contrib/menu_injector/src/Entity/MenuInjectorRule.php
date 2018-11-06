@@ -79,6 +79,41 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
   protected $contextRepository;
 
   /**
+   * The parent menu link id for this rule.
+   *
+   * @var string
+   */
+  protected $parent;
+
+  /**
+   * The menu links to inject.
+   *
+   * @var string
+   */
+  protected $menu_links;
+
+  /**
+   * The menu choice to inject the menu links into.
+   *
+   * @var string
+   */
+  protected $menu_choice;
+
+  /**
+   * The weight of this rule.
+   *
+   * @var integer
+   */
+  protected $weight;
+
+  /**
+   * Is a root menu.
+   *
+   * @var boolean
+   */
+  protected $is_root;
+  
+  /**
    * {@inheritdoc}
    */
   public function getId() {
@@ -123,6 +158,77 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
   /**
    * {@inheritdoc}
    */
+  public function getTaxonomyTerms() {
+    $taxonomy_terms = explode(',', $this->taxonomy_term);
+    return $taxonomy_terms;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getParent() {
+    return $this->parent;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getParentMenuPluginId() {
+    $parent_menu_id = explode(':', $this->parent);
+    $parent_menu_id = ( $parent_menu_id[1] . ':' . $parent_menu_id[2] );
+    return $parent_menu_id;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getMenuChoice() {
+    return $this->menu_choice;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getMenuLinks() {
+    return $this->menu_links;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getMenuLinksReference() {
+    $menu_links_ids = explode(':', $this->menu_links);
+
+    if( count($menu_links_ids) === 2) {
+      $menu_links_ids = $menu_links_ids[0];
+      $this->is_root = true;
+    }
+
+    if( count($menu_links_ids) === 3) {
+      $menu_links_ids = ( $menu_links_ids[1] . ':' . $menu_links_ids[2] );
+      $this->is_root = false;
+    }
+
+    return $menu_links_ids;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getWeight() {
+    return $this->weight;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getIsRoot() {
+    return $this->is_root;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setLabel($label) {
     $this->label = $label;
   }
@@ -146,6 +252,34 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
    */
   public function setTaxonomyTerm($taxonomy_term) {
     $this->taxonomy_term = $taxonomy_term;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setParent($parent) {
+    $this->parent = $parent;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setMenuLinks($menu_links) {
+    $this->menu_links = $menu_links;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setMenuChoice($menu_choice) {
+    $this->menu_choice = $menu_choice;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setWeight($weight) {
+    $this->weight = $weight;
   }
 
   /**

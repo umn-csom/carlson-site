@@ -81,6 +81,7 @@ class MenuInjectorOrderForm extends FormBase {
       '#header' => [
         $this->t('Rule'),
         $this->t('Enabled'),
+        $this->t('Weight'),
         $this->t('Operations'),
       ],
     ];
@@ -95,6 +96,14 @@ class MenuInjectorOrderForm extends FormBase {
         'enabled' => [
           '#type' => 'checkbox',
           '#default_value' => $rule->getEnabled(),
+        ],
+        'weight' => [
+          '#type' => 'weight',
+          '#title' => $this->t('Weight for @title', ['@title' => $rule->getLabel()]),
+          '#title_display' => 'invisible',
+          '#default_value' => $rule->getWeight(),
+          '#delta' => 20,
+          '#attributes' => ['class' => ['rules-weight']],
         ],
         'operations' => [
           '#type' => 'dropbutton',
@@ -140,6 +149,7 @@ class MenuInjectorOrderForm extends FormBase {
     foreach ($rules as $rule) {
       $value = $values[$rule->getId()];
       $rule->setEnabled((bool) $value['enabled']);
+      $rule->setWeight((float) $value['weight']);
       $storage->save($rule);
     }
 

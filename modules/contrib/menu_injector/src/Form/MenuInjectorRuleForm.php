@@ -19,6 +19,7 @@ use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\AppendCommand;
 use Drupal\Core\Ajax\ReplaceCommand;
+use Drupal\system\Entity\Menu;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class MenuInjectorRuleForm extends EntityForm {
@@ -89,9 +90,17 @@ class MenuInjectorRuleForm extends EntityForm {
       asort($vocabs);
     }
 
+    // Get all menus.
+    $custom_menus = Menu::loadMultiple();
+    foreach ($custom_menus as $menu_name => $menu) {
+      $custom_menus[$menu_name] = $menu->label();
+    }
+    asort($custom_menus);
+    $menu_options = $this->menu_parent_form_selector->getParentSelectOptions(null, $custom_menus);
+
     // Get the menu injector rule entity.
     $rule = $this->entity;
-    //$form_state->setCached(false);
+    $form_state->setCached(false);
 
     // Menu injector label.
     $form['label'] = [
@@ -111,6 +120,36 @@ class MenuInjectorRuleForm extends EntityForm {
         'exists' => [$this, 'exist'],
       ],
       '#disabled' => !$rule->isNew(),
+    ];
+
+    // Menu inject - menu links.
+    $form['menu_choice'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Menu Choice'),
+      '#options' => $custom_menus,
+      '#required' => true,
+      '#default_value' => $rule->getMenuChoice(),
+      '#description' => $this->t('Select which custom menu to inject the links into.'),
+    ];
+
+    // Menu inject - menu links.
+    $form['menu_links'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Menu Links'),
+      '#options' => $menu_options,
+      '#required' => true,
+      '#default_value' => $rule->getMenuLinks(),
+      '#description' => $this->t('Select the menu links to place in.'),
+    ];
+
+    // Menu injector parent menu tree item.
+    $form['parent'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Menu Parent'),
+      '#options' => $menu_options,
+      '#required' => true,
+      '#default_value' => $rule->getParent(),
+      '#description' => $this->t('Select the place in the menu where the rule should position its menu links.'),
     ];
 
     // Menu injector vocabulary list.
@@ -142,6 +181,7 @@ class MenuInjectorRuleForm extends EntityForm {
 
     $form['wrapper']['refresh_taxonomy_terms_btn'] = array(
       '#type' => 'button',
+      '#required' => true,
       '#value' => 'Refresh Taxonomy Terms',
       '#ajax' => array(
           'callback' => '::changeTaxonomyTerms',
@@ -154,12 +194,12 @@ class MenuInjectorRuleForm extends EntityForm {
     $showHide = ( !empty($taxonomy_options) ) ? 'display: block;' : 'display: none;';
     $form['wrapper']['taxonomy_term'] = array(
       '#type' => 'select',
-      '#required' => false,
+      '#required' => true,
       '#multiple' => true,
       '#options' => $taxonomy_options,
       '#default_value' => $default_terms,
-      '#title' => $this->t('Taxonomy Term'),
-      '#description' => $this->t('Select the taxonomy term.'),
+      '#title' => $this->t('Taxonomy Terms'),
+      '#description' => $this->t('Select the taxonomy terms.'),
       '#attributes' => array(
           'id' => 'taxonomy-term-select',
           'style' => 'background: none; padding: 0; width: 300px; height: 100px;'

@@ -38,6 +38,48 @@ interface MenuInjectorRuleInterface extends ConfigEntityInterface {
   public function getVocabList();
 
   /**
+   * Returns the parent menu item
+   * @return string
+   *    The parent menu item
+   */
+  public function getParent();
+
+  /**
+   * Returns the menu choice
+   * @return string
+   *    The menu choice item
+   */
+  public function getMenuChoice();
+
+  /**
+   * Returns the menu links
+   * @return string
+   *    The menu links item
+   */
+  public function getMenuLinks();
+
+  /**
+   * Returns the parent menu plugin id
+   * @return string
+   *    The parent menu plugin id
+   */
+  public function getParentMenuPluginId();
+
+  /**
+   * Returns the menu rule weight
+   * @return string
+   *    The menu rule weight
+   */
+  public function getWeight();
+
+  /**
+   * Returns the menu links reference
+   * @return string
+   *    The menu links reference
+   */
+  public function getMenuLinksReference();
+
+  /**
    * Sets the administrative title of the menu injector rule
    * @param string $label
    *    The administrative title of the menu injector rule
@@ -57,4 +99,32 @@ interface MenuInjectorRuleInterface extends ConfigEntityInterface {
    *    The vocabulary list of the menu injector rule
    */
   public function setVocabList($vocab_list);
+
+  /**
+   * Sets the parent menu
+   * @return string $parent
+   *    The parent menu
+   */
+  public function setParent($parent);
+
+  /**
+   * Sets the menu choice
+   * @return string $menu_choice
+   *    The menu choice
+   */
+  public function setMenuChoice($menu_choice);
+
+  /**
+   * Sets the menu links
+   * @return string $menu_links
+   *    The menu links
+   */
+  public function setMenuLinks($menu_links);
+
+  /**
+   * Sets the menu rule weight
+   * @return string
+   *    The menu rule weight.
+   */
+  public function setWeight($weight);
 }
