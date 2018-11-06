@@ -345,7 +345,7 @@ function barrio_carlson_preprocess_pager(&$variables) {
   // End of generation loop preparation.
   // Create the "first" and "previous" links if we are not on the first page.
   if ($pager_page_array[$element] > 0) {
-    if ($pager_page_array[$element] > 1) {
+    if ($pager_page_array[$element] >= $pager_middle) {
       $items['first'] = array();
       $options = array(
         'query' => pager_query_add_page($parameters, $element, 0),
@@ -353,6 +353,10 @@ function barrio_carlson_preprocess_pager(&$variables) {
       $items['first']['href'] = \Drupal::url($route_name, $route_parameters, $options);
       if (isset($tags[0])) {
         $items['first']['text'] = 1;
+      }
+      // Add an ellipsis if there are further previous pages.
+      if ($pager_page_array[$element] > $pager_middle) {
+        $variables['ellipses']['previous'] = true;
       }
     }
     $items['previous'] = array();
@@ -365,12 +369,6 @@ function barrio_carlson_preprocess_pager(&$variables) {
     }
   }
   if ($i != $pager_max) {
-
-    // Add an ellipsis if there are further previous pages.
-    if ($i > 1) {
-      $variables['ellipses']['previous'] = TRUE;
-    }
-
     // Now generate the actual pager piece.
     for (; $i <= $pager_last && $i <= $pager_max; $i++) {
       $options = array(
@@ -380,11 +378,6 @@ function barrio_carlson_preprocess_pager(&$variables) {
       if ($i == $pager_current) {
         $variables['current'] = $i;
       }
-    }
-
-    // Add an ellipsis if there are further next pages.
-    if ($i < $pager_max + 1) {
-      $variables['ellipses']['next'] = TRUE;
     }
   }
 
@@ -398,13 +391,20 @@ function barrio_carlson_preprocess_pager(&$variables) {
     if (isset($tags[3])) {
       $items['next']['text'] = $tags[3];
     }
-    $items['last'] = array();
-    $options = array(
-      'query' => pager_query_add_page($parameters, $element, $pager_max - 1),
-    );
-    $items['last']['href'] = \Drupal::url($route_name, $route_parameters, $options);
-    if (isset($tags[4])) {
-      $items['last']['text'] = $pager_max;
+    if ($pager_page_array[$element] < $pager_max - $pager_middle){
+      $items['last'] = array();
+      $options = array(
+        'query' => pager_query_add_page($parameters, $element, $pager_max - 1),
+      );
+      $items['last']['href'] = \Drupal::url($route_name, $route_parameters, $options);
+      if (isset($tags[4])) {
+        $items['last']['text'] = $pager_max;
+      }
+
+      // Add an ellipsis if there are further next pages.
+      if ($pager_page_array[$element] < $pager_max - $pager_middle - 1) {
+        $variables['ellipses']['next'] = true;
+      }
     }
   }
   $variables['items'] = $items;
