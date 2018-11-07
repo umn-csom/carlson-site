@@ -91,9 +91,11 @@
     <script type="text/template" id="carlson-tpl-program-finder-dropdown">
       <div class="program-finder__choice--container">
         <ul class="program-finder__choice no-list-style">
+          <% if (actions.length > 1) { %>
           <li class="program-finder__choice--option" data-value=""><span class="program-finder__choice--option-label program-finder__choice--option-label__default active" onclick="programFinder.choose(this)"><%= typeof emptyOption == "undefined" ? '- choose -' : emptyOption %></span></li>
+          <% } %>
           <% _.each(actions, function(action) { %>
-          <li class="program-finder__choice--option" data-value="<%= action.path %>"><span class="program-finder__choice--option-label" onclick="programFinder.choose(this)"><%= action.label %></span></li>
+          <li class="program-finder__choice--option" data-value="<%= action.path %>"><span class="program-finder__choice--option-label <%= (actions.length > 1) ? '' : 'active' %>" onclick="programFinder.choose(this)"><%= action.label %></span></li>
           <% }); %>
         </ul>
       </div>

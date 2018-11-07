@@ -105,6 +105,9 @@
                 if (action.hasOwnProperty('actions')) {
                     var template = _.template($('#carlson-tpl-program-finder-dropdown').html());
                     $('.program-finder__choices').append(template(action));
+                    if (action.actions.length == 1 && action.actions[0].hasOwnProperty('goto')) {
+                        $('#program-finder__result-go').attr('data-goto', action.actions[0].goto).removeAttr('disabled');
+                    }
                 }
             }
         };
