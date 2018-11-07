@@ -122,6 +122,26 @@ class MenuInjectorRuleForm extends EntityForm {
       '#disabled' => !$rule->isNew(),
     ];
 
+    // Menu inject mode.
+    $form['menu_mode'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Menu Mode'),
+      '#options' => array('active_trail' => 'Active Trail', 'ghost' => 'Ghost'),
+      '#required' => true,
+      '#default_value' => $rule->getMenuMode(),
+      '#description' => $this->t('If you choose, "Active Trail" the injected menu will appear at the menu parent trail. If you choose "Ghost" then it will appear on any taxonomy matches.'),
+    ];
+
+    // Menu injector parent menu tree item.
+    $form['parent'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Menu Parent'),
+      '#options' => $menu_options,
+      '#required' => false,
+      '#default_value' => $rule->getParent(),
+      '#description' => $this->t('Select the place in the menu where the rule should position its menu links and follow the active trail.'),
+    ];
+
     // Menu inject - menu links.
     $form['menu_choice'] = [
       '#type' => 'select',
@@ -140,16 +160,6 @@ class MenuInjectorRuleForm extends EntityForm {
       '#required' => true,
       '#default_value' => $rule->getMenuLinks(),
       '#description' => $this->t('Select the menu links to place in.'),
-    ];
-
-    // Menu injector parent menu tree item.
-    $form['parent'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Menu Parent'),
-      '#options' => $menu_options,
-      '#required' => true,
-      '#default_value' => $rule->getParent(),
-      '#description' => $this->t('Select the place in the menu where the rule should position its menu links.'),
     ];
 
     // Menu injector vocabulary list.
@@ -194,7 +204,7 @@ class MenuInjectorRuleForm extends EntityForm {
     $showHide = ( !empty($taxonomy_options) ) ? 'display: block;' : 'display: none;';
     $form['wrapper']['taxonomy_term'] = array(
       '#type' => 'select',
-      '#required' => true,
+      '#required' => false,
       '#multiple' => true,
       '#options' => $taxonomy_options,
       '#default_value' => $default_terms,

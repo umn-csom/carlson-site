@@ -66,11 +66,11 @@ interface MenuInjectorRuleInterface extends ConfigEntityInterface {
   public function getParentMenuPluginId();
 
   /**
-   * Returns the menu rule weight
+   * Returns the menu mode
    * @return string
-   *    The menu rule weight
+   *    The menu mode
    */
-  public function getWeight();
+  public function getMenuMode();
 
   /**
    * Returns the menu links reference
@@ -122,9 +122,9 @@ interface MenuInjectorRuleInterface extends ConfigEntityInterface {
   public function setMenuLinks($menu_links);
 
   /**
-   * Sets the menu rule weight
+   * Sets the menu mode
    * @return string
-   *    The menu rule weight.
+   *    The menu mode.
    */
-  public function setWeight($weight);
+  public function setMenuMode($menu_mode);
 }

@@ -100,11 +100,11 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
   protected $menu_choice;
 
   /**
-   * The weight of this rule.
+   * The menu mode.
    *
-   * @var integer
+   * @var string
    */
-  protected $weight;
+  protected $menu_mode;
 
   /**
    * Is a root menu.
@@ -215,8 +215,8 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
   /**
    * {@inheritdoc}
    */
-  public function getWeight() {
-    return $this->weight;
+  public function getMenuMode() {
+    return $this->menu_mode;
   }
 
   /**
@@ -278,8 +278,8 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
   /**
    * {@inheritdoc}
    */
-  public function setWeight($weight) {
-    $this->weight = $weight;
+  public function setMenuMode($menu_mode) {
+    $this->menu_mode = $menu_mode;
   }
 
   /**

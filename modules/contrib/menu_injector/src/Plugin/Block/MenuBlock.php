@@ -135,11 +135,24 @@ class MenuBlock extends SuperMenuBlock {
       ['callable' => 'menu.default_tree_manipulators:checkAccess'],
       ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
     ];
-    $tree = $this->menuTree->transform($tree, $manipulators);
-    $build = $this->menuTree->build($tree);
 
-    // Manipulate.
-
+    // Combine menus.
+    $combined_tree = [];
+    if( !empty($all_rules) ) {
+      foreach($all_rules as $rule) {
+        var_dump($rule['label']);
+        var_dump($rule['menu_reference']);
+      }
+    }
+  
+    if( !empty($combined_tree) ) {
+      $tree = $this->menuTree->transform($combined_tree, $manipulators);
+      $build = $this->menuTree->build($combined_tree);
+    } else {
+      $tree = $this->menuTree->transform($tree, $manipulators);
+      $build = $this->menuTree->build($tree);
+    }
+  
     if (!empty($build['#theme'])) {
       // Add the configuration for use in menu_block_theme_suggestions_menu().
       $build['#menu_block_configuration'] = $this->configuration;
@@ -164,45 +177,38 @@ class MenuBlock extends SuperMenuBlock {
     // Iterate over the rules.
     foreach ($rules as $rule) {
       if ($rule->isActive() && 
-          $menu_name === $rule->getMenuChoice() && 
-          $active_trail_parent_menu_plugin_id === $rule->getParentMenuPluginId() 
+          $menu_name === $rule->getMenuChoice()
       ) {
 
+        var_dump( $rule->getMenuMode() );
+
+        //$active_trail_parent_menu_plugin_id === $rule->getParentMenuPluginId() 
+
         // Check for any taxonomy term matches.
-        $nodes_matches = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-          'field_menu_rule' => $rule->getTaxonomyTerms(),
-        ]);
+        // TODO: Map this to a field selector with the CMS form.
+        // $nodes_matches = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+        //   'field_menu_rule' => $rule->getTaxonomyTerms(),
+        // ]);
 
-        if( !empty($nodes_matches) ) {
-          foreach($nodes_matches as $node_item) {
-            if($node_item->id() === $node->id()) {
-              // $menu_reference = null;
-              // $menu_links_ref = $rule->getMenuLinksReference();
-
-              // if( $rule->getIsRoot() ) {
-              //   $menu_reference = \Drupal::menuTree()->load( $menu_links_ref, new MenuTreeParameters() );
-              // } else {
-              //   $menu_reference = \Drupal::service('plugin.manager.menu.link')->createInstance( $menu_links_ref );
-              // }              
-
-              $results[] = array(
-                'label' => $rule->getLabel(),
-                'menu_reference' => $rule->getMenuLinksReference(),
-                'weight' => $rule->getWeight(),
-                'is_root' => $rule->getIsRoot()
-              );
-            }
-          }
-        }
+        // if( !empty($nodes_matches) ) {
+        //   foreach($nodes_matches as $node_item) {
+        //     if($node_item->id() === $node->id()) {
+        //       $results[] = array(
+        //         'label' => $rule->getLabel(),
+        //         'menu_reference' => $rule->getMenuLinksReference(),
+        //         'is_root' => $rule->getIsRoot()
+        //       );
+        //     }
+        //   }
+        // }
       }
     }
     
     if(!empty($results)) {
       //var_dump($results);
-      return $results;
-    } else {
-      return null;
     }
+
+    return $results;
   }
 
 }
