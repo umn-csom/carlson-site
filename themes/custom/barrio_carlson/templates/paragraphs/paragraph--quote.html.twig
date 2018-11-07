@@ -7,14 +7,16 @@
           {% if content.field_quote_image|field_value is not empty %}
             {{ content.field_quote_image }}
           {% endif %}
-          <span class="quote__img--icon icon icon-quote"></span> 
+          <span class="quote__img--icon icon icon-quote"></span>
         </div>
         <div class="quote__text">
-            <p>"{{ content.field_quote_text|render|striptags }}"</p>
+            <p>{{ content.field_quote_text|render|striptags }}</p>
         </div>
+        {% if content.field_quote_source|field_value is not empty %}
         <div class="quote__source">
-          {{ content.field_quote_source|render|striptags }}
+          &ndash; {{ content.field_quote_source|render|striptags }}
         </div>
+        {% endif %}
       </div>
     </div>
   {% endblock %}
