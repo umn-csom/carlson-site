@@ -143,14 +143,35 @@
 
             {{ content.field_contact_info }}
 
-            {# Bottom node region for blocks #}
-            {% if node_bottom_left %}
-              {{ node_bottom_left }}
+            {% if node_bottom %}
+              {{ node_bottom }}
             {% endif %}
 
-            {% if node_bottom_right %}
-              {{ node_bottom_right }}
-            {% endif %}
+            {# Bottom node region for blocks #}
+            <div class="row node__bottom">
+
+              {% if node_bottom_left and node_bottom_right %}
+                {% set class = 'col-lg-6' %}
+              {% else %}
+                {% set class = 'col-lg-12 node__bottom--single' %}
+              {% endif %}
+
+              {% if node_bottom_left %}
+              <div class="col-12 {{ class }} node__bottom--left">
+                <div class="row">
+                {{ node_bottom_left }}
+                </div>
+              </div>
+              {% endif %}
+
+              {% if node_bottom_right %}
+              <div class="col-12 {{ class }} node__bottom--right">
+                <div class="row">
+                {{ node_bottom_right }}
+                </div>
+              </div>
+              {% endif %}
+            </div>
           </div>
         </div>
       </div>

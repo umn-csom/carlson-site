@@ -49,10 +49,15 @@
 %}
 {% block paragraph %}
     {% block content %}
-    <div class="row component-paragraph speakers">
-            
+    <div class="row component-paragraph speakers"> 
+      {% if content.field_main_content|field_value is not empty %}
+        <div class="col-12 col-md-10 offset-md-1 text-center">
+          {{ content.field_main_content }}
+        </div>
+      {% endif %}
     </div>
 
-    {{ content.speaker }}
+    {{ content.field_speaker_item }}
+    
     {% endblock %}
 {% endblock paragraph %}
