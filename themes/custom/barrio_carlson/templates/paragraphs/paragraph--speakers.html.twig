@@ -47,19 +47,17 @@
     not paragraph.isPublished() ? 'paragraph--unpublished'
   ]
 %}
-{% set items = content.field_person|field_value %}
-
 {% block paragraph %}
     {% block content %}
-    <div class="row component-paragraph featured-people">
-      <div class="col-12 col-lg-10 offset-lg-1 featured-people__heading"> 
-        {{ content.field_main_content }}
-      </div>
-      <div class="col-12">
-        <div class="row justify-content-md-center">
-          {{ content.field_person }}
+    <div class="row component-paragraph speakers"> 
+      {% if content.field_main_content|field_value is not empty %}
+        <div class="col-12 col-md-10 offset-md-1 text-center">
+          {{ content.field_main_content }}
         </div>
-      </div>
+      {% endif %}
     </div>
+
+    {{ content.field_speaker_item }}
+    
     {% endblock %}
 {% endblock paragraph %}
