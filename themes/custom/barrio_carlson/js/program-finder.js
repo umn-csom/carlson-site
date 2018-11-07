@@ -15,12 +15,15 @@
     window.programFinder = (function () {
 
         var _config = {
+            "emptyOption": "Prof. Experience...",
             "actions": [
                 {
                     "path": "2", "label": "Degree",
+                    "emptyOption": "Format...",
                     "actions": [
                         { "path": "2/3", "label": "Undergrad", "goto": "/node/1511" }
                         , { "path": "2/4", "label": "MBA",
+                            "emptyOption": "Education...",
                             "actions": [
                                 { "path": "2/4/5", "label": "Full-Time MBA", "goto": "/node/42" }
                                 , { "path": "2/4/6", "label": "Part-Time MBA", "goto": "/node/43" }
@@ -32,6 +35,7 @@
                             ]
                         }
                         , { "path": "2/12", "label": "Specialty Masters",
+                            "emptyOption": "Education...",
                             "actions": [
                                 { "path": "2/12/13", "label": "Accountancy", "goto": "/node/2" }
                                 , { "path": "2/12/14", "label": "Business Analytics", "goto": "/node/324" }
@@ -41,6 +45,7 @@
                             ]
                         }
                         , { "path": "2/18", "label": "Phd",
+                            "emptyOption": "Education...",
                             "actions": [
                                 { "path": "2/18/19", "label": "Phd-Business Administration", "goto": "/node/2646" }
                                 , { "path": "2/18/20", "label": "Global DBA - China", "goto": "/node/96066" }
@@ -50,6 +55,7 @@
                 }
                 , {
                     "path": "1", "label": "Non-Degree",
+                    "emptyOption": "Format...",
                     "actions": [
                         { "path": "2/18/21", "label": "Executive Education", "goto": "/node/95871" }
                     ]
