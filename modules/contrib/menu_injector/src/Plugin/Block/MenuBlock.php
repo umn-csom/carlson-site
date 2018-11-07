@@ -23,7 +23,7 @@ use Drupal\Core\Menu\MenuTreeParameters;
  * )
  */
 class MenuBlock extends SuperMenuBlock {
-  
+
   /**
    * {@inheritdoc}
    */
@@ -31,6 +31,7 @@ class MenuBlock extends SuperMenuBlock {
     $menu_name = $this->getDerivativeId();
     $parameters = $this->menuTree->getCurrentRouteMenuTreeParameters($menu_name);
     $all_rules = $this->getAllRules($menu_name, $parameters->activeTrail);
+    $combined_tree = [];
 
     // Adjust the menu tree parameters based on the block's configuration.
     $level = $this->configuration['level'];
@@ -74,7 +75,9 @@ class MenuBlock extends SuperMenuBlock {
 
     // If the active trail contains less (non-empty) items then the original
     // level, hide the block.
-    if ($follow_parent == '-1' && count(array_filter($parameters->activeTrail)) < $original_level) {
+    if ($follow_parent == '-1' && 
+        count(array_filter($parameters->activeTrail)) < $original_level && 
+        empty($all_rules)) {
       return array();
     }
 
@@ -96,7 +99,9 @@ class MenuBlock extends SuperMenuBlock {
         }
       }
       else {
-        return [];
+        if( empty($all_rules) ) {
+          return [];
+        }
       }
     }
 
@@ -127,26 +132,43 @@ class MenuBlock extends SuperMenuBlock {
       }
     }
 
-    // Load the tree if we haven't already.
-    if (!isset($tree)) {
-      $tree = $this->menuTree->load($menu_name, $parameters);
-    }
     $manipulators = [
       ['callable' => 'menu.default_tree_manipulators:checkAccess'],
       ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
     ];
 
-    // Combine menus.
-    $combined_tree = [];
+    // Run through menu injector rules if available.
     if( !empty($all_rules) ) {
       foreach($all_rules as $rule) {
-        var_dump($rule['label']);
-        var_dump($rule['menu_reference']);
+        // var_dump( $rule['label'] );
+        // var_dump( $rule['menu_reference'] );
+        // var_dump( $rule['is_root'] );
+        // var_dump( $rule['menu_mode'] );
+
+        if( !$rule['is_root'] ) {
+          $parameters->setRoot( $rule['menu_reference'] );
+          $parameters->setMinDepth(0);
+        } else {
+          $new_menu_name = $rule['menu_reference'];
+          $new_menu_tree = \Drupal::menuTree();
+          $new_parameters = $new_menu_tree->getCurrentRouteMenuTreeParameters( $rule['menu_reference'] );
+          $new_parameters->setMinDepth(0);
+
+          $new_tree = $new_menu_tree->load($new_menu_name, $new_parameters);
+          $new_tree = $new_menu_tree->transform($new_tree, $manipulators);
+          $combined_tree[] = $new_tree;
+        }
       }
     }
-  
-    if( !empty($combined_tree) ) {
-      $tree = $this->menuTree->transform($combined_tree, $manipulators);
+
+    // Load the tree if we haven't already.
+    if (!isset($tree)) {
+      $tree = $this->menuTree->load($menu_name, $parameters);
+    }
+
+    // Build the tree.
+    if( !empty($combined_tree) && isset($tree) ) {
+      $combined_tree = array_merge($tree, $combined_tree[0]);
       $build = $this->menuTree->build($combined_tree);
     } else {
       $tree = $this->menuTree->transform($tree, $manipulators);
@@ -173,39 +195,42 @@ class MenuBlock extends SuperMenuBlock {
     $rules = \Drupal::entityManager()->getStorage('menu_injector_rule')->loadMultiple();
     $active_trail_parent_menu_plugin_id = reset($active_trail);
     $results = [];
+    $index = 0;
 
     // Iterate over the rules.
     foreach ($rules as $rule) {
+
       if ($rule->isActive() && 
-          $menu_name === $rule->getMenuChoice()
+          $menu_name === $rule->getMenuChoice() &&
+          isset($node)
       ) {
-
-        var_dump( $rule->getMenuMode() );
-
-        //$active_trail_parent_menu_plugin_id === $rule->getParentMenuPluginId() 
 
         // Check for any taxonomy term matches.
         // TODO: Map this to a field selector with the CMS form.
-        // $nodes_matches = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-        //   'field_menu_rule' => $rule->getTaxonomyTerms(),
-        // ]);
+        $nodes_matches = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+          'field_menu_rule' => $rule->getTaxonomyTerms(),
+        ]);
+        
+        if( !empty($nodes_matches) ) {
+          foreach($nodes_matches as $node_item) {
+            if($node_item->id() === $node->id()) {
+              $results[$index] = array(
+                'label' => $rule->getLabel(),
+                'menu_reference' => $rule->getMenuLinksReference(),
+                'is_root' => $rule->getIsRoot(),
+                'menu_mode' => $rule->getMenuMode()
+              );
+            }
+          }
+        }
 
-        // if( !empty($nodes_matches) ) {
-        //   foreach($nodes_matches as $node_item) {
-        //     if($node_item->id() === $node->id()) {
-        //       $results[] = array(
-        //         'label' => $rule->getLabel(),
-        //         'menu_reference' => $rule->getMenuLinksReference(),
-        //         'is_root' => $rule->getIsRoot()
-        //       );
-        //     }
-        //   }
-        // }
+        if( $rule->getMenuMode() === 'active_trail' && 
+            $active_trail_parent_menu_plugin_id !== $rule->getParentMenuPluginId() ) {
+          unset( $results[$index] );
+        }
+
+        $index++;
       }
-    }
-    
-    if(!empty($results)) {
-      //var_dump($results);
     }
 
     return $results;

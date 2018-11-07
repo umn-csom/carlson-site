@@ -175,7 +175,12 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
    */
   public function getParentMenuPluginId() {
     $parent_menu_id = explode(':', $this->parent);
-    $parent_menu_id = ( $parent_menu_id[1] . ':' . $parent_menu_id[2] );
+    if( !empty($parent_menu_id) ) {
+      $parent_menu_id = ( $parent_menu_id[1] . ':' . $parent_menu_id[2] );
+    } else {
+      $parent_menu_id = '';
+    }
+    
     return $parent_menu_id;
   }
 
