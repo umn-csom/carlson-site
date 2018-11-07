@@ -76,7 +76,7 @@
     }
 
     &__works {
-        h2 {
+        &--heading {
             @include heading-title($font-medium, $menu-gold, 'center');
             margin-top: 2rem;
         }
@@ -171,14 +171,41 @@
                 &::before {
                     left: 65px;
                 }
-            } 
+            }
         }
         @include media-breakpoint-up(xl) {
             &--name {
                 &::before {
                     bottom: 70px;
                 }
-            } 
+            }
+        }
+    }
+}
+
+.node__content .faculty-profile__works {
+    ul {
+        list-style: none;
+        margin-bottom: 0px;
+        padding: 0;
+        @include media-breakpoint-up(md){
+            margin-left: 40px;
+            margin-right: 50px;
+        }
+
+        li {
+            margin: 0;
+            padding-bottom: 1em;
+            margin-bottom: 1em;
+            padding-left: 15px;
+            position: relative;
+            border-bottom: 1px solid $light-gray;
+            &:last-child {
+                border-bottom: 0;
+            }
+            &:before {
+                display: none;
+            }
         }
     }
 }

@@ -116,29 +116,46 @@
         {% if content.field_event_date|field_value is not empty %}
         <div class="date-cal">
           <div class="date-cal__item">
-            <time datetime="{{ start_timestamp }}">
-              <span class="date-cal__item--day">{{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('day') }}</span>
-              <span class="date-cal__item--month">{{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('month_long') }}</span>
+            <time datetime="{{ content.field_event_date.0['#attributes']['datetime']|date('U') }}">
+              <span class="date-cal__item--day">{{ content.field_event_date.0['#attributes']['datetime']|date('U')|format_date('day') }}</span>
+              <span class="date-cal__item--month">{{ content.field_event_date.0['#attributes']['datetime']|date('U')|format_date('month_long') }}</span>
             </time>
           </div>
         </div>
         {% endif %}
       </div>
-      <div class="col-12 col-lg-7">
+      <div class="col-12 col-lg-10">
         <div class="row">
-          <div class="col-12 col-lg-6 event__details--time">
-            <span>Time: </span>{{ content.field_event_date }}
+          <div class="col-12">
+            <hr class="event__details--divider event__details--divider__desktop" />
           </div>
-          <div class="col-12 col-lg-6 event__details--cost">
-            <span>Cost: </span>{{ content.field_event_cost }}
+          <div class="event__details--all-info col-12 col-lg-9 col-xl-10">
+            <div class="event__details--all-info__wrapper col-12">
+              <div class="row">
+                <div class="col-12 col-lg-8 event__details--info event__details--time">
+                  <span class="event__details--label">Time: </span>{{ content.field_event_date }}
+                </div>
+                <div class="col-12 col-lg-4 event__details--info event__details--cost">
+                  <span class="event__details--label">Cost: </span>{{ content.field_event_cost }}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12 event__details--info event__details--address">
+                  <span class="event__details--label">Address: </span><span class="event__details--address__location">{{ content.field_google_map }}{{ content.field_event_location|field_value is not empty ? '<span class="event__details--address__divider">|</span>' : '' }}{{ content.field_event_location }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-3 col-xl-2">
+            <a href="{{ content.field_link.0['#url'] }}" class="event__details--attend">Attend</a>
           </div>
           <div class="col-12">
-            <span>Address: </span>{{ content.field_event_location }}
+            <hr class="event__details--divider event__details--divider__desktop" />
           </div>
         </div>
       </div>
-      <div class="col-12 col-lg-3">
-        <a href="{{ content.field_link.0['#url'] }}">Attend</a>
+      <div class="col-12">
+        <hr class="event__details--divider event__details--divider__mobile" />
       </div>
     </section>
 
