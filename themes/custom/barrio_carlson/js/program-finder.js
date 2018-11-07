@@ -15,38 +15,49 @@
     window.programFinder = (function () {
 
         var _config = {
+            "emptyOption": "Prof. Experience...",
             "actions": [
-                { "path": "1", "label": "Degree", "goto": "/node/95816" }
-                , {
-                    "path": "2", "label": "Non-Degree",
+                {
+                    "path": "2", "label": "Degree",
+                    "emptyOption": "Format...",
                     "actions": [
-                        { "path": "2/3", "label": "Undergrad", "goto": "/node/95816" }
+                        { "path": "2/3", "label": "Undergrad", "goto": "/node/1511" }
                         , { "path": "2/4", "label": "MBA",
+                            "emptyOption": "Education...",
                             "actions": [
-                                { "path": "2/4/5", "label": "Full-Time MBA", "goto": "/node/95816" }
-                                , { "path": "2/4/6", "label": "Part-Time MBA", "goto": "/node/95816" }
-                                , { "path": "2/4/7", "label": "Online MBA", "goto": "/node/95816" }
-                                , { "path": "2/4/8", "label": "Executive MBA-Minneapolis", "goto": "/node/95816" }
-                                , { "path": "2/4/9", "label": "Executive MBA-Vienna", "goto": "/node/95816" }
-                                , { "path": "2/4/10", "label": "Executive MBA-China", "goto": "/node/95816" }
-                                , { "path": "2/4/11", "label": "Dual Degree", "goto": "/node/95816" }
+                                { "path": "2/4/5", "label": "Full-Time MBA", "goto": "/node/42" }
+                                , { "path": "2/4/6", "label": "Part-Time MBA", "goto": "/node/43" }
+                                , { "path": "2/4/7", "label": "Online MBA", "goto": "/node/93261" }
+                                , { "path": "2/4/8", "label": "Executive MBA - Minneapolis", "goto": "/node/44" }
+                                , { "path": "2/4/9", "label": "Executive MBA - China", "goto": "/node/1226" }
+                                , { "path": "2/4/10", "label": "Executive MBA - Vienna", "goto": "/node/1231" }
+                                , { "path": "2/4/11", "label": "Executive MBA - China, Dual Degree", "goto": "/node/1236" }
                             ]
                         }
                         , { "path": "2/12", "label": "Specialty Masters",
+                            "emptyOption": "Education...",
                             "actions": [
-                                { "path": "2/12/13", "label": "Accountancy", "goto": "/node/95816" }
-                                , { "path": "2/12/14", "label": "Business Analytics", "goto": "/node/95816" }
-                                , { "path": "2/12/15", "label": "Supply Chain Management", "goto": "/node/95816" }
-                                , { "path": "2/12/16", "label": "Business Taxation", "goto": "/node/95816" }
-                                , { "path": "2/12/17", "label": "Human Resources and Industrial Relation", "goto": "/node/95816" }
+                                { "path": "2/12/13", "label": "Accountancy", "goto": "/node/2" }
+                                , { "path": "2/12/14", "label": "Business Analytics", "goto": "/node/324" }
+                                , { "path": "2/12/15", "label": "Supply Chain Management", "goto": "/node/67781" }
+                                , { "path": "2/12/16", "label": "Business Taxation", "goto": "/node/80" }
+                                , { "path": "2/12/17", "label": "Human Resources and Industrial Relation", "goto": "/node/3" }
                             ]
                         }
                         , { "path": "2/18", "label": "Phd",
+                            "emptyOption": "Education...",
                             "actions": [
-                                { "path": "2/18/19", "label": "Phd-Business Administration", "goto": "/node/95816" }
-                                , { "path": "2/18/20", "label": "Global DBA-China", "goto": "/node/95816" }
+                                { "path": "2/18/19", "label": "Phd-Business Administration", "goto": "/node/2646" }
+                                , { "path": "2/18/20", "label": "Global DBA - China", "goto": "/node/96066" }
                             ]
                         }
+                    ]
+                }
+                , {
+                    "path": "1", "label": "Non-Degree",
+                    "emptyOption": "Format...",
+                    "actions": [
+                        { "path": "2/18/21", "label": "Executive Education", "goto": "/node/95871" }
                     ]
                 }
             ]
@@ -94,6 +105,9 @@
                 if (action.hasOwnProperty('actions')) {
                     var template = _.template($('#carlson-tpl-program-finder-dropdown').html());
                     $('.program-finder__choices').append(template(action));
+                    if (action.actions.length == 1 && action.actions[0].hasOwnProperty('goto')) {
+                        $('#program-finder__result-go').attr('data-goto', action.actions[0].goto).removeAttr('disabled');
+                    }
                 }
             }
         };
