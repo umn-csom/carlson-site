@@ -6,9 +6,19 @@
     line-height: 3.8rem;
     font-size: 1.6rem;
     color: $dark-gray;
+    border-radius: 0.25rem;
     &::placeholder {
         color: lighten($slate, 50%);
     }
+}
+select.form-control {
+    -webkit-appearance: none;
+    -moz-appearance:none;
+    -ms-appearance:none;
+    appearance:none;
+    -webkit-border-radius: 0.25rem;
+    background:#fff url('../images/dd-arrows.png') no-repeat right 1rem center;
+    line-height: normal;
 }
 label {
     margin-bottom: 1rem;
@@ -21,4 +31,7 @@ label {
 }
 .form-group input[type="submit"] {
     margin-top: 1rem;
+    height: auto;
+    line-height: 2.4rem;
+    @include button-solid($maroon);
 }
