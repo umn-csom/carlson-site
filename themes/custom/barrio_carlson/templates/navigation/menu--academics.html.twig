@@ -25,17 +25,19 @@
   @see http://twig.sensiolabs.org/doc/tags/macro.html
 #}
 
+{# For Parent Menus #}
+{% if items %}
+  {% set first_menu_item = items|first %}
+  {% if first_menu_item.url.isrouted == true %}
+    {{ find_parent_by_node( first_menu_item.url.routeParameters.node )|raw }}
+  {% endif %}
+{% endif %}
+
 {{ menus.menu_links(items, attributes, 0) }}
 
 {% macro menu_links(items, attributes, menu_level) %}
   {% import _self as menus %}
   {% if items %}
-
-    {# For Parent Menus #}
-    {% set first_menu_item = items|first %}
-    {% if first_menu_item.url.isrouted == true %}
-      {{ find_parent_by_node( first_menu_item.url.routeParameters.node )|raw }}
-    {% endif %}
 
     {# If it's 0 open the UL #}
     {% if menu_level == 0 %}
@@ -57,6 +59,9 @@
   
       <li{{ item.attributes.addClass(classes) }}>
         {{ link(item.title, item.url) }}
+        {% if item.below is not empty %}
+          {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+        {% endif %}
       </li>
     {% endfor %}
     </ul>
