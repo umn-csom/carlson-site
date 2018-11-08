@@ -1,0 +1,57 @@
+.view-ed-abroad-program-finder {
+    background: $gold;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    .view-header {
+        padding: 3rem;
+    }
+    .view-filters {
+        padding: 0 3rem 4rem 3rem;
+        &:before{
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../images/bg/program-finder_bg.png');
+            background-position: top left;
+            background-repeat: no-repeat;
+        }
+        .form-row {
+            > fieldset,
+            .form-actions {
+                @include make-col(12);
+                @include media-breakpoint-up(md){
+                    @include make-col(6);
+                }
+                @include media-breakpoint-up(lg){
+                    @include make-col(4);
+                }
+            }
+        }
+    }
+    .view-content, nav {
+        background: $white;
+    }
+}
+//in the case of having a sticky-sidebar
+.landing-page__content-components.col-lg-9 .view-ed-abroad-program-finder {
+    .view-filters {
+        .form-row {
+            > fieldset,
+            .form-actions {
+                @include make-col(12);
+                @include media-breakpoint-up(md){
+                    @include make-col(12);
+                }
+                @include media-breakpoint-up(lg){
+                    @include make-col(6);
+                }
+                @include media-breakpoint-up(xl){
+                    @include make-col(4);
+                }
+            }
+        }
+    }
+}
