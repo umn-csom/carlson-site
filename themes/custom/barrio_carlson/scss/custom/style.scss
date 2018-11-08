@@ -25,7 +25,6 @@ body {
 
 a {
     color: $accent-shade;
-    font-size: 1.6rem;
 }
 
 hr {
@@ -94,7 +93,7 @@ hr {
     @include media-breakpoint-up(md) {
         font-size: 1.6rem;
     }
-    ul:not(.nav):not(.slick-dots):not(.no-list-style) {
+    ul:not([class]) {
         list-style-type: none;
         padding-left: 1rem;
         li {
@@ -163,4 +162,19 @@ table {
 .table-responsive {
     border-color: $light-gray;
     border-bottom: 0;
+    &.col {
+        border:0;
+    }
+    > .tablesaw-stack {
+        > thead,
+        > tbody,
+        > tfoot {
+            > tr {
+                >th,
+                >td {
+                    white-space: normal;
+                }
+            }
+        }
+    }
 }

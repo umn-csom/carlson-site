@@ -1,35 +1,7 @@
 .pagination {
     position: relative;
-    margin: 9rem -2.3rem;
     justify-content: center;
-    @include media-breakpoint-up(sm) {
-        margin: 2rem 0;
-    }
     .page-item {
-        &--go-to-previous,
-        &--go-to-next {
-            position: absolute;
-            left: calc(50% - 4rem);
-            @include media-breakpoint-up(sm) {
-                position: relative;
-                left: unset;
-            }
-        }
-        &--go-to-previous {
-            top: -8rem;
-            @include media-breakpoint-up(sm) {
-                top: -1.5rem;
-                margin-right: 4rem;
-            }
-        }
-        &--go-to-next {
-            bottom: -8rem;
-            @include media-breakpoint-up(sm) {
-                bottom: unset;
-                top: -1.5rem;
-                margin-left: 4rem;
-            }
-        }
         .page-link {
             border: 0;
             color: $maroon;
@@ -66,6 +38,60 @@
         }
         &--ellipses {
             font-weight: bold;
+        }
+    }
+
+    &.full-pagination {
+        margin: 0 -2.3rem;
+        padding: 9rem 0;
+        @include media-breakpoint-up(sm) {
+            margin: 0;
+            padding: 2rem 0;
+        }
+        .page-item {
+            &--go-to-previous,
+            &--go-to-next {
+                position: absolute;
+                left: calc(50% - 4rem);
+                @include media-breakpoint-up(sm) {
+                    position: relative;
+                    left: unset;
+                }
+            }
+            &--go-to-previous {
+                top: 1rem;
+                @include media-breakpoint-up(sm) {
+                    top: -1.5rem;
+                    margin-right: 4rem;
+                }
+            }
+            &--go-to-next {
+                bottom: 1rem;
+                @include media-breakpoint-up(sm) {
+                    bottom: unset;
+                    top: -1.5rem;
+                    margin-left: 4rem;
+                }
+            }
+        }
+    }
+
+    &.mini-pagination {
+        margin: 0;
+        padding: 2rem 0;
+        .page-item {
+            &--go-to-previous {
+                top: -1.5rem;
+                margin-right: 4rem;
+            }
+            &--go-to-next {
+                bottom: unset;
+                top: -1.5rem;
+                margin-left: 4rem;
+            }
+            .page-link {
+                line-height: 5.3rem;
+            }
         }
     }
 }
