@@ -140,11 +140,6 @@ class MenuBlock extends SuperMenuBlock {
     // Run through menu injector rules if available.
     if( !empty($all_rules) ) {
       foreach($all_rules as $rule) {
-        // var_dump( $rule['label'] );
-        // var_dump( $rule['menu_reference'] );
-        // var_dump( $rule['is_root'] );
-        // var_dump( $rule['menu_mode'] );
-
         if( !$rule['is_root'] ) {
           $parameters->setRoot( $rule['menu_reference'] );
           $parameters->setMinDepth(0);
@@ -205,31 +200,37 @@ class MenuBlock extends SuperMenuBlock {
           isset($node)
       ) {
 
-        // Check for any taxonomy term matches.
-        // TODO: Map this to a field selector with the CMS form.
-        $nodes_matches = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
-          'field_menu_rule' => $rule->getTaxonomyTerms(),
-        ]);
-        
-        if( !empty($nodes_matches) ) {
-          foreach($nodes_matches as $node_item) {
-            if($node_item->id() === $node->id()) {
-              $results[$index] = array(
-                'label' => $rule->getLabel(),
-                'menu_reference' => $rule->getMenuLinksReference(),
-                'is_root' => $rule->getIsRoot(),
-                'menu_mode' => $rule->getMenuMode()
-              );
+        if( $node->bundle() === $rule->getContentType() &&
+            !empty( $rule->getTaxonomyTerms() ) ) {
+          
+          // Check for any taxonomy term matches.
+          $nodes_matches = [];
+          if( strlen( $rule->getTaxonomyMapField() ) > 0 ) {
+            $nodes_matches = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties([
+              'field_menu_rule' => $rule->getTaxonomyTerms(),
+            ]);
+          }
+          
+          if( !empty($nodes_matches) ) {
+            foreach($nodes_matches as $node_item) {
+              if($node_item->id() === $node->id()) {
+                $results[$index] = array(
+                  'label' => $rule->getLabel(),
+                  'menu_reference' => $rule->getMenuLinksReference(),
+                  'is_root' => $rule->getIsRoot(),
+                  'menu_mode' => $rule->getMenuMode()
+                );
+              }
             }
           }
-        }
 
-        if( $rule->getMenuMode() === 'active_trail' && 
-            $active_trail_parent_menu_plugin_id !== $rule->getParentMenuPluginId() ) {
-          unset( $results[$index] );
-        }
+          if( $rule->getMenuMode() === 'active_trail' && 
+              $active_trail_parent_menu_plugin_id !== $rule->getParentMenuPluginId() ) {
+            unset( $results[$index] );
+          }
 
-        $index++;
+          $index++;
+        }
       }
     }
 

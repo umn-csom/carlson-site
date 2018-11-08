@@ -112,6 +112,20 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
    * @var boolean
    */
   protected $is_root;
+
+  /**
+   * The taxonomy field map.
+   *
+   * @var string
+   */
+  protected $taxonomy_map_field;
+
+  /**
+   * The content type bundle reference.
+   *
+   * @var string
+   */
+  protected $content_type;
   
   /**
    * {@inheritdoc}
@@ -234,6 +248,20 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
   /**
    * {@inheritdoc}
    */
+  public function getTaxonomyMapField() {
+    return $this->taxonomy_map_field;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getContentType() {
+    return $this->content_type;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function setLabel($label) {
     $this->label = $label;
   }
@@ -285,6 +313,20 @@ class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInter
    */
   public function setMenuMode($menu_mode) {
     $this->menu_mode = $menu_mode;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setTaxonomyMapField($taxonomy_map_field) {
+    $this->taxonomy_map_field = $taxonomy_map_field;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setContentType($content_type) {
+    $this->content_type = $content_type;
   }
 
   /**

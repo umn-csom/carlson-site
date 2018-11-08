@@ -139,7 +139,7 @@ class MenuInjectorRuleForm extends EntityForm {
       '#options' => $menu_options,
       '#required' => false,
       '#default_value' => $rule->getParent(),
-      '#description' => $this->t('Select the place in the menu where the rule should position its menu links and follow the active trail.'),
+      '#description' => $this->t('Select the place in the menu where the rule should position its menu links and follow the active trail.')
     ];
 
     // Menu inject - menu links.
@@ -160,6 +160,64 @@ class MenuInjectorRuleForm extends EntityForm {
       '#required' => true,
       '#default_value' => $rule->getMenuLinks(),
       '#description' => $this->t('Select the menu links to place in.'),
+    ];
+
+    // Get all content types.
+    $content_types = \Drupal\node\Entity\NodeType::loadMultiple();
+    $content_types_all = [];
+    foreach ($content_types as $content_type) {
+      $content_types_all[$content_type->id()] = $content_type->label();
+    }
+
+    // Menu content types selection.
+    $form['content_type'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Content Type'),
+      '#options' => $content_types_all,
+      '#required' => true,
+      '#default_value' => $rule->getContentType(),
+      '#description' => $this->t('Select the content type to then select the mapping fields associated with it.'),
+    ];
+
+    // Content type list wrapper
+    $form['ct_wrapper'] = array(
+      '#type' => 'container',
+      '#attributes' => array('id' => 'data-wrapper2'),
+    );
+
+    $form['ct_wrapper']['refresh_content_type_fields_btn'] = array(
+      '#type' => 'button',
+      '#required' => false,
+      '#value' => 'Refresh Content Type Fields',
+      '#ajax' => array(
+          'callback' => '::changeContentTypeFields',
+          'wrapper' => 'data-wrapper2',
+          'method' => 'replace',
+      ),
+    );
+    
+    $content_fields_all = [];
+    if( $rule->getContentType() ) {
+      $content_fields = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', $rule->getContentType());
+      
+      if( !empty($content_fields) ) {
+        foreach ($content_fields as $field_name => $field_definition) {
+          $label = $field_definition->getLabel();
+          if( gettype($label) === 'string' ) {
+            $content_fields_all[ $field_name ] = $field_definition->getLabel();
+          }
+        }
+      }
+    }
+
+    // Menu inject mode.
+    $form['ct_wrapper']['taxonomy_map_field'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Taxonomy Field Map'),
+      '#options' => $content_fields_all,
+      '#required' => false,
+      '#default_value' => $rule->getTaxonomyMapField(),
+      '#description' => $this->t('Select the taxonomy field to map.'),
     ];
 
     // Menu injector vocabulary list.
@@ -191,7 +249,7 @@ class MenuInjectorRuleForm extends EntityForm {
 
     $form['wrapper']['refresh_taxonomy_terms_btn'] = array(
       '#type' => 'button',
-      '#required' => true,
+      '#required' => false,
       '#value' => 'Refresh Taxonomy Terms',
       '#ajax' => array(
           'callback' => '::changeTaxonomyTerms',
@@ -201,7 +259,6 @@ class MenuInjectorRuleForm extends EntityForm {
     );
 
     $default_terms = explode(',', $rule->getTaxonomyTerm());
-    $showHide = ( !empty($taxonomy_options) ) ? 'display: block;' : 'display: none;';
     $form['wrapper']['taxonomy_term'] = array(
       '#type' => 'select',
       '#required' => false,
@@ -220,6 +277,35 @@ class MenuInjectorRuleForm extends EntityForm {
   }
 
   /**
+   * Ajax handler for changing the content fields based on the content type bundle.
+   */
+  public function changeContentTypeFields(array &$form, FormStateInterface $form_state) {
+    $rule = $this->entity;
+    if( $rule->getContentType() ) {
+      $fields = \Drupal::service('entity_field.manager')->getFieldDefinitions('node', $rule->getContentType());
+      $content_fields_all = [];
+
+      if( !empty($fields) ) {
+        foreach ($fields as $field_name => $field_definition) {
+          $label = $field_definition->getLabel();
+          if( gettype($label) === 'string' ) {
+            $content_fields_all[ $field_name ] = $field_definition->getLabel();
+          }
+        }
+
+        if( !empty($content_fields_all) ) {
+          $trigger = $form_state->getTriggeringElement();
+          if ($trigger['#value'] == 'Refresh Content Type Fields') {
+            $form['ct_wrapper']['taxonomy_map_field']['#options'] = $content_fields_all;
+            $form['ct_wrapper']['taxonomy_map_field']['#default_value'] = $rule->getTaxonomyMapField();
+          }
+          return $form['ct_wrapper'];
+        }
+      }
+    }
+  }
+
+  /**
    * Ajax handler for changing the taxonomy terms based on the vocabulary list.
    */
   public function changeTaxonomyTerms(array &$form, FormStateInterface $form_state) {
@@ -235,9 +321,7 @@ class MenuInjectorRuleForm extends EntityForm {
       }
     }
     
-    $showHide = ( !empty($taxonomy_options) ) ? 'display: block;' : 'display: none;';
     $trigger = $form_state->getTriggeringElement();
-
     if ($trigger['#value'] == 'Refresh Taxonomy Terms') {
       $form['wrapper']['taxonomy_term']['#options'] = $taxonomy_options;
       $form['wrapper']['taxonomy_term']['#default_value'] = $default_terms;
@@ -259,6 +343,10 @@ class MenuInjectorRuleForm extends EntityForm {
     $taxonomy_term = $form['wrapper']['taxonomy_term']['#value'];
     $taxonomy_term = implode(',', $taxonomy_term);
     $form_state->setValue('taxonomy_term', $taxonomy_term);
+
+    $taxonomy_map_field = $form['ct_wrapper']['taxonomy_map_field']['#value'];
+    $form_state->setValue('taxonomy_map_field', $taxonomy_map_field);
+
     parent::submitForm($form, $form_state);
   }
 

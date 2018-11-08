@@ -80,6 +80,20 @@ interface MenuInjectorRuleInterface extends ConfigEntityInterface {
   public function getMenuLinksReference();
 
   /**
+   * Returns the menu taxonomy map field
+   * @return string
+   *    The taxonomy map field reference
+   */
+  public function getTaxonomyMapField();
+
+  /**
+   * Returns the menu content type
+   * @return string
+   *    The content type bundle reference
+   */
+  public function getContentType();
+
+  /**
    * Sets the administrative title of the menu injector rule
    * @param string $label
    *    The administrative title of the menu injector rule
@@ -127,4 +141,18 @@ interface MenuInjectorRuleInterface extends ConfigEntityInterface {
    *    The menu mode.
    */
   public function setMenuMode($menu_mode);
+
+  /**
+   * Sets the menu taxonomy map field
+   * @return string
+   *    The taxonomy map field reference
+   */
+  public function setTaxonomyMapField($taxonomy_map_field);
+
+  /**
+   * Sets the menu content type
+   * @return string
+   *    The content type bundle reference
+   */
+  public function setContentType($content_type);
 }
