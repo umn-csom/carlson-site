@@ -1,8 +1,14 @@
 .sticky-menu {
 	&__label {
+		@include menu-sub-font();
+		font-weight: bold;
+		color: $maroon!important;
+		font-size: 1.8rem;
 	}
 
 	&__nav {
+		list-style-type: none;
+		padding: 0;
 	}
 
 	&__item {
@@ -10,7 +16,9 @@
 		
 		&--has-submenu {
 			.subnav {
-				// display: none;
+				display: none;
+				list-style-type: none;
+				padding: 0;
 			}
 		}
 
