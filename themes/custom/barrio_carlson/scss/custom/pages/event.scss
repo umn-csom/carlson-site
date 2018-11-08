@@ -1,10 +1,80 @@
 /* Event Full page styles*/
 .event {
+	.basic-hero__title {
+		border-bottom: 0;
+	}
 	&__details {
 		@include page-inset($inset-wide);
 		&--date {
 			display: flex;
-    	justify-content: center;
+			justify-content: center;
+			.date-cal__item--month::after {
+				display: none;
+				@include media-breakpoint-up(lg){
+					display: block;
+				}
+			}
+		}
+		&--divider {
+			&__desktop {
+				display: none;
+				@include media-breakpoint-up(lg){
+					display: block;
+				}
+			}
+			&__mobile {
+				@include media-breakpoint-up(lg){
+					display: none;
+				}
+			}
+		}
+		&--all-info {
+			&::before{
+				content: '';
+				height: 2px;
+				display: block;
+				background: $gold;
+				@include media-breakpoint-up(lg){
+					display: none;
+				}
+			}
+			&__wrapper {
+				padding-top: 2rem;
+				padding-bottom: 2rem;
+				@include media-breakpoint-up(lg){
+					padding-top: 0;
+					padding-bottom: 0;
+				}
+			}
+		}
+		&--info {
+			text-transform: uppercase;
+		}
+		&--label {
+			text-transform: none;
+			@include serif-font(3.4rem);
+		}
+		&--address {
+			p {
+				display: inline;
+			}
+			a {
+				color: $slate;
+			}
+			&__divider {
+				margin: 0 2rem;
+			}
+			&__location {
+				@include media-breakpoint-up(lg){
+					white-space: nowrap;
+				}
+			}
+		}
+		&--attend {
+			@include button-solid($maroon);
+			width: 100%;
+			display: inline-block;
+			text-align: center;
 		}
 	}
 

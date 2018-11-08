@@ -5,53 +5,115 @@
 }
 
 .program-finder {
-	margin-bottom: 3rem;
+	margin-bottom: 6rem;
+	background: $gold;
+	text-align: center;
 	@include media-breakpoint-up(lg) {
-			margin-top: -20px;
-			position: relative;
+		margin-top: -2rem;
+		padding-top: 4rem;
+		padding-bottom: 4rem;
+		position: relative;
+	}
+	&:before{
+		content: '';
+		position: absolute;
+		left: 0;
+		top: -2rem;
+		width: 100%;
+		height: calc(100% + 2rem);
+		background-image: url('../images/bg/program-finder_bg.png');
+		background-position: top left;
+		background-repeat: no-repeat;
+	}
+	&__header {
+		padding: 4rem 0 2rem 0;
+		@include media-breakpoint-up(md) {
+			padding-bottom: 0;
+		}
+		&--tagline {
+			color: $white;
+			text-transform: uppercase;
+			font-weight: bold;
+		}
 	}
 	&__inner {
-		min-height: 20rem;
-		background: $gold;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
+		padding: 0 3rem;
+		@include media-breakpoint-up(lg){
+			align-items: flex-start;
+			flex-direction: row;
+			flex-wrap: wrap;
+			justify-content: center;
+		}
 	}
 	&__choices {
 		display: flex;
+		flex-direction: column;
+		width: 100%;
+		@include media-breakpoint-up(md){
+			flex-direction: row;
+			width: auto;
+			flex-wrap: wrap;
+			margin-top: 2rem;
+		}
 	}
 	&__choice {
 		list-style: none;
 		padding: 0;
 		margin: 0;
-		min-height: 6.5rem;
+		min-height: 5rem;
 		display: inline-block;
-		@include box-shadow(0, 4px, 30px);
+		@include box-shadow(0, 15px, 30px);
+		width: 100%;
+		@include media-breakpoint-up(md){
+			width: auto;
+		}
 		&--option {
 			width: 100%;
 			&-label {
-				height: 6.5rem;
-				line-height: 4.5rem;
+				background-color: $gold;
+				height: 5rem;
+				line-height: 5rem;
 				display: none;
 				min-width: 20rem;
 				width: 100%;
 				text-align: left;
 				color: $slate;
 				white-space: nowrap;
-				padding: 1rem 5rem 1rem 2rem;
+				padding: 0 5rem 0 2rem;
+				&__default {
+					font-style: italic;
+				}
 				&.active {
 					display: block;
 					position: relative;
-                    &::after{
-                        @include down-arrow-icon($maroon);
-                        width: 1.7rem;
-                        right: 2rem;
-                        top: 2.2rem;
-                    }
+					&::after{
+						@include carlson-icons($icon-arrow-down);
+						color: $maroon;
+						font-size: 2.8rem;
+						right: 2rem;
+						top: 1rem;
+						position: absolute;
+					}
 				}
 			}
 		}
 		&--container {
-			margin-left: 2rem;
+			margin-bottom: 2rem;
+			@include media-breakpoint-up(md){
+				margin-left: 2rem;
+				&:first-child {
+					margin-left: 0;
+				}
+				&:last-child {
+					margin-right: 2rem;
+				}
+			}
+			@include media-breakpoint-up(lg){
+				margin-bottom: 0;
+			}
 		}
 		&.open {
 			.program-finder__choice--option-label {
@@ -71,16 +133,31 @@
 		}
 	}
 	&__result {
-		margin-left: 2rem;
+		margin: 1rem 0 3rem 0;
+		width: 100%;
+		@include media-breakpoint-up(md) {
+			width: auto;
+			margin-top: 2rem;
+		}
 		#program-finder__result-go {
-			@include button-solid($maroon);
+			@include button-outline($maroon);
+			background-color: $gold;
+			height: 5rem;
+			padding-top: 0;
+			padding-bottom: 0;
+			width: 100%;
+			@include media-breakpoint-up(md) {
+				width: auto;
+			}
 			&[disabled] {
-				@include button-solid($dark-gray);
-				color: $gold;
+				@include button-outline($dark-gray);
+				padding-top: 0;
+				padding-bottom: 0;
 				&:hover,
 				&:focus {
-					background: $dark-gray;
-					color: $gold;
+					color: $dark-gray;
+					background-color: $gold;
+					box-shadow: none;
 					cursor: not-allowed;
 				}
 			}
