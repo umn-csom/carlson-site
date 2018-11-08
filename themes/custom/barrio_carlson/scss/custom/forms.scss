@@ -29,9 +29,20 @@ label {
     font-size: 1.3rem;
     line-height: 1.6rem;
 }
-.form-group input[type="submit"] {
-    margin-top: 1rem;
-    height: auto;
-    line-height: 2.4rem;
-    @include button-solid($maroon);
+.form-group {
+    &.half-width {
+        display: inline-block;
+        padding: 0;
+        width: calc(49% - 15px);
+        margin-left: 15px;
+        + .form-group.half-width {
+            margin-left: 5px;
+        }
+    }
+    input[type="submit"] {
+        margin-top: 1rem;
+        height: auto;
+        line-height: 2.4rem;
+        @include button-solid($maroon);
+    }
 }
