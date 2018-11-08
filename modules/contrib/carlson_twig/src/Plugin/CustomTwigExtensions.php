@@ -53,7 +53,7 @@ class CustomTwigExtensions extends \Twig_Extension {
         $parent_title = $parent_menu_instance->getTitle();
         $parent_node_id = $parent_menu_plugin_def['route_parameters']['node'];
         $parent_alias = \Drupal::service('path.alias_manager')->getAliasByPath( "/node/" . $parent_node_id );
-
+        
         return ('<a href="' . $parent_alias . '" class="sticky-menu__label" data-drupal-link-system-path="node/' . $parent_node_id . '">' . $parent_title . '</a>' );
       }
     }

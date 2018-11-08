@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\menu_position\Controller;
+namespace Drupal\menu_injector\Controller;
 
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
@@ -8,7 +8,7 @@ use Drupal\Core\Entity\EntityInterface;
 /**
  * Provides a listing of Example.
  */
-class MenuPositionRuleListBuilder extends ConfigEntityListBuilder {
+class MenuInjectorRuleListBuilder extends ConfigEntityListBuilder {
 
   /**
    * {@inheritdoc}
