@@ -1,20 +1,30 @@
-.sticky-sidebar {
-	.block-menu {
-		.nav {
-			.sticky-menu {
-				&__item {
-					width: 100%;
-					.menu {
-						height: 0;
-						overflow: hidden;
-					}
-					&--active-trail {
-						.menu {
-							height: initial;
-						}
-					}
-				}
+.sticky-menu {
+	&__label {
+		@include menu-sub-font();
+		font-weight: bold;
+		color: $maroon!important;
+		font-size: 1.8rem;
+	}
+
+	&__nav {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	&__item {
+		width: 100%;
+		
+		&--has-submenu {
+			.subnav {
+				display: none;
+				list-style-type: none;
+				padding: 0;
 			}
 		}
+
+		&--active-trail {
+
+		}
 	}
+
 }
