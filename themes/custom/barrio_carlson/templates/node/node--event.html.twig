@@ -73,6 +73,11 @@
   ]
 %}
 
+{%  set spacer = '' %}
+{% if (content.field_google_map|field_value is not empty) and (content.field_event_location|field_value is not empty) %}
+  {% set spacer = '<span class="event__details--address__divider">|</span>' %}
+{% endif %}
+
 <article{{ attributes.addClass(classes) }}>
   <header>
     {{ title_prefix }}
@@ -85,7 +90,6 @@
 
 
   </header>
-
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'event') }}>
     {# Render hero with hero-basic component #}
     {% if node.field_hero_media.isEmpty %}
@@ -141,7 +145,7 @@
               </div>
               <div class="row">
                 <div class="col-12 event__details--info event__details--address">
-                  <span class="event__details--label">Address: </span><span class="event__details--address__location">{{ content.field_google_map }}{{ content.field_event_location|field_value is not empty ? '<span class="event__details--address__divider">|</span>' : '' }}{{ content.field_event_location }}</span>
+                  <span class="event__details--label">Address: </span><span class="event__details--address__location">{{ content.field_google_map[0]['#address_text'] }}{{ spacer|raw }}{{ content.field_event_location }}</span>
                 </div>
               </div>
             </div>
@@ -175,7 +179,10 @@
     <div class="row component-paragraph contact-cta">
       <div class="col-lg-6 contact-cta__contact">
         <h5 class="contact-cta__contact--heading">Contact Information</h5>
+        {% if content.field_full_name|field_value is not empty %}
         <div class="contact-cta__contact--fullname">Event Contact: {{ content.field_full_name }}</div>
+        {% endif %}
+
         <ul class="list-inline">
           {% if content.field_email|field_value is not empty %}
           <li class="list-inline-item contact-cta__contact--email">Email: <a href="mailto:{{ content.field_email }}" title="email {{ content.field_email }}">{{ content.field_email }}</a></li>

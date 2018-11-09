@@ -51,12 +51,14 @@
 
 {% block paragraph %}
     {% block content %}
+
+      {% if content.field_main_content|field_value is not empty %}
+      <div class="row sponsor-logos__heading">
+        {{ content.field_main_content }}
+      </div>
+      
+      {% endif %}
       <div class="row justify-content-md-center component-paragraph sponsor-logos">
-        {% if content.field_main_content|field_value is not empty %}
-        <div class="sponsor-logos__heading">
-          {{ content.field_main_content }}
-        </div>
-        {% endif %}
 
         <div class="sponsor-logos__grid">
           {% set inc = 1 %}
