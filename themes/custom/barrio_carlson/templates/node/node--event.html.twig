@@ -72,11 +72,11 @@
     'clearfix',
   ]
 %}
-
+{# 
 {%  set spacer = '' %}
 {% if (content.field_google_map|field_value is not empty) and (content.field_event_location|field_value is not empty) %}
   {% set spacer = '<span class="event__details--address__divider">|</span>' %}
-{% endif %}
+{% endif %} #}
 
 <article{{ attributes.addClass(classes) }}>
   <header>
@@ -145,7 +145,7 @@
               </div>
               <div class="row">
                 <div class="col-12 event__details--info event__details--address">
-                  <span class="event__details--label">Address: </span><span class="event__details--address__location">{{ content.field_google_map[0]['#address_text'] }}{{ spacer|raw }}{{ content.field_event_location }}</span>
+                  <span class="event__details--label">Location: </span><span class="event__details--address__location">{{ content.field_event_location }}</span>
                 </div>
               </div>
             </div>
