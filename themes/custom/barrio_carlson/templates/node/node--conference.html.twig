@@ -84,39 +84,26 @@
     {{ title_suffix }}    
   </header>
 
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'basic-page') }}>
-    {# Render hero with hero-basic component #}
-    {% if content.field_hero_media|field_value is empty %}
-      <section class="row basic-hero">
-          <div class="col-12 col-lg-12 basic-hero__title">
-            <h1>{{ label }}</h1>
-          </div>
-      </section>
-    {% else %}
-      <section>
-        <div class="row basic-hero">
-          <div class="col-lg-12 basic-hero__img">
-            {{ content.field_hero_media }}
-          </div>
-          <div class="col-10 offset-1 basic-hero__title">
-            <div class="basic-hero__title-inner">
-              <h1>{{ label }}</h1>
-            </div>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'conference') }}>
+    <h1 class="sr-only">{{ label }}</h1>
+    <section>
+      <div class="row basic-hero">
+        <div class="col-md-12 basic-hero__img px-0">
+          {{ content.field_hero_media }}
+        </div>
+      </div>
+    </section>
+
+    <section class="row conference__content">
+      <div class="col-lg-10 offset-lg-1 main-content conference__content--inner">
+        {# inner_nav region #}
+        {% if inner_nav %}
+        <div class="row inner_nav">
+          <div class="col-12">
+          {{ inner_nav }}
           </div>
         </div>
-      </section>
-    {% endif %}
-
-    <section class="row basic-page__content">
-      <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
-        {# inner_nav region #}
-		    {% if inner_nav %}
-		    <div class="row inner_nav">
-		      <div class="col-12">
-		      {{ inner_nav }}
-		      </div>
-		    </div>
-		  	{% endif %}
+        {% endif %}
 
         <div class="row">
 
@@ -129,10 +116,12 @@
           </div>
           {% endif %}
 
-          <div class="{{ sticky_sidebar ? 'col-lg-9' : 'col-12' }} basic-page__content-components">
+          <div class="{{ sticky_sidebar ? 'col-lg-9' : 'col-12' }} conference__content-components">
             
             {# Home Flexible feature paragraphs #}
+            <div class="body">
             {{ content.body }}
+            </div>
             
             {# Inner node region for blocks #}
             {% if node_content %}
@@ -141,37 +130,10 @@
 
             {{ content.field_flexible_features }}
 
-            {{ content.field_contact_info }}
+            {{ content.field_sponsor_grid }}
 
-            {% if node_bottom %}
-              {{ node_bottom }}
-            {% endif %}
+            {{ content.field_flexible_features_bottom }}
 
-            {# Bottom node region for blocks #}
-            <div class="row node__bottom">
-
-              {% if node_bottom_left and node_bottom_right %}
-                {% set class = 'col-lg-6' %}
-              {% else %}
-                {% set class = 'col-lg-12 node__bottom--single' %}
-              {% endif %}
-
-              {% if node_bottom_left %}
-              <div class="col-12 {{ class }} node__bottom--left">
-                <div class="row">
-                {{ node_bottom_left }}
-                </div>
-              </div>
-              {% endif %}
-
-              {% if node_bottom_right %}
-              <div class="col-12 {{ class }} node__bottom--right">
-                <div class="row">
-                {{ node_bottom_right }}
-                </div>
-              </div>
-              {% endif %}
-            </div>
           </div>
         </div>
       </div>
