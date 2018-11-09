@@ -132,7 +132,12 @@
           {% endif %}
 
           <div class="{{ sticky_sidebar ? 'col-lg-9' : 'col-12' }} basic-page__content-components">
-            
+
+            {# Inner node region for blocks #}
+            {% if node_top %}
+              {{ node_top }}
+            {% endif %}    
+
             {# Home Flexible feature paragraphs #}
             {{ content.body }}
             
