@@ -59,7 +59,7 @@
       wrapper.find('div.region-we-mega-menu nav').removeClass('we-mobile-megamenu-active');
 
       wrapper.find('.btn-close').remove();
-      $('html').removeClass('lock-screen');
+      $('html').removeClass((!isSticky) ? 'lock-screen' : 'lock-screen-sticky');
     }
 
     this.off('click.mobileMenu');
@@ -81,7 +81,7 @@
           });
         }
 
-        $('html').addClass('lock-screen');
+        $('html').addClass((!isSticky) ? 'lock-screen' : 'lock-screen-sticky');
         $('body').css('btn-close', 'hidden');
 
         if (wrapper.find('.btn-close').length == 0) {

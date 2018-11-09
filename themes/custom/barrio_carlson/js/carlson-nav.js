@@ -7,6 +7,7 @@
     'use strict';
 
     var isDesktop = ( ( $(window).width() > 1024 ) ? true : false );
+    var isSticky = false;
     
     if(!isDesktop) {
         $('.we-megamenu-nolink').on('click', function(e) {
@@ -116,8 +117,10 @@
     }
 
     function setSticky() {
-        if( !$('html').hasClass('lock-screen') ) {
+        if( !$('html').hasClass( (!isSticky) ? 'lock-screen' : 'lock-screen-sticky' ) ) {
             var top = $(window).scrollTop();
+            isSticky = ( top > 0 ) ? true : false;
+
             if( top > 0 ) {
                 $('.carlson-header').addClass('sticky');
             } else {
