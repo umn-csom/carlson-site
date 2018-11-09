@@ -91,13 +91,13 @@
     {% if node.field_hero_media.isEmpty %}
       <section>
         <div class="row basic-hero">
-          <div class="col-11 col-md-12 basic-hero__title">
+          <div class="col-12 col-lg-10 offset-lg-1 basic-hero__title">
             <h1>{{ label }}</h1>
             <div class="row">
-              <div class="col col-sm-12 col-md-6 d-none d-sm-block post-col">
+              <div class="col-12 col-lg-7 basic-hero__pub">
                 <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
               </div>
-              <div class="col col-sm-12 col-md-6 d-none d-sm-block share-col">
+              <div class="col-12 col-lg-5 basic-hero__share">
                 <p class="share-this">Share This: {{ content.addtoany }}</p>
               </div>
             </div>
@@ -114,10 +114,10 @@
             <div class="basic-hero__title-inner">
               <h1>{{ label }}</h1>
               <div class="row">
-                <div class="col-md-6 basic-hero__pub">
+                <div class="col-12 col-lg-6 col-xl-7 basic-hero__pub">
                   <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
                 </div>
-                <div class="col-md-6 basic-hero__share">
+                <div class="col-12 col-lg-6 col-xl-5 basic-hero__share">
                   <p class="share-this">Share This: {{ content.addtoany }}</p>
                 </div>
               </div>
@@ -146,15 +146,21 @@
     {{ content.field_flexible_features }}
 
     <div class="row page-links">
-      <div class="col-md-6 page-links__tags">
-        <span class="page-links__tags-label">Tags:</span>
-        {{ content.field_news_channels }}
+      <div class="col-12 col-lg-10 offset-lg-1">
+        <div class="row">
+          {% if content.field_news_channels | field_value is not empty %}
+          <div class="col-lg-6 page-links__tags">
+            <span class="page-links__tags-label">Tags:</span>
+            {{ content.field_news_channels }}
+          </div>
+          {% endif %}
+          <div class="col-lg-6">
+            <p class="share-this">Share This: {{ content.addtoany }}</p>
+          </div>
+        </div>
       </div>
-      <div class="col-md-6">
-         <p class="share-this">Share This: {{ content.addtoany }}</p>
-      </div>          
     </div>
-    
+
     <div class="row node__bottom">
       {% if node_bottom_left and node_bottom_right %}
         {% set class = 'col-lg-6' %}
