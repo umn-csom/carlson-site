@@ -72,7 +72,7 @@
     'clearfix',
   ]
 %}
-{# 
+{#
 {%  set spacer = '' %}
 {% if (content.field_google_map|field_value is not empty) and (content.field_event_location|field_value is not empty) %}
   {% set spacer = '<span class="event__details--address__divider">|</span>' %}
@@ -95,7 +95,7 @@
     {% if node.field_hero_media.isEmpty %}
       <section>
         <div class="row basic-hero">
-          <div class="col-11 col-lg-12 basic-hero__title">
+          <div class="col-11 col-lg-10 offset-lg-1 basic-hero__title">
             <h1>{{ label }}</h1>
           </div>
         </div>
@@ -140,7 +140,7 @@
                   <span class="event__details--label">Time: </span>{{ content.field_event_date }}
                 </div>
                 <div class="col-12 col-lg-4 event__details--info event__details--cost">
-                  <span class="event__details--label">Cost: </span>{{ content.field_event_cost }}
+                  <span class="event__details--label">Cost: </span>{{ content.field_event_cost.value is not empty ? content.field_event_cost : 'FREE' }}
                 </div>
               </div>
               <div class="row">

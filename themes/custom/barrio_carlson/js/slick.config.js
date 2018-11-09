@@ -16,9 +16,9 @@
           centerMode: true,
           asNavFor: ('.' + classId + ' .slider-nav' ),
           draggable: true,
-          variableWidth: true,
-          centerPadding: '15px',
-            responsive: [
+          variableWidth: false,
+          centerPadding: '0',
+          responsive: [
               {
                 breakpoint: 640,
                 settings: {
@@ -26,28 +26,29 @@
                   dots: true,
                   centerMode: true,
                   slidesToShow: 1,
-
-                  }
                 }
-              ]
-            });
+              }
+            ]
+          });
 
         $('.' + classId + ' .slider-nav').slick({
-          slidesToShow: 5,
+          slidesToShow: 1,
           slidesToScroll: 1,
           asNavFor: ( '.' + classId + ' .slider-for' ),
           dots: false,
-          arrows: true,
+          arrows: false,
           infinite: true,
-          centerMode: true,
-          centerPadding: '15px',
-          focusOnSelect: true,
+          centerMode: false,
+          centerPadding: '0',
+          focusOnSelect: false,
           draggable: false,
           variableWidth: true,
         });
 
         $('.' + classId + ' .slider-nav').on('beforeChange', function(event, slick, currentSlide, nextSlide){
           var caption = $('.' + classId + ' div[data-slick-index="' + nextSlide + '"] .slide__caption').html();
+          console.log( caption );
+          
           $('.' + classId + ' .slideshow__main-caption').html( caption );
         });
 
