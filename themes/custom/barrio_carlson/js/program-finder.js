@@ -18,11 +18,11 @@
             "emptyOption": "Prof. Experience...",
             "actions": [
                 {
-                    "path": "2", "label": "Degree",
+                    "path": "2", "label": "Degree", "goto": "/node/1",
                     "emptyOption": "Format...",
                     "actions": [
                         { "path": "2/3", "label": "Undergrad", "goto": "/node/1511" }
-                        , { "path": "2/4", "label": "MBA",
+                        , { "path": "2/4", "label": "MBA", "goto": "/node/41",
                             "emptyOption": "Education...",
                             "actions": [
                                 { "path": "2/4/5", "label": "Full-Time MBA", "goto": "/node/42" }
@@ -34,7 +34,7 @@
                                 , { "path": "2/4/11", "label": "Executive MBA - China, Dual Degree", "goto": "/node/1236" }
                             ]
                         }
-                        , { "path": "2/12", "label": "Specialty Masters",
+                        , { "path": "2/12", "label": "Specialty Masters", "goto": "/node/84846",
                             "emptyOption": "Education...",
                             "actions": [
                                 { "path": "2/12/13", "label": "Accountancy", "goto": "/node/2" }
@@ -48,7 +48,6 @@
                             "emptyOption": "Education...",
                             "actions": [
                                 { "path": "2/18/19", "label": "Phd-Business Administration", "goto": "/node/2646" }
-                                , { "path": "2/18/20", "label": "Global DBA - China", "goto": "/node/96066" }
                             ]
                         }
                     ]
@@ -97,17 +96,17 @@
         };
 
         var _performActionFor = function (action) {
-            console.log('found it!', action);
+            //console.log('found it!', action);
             if (action.hasOwnProperty('goto')) {
                 $('#program-finder__result-go').attr('data-goto', action.goto).removeAttr('disabled');
             } else {
                 $('#program-finder__result-go').attr('data-goto', '').attr('disabled', '');
-                if (action.hasOwnProperty('actions')) {
-                    var template = _.template($('#carlson-tpl-program-finder-dropdown').html());
-                    $('.program-finder__choices').append(template(action));
-                    if (action.actions.length == 1 && action.actions[0].hasOwnProperty('goto')) {
-                        $('#program-finder__result-go').attr('data-goto', action.actions[0].goto).removeAttr('disabled');
-                    }
+            }
+            if (action.hasOwnProperty('actions')) {
+                var template = _.template($('#carlson-tpl-program-finder-dropdown').html());
+                $('.program-finder__choices').append(template(action));
+                if (action.actions.length == 1 && action.actions[0].hasOwnProperty('goto')) {
+                    $('#program-finder__result-go').attr('data-goto', action.actions[0].goto).removeAttr('disabled');
                 }
             }
         };
