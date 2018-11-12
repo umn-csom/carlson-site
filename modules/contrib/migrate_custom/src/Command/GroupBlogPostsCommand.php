@@ -65,14 +65,14 @@ class GroupBlogPostsCommand extends ContainerAwareCommand {
         $blog_groups[] = array(
           'gid' => $group->id,
           'label' => $group->label,
-          'slug' => preg_replace( '/[^a-z]/', '_', strtolower($group->label) )
+          'slug' => preg_replace( '/[^a-z]/', '_', ( strtolower($group->label) . '_post' ) )
         );
       }
     }
 
     // Inject the blog_group data into the group_content_field_data.
     if( !empty($blog_posts) ) {
-      $cnt = 1000;
+      $cnt = 2000;
       $result = $connection->insert('group_content_field_data')->fields([
         'id', 'type', 'langcode', 'default_langcode', 'uid', 'gid',
         'label', 'entity_id', 'created', 'changed'
