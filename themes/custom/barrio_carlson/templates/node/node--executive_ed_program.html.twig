@@ -129,11 +129,15 @@
               {{ content.body }}
             </div>
           </div>
-
           <div class="row ee-program__details">
             <div class="col-lg-6">Program Details</div>
             <div class="col-lg-3 ee-program__details--cost"><span>Cost:</span> <span class="ee-program__details--label">{{ content.field_ee_cost }}</span></div>
-            <div class="col-lg-3 ee-program__details--brochure"><a href="{{ content.field_ee_course_brochure.0.uri }}">Request Brochure</a></div>
+            <div class="col-lg-3 ee-program__details--brochure">
+
+              {% if content.field_ee_course_brochure|field_value is not empty %}
+              <a href="{{ content.field_ee_course_brochure.0['#url'] }}">Request Brochure</a>
+              {% endif %}
+            </div>
           </div>
           <div class="row ee-program__dates">
             {{ content.field_ee_course_dates }}
