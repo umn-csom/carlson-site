@@ -38,7 +38,6 @@
  * @ingroup themeable
  */
 #}
-
 {%
   set classes = [
     'paragraph',
@@ -48,53 +47,7 @@
   ]
 %}
 {% block paragraph %}
-    {% block content %}
-    
-    <div class="row component-paragraph staff-faculty">
-      {% if content.field_staff_faculty_item is not empty %}
-        {% set items = content.field_staff_faculty_item|field_value %}
-
-        {% if content.field_main_content|field_value is not empty %}
-        <div class="col-12 col-md-10 offset-md-1 staff-faculty__heading text-center">
-          <h3 class="label-border yellow">{{ content.field_heading }}</h3>
-          {{ content.field_main_content }}
-        </div>
-        {% endif %}
-
-        <div class="accordion col-12" id="staff-faculty-list">
-          {% set inc = 0 %}
-          {% for item in items %}
-              {% set paragraph = item['#paragraph'] %}
-              <div class="card">
-                  <div class="card-header">
-                      <h5 class="mb-0">
-                          {% if inc == 0 %}
-                              {% set collapsed = '' %}
-                              {% set expanded = 'true' %}
-                              {% set show = 'show' %}
-                          {% else %}
-                              {% set collapsed = 'collapsed' %}
-                              {% set expanded = 'false' %}
-                              {% set show = '' %}
-                          {% endif %}
-
-                          <button class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{ inc }}">
-                              {{ paragraph.field_heading.0.value }}
-                          </button>
-                      </h5>
-                  </div>
-                  <div id="collapse{{ inc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{ inc }}" data-parent="#accordion-list">
-                      <div class="card-body">
-                        <div class="row">
-                          {{ item }}
-                        </div>
-                      </div>
-                  </div>
-              </div>
-              {% set inc = inc+1 %}
-          {% endfor %}
-        </div>
-      {% endif %}
-    </div>
-    {% endblock %}
+  {% block content %}
+    {{ content }}
+  {% endblock %}
 {% endblock paragraph %}

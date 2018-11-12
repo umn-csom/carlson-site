@@ -1,0 +1,46 @@
+.staff-faculty{
+	&__heading {
+		display: none;
+	}
+	&__item {
+		margin-bottom: 3rem;
+		&--image {
+			img {
+				@include profile-image-box-shadow();
+			}
+			margin-bottom: 3rem;
+		}
+		&--name {
+			@include heading-title($font-medium, $gold, $align:'left'); 
+			color: $slate;
+			margin-bottom: 2rem;
+			display: block;
+			&:hover,
+			&:active {
+				text-decoration: none;
+			}
+		}
+		&--position {
+			font-weight: 700;
+		}
+    &--address {
+        @include element-with-icon-before();
+        &::before {
+            @include map-icon($maroon);
+        }
+    }
+    &--phone {
+        @include element-with-icon-before();
+        &::before {
+            @include phone-icon($maroon);
+        }
+    }
+    &--email {
+        @include element-with-icon-before();
+        &::before {
+            @include email-icon($maroon);
+        }
+    }		
+	}
+	
+}
