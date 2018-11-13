@@ -43,6 +43,14 @@
     margin-bottom: 3rem;
   }
   &__content {
+    &--wrapper {
+      min-height: 100%;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    &--lead-in {
+      flex-grow: 1;
+    }
   }
   &__title {
     @include heading-title($font-medium, $maroon, 'left')
@@ -86,15 +94,16 @@
   }
   @include media-breakpoint-up(lg) {
       &__title {
-        margin-top: 40px;
+        margin-top: 2rem;
       }
       &__link {
         text-align: right;
-        position: absolute;
         bottom: -20px;
         left: -150px;
         width: calc(100% + 150px);
         max-width: calc(100% + 150px);
+        flex: 0 0 calc(100% + 150px);
+        padding-right: 0;
       }
   }
 }
