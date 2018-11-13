@@ -236,9 +236,6 @@ function barrio_carlson_preprocess_node(&$variables) {
         $variables['byline'] = '<span class="basic-hero__title--byline"> — by '.$byline."</span>";
       }
     break;
-    case "homepage":
-      $variables['program_finder'] = views_embed_view('home_program_finder', 'block_1');
-    break;
   }
 }
 
@@ -413,4 +410,26 @@ function barrio_carlson_preprocess_pager(&$variables) {
   // on the page, like exposed filters, so for the cacheability all query
   // parameters matter.
   $variables['#cache']['contexts'][] = 'url.query_args';
+}
+
+/**
+ * Implements template_preprocess_paragraph().
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An array of elements to display in view mode.
+ *   - paragraph: The paragraph object.
+ *   - view_mode: View mode; e.g., 'full', 'teaser'...
+ */
+
+function barrio_carlson_preprocess_paragraph(&$variables) {
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+  $bundle = $paragraph->bundle();
+
+  switch($bundle) {
+    case 'carlson_staff_faculty':
+      // kint($paragraph);
+    break;
+  }
 }
