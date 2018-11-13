@@ -15,17 +15,17 @@
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'faculty-profile') }}>
     <div class="row">
-      <div class="col-md-10 offset-md-1">
+      <div class="col-10 offset-1">
         <section class="faculty-profile__top">
           <div class="row">
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-lg-4 faculty-profile__top--headshot-wrapper">
                 {% if content.field_profile_img|field_value is not empty %}
                   <div class="faculty-profile__top--headshot">
                     {{ content.field_profile_img|field_value }}
                   </div>
                 {% endif %}
             </div>
-            <div class="col-sm-12 col-md-7 profile-content-wrapper">
+            <div class="col-12 col-lg-7 profile-content-wrapper">
                 <h1 class="faculty-profile__top--name">
                   {{ node.label }}
                 </h1>
@@ -40,12 +40,13 @@
                 <div class="faculty-profile__top--summary">
                   {% if node.body.summary is not empty %}
                     {{ node.body.summary }}
+                  {% else %}
+<p>Ut suscipit magna eget ultrices ullamcorper. Curabitur iaculis lectus non tempus bibendum. Nunc faucibus maximus arcu ac pellentesque. Aliquam eget congue nisl. Duis sed facilisis nisi. Proin finibus ultricies ipsum. Morbi tincidunt rhoncus justo, luctus lacinia sapien vulputate sit amet. Pellentesque luctus ornare ipsum.</p>
+<p>Praesent gravida convallis lorem eu dapibus. Nullam placerat dignissim mi. Nam ligula urna, vestibulum dapibus diam ac, luctus lobortis erat. Phasellus interdum quis leo et convallis. Integer diam sapien, pharetra eu ante eu, varius suscipit nibh. Curabitur nisl arcu, pretium id sodales nec, iaculis ut magna. Ut non eros at lectus vestibulum malesuada. Praesent eget enim tellus. Integer tristique ex lectus, a gravida mauris varius ac. Etiam posuere, tortor ut malesuada sagittis, leo elit hendrerit odio, sit amet iaculis urna neque eget orci. Curabitur vel massa luctus, tempor est eget, molestie lacus. Aliquam urna tortor, lobortis id velit fringilla, pellentesque sollicitudin tellus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nulla euismod blandit orci, a malesuada lorem.</p>
                   {% endif %}
                 </div>
             </div>
-          </div>
-          <div class="row">
-              <div class="col-sm-12 col-md-3 faculty-profile__contact">
+              <div class="col-12 col-lg-3 faculty-profile__contact">
                 {% if content.field_profile_address|field_value is not empty %}
                   <h2>Contact</h2>
 
@@ -85,9 +86,9 @@
 
                 {% endif %}
               </div>
-              <div class="col-sm-12 col-md-9 faculty-profile__experience">
+              <div class="col-12 col-lg-9 faculty-profile__experience">
                 <div class="row">
-                  <div class="col-12 col-sm-6 col-md-6">
+                  <div class="col-12 col-md-6">
                     {% if content.field_profile_degrees|field_value is not empty %}
                       <h2>Education:</h2>
                       <ul class="faculty-profile__education">
@@ -95,7 +96,7 @@
                       </ul>
                     {% endif %}
                   </div>
-                  <div class="col-12 col-sm-6 col-md-6">
+                  <div class="col-12 col-md-6">
                     {% if content.field_profile_expertise|field_value is not empty %}
                       <h2>Expertise:</h2>
                       <ul class="faculty-profile__expertise">
@@ -111,7 +112,7 @@
         {% if node.body.value|raw is not empty %}
           <section class="faculty-profile__about">
               <div class="row">
-                  <div class="col-12 col-md-10 col-md-offset-1">
+                  <div class="col-12">
                     <h2>About {{ content.field_first_name|field_value }}</h2>
                     <div class="faculty-profile__about--summary">
                       {{ node.body.value|raw }}
