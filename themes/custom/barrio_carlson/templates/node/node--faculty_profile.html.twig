@@ -44,7 +44,6 @@
                 {% endif %}
             </div>
               <div class="col-12 col-lg-3 faculty-profile__contact">
-                {% if content.field_profile_address|field_value is not empty %}
                   <h2>Contact</h2>
 
                   {% if content.field_office_phone|field_value is not empty %}
@@ -55,9 +54,11 @@
                     </div>
                   {% endif %}
 
+                  {% if content.field_profile_address|field_value is not empty %}
                   <div class="faculty-profile__contact--address">
                     {{ content.field_profile_address|field_value }}
                   </div>
+                  {% endif %}
 
                   {% if content.field_email|field_value is not empty %}
                     <div class="faculty-profile__contact--email">
@@ -81,7 +82,6 @@
                     </div>
                   {% endif %}
 
-                {% endif %}
               </div>
               <div class="col-12 col-lg-9 faculty-profile__experience">
                 <div class="row">

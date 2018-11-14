@@ -123,6 +123,54 @@ $value in $theme-colors {
       color: $color;
     }
 }
+@mixin button-link-primary() {
+    color: $hamburger-grey;
+    letter-spacing: 1.78;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 0;
+    &:hover, &:active, &:focus{
+      text-decoration: none;
+      color: $menu-gold;
+      &:after{
+        content: '';
+        width: 0px;
+      }
+    }
+    &:after{
+      content: '';
+      transition: all 0.3s ease-in-out;
+      width: 100%;
+      height: 2px;
+      display: block;
+      margin: 0 auto;
+      background: $menu-gold;
+    }
+}
+@mixin button-link-secondary() {
+    color: $maroon;
+    letter-spacing: 1.78;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 0;
+    &:hover, &:active, &:focus{
+      text-decoration: none;
+      color: $hamburger-grey;
+      &:after{
+        content: '';
+        width: 0px;
+      }
+    }
+    &:after{
+      content: '';
+      transition: all 0.3s ease-in-out;
+      width: 100%;
+      height: 2px;
+      display: block;
+      margin: 0 auto;
+      background: $maroon;
+    }
+}
 /** Inner page width settings for narrow and wide insets **/
 @mixin page-inset($inset) {
     max-width: $inset;

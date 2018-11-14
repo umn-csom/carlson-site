@@ -13,13 +13,13 @@
 %}
 
 <article{{ attributes.addClass(classes) }}>
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'student-profile') }}>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'person-profile') }}>
     <div class="row">
       <div class="col-lg-10 offset-lg-1">
-        <section class="student-profile__top">
+        <section class="person-profile__top">
           <div class="row">
             <div class="col-sm-12 col-lg-4">
-                  <div class="student-profile__top--headshot">
+                  <div class="person-profile__top--headshot">
                     {% if content.field_profile_img|field_value is not empty %}
                       {{ content.field_profile_img|field_value }}
                     {% else %}
@@ -28,21 +28,45 @@
                   </div>
                 
             </div>
-            <div class="col-sm-12 col-lg-8 student-profile__top--wrap">
-                <h1 class="student-profile__top--name">
+            <div class="col-sm-12 col-lg-8 person-profile__top--wrap">
+                <h1 class="person-profile__top--name">
                   {{ node.label }}
                 </h1>
 
-                {% if node.body.summary is not empty %}
-                <div class="student-profile__top--summary">
-                  {{ node.body.summary }}
-                </div>
+                {% if content.field_profile_title|field_value is not empty %}
+                  <div class="person-profile--title">{{ content.field_profile_title }}</div>
                 {% endif %}
+                
+                <div class="person-profile__contact">
+                  <h2>Contact:</h2>
+                  {% if content.field_office_phone|field_value is not empty %}
+                    <div class="person-profile__contact--phone">
+                      <a href="tel:{{ content.field_office_phone|field_value }}">
+                        {{ content.field_office_phone|field_value }}
+                      </a>
+                    </div>
+                  {% endif %}
+
+                  {% if content.field_profile_address|field_value is not empty %}
+                  <div class="person-profile__contact--address">
+                    {{ content.field_profile_address|field_value }}
+                  </div>
+                  {% endif %}
+
+                  {% if content.field_email|field_value is not empty %}
+                    <div class="person-profile__contact--email">
+                      <a href="mailto:{{ content.field_email|field_value }}">
+                        {{ content.field_email|field_value }}
+                      </a>
+                    </div>
+                  {% endif %}
+                </div>
 
                 {% if content.field_profile_quote|field_value is not empty %}
-                <div class="student-profile__top--quote">
+                <div class="person-profile__top--quote">
                     {{ content.field_profile_quote|field_value }}
                 </div>
+
               {% endif %}
             </div>
           </div>
@@ -50,19 +74,13 @@
         </section>
 
         {% if node.body.value|raw is not empty %}
-          <section class="student-profile__about">
-              <div class="row">
-                  <div class="col-12 col-lg-9">
-                    <div class="student-profile__about--summary">
-                      {{ node.body.value|raw }}
-                    </div>
-                  </div>
-                  <div class="col-12 col-lg-3 student-profile__sidebar">
-                    <div>
-
-                    </div>
-                  </div>
+          <section>
+            <div class="row">
+              <div class="col-12 person-profile__summary">
+                <h3>My Story</h3>
+                {{ node.body.value|raw }}
               </div>
+            </div>
           </section>
         {% endif %}
       </div>

@@ -1,4 +1,4 @@
-.student-profile {
+.person-profile {
   /** Top Profile - Block. **/
   &__top {
       &--headshot {
@@ -36,26 +36,33 @@
         margin-bottom: 2rem;
       }
   }
-  &__about {
-    &--summary{
-      margin-bottom: 3rem;
-    }
+  &--title {
+    @include serif-font($font-small);
+    margin-bottom: 2rem;
   }
-  &__sidebar {
-    border: solid 1px $light-gray;
+
+  &__summary {
+    @include page-inset($inset-narrow);
+  }
+  &__contact {
     margin-bottom: 3rem;
-    > div {
-      padding-top: 20px;
-      padding-bottom: 20px;
+    &--address {
+        @include element-with-icon-before();
+        &::before {
+            @include map-icon($maroon);
+        }
     }
-    &--label {
-      @include heading-title($font-small, $maroon,'left');
+    &--phone {
+        @include element-with-icon-before();
+        &::before {
+            @include phone-icon($maroon);
+        }
     }
-    .field__label {
-      font-weight: 700;
-    }
-    .field--label-above {
-      margin-bottom: 1.6rem;
+    &--email {
+        @include element-with-icon-before();
+        &::before {
+            @include email-icon($maroon);
+        }
     }
   }
   @include media-breakpoint-up(lg) {
@@ -64,20 +71,9 @@
         padding: 30px 20px;
       }
     }
-  }
-}
-
-/* Person Profile */
-.person-profile--title {
-  @include serif-font($font-small);
-  margin-bottom: 2rem;
-}
-.person-profile__summary {
-  @include page-inset($inset-narrow);
-}
-@include media-breakpoint-up(lg) {
-  .person-profile__summary {
+    &__summary {
       margin-top: 3rem;
       margin-bottom: 3rem;
+    }
   }
 }
