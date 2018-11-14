@@ -7,6 +7,12 @@
                 height: auto;
                 @include profile-image-box-shadow();
             }
+            @include media-breakpoint-up(xl){
+                &-wrapper {
+                    z-index: 1;
+                    margin-bottom: -22rem;
+                }
+            }
         }
         &--name {
             @include heading-title($font-medium,$maroon, 'left');
@@ -43,6 +49,13 @@
     }
 
     &__contact {
+        margin-bottom: 3rem;
+        @include media-breakpoint-up(lg){
+            padding-top: 3rem;
+        }
+        @include media-breakpoint-up(xl){
+            padding-top: 22rem;
+        }
         &--address {
             @include element-with-icon-before();
             &::before {
@@ -98,26 +111,15 @@
     }
 
     &__experience{
-        margin-left: 15px;
-        margin-right: 15px;
-        margin-top: 0px;
-        z-index: -1;
-        height: 100%;
         position: relative;
         padding-top: 30px;
         padding-bottom: 30px;
         background-color: $gold;
-        @include media-breakpoint-up(md){
-            word-wrap: break-word;
-            padding-top: 0;
-            margin-right: 0;
-            margin-left: 0;
+        @include media-breakpoint-up(lg){
+            padding: 30px 50px 50px;
         }
         @include media-breakpoint-up(xl){
-            padding-left: 12rem;
-            margin-top: -150px;
-            padding-top: 30px;
-            padding-bottom: 150px;
+            padding-left: 15rem;
         }
         &:before{
             content: '';

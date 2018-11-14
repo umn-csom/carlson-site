@@ -15,17 +15,17 @@
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'faculty-profile') }}>
     <div class="row">
-      <div class="col-md-10 offset-md-1">
+      <div class="col-10 offset-1">
         <section class="faculty-profile__top">
           <div class="row">
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-lg-4 faculty-profile__top--headshot-wrapper">
                 {% if content.field_profile_img|field_value is not empty %}
                   <div class="faculty-profile__top--headshot">
                     {{ content.field_profile_img|field_value }}
                   </div>
                 {% endif %}
             </div>
-            <div class="col-sm-12 col-md-7 profile-content-wrapper">
+            <div class="col-12 col-lg-7 profile-content-wrapper">
                 <h1 class="faculty-profile__top--name">
                   {{ node.label }}
                 </h1>
@@ -37,16 +37,13 @@
                 <div class="faculty-profile__top--dept">
                   {{ content.field_profile_dept|field_value }}
                 </div>
+                {% if node.body.summary is not empty %}
                 <div class="faculty-profile__top--summary">
-                  {% if node.body.summary is not empty %}
                     {{ node.body.summary }}
-                  {% endif %}
                 </div>
+                {% endif %}
             </div>
-          </div>
-          <div class="row">
-              <div class="col-sm-12 col-md-3 faculty-profile__contact">
-                {% if content.field_profile_address|field_value is not empty %}
+              <div class="col-12 col-lg-3 faculty-profile__contact">
                   <h2>Contact</h2>
 
                   {% if content.field_office_phone|field_value is not empty %}
@@ -57,9 +54,11 @@
                     </div>
                   {% endif %}
 
+                  {% if content.field_profile_address|field_value is not empty %}
                   <div class="faculty-profile__contact--address">
                     {{ content.field_profile_address|field_value }}
                   </div>
+                  {% endif %}
 
                   {% if content.field_email|field_value is not empty %}
                     <div class="faculty-profile__contact--email">
@@ -83,11 +82,10 @@
                     </div>
                   {% endif %}
 
-                {% endif %}
               </div>
-              <div class="col-sm-12 col-md-9 faculty-profile__experience">
+              <div class="col-12 col-lg-9 faculty-profile__experience">
                 <div class="row">
-                  <div class="col-12 col-sm-6 col-md-6">
+                  <div class="col-12 col-md-6">
                     {% if content.field_profile_degrees|field_value is not empty %}
                       <h2>Education:</h2>
                       <ul class="faculty-profile__education">
@@ -95,7 +93,7 @@
                       </ul>
                     {% endif %}
                   </div>
-                  <div class="col-12 col-sm-6 col-md-6">
+                  <div class="col-12 col-md-6">
                     {% if content.field_profile_expertise|field_value is not empty %}
                       <h2>Expertise:</h2>
                       <ul class="faculty-profile__expertise">
@@ -111,7 +109,7 @@
         {% if node.body.value|raw is not empty %}
           <section class="faculty-profile__about">
               <div class="row">
-                  <div class="col-12 col-md-10 col-md-offset-1">
+                  <div class="col-12">
                     <h2>About {{ content.field_first_name|field_value }}</h2>
                     <div class="faculty-profile__about--summary">
                       {{ node.body.value|raw }}

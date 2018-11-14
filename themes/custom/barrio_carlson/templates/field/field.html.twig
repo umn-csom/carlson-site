@@ -37,26 +37,25 @@
  * @see template_preprocess_field()
  */
 #}
-{%
+{%-
   set classes = [
     'field',
     'field--name-' ~ field_name|clean_class,
     'field--type-' ~ field_type|clean_class,
     'field--label-' ~ label_display,
   ]
-%}
-{%
+-%}
+{%-
   set title_classes = [
     'field__label',
     label_display == 'visually_hidden' ? 'visually-hidden',
   ]
-%}
-
-{% if label_hidden %}
-  {% for item in items %}
-    {{ item.content }}
-  {% endfor %}
-{% else %}
+-%}
+{%- if label_hidden -%}
+  {%- for item in items -%}
+    {{- item.content -}}
+  {%- endfor -%}
+{%- else -%}
   <div{{ attributes.addClass(classes) }}>
     <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
     {% if multiple %}
@@ -69,4 +68,4 @@
       </div>
     {% endif %}
   </div>
-{% endif %}
+{%- endif -%}

@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Default theme implementation to display a paragraph.
+ * Theme template for cutom "CTA block" type links (paragraph bundle)
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -39,26 +39,12 @@
  */
 #}
 
-{%
-  set classes = [
-    'paragraph',
-    'paragraph--type--' ~ paragraph.bundle|clean_class,
-    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
-    not paragraph.isPublished() ? 'paragraph--unpublished'
-  ]
-%}
 {% block paragraph %}
-    {% block content %}
-    <div class="row component-paragraph speakers">
-      {% if (content.field_heading|field_value is not empty) or (content.field_main_content|field_value is not empty) %}
-        <div class="col-12 col-md-10 offset-md-1 text-center">
-          <h3 class="label-border yellow">{{ content.field_heading }}</h3>
-          {{ content.field_main_content }}
-        </div>
-      {% endif %}
-    </div>
-
-    {{ content.field_speaker_item }}
-
-    {% endblock %}
+  {% block content %}
+    {% if content.field_link|field_value is not empty %}
+      <a href="{{ content.field_link.0['#url'] }}" alt="{{ content.field_heading }}">{{ content.field_heading }}</a>     
+    {% else %}
+      {{ content.field_heading }}
+    {% endif %}
+  {% endblock %}
 {% endblock paragraph %}
