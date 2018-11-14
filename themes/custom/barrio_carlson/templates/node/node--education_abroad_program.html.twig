@@ -85,7 +85,7 @@
   </header>
 
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'ed-abroad') }}>
-    <section class="row landing-page__top">
+    <section class="row ed-abroad__top">
       <div class="col-lg-10 offset-lg-1">
         {# Program Hero #}
         <div class="row component-paragraph hero-program">
@@ -106,7 +106,7 @@
     <section class="row ed-abroad__content">
       <div class="col-lg-10 offset-lg-1 main-content ed-abroad__content--inner">
         <div class="row">
-          <div class="col-12 col-lg-8 ed-abroad__content-components">
+          <div class="col-12 col-lg-9">
             
             {% if content.field_ea_program_dates_info|field_value is not empty %}
               <h2>Program Dates:</h2>
@@ -116,20 +116,128 @@
 
             {# Home Flexible feature paragraphs #}
             {{ content.field_flexible_features }}
+
+            <h3 class="ed-abroad__content--details text-center">Program Details</h3>
+            {% if content.program_details_intro|field_value is not empty %}
+              <div class="d-abroad__content--leadin text-center">
+                {{ content.program_details_intro }}
+              </div>
+            {% endif %}
+            {# Accordion #}
+    
+            <div class="row">
+              <div class="col-12">
+                {% set accordion_data = [] %}
+
+                {% if content.field_ea_program_location_info|field_value is not empty %}
+                  {% set accordion_data = accordion_data|merge([
+                      {
+                        'label': 'Location Details',
+                        'markup': content.field_ea_program_location_info|field_value,
+                        'wrapper':'<ul class="ed-abroad__content--location-details">'
+                      }
+                    ])
+                  %}
+                {% endif %}
+
+                {% if content.field_ea_program_housing_food|field_value is not empty %}
+                  {% set accordion_data = accordion_data|merge([
+                      {
+                        'label': 'Accommodations',
+                        'markup': content.field_ea_program_housing_food|field_value,
+                        'wrapper':'<ul class="ed-abroad__content--accomodations">'
+                      }
+                    ])
+                  %}
+                {% endif %}
+
+                {% if content.field_ea_program_academics|field_value is not empty %}
+                  {% set accordion_data = accordion_data|merge([
+                      {
+                        'label': 'Academics & Credits',
+                        'markup': content.field_ea_program_academics|field_value,
+                        'wrapper':'<ul class="ed-abroad__content--academics">'
+                      }
+                    ])
+                  %}
+                {% endif %}
+
+                {% if content.field_ea_program_eligibility|field_value is not empty %}
+                  {% set accordion_data = accordion_data|merge([
+                      {
+                        'label': 'Eligibility',
+                        'markup': content.field_ea_program_eligibility|field_value,
+                        'wrapper':'<ul class="ed-abroad__content--eligibility">'
+                      }
+                    ])
+                  %}
+                {% endif %}
+
+                {% if content.field_visa_and_passport|field_value is not empty %}
+                  {% set accordion_data = accordion_data|merge([
+                      {
+                        'label': 'Visa & Passport',
+                        'markup': content.field_visa_and_passport|field_value,
+                        'wrapper':'<ul class="ed-abroad__content--visa">'
+                      }
+                    ])
+                  %}
+                {% endif %}
+
+                {% if content.field_ea_program_app_admission|field_value is not empty %}
+                  {% set accordion_data = accordion_data|merge([
+                      {
+                        'label': 'Application & Admissions',
+                        'markup': content.field_ea_program_app_admission|field_value,
+                        'wrapper':'<ul class="ed-abroad__content--application">'
+                      }
+                    ])
+                  %}
+                {% endif %}
+
+                {% if content.field_ea_program_aid_scholarhips|field_value is not empty %}
+                  {% set accordion_data = accordion_data|merge([
+                      {
+                        'label': 'Financial Aid & Scholarship',
+                        'markup': content.field_ea_program_aid_scholarhips|field_value,
+                        'wrapper':'<ul class="ed-abroad__content--aid">'
+                      }
+                    ])
+                  %}
+                {% endif %}
+
+                {% if accordion_data is not empty %}
+                  {% include directory ~ '/templates/components/accordion.html.twig' with { 'accordion_data': accordion_data } %}
+                {% endif %}
+              </div>
+            </div>
+            {% if content.field_ea_cost_summary|field_value is not empty %}
+              <h3>Cost Estimate (Summary)</h3>
+              {{ content.field_ea_cost_summary }}
+            {% endif %}
+
+            {% if content.field_ea_cost_table|field_value is not empty %}
+              <div class="component-paragraph">{{ content.field_ea_cost_table }}</div>
+            {% endif %}
           </div>
-          <div class="col-12 col-lg-4 ed-abroad__sidebar">
-            {{ content.field_logo }}
-            {{ content.field_ea_program_host_school }}
-            {{ content.field_ea_staff }}
-            {{ content.field_ea_faculty }}
-            {{ content.field_ea_program_region }}
-            {{ content.field_ea_program_country }}
-            {{ content.field_ea_program_city }}
-            {{ content.field_ea_program_duration }}
-            {{ content.field_ea_program_degree_level }}
-            {{ content.field_ea_terms }}
-            {{ content.field_ea_fact_sheet }}
-            {{ content.field_links }}
+          <div class="col-12 col-lg-3 ed-abroad__sidebar">
+            <div>
+              <h3 class="ed-abroad__sidebar--title">Details:</h3>
+              {{ content.field_logo }}
+              {{ content.field_ea_program_host_school }}
+              {{ content.field_ea_staff }}
+              {{ content.field_ea_faculty }}
+              {{ content.field_ea_program_region }}
+              {{ content.field_ea_program_country }}
+              {{ content.field_ea_program_city }}
+              {{ content.field_ea_program_duration }}
+              {{ content.field_ea_program_degree_level }}
+              {{ content.field_ea_terms }}
+              {{ content.field_ea_fact_sheet }}
+              {{ content.field_links }}
+              {{ content.field_ea_program_audience }}
+              {{ content.field_ea_program_predep_classes }}
+            </div>
           </div>
         </div>
       </div>
