@@ -138,7 +138,7 @@
               {% endif %}
             </div>
           </div>
-          <div class="row ee-program__dates">
+          <div class="row ee-program__dates component-paragraph">
             {{ content.field_ee_course_dates }}
           </div>
 
@@ -147,7 +147,14 @@
 
           {{ content.field_accordion }}
 
-          {{ content.field_ee_featured_faculty }}
+          {% if content.field_ee_featured_faculty|field_value is not empty %}
+          <div class="row ee-program__faculty">
+            <div class="col-12 text-center">
+              <h3 class="ee-program__faculty--title">Featured Faculty</h3>
+            </div>
+            {{ content.field_ee_featured_faculty|field_value }}
+          </div>
+          {% endif %}
 
           {{ content.field_contact_info }}
 
