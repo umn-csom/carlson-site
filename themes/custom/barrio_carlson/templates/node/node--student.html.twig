@@ -33,15 +33,17 @@
                   {{ node.label }}
                 </h1>
 
-                {% if node.body.summary is not empty %}
+                {% if content.field_teaser is not empty %}
                 <div class="student-profile__top--summary">
-                  {{ node.body.summary }}
+                  {{ content.field_teaser|field_value  }}
                 </div>
                 {% endif %}
 
                 {% if content.field_profile_quote|field_value is not empty %}
                 <div class="student-profile__top--quote">
+                  <div class="student-profile__top--quote-inner">
                     {{ content.field_profile_quote|field_value }}
+                  </div>
                 </div>
               {% endif %}
             </div>
