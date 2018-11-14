@@ -38,7 +38,7 @@ class CustomTwigExtensions extends \Twig_Extension {
    * @return string
    *   menu object
    */
-  public static function find_parent_by_node($node) {
+  public static function find_parent_by_node($node, $isInside = false) {
     $menu_link_manager = \Drupal::service('plugin.manager.menu.link');
     $menu_link = $menu_link_manager->loadLinksByRoute('entity.node.canonical', array('node' => $node));
 
@@ -54,7 +54,11 @@ class CustomTwigExtensions extends \Twig_Extension {
         $parent_node_id = $parent_menu_plugin_def['route_parameters']['node'];
         $parent_alias = \Drupal::service('path.alias_manager')->getAliasByPath( "/node/" . $parent_node_id );
         
-        return ('<a href="' . $parent_alias . '" class="sticky-menu__label" data-drupal-link-system-path="node/' . $parent_node_id . '">' . $parent_title . '</a>' );
+        if(!$isInside) {
+          return ('<a href="' . $parent_alias . '" class="sticky-menu__label" data-drupal-link-system-path="node/' . $parent_node_id . '"><span class="sticky-menu__label--inside">' . $parent_title . '</span></a>' );
+        } else {
+          return ('<li class="sticky-menu__item"><a href="' . $parent_alias . '" data-drupal-link-system-path="node/' . $parent_node_id . '">' . $parent_title . '</a></li>' );
+        }
       }
     }
   }
