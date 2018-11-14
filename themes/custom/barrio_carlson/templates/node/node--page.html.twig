@@ -81,7 +81,7 @@
         <a href="{{ url }}" rel="bookmark">{{ label }}</a>
       </h2>
     {% endif %}
-    {{ title_suffix }}    
+    {{ title_suffix }}
   </header>
 
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'basic-page') }}>
@@ -115,7 +115,9 @@
 		    {% if inner_nav %}
 		    <div class="row inner_nav">
 		      <div class="col-12">
-		      {{ inner_nav }}
+            <div class="row">
+		          {{ inner_nav }}
+            </div>
 		      </div>
 		    </div>
 		  	{% endif %}
@@ -136,11 +138,11 @@
             {# Inner node region for blocks #}
             {% if node_top %}
               {{ node_top }}
-            {% endif %}    
+            {% endif %}
 
             {# Home Flexible feature paragraphs #}
             {{ content.body }}
-            
+
             {# Inner node region for blocks #}
             {% if node_content %}
               {{ node_content }}
