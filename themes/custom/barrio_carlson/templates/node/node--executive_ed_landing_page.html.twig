@@ -120,16 +120,20 @@
         {# Home Flexible feature paragraphs #}
         {{ content.field_flexible_features }}
 
-        {% if (content.field_bottom_left|field_value is not empty) and (content.field_bottom_right|field_value is not empty) %}
-        <div class="row" >
-          <div class="col-lg-6">
-            {{ content.field_bottom_left }}
-          </div>
-          <div class="col-lg-6">
-            {{ content.field_bottom_right }}
-          </div>
-        </div>
+        {% if content.field_contact_info|field_value is not empty %}
+          {{ content.field_contact_info }}
         {% endif %}
+        
+        <div class="row node__bottom">
+          {% spaceless %}
+          <div class="node__bottom--left">
+            {{ node_bottom_left }}
+          </div>
+          <div class="node__bottom--right">
+            {{ node_bottom_right }}
+          </div>
+          {% endspaceless %}
+        </div>
 
       </div>
     </div>
