@@ -31,24 +31,25 @@
  * @ingroup themeable
  */
 #}
-
-{% if fields.field_hero_media.content is not empty%}
+{% if "<img" in fields.field_hero_media.content|render %}
   <div class="row blog-roll__row">
     <div class="col-12 col-md-4">
       {{ fields.field_hero_media.content }}
     </div>
     <div class="col-12 col-md-8">
-      <h2>{{ fields.title.content }}</h2>
+      <h2 class="blog-roll__row--heading">{{ fields.title.content }}</h2>
       <div class="blog-roll__row--created">{{ fields.created.content }}</div>
       <div class="blog-roll__row--teaser">{{ fields.body.content }}</div>
+      <div class="blog-roll__row--learn-more">{{ fields.view_node.content }}</div>
     </div>
   </div>
 {% else %}
   <div class="row blog-roll__row">
     <div class="col-12">
-      <h2>{{ fields.title.content }}</h2>
+      <h2 class="blog-roll__row--heading">{{ fields.title.content }}</h2>
       <div class="blog-roll__row--created">{{ fields.created.content }}</div>
       <div class="blog-roll__row--teaser">{{ fields.body.content }}</div>
+      <div class="blog-roll__row--learn-more">{{ fields.view_node.content }}</div>
     </div>
   </div>
 {% endif %}
