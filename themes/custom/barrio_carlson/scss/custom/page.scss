@@ -213,3 +213,17 @@
       background-image: url(../images/icons/image-x-generic.png);
   }
 }
+
+.node__bottom {
+  display: flex;
+  flex-direction: column;
+  @include media-breakpoint-up(lg){
+    flex-direction: row;
+  }
+  &--left,
+  &--right {
+    &:not(:empty){
+      flex: 1;
+    }
+  }
+}
