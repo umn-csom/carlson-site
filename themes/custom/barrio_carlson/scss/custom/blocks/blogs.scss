@@ -1,14 +1,33 @@
 .blog-roll {
 	.views-row {
 		flex: 0 0 100%;
-    max-width: 100%;
+		max-width: 100%;
+		border-top: 1px solid $warm-gray;
+		padding: 3rem 0;
+		&:first-child {
+			border-top: 0;
+			padding-top: 0;
+		}
+		&:last-child {
+			border-bottom: 1px solid $warm-gray;
+		}
 	}
 	&__row {
-		&--created {
-
+		&--heading {
+			a {
+				color: $slate;
+				&:hover {
+					color: $maroon;
+				}
+			}
 		}
-		&--teaser {
-			
+		&--created {
+			text-transform: uppercase;
+		}
+		&--learn-more {
+			text-transform: uppercase;
+			font-weight: bold;
+			letter-spacing: 1.78px;
 		}
 	}
 }
