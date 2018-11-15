@@ -57,7 +57,7 @@ class CustomTwigExtensions extends \Twig_Extension {
         if(!$isInside) {
           return ('<a href="' . $parent_alias . '" class="sticky-menu__label" data-drupal-link-system-path="node/' . $parent_node_id . '"><span class="sticky-menu__label--inside">' . $parent_title . '</span></a>' );
         } else {
-          return ('<li class="sticky-menu__item"><a href="' . $parent_alias . '" data-drupal-link-system-path="node/' . $parent_node_id . '">' . $parent_title . '</a></li>' );
+          return ('<li class="sticky-menu__item sticky-menu__item--extra"><a href="' . $parent_alias . '" data-drupal-link-system-path="node/' . $parent_node_id . '">' . $parent_title . '</a></li>' );
         }
       }
     }

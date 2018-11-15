@@ -1,5 +1,12 @@
 .sticky-menu {
 	margin-bottom: 25px;
+	margin-top: 10px;
+
+	a {
+		&:hover {
+			text-decoration: none!important;
+		}
+	}
 
 	&__label {
 		@include menu-sub-font();
@@ -28,16 +35,10 @@
 			padding-bottom: 15px;
 		}
 
-		&:hover {
-			text-decoration: none;
-		}
-
 		&:before {
 			@include carlson-icons($icon-plus);
             color: $dark-gray;
 			font-size: 3.5rem;
-			position: absolute;
-			top: 15px;
 
 			@include media-breakpoint-up(lg) {
                 display: none;
@@ -47,13 +48,16 @@
 		&--inside {
 			word-wrap: break-word;
 			white-space: normal;
-			padding-left: 55px;
-			padding-top: 8px;
+			padding-left: 25px;
+			padding-top: 0;
 			display: inline-block;
 			max-width: 100%;
+			margin-top: 9px;
+			position: absolute;
 
 			@include media-breakpoint-up(lg) {
 				padding: 0;
+				position: relative;
 			}
 		}
 
@@ -74,7 +78,7 @@
 		list-style-type: none;
 		padding: 0;
 		transition: opacity .5s;
-		max-width: 80%;
+		max-width: 90%;
 		margin-left: auto;
 		margin-right: auto;
 
@@ -118,8 +122,12 @@
 			position: absolute;
 			font-size: 1rem;
 			right: 0;
-			margin-right: 13%;
+			margin-right: 9%;
 			margin-top: 10px;
+
+			@include media-breakpoint-up(sm) {
+				margin-right: 7%;
+			}
 
 			@include media-breakpoint-up(lg) {
 				display: none;
@@ -143,6 +151,13 @@
 			display: inline-block;
 			max-width: 100%;
 			text-decoration: none;
+			width: 92%;
+		}
+
+		&--extra {
+			@include media-breakpoint-up(lg) {
+				display: none;
+			}
 		}
 
 		&--has-submenu {
@@ -182,6 +197,7 @@
 
 				&--opened {
 					display: block;
+					margin-top: 10px;
 				}
 
 				.sticky-menu__item {
@@ -199,19 +215,64 @@
 					&:before {
 						@include carlson-icons($icon-carrot);
 						color: $maroon;
-						font-size: 1.1rem;
-						margin-right: 10px;
+						font-size: 1.4rem;
+						margin-right: 11px;
 
 						@include media-breakpoint-up(lg) {
 							position: absolute;
 							margin-top: 4px;
 							margin-right: 0;
+							font-size: 1.1rem;
 						}
 					}
 
 					a {
 						@include media-breakpoint-up(lg) {
 							padding-left: 15px;
+						}
+					}
+
+					&--has-submenu {
+						&:before {
+							@include carlson-icons($icon-plus);
+							font-size: 1.5rem;
+							color: $gold;
+							position: relative;
+							right: 0;
+							margin-top: 7px;
+							margin-right: 5px;
+
+							@include media-breakpoint-up(lg) {
+								@include carlson-icons($icon-plus);
+								color: $gold;
+								position: relative;
+								margin: 0;
+								margin-left: -5px;
+								margin-right: 6px;
+								margin-top: 5px;
+							}
+						}
+
+						a {
+							padding-left: 0;
+						}
+
+						.subnav {
+							.sticky-menu__item {
+								a {
+									@include media-breakpoint-up(lg) {
+										padding-left: 15px;
+									}
+								}
+							}
+						}
+					}
+
+					&--opened {
+						@include media-breakpoint-up(lg) {
+							&:before {
+								@include carlson-icons($icon-minus);
+							}
 						}
 					}
 				}
@@ -222,7 +283,7 @@
 			&:before {
 				@include carlson-icons($icon-minus);
 				position: absolute;
-				right: 12.5%;
+				right: 6.5%;
 				margin-top: 7px;
 
 				@include media-breakpoint-up(lg) {
