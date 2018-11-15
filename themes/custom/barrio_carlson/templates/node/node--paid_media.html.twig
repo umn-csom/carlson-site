@@ -114,27 +114,14 @@
         </div>
 
         <div class="row node__bottom">
-          {% if node_bottom_left and node_bottom_right %}
-            {% set class = 'col-lg-6' %}
-          {% else %}
-            {% set class = 'col-lg-12 node__bottom--single' %}
-          {% endif %}
-
-          {% if node_bottom_left %}
-          <div class="col-12 {{ class }} node__bottom--left">
-            <div class="row">
+          {% spaceless %}
+          <div class="node__bottom--left">
             {{ node_bottom_left }}
-            </div>
           </div>
-          {% endif %}
-
-          {% if node_bottom_right %}
-          <div class="col-12 {{ class }} node__bottom--right">
-            <div class="row">
+          <div class="node__bottom--right">
             {{ node_bottom_right }}
-            </div>
           </div>
-          {% endif %}
+          {% endspaceless %}
         </div>
 
         <div class="row">
