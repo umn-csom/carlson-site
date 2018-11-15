@@ -21,18 +21,19 @@
       function checkStickySize() {
         var wrap_width = $('html').width();
         if (wrap_width >= 992) {
-          $('.sticky-menu').sticky({
+          $('.sticky-sidebar__inner').sticky({
             topSpacing: 170,
             bottomSpacing: 470
           });
         } else {
-          $('.sticky-menu').unstick();
+          $('.sticky-sidebar__inner').unstick();
         }
       }
 
       function checkListeners() {
         var wrap_width = $(window).width();
-        if (wrap_width < 992) {
+        if (wrap_width <= 992) {
+          $('.sticky-menu__label').off('click');
           $('.sticky-menu__label').on('click', function(e) {
             e.preventDefault();
             var $this = $(this);

@@ -105,6 +105,7 @@
 	&__item {
 		width: 100%;
 		@include font-lato-base();
+		font-weight: normal;
 		text-transform: uppercase;
 		letter-spacing: 1.5px;
 		min-height: 50px;
@@ -116,7 +117,17 @@
 			border-bottom: none;
 		}
 
-		&:after {
+		a {
+			color: $slate;
+			word-wrap: break-word;
+			white-space: normal;
+			display: inline-block;
+			max-width: 100%;
+			text-decoration: none;
+			width: 88%;
+		}
+
+		&:before {
 			@include carlson-icons($icon-carrot);
 			color: $maroon;
 			position: absolute;
@@ -130,28 +141,17 @@
 			}
 
 			@include media-breakpoint-up(lg) {
-				display: none;
-			}
-		}
-
-		&:before {
-			@include media-breakpoint-up(lg) {
-				@include carlson-icons($icon-carrot);
-				color: $maroon;
+				margin: 0;
+				padding: 0;
+				left: 0;
+				right: inherit;
 				position: relative;
-				font-size: 1rem;
-				margin-right: 10px;
+				padding-right: 5px;
 			}
 		}
 
-		a {
-			color: $slate;
-			word-wrap: break-word;
-			white-space: normal;
-			display: inline-block;
-			max-width: 100%;
-			text-decoration: none;
-			width: 92%;
+		&--active-trail {
+			font-weight: bold;
 		}
 
 		&--extra {
@@ -161,29 +161,8 @@
 		}
 
 		&--has-submenu {
-			&:after {
-				@include carlson-icons($icon-plus);
-				font-size: 1.5rem;
-				color: $gold;
-				position: absolute;
-				right: -4px;
-				margin-top: 7px;
-
-				@include media-breakpoint-up(lg) {
-					display: none;
-				}
-			}
-
 			&:before {
-				@include media-breakpoint-up(lg) {
-					@include carlson-icons($icon-plus);
-					font-size: 1.5rem;
-					color: $gold;
-					position: relative;
-					margin: 0;
-					margin-left: -5px;
-					margin-right: 6px;
-				}
+				display: none;
 			}
 
 			.subnav {
@@ -192,12 +171,15 @@
 				padding: 0;
 
 				@include media-breakpoint-up(lg) {
-					padding-left: 25px;
+					line-height: 2rem;
+					margin-left: 15px;
 				}
 
 				&--opened {
 					display: block;
-					margin-top: 10px;
+					@include media-breakpoint-up(lg) {
+						margin-top: 10px;
+					}
 				}
 
 				.sticky-menu__item {
@@ -208,110 +190,12 @@
 						line-height: 2rem;
 					}
 
-					&:after {
-						display: none;
-					}
-
-					&:before {
-						@include carlson-icons($icon-carrot);
-						color: $maroon;
-						font-size: 1.4rem;
-						margin-right: 11px;
-
-						@include media-breakpoint-up(lg) {
-							position: absolute;
-							margin-top: 4px;
-							margin-right: 0;
-							font-size: 1.1rem;
-						}
-					}
-
-					a {
-						@include media-breakpoint-up(lg) {
-							padding-left: 15px;
-						}
-					}
-
 					&--has-submenu {
 						&:before {
-							@include carlson-icons($icon-plus);
-							font-size: 1.5rem;
-							color: $gold;
-							position: relative;
-							right: 0;
-							margin-top: 7px;
-							margin-right: 5px;
-
-							@include media-breakpoint-up(lg) {
-								@include carlson-icons($icon-plus);
-								color: $gold;
-								position: relative;
-								margin: 0;
-								margin-left: -5px;
-								margin-right: 6px;
-								margin-top: 5px;
-							}
-						}
-
-						a {
-							padding-left: 0;
-						}
-
-						.subnav {
-							.sticky-menu__item {
-								a {
-									@include media-breakpoint-up(lg) {
-										padding-left: 15px;
-									}
-								}
-
-								&--has-submenu {
-									a {
-										@include media-breakpoint-up(lg) {
-											padding-left: 0;
-										}
-									}
-
-									.subnav {
-										.sticky-menu__item {
-											a {
-												@include media-breakpoint-up(lg) {
-													padding-left: 15px;
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-
-					&--opened {
-						@include media-breakpoint-up(lg) {
-							&:before {
-								@include carlson-icons($icon-minus);
-							}
+							display: initial;
 						}
 					}
 				}
-			}
-		}
-
-		&--opened {
-			&:before {
-				@include carlson-icons($icon-minus);
-				position: absolute;
-				right: 6.5%;
-				margin-top: 7px;
-
-				@include media-breakpoint-up(lg) {
-					position: relative;
-					right: 0;
-				}
-			}
-
-			&:after {
-				display: none;
 			}
 		}
 
