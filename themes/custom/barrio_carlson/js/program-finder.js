@@ -15,7 +15,7 @@
     window.programFinder = (function () {
 
         var _config = {
-            "emptyOption": "Prof. Experience...",
+            "emptyOption": "Choose...",
             "actions": [
                 {
                     "path": "2", "label": "Degree", "goto": "/node/1",
