@@ -62,21 +62,21 @@
 #}
 <div class="row ee-program__teaser">
   {% if content.field_hero_media|field_value is not empty %}
-    <div class=" col-4 ee-program__teaser--image">
+    <div class="col-12 col-lg-4 ee-program__teaser--image">
       {{ content.field_hero_media }}
     </div>
-    <div class="col-8">
+    <div class="col-12 col-lg-8">
       <h4 class="ee-program__teaser--title">{{ label }}</h4>
       <span>{{ content.field_ee_course_dates }}</span>
-      {% if node.body.summary is not empty %}
-        {{ node.body.summary }}
-      {% endif %}      
+      {{ content.field_ee_program_teaser }}
       <a href="{{ url }}" class="ee-program__teaser--link">Learn More</a>
     </div>
   {% else %}
     <div class="col-12">
       <h4 class="ee-program__teaser--title">{{ label }}</h4>
+      <span>{{ content.field_ee_course_dates }}</span>
+      {{ content.field_ee_program_teaser }}
       <a href="{{ url }}" class="ee-program__teaser--link">Learn More</a>
-    </div> 
-  {% endif %} 
+    </div>
+  {% endif %}
 </div>
