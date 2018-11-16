@@ -21,20 +21,13 @@
 					}
 					.btn-link {
 						background: transparent;
-						padding-left: 5.5rem;
-						color: $maroon;
-						text-transform: uppercase;
-						font-family: $font-lato;
-						font-size: 1.6rem;
+						padding-left: 0;
+						@include bold_link(1.6rem);
+						line-height: 2rem;
 						&::before {
-							@include accordion-minus($slate);
-							left: 0.5rem;
-						}
-						&.collapsed {
-							&::before {
-								@include plus-icon($slate);
-								top: 2.2rem;
-							}
+							font-weight: bold;
+							color: $slate;
+							font-size: 2rem;
 						}
 					}
 				}
