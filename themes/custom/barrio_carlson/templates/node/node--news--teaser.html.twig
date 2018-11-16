@@ -60,23 +60,35 @@
  * @see template_preprocess_node()
  */
 #}
-<div class="row ee-program__teaser">
+<div class="row news__teaser">
   {% if content.field_hero_media|field_value is not empty %}
-    <div class="col-12 col-lg-4 ee-program__teaser--image">
+    <div class="col-12 col-lg-4 news__teaser--image">
       {{ content.field_hero_media }}
     </div>
     <div class="col-12 col-lg-8">
-      <h3 class="ee-program__teaser--title">{{ label }}</h3>
-      <span>{{ content.field_ee_course_dates }}</span>
-      {{ content.field_ee_program_teaser }}
-      <a href="{{ url }}" class="ee-program__teaser--link">Learn More</a>
+      <h3 class="news__teaser--heading"><a href="{{ url }}" rel="bookmark">{{ label }}</a></h3>
+      <p><span class="news__teaser--created">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
+      {% if content.body.summary|field_value is not empty %}
+        {{ content.body.summary }}
+      {% else %}
+        {% set text = content.body|render|striptags %}
+        <p>{{ text|length > 200 ? text|slice(0, 200) ~ '...' : text }}</p>
+      {% endif %}
+
+      <a href="{{ url }}" class="news__teaser--learn-more">Learn More</a>
     </div>
   {% else %}
     <div class="col-12">
-      <h4 class="ee-program__teaser--title">{{ label }}</h4>
-      <span>{{ content.field_ee_course_dates }}</span>
-      {{ content.field_ee_program_teaser }}
-      <a href="{{ url }}" class="ee-program__teaser--link">Learn More</a>
+      <h3 class="news__teaser--heading"><a href="{{ url }}" rel="bookmark">{{ label }}</a></h3>
+      <p><span class="news__teaser--created">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
+      {% if content.body.summary|field_value is not empty %}
+        {{ content.body.summary }}
+      {% else %}
+        {% set text = content.body|render|striptags %}
+        <p>{{ text|length > 200 ? text|slice(0, 200) ~ '...' : text }}</p>
+      {% endif %}
+
+      <a href="{{ url }}" class="news__teaser--learn-more">Learn More</a>
     </div>
   {% endif %}
 </div>
