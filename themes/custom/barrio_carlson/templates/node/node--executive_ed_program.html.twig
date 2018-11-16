@@ -160,7 +160,24 @@
           {% endif %}
 
           {{ content.field_contact_info }}
+          
+          <div class="row ee-program__bottom">
+            {% if content.field_ee_bottom_first|field_value is not empty %}
+            <div class="col-12 col-lg ee-program__bottom--item">
+              {{ content.field_ee_bottom_first|field_value }}
+            </div>
+            {% endif %}
 
+            {% if content.field_ee_bottom_second|field_value is not empty %}
+            <div class="col-12 col-lg ee-program__bottom--item">
+              {{ content.field_ee_bottom_second|field_value }}
+            </div>
+            {% endif %}
+
+            <div class="col-12 col-lg ee-program__bottom--item">
+              {{ node_bottom_right }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
