@@ -73,79 +73,15 @@
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'home') }}>
-    {# Home hero #}
-    <div class="row align-items-center home-hero">
-      <div class="col-lg-9 order-lg-2 home-hero__image">
-        {{ content.field_hero_media }}
-      </div>
-      <div class="col-lg-4 order-lg-1 home-hero__intro">
-        <h1 class="home-hero__title">{{ label }}</h1>
-        <div class="home-hero__subhead">
-          {{ content.field_sub_heading }}
-        </div>
-      </div>
-    </div>
-
-    {# Program Finder #}
-    <script type="text/template" id="carlson-tpl-program-finder-dropdown">
-      <div class="program-finder__choice--container">
-        <ul class="program-finder__choice no-list-style">
-          <% if (actions.length > 1) { %>
-          <li class="program-finder__choice--option" data-value=""><span class="program-finder__choice--option-label program-finder__choice--option-label__default active" onclick="programFinder.choose(this)"><%= typeof emptyOption == "undefined" ? '- choose -' : emptyOption %></span></li>
-          <% } %>
-          <% _.each(actions, function(action) { %>
-          <li class="program-finder__choice--option" data-value="<%= action.path %>"><span class="program-finder__choice--option-label <%= (actions.length > 1) ? '' : 'active' %>" onclick="programFinder.choose(this)"><%= action.label %></span></li>
-          <% }); %>
-        </ul>
-      </div>
-    </script>
-    <div class="row">
-      <div class="col-lg-10 offset-lg-1 program-finder">
-        <div class="row">
-          <div class="col-12 program-finder__header">
-            <h2>Enroll in your future.</h2>
-            <p class="program-finder__header--tagline">Find the program that's right for you:</p>
-          </div>
-          <div class="col-12 program-finder__inner">
-            <div class="program-finder__choices">
-            </div>
-            <div class="program-finder__result">
-              <button id="program-finder__result-go" disabled onclick="programFinder.go(this)">See Programs</button>
-            </div>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'webform') }}>
+   <div class="row">
+      <div class="col-12">
+        <div class="row justify-content-center webform__body">
+          <div class="col-auto">
+            {{ content.body }}
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="row flex-section">
-      <div class="col-lg-10 offset-lg-1">
-
-        {{ content.field_flexible_features }}
-
-        {% if (content.field_bottom_left|field_value is not empty) and (content.field_bottom_right|field_value is not empty) %}
-        <div class="row" >
-          <div class="col-lg-6">
-            {{ content.field_bottom_left }}
-          </div>
-          <div class="col-lg-6">
-            {{ content.field_bottom_right }}
-          </div>
-        </div>
-        {% endif %}
-
-        {{ content.field_flexible_features_second }}
-
-        <div class="row node__bottom">
-          {% spaceless %}
-          <div class="node__bottom__col">
-            {{ node_bottom_left }}
-          </div>
-          <div class="node__bottom__col">
-            {{ node_bottom_right }}
-          </div>
-          {% endspaceless %}
-        </div>
+        <div class="row justify-content-center webform__form">{{ content.webform }}</div>
       </div>
     </div>
   </div>
