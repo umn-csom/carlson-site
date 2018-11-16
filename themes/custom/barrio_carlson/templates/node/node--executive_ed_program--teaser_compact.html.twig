@@ -1,3 +1,4 @@
+
 {#
 /**
  * @file
@@ -59,83 +60,21 @@
  * @see template_preprocess_node()
  */
 #}
-{{ attach_library('bootstrap_barrio/node') }}
-
-{%
-  set classes = [
-    'node',
-    'node--type-' ~ node.bundle|clean_class,
-    node.isPromoted() ? 'node--promoted',
-    node.isSticky() ? 'node--sticky',
-    not node.isPublished() ? 'node--unpublished',
-    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
-    'clearfix',
-  ]
-%}
-<article{{ attributes.addClass(classes) }}>
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'ee-landing') }}>
-    {# Home hero #}
-    <div class="row align-items-center home-hero">
-      <div class="col-lg-9 order-lg-2 home-hero__image">
-        {{ content.field_hero_media }}
-      </div>
-      <div class="col-lg-4 order-lg-1 home-hero__intro">
-        <h1 class="home-hero__title">{{ label }}</h1>
-        <div class="home-hero__subhead">
-          {{ content.field_sub_heading }}
-        </div>
+<div class="row ml-1 mr-1 mr-lg-0 ml-lg-5 event-items__item">
+  {% if content.field_event_date|field_value is not empty %}
+    {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
+    <div class="col-4 col-lg-3 date-cal">
+      <div class="date-cal__item">
+        <time datetime="{{ timestamp }}">
+          <span class="date-cal__item--day">{{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('day') }}
+          </span>
+          <span class="date-cal__item--month">{{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('month_long') }}</span>
+        </time>
       </div>
     </div>
-
-    <div class="row flex-section">
-      <div class="col-lg-10 offset-lg-1">
-        {# inner_nav region #}
-        {% if inner_nav %}
-        <div class="row inner_nav">
-          <div class="col-12">
-            <div class="row">
-              {{ inner_nav }}
-            </div>
-          </div>
-        </div>
-        {% endif %}
-
-        {# Course brochure link #}
-        {% if content.field_ee_catalog_link|field_value is not empty %}
-        <div class="row ee-landing__catalog">
-          <div class="col-12 text-center">
-            {{ content.field_ee_catalog_link }}
-          </div>
-        </div>
-        {% endif %}
-
-        {% if content.body|field_value is not empty %}
-        <div class="row ee-landing__body">
-          <div class="col-12 col-lg-10 offset-lg-1">
-            {{ content.body }}
-          </div>
-        </div>
-        {% endif %}
-
-        {# Home Flexible feature paragraphs #}
-        {{ content.field_flexible_features }}
-
-        {% if content.field_contact_info|field_value is not empty %}
-          {{ content.field_contact_info }}
-        {% endif %}
-        
-        <div class="row node__bottom">
-          {% spaceless %}
-          <div class="node__bottom--left">
-            {{ node_bottom_left }}
-          </div>
-          <div class="node__bottom--right">
-            {{ node_bottom_right }}
-          </div>
-          {% endspaceless %}
-        </div>
-
-      </div>
+    <div class="col-8 col-lg-9 event-items__details">
+      <h4 class="event-items__item--title">{{ label }}</h4>
+      <a href="{{ url }}" class="event-items__item--link">Read More</a>
     </div>
-  </div>
-</article>
+  {% endif %}
+</div>

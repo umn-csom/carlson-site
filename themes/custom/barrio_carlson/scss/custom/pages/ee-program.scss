@@ -1,5 +1,10 @@
 
 .ee-program {
+	&__top {
+		.hero-program {
+			margin-bottom: 0;
+		}
+	}
 	&__details {
 		padding: 1.6rem 1.5rem;
 		background: $maroon;
@@ -101,6 +106,27 @@
 			margin-bottom: 3rem;
 		}
 	}
+	&__bottom {
+		padding-top: 3rem;
+		margin-top: 3rem;
+		&--item {
+			justify-content: flex-start;
+	    display: flex;
+	    flex-direction: column;
+			.column__link {
+				margin-top: auto;
+			}
+		}
+		.block-views {
+			h2 {
+				@include heading-title($font-medium, $gold,'left');
+			}
+		}
+		margin-bottom: 5rem;
+	}
+	.contact-cta {
+		margin-bottom: 0;
+	}
 	&__teaser {
 		padding: 3rem 0;
 		border-top: 1px solid $warm-gray;
@@ -122,4 +148,7 @@
 			letter-spacing: 1.78px;
 		}
 	}
+}
+.node__content.ee-program .block-views ul:not([class]) li:before {
+	top: 1.1em;
 }
