@@ -6,7 +6,7 @@
 (function ($, Drupal) {
     'use strict';
 
-  Drupal.behaviors.bootstrap_barrio_subtheme = {
+  Drupal.behaviors.bootstrap_barrio_subtheme_nav = {
     attach: function (context, settings) {
 
       // run test on initial page load
@@ -21,12 +21,12 @@
       function checkStickySize() {
         var wrap_width = $('html').width();
         if (wrap_width >= 992) {
-          $('.sticky-menu').sticky({
+          $('.sticky-sidebar__inner').sticky({
             topSpacing: 170,
             bottomSpacing: 470
           });
         } else {
-          $('.sticky-menu').unstick();
+          $('.sticky-sidebar__inner').unstick();
         }
       }
 
