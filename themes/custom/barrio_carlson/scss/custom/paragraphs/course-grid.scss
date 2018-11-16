@@ -24,12 +24,9 @@
         &__front,
         &__back {
             &--title {
-                text-transform: uppercase;
-                font-weight: 700;
-                letter-spacing: 1.78px;
-                font-size: 1.9rem;
                 margin-left: 20px;
                 margin-right: 20px;
+                @include bold_link(1.9rem, $slate);
             }
         }
 
@@ -40,12 +37,11 @@
                 margin: 1rem 3.2rem;
                 line-height: 3rem;
             }
-            &--link {
-                font-size: 1.9rem;
+            &--title {
                 color: $white;
-                font-weight: bold;
-                text-transform: uppercase;
-                letter-spacing: 1.78px;
+            }
+            &--link {
+                @include bold_link(1.9rem, $white);
                 padding: .5rem 0;
                 border-bottom: .2rem solid $gold;
             }
