@@ -225,10 +225,22 @@
   @include media-breakpoint-up(lg){
     flex-direction: row;
   }
-  &--left,
-  &--right {
+  &__col {
     &:not(:empty){
       flex: 1;
+    }
+    &--single {
+      .event-items__item--row {
+        @include media-breakpoint-up(lg){
+          @include make-col(6);
+          margin: 0 auto;
+        }
+      }
+      .news-items__item--row {
+        @include media-breakpoint-up(lg){
+          @include make-col(6);
+        }
+      }
     }
   }
 }
