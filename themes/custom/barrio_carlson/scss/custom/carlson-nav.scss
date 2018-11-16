@@ -27,7 +27,8 @@
             width: 50px;
             height: 60px;
 
-            @include media-breakpoint-up(md) {
+            //mandatory header has a breakpoint of max-width 609px
+            @media (min-width: 610px) {
                 top: 108px;
             }
 
@@ -35,7 +36,7 @@
                 display: none;
             }
 
-            @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {  
+            @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
                 margin-top: -30px;
             }
 
@@ -274,7 +275,7 @@
                             padding-top: 35px;
                             left: 0;
                             top: 94px;
-                            
+
                             .we-mega-menu-submenu-inner {
                                 @include box-shadow-a();
                                 background: $white;
@@ -350,7 +351,7 @@
                                         box-shadow: none;
                                     }
                                 }
-                                
+
                                 &.slide-in {
                                     transition-delay: .25s;
                                     top: 50px!important;
@@ -404,7 +405,7 @@
                                 text-transform: none!important;
                                 letter-spacing: 0!important;
                                 font-size: 3rem!important;
-                            }                            
+                            }
                         }
 
                         a.we-mega-menu-li {
@@ -434,7 +435,7 @@
                         .we-mega-menu-li {
                             background: none;
                             list-style: none;
-                            
+
                             &:after {
                                 content: '';
                                 margin-top: -2px;
@@ -461,7 +462,7 @@
                 }
             }
         }
-    } 
+    }
 }
 
 .navbar-brand {
@@ -586,7 +587,7 @@
             position: absolute;
             color: $gold;
             font-size: 2.4rem;
-    
+
             @include media-breakpoint-up(lg) {
                 content: '';
             }
@@ -688,7 +689,7 @@
                             transition: opacity .25s;
                             text-transform: none;
                         }
-                        
+
                         &:hover {
                             text-decoration: underline!important;
                             background: none!important;
@@ -723,7 +724,7 @@
                     .we-mega-menu-li {
                         min-height: 30px!important;
                     }
-                    
+
                     &.show {
                         z-index: 9999;
                         height: 100%;
@@ -804,7 +805,7 @@ body {
             &.sticky {
                 top: 9px;
             }
-            
+
             @include media-breakpoint-up(sm) {
                 top: 119px;
             }
