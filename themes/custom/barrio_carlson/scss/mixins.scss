@@ -289,36 +289,22 @@ $value in $theme-colors {
     }
 }
 
-@mixin accordion-minus($color) {
-    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="544" height="32" viewBox="0 0 544 32"><path fill="none" stroke="'+$color+'" stroke-width="16" stroke-miterlimit="4" stroke-linecap="square" stroke-linejoin="miter" d="M16 16h512"></path></svg>');
-    @include base-icon();
-    background-size: 100%;
-    content: '';
-    display: inline-block;
-    position: absolute;
-    left: 2rem;
-    height: $font-medium-mobile;
-    width: $font-medium-mobile;
-    top: 3.4rem;
-    @include media-breakpoint-up(md){
-        height: $font-small;
-        width: $font-small;
-    }
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-        background: url('../images/svg/accordion-minus-icon.svg');
-        background-size: 60%;
-        background-repeat: no-repeat;
+@mixin bold_link($font-size: 'initial', $color: $maroon){
+    @include font-lato-base();
+    font-weight: bold;
+    letter-spacing: 1.78px;
+    color: $color;
+    text-transform: uppercase;
+    @if($font-size != 'initial') {
+        font-size: $font-size;
     }
 }
 
-@mixin accordion-plus($color) {
-    background: inline-svg('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path stroke="'+$color+'" d="M15.529 15.529v-15.059h0.941v15.059h15.059v0.941h-15.059v15.059h-0.941v-15.059h-15.059v-0.941z"></path></svg>');
-    @include base-icon();
-    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-        background: url('../images/svg/accordion-plus-icon.svg');
-        background-size: 60%;
-        background-repeat: no-repeat;
-    }
+@mixin accordion-icon($icon, $color) {
+    @include carlson-icons($icon);
+    color: $color;
+    font-size: 2.8rem;
+    margin-right: 2rem;
 }
 
 @mixin long-right-arrow-icon($color) {
