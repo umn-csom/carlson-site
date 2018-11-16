@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Default theme implementation to display a paragraph.
+ * Theme template for cutom "CTA block" type links (paragraph bundle)
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -39,41 +39,25 @@
  */
 #}
 
-{%
-  set classes = [
-    'paragraph',
-    'paragraph--type--' ~ paragraph.bundle|clean_class,
-    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
-    not paragraph.isPublished() ? 'paragraph--unpublished'
-  ]
-%}
-{% set items = content.field_logo|field_value %}
-
 {% block paragraph %}
-    {% block content %}
+	{% block content %}
+	<div class="col-12 ee-program__date--teaser">
+		<div class="row">
+			<div class="col-12">
+				{% for key,item in content.field_ee_program_dates|field_value %}
+					{% set start_timestamp = item['start_date']['#attributes']['datetime'] %}
+					{% set end_timestamp = item['end_date']['#attributes']['datetime'] %}
 
-      {% if content.field_main_content|field_value is not empty %}
-      <div class="row sponsor-logos__heading">
-        {{ content.field_main_content }}
-      </div>
-      
-      {% endif %}
-      <div class="row justify-content-md-center component-paragraph sponsor-logos">
-
-        <div class="col-12 sponsor-logos__grid">
-          <div class="row justify-content-center">
-            {% set inc = 1 %}
-            {% for item in items %}
-
-              <div class="col-6 col-sm-3 sponsor-logos__grid--item">
-                {{ item }}
-              </div>
-
-              {% set inc = inc+1 %}
-
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    {% endblock %}
+					<div class="row date-cal">
+						<time datetime="{{ start_timestamp|date('U') }}"> {{ start_timestamp|date('M d') }} </time>
+						<span class="date-cal__divider">-</span>
+						<time datetime="{{ end_timestamp|date('U') }}"> {{ end_timestamp|date('M d, Y') }} </time>
+						<span class="date-cal__divider">|</span>
+						<span>{{ start_timestamp|date('D') }} - {{ end_timestamp|date('D') }}</span>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	{% endblock %}
 {% endblock paragraph %}

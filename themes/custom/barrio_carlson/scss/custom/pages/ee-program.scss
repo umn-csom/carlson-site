@@ -5,12 +5,6 @@
 			margin-bottom: 0;
 		}
 	}
-	&__catalog {
-
-	}
-	&__content {
-
-	}
 	&__details {
 		padding: 1.6rem 1.5rem;
 		background: $maroon;
@@ -67,6 +61,9 @@
 	&__date {
 		.date-cal {
 			justify-content: center;
+			@include media-breakpoint-up(lg) {
+				justify-content: flex-start;
+			}
 		}
 		&--dates {
 			padding-bottom: 3rem;
@@ -94,10 +91,18 @@
 				}
 			}
 		}
+		&--teaser {
+			.date-cal {
+				text-transform: uppercase;
+				&__divider {
+					margin: 0 .5rem;
+				}
+			}
+		}
 	}
 	&__faculty {
 		&--title {
-			@include heading-title($font-medium, $gold,'center'); 
+			@include heading-title($font-medium, $gold,'center');
 			margin-bottom: 3rem;
 		}
 	}
@@ -114,7 +119,7 @@
 		}
 		.block-views {
 			h2 {
-				@include heading-title($font-medium, $gold,'left'); 
+				@include heading-title($font-medium, $gold,'left');
 			}
 		}
 		margin-bottom: 5rem;
@@ -122,11 +127,25 @@
 	.contact-cta {
 		margin-bottom: 0;
 	}
-	@include media-breakpoint-up(lg) {
-		&__date {
-			.date-cal {
-				justify-content: flex-start;
+	&__teaser {
+		padding: 3rem 0;
+		border-top: 1px solid $warm-gray;
+		&:last-child {
+			border-bottom: 1px solid $warm-gray;
+		}
+		&--title {
+			@include serif-font(3.4rem);
+			a {
+				color: $slate;
+				&:hover {
+					color: $maroon;
+				}
 			}
+		}
+		&--link {
+			text-transform: uppercase;
+			font-weight: bold;
+			letter-spacing: 1.78px;
 		}
 	}
 }

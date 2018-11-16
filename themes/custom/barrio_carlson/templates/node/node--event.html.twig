@@ -121,10 +121,10 @@
         <div class="date-cal">
           {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
           <div class="date-cal__item">
-            <time datetime="{{ timestamp }}">
-              <span class="date-cal__item--day">{{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('day') }}
+            <time datetime="{{ timestamp|date('U') }}">
+              <span class="date-cal__item--day">{{ timestamp|date('d') }}
               </span>
-              <span class="date-cal__item--month">{{ content.field_event_date.0.start_date['#attributes']['datetime']|date('U')|format_date('month_long') }}</span>
+              <span class="date-cal__item--month">{{ timestamp|date('F') }}</span>
             </time>
           </div>
         </div>
