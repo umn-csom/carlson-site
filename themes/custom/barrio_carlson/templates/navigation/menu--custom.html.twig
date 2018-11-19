@@ -55,18 +55,27 @@
       {% endif %}
       
       {% for item in items %}
-
-        {%
-          set classes = [
-            'sticky-menu__item',
-            item.in_active_trail ? 'sticky-menu__item--active-trail',
-            item.below ? 'sticky-menu__item--has-submenu'
-          ]
-        %}
-    
+        
+        {% if item.below is not empty and item.in_active_trail %}
+          {%
+            set classes = [
+              'sticky-menu__item',
+              item.in_active_trail ? 'sticky-menu__item--active-trail sticky-menu__item--opened',
+              item.below ? 'sticky-menu__item--has-submenu'
+            ]
+          %}
+        {% else %}
+          {%
+            set classes = [
+              'sticky-menu__item',
+              item.in_active_trail ? 'sticky-menu__item--active-trail'
+            ]
+          %}
+        {% endif %}
+        
         <li{{ item.attributes.addClass(classes) }}>
           {{ link(item.title, item.url) }}
-          {% if item.below is not empty %}
+          {% if item.below is not empty and item.in_active_trail %}
             {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
           {% endif %}
         </li>
