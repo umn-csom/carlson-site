@@ -51,23 +51,42 @@
   &__contact {
     margin-bottom: 3rem;
     &--address {
-        @include element-with-icon-before();
-        &::before {
-            @include map-icon($maroon);
-        }
-    }
-    &--phone {
-        @include element-with-icon-before();
-        &::before {
-            @include phone-icon($maroon);
-        }
-    }
-    &--email {
-        @include element-with-icon-before();
-        &::before {
-            @include email-icon($maroon);
-        }
-    }
+			&::before {
+				@include carlson-icons($icon-map-pin);
+				font-size: 1.6rem;
+				color: $maroon;
+				width: 2rem;
+				margin-right: 1.5rem;
+				display: inline-block;
+				text-align: center;
+				font-size: 2rem;
+				vertical-align: middle;
+			}
+		}
+		&--phone,
+		&--email {
+			a::before {
+				@include carlson-icons($icon-link);
+				font-size: 1.6rem;
+				color: $maroon;
+				width: 2rem;
+				margin-right: 1.5rem;
+				display: inline-block;
+				text-align: center;
+			}
+		}
+		&--phone {
+			a::before {
+				content: $icon-mobile-phone;
+				font-size: 2rem;
+			}
+		}
+		&--email {
+			a::before {
+				content: $icon-envelope;
+				font-size: 1.2rem;
+			}
+		}
   }
   @include media-breakpoint-up(lg) {
     &__sidebar {

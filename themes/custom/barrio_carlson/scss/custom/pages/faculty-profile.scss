@@ -56,34 +56,46 @@
         @include media-breakpoint-up(xl){
             padding-top: 22rem;
         }
-        &--address {
-            @include element-with-icon-before();
+        a {
             &::before {
-                @include map-icon($maroon);
+                @include carlson-icons($icon-link);
+                font-size: 1.6rem;
+                color: $maroon;
+                width: 2rem;
+                margin-right: 1.5rem;
+                display: inline-block;
+                text-align: center;
+            }
+        }
+        &--address {
+            &::before {
+                @include carlson-icons($icon-map-pin);
+                font-size: 1.6rem;
+                color: $maroon;
+                width: 2rem;
+                margin-right: 1.5rem;
+                display: inline-block;
+                text-align: center;
+                font-size: 2rem;
+                vertical-align: middle;
             }
         }
         &--phone {
-            @include element-with-icon-before();
-            &::before {
-                @include phone-icon($maroon);
+            a::before {
+                content: $icon-mobile-phone;
+                font-size: 2rem;
             }
         }
         &--email {
-            @include element-with-icon-before();
-            &::before {
-                @include email-icon($maroon);
+            a::before {
+                content: $icon-envelope;
+                font-size: 1.2rem;
             }
         }
         &--cvc {
-            @include element-with-icon-before();
-            &::before {
-                @include download-icon($maroon);
-            }
-        }
-        &--link {
-            @include element-with-icon-before();
-            &::before {
-                @include link-icon($maroon);
+            a::before {
+                content: $icon-download;
+                vertical-align: middle;
             }
         }
     }
@@ -96,17 +108,11 @@
     }
 
     /** Education Degrees - Block. **/
-    &__expertise,
-    &__education {
-        list-style: none;
-        &--item {
-            line-height: 2.5rem;
-            &::before{
-                @include diamond-list-type($maroon);
-            }
-            &--type {
-                font-weight: bold;
-            }
+    &__expertise--item,
+    &__education--item {
+        line-height: 2.5rem;
+        &--type {
+            font-weight: bold;
         }
     }
 
@@ -139,6 +145,12 @@
                 background-position: top left;
                 -webkit-transform: rotate(0deg);
                 transform: rotate(0deg);
+            }
+        }
+        ul {
+            li.faculty-profile__expertise--item::before,
+            li.faculty-profile__education--item::before {
+                top: 0.9rem;// an adjustment because the line height is different here
             }
         }
     }

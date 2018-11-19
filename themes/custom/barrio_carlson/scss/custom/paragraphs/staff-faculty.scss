@@ -11,7 +11,7 @@
 			margin-bottom: 3rem;
 		}
 		&--name {
-			@include heading-title($font-small, $gold, 'left'); 
+			@include heading-title($font-small, $gold, 'left');
 			color: $slate;
 			margin-bottom: 2rem;
 			display: block;
@@ -23,24 +23,43 @@
 		&--position {
 			font-weight: 700;
 		}
-    &--address {
-        @include element-with-icon-before();
-        &::before {
-            @include map-icon($maroon);
-        }
-    }
-    &--phone {
-        @include element-with-icon-before();
-        &::before {
-            @include phone-icon($maroon);
-        }
-    }
-    &--email {
-        @include element-with-icon-before();
-        &::before {
-            @include email-icon($maroon);
-        }
-    }		
+		&--address {
+			&::before {
+				@include carlson-icons($icon-map-pin);
+				font-size: 1.6rem;
+				color: $maroon;
+				width: 2rem;
+				margin-right: 1.5rem;
+				display: inline-block;
+				text-align: center;
+				font-size: 2rem;
+				vertical-align: middle;
+			}
+		}
+		&--phone,
+		&--email {
+			a::before {
+				@include carlson-icons($icon-link);
+				font-size: 1.6rem;
+				color: $maroon;
+				width: 2rem;
+				margin-right: 1.5rem;
+				display: inline-block;
+				text-align: center;
+			}
+		}
+		&--phone {
+			a::before {
+				content: $icon-mobile-phone;
+				font-size: 2rem;
+			}
+		}
+		&--email {
+			a::before {
+				content: $icon-envelope;
+				font-size: 1.2rem;
+			}
+		}
 	}
-	
+
 }
