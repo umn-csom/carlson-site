@@ -55,8 +55,12 @@
 					<div class="col-12 my-auto">
 						{{ content.field_ee_register_desc }}
 						<a href="#" onclick="return false;" class="btn btn-primary--maroon ee-program__date--details--view-only-btn col-12 col-lg-auto">{{ content.field_ee_register_text }}</a>
+						{% if (content.field_ee_register.0 is not empty) %}
 						<a href="{{ content.field_ee_register.0['url'] }}" class="btn btn-secondary col-12 col-lg-auto mr-lg-3 ee-program__date--details--action-btn">Register with Credit Card</a>
+						{% endif %}
+						{% if (content.field_ee_request_invoice.0 is not empty) %}
 						<a href="{{ content.field_ee_request_invoice.0['url'] }}" class="btn btn-primary--maroon col-12 col-lg-auto ee-program__date--details--action-btn">Request Invoice</a>
+						{% endif %}
 					</div>
 				</div>
 		    </div>
