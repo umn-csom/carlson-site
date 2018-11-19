@@ -147,11 +147,20 @@
 				right: inherit;
 				position: relative;
 				padding-right: 5px;
+				top: -2px;
 			}
 		}
 
 		&--active-trail {
 			font-weight: bold;
+
+			&:before {
+				@include carlson-icons($icon-minus);
+
+				@include media-breakpoint-up(lg) {
+					@include carlson-icons($icon-carrot);
+				}
+			}
 		}
 
 		&--extra {
@@ -161,10 +170,6 @@
 		}
 
 		&--has-submenu {
-			&:before {
-				display: none;
-			}
-
 			.subnav {
 				display: none;
 				list-style-type: none;
@@ -183,17 +188,15 @@
 				}
 
 				.sticky-menu__item {
+					&:before {
+						@include carlson-icons($icon-carrot);
+					}
+
 					text-transform: none;
 					letter-spacing: 0;
 
 					@include media-breakpoint-up(lg) {
 						line-height: 2rem;
-					}
-
-					&--has-submenu {
-						&:before {
-							display: initial;
-						}
 					}
 				}
 			}
