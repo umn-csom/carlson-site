@@ -40,16 +40,24 @@
 #}
 
 {% block paragraph %}
-  {% block content %}
-    <div class="cta-link">
-      <div class="cta-link__icon">
-        <i class="icon {{ content.field_cta_icon|field_value }}"></i>
-      </div>
-    {% if '1' in content.field_show_in_modal[0] %}
-        <a class="cta-link__anchor use-ajax" data-dialog-type="modal" href="{{ content.field_link.0['#url'] }}" data-dialog-options="{&quot;width&quot;:600}">{{ content.field_link.0['#title'] }}</a>
-    {% else %}
-        {{ content.field_link }}
-    {% endif %}
-  </div>
-  {% endblock %}
+	{% block content %}
+	<div class="col-12 ee-program__date--teaser">
+		<div class="row">
+			<div class="col-12">
+				{% for key,item in content.field_ee_program_dates|field_value %}
+					{% set start_timestamp = item['start_date']['#attributes']['datetime'] %}
+					{% set end_timestamp = item['end_date']['#attributes']['datetime'] %}
+
+					<div class="row date-cal">
+						<time datetime="{{ start_timestamp|date('U') }}"> {{ start_timestamp|date('M d') }} </time>
+						<span class="date-cal__divider">-</span>
+						<time datetime="{{ end_timestamp|date('U') }}"> {{ end_timestamp|date('M d, Y') }} </time>
+						<span class="date-cal__divider">|</span>
+						<span>{{ start_timestamp|date('D') }} - {{ end_timestamp|date('D') }}</span>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	{% endblock %}
 {% endblock paragraph %}

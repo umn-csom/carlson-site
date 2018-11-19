@@ -81,7 +81,7 @@
         <a href="{{ url }}" rel="bookmark">{{ label }}</a>
       </h2>
     {% endif %}
-    {{ title_suffix }}    
+    {{ title_suffix }}
   </header>
 
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'ed-abroad') }}>
@@ -92,7 +92,7 @@
           <div class="col-lg-7 hero-program__img">
             {{ content.field_hero_media }}
           </div>
-          <div class="col-lg-5 col-sm-12 hero-program__content">
+          <div class="col-lg-5 col-12 hero-program__content">
             <div class="row">
               <div class="col-12">
                 <h1 class="hero-program__title" >{{ node.label }}</h1>
@@ -107,7 +107,7 @@
       <div class="col-lg-10 offset-lg-1 main-content ed-abroad__content--inner">
         <div class="row">
           <div class="col-12 col-lg-9">
-            
+
             {% if content.field_ea_program_dates_info|field_value is not empty %}
               <h2>Program Dates:</h2>
               {{ content.field_ea_program_dates }}
@@ -124,11 +124,21 @@
               </div>
             {% endif %}
             {# Accordion #}
-    
+
             <div class="row">
               <div class="col-12">
                 {% set accordion_data = [] %}
 
+                {% if content.field_ea_program_objective|field_value is not empty %}
+                  {% set accordion_data = accordion_data|merge([
+                      {
+                        'label': 'Objective',
+                        'markup': content.field_ea_program_objective|field_value,
+                        'wrapper':'<ul class="ed-abroad__content--objective">'
+                      }
+                    ])
+                  %}
+                {% endif %}
                 {% if content.field_ea_program_location_info|field_value is not empty %}
                   {% set accordion_data = accordion_data|merge([
                       {
@@ -206,6 +216,17 @@
                   %}
                 {% endif %}
 
+                {% if content.field_ea_program_business_exch|field_value is not empty %}
+                  {% set accordion_data = accordion_data|merge([
+                      {
+                        'label': 'Business Exchange',
+                        'markup': content.field_ea_program_business_exch|field_value,
+                        'wrapper':'<ul class="ed-abroad__content--business-exchange">'
+                      }
+                    ])
+                  %}
+                {% endif %}
+
                 {% if accordion_data is not empty %}
                   {% include directory ~ '/templates/components/accordion.html.twig' with { 'accordion_data': accordion_data } %}
                 {% endif %}
@@ -223,18 +244,19 @@
           <div class="col-12 col-lg-3 ed-abroad__sidebar">
             <div>
               <h3 class="ed-abroad__sidebar--title">Details:</h3>
-              {{ content.field_logo }}
-              {{ content.field_ea_program_host_school }}
               {{ content.field_ea_staff }}
               {{ content.field_ea_faculty }}
-              {{ content.field_ea_program_region }}
-              {{ content.field_ea_program_country }}
-              {{ content.field_ea_program_city }}
+              {{ content.field_links }}              
+              {{ content.field_ea_fact_sheet }}
+              {{ content.grade_credit_chart }}
+              {{ content.field_ea_terms }}
               {{ content.field_ea_program_duration }}
               {{ content.field_ea_program_degree_level }}
-              {{ content.field_ea_terms }}
-              {{ content.field_ea_fact_sheet }}
-              {{ content.field_links }}
+              {{ content.field_ea_program_region }}
+              {{ content.field_ea_program_country }}
+              {{ content.field_ea_program_city }}    
+              {{ content.field_logo }}
+              {{ content.field_ea_program_host_school }}          
               {{ content.field_ea_program_audience }}
               {{ content.field_ea_program_predep_classes }}
             </div>

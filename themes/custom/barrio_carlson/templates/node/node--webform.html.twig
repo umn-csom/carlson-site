@@ -72,79 +72,17 @@
     'clearfix',
   ]
 %}
-
 <article{{ attributes.addClass(classes) }}>
-  <header>
-    {{ title_prefix }}
-    {% if not page %}
-      <h2{{ title_attributes.addClass('node__title') }}>
-        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-      </h2>
-    {% endif %}
-    {{ title_suffix }}
-  </header>
-
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'landing-page') }}>
-    <section class="row landing-page__top">
-      <div class="col-lg-10 offset-lg-1">
-        {# Program Hero #}
-        <div class="row component-paragraph hero-program">
-          <div class="col-lg-7 hero-program__img">
-            {{ content.field_hero_media }}
-          </div>
-          <div class="col-lg-5 col-12 hero-program__content">
-            <div class="row hero-program__content--wrapper">
-              <div class="col-12">
-                <h1 class="hero-program__title" >{{ node.label }}</h1>
-              </div>
-              {% if content.field_link|field_value is not empty %}
-              <div class="col-12 order-lg-2 hero-program__link">
-                <div class="hero-program__link-inner">
-                  {{ content.field_link }}
-                </div>
-              </div>
-              {% endif %}
-              <div class="col-12 order-lg-1 hero-program__content--lead-in">
-                {{ content.body }}
-              </div>
-            </div>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'webform') }}>
+   <div class="row">
+      <div class="col-12">
+        <div class="row justify-content-center webform__body">
+          <div class="col-auto">
+            {{ content.body }}
           </div>
         </div>
+        <div class="row justify-content-center webform__form">{{ content.webform }}</div>
       </div>
-    </section>
-    <section class="row landing-page__content">
-      <div class="col-lg-10 offset-lg-1 main-content landing-page__content--inner">
-        <div class="row">
-
-          {# Stick sidebar region #}
-          {% if sticky_sidebar %}
-          <div class="col-lg-3 sticky-sidebar sticky-wrapper" id="sticky-wrapper">
-            <div class="sticky-sidebar__inner">
-            {{ sticky_sidebar }}
-            </div>
-          </div>
-          {% endif %}
-
-          <div class="{{ sticky_sidebar ? 'col-lg-9' : 'col-12' }} landing-page__content-components">
-
-            {# Home Flexible feature paragraphs #}
-            {{ content.field_flexible_features }}
-
-            {{ content.field_contact_info }}
-
-            <div class="row node__bottom">
-              {% spaceless %}
-              <div class="node__bottom__col">
-                {{ node_bottom_left }}
-              </div>
-              <div class="node__bottom__col">
-                {{ node_bottom_right }}
-              </div>
-              {% endspaceless %}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    </div>
   </div>
 </article>

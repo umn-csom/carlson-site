@@ -27,7 +27,6 @@
         font-size: $font-medium-mobile;
         line-height: $font-medium-mobile;
         padding: 2rem;
-        padding-left: 7rem;
         color: $slate;
         width: 100%;
         text-align: left;
@@ -37,7 +36,11 @@
             line-height: $font-small;
         }
         &::before {
-            @include accordion-minus($maroon);
+            background: none;
+            height: auto;
+            width: auto;
+            top: unset;
+            @include accordion-icon($icon-minus, $maroon);
         }
         &:hover, &:focus, &:active, &:visited{
           text-decoration: none;
@@ -46,8 +49,7 @@
         &.collapsed {
           background: transparent;
           &::before {
-            @include plus-icon($maroon);
-            top: 2.2rem;
+            content: $icon-plus;
           }
         }
       }

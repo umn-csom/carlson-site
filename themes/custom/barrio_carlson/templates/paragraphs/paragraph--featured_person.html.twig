@@ -58,7 +58,9 @@
         <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
       {% endif %}      
 
-      {% if content.field_person_name|field_value is not empty %}  
+      {% if content.field_link|field_value is not empty %} 
+        <a href="{{ content.field_link.0['#url'] }}" alt="{{ content.field_person_name }}" class="featured-people__person--name">{{ content.field_person_name }}</a> 
+      {% else %}
         <p class="featured-people__person--name">{{ content.field_person_name }}</p>
       {% endif %}
 

@@ -1,10 +1,32 @@
-.view-news-channels,
-.view-event-channels {
-	.more-link {
-		padding-left: 0;
-		a {
-			@include button-link-secondary();
+#block-views-block-news-channels-block-4 {
+	margin-bottom: 5rem;
+	padding-bottom: 5rem;
+	border-bottom: solid 1px $warm-gray;
+}
+.news-features {
+	&__item {
+		&--thumb {
+			@include profile-image-box-shadow();
+			margin-bottom: 2rem;
+		}
+		&--title {
+			a {
+				color: $slate;
+				&:hover {
+					color: $maroon;
+				}
+			}
+			margin-bottom: 2rem;
+		}
+		&--body {
+			margin-bottom: 2rem;
+		}
+		&--link {
 			display: inline-block;
+			a {
+				@include button-outline($menu-gold);
+    		background-color: transparent;
+			}
 		}
 	}
 }

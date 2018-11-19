@@ -6,7 +6,7 @@
 (function ($, Drupal) {
     'use strict';
 
-  Drupal.behaviors.bootstrap_barrio_subtheme = {
+  Drupal.behaviors.bootstrap_barrio_subtheme_nav = {
     attach: function (context, settings) {
 
       // run test on initial page load

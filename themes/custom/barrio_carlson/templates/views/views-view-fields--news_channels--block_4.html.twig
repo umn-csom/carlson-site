@@ -31,25 +31,9 @@
  * @ingroup themeable
  */
 #}
-{% if "<img" in fields.field_hero_media.content|render %}
-  <div class="row blog-roll__row">
-    <div class="col-12 col-md-4">
-      {{ fields.field_hero_media.content }}
-    </div>
-    <div class="col-12 col-md-8">
-      <h2 class="blog-roll__row--heading">{{ fields.title.content }}</h2>
-      <div class="blog-roll__row--created">{{ fields.created.content }}</div>
-      <div class="blog-roll__row--teaser">{{ fields.body.content }}</div>
-      <div class="blog-roll__row--learn-more">{{ fields.view_node.content }}</div>
-    </div>
-  </div>
-{% else %}
-  <div class="row blog-roll__row">
-    <div class="col-12">
-      <h2 class="blog-roll__row--heading">{{ fields.title.content }}</h2>
-      <div class="blog-roll__row--created">{{ fields.created.content }}</div>
-      <div class="blog-roll__row--teaser">{{ fields.body.content }}</div>
-      <div class="blog-roll__row--learn-more">{{ fields.view_node.content }}</div>
-    </div>
-  </div>
-{% endif %}
+<div class="news-features__item--thumb">
+  {{ fields.field_hero_media.content }}
+</div>
+<h3 class="news-features__item--title">{{ fields.title.content }}</h3>
+<p class="news-features__item--body">{{ fields.body.content }}</p>
+<div class="news-features__item--link">{{ fields.view_node.content }}</div>

@@ -3,7 +3,7 @@
 	.program-cta,
 	.fullwidth-video,
 	.program-promo {
-		@include page-inset($inset-wide);	
+		@include page-inset($inset-wide);
 	}
 	&__body,
 	.basic-paragraph,
@@ -12,7 +12,7 @@
 	.quote-group {
 		@include page-inset($inset-narrow);
 		&--sidebar {
-			
+
     	margin-bottom: 3rem;
     	> div {
     		border: solid 1px $light-gray;
@@ -34,18 +34,39 @@
     	&--sidebar {
       	> div {
 	        padding: 30px 35px;
-	      }    		
+	      }
     	}
     }
   }
 }
-
+/* News Teaser styles */
+.news {
+	&__teaser {
+		padding: 3rem 0;
+		border-top: 1px solid $warm-gray;
+		&:last-child {
+			border-bottom: 1px solid $warm-gray;
+		}
+		&--heading {
+			a {
+				color: $slate;
+				&:hover {
+					color: $maroon;
+				}
+			}
+		}
+		&--created {
+			text-transform: uppercase;
+		}
+		&--learn-more {
+			text-transform: uppercase;
+			font-weight: bold;
+			letter-spacing: 1.78px;
+		}
+	}
+}
 /* News Teaser Compact styles */
 .news-items {
-	&__heading {
-		@include serif-font($font-medium);
-		margin-bottom: 3.7rem;
-	}
 	&__item {
 		margin-bottom: 2rem;
 		&--image {
@@ -55,14 +76,11 @@
 			@include font-lato-base();
 			line-height: 2rem;
 			font-size: 1.6rem;
-			font-weight: 700;	
+			font-weight: 700;
 			text-transform: uppercase;
-  	}
-  	&--link {
-  		font-weight: bold;
-  		text-transform: uppercase;
-  		color: $maroon;
-  		letter-spacing: 1.78px;
-  	}
+		}
+		&--link {
+			@include bold_link();
+		}
 	}
 }

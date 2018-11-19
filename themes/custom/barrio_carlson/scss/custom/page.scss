@@ -214,16 +214,64 @@
   }
 }
 
+.views-row:not([class*="col"]) {
+		flex: 0 0 100%;
+    max-width: 100%;
+}
+
 .node__bottom {
   display: flex;
   flex-direction: column;
   @include media-breakpoint-up(lg){
     flex-direction: row;
   }
-  &--left,
-  &--right {
+  &__col {
     &:not(:empty){
       flex: 1;
     }
+    &--single {
+      .event-items__item--row {
+        @include media-breakpoint-up(lg){
+          @include make-col(6);
+          margin: 0 auto;
+        }
+      }
+      .news-items__item--row {
+        @include media-breakpoint-up(lg){
+          @include make-col(6);
+        }
+      }
+    }
+  }
+}
+
+/* Modal Overrides */
+.ui-dialog .ui-dialog-title {
+  font-size: 0;
+  color: $white;
+}
+.ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
+  float: none;
+  text-align: center;
+}
+.ui-dialog .ui-dialog-buttonpane button {
+  max-width: 300px;
+  margin: 1rem auto;
+  height: auto;
+  background-image: none;
+  line-height: 2.4rem;
+  padding: 1.5rem 3rem;
+  font-size: 1.6rem;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+  display: inline-block;
+  font-weight: bold;
+  background-color: $maroon;
+  border: 2px solid $maroon;
+  color: white;
+  &:hover,
+  &:active {
+    background-color: transparent;
+    color: $slate;
   }
 }

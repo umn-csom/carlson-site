@@ -80,6 +80,9 @@
 	&__body{
 		@include page-inset($inset-narrow);
 	}
+	&__map {
+		margin-bottom: 5rem;
+	}
 	&__map,
 	.contact-cta {
 		@include page-inset($inset-wide);
@@ -92,10 +95,6 @@
 
 /* Event Teaser Compact styles */
 .event-items {
-	&__heading {
-		@include serif-font($font-medium);
-		margin-bottom: 3.7rem;
-	}
 	&__item {
 		border: solid 1px $warm-gray;
 		padding: 2rem 2rem 0 0;
@@ -121,12 +120,9 @@
 			line-height: 2rem;
 			font-size: 1.6rem;
 			font-weight: 700;
-  	}
-  	&--link {
-  		font-weight: bold;
-  		text-transform: uppercase;
-  		color: $maroon;
-  		letter-spacing: 1.78px;
-  	}
+		}
+		&--link {
+			@include bold_link();
+		}
 	}
 }
