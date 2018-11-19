@@ -38,6 +38,7 @@ class MenuBlock extends SuperMenuBlock {
     $original_level = $this->configuration['level'];
     $depth = $this->configuration['depth'];
     $expand = $this->configuration['expand'];
+
     $parent = $this->configuration['parent'];
     $follow = $this->configuration['follow'];
     $follow_parent = $this->configuration['follow_parent'];
