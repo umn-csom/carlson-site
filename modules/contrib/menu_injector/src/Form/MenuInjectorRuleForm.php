@@ -176,7 +176,7 @@ class MenuInjectorRuleForm extends EntityForm {
       '#options' => $content_types_all,
       '#required' => true,
       '#default_value' => $rule->getContentType(),
-      '#description' => $this->t('Select the content type to then select the mapping fields associated with it.'),
+      '#description' => $this->t('Select the content type, then hit the "Refresh Content Type Fields" button to update the "Taxonomy Field Map" mapping field associated with it.'),
     ];
 
     // Content type list wrapper
@@ -223,7 +223,7 @@ class MenuInjectorRuleForm extends EntityForm {
     // Menu injector vocabulary list.
     $form['vocab_list'] = array(
       '#type' => 'select',
-      '#required' => true,
+      '#required' => false,
       '#options' => $vocabs,
       '#default_value' => $rule->getVocabList(),
       '#title' => $this->t('Vocabulary List'),
