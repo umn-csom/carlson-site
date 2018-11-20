@@ -157,12 +157,12 @@
                     &.single,
                     &.driven {
                         &:before {
-                            content: '';
+                            display: none;
                         }
 
                         a.we-mega-menu-li {
                             &:before {
-                                content: '';
+                                display: none;
                             }
                         }
 
@@ -437,7 +437,7 @@
                             list-style: none;
 
                             &:after {
-                                content: '';
+                                display: none;
                                 margin-top: -2px;
                             }
                         }
@@ -577,26 +577,28 @@
         font-size: 2.4rem;
 
         @include media-breakpoint-up(lg) {
-            content: '';
+            display: none;
         }
     }
 
     &.open {
         &:before {
-            @include carlson-icons($icon-minus);
+            @include carlson-icons($icon-carrot);
             position: absolute;
             color: $gold;
             font-size: 2.4rem;
+            margin-left: 6px;
 
             @include media-breakpoint-up(lg) {
-                content: '';
+                display: none;
+                margin-left: 0;
             }
         }
     }
 
     .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row .we-mega-menu-col .nav-tabs .we-mega-menu-li {
         &:before {
-            content: '';
+            display: none;
         }
     }
 
@@ -758,7 +760,7 @@
         li.we-mega-menu-li {
             a.we-mega-menu-li {
                 &:before {
-                    content: '';
+                    display: none;
                     background-size: 100%;
                     background-repeat: no-repeat;
                     width: 100%;
