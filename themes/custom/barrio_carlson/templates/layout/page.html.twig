@@ -120,6 +120,12 @@
               <main{{ content_attributes }}>
                 <section class="section">
                   <a id="main-content" tabindex="-1"></a>
+                  {% if node %}
+                    {# Hide the title #}
+                  {% else %}
+                    {{ page.page_title }}
+                  {% endif %}
+                  
                   {{ page.content }}
                 </section>
               </main>
