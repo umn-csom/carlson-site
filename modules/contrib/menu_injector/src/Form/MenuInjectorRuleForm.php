@@ -223,7 +223,7 @@ class MenuInjectorRuleForm extends EntityForm {
     // Menu injector vocabulary list.
     $form['vocab_list'] = array(
       '#type' => 'select',
-      '#required' => true,
+      '#required' => false,
       '#options' => $vocabs,
       '#default_value' => $rule->getVocabList(),
       '#title' => $this->t('Vocabulary List'),
