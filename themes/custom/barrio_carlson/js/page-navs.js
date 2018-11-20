@@ -22,7 +22,7 @@
         var wrap_width = $('html').width();
         if (wrap_width >= 992) {
           $('.sticky-menu').sticky({
-            topSpacing: 170,
+            topSpacing: 90,
             bottomSpacing: 470
           });
         } else {
