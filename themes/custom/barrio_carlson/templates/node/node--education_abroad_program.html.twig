@@ -108,10 +108,12 @@
         <div class="row">
           <div class="col-12 col-lg-9">
 
-            {% if content.field_ea_program_dates_info|field_value is not empty %}
+            {% if (content.field_ea_program_dates_info|field_value is not empty) or (content.field_ea_program_dates|field_value is not empty) %}
+              <div class="component-paragraph">
               <h2>Program Dates:</h2>
               {{ content.field_ea_program_dates }}
               {{ content.field_ea_program_dates_info }}
+              </div>
             {% endif %}
 
             {# Home Flexible feature paragraphs #}
