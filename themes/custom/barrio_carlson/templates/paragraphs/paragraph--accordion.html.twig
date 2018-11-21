@@ -52,6 +52,7 @@
     <div class="row component-paragraph accordion-content">
       {% if content.field_tab_accordion_item is not empty %}
         {% set items = content.field_tab_accordion_item|field_value %}
+        {% set paragraphId = paragraph.id() %}
 
         {% if (content.field_heading|field_value is not empty) or (content.field_main_content|field_value is not empty) %}
         <div class="col-12 col-md-10 offset-md-1 accordion-content__heading text-center">
@@ -60,14 +61,14 @@
         </div>
         {% endif %}
 
-        <div class="accordion col-12" id="accordion-list">
+        <div class="accordion col-12" id="accordion-list-{{paragraphId}}">
           {% set inc = 0 %}
           {% for item in items %}
               {% set paragraph = item['#paragraph'] %}
               <div class="card">
                   <div class="card-header">
                       <h5 class="mb-0">
-                        
+
                           {% set collapsed = 'collapsed' %}
                           {% set expanded = 'false' %}
                           {% set show = '' %}
@@ -77,7 +78,7 @@
                           </button>
                       </h5>
                   </div>
-                  <div id="collapse{{ inc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{ inc }}" data-parent="#accordion-list">
+                  <div id="collapse{{ inc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{ inc }}" data-parent="#accordion-list-{{paragraphId}}">
                       <div class="card-body">
                             {% set body = {
                             '#type': 'processed_text',
