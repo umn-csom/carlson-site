@@ -8,7 +8,20 @@
 
     var isDesktop = ( ( $(window).width() > 1024 ) ? true : false );
     var isSticky = false;
-    
+
+    function setExpandedMenuHeight(height) {
+        var mainHeight = $('.carlson-nav .region-we-mega-menu .main').height();
+        var halfHeight = (mainHeight / 2);
+
+        setTimeout(function () {
+            if (height > halfHeight) {
+                $('.carlson-nav .region-we-mega-menu .navbar .container-fluid').css('min-height', (height + mainHeight + 75 + 'px'));
+            } else {
+                $('.carlson-nav .region-we-mega-menu .navbar .container-fluid').css('min-height', '600px');
+            }
+        }, 500);
+    }
+
     if(!isDesktop) {
         $('.we-megamenu-nolink').on('click', function(e) {
             $(this).addClass('slide-left');
@@ -20,19 +33,6 @@
             $('.we-mega-menu-ul').addClass('slide-left');
         });
 
-        function setExpandedMenuHeight(height) {
-            var mainHeight = $('.carlson-nav .region-we-mega-menu .main').height();
-            var halfHeight = ( mainHeight / 2 );
-
-            setTimeout(function() {
-                if( height > halfHeight ) {
-                    $('.carlson-nav .region-we-mega-menu .navbar .container-fluid').css('min-height', (height + mainHeight + 75 + 'px') );  
-                } else {
-                    $('.carlson-nav .region-we-mega-menu .navbar .container-fluid').css('min-height', '600px');  
-                }
-            }, 500);
-        }
-
         $('.third-tier a.we-mega-menu-li').on('click', function(e) {
             setExpandedMenuHeight( $(this).next().height() );
         });
@@ -40,17 +40,17 @@
         $('.we-mega-menu-li a.we-mega-menu-li').on('click', function(e) {
             setExpandedMenuHeight( $(this).next().height() );
         });
-    
+
         $(document).on('click', '.overlay', function(e) {
             $('.we-mega-menu-ul').removeClass('slide-left');
         });
-    
+
         $(document).on('click', '.mobile-third-tier-menu__back-btn', function(e) {
             e.preventDefault();
             var self = $(this);
             self.parent().removeClass('slide-in');
             self.parent().addClass('fade-out');
-    
+
             setTimeout(function() {
                 self.parent().prev().removeClass('slide-left');
                 $('.we-mega-menu-ul').removeClass('slide-left');
@@ -136,12 +136,12 @@
 
     // For touch move.
     $('body').on({
-        'touchmove': function(e) { 
+        'touchmove': function(e) {
             setSticky();
         }
     });
 
     // Scroll top init.
     setSticky();
-  
-  })(jQuery, Drupal);  
+
+  })(jQuery, Drupal);

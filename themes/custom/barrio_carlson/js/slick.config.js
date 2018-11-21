@@ -23,7 +23,7 @@
                 breakpoint: 640,
                 settings: {
                   arrows: false,
-                  dots: true,
+                  dots: false,
                   centerMode: true,
                   slidesToShow: 1,
                 }
@@ -40,15 +40,13 @@
           infinite: true,
           centerMode: false,
           centerPadding: '0',
-          focusOnSelect: false,
+          focusOnSelect: true,
           draggable: false,
           variableWidth: true,
         });
 
         $('.' + classId + ' .slider-nav').on('beforeChange', function(event, slick, currentSlide, nextSlide){
           var caption = $('.' + classId + ' div[data-slick-index="' + nextSlide + '"] .slide__caption').html();
-          console.log( caption );
-          
           $('.' + classId + ' .slideshow__main-caption').html( caption );
         });
 
