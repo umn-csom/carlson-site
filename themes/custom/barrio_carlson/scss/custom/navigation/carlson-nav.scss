@@ -115,16 +115,13 @@
                 transition: 0.75s;
                 width: 100%;
 
-                @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-                    position: relative;
-                }
-
                 @include media-breakpoint-up(lg) {
                     flex-wrap: nowrap;
                     max-width: 693px;
                     width: 100%;
                     transition: none;
-                    top: -7px;
+                    top: 10px;
+                    right: 25px;
                 }
 
                 @include media-breakpoint-up(xl) {
@@ -602,6 +599,32 @@
         }
     }
 
+    &.two-column {
+        .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+            @include media-breakpoint-up(lg) {
+                .we-mega-menu-col {
+                    .nav {
+                        display: flex;
+                        padding-left: 0;
+                        margin: auto;
+                        width: 80%;
+                        margin-top: 15px;
+                        
+                        .we-mega-menu-li {
+                            padding-top: 5px;
+                            top: 0!important;
+                            flex: 50%;
+
+                            .we-mega-menu-submenu {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     &.two-tier {
         .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
             @include media-breakpoint-up(lg) {
@@ -612,13 +635,18 @@
                 .we-mega-menu-col {
                     .type-of-block {
                         margin: 0;
-                        margin-left: 22px;
+                        margin-left: 13px;
                     }
 
                     .nav .we-mega-menu-li {
                         text-align: right;
                         line-height: 1.4em;
                         padding-right: 0!important;
+                        top: 0!important;
+
+                        @include media-breakpoint-up(lg) {
+                            width: 100%!important;
+                        }
                     }
                 }
             }
@@ -651,7 +679,7 @@
                     display: block!important;
                     top: inherit!important;
                     margin-top: 10px!important;
-                    margin-right: 15px!important;
+                    margin-right: 23px!important;
 
                     &:hover {
                         @include yellow-line();
@@ -664,7 +692,7 @@
             .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
                 @include media-breakpoint-up(lg) {
                     background: none!important;
-                    margin-left: 25px!important;
+                    margin-left: 30px!important;
                 }
             }
 
@@ -741,7 +769,7 @@
 .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li {
     .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
         @include media-breakpoint-up(lg) {
-            padding-top: 40px!important;
+            padding-top: 12px!important;
             padding-bottom: 80px!important;
 
             .nav-tabs {
@@ -876,7 +904,14 @@ body {
 .block-we-megamenu {
     right: 0;
     float: right;
-    margin-top: 39px;
+
+    @include media-breakpoint-up(lg) {
+        margin-top: 25px;
+    }
+
+    @include media-breakpoint-up(xl) {
+        margin-top: 39px;
+    }
 }
 
 .carlson-header {
