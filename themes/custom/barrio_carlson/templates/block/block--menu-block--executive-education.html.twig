@@ -43,7 +43,7 @@
 {% set heading_id = attributes.id ~ '-menu'|clean_id %}
 <nav role="navigation" aria-labelledby="{{ heading_id }}"{{ attributes.addClass(classes)|without('role', 'aria-labelledby') }}>
   <div class="row inner_nav--accordion">
-      <div id="accordion-list" class="accordion col-12">
+      <div class="accordion col-12" id="{{ heading_id }}-links">
         <div class="row card">
             <div class="card-header">
                 <h5 class="mb-0">
@@ -52,7 +52,7 @@
                     </button>
                 </h5>
             </div>
-            <div id="collapse0" class="collapse inner" aria-labelledby="{{ heading_id }}" data-parent="#accordion-list">
+            <div id="collapse0" class="collapse inner" aria-labelledby="{{ heading_id }}" data-parent="#{{ heading_id }}-links">
                 <div class="card-body">
                   {% block content %}
                     {{ content }}
