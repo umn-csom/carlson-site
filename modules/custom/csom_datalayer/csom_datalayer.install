@@ -9,6 +9,7 @@
 /*'primary key' => array('SlateID', 'Program')*/
 function CSOM_DataLayer_schema()
 {
+  \Drupal::logger('csom_datalayer')->notice('Extending schema for CSOM datalayer');
   $schema = array();
   $schema['csom_slate_status'] = array(
     'description' => t('Table with Slate Data.'),
@@ -100,6 +101,10 @@ function CSOM_DataLayer_schema()
       'ga' => array('GAClientID'),
     ),
   );
+
+  \Drupal::logger('csom_datalayer')->notice('csom_slate_status datalayer table added to schema');
+
+
   $schema['csom_piwik_status'] = array(
 
     'description' => t('Shows web analytics collected by Matomo'),
@@ -211,6 +216,9 @@ function CSOM_DataLayer_schema()
 
     'primary key' => array ('PiwikVisitorID' )
   );
+
+  \Drupal::logger('csom_datalayer')->notice('csom_piwik_status datalayer table added to schema');
+  \Drupal::logger('csom_datalayer')->notice('Extending schema for CSOM datalayer complete');
 
   return $schema;
 }
