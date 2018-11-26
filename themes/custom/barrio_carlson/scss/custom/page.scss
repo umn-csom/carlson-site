@@ -2,13 +2,10 @@
 
 .card-flip {
   perspective: 1000px;
-  &:hover .flip,
-  &.hover .flip {
-    transform: rotateY(180deg);
-  }
   .card {
     border:none;
     background: transparent;
+    width:100%;
   }
   .flip {
     transition: 0.6s;
@@ -26,6 +23,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    height: 1px;
   }
 
   &__front {
@@ -36,7 +34,25 @@
   &__back {
     transform: rotateY(180deg);
   }
-
+  &:hover,
+  &.hover {
+    .flip {
+      transform: rotateY(180deg);
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        .card-flip {
+          &__front {
+            transform: rotateY(180deg);
+          }
+          &__back {
+            transform: rotateY(0deg);
+            .card {
+              transform: rotateY(180deg);
+            }
+          }
+        }
+      }
+    }
+  }
 }
 .card-flip,
 .card-flip__front,
@@ -227,7 +243,7 @@
   }
   &__col {
     &:not(:empty){
-      flex: 1;
+      flex-grow: 1;
     }
     &--single {
       .event-items__item--row {
