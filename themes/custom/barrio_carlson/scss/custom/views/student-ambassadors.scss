@@ -36,3 +36,56 @@
         }
 	}
 }
+
+#block-views-block-student-profiles-block-2 {
+    background: $gold;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    .view-header {
+        padding: 3rem;
+    }
+    .view-filters {
+        padding: 0 3rem 4rem 3rem;
+        &:before{
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../images/bg/program-finder_bg.png');
+            background-position: top left;
+            background-repeat: no-repeat;
+        }
+        .form-row {
+            > fieldset,
+            .form-actions {
+                @include make-col(12);
+                @include media-breakpoint-up(md){
+                    @include make-col(6);
+                }
+                @include media-breakpoint-up(lg){
+                    @include make-col(4);
+                }
+            }
+        }
+    }
+    .view-content {
+        padding-top: 3rem;
+    }
+    .view-content, nav {
+        background: $white;
+    }
+    @include media-breakpoint-up(lg) {
+        .view-content {
+            justify-content: center;
+        }
+        .event-items__item--row {
+            flex: 0 0 80%;
+        }
+        .form-actions {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+}
