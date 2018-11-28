@@ -141,9 +141,11 @@
                 <div class="col-12 col-lg-8 event__details--info event__details--time">
                   <span class="event__details--label">Time: </span>{{ content.field_event_date }}
                 </div>
+                {% if content.field_event_cost|field_value is not empty %}
                 <div class="col-12 col-lg-4 event__details--info event__details--cost">
-                  <span class="event__details--label">Cost: </span>{{ content.field_event_cost.value is not empty ? content.field_event_cost : 'FREE' }}
+                  <span class="event__details--label">Cost: </span>{{ content.field_event_cost }}
                 </div>
+                {% endif %}
               </div>
               <div class="row">
                 <div class="col-12 event__details--info event__details--address">
@@ -181,6 +183,8 @@
     {% endif %}
 
     <div class="row component-paragraph contact-cta">
+    {% set has_contact_info = content.field_full_name|field_value is not empty and content.field_email|field_value is not empty and content.field_phone|field_value is not empty %}
+    {% if has_contact_info %}
       <div class="col-lg-6 contact-cta__contact">
         <h5 class="contact-cta__contact--heading">Contact Information</h5>
         {% if content.field_full_name|field_value is not empty %}
@@ -196,7 +200,8 @@
           {% endif %}
         </ul>
       </div>
-      <div class="col-lg-6 text-center contact-cta__social">
+      {% endif %}
+      <div class="col-12 {{ has_contact_info ? 'col-lg-6' : '' }} text-center contact-cta__social">
         <h5 class="contact-cta__social--heading">Share This Event</h5>
         <div>{{ content.addtoany }}</div>
       </div>
