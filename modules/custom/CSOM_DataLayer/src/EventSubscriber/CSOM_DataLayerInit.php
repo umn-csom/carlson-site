@@ -48,16 +48,13 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
 
     public function initializeMyModule(GetResponseEvent $event)
     {
-		
         // pull identifying information
         self::update_database_param();
         self::extract_GA_id();
-		self::extract_PIWIK_id();
+        self::extract_PIWIK_id();
         self::get_subscriberID();
         self::get_email();
-		
-		
-		
+
         // Query the tables
         $this->program_status = self::get_program_status();
         $this->visitor_status = self::get_visitor_status();
@@ -75,8 +72,8 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
 	    \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Slate' );
             $UpdateObject->PullSlateData('E4Pyigr-q&Cx','-~7FfCeB/4m$','https://choose.umn.edu/manage/query/run?id=bbd83abb-a2bb-4d6d-91b4-180778989d3e&h=85908d7e-b7c6-79d0-db0c-a79f7d83bf7e&cmd=service&output=json');
             \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Piwik/Matomo' );
-	    $UpdateObject->PullPiwikData('username@carlsonschoolofmanagement-CTL215', 'c109d736-bf4e-4e4a-83f0-d877f3f4ca00', 'http://134.84.122.217:9090/ws/simple/getPiwikDWRecords');
-			
+            $UpdateObject->PullPiwikData('username@carlsonschoolofmanagement-CTL215', 'c109d736-bf4e-4e4a-83f0-d877f3f4ca00', 'http://134.84.122.217:9090/ws/simple/getPiwikDWRecords');
+
             //perform the updates
             $UpdateObject->PerformSlateTableUpdate();
             $UpdateObject->PerformPiwikTableUpdate();
@@ -102,7 +99,7 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
         if ($ga_cookie === "") {
             return;
         } 
-        //ksm($ga_cookie);
+        
         // Parse cookie _ga='<something>.<something>.<clientid>.<timestamp>';
         $this->clientId = explode(".", $_COOKIE["_ga"])[2];
     }
@@ -111,7 +108,7 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
     //Extract VisitorID from cookie
     function extract_PIWIK_id() {
         foreach ($_COOKIE as $key=>$val) {
-			//ksm($key);
+
             //Grab piwik analytics visitor id
             if (strpos($key, "pk_id")) {
 
@@ -119,7 +116,6 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
 
                 //$this->visitorId = $current_user->GetVisitorID();
 	    	$this->visitorId = explode('.', $_COOKIE["$key"])[0];
-				//ksm("visitorId : " . $this->visitorId);
             }
 
         }
@@ -134,8 +130,7 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
     function get_subscriberID() {
         if (isset($_GET['subscriberid'])) {
             $this->SubscriberID = $_GET['subscriberid'];
-        }
-		//ksm("SubscriberID : " . $this->SubscriberID);		
+        } 
     }
 
     //Extract email from the URL
@@ -267,14 +262,11 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
             
             $sql = "SELECT Program, CurrentStatus, Email, GAClientID, PiwikVisitorID, Inquiry, InquiryDate, InquiryActivities, Applicant, AppDate, AppTerm, AppStatus, Inactive, InactiveDate
                 FROM {csom_slate_status} where GAClientID =:clientID or PiwikVisitorID =:visitorId";
-				//ksm("clientID : " . $this->clientId);
-				//ksm("pps : " . count($connection->query($sql, [':clientID' => $this->clientId, ':visitorId' => $this->visitorId])->fetchAll()));
             return $connection->query($sql, [':clientID' => $this->clientId, ':visitorId' => $this->visitorId])->fetchAll();
         } else {
-			
+
             $sql = "SELECT Program, CurrentStatus, Email, GAClientID, PiwikVisitorID, Inquiry, InquiryDate, InquiryActivities, Applicant, AppDate, AppTerm, AppStatus, Inactive, InactiveDate
                 FROM {csom_slate_status} where Email =:email";
-				//ksm("pps : " . count($connection->query($sql, [':email' => $this->email])->fetchAll()));
             return $connection->query($sql, [':email' => $this->email])->fetchAll();
         }
     }
@@ -282,11 +274,11 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
     function get_visitor_status()
     {
         $connection = \Drupal::database();
+        
         if (!empty($this->SubscriberID) || !empty($this->visitorId)) {
-			//ksm( ":subscriberid " . $this->SubscriberID .  " :visitorId " . $this->visitorId );
+
             $sql = "SELECT SubscriberID, PiwikVisitorID, VisitorType, Browser, DeviceType, Resolution, TotalVisits, AvgActionsPerVisit, AvgVisitDuration, DaysSinceLastVisit, FirstActionDate, LastActionDate, LastLocation, LastReferrerUrl, LastCampaignSource, LastCampaignName, LastCampaignMedium
                     FROM {csom_piwik_status} where (SubscriberID != '' AND SubscriberID =:subscriberid ) OR (PiwikVisitorID != '' AND	PiwikVisitorID = :visitorId)";
-					//ksm("visits : " . count($connection->query($sql, [':subscriberid' => $this->SubscriberID, ':visitorId' => $this->visitorId])->fetchAll()));
             return $connection->query($sql, [':subscriberid' => $this->SubscriberID, ':visitorId' => $this->visitorId])->fetchAll();
 
         } elseif ($this->visitorId != '') {
