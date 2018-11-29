@@ -34,11 +34,35 @@
   &__back {
     transform: rotateY(180deg);
   }
+  @media not all and (min-resolution:.001dpcm){ //target Safari
+    @supports (-webkit-appearance:none) {
+      &__back {
+        display: none;
+      }
+    }
+  }
   &:hover,
   &.hover {
     .flip {
       transform: rotateY(180deg);
-      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+      @media not all and (min-resolution:.001dpcm){ //target Safari
+        @supports (-webkit-appearance:none) {
+          .card-flip {
+            &__front {
+              transform: rotateY(180deg);
+              display: none;
+            }
+            &__back {
+              transform: rotateY(0deg);
+              display: flex;
+              .card {
+                transform: rotateY(180deg);
+              }
+            }
+          }
+        }
+      }
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) { //target IE11
         .card-flip {
           &__front {
             transform: rotateY(180deg);
