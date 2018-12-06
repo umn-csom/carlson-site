@@ -219,7 +219,7 @@ class UpdateAnalyticsTable {
 					))
 					->execute();
 			}  catch (Exception $e) {
-				// \Drupal::logger('csom_datalayer')->error('Piwik load issue - Caught exception: ' .   $e->getMessage());
+				// \Drupal::logger('csom_datalayer')->error('Slate load issue - Caught exception: ' .   $e->getMessage());
 			}
         }
 
@@ -314,33 +314,37 @@ class UpdateAnalyticsTable {
                 $LastCampaignContent = $value->last_campaign_content;
             }
 
-            $connection = \Drupal::database();
+            try {
+                $connection = \Drupal::database();
 
-            $connection->merge('csom_piwik_status')
-                ->key([
-                    'PiwikVisitorID' => $PiwikVisitorID,
+                $connection->merge('csom_piwik_status')
+                    ->key([
+                        'PiwikVisitorID' => $PiwikVisitorID,
 
-                ])
-                ->fields([
-                    'SubscriberID' => $SubscriberID,
-                    'VisitorType' => $VisitorType,
-                    'Browser' => $Browser,
-                    'DeviceType' => $DeviceType,
-                    'Resolution' => $Resolution,
-                    'TotalVisits' => $TotalVisits,
-                    'AvgActionsPerVisit' => $AvgActionsPerVisit,
-                    'AvgVisitDuration' => $AvgVisitDuration,
-                    'DaysSinceLastVisit' => $DaysSinceLastVisit,
-                    'FirstActionDate' => $FirstActionDate,
-                    'LastActionDate' => $LastActionDate,
-                    'LastLocation' => $LastLocation,
-                    'LastReferrerUrl' => $LastReferrerUrl,
-                    'LastCampaignSource' => $LastCampaignSource,
-                    'LastCampaignName' => $LastCampaignName,
-                    'LastCampaignMedium' => $LastCampaignMedium,
-                    'LastCampaignContent' => $LastCampaignContent,
-                ])
-                ->execute();
+                    ])
+                    ->fields([
+                        'SubscriberID' => $SubscriberID,
+                        'VisitorType' => $VisitorType,
+                        'Browser' => $Browser,
+                        'DeviceType' => $DeviceType,
+                        'Resolution' => $Resolution,
+                        'TotalVisits' => $TotalVisits,
+                        'AvgActionsPerVisit' => $AvgActionsPerVisit,
+                        'AvgVisitDuration' => $AvgVisitDuration,
+                        'DaysSinceLastVisit' => $DaysSinceLastVisit,
+                        'FirstActionDate' => $FirstActionDate,
+                        'LastActionDate' => $LastActionDate,
+                        'LastLocation' => $LastLocation,
+                        'LastReferrerUrl' => $LastReferrerUrl,
+                        'LastCampaignSource' => $LastCampaignSource,
+                        'LastCampaignName' => $LastCampaignName,
+                        'LastCampaignMedium' => $LastCampaignMedium,
+                        'LastCampaignContent' => $LastCampaignContent,
+                    ])
+                    ->execute();
+            }  catch (Exception $e) {
+                // \Drupal::logger('csom_datalayer')->error('Piwik load issue - Caught exception: ' .   $e->getMessage());
+            }
         }
 
 
