@@ -1,3 +1,22 @@
 <?php
 
+/**
+ * @file
+ * Provides primary Drupal hook implementations.
+ *
+ */
+
+use Drupal\Component\Utility\Unicode;
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function csom_datalayer_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.csom_datalayer':
+    case 'csom_datalayer.settings_form':
+      return t('CSOM DataLayer is a service to expose the insertion of a datalayer for capturing web user analytics.');
+  }
+}
 
