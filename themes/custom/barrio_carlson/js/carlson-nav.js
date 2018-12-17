@@ -89,26 +89,34 @@
                 var offset = $('.carlson-nav .navbar').offset().top;
                 var add = (($(window).width() < 1200) ? 25 : 50);
                 offset = ((offset + add) - $(window).scrollTop());
-                $('.carlson-nav .navbar .we-mega-menu-submenu').css('top', offset + 'px');
+                $(this).children().last().css('top', offset + 'px');
+                $(this).children().last().addClass('show');
             });
 
             $('.carlson-nav .navbar .we-mega-menu-li').mouseleave(function (e) {
                 e.preventDefault();
+                $(this).children().last().removeClass('show');
+                $(this).children().last().css('top', '-99999px');
+                $(this).children().last().css('z-index', '-5');
                 $('body').css('overflow', 'inherit');
             });
 
-            $('.carlson-nav .navbar .we-mega-menu-submenu').mousemove(function (e) {
+            $('.carlson-nav .navbar .we-mega-menu-submenu .we-mega-menu-submenu-inner').mousemove(function (e) {
                 e.preventDefault();
                 $('body').css('overflow', 'hidden');
+                $(this).parent().addClass('show');
 
                 var offset = $('.carlson-nav .navbar').offset().top;
                 var add = (($(window).width() < 1200) ? 25 : 50);
                 offset = ((offset + add) - $(window).scrollTop());
-                $(this).css('top', offset + 'px');
+                $(this).parent().css('top', offset + 'px');
             });
 
-            $('.carlson-nav .navbar .we-mega-menu-submenu').mouseleave(function (e) {
+            $('.carlson-nav .navbar .we-mega-menu-submenu .we-mega-menu-submenu-inner').mouseleave(function (e) {
                 e.preventDefault();
+                $(this).parent().removeClass('show');
+                $(this).parent().css('top', '-99999px');
+                $(this).parent().css('z-index', '-5');
                 $('body').css('overflow', 'inherit');
             });
 
