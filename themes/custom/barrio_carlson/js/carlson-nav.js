@@ -33,8 +33,27 @@
         }
     }
 
+    function resetSubUl() {
+        $('.subul').each(function () {
+            var inc = $(this).children().length;
+            $(this).children('li').each(function () {
+                $(this).css('z-index', inc--);
+            });
+        });
+    }
+
+    function resetDrawers() {
+        $('body').css('overflow', 'inherit');
+        $('.carlson-nav .navbar .we-mega-menu-submenu').each(function() {
+            $(this).removeClass('show');
+            $(this).css('top', '-99999px');
+        })
+    }
+
     function setup() {
         var isDesktop = (($(window).width() > 1024) ? true : false);
+        var innerDrawer = false;
+        var rolloutTimer = null;
 
         if (!isDesktop) {
             $('.we-megamenu-nolink').on('click', function (e) {
@@ -46,7 +65,6 @@
                 $(this).next().prepend('<button class="button mobile-third-tier-menu__back-btn">BACK</button>');
                 $('.we-mega-menu-ul').addClass('slide-left');
             });
-
 
             $('.third-tier a.we-mega-menu-li').on('click', function (e) {
                 setExpandedMenuHeight($(this).next().height());
@@ -82,65 +100,82 @@
             $('.overlay').remove();
             $('.container-fluid').css('min-height', '0');
 
-            $('.carlson-nav .navbar .we-mega-menu-li').mouseenter(function (e) {
+            $('.carlson-nav .navbar .we-mega-menu-li.dropdown-menu a').mouseenter(function (e) {
                 e.preventDefault();
                 $('body').css('overflow', 'hidden');
+                innerDrawer = false;
+                clearTimeout(rolloutTimer);
+                resetDrawers();
+                resetSubUl();
 
                 var offset = $('.carlson-nav .navbar').offset().top;
                 var add = (($(window).width() < 1200) ? 25 : 50);
                 offset = ((offset + add) - $(window).scrollTop());
-                $(this).children().last().css('top', offset + 'px');
-                $(this).children().last().addClass('show');
+                $(this).parent().children().last().css('top', offset + 'px');
+                $(this).parent().children().last().addClass('show');
             });
 
-            $('.carlson-nav .navbar .we-mega-menu-li').mouseleave(function (e) {
+            $('.carlson-nav .navbar .we-mega-menu-li.dropdown-menu a').mouseleave(function (e) {
                 e.preventDefault();
-                $(this).children().last().removeClass('show');
-                $(this).children().last().css('top', '-99999px');
-                $(this).children().last().css('z-index', '-5');
+                $(this).parent().children().last().removeClass('show');
+                $(this).parent().children().last().css('top', '-99999px');
+                resetDrawers();
+                $('body').css('overflow', 'inherit');
+            });
+
+            $('.carlson-nav .navbar .we-mega-menu-submenu').mousemove(function (e) {
+                e.preventDefault();
+                $('body').css('overflow', 'hidden');
+                resetDrawers();
+
+                if(innerDrawer) {
+                    rolloutTimer = setTimeout(function() {
+                        resetDrawers();
+                        innerDrawer = false;
+                        clearTimeout(rolloutTimer);
+                    }, 3000);
+                } else {
+                    $(this).addClass('show');
+                    var offset = $('.carlson-nav .navbar').offset().top;
+                    var add = (($(window).width() < 1200) ? 25 : 50);
+                    offset = ((offset + add) - $(window).scrollTop());
+                    $(this).css('top', offset + 'px');
+                }
+            });
+
+            $('.carlson-nav .navbar .we-mega-menu-submenu .we-mega-menu-submenu-inner').mouseleave(function (e) {
+                e.preventDefault();
+                innerDrawer = true;
+                $(this).parent().removeClass('show');
+                $(this).parent().css('top', '-99999px');
                 $('body').css('overflow', 'inherit');
             });
 
             $('.carlson-nav .navbar .we-mega-menu-submenu .we-mega-menu-submenu-inner').mousemove(function (e) {
                 e.preventDefault();
-                $('body').css('overflow', 'hidden');
-                $(this).parent().addClass('show');
-
-                var offset = $('.carlson-nav .navbar').offset().top;
-                var add = (($(window).width() < 1200) ? 25 : 50);
-                offset = ((offset + add) - $(window).scrollTop());
-                $(this).parent().css('top', offset + 'px');
+                innerDrawer = false;
             });
 
-            $('.carlson-nav .navbar .we-mega-menu-submenu .we-mega-menu-submenu-inner').mouseleave(function (e) {
-                e.preventDefault();
-                $(this).parent().removeClass('show');
-                $(this).parent().css('top', '-99999px');
-                $(this).parent().css('z-index', '-5');
-                $('body').css('overflow', 'inherit');
-            });
-
-            $('.subul').each(function () {
-                var inc = $(this).children().length;
-                $(this).children('li').each(function () {
-                    $(this).css('z-index', inc--);
-                });
-            });
+            resetSubUl();
 
             $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mousemove(function (e) {
                 e.preventDefault();
+                resetSubUl();
                 $(this).css('z-index', 9995);
                 $(this).children().last().children().children().children().children().addClass('show');
 
                 var offset = $('.carlson-nav .navbar').offset().top;
-                offset = ((offset + 100) - $(window).scrollTop());
+                var add = (($(window).width() < 1200) ? 75 : 100);
+                offset = ((offset + add) - $(window).scrollTop());
                 $(this).children().last().children().children().children().children().css('top', offset + 'px');
             });
 
             $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mouseleave(function (e) {
                 e.preventDefault();
+                resetSubUl();
                 $(this).css('z-index', 'inherit');
                 $(this).children().last().children().children().children().children().removeClass('show');
+                $(this).children().last().children().children().children().children().css('top', '-4000px');
             });
         }
     }
