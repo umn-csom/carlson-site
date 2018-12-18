@@ -290,7 +290,8 @@
                                 border-top: 1px solid $menu-line-grey;
                                 // border-left: 40px solid white;
                                 // border-right: 40px solid white;
-                                max-width: 960px;
+                                max-width: 793px;
+                                min-height: 423px;
                                 margin: auto;
 
                                 .we-mega-menu-row {
@@ -628,7 +629,7 @@
                         margin: auto;
                         margin-top: 15px;
                         max-width: 850px;
-                        padding-left: 50px;
+                        padding-left: 45px;
                         
                         .we-mega-menu-li {
                             padding-top: 5px;
@@ -664,13 +665,22 @@
                     .type-of-block {
                         margin: 0;
                         margin-left: 13px;
+                        max-width: 95%;
+
+                        p {
+                            font-style: italic;
+                            line-height: 1em;
+                            color: $dark-gray;
+                            padding-top: 10px;
+                        }
                     }
 
                     .nav .we-mega-menu-li {
-                        text-align: right;
-                        line-height: 1.4em;
+                        text-align: left;
+                        line-height: .9em;
                         padding-right: 0!important;
                         top: 0!important;
+                        margin-bottom: 20px;
 
                         @include media-breakpoint-up(lg) {
                             width: 100%!important;
@@ -779,19 +789,40 @@
                     top: -9999px;
                     z-index: inherit;
                     height: auto;
-                    max-height: 320px;
+                    max-height: 400px;
+                    max-width: 300px;
                     margin-left: -8px;
                     opacity: 0;
                     transition: opacity .5s;
 
                     .we-mega-menu-li {
                         min-height: 30px!important;
+                        line-height: 1.2em;
                     }
 
                     &.show {
                         z-index: 9999;
                         height: 100%;
                         opacity: 1;
+                    }
+                }
+            }
+        }
+    }
+
+    &.align-right {
+        .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+            @include media-breakpoint-up(lg) {
+                .we-mega-menu-col {
+                    .we-mega-menu-col {
+                        .type-of-block {
+                            max-width: 80%;
+                        }
+                    }
+                    .nav .we-mega-menu-li {
+                        text-align: right;
+                        margin-right: 8px;
+                        // display: inline-flex;
                     }
                 }
             }

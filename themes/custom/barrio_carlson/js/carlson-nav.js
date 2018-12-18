@@ -127,7 +127,7 @@
                 }
                 
                 var offset = $('.carlson-nav .navbar').offset().top;
-                var add = (($(window).width() < 1200) ? 25 : 53);
+                var add = (($(window).width() < 1200) ? 30 : 50);
                 offset = ((offset + add) - $(window).scrollTop());
                 $(this).parent().children().last().css('top', offset + 'px');
                 $(this).parent().children().last().addClass('show');
@@ -158,7 +158,7 @@
                 } else {
                     $(this).addClass('show');
                     var offset = $('.carlson-nav .navbar').offset().top;
-                    var add = (($(window).width() < 1200) ? 25 : 53);
+                    var add = (($(window).width() < 1200) ? 30 : 50);
                     offset = ((offset + add) - $(window).scrollTop());
                     $(this).css('top', offset + 'px');
                 }
