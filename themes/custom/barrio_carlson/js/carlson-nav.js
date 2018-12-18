@@ -43,7 +43,6 @@
     }
 
     function resetDrawers() {
-        $('body').css('overflow', 'inherit');
         $('.carlson-nav .navbar .we-mega-menu-submenu').each(function() {
             $(this).removeClass('show');
             $(this).css('top', '-99999px');
@@ -52,7 +51,6 @@
 
     function setDefault() {
         var $elm = $('.carlson-nav .navbar .we-mega-menu-submenu li.we-mega-menu-li.dropdown-menu.active.active-trail');
-        $elm.css('z-index', 9995);
         $elm.children().last().children().children().children().children().addClass('show');
         
         var offset = $('.carlson-nav .navbar').offset().top;
@@ -63,7 +61,6 @@
 
     function hideDefault() {
         var $elm = $('.carlson-nav .navbar .we-mega-menu-submenu li.we-mega-menu-li.dropdown-menu.active.active-trail');
-        $elm.css('z-index', -9999);
         $elm.children().last().children().children().children().children().removeClass('show');
         $elm.children().last().children().children().children().children().css('top', '-99999px');
     }
@@ -71,7 +68,7 @@
     function setup() {
         var isDesktop = (($(window).width() > 1024) ? true : false);
         var innerDrawer = false;
-        var rolloutTimer = null;
+        var rolloutTimer = null, resetDefault = null;
 
         if (!isDesktop) {
             $('.we-megamenu-nolink').on('click', function (e) {
@@ -120,30 +117,36 @@
 
             $('.carlson-nav .navbar .we-mega-menu-li.dropdown-menu a').mouseenter(function (e) {
                 e.preventDefault();
-                $('body').css('overflow', 'hidden');
                 innerDrawer = false;
                 clearTimeout(rolloutTimer);
                 resetDrawers();
                 resetSubUl();
 
+                if( $(this).parent().hasClass('active-trail') ) {
+                    setDefault();
+                }
+                
                 var offset = $('.carlson-nav .navbar').offset().top;
                 var add = (($(window).width() < 1200) ? 25 : 53);
                 offset = ((offset + add) - $(window).scrollTop());
                 $(this).parent().children().last().css('top', offset + 'px');
                 $(this).parent().children().last().addClass('show');
+                $('body').css('overflow', 'hidden');
             });
 
             $('.carlson-nav .navbar .we-mega-menu-li.dropdown-menu a').mouseleave(function (e) {
                 e.preventDefault();
+                hideDefault();
                 $(this).parent().children().last().removeClass('show');
                 $(this).parent().children().last().css('top', '-99999px');
                 resetDrawers();
-                $('body').css('overflow', 'inherit');
+                if(!innerDrawer) {
+                    $('body').css('overflow', 'inherit');
+                }
             });
 
             $('.carlson-nav .navbar .we-mega-menu-submenu').mousemove(function (e) {
                 e.preventDefault();
-                $('body').css('overflow', 'hidden');
                 resetDrawers();
 
                 if(innerDrawer) {
@@ -161,24 +164,30 @@
                 }
             });
 
+            $(window).scroll(function() {
+                resetDrawers();
+            });
+
             $('.carlson-nav .navbar .we-mega-menu-submenu .we-mega-menu-submenu-inner').mouseleave(function (e) {
                 e.preventDefault();
                 innerDrawer = true;
                 $(this).parent().removeClass('show');
                 $(this).parent().css('top', '-99999px');
+                hideDefault();
                 $('body').css('overflow', 'inherit');
             });
 
             $('.carlson-nav .navbar .we-mega-menu-submenu .we-mega-menu-submenu-inner').mousemove(function (e) {
                 e.preventDefault();
                 innerDrawer = false;
+                $('body').css('overflow', 'hidden');
             });
 
             resetSubUl();
 
             $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mousemove(function (e) {
                 e.preventDefault();
-                //hideDefault();
+                hideDefault();
                 resetSubUl();
                 $(this).css('z-index', 9995);
                 $(this).children().last().children().children().children().children().addClass('show');
@@ -197,7 +206,7 @@
                 $(this).children().last().children().children().children().children().css('top', '-4000px');
             });
 
-            //setDefault();
+            setDefault();
         }
     }
 

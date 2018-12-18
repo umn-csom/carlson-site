@@ -239,7 +239,7 @@
                             border: none;
 
                             @include media-breakpoint-up(lg) {
-                                width: 98%!important;
+                                width: 100%!important;
                             }
                         }
                     }
@@ -285,12 +285,12 @@
 
                             .we-mega-menu-submenu-inner {
                                 @include box-shadow-a();
-                                background: $white;
+                                background: rgba(255, 255, 255, .97);
                                 min-height: 350px;
                                 border-top: 1px solid $menu-line-grey;
-                                border-left: 40px solid white;
-                                border-right: 40px solid white;
-                                max-width: 1170px;
+                                // border-left: 40px solid white;
+                                // border-right: 40px solid white;
+                                max-width: 960px;
                                 margin: auto;
 
                                 .we-mega-menu-row {
@@ -381,6 +381,12 @@
                                         padding-left: 0;
                                         padding-right: 0;
                                     }
+                                }
+                            }
+
+                            &.active-trail {
+                                .we-megamenu-nolink {
+                                    @include yellow-line();
                                 }
                             }
                         }
@@ -622,7 +628,7 @@
                         margin: auto;
                         margin-top: 15px;
                         max-width: 850px;
-                        padding-left: 30px;
+                        padding-left: 50px;
                         
                         .we-mega-menu-li {
                             padding-top: 5px;
@@ -651,7 +657,7 @@
         .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
             @include media-breakpoint-up(lg) {
                 padding-top: 0;
-                max-width: 100%;
+                max-width: 90%;
                 @include grey-line();
 
                 .we-mega-menu-col {
@@ -676,11 +682,18 @@
     }
 
     &.third-tier {
+        .we-mega-menu-submenu .we-mega-menu-submenu-inner {
+            @include media-breakpoint-up(lg) {
+                max-width: 793px;
+                min-height: 423px;
+            }
+        }
+
         .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
             @include media-breakpoint-up(lg) {
                 @include grey-line();
                 padding-top: 0;
-                overflow: hidden;
+                // overflow: hidden;
                 max-width: 60%;
             }
         }
@@ -789,7 +802,7 @@
 .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li {
     .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
         @include media-breakpoint-up(lg) {
-            padding-top: 12px!important;
+            padding-top: 22px!important;
             // padding-bottom: 80px!important;
 
             .nav-tabs {
@@ -917,7 +930,7 @@ body {
     padding-left: 18px;
 
     @include media-breakpoint-up(lg) {
-        padding-left: 20px;
+        padding-left: 0;
     }
 }
 
