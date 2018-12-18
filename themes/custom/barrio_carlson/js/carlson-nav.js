@@ -127,7 +127,7 @@
                 }
                 
                 var offset = $('.carlson-nav .navbar').offset().top;
-                var add = (($(window).width() < 1200) ? 30 : 50);
+                var add = (($(window).width() < 1200) ? 30 : 53);
                 offset = ((offset + add) - $(window).scrollTop());
                 $(this).parent().children().last().css('top', offset + 'px');
                 $(this).parent().children().last().addClass('show');
@@ -147,9 +147,8 @@
 
             $('.carlson-nav .navbar .we-mega-menu-submenu').mousemove(function (e) {
                 e.preventDefault();
-                resetDrawers();
-
                 if(innerDrawer) {
+                    clearTimeout(rolloutTimer);
                     rolloutTimer = setTimeout(function() {
                         resetDrawers();
                         innerDrawer = false;
@@ -158,7 +157,7 @@
                 } else {
                     $(this).addClass('show');
                     var offset = $('.carlson-nav .navbar').offset().top;
-                    var add = (($(window).width() < 1200) ? 30 : 50);
+                    var add = (($(window).width() < 1200) ? 30 : 53);
                     offset = ((offset + add) - $(window).scrollTop());
                     $(this).css('top', offset + 'px');
                 }
@@ -190,7 +189,10 @@
                 hideDefault();
                 resetSubUl();
                 $(this).css('z-index', 9995);
-                $(this).children().last().children().children().children().children().addClass('show');
+                var $elm = $(this).children().last().children().children().children().children();
+                if( !$elm.hasClass('show')) {
+                    $elm.addClass('show');
+                }
 
                 var offset = $('.carlson-nav .navbar').offset().top;
                 var add = (($(window).width() < 1200) ? 75 : 100);
