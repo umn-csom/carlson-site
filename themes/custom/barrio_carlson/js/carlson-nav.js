@@ -140,7 +140,7 @@
                 offset = ((offset + add) - $(window).scrollTop());
                 $(this).parent().children().last().css('top', offset + 'px');
                 $(this).parent().children().last().addClass('show');
-                $('body').css('overflow', 'hidden');
+                //$('body').css('overflow', 'hidden');
             });
 
             $('.carlson-nav .navbar .we-mega-menu-li.dropdown-menu a').mouseleave(function (e) {
@@ -188,7 +188,7 @@
             $('.carlson-nav .navbar .we-mega-menu-submenu .we-mega-menu-submenu-inner').mousemove(function (e) {
                 e.preventDefault();
                 innerDrawer = false;
-                $('body').css('overflow', 'hidden');
+                //$('body').css('overflow', 'hidden');
             });
 
             resetSubUl();
