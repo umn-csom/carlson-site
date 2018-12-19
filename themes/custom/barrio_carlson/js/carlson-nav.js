@@ -33,6 +33,15 @@
         }
     }
 
+    function resetTopMenu() {
+        $('.carlson-nav .navbar .we-mega-menu-ul').each(function () {
+            var inc = $(this).children().length;
+            $(this).children('li').each(function () {
+                $(this).css('z-index', inc--);
+            });
+        });
+    }
+
     function resetSubUl() {
         $('.subul').each(function () {
             var inc = $(this).children().length;
@@ -209,6 +218,7 @@
             });
 
             setDefault();
+            resetTopMenu();
         }
     }
 
