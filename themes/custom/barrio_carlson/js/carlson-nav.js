@@ -146,37 +146,40 @@
 
             $('.carlson-nav .navbar .we-mega-menu-li.dropdown-menu a').mouseenter(function (e) {
                 e.preventDefault();
-                innerDrawer = false;
-                clearTimeout(rolloutTimer);
-                resetDrawers();
-                resetSubUl();
-                resetTopMenu();
-                $(this).parent().css('z-index', '99');
-
-                if( $(this).parent().hasClass('active-trail') ) {
-                    setDefault();
+                if( $(this).parent().attr('data-level') !== '2' ) {
+                    innerDrawer = false;
+                    clearTimeout(rolloutTimer);
+                    resetDrawers();
+                    resetSubUl();
+                    resetTopMenu();
+                    $(this).parent().css('z-index', '99');
+    
+                    if( $(this).parent().hasClass('active-trail') ) {
+                        setDefault();
+                    }
+                    
+                    if( $(this).parent().hasClass('third-tier') ) {
+                        setDefault2();
+                    }
+                    
+                    var offset = $('.carlson-nav .navbar').offset().top;
+                    var add = (($(window).width() < 1200) ? 34 : 38);
+                    offset = ((offset + add) - $(window).scrollTop());
+                    $(this).parent().children().last().css('top', offset + 'px');
+                    $(this).parent().children().last().addClass('show');
                 }
-                
-                if( $(this).parent().hasClass('third-tier') ) {
-                    setDefault2();
-                }
-                
-                var offset = $('.carlson-nav .navbar').offset().top;
-                var add = (($(window).width() < 1200) ? 34 : 38);
-                offset = ((offset + add) - $(window).scrollTop());
-                $(this).parent().children().last().css('top', offset + 'px');
-                $(this).parent().children().last().addClass('show');
-                //$('body').css('overflow', 'hidden');
             });
 
             $('.carlson-nav .navbar .we-mega-menu-li.dropdown-menu a').mouseleave(function (e) {
                 e.preventDefault();
-                hideDefault();
-                $(this).parent().children().last().removeClass('show');
-                $(this).parent().children().last().css('top', '-99999px');
-                resetDrawers();
-                if(!innerDrawer) {
-                    $('body').css('overflow', 'inherit');
+                if( $(this).parent().attr('data-level') !== '2' ) {
+                    hideDefault();
+                    $(this).parent().children().last().removeClass('show');
+                    $(this).parent().children().last().css('top', '-99999px');
+                    resetDrawers();
+                    if(!innerDrawer) {
+                        $('body').css('overflow', 'inherit');
+                    }
                 }
             });
 
@@ -214,7 +217,6 @@
             $('.carlson-nav .navbar .we-mega-menu-submenu .we-mega-menu-submenu-inner').mousemove(function (e) {
                 e.preventDefault();
                 innerDrawer = false;
-                //$('body').css('overflow', 'hidden');
             });
 
             resetSubUl();
