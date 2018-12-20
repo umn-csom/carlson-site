@@ -60,9 +60,9 @@
  * @see template_preprocess_node()
  */
 #}
-<div class="col-12 col-md-6 staff-faculty__item">
+<div class="col-12 staff-faculty__item">
   <div class="row">
-    <div class="col-12 col-lg-6 staff-faculty__item--image">
+    <div class="col-12 col-lg-3 col-xl-2 offset-lg-1 staff-faculty__item--image">
       <a href="{{ url }}">
       {% if content.field_profile_img|field_value is not empty %}
         {{ content.field_profile_img }}
@@ -71,35 +71,39 @@
       {% endif %}
       </a>
     </div>
-    <div class="col-12 col-lg-6">
-      <a href="{{ url }}" class="staff-faculty__item--name">{{ label }}</a>
-       {% if content.field_profile_title|field_value is not empty %}
-        <div class="staff-faculty__item--position">
-            {{ content.field_profile_title|field_value }}
+    <div class="col-12 col-lg-8 col-xl-9">
+      <div class="row">
+        <div class="col-12 col-lg-12 col-xl-6">
+          <a href="{{ url }}" class="staff-faculty__item--name">{{ label }}</a>
+          {% if content.field_profile_title|field_value is not empty %}
+            <div class="staff-faculty__item--position">
+                {{ content.field_profile_title|field_value }}
+            </div>
+          {% endif %}  
         </div>
-      {% endif %}  
-         
-      {% if content.field_office_phone|field_value is not empty %}
-        <div class="staff-faculty__item--phone">
-          <a href="tel:{{ content.field_office_phone|field_value }}">
-            {{ content.field_office_phone|field_value }}
-          </a>
-        </div>
-      {% endif %}
+        <div class="col-12 col-lg-12 col-xl-6"> 
+          {% if content.field_office_phone|field_value is not empty %}
+            <div class="staff-faculty__item--phone">
+              <a href="tel:{{ content.field_office_phone|field_value }}">
+                {{ content.field_office_phone|field_value }}
+              </a>
+            </div>
+          {% endif %}
 
-      {% if content.field_profile_address|field_value is not empty %}
-      <div class="staff-faculty__item--address">
-        {{ content.field_profile_address|field_value }}
-      </div>
-      {% endif %}
-      
-      {% if content.field_email|field_value is not empty %}
-        <div class="staff-faculty__item--email">
-          <a href="mailto:{{ content.field_email|field_value }}">
-            {{ content.field_email|field_value }}
-          </a>
+          {% if content.field_profile_address|field_value is not empty %}
+          <div class="staff-faculty__item--address">
+            {{ content.field_profile_address|field_value }}
+          </div>
+          {% endif %}
+          
+          {% if content.field_email|field_value is not empty %}
+            <div class="staff-faculty__item--email">
+              <a href="mailto:{{ content.field_email|field_value }}">
+                {{ content.field_email|field_value }}
+              </a>
+            </div>
+          {% endif %}
         </div>
-      {% endif %}
     </div>
   </div>
 </div>

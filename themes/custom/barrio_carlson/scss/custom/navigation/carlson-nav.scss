@@ -6,6 +6,7 @@
     @include media-breakpoint-up(lg) {
         max-width: 100%;
         margin: auto;
+        min-height: 75px;
     }
 
     @include media-breakpoint-up(xl) {
@@ -105,7 +106,7 @@
             }
 
             @include media-breakpoint-up(xl) {
-                top: -20px;
+                top: -38px;
             }
 
             .we-mega-menu-ul {
@@ -233,13 +234,22 @@
 
                     &.dropdown-menu {
                         width: 100%;
+                        
+                        &.active-trail,
+                        &:hover {
+                            @include media-breakpoint-up(lg) {
+                                border-bottom: 8px solid $gold;
+                                margin-bottom: -4px;
+                            }
+                        }
+
                         .we-mega-menu-li {
                             padding-left: 35px;
                             list-style: none;
                             border: none;
 
                             @include media-breakpoint-up(lg) {
-                                width: 98%!important;
+                                width: 100%!important;
                             }
                         }
                     }
@@ -266,20 +276,33 @@
                             background: none;
                             padding: 0;
                             margin: auto;
-                            transition: none;
                             width: 100%;
                             position: fixed;
                             padding-top: 35px;
                             left: 0;
-                            top: 94px;
+                            top: -99999px;
+                            transition: opacity .35s;
+                            opacity: 0;
+                            visibility: visible!important;
+                            z-index: -5px;
+                            cursor: pointer;
+
+                            &.show {
+                                transition-delay: .20s;
+                                opacity: 1;
+                                z-index: 99999!important;
+                            }
 
                             .we-mega-menu-submenu-inner {
                                 @include box-shadow-a();
-                                background: $white;
-                                min-height: 500px;
+                                background: rgba(255, 255, 255, .97);
+                                min-height: 350px;
                                 border-top: 1px solid $menu-line-grey;
-                                border-left: 40px solid white;
-                                border-right: 40px solid white;
+                                // border-left: 40px solid white;
+                                // border-right: 40px solid white;
+                                max-width: 793px;
+                                min-height: 423px;
+                                margin: auto;
 
                                 .we-mega-menu-row {
                                     padding-top: 10px;
@@ -299,6 +322,7 @@
                                                         border-top: none;
                                                         border-left: none;
                                                         border-right: none;
+                                                        margin: 0;
 
                                                         .we-mega-menu-row {
                                                             padding-top: 0;
@@ -333,7 +357,7 @@
                                 }
 
                                 @include media-breakpoint-up(lg) {
-                                    top: 0!important;
+                                    // top: 0;
                                     left: 50%;
                                     right: 0;
                                     opacity: 1;
@@ -370,6 +394,13 @@
                                     }
                                 }
                             }
+
+                            &.default,
+                            &.active-trail {
+                                .we-megamenu-nolink {
+                                    @include yellow-line();
+                                }
+                            }
                         }
 
                         .we-megamenu-nolink {
@@ -395,7 +426,7 @@
                             }
 
                             @include media-breakpoint-up(lg) {
-                                margin-right: 15px;
+                                margin-right: 5px;
                                 position: relative;
                                 right: 50%;
                                 font-family: $font-crimson!important;
@@ -470,6 +501,10 @@
     float: inherit;
     width: 260px;
     height: auto;
+
+    @include media-breakpoint-up(lg) {
+        margin-top: 18px;
+    }
 }
 
 .overlay {
@@ -609,7 +644,7 @@
                         margin: auto;
                         margin-top: 15px;
                         max-width: 850px;
-                        padding-left: 30px;
+                        padding-left: 45px;
                         
                         .we-mega-menu-li {
                             padding-top: 5px;
@@ -625,7 +660,7 @@
                             }
 
                             .we-mega-menu-submenu {
-                                display: none;
+                                display: none!important;
                             }
                         }
                     }
@@ -638,20 +673,29 @@
         .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
             @include media-breakpoint-up(lg) {
                 padding-top: 0;
-                max-width: 100%;
+                max-width: 90%;
                 @include grey-line();
 
                 .we-mega-menu-col {
                     .type-of-block {
                         margin: 0;
                         margin-left: 13px;
+                        max-width: 95%;
+
+                        p {
+                            font-style: italic;
+                            line-height: 1em;
+                            color: $dark-gray;
+                            padding-top: 10px;
+                        }
                     }
 
                     .nav .we-mega-menu-li {
-                        text-align: right;
-                        line-height: 1.4em;
+                        text-align: left;
+                        line-height: .9em;
                         padding-right: 0!important;
                         top: 0!important;
+                        margin-bottom: 20px;
 
                         @include media-breakpoint-up(lg) {
                             width: 100%!important;
@@ -663,11 +707,18 @@
     }
 
     &.third-tier {
+        .we-mega-menu-submenu .we-mega-menu-submenu-inner {
+            @include media-breakpoint-up(lg) {
+                max-width: 793px;
+                min-height: 423px;
+            }
+        }
+
         .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
             @include media-breakpoint-up(lg) {
                 @include grey-line();
                 padding-top: 0;
-                overflow: hidden;
+                // overflow: hidden;
                 max-width: 60%;
             }
         }
@@ -714,14 +765,12 @@
                         font-family: $font-lato!important;
                         text-transform: inherit!important;
                         font-size: 1.4rem!important;
-                        transition: padding-left .35s!important;
+                        transition: none!important;
 
                         &:before {
                             left: 0;
                             top: 0;
-                            @include carlson-icons($icon-arrow-right);
                             color: $slate;
-                            transform: rotate(0deg);
                             position: absolute;
                             margin-top: -5px;
                             opacity: 0;
@@ -732,7 +781,7 @@
                         &:hover {
                             text-decoration: underline!important;
                             background: none!important;
-                            padding-left: 40px!important;
+                            // padding-left: 40px!important;
 
                             @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
                                 text-decoration: none!important;
@@ -755,13 +804,15 @@
                     top: -9999px;
                     z-index: inherit;
                     height: auto;
-                    max-height: 280px;
+                    max-height: 400px;
+                    max-width: 300px;
                     margin-left: -8px;
                     opacity: 0;
                     transition: opacity .5s;
 
                     .we-mega-menu-li {
                         min-height: 30px!important;
+                        line-height: 1.2em;
                     }
 
                     &.show {
@@ -773,13 +824,32 @@
             }
         }
     }
+
+    &.align-right {
+        .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+            @include media-breakpoint-up(lg) {
+                .we-mega-menu-col {
+                    .we-mega-menu-col {
+                        .type-of-block {
+                            max-width: 80%;
+                        }
+                    }
+                    .nav .we-mega-menu-li {
+                        text-align: right;
+                        margin-right: 8px;
+                        // display: inline-flex;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .carlson-nav .region-we-mega-menu .navbar .we-mega-menu-ul .we-mega-menu-li {
     .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
         @include media-breakpoint-up(lg) {
-            padding-top: 12px!important;
-            padding-bottom: 80px!important;
+            padding-top: 33px!important;
+            // padding-bottom: 80px!important;
 
             .nav-tabs {
                 .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
@@ -906,7 +976,7 @@ body {
     padding-left: 18px;
 
     @include media-breakpoint-up(lg) {
-        padding-left: 20px;
+        padding-left: 0;
     }
 }
 
@@ -915,7 +985,7 @@ body {
     float: right;
 
     @include media-breakpoint-up(lg) {
-        margin-top: 25px;
+        margin-top: 5px;
     }
 
     @include media-breakpoint-up(xl) {
@@ -961,11 +1031,7 @@ body {
                 z-index: 99999;
 
                 @include media-breakpoint-up(lg) {
-                    top: 40px
-                }
-
-                @include media-breakpoint-up(lg) {
-                    top: 20px
+                    top: 0;
                 }
             }
 
@@ -989,4 +1055,12 @@ body {
     overflow: hidden;
     width: 100%;
     display: inline-flex;
+}
+
+.navbar-we-mega-menu .type-of-block a {
+    display: block;
+
+    &:hover {
+        color: white;
+    }
 }
