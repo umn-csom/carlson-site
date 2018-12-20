@@ -209,7 +209,6 @@
                 $(this).parent().css('top', '-99999px');
                 hideDefault();
                 $('body').css('overflow', 'inherit');
-                console.log(innerDrawer);
             });
 
             $('.carlson-nav .navbar .we-mega-menu-submenu .we-mega-menu-submenu-inner').mousemove(function (e) {
