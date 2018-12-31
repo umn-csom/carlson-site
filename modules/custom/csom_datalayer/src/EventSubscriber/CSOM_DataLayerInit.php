@@ -48,82 +48,95 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
 
     public function initializeMyModule(GetResponseEvent $event)
     {
-        // pull identifying information
-        self::update_database_param();
-        self::extract_GA_id();
-        self::extract_PIWIK_id();
-        self::get_subscriberID();
-        self::get_email();
 
-        // Query the tables
-        $this->program_status = self::get_program_status();
-        $this->visitor_status = self::get_visitor_status();
+        $route_name = \Drupal::routeMatch()->getRouteName();
+        if ($route_name != 'view.frontpage.page_1'){
+            // \Drupal::logger('csom_datalayer')->notice($route_name);
+            
+            // pull identifying information
+            self::update_database_param();
+            self::extract_GA_id();
+            self::extract_PIWIK_id();
+            self::get_subscriberID();
+            self::get_email();
 
-        // load datalayer with client data
-        self::load_program_status_into_datalayer();
-        self::load_visitor_status_into_datalayer();
+            // Query the tables
+            $this->program_status = self::get_program_status();
+            $this->visitor_status = self::get_visitor_status();
 
-        // Update site analytics tables based on param
-        if  (isset($_GET['super_secret_update_param'])) {
-            $config = \Drupal::config('csom_datalayer.settings');
-            $status_url = $config->get('status_url');
-            $status_user = $config->get('status_user');
-            $status_pass = $config->get('status_pass');
-            $analytics_url = $config->get('analytics_url');
-            $analytics_user = $config->get('analytics_user');
-            $analytics_pass = $config->get('analytics_pass');
-            $UpdateObject = \Drupal::service('csom_datalayer.update_analytics_tables');
+            // \Drupal::logger('csom_datalayer')->notice(count($this->visitor_status));
 
-            //make the database connections
-	        // \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Slate' );
-            $UpdateObject->PullSlateData($status_user,$status_pass,$status_url);
-            // \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Piwik/Matomo' );
-            $UpdateObject->PullPiwikData($analytics_user, $analytics_pass, $analytics_url);
+            // load datalayer with client data
+            self::load_program_status_into_datalayer();
+            self::load_visitor_status_into_datalayer();
 
-            //perform the updates
-            $UpdateObject->PerformSlateTableUpdate();
-            $UpdateObject->PerformPiwikTableUpdate();
+            
 
-            //Set this object for garbage collection as it takes up a lot of space
-            unset($UpdateObject);
-        }
 
-        // Update site Status analytics table based on param
-        if  (isset($_GET['update_slate_status_data'])) {
-            $config = \Drupal::config('csom_datalayer.settings');
-            $status_url = $config->get('status_url');
-            $status_user = $config->get('status_user');
-            $status_pass = $config->get('status_pass');
-            $UpdateObject = \Drupal::service('csom_datalayer.update_analytics_tables');
 
-            //make the database connections
-            // \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Slate' );
-            $UpdateObject->PullSlateData($status_user,$status_pass,$status_url);
 
-            //perform the updates
-            $UpdateObject->PerformSlateTableUpdate();
+            // Update site analytics tables based on param
+            if  (isset($_GET['super_secret_update_param'])) {
+                $config = \Drupal::config('csom_datalayer.settings');
+                $status_url = $config->get('status_url');
+                $status_user = $config->get('status_user');
+                $status_pass = $config->get('status_pass');
+                $analytics_url = $config->get('analytics_url');
+                $analytics_user = $config->get('analytics_user');
+                $analytics_pass = $config->get('analytics_pass');
+                $UpdateObject = \Drupal::service('csom_datalayer.update_analytics_tables');
 
-            //Set this object for garbage collection as it takes up a lot of space
-            unset($UpdateObject);
-        }
+                //make the database connections
+                // \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Slate' );
+                $UpdateObject->PullSlateData($status_user,$status_pass,$status_url);
+                // \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Piwik/Matomo' );
+                $UpdateObject->PullPiwikData($analytics_user, $analytics_pass, $analytics_url);
 
-        // Update site Visitor analytics table based on param
-        if  (isset($_GET['update_visitor_status_data'])) {
-            $config = \Drupal::config('csom_datalayer.settings');
-            $analytics_url = $config->get('analytics_url');
-            $analytics_user = $config->get('analytics_user');
-            $analytics_pass = $config->get('analytics_pass');
-            $UpdateObject = \Drupal::service('csom_datalayer.update_analytics_tables');
+                //perform the updates
+                $UpdateObject->PerformSlateTableUpdate();
+                $UpdateObject->PerformPiwikTableUpdate();
 
-            //make the database connections
-            // \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Piwik/Matomo' );
-            $UpdateObject->PullPiwikData($analytics_user, $analytics_pass, $analytics_url);
+                //Set this object for garbage collection as it takes up a lot of space
+                unset($UpdateObject);
+            }
 
-            //perform the updates
-            $UpdateObject->PerformPiwikTableUpdate();
+            // Update site Status analytics table based on param
+            if  (isset($_GET['update_slate_status_data'])) {
+                $config = \Drupal::config('csom_datalayer.settings');
+                $status_url = $config->get('status_url');
+                $status_user = $config->get('status_user');
+                $status_pass = $config->get('status_pass');
+                $UpdateObject = \Drupal::service('csom_datalayer.update_analytics_tables');
 
-            //Set this object for garbage collection as it takes up a lot of space
-            unset($UpdateObject);
+                //make the database connections
+                // \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Slate' );
+                $UpdateObject->PullSlateData($status_user,$status_pass,$status_url);
+
+                //perform the updates
+                $UpdateObject->PerformSlateTableUpdate();
+
+                //Set this object for garbage collection as it takes up a lot of space
+                unset($UpdateObject);
+            }
+
+            // Update site Visitor analytics table based on param
+            if  (isset($_GET['update_visitor_status_data'])) {
+                $config = \Drupal::config('csom_datalayer.settings');
+                $analytics_url = $config->get('analytics_url');
+                $analytics_user = $config->get('analytics_user');
+                $analytics_pass = $config->get('analytics_pass');
+                $UpdateObject = \Drupal::service('csom_datalayer.update_analytics_tables');
+
+                //make the database connections
+                // \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Piwik/Matomo' );
+                $UpdateObject->PullPiwikData($analytics_user, $analytics_pass, $analytics_url);
+
+                //perform the updates
+                $UpdateObject->PerformPiwikTableUpdate();
+
+                //Set this object for garbage collection as it takes up a lot of space
+                unset($UpdateObject);
+            }
         }
 
     }
@@ -245,6 +258,7 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
 
     function load_visitor_status_into_datalayer()
     {
+        // \Drupal::logger('csom_datalayer')->notice('load_visitor_status_into_datalayer');
         if (empty($this->visitor_status)) { return array(); }
         $visitorStatus = array();
 
@@ -318,22 +332,25 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
     function get_visitor_status()
     {
         $connection = \Drupal::database();
-        
+        // $vM = "visitorID : " . $this->visitorId . "  : Not is empty " . !empty($this->visitorId) . "  : " . ($this->visitorId != '') ." : " . (!empty($this->SubscriberID) || !empty($this->visitorId));
+        // $sM = "SubscriberID : " . $this->SubscriberID . "  : Not is empty " . !empty($this->SubscriberID) . " : " ;
+        // \Drupal::logger('csom_datalayer')->notice($vM);
+        // \Drupal::logger('csom_datalayer')->notice($sM);
         if (!empty($this->SubscriberID) || !empty($this->visitorId)) {
-
+            // \Drupal::logger('csom_datalayer')->notice("grabbing visitor on s or v");
             $sql = "SELECT SubscriberID, PiwikVisitorID, VisitorType, Browser, DeviceType, Resolution, TotalVisits, AvgActionsPerVisit, AvgVisitDuration, DaysSinceLastVisit, FirstActionDate, LastActionDate, LastLocation, LastReferrerUrl, LastCampaignSource, LastCampaignName, LastCampaignMedium
-                    FROM {csom_piwik_status} where (SubscriberID != '' AND SubscriberID = :subscriberid ) OR (PiwikVisitorID != '' AND	PiwikVisitorID = :visitorId)";
+                    FROM {csom_piwik_status} where (SubscriberID = :subscriberid AND SubscriberID != '') OR (PiwikVisitorID = :visitorId AND PiwikVisitorID != '')";
             return $connection->query($sql, [':subscriberid' => $this->SubscriberID, ':visitorId' => $this->visitorId])->fetchAll();
 
         } elseif ($this->visitorId != '') {
 
             if (!empty($this->SubscriberID)) {
                 $sql = "SELECT SubscriberID, PiwikVisitorID, VisitorType, Browser, DeviceType, Resolution, TotalVisits, AvgActionsPerVisit, AvgVisitDuration, DaysSinceLastVisit, FirstActionDate, LastActionDate, LastLocation, LastReferrerUrl, LastCampaignSource, LastCampaignName, LastCampaignMedium
-                    FROM {csom_piwik_status} where (PiwikVisitorID != '' AND	PiwikVisitorID = :visitorId) or (SubscriberID != '' AND SubscriberID =:subscriberid)";
+                    FROM {csom_piwik_status} where (PiwikVisitorID = :visitorId AND PiwikVisitorID != '') OR (SubscriberID = :subscriberid AND SubscriberID != '')";
                 return $connection->query($sql, [':visitorId' => $this->visitorId, ':subscriberid' => $this->SubscriberID])->fetchAll();
             } else {
                 $sql = "SELECT SubscriberID, PiwikVisitorID, VisitorType, Browser, DeviceType, Resolution, TotalVisits, AvgActionsPerVisit, AvgVisitDuration, DaysSinceLastVisit, FirstActionDate, LastActionDate, LastLocation, LastReferrerUrl, LastCampaignSource, LastCampaignName, LastCampaignMedium
-                    FROM {csom_piwik_status} where (PiwikVisitorID != '' AND	PiwikVisitorID = :visitorId)";
+                    FROM {csom_piwik_status} where (PiwikVisitorID = :visitorId AND PiwikVisitorID != '')";
                 return $connection->query($sql, [':visitorId' => $this->visitorId])->fetchAll();
             }
 
