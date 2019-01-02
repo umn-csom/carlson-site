@@ -305,9 +305,17 @@
                                 border-top: 1px solid $menu-line-grey;
                                 // border-left: 40px solid white;
                                 // border-right: 40px solid white;
-                                max-width: 793px;
+                                max-width: 100%;
                                 min-height: 423px;
                                 margin: auto;
+
+                                @include media-breakpoint-up(lg) {
+                                    max-width: 1200px;
+                                }
+
+                                @include media-breakpoint-up(xl) {
+                                    max-width: 1600px;
+                                }
 
                                 .we-mega-menu-row {
                                     padding-top: 10px;
@@ -696,7 +704,7 @@
                     }
 
                     .nav .we-mega-menu-li {
-                        text-align: left;
+                        text-align: right;
                         line-height: .9em;
                         padding-right: 0!important;
                         top: 0!important;
@@ -720,8 +728,12 @@
     &.third-tier {
         .we-mega-menu-submenu .we-mega-menu-submenu-inner {
             @include media-breakpoint-up(lg) {
-                max-width: 793px;
+                max-width: 1200px;
                 min-height: 423px;
+            }
+
+            @include media-breakpoint-up(xl) {
+                max-width: 1600px;
             }
         }
 
@@ -1076,19 +1088,40 @@ body {
     }
 }
 
+.navbar-we-mega-menu .type-of-block {
+    .maroon-outline-button {
+        max-width: 200px;
+        text-align: center;
+    }
+}
+
 .carlson-header {
     &.sticky {
         .we-mega-menu-ul {
-            &.dropdown-menu {
+            @include media-breakpoint-up(lg) {
+                max-width: 60% !important;
+                right: 10%;
+            }
+
+            @include media-breakpoint-up(xl) {
+                max-width: 66%!important;
+                right: 0;
+            }
+
+            .dropdown-menu {
                 width: 100%;
                 
                 &.active-trail,
                 &:hover {
                     @include media-breakpoint-up(lg) {
-                        border-bottom: 8px solid $gold;
-                        margin-bottom: -14px;
+                        margin-bottom: -18px!important;
                     }
                 }
+            }
+
+            .driven {
+                position: fixed;
+                right: 15px;
             }
         }
     }
