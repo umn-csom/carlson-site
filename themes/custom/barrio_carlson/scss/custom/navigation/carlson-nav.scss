@@ -122,11 +122,10 @@
                     width: 100%;
                     transition: none;
                     top: 10px;
-                    right: 80px;
                 }
 
                 @include media-breakpoint-up(xl) {
-                    max-width: 960px;
+                    max-width: 880px;
                     top: 15px;
                 }
 
@@ -1080,16 +1079,14 @@ body {
 .carlson-header {
     &.sticky {
         .we-mega-menu-ul {
-            .driven {
-                right: 15px!important;
-                position: fixed;
-            }
-
-            .dropdown-menu {
+            &.dropdown-menu {
+                width: 100%;
+                
                 &.active-trail,
                 &:hover {
                     @include media-breakpoint-up(lg) {
-                        margin-bottom: -18px!important;
+                        border-bottom: 8px solid $gold;
+                        margin-bottom: -14px;
                     }
                 }
             }
