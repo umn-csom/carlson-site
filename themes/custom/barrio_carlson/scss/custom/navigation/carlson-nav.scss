@@ -122,11 +122,11 @@
                     width: 100%;
                     transition: none;
                     top: 10px;
-                    right: 25px;
+                    right: 80px;
                 }
 
                 @include media-breakpoint-up(xl) {
-                    max-width: 880px;
+                    max-width: 960px;
                     top: 15px;
                 }
 
@@ -183,12 +183,18 @@
                         a.we-mega-menu-li {
                             text-indent: 300vw;
                             overflow: hidden;
+
+                            min-width: 90px;
+                            min-height: 50px;
+                            margin-left: -34px;
+                            margin-top: -20px;
                         }
 
                         @include media-breakpoint-up(lg) {
                             margin-left: 20px;
                             margin-top: 14px;
                             max-width: 60px;
+                            // right: 15px;
 
                             @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
                                 width: inherit;
@@ -239,7 +245,7 @@
                         &:hover {
                             @include media-breakpoint-up(lg) {
                                 border-bottom: 8px solid $gold;
-                                margin-bottom: -4px;
+                                margin-bottom: -14px;
                             }
                         }
 
@@ -398,7 +404,7 @@
                             &.default,
                             &.active-trail {
                                 .we-megamenu-nolink {
-                                    @include yellow-line();
+                                    @include  grey-gradient-line();
                                 }
                             }
                         }
@@ -703,6 +709,12 @@
                     }
                 }
             }
+        }
+    }
+
+    .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+        @include media-breakpoint-up(lg) {
+            @include grey-line();
         }
     }
 
@@ -1062,5 +1074,25 @@ body {
 
     &:hover {
         color: white;
+    }
+}
+
+.carlson-header {
+    &.sticky {
+        .we-mega-menu-ul {
+            .driven {
+                right: 15px!important;
+                position: fixed;
+            }
+
+            .dropdown-menu {
+                &.active-trail,
+                &:hover {
+                    @include media-breakpoint-up(lg) {
+                        margin-bottom: -18px!important;
+                    }
+                }
+            }
+        }
     }
 }
