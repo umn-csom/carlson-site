@@ -9,10 +9,6 @@
         min-height: 75px;
     }
 
-    @include media-breakpoint-up(xl) {
-        max-width: 1600px;
-    }
-
     .region-we-mega-menu {
         width: 100%;
         background: none;
@@ -86,8 +82,7 @@
             }
 
             @include media-breakpoint-up(lg) {
-                top: 0;
-                bottom: 25px;
+                top: 68px;
                 opacity: 1;
                 left: 0;
                 width: 100%;
@@ -96,17 +91,14 @@
                 padding: 0;
                 display: block;
                 background: none;
-                position: relative;
+                position: fixed;
+                z-index: 9999999;
 
                 .container-fluid {
                     justify-content: flex-end;
                     width: initial;
                     min-height: inherit;
                 }
-            }
-
-            @include media-breakpoint-up(xl) {
-                top: -38px;
             }
 
             .we-mega-menu-ul {
@@ -117,16 +109,19 @@
                 width: 100%;
 
                 @include media-breakpoint-up(lg) {
+                    margin: auto;
                     flex-wrap: nowrap;
-                    max-width: 693px;
+                    max-width: 700px;
                     width: 100%;
                     transition: none;
                     top: 10px;
+                    left: 10%;
                 }
 
                 @include media-breakpoint-up(xl) {
-                    max-width: 880px;
+                    max-width: 778px;
                     top: 15px;
+                    left: inherit;
                 }
 
                 &.slide-left {
@@ -142,6 +137,13 @@
 
                 @include media-breakpoint-up(lg) {
                     position: relative;
+
+                    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                        top: 83px;
+                        position: fixed;
+                        left: 0;
+                        right: 0;
+                    }
                 }
 
                 .dropdown-menu,
@@ -191,18 +193,20 @@
                         }
 
                         @include media-breakpoint-up(lg) {
+                            position: fixed;
+                            right: 15px;
                             margin-left: 20px;
                             margin-top: 14px;
                             max-width: 60px;
-                            // right: 15px;
 
                             @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-                                width: inherit;
+                                width: 100px;
                                 height: inherit;
                                 max-width: 100%;
                                 background-size: 50%;
                                 margin-left: 12px;
                                 margin-top: 8px;
+                                right: 0;
                             }
                         }
                     }
@@ -245,7 +249,7 @@
                         &:hover {
                             @include media-breakpoint-up(lg) {
                                 border-bottom: 8px solid $gold;
-                                margin-bottom: -14px;
+                                margin-bottom: -15px;
                             }
                         }
 
@@ -306,17 +310,9 @@
                                 border-top: 1px solid $menu-line-grey;
                                 // border-left: 40px solid white;
                                 // border-right: 40px solid white;
-                                max-width: 100%;
+                                max-width: 793px;
                                 min-height: 423px;
                                 margin: auto;
-
-                                @include media-breakpoint-up(lg) {
-                                    max-width: 1200px;
-                                }
-
-                                @include media-breakpoint-up(xl) {
-                                    max-width: 1600px;
-                                }
 
                                 .we-mega-menu-row {
                                     padding-top: 10px;
@@ -435,6 +431,7 @@
                                 display: none;
                             }
 
+                            &.selected,
                             &:hover {
                                 @include yellow-line();
                             }
@@ -517,7 +514,9 @@
     height: auto;
 
     @include media-breakpoint-up(lg) {
-        margin-top: 18px;
+        margin-top: 21px;
+        max-width: 223px;
+        width: 223px;
     }
 }
 
@@ -705,7 +704,7 @@
                     }
 
                     .nav .we-mega-menu-li {
-                        text-align: right;
+                        text-align: left;
                         line-height: .9em;
                         padding-right: 0!important;
                         top: 0!important;
@@ -727,17 +726,6 @@
     }
 
     &.third-tier {
-        .we-mega-menu-submenu .we-mega-menu-submenu-inner {
-            @include media-breakpoint-up(lg) {
-                max-width: 1200px;
-                min-height: 423px;
-            }
-
-            @include media-breakpoint-up(xl) {
-                max-width: 1600px;
-            }
-        }
-
         .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
             @include media-breakpoint-up(lg) {
                 @include grey-line();
@@ -1099,14 +1087,8 @@ body {
 .carlson-header {
     &.sticky {
         .we-mega-menu-ul {
-            @include media-breakpoint-up(lg) {
-                max-width: 60% !important;
-                right: 10%;
-            }
-
-            @include media-breakpoint-up(xl) {
-                max-width: 66%!important;
-                right: 0;
+            @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                top: 14px!important;
             }
 
             .dropdown-menu {
@@ -1118,11 +1100,6 @@ body {
                         margin-bottom: -18px!important;
                     }
                 }
-            }
-
-            .driven {
-                position: fixed!important;
-                right: 15px;
             }
         }
     }

@@ -163,7 +163,7 @@
                     }
                     
                     var offset = $('.carlson-nav .navbar').offset().top;
-                    var add = (($(window).width() < 1200) ? 34 : 38);
+                    var add = (($(window).width() < 1200) ? 30 : 35);
                     offset = ((offset + add) - $(window).scrollTop());
                     $(this).parent().children().last().css('top', offset + 'px');
                     $(this).parent().children().last().addClass('show');
@@ -195,7 +195,7 @@
                 } else {
                     $(this).addClass('show');
                     var offset = $('.carlson-nav .navbar').offset().top;
-                    var add = (($(window).width() < 1200) ? 34 : 38);
+                    var add = (($(window).width() < 1200) ? 30 : 35);
                     offset = ((offset + add) - $(window).scrollTop());
                     $(this).css('top', offset + 'px');
                 }
@@ -237,12 +237,29 @@
                 $(this).children().last().children().children().children().children().css('top', offset + 'px');
             });
 
+            $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mouseover(function (e) {
+                e.preventDefault();
+                if (typeof $(this).attr('data-level') !== 'undefined') {
+                    if( $(this).attr('data-level') === '2' ) {
+                        console.log( $(this).attr('data-level') );
+                        $(this).parent().parent().parent().parent().parent().parent().children().first().addClass('selected');
+                    }
+                }
+            });
+
             $('.carlson-nav .navbar .we-mega-menu-li .we-mega-menu-submenu .we-mega-menu-li').mouseleave(function (e) {
                 e.preventDefault();
                 resetSubUl();
                 $(this).css('z-index', 'inherit');
                 $(this).children().last().children().children().children().children().removeClass('show');
                 $(this).children().last().children().children().children().children().css('top', '-4000px');
+
+                if (typeof $(this).attr('data-level') !== 'undefined') {
+                    if( $(this).attr('data-level') === '2' ) {
+                        console.log( $(this).attr('data-level') );
+                        $(this).parent().parent().parent().parent().parent().parent().children().first().removeClass('selected');
+                    }
+                }
             });
 
             setDefault();
