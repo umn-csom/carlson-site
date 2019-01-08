@@ -249,6 +249,15 @@ $value in $theme-colors {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$white', endColorstr='$white',GradientType=0 )!important; /* IE6-9 */
 }
 
+@mixin grey-gradient-line() {
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90 */
+    background: $white!important; /* Old browsers */
+    background: -moz-linear-gradient(top, rgba(255,255,255,0) 60%, $another-gray 60%, $another-gray 90%, rgba(255,255,255,0) 90%)!important; /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, rgba(255,255,255,0) 60%,$another-gray 60%,$another-gray 90%, rgba(255,255,255,0) 90%)!important; /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, rgba(255,255,255,0)60%,$another-gray 60%,$another-gray 90%, rgba(255,255,255,0) 90%)!important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$white', endColorstr='$white',GradientType=0 )!important; /* IE6-9 */
+}
+
 @mixin grey-line() {
     &:after {
         content: '';

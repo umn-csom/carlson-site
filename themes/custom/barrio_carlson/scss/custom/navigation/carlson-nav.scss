@@ -9,10 +9,6 @@
         min-height: 75px;
     }
 
-    @include media-breakpoint-up(xl) {
-        max-width: 1600px;
-    }
-
     .region-we-mega-menu {
         width: 100%;
         background: none;
@@ -86,8 +82,7 @@
             }
 
             @include media-breakpoint-up(lg) {
-                top: 0;
-                bottom: 25px;
+                top: 68px;
                 opacity: 1;
                 left: 0;
                 width: 100%;
@@ -96,17 +91,14 @@
                 padding: 0;
                 display: block;
                 background: none;
-                position: relative;
+                position: fixed;
+                z-index: 9999999;
 
                 .container-fluid {
                     justify-content: flex-end;
                     width: initial;
                     min-height: inherit;
                 }
-            }
-
-            @include media-breakpoint-up(xl) {
-                top: -38px;
             }
 
             .we-mega-menu-ul {
@@ -117,17 +109,19 @@
                 width: 100%;
 
                 @include media-breakpoint-up(lg) {
+                    margin: auto;
                     flex-wrap: nowrap;
-                    max-width: 693px;
+                    max-width: 700px;
                     width: 100%;
                     transition: none;
                     top: 10px;
-                    right: 25px;
+                    left: 10%;
                 }
 
                 @include media-breakpoint-up(xl) {
-                    max-width: 880px;
+                    max-width: 778px;
                     top: 15px;
+                    left: inherit;
                 }
 
                 &.slide-left {
@@ -143,6 +137,13 @@
 
                 @include media-breakpoint-up(lg) {
                     position: relative;
+
+                    @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                        top: 83px;
+                        position: fixed;
+                        left: 0;
+                        right: 0;
+                    }
                 }
 
                 .dropdown-menu,
@@ -179,24 +180,33 @@
                         margin-left: 38px;
                         margin-top: 14px;
                         max-width: 100px;
+                        position: relative;
 
                         a.we-mega-menu-li {
                             text-indent: 300vw;
                             overflow: hidden;
+
+                            min-width: 90px;
+                            min-height: 50px;
+                            margin-left: -34px;
+                            margin-top: -20px;
                         }
 
                         @include media-breakpoint-up(lg) {
+                            position: fixed;
+                            right: 15px;
                             margin-left: 20px;
                             margin-top: 14px;
                             max-width: 60px;
 
                             @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-                                width: inherit;
+                                width: 100px;
                                 height: inherit;
                                 max-width: 100%;
                                 background-size: 50%;
                                 margin-left: 12px;
                                 margin-top: 8px;
+                                right: 0;
                             }
                         }
                     }
@@ -235,11 +245,10 @@
                     &.dropdown-menu {
                         width: 100%;
                         
-                        &.active-trail,
                         &:hover {
                             @include media-breakpoint-up(lg) {
                                 border-bottom: 8px solid $gold;
-                                margin-bottom: -4px;
+                                margin-bottom: -15px;
                             }
                         }
 
@@ -288,7 +297,7 @@
                             cursor: pointer;
 
                             &.show {
-                                transition-delay: .20s;
+                                transition-delay: .12s;
                                 opacity: 1;
                                 z-index: 99999!important;
                             }
@@ -395,10 +404,9 @@
                                 }
                             }
 
-                            &.default,
-                            &.active-trail {
+                            &.default {
                                 .we-megamenu-nolink {
-                                    @include yellow-line();
+                                    @include  yellow-line();
                                 }
                             }
                         }
@@ -421,6 +429,7 @@
                                 display: none;
                             }
 
+                            &.selected,
                             &:hover {
                                 @include yellow-line();
                             }
@@ -503,7 +512,9 @@
     height: auto;
 
     @include media-breakpoint-up(lg) {
-        margin-top: 18px;
+        margin-top: 21px;
+        max-width: 223px;
+        width: 223px;
     }
 }
 
@@ -706,14 +717,13 @@
         }
     }
 
-    &.third-tier {
-        .we-mega-menu-submenu .we-mega-menu-submenu-inner {
-            @include media-breakpoint-up(lg) {
-                max-width: 793px;
-                min-height: 423px;
-            }
+    .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
+        @include media-breakpoint-up(lg) {
+            @include grey-line();
         }
+    }
 
+    &.third-tier {
         .we-mega-menu-submenu .we-mega-menu-submenu-inner .we-mega-menu-row {
             @include media-breakpoint-up(lg) {
                 @include grey-line();
@@ -959,7 +969,8 @@ body {
         }
 
         .carlson-nav .region-we-mega-menu .navbar-toggle {
-            top: -191px;
+            top: -150px;
+            right: -6px;
         }
     }
 
@@ -967,6 +978,10 @@ body {
         .carlson-header {
             &.sticky {
                 display: none;
+            }
+
+            .carlson-nav .region-we-mega-menu .navbar {
+                top: 166px;
             }
         }
     }
@@ -1062,5 +1077,32 @@ body {
 
     &:hover {
         color: white;
+    }
+}
+
+.navbar-we-mega-menu .type-of-block {
+    .maroon-outline-button {
+        max-width: 200px;
+        text-align: center;
+    }
+}
+
+.carlson-header {
+    &.sticky {
+        .we-mega-menu-ul {
+            @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+                top: 14px!important;
+            }
+
+            .dropdown-menu {
+                width: 100%;
+                
+                &:hover {
+                    @include media-breakpoint-up(lg) {
+                        margin-bottom: -18px!important;
+                    }
+                }
+            }
+        }
     }
 }
