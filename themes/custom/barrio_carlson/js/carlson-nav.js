@@ -25,10 +25,18 @@
             var top = $(window).scrollTop();
             isSticky = (top > 0) ? true : false;
 
-            if (top > 0) {
-                $('.carlson-header').addClass('sticky');
+            if ($('.container.centennial').length == 0) {
+                if (top > 0) {
+                    $('.carlson-header').addClass('sticky');
+                } else {
+                    $('.carlson-header').removeClass('sticky');
+                }
             } else {
-                $('.carlson-header').removeClass('sticky');
+                if (top > 0) {
+                    $('.carlson-header').hide();
+                } else {
+                    $('.carlson-header').show();
+                }
             }
         }
     }
@@ -61,7 +69,7 @@
     function setDefault() {
         var $elm = $('.carlson-nav .navbar .we-mega-menu-submenu li.we-mega-menu-li.dropdown-menu.active.active-trail');
         $elm.children().last().children().children().children().children().addClass('show');
-        
+
         var offset = $('.carlson-nav .navbar').offset().top;
         var add = (($(window).width() < 1200) ? 100 : 110);
         offset = ((offset + add) - $(window).scrollTop());
@@ -153,15 +161,15 @@
                     resetSubUl();
                     resetTopMenu();
                     $(this).parent().css('z-index', '99');
-    
+
                     if( $(this).parent().hasClass('active-trail') ) {
                         setDefault();
                     }
-                    
+
                     if( $(this).parent().hasClass('third-tier') ) {
                         setDefault2();
                     }
-                    
+
                     var offset = $('.carlson-nav .navbar').offset().top;
                     var add = (($(window).width() < 1200) ? 30 : 35);
                     offset = ((offset + add) - $(window).scrollTop());

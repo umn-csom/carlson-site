@@ -1,0 +1,155 @@
+#centennial {
+    #main,
+    .node__content {
+        margin-top: 0;
+    }
+}
+.centennial {
+    &__timeline {
+        &--headline {
+            margin-bottom: 0;
+            border-bottom: none;
+            h1 {
+                display: none;
+            }
+            img {
+                width: 100%;
+                height: 100%;
+            }
+        }
+        &--nav {
+            list-style-type: none;
+            padding: 0;
+            width: 100%;
+            overflow: hidden;
+            overflow-x: scroll;
+            display: inline-block;
+            margin-bottom: 0;
+            white-space: nowrap;
+            font-family: $font-montserrat;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1.39;
+            &-container {
+                width: calc(100% - 187px);
+                display: inline-block;
+                height: 60px;
+                overflow: hidden;
+            }
+            &-item,
+            &-anchor {
+                padding: 0;
+                display: inline-block;
+                vertical-align: top;
+                line-height: 60px;
+            }
+            &-anchor {
+                width: 183px;
+                img {
+                    vertical-align: top;
+                }
+            }
+            &-item {
+                width: 100px;
+                text-align: center;
+                &-anchor {
+                    font-family: $font-montserrat;
+                    font-size: 13px;
+                    color: $slate;
+                    margin: 0 auto;
+                    width: 72px;
+                    display: inline-block;
+                    height: 60px;
+                    &.active-anchor {
+                        border-bottom: 6px solid $gold;
+                    }
+                    &:hover {
+                        text-decoration: none;
+                        border-bottom: 6px solid $light-slate;
+                    }
+                }
+                &::before {
+                    display: none;
+                }
+            }
+            &-wrapper {
+                height: 60px;
+                background: $white;
+            }
+        }
+        &--story-group {
+            &:first-child {
+                margin-top: 20px;
+            }
+            @include box-shadow(0,15px,60px,0.2);
+            margin-bottom: 0;
+            h2 {
+                color: $maroon;
+                font-weight: 600;
+                font-family: $font-montserrat;
+                letter-spacing: 0.88;
+                font-size: 28px;
+                text-transform: uppercase;
+                .subtitle {
+                    color: $gold;
+                    font-weight: 300;
+                    letter-spacing: 0.83;
+                    font-size: 20px;
+                }
+            }
+            &--image {
+                background-size: cover;
+                background-position: top center;
+                background-repeat: no-repeat;
+                min-height: 200px;
+                @include media-breakpoint-up(lg) {
+                    min-height: 350px;
+                }
+            }
+            &--content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding: 55px;
+                > * {
+                    flex: 0 0 auto;
+                }
+            }
+            &-wrapper {
+                padding-top: 60px;
+            }
+        }
+        &--stories {
+            padding-top: 20px;
+            background: url('../images/centennial/dashed-circle-down.png') top left no-repeat;
+            min-height: 224px;
+        }
+        &--story {
+            padding-top: 30px;
+            &-year {
+                font-size: 28px;
+                font-family: 'Montserrat';
+                font-weight: 600;
+                color: $maroon;
+                margin-bottom: 15px;
+                @include media-breakpoint-up(md){
+                    max-width: 100px;
+                    margin-bottom: 0;
+                }
+            }
+            &-image {
+                margin-bottom: 15px;
+                @include media-breakpoint-up(md){
+                    max-width: 213px;
+                    margin-bottom: 0;
+                }
+            }
+            h3 {
+                text-transform: uppercase;
+                font-family: $font-lato;
+                font-size: 16px;
+                font-weight: bold;
+            }
+        }
+    }
+}

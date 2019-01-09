@@ -1,0 +1,286 @@
+{#
+/**
+ * @file
+ * Bootstrap Barrio's theme implementation to display a node.
+ *
+ * Available variables:
+ * - node: The node entity with limited access to object properties and methods.
+     Only "getter" methods (method names starting with "get", "has", or "is")
+     and a few common methods such as "id" and "label" are available. Calling
+     other methods (such as node.delete) will result in an exception.
+ * - label: The title of the node.
+ * - content: All node items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}. Use
+ *   {{ content|without('field_example') }} to temporarily suppress the printing
+ *   of a given child element.
+ * - author_picture: The node author user entity, rendered using the "compact"
+ *   view mode.
+ * - metadata: Metadata for this node.
+ * - date: Themed creation date field.
+ * - author_name: Themed author name field.
+ * - url: Direct URL of the current node.
+ * - display_submitted: Whether submission information should be displayed.
+ * - attributes: HTML attributes for the containing element.
+ *   The attributes.class element may contain one or more of the following
+ *   classes:
+ *   - node: The current template type (also known as a "theming hook").
+ *   - node--type-[type]: The current node type. For example, if the node is an
+ *     "Article" it would result in "node--type-article". Note that the machine
+ *     name will often be in a short form of the human readable label.
+ *   - node--view-mode-[view_mode]: The View Mode of the node; for example, a
+ *     teaser would result in: "node--view-mode-teaser", and
+ *     full: "node--view-mode-full".
+ *   The following are controlled through the node publishing options.
+ *   - node--promoted: Appears on nodes promoted to the front page.
+ *   - node--sticky: Appears on nodes ordered above other non-sticky nodes in
+ *     teaser listings.
+ *   - node--unpublished: Appears on unpublished nodes visible only to site
+ *     admins.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - content_attributes: Same as attributes, except applied to the main
+ *   content tag that appears in the template.
+ * - author_attributes: Same as attributes, except applied to the author of
+ *   the node tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ * - view_mode: View mode; for example, "teaser" or "full".
+ * - teaser: Flag for the teaser state. Will be true if view_mode is 'teaser'.
+ * - page: Flag for the full page state. Will be true if view_mode is 'full'.
+ * - readmore: Flag for more state. Will be true if the teaser content of the
+ *   node cannot hold the main body content.
+ * - logged_in: Flag for authenticated user status. Will be true when the
+ *   current user is a logged-in member.
+ * - is_admin: Flag for admin user status. Will be true when the current user
+ *   is an administrator.
+ *
+ * @see template_preprocess_node()
+ */
+#}
+{{ attach_library('bootstrap_barrio/node') }}
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix',
+    'centennial__timeline'
+  ]
+%}
+{% set label = 'The Carlson School 100 years: Connecting the Past to the Present' %}
+{%
+  set events = [
+    {
+      nav: 'Present',
+      label: '2010 &ndash; Present',
+      title: '100 Years of Serious Business',
+      content: 'Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien non lorem. Suspendisse potenti. Cras laoreet sem sit amet nisi fringilla. Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien.',
+      image: 'conference-hall.png',
+      sections: [
+        {
+          year: '2019',
+          title: 'Super Party Deluxe: Jan 1st, 2019',
+          content: 'Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien non lorem. Suspendisse potenti. Cras laoreet sem sit amet nisi fringilla. Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien.'
+        },
+        {
+          year: '2018',
+          title: 'A Great Moment in Carlson History: Aug 4th, 2018',
+          content: 'Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien non lorem. Suspendisse potenti. Cras laoreet sem sit amet nisi fringilla. Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien.',
+          image: 'high-five.png'
+        },
+        {
+          year: '2018',
+          title: 'Important Things Happened Today: Feb 18th, 2018',
+          content: 'Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien non lorem. Suspendisse potenti. Cras laoreet sem sit amet nisi fringilla. Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien.',
+          image: 'thumbs-up.png'
+        }
+      ]
+    },
+    {
+      nav: '2010',
+      label: '2000 &ndash; 2010',
+      title: 'New Century, New Business',
+      content: 'Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien non lorem. Suspendisse potenti. Cras laoreet sem sit amet nisi fringilla. Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien.',
+      image: 'conference-room.png',
+      sections: [
+        {
+          year: '2008',
+          title: 'Super Party Deluxe: Oct 10th, 2008',
+          content: 'Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien non lorem. Suspendisse potenti. Cras laoreet sem sit amet nisi fringilla. Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien.'
+        },
+        {
+          year: '2006',
+          title: 'A Great Moment in Carlson History: May 4th, 2006',
+          content: 'Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien non lorem. Suspendisse potenti. Cras laoreet sem sit amet nisi fringilla. Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non volutpat velit sapien.',
+          image: 'high-five.png'
+        }
+      ]
+    },
+    {
+      nav: '2000',
+      label: '1990 &ndash; 2000',
+      image: 'conference-hall.png'
+    },
+    {
+      nav: '1990',
+      label: '1980 &ndash; 1990',
+      image: 'conference-room.png'
+    },
+    {
+      nav: '1980',
+      label: '1970 &ndash; 1980',
+      image: 'conference-hall.png'
+    },
+    {
+      nav: '1970',
+      label: '1970 &ndash; 1980',
+      image: 'conference-room.png'
+    },
+    {
+      nav: '1960',
+      label: '1950 &ndash; 1960',
+      image: 'conference-hall.png'
+    },
+    {
+      nav: '1950',
+      label: '1940 &ndash; 1950',
+      image: 'conference-room.png'
+    },
+    {
+      nav: '1940',
+      label: '1930 &ndash; 1940',
+      image: 'conference-hall.png'
+    },
+    {
+      nav: '1930',
+      label: '1920 &ndash; 1930',
+      image: 'conference-room.png'
+    },
+    {
+      nav: '1920',
+      label: '1910 &ndash; 1920',
+      image: 'conference-hall.png'
+    },
+    {
+      nav: '1910',
+      label: '1900 &ndash; 1910',
+      image: 'conference-room.png'
+    },
+    {
+      nav: '1900',
+      label: '1890 &ndash; 1900',
+      image: 'conference-hall.png'
+    },
+    {
+      nav: '1890',
+      label: '1880 &ndash; 1890',
+      image: 'conference-room.png'
+    },
+    {
+      nav: '1880',
+      label: '1870 &ndash; 1880',
+      image: 'conference-hall.png'
+    },
+    {
+      nav: '1870',
+      label: '1860 &ndash; 1870',
+      image: 'conference-room.png'
+    }
+  ]
+%}
+<article{{ attributes.addClass(classes) }}>
+
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'basic-page') }}>
+    <section>
+      <div class="row basic-hero">
+        <div class="col-12 basic-hero__title centennial__timeline--headline">
+          <h1>{{ label }}</h1>
+          <img src='/{{ directory }}/images/centennial/timeline/hero.png'/>
+        </div>
+      </div>
+    </section>
+    <section id="centennial__timeline">
+      <div class="centennial__timeline--nav-wrapper">
+        <a href="#main" class="centennial__timeline--nav-anchor">
+          <img src='/{{ directory }}/images/centennial/timeline/logo.png'/>
+        </a>
+        <div class="centennial__timeline--nav-container">
+          <ul roll="nav" class="centennial__timeline--nav">
+            {% for event in events %}
+            <li data-nav-ref="{{event.nav}}" class="centennial__timeline--nav-item">
+              <a href="#{{event.nav}}" class="centennial__timeline--nav-item-anchor">
+                {{ event.nav }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="row basic-page__content">
+      <div class="col-12">
+        <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
+
+          <div class="row">
+
+            <div class="col-12 basic-page__content-components">
+              {% set count = 0 %}
+              {% for event in events %}
+                <div id="{{ event.nav }}" class="centennial__timeline--story-group-wrapper">
+                  <div class="row component-paragraph centennial__timeline--story-group">
+                    {% if count % 2 == 0 %}
+                    <div class="col-12 col-md-6 centennial__timeline--story-group--image centennial__timeline--story-group--image-left" style="background-image: url('/{{ directory }}/images/centennial/timeline/story-groups/{{ event.image }}')">
+                    </div>
+                    {% endif %}
+                    <div class="col-12 col-md-6 centennial__timeline--story-group--content">
+                      <h2>
+                        {{ event.label | raw }}
+                        {% if event.title is not empty %}
+                        <br/>
+                        <span class="subtitle">{{ event.title }}</span>
+                        {% endif %}
+                      </h3>
+                      <p>{{ event.content }}</p>
+                    </div>
+                    {% if count % 2 != 0 %}
+                    <div class="col-12 col-md-6 order-first order-md-last centennial__timeline--story-group--image centennial__timeline--story-group--image-right" style="background-image: url('/{{ directory }}/images/centennial/timeline/story-groups/{{ event.image }}')">
+                    </div>
+                    {% endif %}
+                  </div>
+                  <div class="row centennial__timeline--stories">
+                    {% for section in event.sections %}
+                    <div class="col-10 offset-1 centennial__timeline--story">
+                      <div class="row">
+                        <div class="col-6 col-md centennial__timeline--story-year">
+                          {{ section.year }}
+                        </div>
+                        <div class="col-12 order-2 col-md order-md-1 centennial__timeline--story-content">
+                          <h3>{{ section.title }}</h3>
+                          {{ section.content }}
+                        </div>
+                        {% if section.image is not empty %}
+                        <div class="col-6 order-1 col-md order-md-2 centennial__timeline--story-image">
+                          <img src="/{{ directory }}/images/centennial/timeline/stories/{{ section.image }}">
+                        </div>
+                        {% endif %}
+                      </div>
+                    </div>
+                    {% endfor %}
+                  </div>
+                </div>
+                {% set count = count + 1 %}
+              {% endfor %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</article>
