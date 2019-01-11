@@ -3,25 +3,153 @@
     .node__content {
         margin-top: 0;
     }
+    .carlson-nav {
+        border-bottom: none;
+    }
 }
 .centennial {
+    h1 {
+        font-family: $font-montserrat;
+        color: $maroon;
+        font-size: 3.8rem;
+        font-weight: 600;
+        letter-spacing: .88px;
+        line-height: 4.2rem;
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 3rem;
+        + h2 {
+            margin-top: -2.5rem;
+            margin-bottom: 3rem;
+        }
+    }
+    h2 {
+        font-family: $font-montserrat;
+        color: $gold;
+        font-size: 2rem;
+        font-weight: 300;
+        letter-spacing: 0.83px;
+        line-height: 3.8rem;
+        text-transform: uppercase;
+        text-align: center;
+    }
+    h3 {
+        font-family: $font-montserrat;
+        color: $centennial-red;
+        font-size: 2rem;
+        letter-spacing: .83px;
+        font-weight: 300;
+        text-transform: uppercase;
+        margin-top: 3rem;
+    }
     &__home,
     &__about,
-    &__events {
+    &__events,
+    &__timeline {
         &--headline {
             border-bottom: none;
+        }
+        &--content {
+            padding: 60px 0;
+        }
+    }
+    &__home {
+        &--hero {
+            &-left {
+                padding-right: 0;
+            }
+            &-middle {
+                text-align: center;
+                background-color: $centennial-gold;
+                margin-bottom: -10px;
+                display: flex;
+                @include media-breakpoint-up(sm){
+                    margin-bottom: -20px;
+                }
+                @include media-breakpoint-up(lg){
+                    margin-bottom: -30px;
+                }
+                img {
+                    margin: auto;
+                    max-height: 100px;
+                    @include media-breakpoint-up(sm){
+                        max-height: 150px;
+                    }
+                    @include media-breakpoint-up(md){
+                        max-height: 200px;
+                    }
+                    @include media-breakpoint-up(lg){
+                        max-height: 300px;
+                    }
+                }
+            }
+            &-right {
+                background-size: contain;
+                background-repeat: no-repeat;
+                display: flex;
+                flex-direction: column;
+                align-content: center;
+                justify-content: center;
+                > * {
+                    flex: 0 0 auto;
+                }
+                h2 {
+                    color: $maroon;
+                    font-weight: 600;
+                    text-align: left;
+                    font-size: .8rem;
+                    line-height: 1.4rem;
+                    @include media-breakpoint-up(sm){
+                        font-size: 1.7rem;
+                        line-height: 2.2rem;
+                    }
+                    @include media-breakpoint-up(md){
+                        font-size: 2.5rem;
+                        line-height: 3.2rem;
+                    }
+                    @include media-breakpoint-up(lg){
+                        font-size: 3.2rem;
+                        line-height: 4rem;
+                    }
+                    @include media-breakpoint-up(xl){
+                        font-size: 3.8rem;
+                        line-height: 4.2rem;
+                    }
+                    .subtitle {
+                        color: $centennial-red;
+                        font-weight: 300;
+                        font-size: 1.2rem;
+                        @include media-breakpoint-up(sm){
+                            font-size: 2.1rem;
+                        }
+                        @include media-breakpoint-up(md){
+                            font-size: 3rem;
+                        }
+                        @include media-breakpoint-up(lg){
+                            font-size: 4rem;
+                        }
+                        @include media-breakpoint-up(xl){
+                            font-size: 4.2rem;
+                        }
+                    }
+                }
+            }
         }
     }
     &__timeline {
         &--headline {
             margin-bottom: 0;
-            border-bottom: none;
             h1 {
                 display: none;
             }
             img {
                 width: 100%;
                 height: 100%;
+            }
+        }
+        &--content {
+            h1 {
+                text-align: left;
             }
         }
         &--nav {
@@ -32,7 +160,6 @@
             display: inline-block;
             margin-bottom: 0;
             font-family: $font-montserrat;
-            text-transform: uppercase;
             font-weight: 600;
             letter-spacing: 1.39px;
             background: $white;
@@ -133,17 +260,19 @@
             @include box-shadow(0,15px,60px,0.2);
             margin-bottom: 0;
             h2 {
+                text-align: left;
                 color: $maroon;
                 font-weight: 600;
                 font-family: $font-montserrat;
                 letter-spacing: 0.88px;
                 font-size: 28px;
-                text-transform: uppercase;
+                text-transform: none;
                 .subtitle {
                     color: $gold;
                     font-weight: 300;
                     letter-spacing: 0.83px;
                     font-size: 20px;
+                    text-transform: uppercase;
                 }
             }
             &--image {
@@ -201,6 +330,89 @@
                 font-family: $font-lato;
                 font-size: 16px;
                 font-weight: bold;
+                color: $slate;
+                margin-top: 0;
+            }
+        }
+    }
+    &__events {
+        &--hero {
+            @include box-shadow(0, 15px, 60px, 0.2);
+            margin: 0;
+            h2 {
+                font-family: $font-montserrat;
+                color: $maroon;
+                font-size: 2.8rem;
+                letter-spacing: .88px;
+                line-height: 3.2rem;
+                text-transform: uppercase;
+                margin-bottom: 1rem;
+                font-weight: 600;
+                text-align: left;
+                .subtitle {
+                    color: $centennial-red;
+                    font-size: 2rem;
+                    letter-spacing: .83px;
+                    font-weight: 300;
+                }
+            }
+            &-image {
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center;
+                padding: 0;
+                @include media-breakpoint-up(lg){
+                    padding: 0 15px;
+                }
+                img {
+                    width: 100%;
+                    @include media-breakpoint-up(lg){
+                        display: none;
+                    }
+                }
+            }
+        }
+        &--headline {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 55px;
+            margin-bottom: 0;
+            text-align: left;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: right top;
+            @include media-breakpoint-up(lg){
+                padding: 55px;
+                padding-right: 239px;
+            }
+            @include media-breakpoint-down(md){
+                background-image: none !important;
+            }
+            > * {
+                flex: 0 0 auto;
+            }
+        }
+        &--content {
+            background: url('../images/centennial/dashed-circle-down.png') 15px top no-repeat;
+            .department-event-block {
+                background-color: transparent;
+                .view-content {
+                    background-color: transparent;
+                    .event-items__item {
+                        background-color: $white;
+                    }
+                }
+            }
+            h2 {
+                color: $slate;
+                font-family: $font-crimson;
+                text-transform: none;
+                text-align: left;
+                font-size: 2.8rem;
+                @include media-breakpoint-up(md){
+                    font-size: 4.8rem;
+                }
             }
         }
     }
@@ -211,11 +423,17 @@
         &-item {
             border-style: solid;
             border-color: rgba(90, 84, 80, .1);
-            border-width: 0 1px 0 0;
+            border-width: 0 0 1px 0;
             padding: 15px 30px 0 30px;
             background: $white;
             &:last-child {
-                border-right: none;
+                border-bottom: none;
+            }
+            @include media-breakpoint-up(md){
+                border-width: 0 1px 0 0;
+                &:last-child {
+                    border-right: none;
+                }
             }
             &-icon {
                 color: $light-gray;
@@ -242,20 +460,34 @@
             }
             &-title {
                 font-family: $font-montserrat;
-                font-size: 24px;
+                font-size: 20px;
                 font-weight: 600;
                 letter-spacing: 0.55px;
                 line-height: 27px;
                 margin-bottom: 10px;
                 text-transform: uppercase;
+                overflow-wrap: break-word;
+                @include media-breakpoint-up(lg){
+                    font-size: 18px;
+                }
+                @include media-breakpoint-up(xl){
+                    font-size: 24px;
+                }
             }
             &-content {
                 color: $slate;
+                padding-bottom: 30px;
+                @include media-breakpoint-up(md){
+                    padding-bottom: 130px;
+                }
             }
             &-indicator {
                 padding-top: 50px;
                 font-size: 70px;
                 color: $centennial-light-gray;
+                position: absolute;
+                bottom: 1px;
+                left: calc(50% - 65.5px);
             }
             &:hover {
                 margin-top: -20px;
@@ -273,6 +505,8 @@
                         color: $gold;
                         font-size: 77px;
                         padding-top: 63px;
+                        bottom: 0;
+                        left: calc(50% - 72px);
                     }
                 }
             }

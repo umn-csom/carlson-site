@@ -5,8 +5,7 @@
             class: 'home',
             path: '/centennial/home',
             long_title: '100 Years<br/>of Carlson',
-            short_title: 'Home',
-            content: 'Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non.'
+            short_title: 'Home'
         },
         {
             icon: 'centennial-about',
@@ -14,7 +13,7 @@
             path: '/centennial/about',
             long_title: 'About the<br/>Celebration',
             short_title: 'About',
-            content: 'Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non.'
+            content: 'As we mark our centennial, we\'re celebrating you.'
         },
         {
             icon: 'centennial-timeline',
@@ -22,7 +21,7 @@
             path: '/centennial/timeline',
             long_title: 'Learn Our<br/>History',
             short_title: 'History',
-            content: 'Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non.'
+            content: 'Explore milestone and key figures from our first 100 years.'
         },
         {
             icon: 'centennial-events',
@@ -30,7 +29,7 @@
             path: '/centennial/events',
             long_title: 'Join us at<br/>an Event',
             short_title: 'Events',
-            content: 'Nulla facilisi. In ullamcorper, neque eu laoreet dictum, metus metus accumsan lacus, non.'
+            content: 'Gather with friends new and old from our global community.'
         }
     ]
 %}
@@ -39,18 +38,19 @@
     <div class="offset-1 col-10">
         <div class="row centennial__nav">
         {% for nav in navs %}
-            <div class="col-{{cols}} centennial__nav-item {{ path('<current>') == nav.path ? 'active-nav' : '' }}">
+            <div class="col-12 col-md-{{cols}} centennial__nav-item {{ path('<current>') == nav.path ? 'active-nav' : '' }}">
                 <a href="{{nav.path}}">
                     <div class="centennial__nav-item-icon {{ nav.class }}">
                         <i class="icon icon-{{ nav.icon }}"></i>
                     </div>
                     <div class="centennial__nav-item-title">
-                        {{ nav.long_title | raw }}
+                        <div class="d-md-none d-lg-inline-block">{{ nav.long_title | raw }}</div>
+                        <div class="d-none d-md-inline-block d-lg-none">{{ nav.short_title | raw }}</div>
                     </div>
                     <div class="centennial__nav-item-content">
                         {{ nav.content }}
                     </div>
-                    <div class="centennial__nav-item-indicator">
+                    <div class="centennial__nav-item-indicator d-none d-md-inline-block">
                         <i class="icon icon-centennial-onehundred"></i>
                     </div>
                 </a>
