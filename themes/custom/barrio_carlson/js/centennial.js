@@ -26,6 +26,10 @@
           bottomSpacing: bottom,
           zIndex: 99999
         });
+        var isDesktop = (($(window).width() >= 768) ? true : false);
+        if (isDesktop && $('.centennial__timeline--nav-container').hasClass('choose-year')) {
+          $('.centennial__timeline--nav-container').removeClass('choose-year');
+        }
       }
 
       function highlightTimeline() {
