@@ -5,6 +5,13 @@
     }
 }
 .centennial {
+    &__home,
+    &__about,
+    &__events {
+        &--headline {
+            border-bottom: none;
+        }
+    }
     &__timeline {
         &--headline {
             margin-bottom: 0;
@@ -57,7 +64,7 @@
                     font-size: 13px;
                     color: $slate;
                     margin: 0 auto;
-                    width: 72px;
+                        width: 72px;
                     display: inline-block;
                     height: 60px;
                     &.active-anchor {
@@ -87,13 +94,13 @@
                 color: $maroon;
                 font-weight: 600;
                 font-family: $font-montserrat;
-                letter-spacing: 0.88;
+                letter-spacing: 0.88px;
                 font-size: 28px;
                 text-transform: uppercase;
                 .subtitle {
                     color: $gold;
                     font-weight: 300;
-                    letter-spacing: 0.83;
+                    letter-spacing: 0.83px;
                     font-size: 20px;
                 }
             }
@@ -117,6 +124,9 @@
             }
             &-wrapper {
                 padding-top: 60px;
+                &:last-child {
+                    padding-bottom: 60px;
+                }
             }
         }
         &--stories {
@@ -149,6 +159,85 @@
                 font-family: $font-lato;
                 font-size: 16px;
                 font-weight: bold;
+            }
+        }
+    }
+    &__nav {
+        margin-bottom: -40px;
+        text-align: center;
+        @include box-shadow(0, 15px, 60px, 0.1);
+        &-item {
+            border-style: solid;
+            border-color: rgba(90, 84, 80, .1);
+            border-width: 0 1px 0 0;
+            padding: 15px 30px 0 30px;
+            background: $white;
+            &:last-child {
+                border-right: none;
+            }
+            &-icon {
+                color: $light-gray;
+                &.home {
+                    font-size: 40px;
+                    padding-bottom: 30px;
+                    padding-top: 25px;
+                }
+                &.about {
+                    font-size: 80px;
+                    padding-top: 0;
+                    padding-bottom: 15px;
+                }
+                &.timeline {
+                    font-size: 65px;
+                    padding-bottom: 15px;
+                    padding-top: 15px;
+                }
+                &.events {
+                    font-size: 45px;
+                    padding-bottom: 30px;
+                    padding-top: 20px;
+                }
+            }
+            &-title {
+                font-family: $font-montserrat;
+                font-size: 24px;
+                font-weight: 600;
+                letter-spacing: 0.55px;
+                line-height: 27px;
+                margin-bottom: 10px;
+                text-transform: uppercase;
+            }
+            &-content {
+                color: $slate;
+            }
+            &-indicator {
+                padding-top: 50px;
+                font-size: 70px;
+                color: $centennial-light-gray;
+            }
+            &:hover {
+                margin-top: -20px;
+                @include box-shadow(0, 15px, 60px, 0.1);
+                z-index: 4;
+            }
+            a {
+                &:focus,
+                &:hover {
+                    text-decoration: none;
+                    .centennial__nav-item-icon {
+                        color: $centennial-red;
+                    }
+                    .centennial__nav-item-indicator {
+                        color: $gold;
+                        font-size: 77px;
+                        padding-top: 63px;
+                    }
+                }
+            }
+            &.active-nav {
+                .centennial__nav-item-icon {
+                    color: $centennial-red;
+                }
             }
         }
     }
