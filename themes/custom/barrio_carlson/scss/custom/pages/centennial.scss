@@ -29,42 +29,84 @@
             padding: 0;
             width: 100%;
             overflow: hidden;
-            overflow-x: scroll;
             display: inline-block;
             margin-bottom: 0;
-            white-space: nowrap;
             font-family: $font-montserrat;
             text-transform: uppercase;
             font-weight: 600;
-            letter-spacing: 1.39;
+            letter-spacing: 1.39px;
+            background: $white;
+            height: 60px;
+            @include media-breakpoint-up(md){
+                white-space: nowrap;
+                overflow-x: scroll;
+                height: auto;
+            }
             &-container {
-                width: calc(100% - 187px);
+                background: $white;
+                position: relative;
                 display: inline-block;
                 height: 60px;
+                width: calc(100% - 187px);
                 overflow: hidden;
+                &:after {
+                    @include carlson-icons($icon-carrot-down);
+                    color: $maroon;
+                    font-size: 2rem;
+                    right: 2rem;
+                    top: 2rem;
+                    position: absolute;
+                    @include media-breakpoint-up(md){
+                        display: none;
+                    }
+                }
+                &.choose-year {
+                    height: 400px;
+                    z-index: 99999;
+                    @include box-shadow(0, 15px, 60px, 0.1);
+                    @include media-breakpoint-up(md){
+                        height: 60px;
+                        overflow-y: hidden;
+                        z-index: inherit;
+                    }
+                    &:after {
+                        display: none;
+                    }
+                    .centennial__timeline--nav {
+                        height: 100%;
+                        overflow: auto;
+                    }
+                }
             }
             &-item,
-            &-anchor {
+            &-anchor,
+            &-logo {
                 padding: 0;
                 display: inline-block;
                 vertical-align: top;
                 line-height: 60px;
             }
-            &-anchor {
+            &-logo {
                 width: 183px;
                 img {
                     vertical-align: top;
                 }
             }
             &-item {
-                width: 100px;
                 text-align: center;
+                width: 100%;
+                @include media-breakpoint-up(md){
+                    width: 100px;
+                }
                 &-anchor {
                     font-family: $font-montserrat;
                     font-size: 13px;
                     color: $slate;
                     margin: 0 auto;
+                    width: 90%;
+                    @include media-breakpoint-up(md){
                         width: 72px;
+                    }
                     display: inline-block;
                     height: 60px;
                     &.active-anchor {
