@@ -34,6 +34,24 @@
     ]
 %}
 {% set cols = 12 / (navs | length) %}
+<div class="row centennial__floating-nav-wrapper" role="nav">
+    <div class="col-12 offset-md-1 col-md-10">
+        <div class="row centennial__floating-nav">
+        {% for nav in navs %}
+            <div class="col-{{cols}} centennial__nav-item {{ path('<current>') == nav.path ? 'active-nav' : '' }}">
+                <a href="{{nav.path}}">
+                    <div class="centennial__nav-item-icon {{ nav.class }}">
+                        <i class="icon icon-{{ nav.icon }}"></i>
+                    </div>
+                    <div class="centennial__nav-item-title">
+                        {{ nav.short_title | raw }}
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
 <div class="row" role="nav">
     <div class="offset-1 col-10">
         <div class="row centennial__nav">

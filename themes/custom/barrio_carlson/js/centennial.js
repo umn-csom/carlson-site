@@ -12,10 +12,13 @@
       // run test on initial page load
       stickyTimeline();
       highlightTimeline();
+      stickyBottomNav();
 
       // run test on resize of the window
       $(window).resize(stickyTimeline);
       $(window).scroll(highlightTimeline);
+      $(window).scroll(stickyBottomNav);
+      $(window).resize(stickyBottomNav);
 
       //Function to the css rule
       function stickyTimeline() {
@@ -76,6 +79,14 @@
           }
         } else {
           $('.centennial__timeline--nav-item-anchor').first().addClass('active-anchor');
+        }
+      }
+
+      function stickyBottomNav() {
+        if (($(window).height() + $(window).scrollTop()) < $('.centennial__nav').offset().top) {
+          $('.centennial__floating-nav-wrapper').show();
+        } else if ($('.centennial__floating-nav-wrapper').is(':visible')) {
+          $('.centennial__floating-nav-wrapper').hide();
         }
       }
 
