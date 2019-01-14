@@ -339,21 +339,28 @@
         &--hero {
             @include box-shadow(0, 15px, 60px, 0.2);
             margin: 0;
-            h2 {
+            h1 {
                 font-family: $font-montserrat;
                 color: $maroon;
-                font-size: 2.8rem;
                 letter-spacing: .88px;
-                line-height: 3.2rem;
                 text-transform: uppercase;
                 margin-bottom: 1rem;
                 font-weight: 600;
                 text-align: left;
+                font-size: 1.6rem;
+                line-height: 1.9rem;
+                @include media-breakpoint-up(lg){
+                    font-size: 2.8rem;
+                    line-height: 3.2rem;
+                }
                 .subtitle {
                     color: $centennial-red;
-                    font-size: 2rem;
                     letter-spacing: .83px;
                     font-weight: 300;
+                    display: block;
+                    @include media-breakpoint-up(lg){
+                        font-size: 2rem;
+                    }
                 }
             }
             &-image {
@@ -376,15 +383,14 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 55px;
+            padding: 30px 30px 20px 30px;
             margin-bottom: 0;
             text-align: left;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: right top;
             @include media-breakpoint-up(lg){
-                padding: 55px;
-                padding-right: 239px;
+                padding: 55px 239px 45px 55px;
             }
             @include media-breakpoint-down(md){
                 background-image: none !important;
