@@ -33,9 +33,12 @@
                 }
             } else {
                 if (top > 0) {
-                    $('.carlson-header').hide();
+                    $('.carlson-header .we-mega-menu-ul').hide();
+                    $('.carlson-header').slideUp();
                 } else {
-                    $('.carlson-header').show();
+                    $('.carlson-header').slideDown('400', function () {
+                        $('.carlson-header .we-mega-menu-ul').show();
+                    });
                 }
             }
         }
@@ -169,7 +172,7 @@
                     resetSubUl();
                     resetTopMenu();
                     $(this).parent().css('z-index', '99');
-    
+
                     if( $(this).parent().hasClass('default') ) {
                         setDefault();
                     }

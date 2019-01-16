@@ -100,6 +100,7 @@
           if ($('.carlson-header').is(':visible')) {
             $('.carlson-header').hide();
           }
+          $(this).blur();
           $('html, body').animate({
             scrollTop: $(this.hash).offset().top
           }, 1000, function () {
