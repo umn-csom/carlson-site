@@ -76,8 +76,8 @@
 {%
   set events = [
     {
-      nav: '1910s',
-      label: '1910s',
+      nav: '1910',
+      label: '1910 &ndash; 1920',
       title: 'We find our footing as a fledgling business school',
       image: 'conference-hall.png',
       sections: [
@@ -98,8 +98,8 @@
       ]
     },
     {
-      nav: '1920s',
-      label: '1920s',
+      nav: '1920',
+      label: '1920 &ndash; 1930',
       title: 'Our community begins to take shape',
       image: 'conference-room.png',
       sections: [
@@ -127,9 +127,9 @@
       ]
     },
     {
-      nav: '1930s',
-      label: '1930s',
-      title: 'We rise to meet new challenges',
+      nav: '1930',
+      label: '1930 &ndash; 1940',
+      title: 'We rise to meet new challenge',
       image: 'conference-hall.png',
       sections: [
         {
@@ -152,8 +152,8 @@
       ]
     },
     {
-      nav: '1940s',
-      label: '1940s',
+      nav: '1940',
+      label: '1940 &ndash; 1950',
       title: 'We greet a new era of national prosperity',
       image: 'conference-room.png',
       sections: [
@@ -189,8 +189,8 @@
       ]
     },
     {
-      nav: '1950s',
-      label: '1950s',
+      nav: '1950',
+      label: '1950 &ndash; 1960',
       title: 'We grow to keep pace with a post-war economy',
       image: 'conference-hall.png',
       sections: [
@@ -218,8 +218,8 @@
       ]
     },
     {
-      nav: '1960s',
-      label: '1960s',
+      nav: '1960',
+      label: '1960 &ndash; 1970',
       title: 'We endure through an era of remarkable change',
       image: 'conference-room.png',
       sections: [
@@ -244,8 +244,8 @@
       ]
     },
     {
-      nav: '1970s',
-      label: '1970s',
+      nav: '1970',
+      label: '1970 &ndash; 1980',
       title: 'We set the stage for a prosperous future',
       image: 'conference-hall.png',
       sections: [
@@ -280,8 +280,8 @@
       ]
     },
     {
-      nav: '1980s',
-      label: '1980s',
+      nav: '1980',
+      label: '1980 &ndash; 1990',
       title: 'We grow our mission and our identity',
       image: 'conference-room.png',
       sections: [
@@ -308,8 +308,8 @@
       ]
     },
     {
-      nav: '1990s',
-      label: '1990s',
+      nav: '1990',
+      label: '1990 &ndash; 2000',
       title: 'We break ground on a new chapter for our school',
       image: 'conference-hall.png',
       sections: [
@@ -346,8 +346,8 @@
       ]
     },
     {
-      nav: '2000s',
-      label: '2000s',
+      nav: '2000',
+      label: '2000 &ndash; 2010',
       title: 'New facilities, new leadership, new century',
       image: 'conference-room.png',
       sections: [
@@ -384,9 +384,9 @@
       ]
     },
     {
-      nav: '2010s',
-      label: '2010s',
-      title: 'We celebrate 100 years of serious business',
+      nav: '2010',
+      label: '2010 &ndash; PRESENT',
+      title: 'We celebrate 100 years of serious busines',
       image: 'conference-hall.png',
       sections: [
         {
@@ -462,23 +462,12 @@
               {% for event in events %}
                 <div id="{{ event.nav }}" class="centennial__timeline--story-group-wrapper">
                   <div class="row component-paragraph centennial__timeline--story-group">
-                    {% if count % 2 == 0 %}
-                    <div class="col-12 col-md-6 centennial__timeline--story-group--image centennial__timeline--story-group--image-left" style="background-image: url('/{{ directory }}/images/centennial/timeline/story-groups/{{ event.image }}')">
+                    <div class="col-12 col-md-4 centennial__timeline--story-group--label">
+                      {{ event.label | raw }}
                     </div>
-                    {% endif %}
-                    <div class="col-12 col-md-6 centennial__timeline--story-group--content">
-                      <h2>
-                        {{ event.label | raw }}
-                        {% if event.title is not empty %}
-                        <span class="subtitle">{{ event.title }}</span>
-                        {% endif %}
-                      </h3>
-                      <p>{{ event.content }}</p>
+                    <div class="col-12 col-md-8 centennial__timeline--story-group--title">
+                      <h2>{{ event.title }}</h2>
                     </div>
-                    {% if count % 2 != 0 %}
-                    <div class="col-12 col-md-6 order-first order-md-last centennial__timeline--story-group--image centennial__timeline--story-group--image-right" style="background-image: url('/{{ directory }}/images/centennial/timeline/story-groups/{{ event.image }}')">
-                    </div>
-                    {% endif %}
                   </div>
                   <div class="row centennial__timeline--stories">
                     {% for section in event.sections %}

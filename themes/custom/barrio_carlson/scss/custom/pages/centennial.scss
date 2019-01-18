@@ -259,23 +259,41 @@
             }
             @include box-shadow(0,15px,60px,0.2);
             margin-bottom: 0;
-            h2 {
+            &--label {
+                background-color: $maroon;
+                color: $white;
                 text-align: left;
-                color: $maroon;
                 font-weight: 600;
                 font-family: $font-montserrat;
                 letter-spacing: 0.88px;
                 font-size: 2.8rem;
                 text-transform: none;
                 line-height: 3.8rem;
-                .subtitle {
-                    display: block;
-                    line-height: 2.8rem;
+                font-weight: bold;
+                padding: 2rem 3rem;
+                &:before {
+                    @include carlson-icons($icon-carrot-down);
                     color: $gold;
+                    font-size: 2rem;
+                }
+            }
+            &--title {
+                display: flex;
+                flex-direction: column;
+                justify-items: center;
+                justify-content: center;
+                padding: 2rem 3rem;
+                h2 {
+                    flex: 0 0 auto;
+                    text-align: left;
+                    color: $centennial-red;
                     font-weight: 300;
+                    font-family: $font-montserrat;
                     letter-spacing: 0.83px;
-                    font-size: 20px;
+                    font-size: 2rem;
                     text-transform: uppercase;
+                    line-height: 2.8rem;
+                    margin-bottom: 0;
                 }
             }
             &--image {
@@ -338,7 +356,8 @@
             }
         }
     }
-    &__events {
+    &__events,
+    &__about {
         &--hero {
             @include box-shadow(0, 15px, 60px, 0.2);
             margin: 0;
@@ -347,11 +366,10 @@
                 color: $maroon;
                 letter-spacing: .88px;
                 text-transform: uppercase;
-                margin-bottom: 1rem;
                 font-weight: 600;
                 text-align: left;
                 font-size: 1.6rem;
-                line-height: 1.9rem;
+                line-height: 2.2rem;
                 @include media-breakpoint-up(lg){
                     font-size: 2.8rem;
                     line-height: 3.2rem;
@@ -366,11 +384,36 @@
                     }
                 }
             }
+            h2 {
+                color: $centennial-red;
+                letter-spacing: .83px;
+                font-weight: 300;
+                text-align: left;
+                line-height: 2.2rem;
+                margin-bottom: 1rem !important;
+                @include media-breakpoint-up(lg){
+                    font-size: 2rem;
+                }
+            }
             &-image-100 {
-                background-size: cover;
-                background-repeat: no-repeat;
-                background-position: center;
-                padding: 0;
+                text-align: center;
+                display: flex;
+                padding-top: 5rem;
+                padding-bottom: 5rem;
+                img {
+                    flex: 0 0 auto;
+                    margin: auto;
+                    max-height: 100px;
+                    @include media-breakpoint-up(sm){
+                        max-height: 150px;
+                    }
+                    @include media-breakpoint-up(md){
+                        max-height: 200px;
+                    }
+                    @include media-breakpoint-up(lg){
+                        max-height: 300px;
+                    }
+                }
             }
             &-image {
                 background-size: cover;
@@ -406,6 +449,59 @@
             }
             > * {
                 flex: 0 0 auto;
+            }
+        }
+    }
+    &__about {
+        &--hero {
+            &-image-100 {
+                background-color: $gold;
+            }
+        }
+        &--content {
+            h3 {
+                font-family: $font-montserrat;
+                color: $maroon;
+                letter-spacing: .88px;
+                text-transform: uppercase;
+                font-weight: 600;
+                font-size: 1.6rem;
+                line-height: 1.9rem;
+                @include media-breakpoint-up(lg){
+                    font-size: 2.8rem;
+                    line-height: 3.2rem;
+                }
+            }
+        }
+        &--pillars {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        &--pillar {
+            margin: 2rem 0;
+            &-icon {
+                max-width: 14.2rem;
+                padding: 0 3rem;
+                img {
+                    max-width: 100%;
+                }
+            }
+            &-content {
+                &--title {
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+    &__events {
+        &--hero {
+            h1 {
+                margin-bottom: 1rem;
+            }
+            &-image-100 {
+                background-color: $maroon;
             }
         }
         &--content {
@@ -542,6 +638,7 @@
             max-height: 114px;
             @include media-breakpoint-up(md){
                 max-height: 87px;
+                max-width: 1600px;
             }
         }
         .centennial__nav-item {
