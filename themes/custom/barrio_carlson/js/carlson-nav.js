@@ -25,10 +25,21 @@
             var top = $(window).scrollTop();
             isSticky = (top > 0) ? true : false;
 
-            if (top > 0) {
-                $('.carlson-header').addClass('sticky');
+            if ($('.container.centennial').length == 0) {
+                if (top > 0) {
+                    $('.carlson-header').addClass('sticky');
+                } else {
+                    $('.carlson-header').removeClass('sticky');
+                }
             } else {
-                $('.carlson-header').removeClass('sticky');
+                if (top > 0) {
+                    $('.carlson-header .we-mega-menu-ul').hide();
+                    $('.carlson-header').slideUp();
+                } else {
+                    $('.carlson-header').slideDown('400', function () {
+                        $('.carlson-header .we-mega-menu-ul').show();
+                    });
+                }
             }
         }
     }
@@ -61,7 +72,7 @@
     function setDefault() {
         var $elm = $('.carlson-nav .navbar .we-mega-menu-submenu li.we-mega-menu-li.dropdown-menu.default');
         $elm.children().last().children().children().children().children().addClass('show');
-        
+
         var offset = $('.carlson-nav .navbar').offset().top;
         var add = (($(window).width() < 1200) ? 100 : 110);
         offset = ((offset + add) - $(window).scrollTop());
@@ -161,16 +172,16 @@
                     resetSubUl();
                     resetTopMenu();
                     $(this).parent().css('z-index', '99');
-    
+
                     if( $(this).parent().hasClass('default') ) {
                         setDefault();
                     }
-                    
+
                     if( $(this).parent().hasClass('third-tier') ) {
                         resetDefaultAll();
                         setDefaultAll();
                     }
-                    
+
                     var offset = $('.carlson-nav .navbar').offset().top;
                     var add = (($(window).width() < 1200) ? 30 : 35);
                     offset = ((offset + add) - $(window).scrollTop());
