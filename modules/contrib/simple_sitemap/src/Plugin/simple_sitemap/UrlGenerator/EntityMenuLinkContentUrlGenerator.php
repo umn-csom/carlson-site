@@ -2,7 +2,6 @@
 
 namespace Drupal\simple_sitemap\Plugin\simple_sitemap\UrlGenerator;
 
-use Drupal\Core\Extension\ModuleHandler;
 use Drupal\simple_sitemap\EntityHelper;
 use Drupal\simple_sitemap\Logger;
 use Drupal\simple_sitemap\Simplesitemap;
@@ -28,7 +27,7 @@ use Drupal\Core\Menu\MenuLinkBase;
  *
  * @todo Find way of adding just a menu link item pointer to the queue instead of whole object.
  */
-class EntityMenuLinkContentUrlGenerator extends UrlGeneratorBase {
+class EntityMenuLinkContentUrlGenerator extends EntityUrlGeneratorBase {
 
   /**
    * @var \Drupal\Core\Menu\MenuLinkTree
@@ -36,49 +35,39 @@ class EntityMenuLinkContentUrlGenerator extends UrlGeneratorBase {
   protected $menuLinkTree;
 
   /**
-   * @var \Drupal\Core\Extension\ModuleHandler
-   */
-  protected $moduleHandler;
-
-  /**
    * EntityMenuLinkContentUrlGenerator constructor.
    * @param array $configuration
    * @param $plugin_id
    * @param $plugin_definition
    * @param \Drupal\simple_sitemap\Simplesitemap $generator
+   * @param \Drupal\simple_sitemap\Logger $logger
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   * @param \Drupal\simple_sitemap\Logger $logger
    * @param \Drupal\simple_sitemap\EntityHelper $entityHelper
    * @param \Drupal\Core\Menu\MenuLinkTree $menu_link_tree
-   * @param \Drupal\Core\Extension\ModuleHandler $module_handler
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function __construct(
     array $configuration,
     $plugin_id,
     $plugin_definition,
     Simplesitemap $generator,
+    Logger $logger,
     LanguageManagerInterface $language_manager,
     EntityTypeManagerInterface $entity_type_manager,
-    Logger $logger,
     EntityHelper $entityHelper,
-    MenuLinkTree $menu_link_tree,
-    ModuleHandler $module_handler
+    MenuLinkTree $menu_link_tree
   ) {
     parent::__construct(
       $configuration,
       $plugin_id,
       $plugin_definition,
       $generator,
+      $logger,
       $language_manager,
       $entity_type_manager,
-      $logger,
       $entityHelper
     );
     $this->menuLinkTree = $menu_link_tree;
-    $this->moduleHandler = $module_handler;
   }
 
   public static function create(
@@ -91,12 +80,11 @@ class EntityMenuLinkContentUrlGenerator extends UrlGeneratorBase {
       $plugin_id,
       $plugin_definition,
       $container->get('simple_sitemap.generator'),
+      $container->get('simple_sitemap.logger'),
       $container->get('language_manager'),
       $container->get('entity_type.manager'),
-      $container->get('simple_sitemap.logger'),
       $container->get('simple_sitemap.entity_helper'),
-      $container->get('menu.link_tree'),
-      $container->get('module_handler')
+      $container->get('menu.link_tree')
     );
   }
 
