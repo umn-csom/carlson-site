@@ -13,7 +13,6 @@ services:
       - '@path.validator'
       - '@date.formatter'
       - '@datetime.time'
-      - '@module_handler'
       - '@simple_sitemap.queue_worker'
 
   simple_sitemap.manager:
@@ -40,8 +39,8 @@ services:
     - '@simple_sitemap.settings'
     - '@simple_sitemap.manager'
     - '@state'
-    - '@module_handler'
     - '@simple_sitemap.queue'
+    - '@simple_sitemap.logger'
 
   simple_sitemap.queue:
     class: Drupal\simple_sitemap\Queue\SimplesitemapQueue
@@ -77,7 +76,7 @@ services:
       - '@messenger'
       - '@current_user'
 
-  simple_sitemap.variant:
+  simple_sitemap.path_processor_variant:
     class: Drupal\simple_sitemap\PathProcessor\PathProcessorSitemapVariant
     tags:
       - { name: path_processor_inbound, priority: 300 }

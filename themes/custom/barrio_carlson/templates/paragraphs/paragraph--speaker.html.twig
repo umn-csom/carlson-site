@@ -58,15 +58,15 @@
           {% if (content.field_link_linkedin | field_value is not empty) or (content.field_link_facebook | field_value is not empty) or (content.field_link_twitter | field_value is not empty) %}
           <div class="col-12 speaker__social">
             {% if content.field_link_linkedin | field_value is not empty %}
-              <p><a href="{{ content.field_link_linkedin.value }}"><i class="icon icon-linkedin" title="LinkedIn" alt="LinkedIn"></i> View Profile</a></p>
+              <p><a href="{{ content.field_link_linkedin.0['#url'] }}"><i class="icon icon-linkedin" title="LinkedIn" alt="LinkedIn"></i> View Profile</a></p>
             {% endif %}
             {% if (content.field_link_facebook | field_value is not empty) or (content.field_link_twitter | field_value is not empty) %}
               <ul class="social-media list-unstyled list-inline">
                 {% if content.field_link_facebook | field_value is not empty %}
-                <li><a href="{{ content.field_link_facebook.value }}"><i class="icon icon-facebook" title="Facebook" alt="Facebook"></i></a></li>
+                <li><a href="{{ content.field_link_facebook.0['#url'] }}"><i class="icon icon-facebook" title="Facebook" alt="Facebook"></i></a></li>
                 {% endif %}
                 {% if content.field_link_twitter | field_value is not empty %}
-                <li><a href="{{ content.field_link_twitter.value }}"><i class="icon icon-twitter" title="Twitter" alt="Twitter"></i></a></li>
+                <li><a href="{{ content.field_link_twitter.0['#url'] }}"><i class="icon icon-twitter" title="Twitter" alt="Twitter"></i></a></li>
                 {% endif %}
               </ul>
             {% endif %}
