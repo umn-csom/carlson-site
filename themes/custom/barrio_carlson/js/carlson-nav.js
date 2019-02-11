@@ -300,20 +300,20 @@
     }
 
     // For the sticky header.
-    $(window).on('wheel', function() {
-        setSticky();
-    });
+    // $(window).on('wheel', function() {
+    //     setSticky();
+    // });
 
-    // For touch move.
-    $('body').on({
-        'touchmove': function(e) {
-            setSticky();
-        }
-    });
+    // // For touch move.
+    // $('body').on({
+    //     'touchmove': function(e) {
+    //         setSticky();
+    //     }
+    // });
 
     // Scroll top init.
     $(window).resize(setup);
-    setSticky();
+    //setSticky();
     setup();
 
   })(jQuery, Drupal);
