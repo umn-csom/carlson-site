@@ -161,7 +161,7 @@
             $('.navbar-we-mega-menu').removeClass('we-mobile-megamenu-active');
             $('.btn-close').remove();
             $('.overlay').remove();
-            $('.container-fluid').css('min-height', '0');
+            //$('.container-fluid').css('min-height', '0');
 
             $('.carlson-nav .navbar .we-mega-menu-li.dropdown-menu a').mouseenter(function (e) {
                 e.preventDefault();
@@ -301,6 +301,10 @@
 
     // For the sticky header.
     $(window).on('wheel', function() {
+        setSticky();
+    });
+
+    $(document).scroll(function (event) {
         setSticky();
     });
 
