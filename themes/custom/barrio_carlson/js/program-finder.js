@@ -17,48 +17,41 @@
         var _config = {
             "emptyOption": "Choose...",
             "actions": [
+                { "path": "1", "label": "All Programs", "goto": "/node/1" },
+                { "path": "2", "label": "Undergrad", "goto": "/node/1511" },
                 {
-                    "path": "2", "label": "Degree", "goto": "/node/1",
-                    "emptyOption": "Format...",
+                    "path": "3", "label": "MBA", "goto": "/node/41",
+                    "emptyOption": "Education...",
                     "actions": [
-                        { "path": "2/3", "label": "Undergrad", "goto": "/node/1511" }
-                        , { "path": "2/4", "label": "MBA", "goto": "/node/41",
-                            "emptyOption": "Education...",
-                            "actions": [
-                                { "path": "2/4/5", "label": "Full-Time MBA", "goto": "/node/42" }
-                                , { "path": "2/4/6", "label": "Part-Time MBA", "goto": "/node/43" }
-                                , { "path": "2/4/7", "label": "Online MBA", "goto": "/node/93261" }
-                                , { "path": "2/4/8", "label": "Executive MBA - Minneapolis", "goto": "/node/44" }
-                                , { "path": "2/4/9", "label": "Executive MBA - China", "goto": "/node/1226" }
-                                , { "path": "2/4/10", "label": "Executive MBA - Vienna", "goto": "/node/1231" }
-                                , { "path": "2/4/11", "label": "Executive MBA - China, Dual Degree", "goto": "/node/1236" }
-                            ]
-                        }
-                        , { "path": "2/12", "label": "Specialty Masters", "goto": "/node/84846",
-                            "emptyOption": "Education...",
-                            "actions": [
-                                { "path": "2/12/13", "label": "Accountancy", "goto": "/node/2" }
-                                , { "path": "2/12/14", "label": "Business Analytics", "goto": "/node/324" }
-                                , { "path": "2/12/15", "label": "Supply Chain Management", "goto": "/node/67781" }
-                                , { "path": "2/12/16", "label": "Business Taxation", "goto": "/node/80" }
-                                , { "path": "2/12/17", "label": "Human Resources and Industrial Relation", "goto": "/node/3" }
-                            ]
-                        }
-                        , { "path": "2/18", "label": "Phd",
-                            "emptyOption": "Education...",
-                            "actions": [
-                                { "path": "2/18/19", "label": "Phd-Business Administration", "goto": "/node/2646" }
-                            ]
-                        }
+                        { "path": "2/5", "label": "Full-Time MBA", "goto": "/node/42" }
+                        , { "path": "2/6", "label": "Part-Time MBA", "goto": "/node/43" }
+                        , { "path": "2/7", "label": "Online MBA", "goto": "/node/93261" }
+                        , { "path": "2/8", "label": "Executive MBA - Minneapolis", "goto": "/node/44" }
+                        , { "path": "2/9", "label": "Executive MBA - China", "goto": "/node/1226" }
+                        , { "path": "2/10", "label": "Executive MBA - Vienna", "goto": "/node/1231" }
+                        , { "path": "2/11", "label": "Executive MBA - China, Dual Degree", "goto": "/node/1236" }
                     ]
-                }
-                , {
-                    "path": "1", "label": "Non-Degree",
-                    "emptyOption": "Format...",
+                },
+                {
+                    "path": "4", "label": "Specialty Masters", "goto": "/node/84846",
+                    "emptyOption": "Education...",
                     "actions": [
-                        { "path": "2/18/21", "label": "Executive Education", "goto": "/node/95871" }
+                        { "path": "3/13", "label": "Accountancy", "goto": "/node/2" }
+                        , { "path": "3/14", "label": "Business Analytics", "goto": "/node/324" }
+                        , { "path": "3/16", "label": "Business Taxation", "goto": "/node/80" }
+                        , { "path": "3/17", "label": "Finance", "goto": "/node/67726/" }
+                        , { "path": "3/18", "label": "Human Resources and Industrial Relation", "goto": "/node/3" }
+                        , { "path": "3/19", "label": "Supply Chain Management", "goto": "/node/67781" }
                     ]
-                }
+                },
+                {
+                    "path": "5", "label": "PhD",
+                    "emptyOption": "Education...",
+                    "actions": [
+                        { "path": "4/20", "label": "PhD-Business Administration", "goto": "/node/2646" }
+                    ]
+                },
+                { "path": "6", "label": "Executive Education", "goto": "/node/95871" },
             ]
         };
 
