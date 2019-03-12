@@ -270,3 +270,25 @@ $value in $theme-colors {
         transform: translate(-50%);
     }
 }
+/* News Hub cards */
+@mixin news-hub-card() {
+    .card {
+        &__title {
+          @include font-crimson-base();
+          font-size: $font-smaller-mobile;
+
+          @include media-breakpoint-up(lg) {
+            font-size: $font-smaller;
+            line-height: 2.8rem;
+          }
+          margin: 1.5rem 2.5rem;
+        }
+        &__text {
+            margin: 1.5rem 2.5rem;
+        }
+        &__link {
+            @include bold_link();
+            margin: 1.5rem 2.5rem;
+        }
+    }
+}

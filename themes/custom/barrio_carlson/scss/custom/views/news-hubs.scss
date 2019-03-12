@@ -1,0 +1,69 @@
+.news-hub-search {
+	/* Header */
+	header {
+		h1 {
+		  font-size: $font-medium-mobile;
+
+		  @include media-breakpoint-up(lg) {
+		    font-size: $font-medium;
+		  }
+		}
+	}
+	&.centennial {
+		header {
+			@include font-lato-base();
+			color: $gold;
+			text-transform: uppercase;
+			font-weight: normal;
+			letter-spacing: 1.17px;
+		}		
+	}
+	/* Filters */
+	.hub-filter {
+		@include media-breakpoint-up(md) {
+			padding-left: 100px;
+			padding-right: 100px;
+		}
+		.form-item-title {
+			width: 100%;
+		}
+	}
+	/* Content */
+	.view-content {
+		background: $mid-gray;
+		padding-top: 4rem;
+		padding-bottom: 4rem;
+	}
+	/* Event specific styles*/
+	.hub-card--event {
+		.card {
+			&__date {
+				background-color: $maroon;
+				background-blend-mode: multiply;
+				background-size: cover;
+				.date-cal {
+					padding-top: 20%;
+					&__item {
+						margin: 0 auto;
+						&--day {
+							color: $gold;
+							font-size: 9rem;
+							line-height: 9rem;
+						}
+						&--month {
+							font-weight: bold;
+							font-size: 1.7rem;
+							letter-spacing: 1.89px;
+							color: $white;
+							&:after {
+								background: $white;
+								height: 5px;
+								margin-top: 2.2rem;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

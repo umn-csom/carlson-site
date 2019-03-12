@@ -35,6 +35,14 @@
         }
       }
 
+      // Add chosen select to input lists on hub
+      var config = {
+        // custom field created in lawseq module
+        '.news-hub-search #edit-field-hub-topic-target-id' : {placeholder_text_multiple: "Select Topic(s)"},
+      }
+      for (var selector in config) {
+        $(selector).chosen(config[selector]);
+      }
     }
   }
 })(jQuery, Drupal);
