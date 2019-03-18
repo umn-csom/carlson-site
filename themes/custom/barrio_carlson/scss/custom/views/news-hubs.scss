@@ -1,4 +1,15 @@
+/* Views page */
 .news-hub-search {
+	/* Cards */
+	.card-columns {
+    column-gap: 3rem;
+    @include media-breakpoint-up(md) {
+    	column-count: 2;
+    }
+    @include media-breakpoint-up(lg) {
+    	column-count: 3;
+    }
+  }
 	/* Header */
 	header {
 		h1 {
@@ -9,17 +20,20 @@
 		  }
 		}
 	}
-	&.centennial {
+	&.centennial-hub {
 		header {
-			@include font-lato-base();
-			color: $gold;
-			text-transform: uppercase;
-			font-weight: normal;
-			letter-spacing: 1.17px;
+			h1 {
+				@include font-lato-base();
+				color: $gold;
+				text-transform: uppercase;
+				font-weight: normal;
+				font-size: 2.8rem;
+				letter-spacing: 1.17px;
+			}
 		}		
 	}
 	/* Filters */
-	.hub-filter {
+	&__filter {
 		@include media-breakpoint-up(md) {
 			padding-left: 60px;
 			padding-right: 60px;
@@ -28,8 +42,14 @@
 			padding-left: 100px;
 			padding-right: 100px;
 		}
-		.form-item-title {
+		.form-item-search-api-fulltext {
 			width: 100%;
+		}
+		#edit-search-api-fulltext {
+			background-image: url(../images/svg/spy-glass.svg);
+	    background-repeat: no-repeat;
+	    padding-left: 40px;
+	    background-position: 10px;
 		}
 		fieldset.form-type-select {
 			width: 100%;
@@ -49,44 +69,27 @@
 		}
 		label {
 			display: block;
+			font-weight: normal;
+		}
+		#edit-actions {
+			@include media-breakpoint-up(lg) {
+				width: 25%;
+			}
+		}
+		#edit-submit-hub-search-page {
+			@include button-outline($maroon);
+			background: $white;
+			width: 100%;
 		}
 	}
 	/* Content */
-	.view-content {
+	&__results {
+		margin-top: 5rem;
 		background: $mid-gray;
 		padding-top: 4rem;
 		padding-bottom: 4rem;
-	}
-	/* Event specific styles*/
-	.hub-card--event {
-		.card {
-			&__date {
-				background-color: $maroon;
-				background-blend-mode: multiply;
-				background-size: cover;
-				.date-cal {
-					padding-top: 20%;
-					&__item {
-						margin: 0 auto;
-						&--day {
-							color: $gold;
-							font-size: 9rem;
-							line-height: 9rem;
-						}
-						&--month {
-							font-weight: bold;
-							font-size: 1.7rem;
-							letter-spacing: 1.89px;
-							color: $white;
-							&:after {
-								background: $white;
-								height: 5px;
-								margin-top: 2.2rem;
-							}
-						}
-					}
-				}
-			}
+		@include media-breakpoint-up(md) {
+			margin-top: 6rem;
 		}
 	}
 }

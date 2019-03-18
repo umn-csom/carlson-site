@@ -30,15 +30,23 @@
             long_title: 'Join us at<br/>an Event',
             short_title: 'Events',
             content: 'Gather with friends new and old from our global community.'
+        },
+        {
+            icon: 'centennial-news',
+            class: 'news',
+            path: '/centennial/news',
+            long_title: 'See the<br/>latest News',
+            short_title: 'News',
+            content: 'See the lastest news from Centennial.'
         }
     ]
 %}
-{% set cols = 12 / (navs | length) %}
+
 <div class="row centennial__floating-nav-wrapper" role="nav">
     <div class="col-12 offset-md-1 col-md-10">
         <div class="row centennial__floating-nav">
         {% for nav in navs %}
-            <div class="col-{{cols}} centennial__nav-item {{ path('<current>') == nav.path ? 'active-nav' : '' }}">
+            <div class="col centennial__nav-item {{ path('<current>') == nav.path ? 'active-nav' : '' }}">
                 <a href="{{nav.path}}">
                     <div class="centennial__nav-item-icon {{ nav.class }}">
                         <i class="icon icon-{{ nav.icon }}"></i>
@@ -56,7 +64,7 @@
     <div class="offset-1 col-10">
         <div class="row centennial__nav">
         {% for nav in navs %}
-            <div class="col-12 col-md-{{cols}} centennial__nav-item {{ path('<current>') == nav.path ? 'active-nav' : '' }}">
+            <div class="col-sm-12 col-md centennial__nav-item {{ path('<current>') == nav.path ? 'active-nav' : '' }}">
                 <a href="{{nav.path}}">
                     <div class="centennial__nav-item-icon {{ nav.class }}">
                         <i class="icon icon-{{ nav.icon }}"></i>

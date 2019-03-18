@@ -10,6 +10,63 @@
   padding-bottom: 2.5rem;
 	@include news-hub-card();
 	&:hover {
-		@include box-shadow(0,8,16,0.20);
+		@include box-shadow(0px,8px,16px,0.20);
+		transition: all 0.3s ease-in-out;
 	}
+}
+/* Event card specific styles*/
+.hub-card--event {
+	.card {
+		&__date {
+			background-color: $maroon;
+			background-blend-mode: multiply;
+			background-size: cover;
+			.date-cal {
+				padding-top: 20%;
+				&__item {
+					margin: 0 auto;
+					&--day {
+						color: $gold;
+						font-size: 9rem;
+						line-height: 9rem;
+					}
+					&--month {
+						font-weight: bold;
+						font-size: 1.7rem;
+						letter-spacing: 1.89px;
+						color: $white;
+						&:after {
+							background: $white;
+							height: 5px;
+							margin-top: 2.2rem;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+/* Video specifc card styles */
+.hub-card--video {
+	.card__img {
+    &::before {
+      position:absolute;
+      top: 0;
+      left: 0;
+      content: '';
+      height: 100%;
+      width: 100%;
+      background-image: url('../images/news-hub-video.svg');
+      background-repeat: no-repeat;
+      background-size: 100%;
+      transition: all 0.3s ease-in-out; 
+    }
+  }
+  &:hover,
+  &:active,
+  &:focus {
+  	.card__img::before {
+	    background-image: url('../images/news-hub-video-gold.svg');
+	  }
+  }
 }
