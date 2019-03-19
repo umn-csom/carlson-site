@@ -45,7 +45,8 @@
     &__home,
     &__about,
     &__events,
-    &__timeline {
+    &__timeline,
+    &__news {
         &--headline {
             border-bottom: none;
         }
@@ -357,7 +358,8 @@
         }
     }
     &__events,
-    &__about {
+    &__about,
+    &__news {
         &--hero {
             @include box-shadow(0, 15px, 60px, 0.2);
             margin: 0;
@@ -502,6 +504,45 @@
             }
             &-image-100 {
                 background-color: $maroon;
+            }
+        }
+        &--content {
+            background: url('../images/centennial/dashed-circle-down.png') 15px top no-repeat;
+            .department-event-block {
+                background-color: transparent;
+                .view-content {
+                    background-color: transparent;
+                    .event-items__item {
+                        background-color: $white;
+                    }
+                }
+            }
+            h2 {
+                color: $slate;
+                font-family: $font-crimson;
+                text-transform: none;
+                text-align: left;
+                font-size: 2.8rem;
+                @include media-breakpoint-up(md){
+                    font-size: 4.8rem;
+                }
+            }
+        }
+    }
+    &__news {
+        &--headline {
+            background: $maroon;
+            p {
+                color: $white;
+            }
+        }
+        &--hero {
+            h1 {
+                margin-bottom: 1rem;
+                color: $white;
+                .subtitle {
+                    color: $gold;
+                }
             }
         }
         &--content {

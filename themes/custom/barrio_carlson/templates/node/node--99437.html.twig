@@ -70,37 +70,43 @@
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
     'clearfix',
+    'centennial__news'
   ]
 %}
-{# Set the hero image to be used as a background image #}
-{% set image = file_url(content.field_hero_media|field_target_entity.image.entity.uri.value | image_style('crop_full_hero')) %}
 
 <article{{ attributes.addClass(classes) }}>
+  <header>
+    {{ title_prefix }}
+    {% if not page %}
+      <h2{{ title_attributes.addClass('node__title') }}>
+        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+      </h2>
+    {% endif %}
+    {{ title_suffix }}
+  </header>
 
-  <div{{ content_attributes.addClass('node__content', 'clearfix hub-landing-page') }}>
-    {# If there isn't a hero image #}
-    {% if content.field_hero_media|field_value is empty %}
-      <section>
-        <div class="row hub-landing-page__hero">
-          <div class="col-11 col-lg-10 offset-lg-1 hub-hero__title">
-            <h1>{{ label }}</h1>
-            {{ content.field_sub_heading|field_value }}
-          </div>
-        </div>
-      </section>
-    {% else %}
-
-    {# If there is a hero image #}
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'hub-landing-page') }}>
     <section>
-      <div class="row hub-landing-page__hero--image" style="background-image: url('{{ image }}')">
-        <div class="col-md-7 offset-md-5 col-lg-5 offset-lg-6">
-          <h1>{{ label }}</h1>
-          {{ content.field_sub_heading|field_value }}
+      <div class="row basic-hero">
+        <div class="col-12">
+          <div class="row centennial__news--hero">
+            <div class="col-12 col-lg-6 col-xl-5 basic-hero__title centennial__news--headline">
+              <h1>Connecting you<span class="subtitle">to the celebration</span></h1>
+              <p>You can't have a celebration without a party or two&mdash;or 20. Throughout 2019, we're hosting gatherings not just in Minnesota, but around the world, to honor Carlson School's remarkable community. And you're invited.</p>
+              <p>Let's gather with friends new and old to honor the connections we've made with each other, from business partnerships to life-long friendships. Together, we'll look ahead to Carlson School's NEXT 100 years.</p>
+              <p><b>We can't wait to see you.</b></p>
+            </div>
+            <div class="d-none d-lg-flex col-lg-3 col-xl-2 centennial__news--hero-image-100">
+              <img src="/{{ directory }}/images/centennial/news/hero-100years.png">
+            </div>
+            <div class="col-12 col-lg-3 col-xl-5 centennial__news--hero-image" style="background-image: url('/{{ directory }}/images/centennial/news/hero-image.jpg')">
+              <img src="/{{ directory }}/images/centennial/news/hero.png"/>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-    {% endif %}
-    
+
     <section class="row hub-landing-page__content">
       <div class="col-lg-10 offset-lg-1 main-content hub-landing-page__content--inner">
         <div class="row">

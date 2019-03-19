@@ -1,3 +1,67 @@
+/* News Hub Landing Page */
+.hub-landing-page {
+  &__hero {
+  	&--image {
+	    background-position: top center;
+	    background-size: cover;
+	    background-repeat: no-repeat;
+	    height: 20rem;
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	    justify-content: center;
+	    @include box-shadow(0,15px,60px,0.30);
+	    position: relative;
+	    &:before {
+	        content: '';
+	        display: block;
+	        height: 100%;
+	        width: 100%;
+	        background: rgba(54,50,48,.5);
+	        position: absolute;
+	        top: 0;
+	        left: 0;
+	    }
+	    h1, p {
+	    	color: $white;
+	    	display: block;
+	    }
+	    h1::after {
+	    	content: '';
+		    height: 2px;
+		    width: 100px;
+		    display: block;
+		    background: $gold;
+		    margin-top: 1.6rem;
+	    }
+	    > div {
+	    	flex-basis: auto;
+	    }
+	    @include media-breakpoint-up(md){
+	    	height: 30rem;
+	    	h1 {
+	    		line-height: 7.5rem;
+	    	}
+	    }
+	    @include media-breakpoint-up(lg){
+	    	height: 41.8rem;
+	    }
+	  }
+	}
+	&__content {
+
+	}
+	&__social {
+		margin-top: 5rem;
+		background: $mid-gray;
+		padding-top: 4rem;
+		padding-bottom: 4rem;
+		@include media-breakpoint-up(md) {
+			margin-top: 6rem;
+		}
+	}
+}
+
 /* Card display styles for aggregated news hub content 
  * Events, News, Video and Hub Post content types.
 */
