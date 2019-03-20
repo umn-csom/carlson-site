@@ -1,0 +1,17 @@
+<?php
+/**
+ * @file
+ * Provides some additional hook overrides.
+ *
+ */
+use Drupal\Core\Routing\RouteMatchInterface;
+
+
+function carlson_custom_preprocess_views_view(&$vars) {
+	
+	$view = $vars["view"];
+
+  if ($view->id() == 'hub_landing_page_blocks') {
+    $vars['rows'][0]['#rows'][0]['#view_mode'] = 'card';
+  }
+}

@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme override to display a view of unformatted rows.
+ * Theme override to display a view for news hub featured blocks.
  *
  * Available variables:
  * - title: The title of this group of rows. May be empty.
@@ -15,10 +15,23 @@
  * @see template_preprocess_views_view_unformatted()
  */
 #}
-<div class="col-md-10 offset-md-1">
-	<div class="card-columns">
-		{% for row in rows %}
-		  {{ row.content }}
-		{% endfor %}
-	</div>
+{{ vardumper(view) }}
+<div class="row">
+{% for row in rows %}
+	
+	{% if loop.first %}
+		<div class="col-lg-4">
+    {{ row.content }}
+  	</div>
+  	<div class="col-lg-8">
+	{% endif %}
+
+  {% if not loop.first %}
+  	{{ row.content }}
+  {% endif %}
+
+	{% if loop.last %}
+		</div>
+	{% endif %}
+{% endfor %}
 </div>

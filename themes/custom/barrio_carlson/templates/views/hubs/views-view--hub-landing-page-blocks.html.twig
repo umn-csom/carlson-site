@@ -39,35 +39,9 @@
 %}
 <div{{ attributes.addClass(classes) }}>
 
-  {% if header %}
-    <header>
-      <div class="row text-center">
-        <div class="col-lg-8 offset-lg-2">
-          {{ header }}
-        </div>
-      </div>
-    </header>
-  {% endif %}
-  <div class="row news-hub-search__filter">
-    <div class="col-12">
-      {{ exposed }}
-    </div>
-  </div>
-  {{ attachment_before }}
   <div class="row news-hub-search__results">
   {{ rows }}
   {{ empty }}
-  {{ pager }}
   </div>
 
-  {{ attachment_after }}
-  {{ more }}
-
-  {% if footer %}
-    <footer>
-      {{ footer }}
-    </footer>
-  {% endif %}
-
-  {{ feed_icons }}
 </div>
