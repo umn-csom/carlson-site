@@ -1,0 +1,43 @@
+{#
+/**
+ * @file
+ * Theme override to display a view for news hub featured blocks.
+ *
+ * Available variables:
+ * - title: The title of this group of rows. May be empty.
+ * - rows: A list of the view's row items.
+ *   - attributes: The row's HTML attributes.
+ *   - content: The row's content.
+ * - view: The view object.
+ * - default_row_class: A flag indicating whether default classes should be
+ *   used on rows.
+ *
+ * @see template_preprocess_views_view_unformatted()
+ */
+#}
+
+<div class="row">
+	<div class="col-12 news-hub-block__results--title">
+		{{ header_text }}
+	</div>
+	{% for row in rows %}
+		{% if loop.first %}
+			<div class="col-lg-4 news-hub-block__results--featured">
+		    {{ row.content }}
+	  	</div>
+	  	<div class="col-lg-8 news-hub-block__results--items">
+		{% endif %}
+
+	  {% if not loop.first %}
+	  	{{ row.content }}
+	  {% endif %}
+
+		{% if loop.last %}
+				<div class="news-hub-block__results--link">
+				{{ footer_text }}
+				</div>
+			</div>
+		{% endif %}
+
+	{% endfor %}
+</div>

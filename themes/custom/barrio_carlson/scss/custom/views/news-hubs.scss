@@ -1,0 +1,102 @@
+/* Views page */
+.news-hub-search {
+	/* Cards */
+	.card-columns {
+    column-gap: 3rem;
+    @include media-breakpoint-up(md) {
+    	column-count: 2;
+    }
+    @include media-breakpoint-up(lg) {
+    	column-count: 3;
+    }
+    .card {
+    	margin-bottom: 3rem;
+    }
+  }
+	/* Header */
+	header {
+		h1 {
+		  font-size: $font-medium-mobile;
+
+		  @include media-breakpoint-up(lg) {
+		    font-size: $font-medium;
+		  }
+		}
+	}
+	&.centennial-hub {
+		header {
+			h1 {
+				@include font-lato-base();
+				color: $gold;
+				text-transform: uppercase;
+				font-weight: normal;
+				font-size: 2.8rem;
+				letter-spacing: 1.17px;
+			}
+		}		
+	}
+	/* Filters */
+	&__filter {
+		@include media-breakpoint-up(md) {
+			padding-left: 60px;
+			padding-right: 60px;
+		}
+		@include media-breakpoint-up(lg) {
+			padding-left: 100px;
+			padding-right: 100px;
+		}
+		.form-item-search-api-fulltext {
+			width: 100%;
+		}
+		#edit-search-api-fulltext {
+			background-image: url(../images/svg/spy-glass.svg);
+	    background-repeat: no-repeat;
+	    padding-left: 40px;
+	    background-position: 10px;
+		}
+		fieldset.form-type-select {
+			width: 100%;
+		}
+		.chosen-container {
+			width: 100% !important;
+		}
+		@include media-breakpoint-up(md) {
+			fieldset.form-type-select {
+				width: 33%;
+			}
+		}
+		@include media-breakpoint-up(lg) {
+			fieldset.form-type-select {
+				width: 25%;
+			}
+		}
+		label {
+			display: block;
+			font-weight: normal;
+		}
+		#edit-actions {
+			@include media-breakpoint-up(lg) {
+				width: 25%;
+			}
+		}
+		#edit-submit-hub-search-page {
+			@include button-outline($maroon);
+			background: $white;
+			width: 100%;
+		}
+	}
+	/* Content */
+	&__results {
+		margin-top: 5rem;
+		background: $mid-gray;
+		padding-top: 4rem;
+		padding-bottom: 4rem;
+		@include media-breakpoint-up(md) {
+			margin-top: 6rem;
+		}
+	}
+	/* Centennial */
+	&__centennial-footer {
+		background: $mid-gray;
+	}
+}

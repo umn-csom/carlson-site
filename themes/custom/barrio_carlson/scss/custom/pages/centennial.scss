@@ -45,7 +45,8 @@
     &__home,
     &__about,
     &__events,
-    &__timeline {
+    &__timeline,
+    &__news {
         &--headline {
             border-bottom: none;
         }
@@ -357,7 +358,8 @@
         }
     }
     &__events,
-    &__about {
+    &__about,
+    &__news {
         &--hero {
             @include box-shadow(0, 15px, 60px, 0.2);
             margin: 0;
@@ -527,6 +529,45 @@
             }
         }
     }
+    &__news {
+        &--headline {
+            background: $maroon;
+            p {
+                color: $white;
+            }
+        }
+        &--hero {
+            h1 {
+                margin-bottom: 1rem;
+                color: $white;
+                .subtitle {
+                    color: $gold;
+                }
+            }
+        }
+        &--content {
+            background: url('../images/centennial/dashed-circle-down.png') 15px top no-repeat;
+            .department-event-block {
+                background-color: transparent;
+                .view-content {
+                    background-color: transparent;
+                    .event-items__item {
+                        background-color: $white;
+                    }
+                }
+            }
+            h2 {
+                color: $slate;
+                font-family: $font-crimson;
+                text-transform: none;
+                text-align: left;
+                font-size: 2.8rem;
+                @include media-breakpoint-up(md){
+                    font-size: 4.8rem;
+                }
+            }
+        }
+    }
     &__nav {
         margin-bottom: -40px;
         text-align: center;
@@ -564,6 +605,11 @@
                     padding-top: 15px;
                 }
                 &.events {
+                    font-size: 45px;
+                    padding-bottom: 30px;
+                    padding-top: 20px;
+                }
+                &.news {
                     font-size: 45px;
                     padding-bottom: 30px;
                     padding-top: 20px;
@@ -664,7 +710,8 @@
                 &.home,
                 &.about,
                 &.timeline,
-                &.events {
+                &.events,
+                &.news {
                     padding: 0;
                     vertical-align: middle;
                 }
@@ -678,6 +725,9 @@
                     font-size: 3.2rem;
                 }
                 &.events {
+                    font-size: 2.9rem;
+                }
+                &.news {
                     font-size: 2.9rem;
                 }
             }

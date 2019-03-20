@@ -1,0 +1,259 @@
+/* News Hub Landing Page */
+.hub-landing-page {
+  &__hero {
+  	&--image {
+	    background-position: top center;
+	    background-size: cover;
+	    background-repeat: no-repeat;
+	    height: 20rem;
+	    display: flex;
+	    flex-direction: column;
+	    align-items: center;
+	    justify-content: center;
+	    @include box-shadow(0,15px,60px,0.30);
+	    position: relative;
+	    &:before {
+	        content: '';
+	        display: block;
+	        height: 100%;
+	        width: 100%;
+	        background: rgba(54,50,48,.5);
+	        position: absolute;
+	        top: 0;
+	        left: 0;
+	    }
+	    h1, p {
+	    	color: $white;
+	    	display: block;
+	    }
+	    h1::after {
+	    	content: '';
+		    height: 2px;
+		    width: 100px;
+		    display: block;
+		    background: $gold;
+		    margin-top: 1.6rem;
+	    }
+	    > div {
+	    	flex-basis: auto;
+	    }
+	    @include media-breakpoint-up(md){
+	    	height: 30rem;
+	    	h1 {
+	    		line-height: 7.5rem;
+	    	}
+	    }
+	    @include media-breakpoint-up(lg){
+	    	height: 41.8rem;
+	    }
+	  }
+	}
+	&__content {
+
+	}
+	&__social {
+		margin-top: 5rem;
+		background: $mid-gray;
+		padding-top: 4rem;
+		padding-bottom: 4rem;
+		@include media-breakpoint-up(md) {
+			margin-top: 6rem;
+		}
+	}
+}
+.news-hub-block {
+	&__results {
+		margin-top: 3rem;
+		&--featured {
+			.hub-card--post {
+				box-shadow: 0 15px 60px 0 rgba(0,0,0,0.30);
+				margin-bottom: 2.5rem;
+			}
+		}
+		&--title {
+			margin-bottom: 2.5rem;
+		}
+		&--items {
+
+		}
+		&--link {
+			@include button-link-secondary();
+			display: inline-block;
+		}
+		/* Overrides for other compact teaser styles */
+		.event-items__item {
+			margin-left: 0 !important;
+			border: none;
+		}
+		.news-items__item--title {
+			text-transform: capitalize;
+		}
+		.date-cal {
+			justify-content: center;
+			&__item {
+				flex: 1;
+			}
+		}
+		@include media-breakpoint-down(sm) {
+			.video-items__item--image,
+			.news-items__item--image {
+				@include make-col(5);
+			}
+			.video-items__item--text,
+			.news-items__item--text {
+				@include make-col(7);
+			}
+		}
+		@include media-breakpoint-up(sm) {
+			.video-items__item--image,
+			.news-items__item--image,
+			.date-cal {
+				@include make-col(3);
+				padding-right: 15px;
+				padding-left: 15px;
+				margin-left: 0;
+				margin-right: 0;
+			}
+			.video-items__item--text,
+			.news-items__item--text,
+			.event-items__details {
+				@include make-col(9);
+				padding-right: 15px;
+				padding-left: 15px;
+			}
+		}		
+	}
+}
+/* 
+ * Card display styles for aggregated news hub content 
+ * Events, News, Video and Hub Post content types.
+*/
+.hub-card--news,
+.hub-card--event,
+.hub-card--video,
+.hub-card--post {
+	display: inline-block;
+	width: 100%;
+  padding-bottom: 2.5rem;
+	@include news-hub-card();
+	&:hover {
+		@include box-shadow(0px,8px,16px,0.20);
+		transition: all 0.3s ease-in-out;
+	}
+}
+/* Event card specific styles*/
+.hub-card--event {
+	.card {
+		&__date {
+			background-color: $maroon;
+			background-blend-mode: multiply;
+			background-size: cover;
+			.date-cal {
+				padding-top: 20%;
+				&__item {
+					margin: 0 auto;
+					&--day {
+						color: $gold;
+						font-size: 9rem;
+						line-height: 9rem;
+					}
+					&--month {
+						font-weight: bold;
+						font-size: 1.7rem;
+						letter-spacing: 1.89px;
+						color: $white;
+						&:after {
+							background: $white;
+							height: 5px;
+							margin-top: 2.2rem;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+/* Video specifc card styles */
+.hub-card--video {
+	.card__img {
+    &::before {
+      position:absolute;
+      top: 0;
+      left: 0;
+      content: '';
+      height: 100%;
+      width: 100%;
+      background-image: url('../images/news-hub-video.svg');
+      background-repeat: no-repeat;
+      background-size: 100%;
+      transition: all 0.3s ease-in-out; 
+    }
+  }
+  &:hover,
+  &:active,
+  &:focus {
+  	.card__img::before {
+	    background-image: url('../images/news-hub-video-gold.svg');
+	  }
+  }
+}
+
+/*
+ * Compact teaser for video and hub posts
+ *
+*/
+
+/* Hub Post Teaser Compact styles */
+.hub-post-items {
+	&__item {
+		margin-bottom: 2rem;
+		&--image {
+		}
+		&--title {
+			@include font-lato-base();
+			line-height: 2rem;
+			font-size: 1.6rem;
+			font-weight: 700;
+		}
+		&--link {
+			@include bold_link();
+		}
+	}
+}
+/* Video Teaser Compact styles */
+.video-items {
+	&__item {
+		margin-bottom: 2rem;
+		&--image {
+	    &::before {
+	      position:absolute;
+	      top: 0;
+	      left: 0;
+	      content: '';
+	      height: 100%;
+	      width: 100%;
+	      background-image: url('../images/news-hub-video.svg');
+	      background-repeat: no-repeat;
+	      background-size: contain;
+	      background-position: center;
+	      transition: all 0.3s ease-in-out; 
+	    }
+	    &:hover,
+		  &:active,
+		  &:focus {
+		  	.card__img::before {
+			    background-image: url('../images/news-hub-video-gold.svg');
+			  }
+		  }
+		}
+		&--title {
+			@include font-lato-base();
+			line-height: 2rem;
+			font-size: 1.6rem;
+			font-weight: 700;
+		}
+		&--link {
+			@include bold_link();
+		}
+	}
+}
