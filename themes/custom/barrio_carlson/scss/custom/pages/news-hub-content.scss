@@ -60,12 +60,31 @@
 			margin-top: 6rem;
 		}
 	}
+	/* View block zig zag */
+	.block-views {
+		&:not(:last-child) {
+			margin-bottom: 2.5rem;
+			border-bottom: solid 1px $mid-gray;
+			padding-bottom: 2.5rem;
+		}
+		@include media-breakpoint-up(lg) {
+			&:nth-child(even) {
+				.news-hub-block__results--featured {
+					order: 2;
+				}
+				.news-hub-block__results--items {
+					order: 1;
+				}	
+			}
+		}
+	}
 }
 .news-hub-block {
 	&__results {
 		margin-top: 3rem;
 		&--featured {
-			.hub-card--post {
+			div[class*='hub-card']
+			 {
 				box-shadow: 0 15px 60px 0 rgba(0,0,0,0.30);
 				margin-bottom: 2.5rem;
 			}
