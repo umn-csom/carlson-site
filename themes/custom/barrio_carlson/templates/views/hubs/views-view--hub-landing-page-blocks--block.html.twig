@@ -40,8 +40,23 @@
 <div{{ attributes.addClass(classes) }}>
 
   <div class="row news-hub-block__results">
-  {{ rows }}
-  {{ empty }}
+  	<div class="row">
+
+			<div class="col-12 news-hub-block__results--title">
+				{{ header }}
+			</div>
+
+			<div class="col-lg-4 news-hub-block__results--featured">
+		    {{ attachment_before }}
+	  	</div>
+
+	  	<div class="col-lg-8 news-hub-block__results--items">
+	  		{{ rows }}
+				<div class="news-hub-block__results--link">
+					{{ footer }}
+				</div>
+			</div>
+		</div>
   </div>
 
 </div>

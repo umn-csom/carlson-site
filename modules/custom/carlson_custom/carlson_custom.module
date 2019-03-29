@@ -11,17 +11,17 @@ function carlson_custom_preprocess_views_view(&$variables) {
 	
 	$view = $variables["view"];
 	// Set the first result to use the card node display
-  if ($view->id() == 'hub_landing_page_blocks') {
-    $variables['rows'][0]['#rows'][0]['#view_mode'] = 'card';
-  }
+  // if ($view->id() == 'hub_landing_page_blocks') {
+  //   $variables['rows'][0]['#rows'][0]['#view_mode'] = 'card';
+  // }
 }
 
 function carlson_custom_preprocess_views_view_unformatted(&$variables){
 		
-		$view = $variables["view"];
+		// $view = $variables["view"];
 
-		if ($view->id() == 'hub_landing_page_blocks') {
-			$variables['header_text'] = $view->display_handler->renderArea('header');
-			$variables['footer_text'] = $view->display_handler->renderArea('footer');
-		}
+		// if ($view->id() == 'hub_landing_page_blocks') {
+		// 	$variables['header_text'] = $view->display_handler->renderArea('header');
+		// 	$variables['footer_text'] = $view->display_handler->renderArea('footer');
+		// }
 }
