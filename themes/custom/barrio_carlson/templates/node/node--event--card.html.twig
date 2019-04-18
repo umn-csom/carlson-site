@@ -63,6 +63,8 @@
 {# Set the hero image to be used as a background image #}
 {% set image = file_url(content.field_hero_media|field_target_entity.image.entity.uri.value | image_style('hub_teaser')) %}
 
+{% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
+
 <div class="card hub-card--event">
   <div class="card__body">
     <div class="card__date" style="background-image: url('{{ image }}')">
