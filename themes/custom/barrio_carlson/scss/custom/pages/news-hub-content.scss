@@ -98,23 +98,26 @@
 		&--items > div {
 			margin-bottom: 1.8rem;
 		}
+		&--items {
+			/* Overrides for other compact teaser styles */
+			.event-items__item {
+				margin-left: -15px !important;
+				margin-right: -15px !important;
+				border: none;
+				.date-cal {
+					justify-content: center;
+					&__item {
+						flex: 1;
+					}
+
+				}
+			}
+		}
 		&--link {
 			@include button-link-secondary();
 			display: inline-block;
 		}
-		/* Overrides for other compact teaser styles */
-		.event-items__item {
-			margin-left: -15px !important;
-			margin-right: -15px !important;
-			border: none;
-			.date-cal {
-				justify-content: center;
-				&__item {
-					flex: 1;
-				}
-
-			}
-		}
+		
 		.news-items__item--title {
 			text-transform: capitalize;
 		}
