@@ -60,8 +60,14 @@
  * @see template_preprocess_node()
  */
 #}
+{% set has_image = "no-img" %}
+
+{% if content.field_hero_media|field_value is not empty %}
+  {% set has_image = "has-img" %}
+{% endif %}
+
 <div class="card hub-card--blog">
-  <div class="card__body">
+  <div class="card__body {{ has_image }}">
     <div class="card__img">
       {{ content.field_hero_media }}
     </div>
