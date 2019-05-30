@@ -62,6 +62,13 @@
         });
     }
 
+    function resetSubInit() {
+        $('.subul').each(function () {
+            $(this).css('top', '-4000px');
+            $(this).removeClass('show');
+        });
+    }
+
     function resetDrawers() {
         $('.carlson-nav .navbar .we-mega-menu-submenu').each(function() {
             $(this).removeClass('show');
@@ -317,7 +324,13 @@
 
     // Scroll top init.
     $(window).resize(setup);
+    resetDrawers();
+    resetSubInit();
     setSticky();
     setup();
+
+    setTimeout(function() {
+        resetSubInit();
+    }, 100);
 
   })(jQuery, Drupal);
