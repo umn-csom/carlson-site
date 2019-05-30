@@ -1,0 +1,212 @@
+{#
+/**
+ * @file
+ * Bootstrap Barrio's theme implementation to display a node.
+ *
+ * Available variables:
+ * - node: The node entity with limited access to object properties and methods.
+     Only "getter" methods (method names starting with "get", "has", or "is")
+     and a few common methods such as "id" and "label" are available. Calling
+     other methods (such as node.delete) will result in an exception.
+ * - label: The title of the node.
+ * - content: All node items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}. Use
+ *   {{ content|without('field_example') }} to temporarily suppress the printing
+ *   of a given child element.
+ * - author_picture: The node author user entity, rendered using the "compact"
+ *   view mode.
+ * - metadata: Metadata for this node.
+ * - date: Themed creation date field.
+ * - author_name: Themed author name field.
+ * - url: Direct URL of the current node.
+ * - display_submitted: Whether submission information should be displayed.
+ * - attributes: HTML attributes for the containing element.
+ *   The attributes.class element may contain one or more of the following
+ *   classes:
+ *   - node: The current template type (also known as a "theming hook").
+ *   - node--type-[type]: The current node type. For example, if the node is an
+ *     "Article" it would result in "node--type-article". Note that the machine
+ *     name will often be in a short form of the human readable label.
+ *   - node--view-mode-[view_mode]: The View Mode of the node; for example, a
+ *     teaser would result in: "node--view-mode-teaser", and
+ *     full: "node--view-mode-full".
+ *   The following are controlled through the node publishing options.
+ *   - node--promoted: Appears on nodes promoted to the front page.
+ *   - node--sticky: Appears on nodes ordered above other non-sticky nodes in
+ *     teaser listings.
+ *   - node--unpublished: Appears on unpublished nodes visible only to site
+ *     admins.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - content_attributes: Same as attributes, except applied to the main
+ *   content tag that appears in the template.
+ * - author_attributes: Same as attributes, except applied to the author of
+ *   the node tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ * - view_mode: View mode; for example, "teaser" or "full".
+ * - teaser: Flag for the teaser state. Will be true if view_mode is 'teaser'.
+ * - page: Flag for the full page state. Will be true if view_mode is 'full'.
+ * - readmore: Flag for more state. Will be true if the teaser content of the
+ *   node cannot hold the main body content.
+ * - logged_in: Flag for authenticated user status. Will be true when the
+ *   current user is a logged-in member.
+ * - is_admin: Flag for admin user status. Will be true when the current user
+ *   is an administrator.
+ *
+ * @see template_preprocess_node()
+ */
+#}
+{{ attach_library('bootstrap_barrio/node') }}
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix'
+  ]
+%}
+
+
+
+<div class="fixed-bottom py-3 mba-cta-bottom d-lg-none animated bounceInUp slow delay-1s" id="mba-cta--bottom">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <a class="mba-btn-cta" id="mba--btn-cta2" onclick="scrollToTop()">Get more information and apply <i class="fas fa-angle-down"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BEGIN HEADER -->
+<section style="background-color:#ffd75f;" class="py-0 pt-md-1 pb-md-2">
+  <header class="umnhf" id="umnhf-h" role="banner">
+    <!-- Skip Links: Give your nav and content elements the appropriate ID attributes -->
+    <div class="printer"><div class="left"></div><div class="right"><strong>University of Minnesota</strong><br />http://twin-cities.umn.edu/<br />612-625-5000</div></div>
+    <div class="umnhf" id="umnhf-h-mast">
+      <a class="umnhf" id="umnhf-h-logo" href="http://twin-cities.umn.edu/"><span>Go to the U of M home page</span></a>
+      <ul class="umnhf" id="umnhf-h-ql">
+        <li><a href="http://onestop.umn.edu/">One Stop</a></li>
+        <li class="umnhf"><a href="https://www.myu.umn.edu/">MyU <span></span>: For Students, Faculty, and Staff</a></li>
+      </ul>
+    </div>
+    <!-- Twin Cities Campus CSE Code -->
+    <div class="umnhf d-none d-md-block" id="umnhf-h-search" role="search">
+      <script>
+        (function() {
+          var cx = '002834015805923805805:c-0k--9bdkk';
+          var gcse = document.createElement('script');
+          gcse.type = 'text/javascript';
+          gcse.async = true;
+          gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(gcse, s);
+        })();
+      </script>
+      <gcse:searchbox-only></gcse:searchbox-only>
+    </div>
+  </header>
+</section>
+
+<header class="mba--header2">
+  <section class="mba--header2--bgimg">
+    <div class="container">
+      <div class="row">
+        <div class="col-5 col-md-4 col-lg-3 pt-4 pb-2">
+          <img src="/{{ directory }}/images/html_campaign/carlsonmba.svg" class="img-fluid">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-8 py-4">
+          <img src="/{{ directory }}/images/html_campaign/copy-lg.svg" class="img-fluid d-none d-lg-block" role="presentation" alt="">
+          <img src="/{{ directory }}/images/html_campaign/copy-sm.svg" class="img-fluid d-block d-lg-none" role="presentation" alt="">
+          <h1 class="sr-only">The region’s top-ranked MBA program now offers classes anytime, anywhere.</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+</header>
+
+<section class="mt-4 mt-lg-3 mt-xl-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-10 pb-4 pb-lg-2 pb-xl-4 mba-copy text-center">
+        <h2 class="pb-2 mb-2 mt-0 mx-auto">Getting a top-ranked MBA <br class="d-none d-md-inline-block d-lg-none" /><span class="text-nowrap">has never been easier.</span></h2>
+        <p><span class="text-nowrap">With the Carlson School of Management’s</span> <span class="text-nowrap">Part-Time and Online MBA programs,</span> <span class="text-nowrap">you now have access</span> <span class="text-nowrap">to world-renowned faculty</span> <span class="text-nowrap">and coursework anytime, anywhere.</span> <br class="d-none d-xl-inline-block"><span class="text-nowrap">You can take classes</span> <span class="text-nowrap">after work in the evenings,</span> <span class="text-nowrap">in your free time</span> <span class="text-nowrap">on the weekend,</span> <span class="text-nowrap">or whenever you have a spare moment online.</span></p>
+      </div>
+      <div class="col-12 text-center">
+        <div class="d-none d-md-flex row pt-3 mb-5 justify-content-center">
+          <article class="col-4 col-xl-3 animated faster flipInY">
+            <div class="factoid-number">#2</div>
+            <p class="factoid-copy">top military-friendly <span class="text-nowrap">graduate schools</span></p>
+          </article>
+          <article class="col-4 col-xl-3 animated faster flipInY delay-1s">
+            <div class="factoid-number">#3</div>
+            <p class="factoid-copy">U.S. public university <span class="text-nowrap">business faculty</span> <span class="text-nowrap">for intellectual contributions</span></p>
+          </article>
+          <article class="col-4 col-xl-3 animated faster flipInY delay-2s">
+            <div class="factoid-number">#7</div>
+            <p class="factoid-copy">U.S. News & World Report’s <span class="text-nowrap">Best Part-Time MBA</span></p>
+          </article>
+        </div>
+        <div class="row d-flex d-md-none mb-5">
+          <article class="col-12 mb-4 animated faster flipInY">
+            <div class="factoid-number">#2</div>
+            <p class="factoid-copy">top military-friendly <span class="text-nowrap">graduate schools</span></p>
+          </article>
+          <article class="col-12 mb-4 animated fast flipInY">
+            <div class="factoid-number">#3</div>
+            <p class="factoid-copy">U.S. public university <span class="text-nowrap">business faculty</span> <span class="text-nowrap">for intellectual contributions</span></p>
+          </article>
+          <article class="col-12 animated flipInY">
+            <div class="factoid-number">#7</div>
+            <p class="factoid-copy">U.S. News & World Report’s <span class="text-nowrap">Best Part-Time MBA</span></p>
+          </article>
+        </div>
+      </div>
+    </div>
+</section>
+
+<section class="mba-cta pt-4 pb-2" id="mba--cta-collapse">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h2 class="mb-4">Find the MBA program <br class="d-inline-block d-md-none">that’s right for you</h2>
+        <a name="mba--cta-collapse-link"></a>
+        <div class="row mb-4 justify-content-center">
+          <div class="col-10 mb-3 col-md-6 col-lg-4 mb-md-0">
+            <a href="https://carlsonschool.umn.edu/lp/summer-rush-ptmba" class="btn btn-lg btn-block mba--btn">Get more info about<br><span class="btn-bigtext">Part-time MBA</span></a>
+          </div>
+          <div class="col-10 mb-3 col-md-6 col-lg-4 mb-md-0">
+            <a href="https://carlsonschool.umn.edu/lp/summer-rush-omba" class="btn btn-lg btn-block mba--btn">Get more info about<br><span class="btn-bigtext">Online MBA</span></a>
+          </div>
+          <div class="col-10 mb-3 col-md-6 col-lg-4 mb-md-0 mt-md-3 mt-lg-0">
+            <a href="https://choose.umn.edu/apply/" class="btn btn-lg btn-block mba--btn2">Ready to get started?<br><span class="btn-bigtext">Apply now</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row justify-content-center my-4">
+      <div class="col-6 col-md-5 col-lg-4 col-xl-3 py-4">
+        <a href="https://carlsonschool.umn.edu/"><img src="/{{ directory }}/images/svg/logo.svg" class="img-fluid" alt="Carlson School of Management"></a>
+      </div>
+    </div>
+    <footer id="umnhf-f" role="contentinfo" class="pt-4 pb-5 mb-4 mb-md-0 pb-md-0 mba--topborder">
+      <nav id="umnhf-f-myu">
+        <h3 class="umnhf-f-title visually-hidden">For Students, Faculty, and Staff</h3>
+        <ul>
+          <li><a href="http://onestop.umn.edu/">One Stop</a></li>
+          <li><a href="https://www.myu.umn.edu/">My U <span></span></a></li>
+        </ul>
+      </nav>
+      <small>&copy; <span id="cdate">2019</span> Regents of the University of Minnesota. All rights reserved. The University of Minnesota is an equal opportunity educator and employer. <a href="http://privacy.umn.edu">Privacy Statement</a></small>
+    </footer>
+  </div>
+</section>
