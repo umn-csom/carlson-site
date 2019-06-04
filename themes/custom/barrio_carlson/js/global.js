@@ -49,9 +49,9 @@
           $(selector).chosen(config[selector]);
         }        
       }
-      $(document).ready(){
+      $(document).ready(function(){ 
         addChosen();
-      }
+      });
     }
   }
 })(jQuery, Drupal);
