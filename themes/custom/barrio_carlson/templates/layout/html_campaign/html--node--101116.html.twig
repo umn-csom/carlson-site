@@ -46,26 +46,25 @@
 <script>
 
 var  markers = [
-  {latLng: [33.75, -84.4], name: 'Atlanta', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [30.27, -97.74], name: 'Austin', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [39.29, -76.61], name: 'Baltimore', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [41.88, -87.63], name: 'Chicago', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [32.78, -96.8], name: 'Dallas', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [39.74, -104.99], name: 'Denver', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [36, -78.9], name: 'Durham', weburl : "https://huffpost.com"},
-  {latLng: [30.33, -81.66], name: 'Jacksonville', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [44.98, -93.27], name: 'Minneapolis', dates: 'August 3&ndash;13, 2019', weburl : "https://cnn.com"},
-  {latLng: [40.71, -74], name: 'New York', weburl : "https://talkingpointsmemo.com"},
-  {latLng: [29.42, -98.49], name: 'San Antonio', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [32.72, -117.16], name: 'San Diego', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [37.77, -122.42], name: 'San Francisco', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [38.91, -77.04], name: 'Washington, DC', weburl : "https://nytimes.com"},
+  {latLng: [33.75, -84.4], name: 'Atlanta', dates: 'Dates, 2019', text : "<h2>Atlanta, GA</h2><p>So much information!</p>"},
+  {latLng: [30.27, -97.74], name: 'Austin', dates: 'Dates, 2019', text : "<h2>Austin, TX</h2><p>So much information!</p>"},
+  {latLng: [39.29, -76.61], name: 'Baltimore', dates: 'Dates, 2019', text : "<h2>Baltimore, MD</h2><p>So much information!</p>"},
+  {latLng: [41.88, -87.63], name: 'Chicago', dates: 'Dates, 2019', text : "<h2>Chicago, IL</h2><p>So much information!</p>"},
+  {latLng: [32.78, -96.8], name: 'Dallas', dates: 'Dates, 2019', text : "<h2>Dallas, TX</h2><p>So much information!</p>"},
+  {latLng: [39.74, -104.99], name: 'Denver', dates: 'Dates, 2019', text : "<h2>Denver, CO</h2><p>So much information!</p>"},
+  {latLng: [36, -78.9], name: 'Durham', text : "<h2>Durham, NC</h2><p>So much information!</p>"},
+  {latLng: [30.33, -81.66], name: 'Jacksonville', dates: 'Dates, 2019', text : "<h2>Jacksonville, FL</h2><p>So much information!</p>"},
+  {latLng: [44.98, -93.27], name: 'Minneapolis', dates: 'August 3&ndash;13, 2019', text : "<h2>Minneapolis, MN</h2><p>So much information!</p>"},
+  {latLng: [40.71, -74], name: 'New York', text : "<h2>New York, NY</h2><p>So much information!</p>"},
+  {latLng: [29.42, -98.49], name: 'San Antonio', dates: 'Dates, 2019', text : "<h2>San Antonio, TX</h2><p>So much information!</p>"},
+  {latLng: [32.72, -117.16], name: 'San Diego', dates: 'Dates, 2019', text : "<h2>San Diego, CA</h2><p>So much information!</p>"},
+  {latLng: [37.77, -122.42], name: 'San Francisco', dates: 'Dates, 2019', text : "<h2>San Francisco, CA</h2><p>So much information!</p>"},
+  {latLng: [38.91, -77.04], name: 'Washington, DC', text : "<h2>Washington, DC</h2><p>So much information!</p>"},
 ];
 
 
-
   $(function(){
-    $('#map').vectorMap({
+    $('#usamap').vectorMap({
       map: 'us_lcc',
       normalizeFunction: 'polynomial',
       backgroundColor: 'transparent',
@@ -85,7 +84,7 @@ var  markers = [
       },
       markerStyle: {
           initial: {
-              fill: '#B8002B',
+              fill: '#FFB71E',
               stroke: '#900021',
               "fill-opacity": 1,
               "stroke-width": 2,
@@ -96,15 +95,12 @@ var  markers = [
             fill: '#FFB71E',
           }
       },
-      onMarkerClick: function(event, index) {
-          alert(markers[index].weburl);
-      },
       markers: markers,
       onMarkerClick: function(events, index) {
-        $(location).attr('href',markers[index].weburl);
+        $('#copy').html(markers[index].text);
       },
       onMarkerTipShow: function (e, el, code) {
-        var markers = $('#map').vectorMap('get', 'mapObject').markers;
+        var markers = $('#usamap').vectorMap('get', 'mapObject').markers;
         if (typeof markers[code].config.dates !== 'undefined') {
           el.html(el.html() + '<br /><span class="mapdate">' + markers[code].config.dates + '</span>');
         } else {
