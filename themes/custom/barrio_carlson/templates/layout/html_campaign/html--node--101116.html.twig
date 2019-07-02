@@ -42,85 +42,101 @@
     {% include directory ~ '/templates/layout/umn-footer.html.twig' %}
 
 
-<!--start UNITED STATES -->
-<script>
+    <!--start UNITED STATES -->
+    <script>
 
-var  markers = [
-  {latLng: [33.75, -84.4], name: 'Atlanta', dates: 'Dates, 2019', text : "<h2>Atlanta, GA</h2><p>So much information!</p>"},
-  {latLng: [30.27, -97.74], name: 'Austin', dates: 'Dates, 2019', text : "<h2>Austin, TX</h2><p>So much information!</p>"},
-  {latLng: [39.29, -76.61], name: 'Baltimore', dates: 'Dates, 2019', text : "<h2>Baltimore, MD</h2><p>So much information!</p>"},
-  {latLng: [41.88, -87.63], name: 'Chicago', dates: 'Dates, 2019', text : "<h2>Chicago, IL</h2><p>So much information!</p>"},
-  {latLng: [32.78, -96.8], name: 'Dallas', dates: 'Dates, 2019', text : "<h2>Dallas, TX</h2><p>So much information!</p>"},
-  {latLng: [39.74, -104.99], name: 'Denver', dates: 'Dates, 2019', text : "<h2>Denver, CO</h2><p>So much information!</p>"},
-  {latLng: [36, -78.9], name: 'Durham', text : "<h2>Durham, NC</h2><p>So much information!</p>"},
-  {latLng: [30.33, -81.66], name: 'Jacksonville', dates: 'Dates, 2019', text : "<h2>Jacksonville, FL</h2><p>So much information!</p>"},
-  {latLng: [44.98, -93.27], name: 'Minneapolis', dates: 'August 3&ndash;13, 2019', text : "<h2>Minneapolis, MN</h2><p>So much information!</p>"},
-  {latLng: [40.71, -74], name: 'New York', text : "<h2>New York, NY</h2><p>So much information!</p>"},
-  {latLng: [29.42, -98.49], name: 'San Antonio', dates: 'Dates, 2019', text : "<h2>San Antonio, TX</h2><p>So much information!</p>"},
-  {latLng: [32.72, -117.16], name: 'San Diego', dates: 'Dates, 2019', text : "<h2>San Diego, CA</h2><p>So much information!</p>"},
-  {latLng: [37.77, -122.42], name: 'San Francisco', dates: 'Dates, 2019', text : "<h2>San Francisco, CA</h2><p>So much information!</p>"},
-  {latLng: [38.91, -77.04], name: 'Washington, DC', text : "<h2>Washington, DC</h2><p>So much information!</p>"},
-];
+    var  markers = [
+      {latLng: [33.75, -84.4], name: 'Atlanta', text : "<h3>Atlanta, GA</h3><p>So much information!</p>"},
+      {latLng: [30.27, -97.74], name: 'Austin', text : "<h3>Austin, TX</h3><p>So much information!</p>"},
+      {latLng: [39.29, -76.61], name: 'Baltimore', text : "<h3>Baltimore, MD</h3><p>So much information!</p>"},
+      {latLng: [41.88, -87.63], name: 'Chicago', text : "<h3>Chicago, IL</h3><p style=\"line-height:135%;margin : 1em 0;\"><a href=\"\" style=\"font-weight:bold;\">Register to meet us at XYZ Event Title</a><br>Location Name<br>Septober 1–31</p><p style=\"line-height:135%;margin : 1em 0;\"><a href=\"\" style=\"font-weight:bold;\">Register to meet us at XYZ Event Title</a><br>Location Name<br>Septober 1–31</p><p style=\"line-height:135%;margin : 1em 0;\"><a href=\"\" style=\"font-weight:bold;\">Register to meet us at XYZ Event Title</a><br>Location Name<br>Septober 1–31</p><p style=\"line-height:135%;margin : 1em 0;\"><a href=\"\" style=\"font-weight:bold;\">Register to meet us at XYZ Event Title</a><br>Location Name<br>Septober 1–31</p><p style=\"line-height:135%;margin : 1em 0;\"><a href=\"\" style=\"font-weight:bold;\">Register to meet us at XYZ Event Title</a><br>Location Name<br>Septober 1–31</p><p style=\"line-height:135%;margin : 1em 0;\"><a href=\"\" style=\"font-weight:bold;\">Register to meet us at XYZ Event Title</a><br>Location Name<br>Septober 1–31</p>"},
+      {latLng: [32.78, -96.8], name: 'Dallas', text : "<h3>Dallas, TX</h3><p>So much information!</p>"},
+      {latLng: [39.74, -104.99], name: 'Denver', text : "<h3>Denver, CO</h3><p>So much information!</p>"},
+      {latLng: [36, -78.9], name: 'Durham', text : "<h3>Durham, NC</h3><p>So much information!</p>"},
+      {latLng: [46.88, -96.79], name: 'Fargo', text : "<h3>Fargo, ND</h3><p>So much information!</p>"},
+      {latLng: [30.33, -81.66], name: 'Jacksonville', text : "<h3>Jacksonville, FL</h3><p>So much information!</p>"},
+      {latLng: [43.07, -89.38], name: 'Madison', text : "<h3>Madison, WI</h3><p>So much information!</p>"},
+      {latLng: [44.98, -93.27], name: 'Minneapolis', text : "<h3>Minneapolis, MN</h3><p>So much information!</p>"},
+      {latLng: [43.03, -87.92], name: 'Milwaukee', text : "<h3>Milwaukee, WI</h3><p>So much information!</p>"},
+      {latLng: [40.71, -74], name: 'New York', text : "<h3>New York, NY</h3><p>So much information!</p>"},
+      {latLng: [40.77, -111.89], name: 'Salt Lake City', text : "<h3>Salt Lake City, UT</h3><p>So much information!</p>"},
+      {latLng: [29.42, -98.49], name: 'San Antonio', text : "<h3>San Antonio, TX</h3><p>So much information!</p>"},
+      {latLng: [32.72, -117.16], name: 'San Diego', text : "<h3>San Diego, CA</h3><p>So much information!</p>"},
+      {latLng: [37.77, -122.42], name: 'San Francisco', text : "<h3>San Francisco, CA</h3><p>So much information!</p>"},
+      {latLng: [47.61, -122.33], name: 'Seattle', text : "<h3>Seattle, WA</h3><p>So much information!</p>"},
+      {latLng: [45.56, -94.16], name: 'St. Cloud', text : "<h3>St. Cloud, MN</h3><p>So much information!</p>"},
+      {latLng: [38.91, -77.04], name: 'Washington, DC', text : "<h3>Washington, DC</h3><p>So much information!</p>"},
+    ];
 
 
-  $(function(){
-    $('#usamap').vectorMap({
-      map: 'us_lcc',
-      normalizeFunction: 'polynomial',
-      backgroundColor: 'transparent',
-      series: {
-        regions: [{
-          values: {
-            'US-HI': 'transparent',
-            'US-AK': 'transparent',
+      $(function(){
+        $('#usamap').vectorMap({
+          map: 'us_lcc',
+          normalizeFunction: 'polynomial',
+          backgroundColor: 'transparent',
+          series: {
+            regions: [{
+              values: {
+                'US-HI': 'transparent',
+                'US-AK': 'transparent',
+                'US-CA': '#ffde7a',
+                'US-WA': '#ffde7a',
+                'US-UT': '#ffde7a',
+                'US-CO': '#ffde7a',
+                'US-TX': '#ffde7a',
+                'US-ND': '#ffde7a',
+                'US-MN': '#ffde7a',
+                'US-WI': '#ffde7a',
+                'US-IL': '#ffde7a',
+                'US-NY': '#ffde7a',
+                'US-MD': '#ffde7a',
+                'US-DC': '#ffde7a',
+                'US-NC': '#ffde7a',
+                'US-GA': '#ffde7a',
+                'US-FL': '#ffde7a',
+              },
+              attribute: 'fill'
+            }]
           },
-          attribute: 'fill'
-        }]
-      },
-      regionStyle: {
-        initial: {
-          fill: '#d5d6d2',
-        },
-      },
-      markerStyle: {
-          initial: {
-              fill: '#FFB71E',
-              stroke: '#900021',
-              "fill-opacity": 1,
-              "stroke-width": 2,
-              "stroke-opacity": 1,
-              r: 6,
+          regionStyle: {
+            initial: {
+              fill: '#ffde7a',
+            },
           },
-          hover: {
-            fill: '#FFB71E',
-          }
-      },
-      markers: markers,
-      onMarkerClick: function(events, index) {
-        $('#copy').html(markers[index].text);
-      },
-      onMarkerTipShow: function (e, el, code) {
-        var markers = $('#usamap').vectorMap('get', 'mapObject').markers;
-        if (typeof markers[code].config.dates !== 'undefined') {
-          el.html(el.html() + '<br /><span class="mapdate">' + markers[code].config.dates + '</span>');
-        } else {
-          el.html(el.html());
-        }
-      },
-      labels: {
-        regions: false
-      },
-      onRegionOver: function (event, code, region) {
-        if (activeNations.indexOf(code) === -1) {
-          event.preventDefault();
-        }
-      },
-      zoomButtons: false,
-      zoomOnScroll: false,
-      panOnDrag: false,
-    });
-  });
-</script>
+          markerStyle: {
+              initial: {
+                  fill: '#900021',
+                  "fill-opacity": 1,
+                  "stroke-width": 0,
+                  "stroke-opacity": 1,
+                  r: 8,
+              },
+              hover: {
+                fill: '#7a0019',
+              }
+          },
+          markers: markers,
+          onMarkerClick: function(events, index) {
+            $('#copy').html(markers[index].text);
+          },
+          onMarkerTipShow: function (e, el, code) {
+            var markers = $('#usamap').vectorMap('get', 'mapObject').markers;
+            el.html(el.html());
+          },
+          labels: {
+            regions: false
+          },
+          onRegionOver: function (event, code, region) {
+            if (activeNations.indexOf(code) === -1) {
+              event.preventDefault();
+            }
+          },
+          zoomButtons: false,
+          zoomOnScroll: false,
+          panOnDrag: false,
+        });
+      });
+    </script>
 
 <!--end-->
 

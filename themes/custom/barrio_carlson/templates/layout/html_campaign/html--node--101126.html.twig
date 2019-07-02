@@ -42,10 +42,11 @@
     {% include directory ~ '/templates/layout/umn-footer.html.twig' %}
 
 
-<!--start UNITED STATES -->
+<!--start AFRICA -->
 <script>
 
 var  markers = [
+  {latLng: [5.6, -0.19], name: 'Accra', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
   {latLng: [-26.20, 28.05], name: 'Johannesburg', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
   {latLng: [6.52, 3.38], name: 'Lagos', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
   {latLng: [-1.29, 36.82], name: 'Nairobi', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
@@ -54,26 +55,36 @@ var  markers = [
 
 
   $(function(){
-    $('#map').vectorMap({
+    $('#africamap').vectorMap({
       map: 'africa_mill',
       normalizeFunction: 'polynomial',
       backgroundColor: 'transparent',
       regionStyle: {
         initial: {
-          fill: '#d5d6d2',
+          fill: '#f9f7f6',
         },
+      },
+      series: {
+        regions: [{
+          values: {
+            'NG': '#ffde7a',
+            'GH': '#ffde7a',
+            'KE': '#ffde7a',
+            'ZA': '#ffde7a',
+          },
+          attribute: 'fill'
+        }]
       },
       markerStyle: {
           initial: {
-              fill: '#B8002B',
-              stroke: '#900021',
+              fill: '#900021',
               "fill-opacity": 1,
-              "stroke-width": 2,
+              "stroke-width": 0,
               "stroke-opacity": 1,
-              r: 6,
+              r: 8,
           },
           hover: {
-            fill: '#FFB71E',
+            fill: '#7a0019',
           }
       },
       onMarkerClick: function(event, index) {
@@ -84,7 +95,7 @@ var  markers = [
         $(location).attr('href',markers[index].weburl);
       },
       onMarkerTipShow: function (e, el, code) {
-        var markers = $('#map').vectorMap('get', 'mapObject').markers;
+        var markers = $('#africamap').vectorMap('get', 'mapObject').markers;
         if (typeof markers[code].config.dates !== 'undefined') {
           el.html(el.html() + '<br /><span class="mapdate">' + markers[code].config.dates + '</span>');
         } else {

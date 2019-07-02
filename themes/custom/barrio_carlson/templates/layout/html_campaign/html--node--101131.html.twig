@@ -46,89 +46,47 @@
 <script>
 
 var  markers = [
-  {latLng: [37.57, 126.98], name: 'Seoul', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [39.9, 116.41], name: 'Beijing', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [31.23, 121.47], name: 'Shanghai', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
   {latLng: [12.97, 77.59], name: 'Bangalore', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
-  {latLng: [19.08, 72.88], name: 'Mumbai', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
+  {latLng: [39.9, 116.41], name: 'Beijing', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
   {latLng: [17.39, 78.49], name: 'Hyderabad', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
+  {latLng: [19.08, 72.88], name: 'Mumbai', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
+  {latLng: [28.61, 77.20], name: 'New Delhi', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
+  {latLng: [37.57, 126.98], name: 'Seoul', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
+  {latLng: [31.23, 121.47], name: 'Shanghai', dates: 'Dates, 2019', weburl : "https://huffpost.com"},
 ];
 
 
 
   $(function(){
-    $('#map').vectorMap({
+    $('#asiamap').vectorMap({
       map: 'asia_mill',
-      focusOn: {
-        regions: [ 'CN','IN'],
-      },
       normalizeFunction: 'polynomial',
       backgroundColor: 'transparent',
       series: {
         regions: [{
           values: {
-            'BN': 'transparent',
-            'BH': 'transparent',
-            'MN': 'transparent',
-            'JP': 'transparent',
-            'JO': 'transparent',
-            'PS': 'transparent',
-            'LB': 'transparent',
-            'TR': 'transparent',
-            'TL': 'transparent',
-            'TM': 'transparent',
-            'TJ': 'transparent',
-            'XC': 'transparent',
-            'PH': 'transparent',
-            '-99': 'transparent',
-            'AE': 'transparent',
-            'AF': 'transparent',
-            'IQ': 'transparent',
-            'IR': 'transparent',
-            'AM': 'transparent',
-            'SY': 'transparent',
-            'GE': 'transparent',
-            'IL': 'transparent',
-            'AZ': 'transparent',
-            'ID': 'transparent',
-            'OM': 'transparent',
-            'KG': 'transparent',
-            'UZ': 'transparent',
-            'CY': 'transparent',
-            'QA': 'transparent',
-            'KW': 'transparent',
-            'KZ': 'transparent',
-            'SA': 'transparent',
-            'MY': 'transparent',
-            'YE': 'transparent',
-            'PK': 'transparent',
-            'LK': 'transparent',
-            'TH': 'transparent',
-            'LA': 'transparent',
-            'VN': 'transparent',
-            'ID': 'transparent',
-            'MM': 'transparent',
-            'KH': 'transparent',
+            'CN': '#ffde7a',
+            'IN': '#ffde7a',
+            'KR': '#ffde7a',
           },
           attribute: 'fill'
         }]
       },
       regionStyle: {
         initial: {
-          fill: '#d5d6d2',
+          fill: '#f9f7f6',
         },
       },
       markerStyle: {
           initial: {
-              fill: '#B8002B',
-              stroke: '#900021',
+              fill: '#900021',
               "fill-opacity": 1,
-              "stroke-width": 2,
+              "stroke-width": 0,
               "stroke-opacity": 1,
-              r: 6,
+              r: 8,
           },
           hover: {
-            fill: '#FFB71E',
+            fill: '#7a0019',
           }
       },
       onMarkerClick: function(event, index) {
@@ -139,7 +97,7 @@ var  markers = [
         $(location).attr('href',markers[index].weburl);
       },
       onMarkerTipShow: function (e, el, code) {
-        var markers = $('#map').vectorMap('get', 'mapObject').markers;
+        var markers = $('#asiamap').vectorMap('get', 'mapObject').markers;
         if (typeof markers[code].config.dates !== 'undefined') {
           el.html(el.html() + '<br /><span class="mapdate">' + markers[code].config.dates + '</span>');
         } else {
