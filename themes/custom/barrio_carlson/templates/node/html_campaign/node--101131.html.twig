@@ -1,0 +1,178 @@
+{{ attach_library('bootstrap_barrio/node') }}
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix'
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}>
+  <header>
+    {{ title_prefix }}
+    {% if not page %}
+      <h2{{ title_attributes.addClass('node__title') }}>
+        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+      </h2>
+    {% endif %}
+    {{ title_suffix }}
+  </header>
+
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'basic-page') }}>
+    {# Render hero with hero-basic component #}
+    {% if content.field_hero_media|field_value is empty %}
+      <section>
+        <div class="row basic-hero">
+          <div class="col-11 col-lg-10 offset-lg-1 basic-hero__title">
+            <h1>{{ label }}</h1>
+          </div>
+        </div>
+      </section>
+    {% else %}
+      <section>
+        <div class="row basic-hero">
+          <div class="col-lg-12 basic-hero__img">
+            {{ content.field_hero_media }}
+          </div>
+          <div class="col-10 offset-1 basic-hero__title">
+            <div class="basic-hero__title-inner">
+              <h1>{{ label }}</h1>
+            </div>
+          </div>
+        </div>
+      </section>
+    {% endif %}
+
+    <section class="row basic-page__content">
+      <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
+        {# inner_nav region #}
+		    {% if inner_nav %}
+		    <div class="row inner_nav">
+		      <div class="col-12">
+            <div class="row">
+		          {{ inner_nav }}
+            </div>
+		      </div>
+		    </div>
+		  	{% endif %}
+
+        {# Course brochure link #}
+        {% if content.field_ee_catalog_link|field_value is not empty %}
+        <div class="row basic-page__catalog">
+          <div class="col-12 text-center">
+            {{ content.field_ee_catalog_link }}
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="row">
+
+          {# Stick sidebar region #}
+          {% if sticky_sidebar %}
+          <div class="col-lg-3 sticky-sidebar">
+            <div class="row">
+              <div class="col-12">
+                <div class="sticky-sidebar__inner">
+                {{ sticky_sidebar }}
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="{{ sticky_sidebar ? 'col-lg-9' : 'col-12' }} basic-page__content-components">
+
+            {# Inner node region for blocks #}
+            {% if node_top %}
+              {{ node_top }}
+            {% endif %}
+
+            {# Home Flexible feature paragraphs #}
+            <div class="row component-paragraph">
+              <div class="col-12">
+                {{ content.body }}
+              </div>
+            </div>
+
+            {# Inner node region for blocks #}
+
+<!--start -->
+<div class="row justify-content-center">
+  <div class="col-12 col-md-8 col-lg-8 col-xl-9 map-container map-asia">
+      <div class="jvmap-smart" id="asiamap"></div>
+  </div>
+  <div class="col-12 col-md-4 col-lg-4 col-xl-3">
+    <h3>India</h3>
+        <ul>
+          <li>
+            <a href="">Bangalore</a>
+          </li>
+          <li>
+            <a href="">Hyderabad</a>
+          </li>
+          <li>
+            <a href="">Mumbai</a>
+          </li>
+          <li>
+            <a href="">New Delhi</a>
+          </li>
+    </ul>
+          <h3>China</h3>
+            <ul>
+          <li>
+            <a href="">Beijing</a>
+          </li>
+          <li>
+            <a href="">Shanghai</a>
+          </li>
+        </ul>
+    <h3>South Korea</h3>
+    <ul>
+          <li>
+            <a href="">Seoul</a>
+          </li>
+        </ul>
+        </div>
+</div>
+
+<!-- end-->
+
+
+
+
+
+
+            {% if node_content %}
+              {{ node_content }}
+            {% endif %}
+
+            {{ content.field_flexible_features }}
+
+            {{ content.field_contact_info }}
+
+            {% if node_bottom %}
+              {{ node_bottom }}
+            {% endif %}
+
+            {# Bottom node region for blocks #}
+            <div class="row node__bottom">
+              {% spaceless %}
+              <div class="node__bottom__col">
+                {{ node_bottom_left }}
+              </div>
+              <div class="node__bottom__col">
+                {{ node_bottom_right }}
+              </div>
+              {% endspaceless %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</article>
