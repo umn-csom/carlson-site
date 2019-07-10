@@ -27,7 +27,7 @@
     {# Render hero with hero-basic component #}
     {% if content.field_hero_media|field_value is empty %}
       <section>
-        <div class="row basic-hero">
+        <div class="row basic-hero travel-hero">
           <div class="col-11 col-lg-10 offset-lg-1 basic-hero__title">
             <h1>{{ label }}</h1>
           </div>
@@ -35,7 +35,7 @@
       </section>
     {% else %}
       <section>
-        <div class="row basic-hero">
+        <div class="row basic-hero travel-hero">
           <div class="col-lg-12 basic-hero__img">
             {{ content.field_hero_media }}
           </div>
@@ -48,98 +48,66 @@
       </section>
     {% endif %}
 
-    <section class="row basic-page__content">
-      <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
-        {# inner_nav region #}
-		    {% if inner_nav %}
-		    <div class="row inner_nav">
-		      <div class="col-12">
-            <div class="row">
-		          {{ inner_nav }}
-            </div>
-		      </div>
-		    </div>
-		  	{% endif %}
-
-        {# Course brochure link #}
-        {% if content.field_ee_catalog_link|field_value is not empty %}
-        <div class="row basic-page__catalog">
-          <div class="col-12 text-center">
-            {{ content.field_ee_catalog_link }}
-          </div>
-        </div>
-        {% endif %}
-
-        <div class="row">
-
-          {# Stick sidebar region #}
-          {% if sticky_sidebar %}
-          <div class="col-lg-3 sticky-sidebar">
-            <div class="row">
-              <div class="col-12">
-                <div class="sticky-sidebar__inner">
-                {{ sticky_sidebar }}
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endif %}
-
-          <div class="{{ sticky_sidebar ? 'col-lg-9' : 'col-12' }} basic-page__content-components">
-
-            {# Inner node region for blocks #}
-            {% if node_top %}
-              {{ node_top }}
-            {% endif %}
-
-            {# Home Flexible feature paragraphs #}
-            <div class="row component-paragraph">
-              <div class="col-12">
-                {{ content.body }}
-              </div>
-            </div>
-
-            {# Inner node region for blocks #}
+    <section class="row justify-content-center basic-page__content">
+      <div class="col-lg-11 main-content basic-page__content--inner">
 
 <!--start -->
 <div class="row justify-content-center">
   <div class="col-12 col-sm-7 col-md-5 col-lg-7 col-xl-7 map-container map-africa">
+<!--    <ul class="list-inline list-unstyled text-center override--tinybuttons">
+      <li class="list-inline-item"><a href="/em/ontheroad" class="btn btn-secondary">USA</a></li>
+      <li class="list-inline-item"><a href="/em/ontheroad/africa" class="btn btn-secondary disabled">Africa</a></li>
+      <li class="list-inline-item"><a  href="/em/ontheroad/asia" class="btn btn-secondary">Asia</a></li>
+    </ul> -->
       <div class="jvmap-smart" id="africamap"></div>
   </div>
-  <div class="col-12 col-sm-5 col-md-5 col-lg-5 col-xl-3">
-    <ul>
-      <li>
-        <a href="">Accra, Ghana</a>
-      </li>
-      <li>
-        <a href="">Johannesburg, South Africa</a>
-      </li>
-      <li>
-        <a href="">Lagos, Nigeria</a>
-      </li>
-      <li>
-        <a href="">Nairobi, Kenya</a>
-      </li>
+  <div class="col-12 col-sm-5 col-md-5 col-lg-5 col-xl-3 copy--tighter">
+  {# Home Flexible feature paragraphs #}
+  <div class="row component-paragraph">
+  <div class="col-12">
+  {{ content.body }}
+  </div>
+  </div>
+  <ul>
+    <li>
+      <a href="">Accra, Ghana</a>
+    </li>
+    <li>
+      <a href="">Johannesburg, South Africa</a>
+    </li>
+    <li>
+      <a href="">Lagos, Nigeria</a>
+    </li>
+    <li>
+      <a href="">Nairobi, Kenya</a>
+    </li>
 
+  </ul>
+  </div>
+  </div>
+  <!-- end-->
+
+
+  <div class="row justify-content-center mb-5"><div class="col-12 col-md-10 col-xl-8">
+    <ul class="nav nav-pills nav-justified travel--nav">
+    	<li class="nav-item"><a class="nav-link" href="/em/ontheroad">USA</a></li>
+    	<li class="nav-item mx-4"><a class="nav-link disabled" href="/em/ontheroad/africa">Africa</a></li>
+    	<li class="nav-item"><a class="nav-link" href="/em/ontheroad/asia">Asia</a></li>
     </ul>
+  </div></div>
+
+
+  <div class="row justify-content-center mb-5"><div class="col-12 col-md-10 col-xl-8">
+    <div class="row no-gutters my-3 travel--ctabox">
+    <div class="col-4">
+      <img src="/{{ directory }}/images/html_campaign/ontheroad-people.jpg" class="img-fluid">
+    </div>
+    <div class="col-8 text-center pl-3">
+      <p>Call to action text is here!</p>
+    </div>
   </div>
-</div>
-
-
-
-
-
   </div>
-</div>
-<ul class="list-unstyled text-center mt-5">
-<li class="mb-3"><a href="" class="btn maroon-solid-button">Asia</a></li>
-<li class=""><a href="" class="btn maroon-solid-button">United States</a></li>
-</ul>
-
-<!-- end-->
-
-
-
+  </div>
 
 
 
@@ -147,9 +115,6 @@
               {{ node_content }}
             {% endif %}
 
-            {{ content.field_flexible_features }}
-
-            {{ content.field_contact_info }}
 
             {% if node_bottom %}
               {{ node_bottom }}
