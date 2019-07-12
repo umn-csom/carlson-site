@@ -447,6 +447,9 @@ MCQ.prototype = {
 			}
       $('html, body').scrollTop(40);
 		}
-	}
+	},
+
+
+
 
 } //end prototype object
