@@ -13,85 +13,167 @@ view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
 %}
 
 <article{{ attributes.addClass(classes) }}>
-<header>
-{{ title_prefix }}
-{% if not page %}
-<h2{{ title_attributes.addClass('node__title') }}>
-<a href="{{ url }}" rel="bookmark">{{ label }}</a>
-</h2>
-{% endif %}
-{{ title_suffix }}
-</header>
+  <header>
+  {{ title_prefix }}
+  {% if not page %}
+    <h2{{ title_attributes.addClass('node__title') }}>
+    <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+    </h2>
+  {% endif %}
+  {{ title_suffix }}
+  </header>
 
-<div{{ content_attributes.addClass('node__content', 'clearfix', 'basic-page') }}>
-{# Render hero with hero-basic component #}
-{% if content.field_hero_media|field_value is empty %}
-<section>
-<div class="row basic-hero travel-hero">
-<div class="col-11 col-lg-10 offset-lg-1 basic-hero__title">
-<h1>{{ label }}</h1>
-<h3 class="mt-3 mb-0 p-0" style="color:#fff;"><em>Meet us in a city near you</em></h3>
-</div>
-</div>
-</section>
-{% else %}
-<section>
-<div class="row basic-hero">
-<div class="col-lg-12 basic-hero__img">
-{{ content.field_hero_media }}
-</div>
-<div class="col-12 basic-hero__title">
-<div class="basic-hero__title-inner">
-<h1>{{ label }}</h1>
-</div>
-</div>
-</div>
-</section>
-{% endif %}
 
-<section class="row justify-content-center basic-page__content">
-<div class="col-11 main-content basic-page__content--inner">
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'basic-page') }}>
+    {# Render hero with hero-basic component #}
+      {% if content.field_hero_media|field_value is empty %}
+        <section>
+          <div class="row basic-hero travel-hero">
+            <div class="col-11 col-lg-10 offset-lg-1 basic-hero__title">
+              <h1>{{ label }}</h1>
+              <h3 class="mt-3 mb-0 p-0" style="color:#fff;"><em>Meet us in a city near you</em></h3>
+            </div>
+          </div>
+        </section>
+      {% else %}
+        <section>
+          <div class="row basic-hero">
+            <div class="col-lg-12 basic-hero__img">
+              {{ content.field_hero_media }}
+            </div>
+            <div class="col-12 basic-hero__title">
+              <div class="basic-hero__title-inner">
+                <h1>{{ label }}</h1>
+              </div>
+            </div>
+          </div>
+        </section>
+      {% endif %}
 
-<!--start -->
-<div class="row">
-<div class="col-12 col-md-7 col-lg-9 order-1 map-container map-usa">
-<!--    <ul class="list-inline list-unstyled text-center override--tinybuttons">
-      <li class="list-inline-item"><a href="/em/ontheroad" class="btn btn-secondary disabled">USA</a></li>
-      <li class="list-inline-item"><a href="/em/ontheroad/africa" class="btn btn-secondary">Africa</a></li>
-      <li class="list-inline-item"><a  href="/em/ontheroad/asia" class="btn btn-secondary">Asia</a></li>
-    </ul> -->
-<div class="jvmap-smart" id="usamap"></div>
-</div>
-<div class="col-12 col-md-5 col-lg-3 order-2 copy--tighter">
-{# Home Flexible feature paragraphs #}
-<div class="row component-paragraph">
-<div class="col-12">
-{{ content.body }}
-</div>
-</div>
-<div id="copy"></div>
-</div>
-</div>
+      <section class="row justify-content-center basic-page__content">
+        <div class="col-11 main-content basic-page__content--inner">
+          <!--start -->
+          <div class="row">
+            <div class="col-12 col-md-7 col-lg-9 order-1 map-container map-usa">
+              <div class="jvmap-smart" id="usamap"></div>
+            </div>
+            <div class="col-12 col-md-5 col-lg-3 order-2 copy--tighter">
+              <div class="row component-paragraph">
+                <div class="col-12">
+                  {{ content.body }}
+                  <div id="copy"></div>
+                </div>
+              </div>
+            </div>
+          </div>
 
-<div class="row justify-content-center mb-5 d-block d-lg-none">
-  <div class="col-12 col-sm-6">
-    <h3>State Name</h3>
-    <p>Event</p>
-  </div>
-  <div class="col-12 col-sm-6">
-    <h3>State Name</h3>
-    <p>Event</p>
-  </div>
-</div>
+          <div class="row component-paragraph justify-content-center mb-5 d-flex d-lg-none">
+            <div class="col-12 col-sm-6 copy--tighter">
+              <!-- col 1-->
+              <h3>California</h3>
+              <ul>
+                <li>San Diego: <em>Details coming soon</em></li>
+                <li><a href="/events/ontheroad_forte_sanfranscisco">San Francisco: August 22</a></li>
+                <li><a href="/events/ontheroad_qs_sanfranscisco">San Francisco: September 14</a></li>
+              </ul>
 
-<div class="row justify-content-center mb-5"><div class="col-12 col-md-10 col-xl-8">
-  <ul class="nav nav-pills nav-justified travel--nav">
-  	<li class="nav-item"><a class="nav-link disabled" href="/em/ontheroad">USA</a></li>
-  	<li class="nav-item mx-4"><a class="nav-link" href="/em/ontheroad/africa">Africa</a></li>
-  	<li class="nav-item"><a class="nav-link" href="/em/ontheroad/asia">Asia</a></li>
-  </ul>
-</div></div>
-<!-- end-->
+              <h3 class="mt-5">Colorado</h3>
+              <ul>
+                <li>Denver: <em>Details coming soon</em></li>
+                </ul>
+
+              <h3 class="mt-5">District of Columbia</h3>
+              <ul>
+                <li><a href="/events/ontheroad_forte_washingtondc">Washington: August 12</a></li>
+                <li><a href="/events/ontheroad_qs_washingtondc">Washington: September 26</a></li>
+                <li><a href="/events/ontheroad_qsconnect_washingtondc">Washington: November 14</a></li>
+              </ul>
+
+              <h3 class="mt-5">Florida</h3>
+              <ul>
+                <li>Jacksonville: <em>Details coming soon</em></p>
+                </ul>
+
+              <h3 class="mt-5">Georgia</h3>
+              <ul>
+                <li><a href="/events/ontheroad_forte_atlanta">Atlanta: August 14</a></li>
+                <li><a href="/events/ontheroad_qs_atlanta">Atlanta: October 17</a></li>
+              </ul>
+
+              <h3 class="mt-5">Illinois</h3>
+              <ul>
+                <li><a href="/events/ontheroad_forte_chicago">Chicago: August 27</a></li>
+                <li><a href="/events/ontheroad_qs_chicago">Chicago: October 1</a></li>
+              </ul>
+
+              <h3 class="mt-5">Maryland</h3>
+              <ul>
+                <li>Baltimore: <em>Details coming soon</em></li>
+              </ul>
+
+              <h3 class="mt-5">Minnesota</h3>
+              <ul>
+                <li>Minneapolis: <em>Details coming soon</em></li>
+                <li>St. Cloud: <em>Details coming soon</em></li>
+              </ul>
+              <!--end col 1-->
+            </div>
+            <div class="col-12 col-sm-6 copy--tighter">
+              <!-- col 2-->
+              <h3>New York</h3>
+              <ul>
+                <li><a href="/events/ontheroad_forte_newyork_1">New York: August 28</a></li>
+                <li><a href="/events/ontheroad_forte_newyork_2">New York: August 29</a></li>
+                <li><a href="/events/ontheroad_qs_newyork">New York: September 28</a></li>
+              </ul>
+
+              <h3 class="mt-5">North Carolina</h3>
+              <ul>
+                <li>Durham: <em>Details coming soon</em></li>
+              </ul>
+
+              <h3 class="mt-5">North Dakota</h3>
+              <ul>
+                <li>Fargo: <em>Details coming soon</em></li>
+              </ul>
+
+              <h3 class="mt-5">Texas</h3>
+              <ul>
+                <li><a href="/events/ontheroad_austin">Austin: October 21</a></li>
+                <li><a href="/events/ontheroad_dallas">Dallas: October 22</a></li>
+                <li>San Antonio: <em>Details coming soon</em></li>
+              </ul>
+
+              <h3 class="mt-5">Utah</h3>
+              <ul>
+                <li>Salt Lake City: <em>Details coming soon</em></li>
+              </ul>
+
+              <h3 class="mt-5">Washington</h3>
+              <ul>
+                <li><a href="/events/ontheroad_forte_seattle">Seattle: August 20</a></li>
+              </ul>
+
+              <h3 class="mt-5">Wisconsin</h3>
+              <ul>
+                <li>Madison: <em>Details coming soon</em></li>
+                <li>Milwaukee: <em>Details coming soon</em></li>
+              </ul>
+              <!-- end col 2-->
+            </div>
+          </div>
+
+
+
+          <div class="row justify-content-center mb-5"><div class="col-12 col-md-10 col-xl-8 mt-5 mt-lg-none">
+            <div class="col-12 col-md-10 col-xl-8">
+              <ul class="nav nav-pills nav-justified travel--nav">
+              	<li class="nav-item"><a class="nav-link disabled" href="/em/ontheroad">USA</a></li>
+              	<li class="nav-item mx-4"><a class="nav-link" href="/em/ontheroad/africa">Africa</a></li>
+              	<li class="nav-item"><a class="nav-link" href="/em/ontheroad/asia">Asia</a></li>
+              </ul>
+            </div>
+          </div>
 
 
 
@@ -101,39 +183,8 @@ view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
 {% if node_content %}
 {{ node_content }}
 {% endif %}
-<!--
-<div class="row justify-content-center mb-5"><div class="col-12 col-md-10 col-xl-8">
-  <div class="row no-gutters my-3 travel--ctabox">
-  <div class="col-4">
-    <img src="/{{ directory }}/images/html_campaign/ontheroad-people.jpg" class="img-fluid">
+
+        </div>
+      </section>
   </div>
-  <div class="col-8 text-center pl-3">
-    <p>Call to action text is here!</p>
-  </div>
-</div>
-</div>
-</div>
-
--->
-
-{{ content.field_contact_info }}
-
-{% if node_bottom %}
-{{ node_bottom }}
-{% endif %}
-
-{# Bottom node region for blocks #}
-<div class="row node__bottom">
-{% spaceless %}
-<div class="node__bottom__col">
-{{ node_bottom_left }}
-</div>
-<div class="node__bottom__col">
-{{ node_bottom_right }}
-</div>
-{% endspaceless %}
-</div>
-</div>
-</section>
-</div>
 </article>
