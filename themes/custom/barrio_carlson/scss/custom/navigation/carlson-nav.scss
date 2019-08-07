@@ -78,24 +78,75 @@
 
 
 
-
-
-
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
 
 .dropdown-submenu {
   position: relative;
 }
 
-.dropdown-submenu a::after {
-  transform: rotate(-90deg);
-  position: absolute;
-  right: 6px;
-  top: .8em;
+.dropdown-submenu>a:after {
+  content: "\f0da";
+  float: right;
+  border: none;
+  font-family: 'FontAwesome';
 }
 
-.dropdown-submenu .dropdown-menu {
+.dropdown-submenu>.dropdown-menu {
   top: 0;
   left: 100%;
-  margin-left: .1rem;
-  margin-right: .1rem;
+  margin-top: 0px;
+  margin-left: 0px;
+}
+
+
+#carlson-navbar {
+  border-bottom: 1px solid $menu-line-grey;
+  min-height: 110px;
+  background: $white;
+  @include media-breakpoint-up(lg) {
+      max-width: 100%;
+      margin: auto;
+      min-height: 75px;
+  }
+  .navbar {
+    #carlson-navbar--brand {
+      padding: 0;
+      margin: 0;
+      margin-top: 35px;
+      max-width: 260px;
+      float: inherit;
+      width: 260px;
+      height: auto;
+
+      @include media-breakpoint-up(lg) {
+          margin-top: 21px;
+          max-width: 223px;
+          width: 223px;
+      }
+    }
+    .navbar-nav {
+      > .nav-item {
+        @include media-breakpoint-up(lg) {
+          margin-left : 3em;
+        }
+        > .nav-link {
+          text-transform: uppercase;
+          color : $dark-gray;
+        }
+        .dropdown-menu {
+          background-color : #ff0;
+        }
+        > .dropdown-menu {
+            background-color : #f0f;
+        }
+      }
+    }
+
+  }
 }
