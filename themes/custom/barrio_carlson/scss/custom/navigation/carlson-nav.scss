@@ -78,32 +78,6 @@
 
 
 
-/*
-*
-* ==========================================
-* CUSTOM UTIL CLASSES
-* ==========================================
-*
-*/
-
-.dropdown-submenu {
-  position: relative;
-}
-
-.dropdown-submenu>a:after {
-  content: "\f0da";
-  float: right;
-  border: none;
-  font-family: 'FontAwesome';
-}
-
-.dropdown-submenu>.dropdown-menu {
-  top: 0;
-  left: 100%;
-  margin-top: 0px;
-  margin-left: 0px;
-}
-
 
 #carlson-navbar {
   border-bottom: 1px solid $menu-line-grey;
@@ -140,13 +114,75 @@
           color : $dark-gray;
         }
         .dropdown-menu {
-          background-color : #ff0;
+          border : 0px;
+          border-radius : 0px;
+          @include media-breakpoint-up(lg) {
+            background-color : $lightergray;
+            padding : 0px;
+            margin : 0px;
+          }
         }
-        > .dropdown-menu {
-            background-color : #f0f;
+        > .dropdown-menu /* second-level */ {
+        }
+      }
+      .dropdown-item {
+        @include media-breakpoint-up(lg) {
+          background-color : $lightergray;
+          &:hover, &:focus {
+            background-color : $gold;
+          }
         }
       }
     }
 
   }
+}
+
+
+@include media-breakpoint-up(lg) {
+  .carlson-navbar--animate {
+    animation-duration: 0.5s;
+    -webkit-animation-duration: 0.5s;
+    animation-fill-mode: both;
+    -webkit-animation-fill-mode: both;
+  }
+  @keyframes slideIn {
+    0% {
+      transform: translateY(-1rem);
+      opacity: 0;
+    }
+    100% {
+      transform:translateY(0rem);
+      opacity: 1;
+    }
+    0% {
+      transform: translateY(-1rem);
+      opacity: 0;
+    }
+  }
+
+  @-webkit-keyframes slideIn {
+    0% {
+      -webkit-transform: transform;
+      -webkit-opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+      -webkit-opacity: 1;
+    }
+    0% {
+      -webkit-transform: translateY(-1rem);
+      -webkit-opacity: 0;
+    }
+  }
+
+  .carlson-navbar--slide {
+    -webkit-animation-name: slideIn;
+    animation-name: slideIn;
+  }
+}
+
+
+.dropdown-toggle.active-dropdown::after {
+    transform: rotate(-90deg);
 }

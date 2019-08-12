@@ -38,20 +38,19 @@
           {% if items %}
             {% if menu_level == 0 %}
               <ul class="navbar-nav mr-auto" role="menu">
-              {% else %}
-                <ul aria-labelledby="dLabel" class="dropdown-menu" role="menu">
-                {% endif %}
+            {% else %}
+              <ul class="carlson-navbar--animate carlson-navbar--slide dropdown-menu" role="menu">
+            {% endif %}
                 {% for item in items %}
                   {% if item.below %}
                     {% if menu_level == 0 %}
                       <li class="nav-item dropdown">
-                        <a id="" href="{{ item.url }}" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}
-                          <span class="caret"></span></a>
+                        <a id="" href="{{ item.url }}" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
                         {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
                       </li>
                     {% else %}
-                      <li class="dropdown-submenu">
-                        <a id="" href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">{{ item.title }} <span class="caret"></span></a>
+                      <li class="dropdown dropright dropdown-submenu">
+                        <a id="" href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">{{ item.title }}</a>
                         {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
                       </li>
                     {% endif %}

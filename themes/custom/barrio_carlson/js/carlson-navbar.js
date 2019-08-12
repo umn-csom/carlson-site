@@ -4,30 +4,27 @@
  * Copyright 2017.
  * Licensed under the GPL license
  */
+ $( document ).ready( function () {
+
+   $('#carlson-navbar .dropdown-menu a.dropdown-toggle').on('click', function (e) {
+      if (!$(this).next().hasClass('show')) {
+          $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+      }
+      var $subMenu = $(this).next(".dropdown-menu");
+      $subMenu.toggleClass('show');
 
 
-$( document ).ready( function () {
-    $( '.dropdown-menu a.dropdown-toggle' ).on( 'click', function ( e ) {
-        var $el = $( this );
-        $el.toggleClass('active-dropdown');
-        var $parent = $( this ).offsetParent( ".dropdown-menu" );
-        if ( !$( this ).next().hasClass( 'show' ) ) {
-            $( this ).parents( '.dropdown-menu' ).first().find( '.show' ).removeClass( "show" );
-        }
-        var $subMenu = $( this ).next( ".dropdown-menu" );
-        $subMenu.toggleClass( 'show' );
-        
-        $( this ).parent( "li" ).toggleClass( 'show' );
+      $(this).parents('.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+          $('.dropdown-submenu .show').removeClass("show");
+      });
 
-        $( this ).parents( 'li.nav-item.dropdown.show' ).on( 'hidden.bs.dropdown', function ( e ) {
-            $( '.dropdown-menu .show' ).removeClass( "show" );
-            $el.removeClass('active-dropdown');
-        } );
-        
-         if ( !$parent.parent().hasClass( 'navbar-nav' ) ) {
-            $el.next().css( { "top": $el[0].offsetTop, "left": $parent.outerWidth() - 4 } );
-        }
+      return false;
+  });
 
-        return false;
-    } );
-} );
+  $('.dropdown-submenu .dropdown-item').on('click', function (e) {
+  		var parentClass = $(this).parents()[1].className.includes('show');
+      if	(parentClass) {
+      	$('.dropdown-submenu .show').removeClass("show");
+      }
+  });
+});
