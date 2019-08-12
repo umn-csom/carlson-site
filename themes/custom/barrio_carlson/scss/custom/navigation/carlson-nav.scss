@@ -92,7 +92,7 @@
     #carlson-navbar--brand {
       padding: 0;
       margin: 0;
-      margin-top: 35px;
+      margin-top: 25px;
       max-width: 260px;
       float: inherit;
       width: 260px;
@@ -104,10 +104,25 @@
           width: 223px;
       }
     }
+    .carlson--navbar-driven {
+      background: url('https://carlsonschool.umn.edu/sites/carlsonschool.umn.edu/themes/custom/barrio_carlson/images/svg/driven-logo.svg') no-repeat;
+	    background-size: auto;
+	    position: relative;
+      overflow: hidden;
+      max-width: 70px;
+      max-height: 16px;
+      margin-top: 12px;
+        .carlson--navbar-driven-text {
+          display : block;
+          overflow : hidden;
+          text-indent: 300vw;
+        }
+      }
     .navbar-nav {
+      margin-top : 12px;
       > .nav-item {
         @include media-breakpoint-up(lg) {
-          margin-left : 3em;
+          margin-left : 2.5em;
         }
         > .nav-link {
           text-transform: uppercase;
@@ -116,6 +131,8 @@
         .dropdown-menu {
           border : 0px;
           border-radius : 0px;
+          -webkit-box-shadow: 5px 5px 15px 0 rgba(0,0,0,.2);
+          box-shadow: 5px 5px 15px 0 rgba(0,0,0,.2);
           @include media-breakpoint-up(lg) {
             background-color : $lightergray;
             padding : 0px;
@@ -137,7 +154,6 @@
 
   }
 }
-
 
 @include media-breakpoint-up(lg) {
   .carlson-navbar--animate {
@@ -183,6 +199,6 @@
 }
 
 
-.dropdown-toggle.active-dropdown::after {
-    transform: rotate(-90deg);
+.dropright .dropdown-toggle.active-dropdown::after {
+    transform: rotate(90deg);
 }
