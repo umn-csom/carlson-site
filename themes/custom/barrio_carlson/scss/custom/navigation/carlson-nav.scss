@@ -3,7 +3,7 @@
     min-height: 110px;
     background: $white;
 
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(xl) {
         max-width: 100%;
         margin: auto;
         min-height: 75px;
@@ -19,7 +19,7 @@
     width: 260px;
     height: auto;
 
-    @include media-breakpoint-up(lg) {
+    @include media-breakpoint-up(xl) {
         margin-top: 21px;
         max-width: 223px;
         width: 223px;
@@ -84,7 +84,7 @@
   border-bottom: 1px solid $menu-line-grey;
   min-height: 110px;
   background: $white;
-  @include media-breakpoint-up(lg) {
+  @include media-breakpoint-up(xl) {
       max-width: 100%;
       margin: auto;
       min-height: 75px;
@@ -99,7 +99,7 @@
       width: 260px;
       height: auto;
 
-      @include media-breakpoint-up(lg) {
+      @include media-breakpoint-up(xl) {
           margin-top: 21px;
           max-width: 223px;
           width: 223px;
@@ -110,9 +110,13 @@
 	    background-size: auto;
 	    position: relative;
       overflow: hidden;
-      max-width: 70px;
-      max-height: 16px;
-      margin-top: 12px;
+      width : 140px;
+      height : 32px;
+      @include media-breakpoint-up(xl) {
+        max-width: 70px;
+        max-height: 16px;
+        margin-top: 12px;
+      }
         .carlson--navbar-driven-text {
           display : block;
           overflow : hidden;
@@ -121,11 +125,21 @@
       }
     .navbar-nav {
       margin-top : 12px;
+      a {
+        font-size : 1.4rem;
+      }
       > .nav-item {
-        @include media-breakpoint-up(lg) {
-          margin-left : 2.5em;
-        }
+        border-radius : 6px !important;
+          &:hover, &:focus {
+            background-color : $gold;
+            color : $dark-gray;
+          }
+          @include media-breakpoint-up(xl) {
+            margin-left : .3rem;
+          }
         > .nav-link {
+          border-radius : 6px !important;
+          padding : 4px 10px;
           text-transform: uppercase;
           color : $dark-gray;
         }
@@ -134,29 +148,82 @@
           border-radius : 0px;
           -webkit-box-shadow: 5px 5px 15px 0 rgba(0,0,0,.2);
           box-shadow: 5px 5px 15px 0 rgba(0,0,0,.2);
-          @include media-breakpoint-up(lg) {
-            background-color : $lightergray;
+          background-color : $lightergray;
+          @include media-breakpoint-up(xl) {
             padding : 0px;
             margin : 0px;
           }
         }
         > .dropdown-menu /* second-level */ {
+
+        }
+      }
+      .dropdown-submenu.show {
+        border-bottom : 1px solid $header-dark-gray;
+        @include media-breakpoint-up(xl) {
+          border-bottom : 0px;
         }
       }
       .dropdown-item {
-        @include media-breakpoint-up(lg) {
           background-color : $lightergray;
           &:hover, &:focus {
             background-color : $gold;
+            color : $dark-gray;
           }
-        }
+      }
+    }
+  }
+  /*active states*/
+  .nav-item.dropdown.active {
+    > a.nav-link {
+      color : $maroon;
+      &:hover, &:focus {
+        background-color : $gold;
+        color : $dark-gray;
       }
     }
 
   }
+  .dropdown-submenu.active {
+    > a.dropdown-item {
+      background-color : $maroon;
+      color : $white;
+      &.dropdown-toggle::after {
+        color : $white;
+      }
+      &:hover, &:focus {
+        background-color : $gold;
+        &.dropdown-toggle::after {
+          color : $dark-gray;
+        }
+      }
+    }
+  }
+  .carlson-navbar--endlink.active {
+    > a.dropdown-item {
+      background-color : $maroon;
+      color : $white;
+      &:hover, &:focus {
+        background-color : $gold;
+      }
+    }
+  }
+  .dropright.show .dropdown-toggle.active-dropdown::after {
+    transform: rotate(90deg);
+    @include media-breakpoint-up(xl) {
+      -moz-transform: rotate(0deg) translateX(15px);
+      -webkit-transform: rotate(0deg) translateX(15px);
+      -o-transform: rotate(0deg) translateX(15px);
+      -ms-transform: rotate(0deg) translateX(15px);
+      transform: rotate(0deg) translateX(15px);
+    }
+  }
 }
 
-@include media-breakpoint-up(lg) {
+
+
+
+@include media-breakpoint-up(xl) {
   .carlson-navbar--animate {
     animation-duration: 0.5s;
     -webkit-animation-duration: 0.5s;
@@ -197,9 +264,4 @@
     -webkit-animation-name: slideIn;
     animation-name: slideIn;
   }
-}
-
-
-.dropright .dropdown-toggle.active-dropdown::after {
-    transform: rotate(90deg);
 }

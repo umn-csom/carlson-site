@@ -21,7 +21,7 @@
  */
 #}
 <header class="sticky-top" id="carlson-navbar" role="banner" aria-label="Site header">
-  <nav class="navbar navbar-expand-lg navbar-light sticky-top" role="navigation">
+  <nav class="navbar navbar-expand-xl navbar-light sticky-top" role="navigation">
     <div class="container-fluid">
       <a href="/" title="Home" rel="home" class="navbar-brand">
         <img src="/{{ directory }}/images/svg/logo.svg" alt="Home" id="carlson-navbar--brand" class="img-fluid d-inline-block align-top">
@@ -42,20 +42,25 @@
               <ul class="carlson-navbar--animate carlson-navbar--slide dropdown-menu" role="menu">
             {% endif %}
                 {% for item in items %}
+                {%
+                  set classes = [
+                    item.in_active_trail ? 'active',
+                  ]
+                %}
                   {% if item.below %}
                     {% if menu_level == 0 %}
-                      <li class="nav-item dropdown">
-                        <a id="" href="{{ item.url }}" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
+                      <li{{ item.attributes.addClass('nav-item', 'dropdown', classes) }}>
+                        <a href="{{ item.url }}" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
                         {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
                       </li>
                     {% else %}
-                      <li class="dropdown dropright dropdown-submenu">
-                        <a id="" href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">{{ item.title }}</a>
+                      <li{{ item.attributes.addClass('dropdown', 'dropright', 'dropdown-submenu', classes) }}>
+                        <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">{{ item.title }}</a>
                         {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
                       </li>
                     {% endif %}
                   {% else %}
-                    <li>
+                    <li{{ item.attributes.addClass('carlson-navbar--endlink', classes) }}>
                       <a href="{{ item.url }}" class="dropdown-item">{{ item.title }}</a>
                     </li>
                   {% endif %}
