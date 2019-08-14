@@ -129,33 +129,39 @@
       }
     .navbar-nav {
       margin-top : 12px;
-      a {
-        font-size : 1.4rem;
-      }
       > .nav-item {
         border-radius : 6px !important;
           &:hover, &:focus {
-            background-color : $gold;
-            color : $dark-gray;
+            background-color : $header-gray;
+            color : $menu-grey;
+          }
+          a {
+            font-size : 1.4rem;
           }
           @include media-breakpoint-up(xl) {
-            margin-left : .3rem;
+            margin-left : 1rem;
+            &:first-child {
+              margin-left : 0rem;
+            }
           }
         > .nav-link {
           border-radius : 6px !important;
           padding : 4px 10px;
           text-transform: uppercase;
-          color : $dark-gray;
+          color : $menu-grey;
         }
         .dropdown-menu {
           border : 0px;
           border-radius : 0px;
           -webkit-box-shadow: 5px 5px 15px 0 rgba(0,0,0,.2);
           box-shadow: 5px 5px 15px 0 rgba(0,0,0,.2);
-          background-color : $lightergray;
+          background-color : $mid-gray;
           @include media-breakpoint-up(xl) {
             padding : 0px;
             margin : 0px;
+            a {
+              font-size : 1.575rem;
+            }
           }
         }
         > .dropdown-menu /* second-level */ {
@@ -163,16 +169,16 @@
         }
       }
       .dropdown-submenu.show {
-        border-bottom : 1px solid $header-dark-gray;
+        border-bottom : 1px solid $dark-gray;
         @include media-breakpoint-up(xl) {
           border-bottom : 0px;
         }
       }
       .dropdown-item {
-          background-color : $lightergray;
+          background-color : $mid-gray;
           &:hover, &:focus {
-            background-color : $gold;
-            color : $dark-gray;
+            background-color : $menu-line-grey;
+            color : $menu-grey;
           }
       }
     }
@@ -182,11 +188,17 @@
     > a.nav-link {
       color : $maroon;
       &:hover, &:focus {
-        background-color : $gold;
-        color : $dark-gray;
+        background-color : $menu-line-grey;
+        color : $menu-grey;
       }
     }
 
+  }
+  .dropdown .dropdown-menu .dropdown-submenu .dropdown-menu a {
+    padding-left : 30px;
+    @include media-breakpoint-up(xl) {
+      padding-left : 15px;
+    }
   }
   .dropdown-submenu.active {
     > a.dropdown-item {
@@ -196,9 +208,9 @@
         color : $white;
       }
       &:hover, &:focus {
-        background-color : $gold;
+        background-color : $menu-line-grey;
         &.dropdown-toggle::after {
-          color : $dark-gray;
+          color : $menu-grey;
         }
       }
     }
@@ -208,7 +220,7 @@
       background-color : $maroon;
       color : $white;
       &:hover, &:focus {
-        background-color : $gold;
+        background-color : $header-gray;
       }
     }
   }
