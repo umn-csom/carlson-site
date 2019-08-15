@@ -1,7 +1,7 @@
 /**
  * @file
  * Global utilities.
- *
+ * *
  */
 (function ($, Drupal) {
 
