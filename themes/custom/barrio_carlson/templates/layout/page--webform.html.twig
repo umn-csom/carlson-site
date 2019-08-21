@@ -70,22 +70,12 @@
 <div id="page-wrapper">
   <div id="page">
 
-    {# Header that contains main menu/branding #}
-    <header id="header" class="header carlson-header container-fluid" role="banner" aria-label="{{ 'Site header'|t}}">
-      <nav class="carlson-nav" {{ attributes }}>
+    {# Header for top navbar #}
       {% block head %}
-        <a href="/" title="Home" rel="home" class="navbar-brand">
-          <img src="/{{ directory }}/images/svg/logo.svg" alt="Home" class="img-fluid d-inline-block align-top">
-        </a>
         {% if page.primary_menu %}
-            {# We Megamenu is placed in page.primary_menu #}
             {{ page.primary_menu }}
-
         {% endif %}
-
       {% endblock %}
-    </nav>
-    </header>
 
     {# Only rendered if something is placed in this region #}
     {% if page.highlighted %}
@@ -121,7 +111,7 @@
                 <section class="section">
                   <a id="main-content" tabindex="-1"></a>
                   {{ page.page_title }}
-                  
+
                   {{ page.content }}
                 </section>
               </main>
