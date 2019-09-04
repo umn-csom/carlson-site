@@ -161,28 +161,23 @@
             <div class="row">
             {% block footer %}
               {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
-                <div class="col-md-4 col-lg-3 footer__info {{ (page.footer_first|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
+                <div class="col-12 col-md-4 col-lg-3 footer__info {{ (page.footer_first|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
                   {{ page.footer_first }}
                 </div>
-                <div class="col-md-4 col-lg-3 footer__links {{ (page.footer_second|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
+                <div class="col-12 col-md-4 col-lg-3 footer__links {{ (page.footer_second|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
                   {{ page.footer_second }}
                 </div>
-                <div class="col-md-4 col-lg-3 footer__links {{ (page.footer_third|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
+                <div class="col-12 col-md-4 col-lg-3 footer__links {{ (page.footer_third|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
                   {{ page.footer_third }}
                 </div>
-                <div class="col-lg-3 footer__connect">
-                  <div class="row">
-                    <div class="col-12 col-md-5 text-md-right text-lg-left col-lg-12">
-                      Connect with Carlson on:
-                    </div>
-                    <div class="col-12 col-md-7 text-md-left col-lg-12">
-                      <ul class="social-media list-unstyled list-inline">
-                        <li><a href="https://www.facebook.com/CarlsonSchoolUMN" title="Facebook" alt="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li>
-                        <li><a href="https://twitter.com/CarlsonNews" title="Twitter" alt="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li>
-                        <li><a href="https://www.linkedin.com/company/carlsonschoolumn" title="LinkedIn" alt="LinkedIn" target="_blank"><i class="icon icon-linkedin"></i></a></li>
-                        <li><a href="https://www.youtube.com/user/CarlsonSchoolUMN" title="YouTube" alt="YouTube" target="_blank"><i class="icon icon-youtube"></i></a></li>
+                <div class="col-12 col-lg-3 footer__connect">
+                      <p class="text-center mt-0 mb-2">Connect with Carlson School</p>
+                      <ul class="list-unstyled list-inline">
+                        <li class="list-inline-item mr-4"><a href="https://www.facebook.com/CarlsonSchoolUMN" title="Carlson School on Facebook" alt="Carlson School on Facebook" target="_blank"><i class="fab fa-facebook fa-2x"></i></a></li>
+                        <li class="list-inline-item mr-4"><a href="https://twitter.com/CarlsonNews" title="Carlson School on Twitter" alt="Carlson School on Twitter" target="_blank"><i class="fab fa-twitter-square fa-2x"></i></a></li>
+                        <li class="list-inline-item mr-4"><a href="https://www.linkedin.com/company/carlsonschoolumn" title="Carlson School on LinkedIn" alt="Carlson School on LinkedIn" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a></li>
+                        <li class="list-inline-item"><a href="https://www.youtube.com/user/CarlsonSchoolUMN" title="Carlson School on YouTube" alt="Carlson School on YouTube" target="_blank"><i class="fab fa-youtube fa-2x"></i></a></li>
                       </ul>
-                    </div>
                   </div>
                 </div>
               {% endif %}
