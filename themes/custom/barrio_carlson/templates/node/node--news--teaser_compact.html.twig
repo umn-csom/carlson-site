@@ -60,20 +60,23 @@
  * @see template_preprocess_node()
  */
 #}
-<div class="row news-items__item">
-
+<div class="row news-items__item mb-5">
   {% if content.field_hero_media|field_value is not empty %}
     <div class="col-4 news-items__item--image">
-      {{ content.field_hero_media }}
+      <a href="{{ url }}">{{ content.field_hero_media }}</a>
     </div>
     <div class="col-8 news-items__item--text">
-      <h4 class="news-items__item--title">{{ label }}</h4>
-      <a href="{{ url }}" class="news-items__item--link">Read More</a>
+      <a href="{{ url }}">
+        <h4 class="news-items__item--title">{{ label }}</h4>
+        <span class="news-items__item--link">Read More</span>
+      </a>
     </div>
   {% else %}
     <div class="col-12">
-      <h4 class="news-items__item--title">{{ label }}</h4>
-      <a href="{{ url }}" class="news-items__item--link">Read More</a>
-    </div> 
-  {% endif %} 
+      <a href="{{ url }}">
+        <h4 class="news-items__item--title">{{ label }}</h4>
+        <span class="news-items__item--link">Read More</span>
+      </a>
+    </div>
+  {% endif %}
 </div>

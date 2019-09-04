@@ -60,7 +60,7 @@
  * @see template_preprocess_node()
  */
 #}
-<div class="row ml-1 mr-1 mr-lg-0 ml-lg-5 event-items__item">
+<div class="row ml-1 mr-1 mr-lg-0 ml-lg-5 event-items__item mb-5">
   {% if content.field_event_date|field_value is not empty %}
     {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
     <div class="date-cal">
@@ -72,8 +72,10 @@
       </div>
     </div>
     <div class="event-items__details">
-      <h4 class="event-items__item--title">{{ label }}</h4>
-      <a href="{{ url }}" class="event-items__item--link">Read More</a>
+      <a href="{{ url }}">
+        <h4 class="event-items__item--title">{{ label }}</h4>
+        <span class="event-items__item--link">Read More</span>
+      </a>
     </div>
   {% endif %}
 </div>
