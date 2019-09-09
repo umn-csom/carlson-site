@@ -1,0 +1,15 @@
+<article class="row no-gutters magazine--section-item justify-content-center">
+  {% if content.field_hero_media|field_value is not empty %}
+  <div class="col-6 col-lg-4 pr-4">
+    <a href="{{ url }}">{{ content.field_hero_media }}</a>
+  </div>
+  <div class="col-12 col-lg-8 mt-3 mt-lg-0 magazine--section-item--summary">
+  {% else %}
+  <div class="col-12 magazine--section-item--summary">
+  {% endif %}
+    <h3 class="magazine--section-item--title">
+      <a href="{{ url }}">{{ label }}</a>
+    </h3>
+    {{ content.body }}
+  </div>
+</article>
