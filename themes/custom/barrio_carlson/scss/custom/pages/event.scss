@@ -97,8 +97,7 @@
 .event-items {
 	&__item {
 		border: solid 1px $warm-gray;
-		padding: 2rem 2rem 0 0;
-		margin-bottom: 2rem;
+		padding: 0 1rem 0 0;
 		display: flex;
 		flex-wrap: nowrap;
 		.date-cal {
@@ -109,7 +108,7 @@
 		    	line-height: 6rem;
 		    }
 		    &--month {
-		    	color: $warm-gray;
+		    	color: $slate;
 		    }
 		  }
 		}
@@ -117,14 +116,30 @@
 		&--image {
 
 		}
-		&--title {
-			@include font-lato-base();
-			line-height: 2rem;
-			font-size: 1.6rem;
-			font-weight: 700;
+		a {
+			padding-top : 1rem;
+			display : block;
+			width : 100%;
+			height : 100%;
+			h4.event-items__item--title {
+				@include font-lato-base();
+				line-height: 150%;
+				font-size: 1.6rem;
+				font-weight: bold;
+				color : $darkgray;
+			}
+			&:hover, &:focus {
+				h4.event-items__item--title {
+					text-decoration : none;
+				}
+			}
+			span.event-items__item--link {
+				@include bold_link();
+			}
 		}
-		&--link {
-			@include bold_link();
-		}
+	}
+	&__details {
+		width : 100%;
+		display : block;
 	}
 }
