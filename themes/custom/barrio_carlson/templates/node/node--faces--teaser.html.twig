@@ -4,7 +4,9 @@
   <div class="card-body">
     <a data-toggle="modal" data-target="#m{% spaceless %}{{ node.id|render|striptags }}{% endspaceless %}">
       {% if content.field_magazine_cover_image | render | striptags is not empty %}
-        <img src="{{ content.field_magazine_cover_image|render|striptags }}" class="img-fluid mb-2" alt="Photo of {{ node.label|render|striptags }}">
+        <div class="text-center">
+          <img src="{{ content.field_magazine_cover_image|render|striptags }}" class="img-fluid mb-2" alt="Photo of {{ node.label|render|striptags }}">
+        </div>
       {% endif %}
       <h2 class="magazine--faces--card--body-h2 m-0">{{ node.label }}</h2>
       {% if content.field_short_sub_heading is not empty %}
