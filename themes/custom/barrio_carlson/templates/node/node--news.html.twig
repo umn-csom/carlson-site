@@ -145,8 +145,13 @@
     {# Flexible features are rendered through the paragraph templates specific to the feature #}
     {{ content.field_flexible_features }}
 
+    {% if (node.id == 103552) %}
+      {{ drupal_view('faces', 'block_1') }} <!-- block only for the Faces 100 -->
+    {% endif %}
+
+
     {{ drupal_view('magazine_for_news', 'block_1') }}
-    {{ drupal_view('faces', 'block_1') }} <!-- block only for the Faces 100 -->
+
 
     <div class="row page-links">
       <div class="col-12 col-lg-10 offset-lg-1">
