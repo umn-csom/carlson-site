@@ -40,8 +40,9 @@
 {% block paragraph %}
   {% block content %}
       <div class="col-12 magazine--section my-5">
+        {% if content.field_magazine_section_heading|render is not empty %}
         <h2 class="magazine--section-heading">{{ content.field_magazine_section_heading }}</h2>
-        {{ field_magazine_highlight }}
+        {% endif %}
         <div class="row">
           {{ content.field_news_article }}
         </div>
