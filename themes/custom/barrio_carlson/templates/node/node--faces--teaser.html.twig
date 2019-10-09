@@ -32,7 +32,9 @@
         </figure>
         {% endif %}
         <h1 id="mlabel{% spaceless %}{{ node.id|render|striptags }}{% endspaceless %}">{{ node.label }}</h1>
-        <h2>{{ content.field_short_sub_heading }}</h2>
+        {% if content.field_short_sub_heading is not empty %}
+          <h2>{{ content.field_short_sub_heading }}</h2>
+        {% endif %}
         {{ content.body }}
       </article>
       <div class="modal-footer">
