@@ -69,115 +69,49 @@
     node.isSticky() ? 'node--sticky',
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
-    'clearfix',
+    'clearfix'
   ]
 %}
+<section class="row basic-page__content">
+  <div class="col-12 main-content basic-page__content--inner">
 
-<article{{ attributes.addClass(classes) }}>
-  <header>
-    {{ title_prefix }}
-    {% if not page %}
-      <h2{{ title_attributes.addClass('node__title') }}>
-        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-      </h2>
-    {% endif %}
-    {{ title_suffix }}
-
-
-  </header>
-
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'news') }}>
-    {# Render hero with hero-basic component #}
-    {% if node.field_hero_media.isEmpty %}
-      <section>
-        <div class="row basic-hero">
-          <div class="col-12 col-lg-10 offset-lg-1 basic-hero__title">
-            <h1>{{ label }}</h1>
-            <div class="row">
-              <div class="col-12 col-lg-7 basic-hero__pub">
-                <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
-              </div>
-              <div class="col-12 col-lg-5 basic-hero__share">
-                <p class="share-this">Share This {{ content.addtoany }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    {% else %}
-      <section>
-        <div class="row basic-hero">
-          <div class="col-md-12 basic-hero__img px-0">
-            {{ content.field_hero_media }}
-          </div>
-          <div class="col-10 offset-1 basic-hero__title">
-            <div class="basic-hero__title-inner">
-              <h1>{{ label }}</h1>
-              <div class="row">
-                <div class="col-12 col-lg-6 col-xl-7 basic-hero__pub">
-                  <p><span class="date">{{ node.getCreatedTime|date('l, F j, Y') }}</span></p>
-                </div>
-                <div class="col-12 col-lg-6 col-xl-5 basic-hero__share">
-                  <p class="share-this">Share This {{ content.addtoany }}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    {% endif %}
-    {# Body and side bar #}
-    <section class="row news__body">
-
-      <div class="{{ (has_sidebar == TRUE) ? 'col-md-8' : 'col-12' }}">
-        {{ content.body }}
-      </div>
-
-      {% if content.field_sidebar_content|field_value is not empty %}
-        <div class="col-md-4 news__body--sidebar">
-          <div>
-            {{ content.field_sidebar_content }}
-          </div>
-        </div>
-      {% endif %}
-    </section>
-
-    {# Flexible features are rendered through the paragraph templates specific to the feature #}
-    {{ content.field_flexible_features }}
-
-    {% if (node.id == 104056) %}
-      {{ drupal_view('faces', 'block_1') }} <!-- block only for the Faces 100 -->
+    {# Inner node region for blocks #}
+    {% if node_top %}
+      {{ node_top }}
     {% endif %}
 
-
-    {{ drupal_view('magazine_for_news', 'block_1') }}
-
-
-    <div class="row page-links">
-      <div class="col-12 col-lg-10 offset-lg-1">
-        <div class="row">
-          {% if content.field_news_channels | field_value is not empty %}
-          <div class="col-lg-6 page-links__tags">
-            <span class="page-links__tags-label">Tags</span>
-            {{ content.field_news_channels }}
-          </div>
-          {% endif %}
-          <div class="col-lg-6">
-            <p class="share-this">Share This {{ content.addtoany }}</p>
-          </div>
-        </div>
+    {# Home Flexible feature paragraphs #}
+    {% if content.body|render is not empty %}
+    <div class="row component-paragraph">
+      <div class="col-12">
+        body {{ content.body }}
       </div>
     </div>
+    {% endif %}
 
+    {# Inner node region for blocks #}
+    {% if node_content %}
+      {{ node_content }}
+    {% endif %}
+
+    {{ content.field_flexible_features }}
+
+    {{ content.field_contact_info }}
+
+    {% if node_bottom %}
+      {{ node_bottom }}
+    {% endif %}
+
+    {# Bottom node region for blocks #}
     <div class="row node__bottom">
       {% spaceless %}
-      <div class="node__bottom__col">
-        {{ node_bottom_left }}
-      </div>
-      <div class="node__bottom__col">
-        {{ node_bottom_right }}
-      </div>
+        <div class="node__bottom__col">
+          {{ node_bottom_left }}
+        </div>
+        <div class="node__bottom__col">
+          {{ node_bottom_right }}
+        </div>
       {% endspaceless %}
     </div>
   </div>
-</article>
+</section>

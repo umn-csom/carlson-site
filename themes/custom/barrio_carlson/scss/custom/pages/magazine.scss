@@ -56,9 +56,18 @@ body.path-magazine #block-barrio-carlson-page-title {
           font-size: 24px !important;
           line-height: 120%;
           letter-spacing: -.4px;
-
           a {
             font-size: 24px !important;
+          }
+          .magazine--line {
+            height:2px;
+            width:175px;
+            background: -moz-linear-gradient(left,  rgba(255,204,51,1) 0%, rgba(255,204,51,0) 100%);
+            background: -webkit-linear-gradient(left,  rgba(255,204,51,1) 0%,rgba(255,204,51,0) 100%);
+            background: linear-gradient(to right,  rgba(255,204,51,1) 0%,rgba(255,204,51,0) 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffcc33', endColorstr='#00ffcc33',GradientType=1 );
+            position:absolute;
+            top : -10px;
           }
         }
       }
@@ -150,7 +159,9 @@ body.path-magazine #block-barrio-carlson-page-title {
 
   &--sidebar {
     background-color: $lightergray;
-
+    .view-id-magazine_archives.view-display-id-block_3 .view-content {
+      border-bottom: 1px dotted $mediumgray;
+    }
     .view-magazine-archives {
       .item-list {
         li {
@@ -162,6 +173,7 @@ body.path-magazine #block-barrio-carlson-page-title {
         }
       }
     }
+  }
 
     &--pdf {
       background-color: $white;
@@ -202,35 +214,7 @@ body.path-magazine #block-barrio-carlson-page-title {
         }
       }
     }
-  }
 
-  .magazine--cover-angle {
-    -moz-transform: rotate(-3deg);
-    -webkit-transform: rotate(-3deg);
-    -o-transform: rotate(-3deg);
-    -ms-transform: rotate(-3deg);
-    transform: rotate(-3deg);
-  }
-
-  .magazine--promobar {
-    background-color: $mid-gray;
-    border-bottom: 5px solid $maroon;
-
-    h2 {
-      font-size: 1.85em;
-      font-style: italic;
-    }
-
-    .magazine--cover-angle {
-      margin-top: -45px;
-      margin-left: -30px;
-      margin-right: 30px;
-      -webkit-box-shadow: 0 0 15px 0 rgba(0,0,0,.2);
-      box-shadow: 0 0 15px 0 rgba(0,0,0,.2);
-      width: 140px;
-      height: auto;
-    }
-  }
 
   article.magazine--magazine-card {
     h3 {
@@ -273,7 +257,7 @@ body.path-magazine #block-barrio-carlson-page-title {
         text-transform: uppercase !important;
         font-weight: bold !important;
         font-family: $font-lato !important;
-        font-size : 24px;
+        font-size : 22px;
         letter-spacing: -0.5px;
         color : $darkgray;
       }
@@ -282,30 +266,21 @@ body.path-magazine #block-barrio-carlson-page-title {
         text-transform: uppercase;
         font-weight: normal;
         font-family: $font-lato;
-        font-size : 16px;
+        font-size : 15px;
         letter-spacing: -0.5px;
         color : $header-dark-gray;
       }
+      img {
+        max-height : 230px;
+        width : auto;
+        margin : 0 auto;
+      }
     }
     }
-  .magazine--faces--card-columns {
-    @media (max-width: 767px) {
-      column-count: 1;
-    }
-    @media (min-width: 768px) {
-      column-count: 2;
-    }
-    @media (min-width: 992px) {
-      column-count: 3;
-    }
-    @media (min-width: 1200px) {
-      column-count: 4;
-    }
-  }
 .magazine--faces--modal {
   font-family: $font-crimson;
-  font-size : 18px;
-  line-height : 140%;
+  font-size: 18px;
+  line-height: 140%;
   p {
     font-family: $font-crimson;
     font-size : 18px;
@@ -331,5 +306,58 @@ body.path-magazine #block-barrio-carlson-page-title {
     font-size : 16px;
     letter-spacing: -0.5px;
     color : $header-dark-gray;
+  }
+}
+
+.view-id-magazine_for_news {
+}
+
+.page-node-104056 #main .form-row>fieldset {
+  max-width : 100%;
+}
+
+
+
+.magazine--cover-angle {
+  -moz-transform: rotate(-3deg);
+  -webkit-transform: rotate(-3deg);
+  -o-transform: rotate(-3deg);
+  -ms-transform: rotate(-3deg);
+  transform: rotate(-3deg);
+}
+
+.magazine--promobar {
+  background-color: $mid-gray;
+  border-bottom: 5px solid $maroon;
+
+  h2 {
+    font-size: 1.85em;
+    font-style: italic;
+  }
+
+  .magazine--cover-angle {
+    margin-top: -45px;
+    margin-left: -30px;
+    margin-right: 30px;
+    -webkit-box-shadow: 0 0 15px 0 rgba(0,0,0,.2);
+    box-shadow: 0 0 15px 0 rgba(0,0,0,.2);
+    width: 140px;
+    height: auto;
+  }
+}
+
+
+
+.page-node-103561 {
+  .view-id-magazine_archives.view-display-id-block_3 {
+    display : none;
+    visibility : hidden;
+    height : 0px;
+    width : 0px;
+    padding : 0px;
+    margin : 0px;
+    .view-content {
+      border-bottom : 0px;
+    }
   }
 }
