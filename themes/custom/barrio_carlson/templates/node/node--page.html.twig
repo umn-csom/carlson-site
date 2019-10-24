@@ -149,9 +149,7 @@
           <div class="{{ sticky_sidebar ? 'col-lg-9' : 'col-12' }} basic-page__content-components">
 
             {# Inner node region for blocks #}
-            {% if node_top %}
               {{ node_top }}
-            {% endif %}
 
             {# Home Flexible feature paragraphs #}
             <div class="row component-paragraph">
@@ -159,19 +157,15 @@
                 {{ content.body }}
               </div>
             </div>
-            
+
             {# Inner node region for blocks #}
-            {% if node_content %}
-              {{ node_content }}
-            {% endif %}
+            {{ node_content }}
 
             {{ content.field_flexible_features }}
 
             {{ content.field_contact_info }}
 
-            {% if node_bottom %}
-              {{ node_bottom }}
-            {% endif %}
+            {{ node_bottom }}
 
             {# Bottom node region for blocks #}
             <div class="row node__bottom">
