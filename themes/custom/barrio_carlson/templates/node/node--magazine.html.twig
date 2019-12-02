@@ -12,15 +12,17 @@
     'clearfix',
   ]
 %}
+{% set magazine = content.field_magazine_publication['#items'].getString() %}
 
 <div class="row no-gutters">
   <div {{ attributes.addClass(classes) }}>
     <header class="mb-5 pl-lg-4">
-      <h1 class="mt-0 pt-0">The Carlson School Magazine
+      <h1 class="mt-0 pt-0">{% if magazine == "discovery" %}Discovery{% elseif magazine == "alumni" %}The Carlson School{% endif %} Magazine
         <em style="color:#8a8a8a;">{{ label }}</em>
       </h1>
     </header>
 
+    {% if magazine == "alumni" %}
     <section class="row mb-4 magazine--section-top pl-lg-4">
       {% if content.field_introduction_copy|render is not empty %}
       <article class="col-12 order-1 mb-4 col-lg-5 order-lg-2 mb-lg-0 px-lg-5 magazine--intro">
@@ -40,6 +42,7 @@
         {{ content.field_magazine_story_cover }}
       </div>
     </section>
+    {% endif %}
 
     <section class="magazine--sections row justify-content-start">
       {{ content.field_magazine_section }}
