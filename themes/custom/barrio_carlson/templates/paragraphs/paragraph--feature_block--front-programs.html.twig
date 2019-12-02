@@ -11,10 +11,10 @@
           <h3 class="front--programs--block--heading m-0 mb-3" style="padding-left:20px;font-size : 16px;" >
             {{ content.field_heading }}
           </h3>
-          {{ content.field_image|field_value }}
-            <div style="padding-left:20px;font-size : 17px;line-height : 145%;" class="mt-2">
+          <a href="{{ content.field_link.0['#url'] }}">{{ content.field_image|field_value }}</a>
+            <div style="padding-left:20px;font-size : 17px;line-height : 145%;" class="mt-2"><a href="{{ content.field_link.0['#url'] }}" style="color:#000;text-decoration:none;">
           {{ content.field_main_content }}
-        </div>
+        </a></div>
           <p class="mb-0 mt-3 text-right"><a href="{{ content.field_link.0['#url'] }}" style="font-size:14px;line-height:105%;text-transform:uppercase;font-weight:bold;">{{ content.field_link.0['#title'] }} <i class="fas fa-arrow-right fa-sm"></i></a></p>
         </div>
   {% endblock %}
