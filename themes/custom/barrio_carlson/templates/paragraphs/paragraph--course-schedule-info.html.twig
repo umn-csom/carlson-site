@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Theme template for cutom "CTA block" type links (paragraph bundle)
+ * Default theme implementation to display a paragraph.
  *
  * Available variables:
  * - paragraph: Full paragraph entity.
@@ -38,23 +38,32 @@
  * @ingroup themeable
  */
 #}
-
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
 {% block paragraph %}
-  {% block content %}
-    <div class="ee-program__dates course_details">
-      <div class="ee-program__date">
-  			{{ content.field_ee_program_dates }}
+  <div{{ attributes.addClass(classes) }}>
+    {% block content %}
+      <div class="course_schedule-day">
+        <div class="course_schedule-title">{{ content.field_day_title }}</div>
+        <div class="course_schedule-part-one">
+          <div class="course_schedule-part-title">
+          {{ content.field_schedule_part_1_title }}
+          </div>
+          {{ content.field_schedule_part_1 }}
+        </div>
+        <div class="course_schedule-part-two">
+          <div class="course_schedule-part-title">
+          {{ content.field_schedule_part_2_title }}
+          </div>
+          {{ content.field_schedule_part_2 }}
+        </div>
       </div>
-    </div>
-    <div class="ee-program__details--actions">
-        {{ content.field_ee_register_desc }}
-        {% if (content.field_ee_register|field_value is not empty) %}
-        <a href="{{ content.field_ee_register.0['#url'] }}" class="btn btn-secondary col-12 col-lg-auto mr-lg-3 ee-program__date--details--action-btn">Register by Credit Card</a>
-        {% endif %}
-        {% if (content.field_ee_request_invoice|field_value is not empty) %}
-        <a href="{{ content.field_ee_request_invoice.0['#url'] }}" class="btn btn-primary--maroon col-12 col-lg-auto ee-program__date--details--action-btn">Register by Invoice</a>
-        {% endif %}
-    </div>
-
-  {% endblock %}
+    {% endblock %}
+  </div>
 {% endblock paragraph %}
