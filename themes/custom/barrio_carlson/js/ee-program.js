@@ -27,9 +27,9 @@
 
     var eeSliders = {
       init:function(){
-        $('.nav-tabs .nav-link').click(function(e){ e.preventDefault(); eeSliders.tabs($(this));});
-        $('.nav-tabs .nav-link[href="#faculty"]').click(function(){ var slider = '#staff-faculty-list .faculty-wrapper'; var slide = '.staff-faculty__wrapper'; eeSliders.build(slider, slide); });
-        $('.nav-tabs .nav-link[href="#schedule"]').click(function(){ var slider = '.tab-pane .course_schedule'; var slide = '.paragraph--type--course-schedule-info'; eeSliders.build(slider, slide); });
+        $('.ee-tabs .nav-tabs .nav-link').click(function(e){ e.preventDefault(); eeSliders.tabs($(this));});
+        $('.ee-tabs .nav-tabs .nav-link[href="#faculty"]').click(function(){ var slider = '#staff-faculty-list .faculty-wrapper'; var slide = '.staff-faculty__wrapper'; eeSliders.build(slider, slide); });
+        $('.ee-tabs .nav-tabs .nav-link[href="#schedule"]').click(function(){ var slider = '.tab-pane .course_schedule'; var slide = '.paragraph--type--course-schedule-info'; eeSliders.build(slider, slide); });
         eeSliders.build('.tab-pane .course_schedule', '.paragraph--type--course-schedule-info');
       },
       build:function(slider, slide){
