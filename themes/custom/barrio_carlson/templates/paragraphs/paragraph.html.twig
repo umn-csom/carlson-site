@@ -38,36 +38,18 @@
  * @ingroup themeable
  */
 #}
-{% set content_data = {
-    'thumb': content.field_video_thumb,
-    'caption': content.field_video_caption,
-    'video': content.field_video_embed.0,
-  }
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
 %}
 {% block paragraph %}
-  {% block content %}
-    {% if node.gettype =='executive_ed_program'%}
-      <div class="video-textbelow__inner">
-        <div class="video-textbelow__media">
-          <a class="use-ajax video-textbelow__media--link" data-dialog-type="modal" href="/media/{{ content.field_video_embed.0 }}" data-dialog-options="{&quot;width&quot;:800}">{{ content.field_video_thumb }}</a>
-        </div>
-        <div class="video-textbelow__details text-center">
-          <h3 class="text-center video-textbelow__details--heading">{{ content.field_heading }}</h3>
-          <div class="text-center video-textbelow__details--caption">{{ content.field_video_caption }}</div>
-        </div>
-      </div>
-    {% else %}
-  		<div class="row justify-content-center component-paragraph video-textbelow">
-  			<div class="video-textbelow__inner">
-  				<div class="col-12 video-textbelow__media">
-  			    <a class="use-ajax video-textbelow__media--link" data-dialog-type="modal" href="/media/{{ content.field_video_embed.0 }}" data-dialog-options="{&quot;width&quot;:800}">{{ content.field_video_thumb }}</a>
-  			  </div>
-  			  <div class="col-12 video-textbelow__details">
-  		      <h3 class="text-center video-textbelow__details--heading">{{ content.field_heading }}</h3>
-  	     		<div class="text-center video-textbelow__details--caption">{{ content.field_video_caption }}</div>
-  			  </div>
-  			 </div>
-  		</div>
-    {% endif %}
-  {% endblock %}
+  <div{{ attributes.addClass(classes) }}>
+    {% block content %}
+      {{ content }}
+    {% endblock %}
+  </div>
 {% endblock paragraph %}

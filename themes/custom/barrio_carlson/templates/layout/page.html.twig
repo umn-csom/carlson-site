@@ -100,7 +100,11 @@
     {# Start of main page wrapper #}
     <div id="main-wrapper" class="layout-main-wrapper clearfix">
       {% block content %}
+      {% if node.gettype =='executive_ed_program'%}
+        <div id="main" class="container-fluid">
+      {% else %}
         <div id="main" class="container">
+      {% endif %}
           <div class="row">
             <div class="col breadcrumb">
               {{ page.breadcrumb }}
