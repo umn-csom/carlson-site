@@ -115,7 +115,7 @@
         {{ content.field_ee_course_dates }}
         <div class="ee-program__details--location course_details">
           <label>Location:</label>
-          Minneapolis
+          {{ content.field_ee_course_location }}
         </div>
         <div class="ee-program__details--cost course_details">
           <label>Cost:</label>
@@ -149,7 +149,7 @@
 
 
         {{ content.field_contact_info }}
-        {# Course brochure link #}
+        {# Course brochure link -- remove
         {% if content.field_ee_catalog_link|field_value is not empty %}
         <div class="row ee-program_brochure">
           {% if content.field_ee_course_brochure|field_value is not empty %}
@@ -158,6 +158,7 @@
             {# content.field_ee_catalog_link #}
         </div>
         {% endif %}
+        #}
       </div>
       </section>
       <section class="ee-course_info">
