@@ -7,15 +7,15 @@
 
 {% block paragraph %}
   {% block content %}
-        <div class="col-9 col-sm-6 col-md-5 col-xl-3 mb-5 mb-xl-0" style="font-family:'Lato';">
-          <h3 class="front--programs--block--heading m-0 mb-3" style="padding-left:20px;font-size : 16px;" >
+        <div class="col-8 col-sm-6 col-md-5 col-xl-3 mb-5 mb-xl-0">
+          <h3 class="front--programs--block--heading m-0 mb-3">
             {{ content.field_heading }}
           </h3>
           <a href="{{ content.field_link.0['#url'] }}">{{ content.field_image|field_value }}</a>
-            <div style="padding-left:20px;font-size : 17px;line-height : 145%;" class="mt-2"><a href="{{ content.field_link.0['#url'] }}" style="color:#000;text-decoration:none;">
+            <div class="front--programs--block-text mt-2"><a href="{{ content.field_link.0['#url'] }}">
           {{ content.field_main_content }}
         </a></div>
-          <p class="mb-0 mt-3 text-right"><a href="{{ content.field_link.0['#url'] }}" style="font-size:14px;line-height:105%;text-transform:uppercase;font-weight:bold;">{{ content.field_link.0['#title'] }} <i class="fas fa-arrow-right fa-sm"></i></a></p>
+          <p class="mb-0 mt-3 text-right"><a href="{{ content.field_link.0['#url'] }}" class="front--programs--block-button">{{ content.field_link.0['#title'] }} <i class="fas fa-arrow-right fa-sm"></i></a></p>
         </div>
   {% endblock %}
 {% endblock paragraph %}
