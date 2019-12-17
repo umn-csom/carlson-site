@@ -92,6 +92,25 @@
     font-size : 16px;
   }
   &--block {
+    &-img {
+      max-height : 193px;
+      height : 193px;
+      position : relative;
+      overflow : hidden;
+      .contextual-region {
+        position : static;
+      }
+      img {
+        position : absolute;
+        top: -9999px;
+        bottom: -9999px;
+        left: -9999px;
+        right: -9999px;
+        min-width : 100%;
+        min-height : 100%;
+        margin: auto;
+      }
+    }
     &-text {
       padding-left : 20px;
       font-size : 17px;
@@ -234,10 +253,36 @@
   color : #900021;
   font-size : 30px;
 }
-.front--statistics-heading {
-  color:#FFCC33;
-  line-height : 105%;
-  font-size:30px;
+.front--statistics {
+  &-heading {
+    color: $gold;
+    line-height : 105%;
+    font-size:30px;
+  }
+  &-statistic {
+    min-height : 215px;
+    font-size : 17px;
+    line-height : 130%;
+    color: $white;
+    &-number {
+      color : $maroon;
+      background-color : $gold;
+      border-radius : 50%;
+      height : 130px;
+      width : 130px;
+      font-size : 62px;
+      line-height : 130px;
+      font-family: $font-lato;
+      font-weight:bold;
+    }
+    p {
+      max-width : 70%;
+    }
+  }
+  .view-id-front_stats .large-block-grid-3 > .grid,
+  .view-id-front_stats .medium-block-grid-3 > .grid {
+    width : 100% !important;
+  }
 }
 @include media-breakpoint-up(lg) {
   .front--programs-heading {
@@ -262,6 +307,9 @@
         font-size:24px;
         color:#900021;
         line-height:105%;
+      }
+      &-deadlines {
+        line-height : 125%;
       }
       &-line {
         height : 1px;
