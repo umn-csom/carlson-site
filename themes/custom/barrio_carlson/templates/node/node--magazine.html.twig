@@ -76,7 +76,8 @@
       {% endif %}
       <div class="col-12 col-lg-7 order-2 order-lg-1">
         <h2 class="magazine--section-heading mb-3">Featured story</h2>
-        {{ drupal_view('magazine_discovery_feature', 'feature') }}
+        {% set nid = node.id %}
+        {{ drupal_view('magazine_discovery_feature', 'feature', nid) }}
       </div>
     </section>
 
