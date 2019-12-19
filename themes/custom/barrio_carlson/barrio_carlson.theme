@@ -456,3 +456,10 @@ function barrio_carlson_preprocess_paragraph(&$variables) {
       $variables['node'] = $node;
   }
 }
+
+function barrio_carlson_preprocess_field(&$variables, $hook) {
+  // Add Page Type as variable - needed for execuitve_ed
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+      $variables['node'] = $node;
+  }
+}
