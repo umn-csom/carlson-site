@@ -1,4 +1,3 @@
-
 {#
 /**
  * @file
@@ -60,53 +59,59 @@
  * @see template_preprocess_node()
  */
 #}
-<div class="staff-faculty__wrapper">
-  <div class="col-12 staff-faculty__item">
-    <div class="row">
-      <div class="col-12 col-lg-3 col-xl-2 offset-lg-1 staff-faculty__item--image">
-        <a href="{{ url }}">
-        {% if content.field_profile_img|field_value is not empty %}
-          {{ content.field_profile_img }}
-        {% else %}
-          <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
-        {% endif %}
-        </a>
-      </div>
-      <div class="col-12 col-lg-8 col-xl-9">
-        <div class="row">
-          <div class="col-12 col-lg-12 col-xl-6">
-            <a href="{{ url }}" class="staff-faculty__item--name">{{ label }}</a>
-            {% if content.field_profile_title|field_value is not empty %}
-              <div class="staff-faculty__item--position">
-                  {{ content.field_profile_title|field_value }}
-              </div>
-            {% endif %}
-          </div>
-          <div class="col-12 col-lg-12 col-xl-6">
-            {% if content.field_office_phone|field_value is not empty %}
-              <div class="staff-faculty__item--phone">
-                <a href="tel:{{ content.field_office_phone|field_value }}">
-                  {{ content.field_office_phone|field_value }}
-                </a>
-              </div>
-            {% endif %}
+{{ attach_library('bootstrap_barrio/node') }}
 
-            {% if content.field_profile_address|field_value is not empty %}
-            <div class="staff-faculty__item--address">
-              {{ content.field_profile_address|field_value }}
-            </div>
-            {% endif %}
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix'
+  ]
+%}
+<section class="row basic-page__content">
+  <div class="col-12 main-content basic-page__content--inner">
 
-            {% if content.field_email|field_value is not empty %}
-              <div class="staff-faculty__item--email">
-                <a href="mailto:{{ content.field_email|field_value }}">
-                  {{ content.field_email|field_value }}
-                </a>
-              </div>
-            {% endif %}
-          </div>
+    {# Inner node region for blocks #}
+    {% if node_top %}
+      {{ node_top }}
+    {% endif %}
+
+    {# Home Flexible feature paragraphs #}
+    {% if content.body|render is not empty %}
+    <div class="row component-paragraph">
+      <div class="col-12">
+        body {{ content.body }}
       </div>
     </div>
+    {% endif %}
+
+    {# Inner node region for blocks #}
+    {% if node_content %}
+      {{ node_content }}
+    {% endif %}
+
+    {{ content.field_flexible_features }}
+
+    {{ content.field_contact_info }}
+
+    {% if node_bottom %}
+      {{ node_bottom }}
+    {% endif %}
+
+    {# Bottom node region for blocks #}
+    <div class="row node__bottom">
+      {% spaceless %}
+        <div class="node__bottom__col">
+          {{ node_bottom_left }}
+        </div>
+        <div class="node__bottom__col">
+          {{ node_bottom_right }}
+        </div>
+      {% endspaceless %}
+    </div>
   </div>
-  </div>
-</div>
+</section>

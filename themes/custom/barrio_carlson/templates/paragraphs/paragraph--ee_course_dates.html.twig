@@ -41,30 +41,20 @@
 
 {% block paragraph %}
   {% block content %}
-    <div class="col-12 ee-program__date">
-    	<div class="row">
-    		<div class="col-lg-6 ee-program__date--dates">
-				<div class="row h-100">
-					<div class="col-12 my-auto">
-						{{ content.field_ee_program_dates }}
-					</div>
-				</div>
-    		</div>
-    		<div class="col-lg-6 ee-program__date--details">
-				<div class="row h-100">
-					<div class="col-12 my-auto">
-						{{ content.field_ee_register_desc }}
-						<a href="#" onclick="return false;" class="btn btn-primary--maroon ee-program__date--details--view-only-btn col-12 col-lg-auto">{{ content.field_ee_register_text }}</a>
-						{% if (content.field_ee_register|field_value is not empty) %}
-						<a href="{{ content.field_ee_register.0['#url'] }}" class="btn btn-secondary col-12 col-lg-auto mr-lg-3 ee-program__date--details--action-btn">Register by Credit Card</a>
-						{% endif %}
-						{% if (content.field_ee_request_invoice|field_value is not empty) %}
-						<a href="{{ content.field_ee_request_invoice.0['#url'] }}" class="btn btn-primary--maroon col-12 col-lg-auto ee-program__date--details--action-btn">Register by Invoice</a>
-						{% endif %}
-					</div>
-				</div>
-		    </div>
-    	</div>
+    <div class="ee-program__dates course_details">
+      <div class="ee-program__date">
+  			{{ content.field_ee_program_dates }}
+      </div>
     </div>
+    <div class="ee-program__details--actions">
+        {{ content.field_ee_register_desc }}
+        {% if (content.field_ee_register|field_value is not empty) %}
+        <a href="{{ content.field_ee_register.0['#url'] }}" class="btn btn-secondary col-12 col-lg-auto mr-lg-3 ee-program__date--details--action-btn">Register by Credit Card</a>
+        {% endif %}
+        {% if (content.field_ee_request_invoice|field_value is not empty) %}
+        <a href="{{ content.field_ee_request_invoice.0['#url'] }}" class="btn btn-primary--maroon col-12 col-lg-auto ee-program__date--details--action-btn">Register by Invoice</a>
+        {% endif %}
+    </div>
+
   {% endblock %}
 {% endblock paragraph %}

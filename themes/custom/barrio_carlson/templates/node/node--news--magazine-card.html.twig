@@ -1,14 +1,14 @@
 <article class="row no-gutters magazine--section-item justify-content-center">
   {% if content.field_hero_media|field_value is not empty %}
-  <div class="col-6 col-lg-4 col-xl-3 pr-lg-4">
+  <div class="col-4 col-md-4 col-lg-5 col-xl-4 pr-4">
     <a href="{{ url }}">{{ content.field_hero_media }}</a>
   </div>
-  <div class="col-12 col-lg-8 col-xl-9 mt-3 mt-lg-0 position-relative magazine--section-item--summary">
+  <div class="col-8 col-md-8 col-lg-7 col-xl-8 magazine--section-item--summary">
   {% else %}
-  <div class="col-12 position-relative magazine--section-item--summary">
+  <div class="col-12 magazine--section-item--summary">
   {% endif %}
-    <h3 class="magazine--section-item--title {% if content.field_hero_media|field_value is not empty %}position-absolute" style="top : 15px;{% endif %}">
-      <div class="magazine--line" style="left:{% if content.field_hero_media|field_value is not empty %}-3{% endif %}0px;"></div>
+    <h3 class="position-relative magazine--section-item--title {% if content.field_hero_media|field_value is not empty %}magazine--section-item--title--alumni-position{% endif %}">
+      <div style="left:{% if content.field_hero_media|field_value is not empty %}-3{% endif %}0px;" class="magazine--line"></div>
       <a href="{{ url }}">{{ label }}</a>
     </h3>
 

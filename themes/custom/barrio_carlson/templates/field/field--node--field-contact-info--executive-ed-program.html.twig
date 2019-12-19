@@ -37,16 +37,35 @@
  * @see template_preprocess_field()
  */
 #}
+{%
+  set classes = [
+    'field',
+    'field--name-' ~ field_name|clean_class,
+    'field--type-' ~ field_type|clean_class,
+    'field--label-' ~ label_display,
+  ]
+%}
+{%
+  set title_classes = [
+    'field__label',
+    label_display == 'visually_hidden' ? 'visually-hidden',
+  ]
+%}
 
-{% block paragraph %}
-  {% block content %}
-      <div class="col-12 magazine--section my-5">
-        {% if content.field_magazine_section_heading|render is not empty %}
-        <h2 class="magazine--section-heading">{{ content.field_magazine_section_heading }}</h2>
-        {% endif %}
-        <div class="row justify-content-start">
-          {{ content.field_news_article }}
-        </div>
-      </div>
-  {% endblock %}
-{% endblock paragraph %}
+<div class="row component-paragraph contact-cta ee_contact-cta">
+{% for item in items %}
+  <div class="col-md-12 contact-cta__contact">
+    <h5 class="contact-cta__contact--heading">Program Contact</h5>
+    <div class="contact-cta__contact--person">{{ item.content.field_block_heading }}</div>
+    <ul class="list-inline">
+      {% if item.content.field_email|field_value is not empty %}
+      <li class="list-inline-item contact-cta__contact--email">Email: <a href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></li>
+      {% endif %}
+      {% if item.content.field_phone|field_value is not empty %}
+      <li class="list-inline-item contact-cta__contact--phone">Phone: {{ item.content.field_phone }}</li>
+      {% endif %}
+      {# item.content.field_request_link #}
+    </ul>
+  </div>
+{% endfor %}
+</div>

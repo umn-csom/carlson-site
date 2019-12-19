@@ -8,6 +8,19 @@
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\Node;
 
+/*
+function paragraphs_theme_suggestions_paragraph(array $variables) {
+  $suggestions = array();
+  $paragraph = $variables['elements']['#paragraph'];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+
+  $suggestions[] = 'paragraph__' . $sanitized_view_mode;
+  $suggestions[] = 'paragraph__' . $paragraph->bundle();
+  $suggestions[] = 'paragraph__' . $paragraph->bundle() . '__' . $sanitized_view_mode;
+
+  return $suggestions;
+}*/
+
 /**
  * Implements hook_form_system_theme_settings_alter() for settings form.
  *
@@ -292,6 +305,12 @@ function barrio_carlson_preprocess_views_exposed_form(&$variables) {
   $id = $form['#id'];
   // Do code here
 }
+function barrio_carlson_preprocess_page(&$variables) {
+  // Add Page Type as variable - needed for execuitve_ed
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+      $variables['node'] = $node;
+  }
+}
 
 function barrio_carlson_preprocess_pager(&$variables) {
   $element = $variables['pager']['#element'];
@@ -431,5 +450,9 @@ function barrio_carlson_preprocess_paragraph(&$variables) {
     case 'carlson_staff_faculty':
       // kint($paragraph);
     break;
+  }
+  // Add Page Type as variable - needed for execuitve_ed
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+      $variables['node'] = $node;
   }
 }

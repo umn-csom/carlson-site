@@ -84,31 +84,58 @@
     {{ title_suffix }}
   </header>
 
-  <div{{ content_attributes.addClass('node__content', 'clearfix', 'ee-program') }}>
+  <div {{ content_attributes.addClass('node__content', 'clearfix', 'ee-program') }}>
     <section class="row ee-program__top">
-      <div class="col-lg-10 offset-lg-1">
+      <div class="col-lg-12">
       {# Program Hero #}
-        <div class="row component-paragraph hero-program">
-          <div class="col-lg-7 hero-program__img">
+        <div class="hero">
+          <div class="hero-program__img">
             {{ content.field_hero_media }}
           </div>
-          <div class="col-lg-5 col-12 hero-program__content">
-            <div class="row">
-              <div class="col-12">
-                <h1 class="hero-program__title" >{{ node.label }}</h1>
-              </div>
-              <div class="col-12 order-lg-1">
-                {{ content.field_ee_program_teaser }}
+          <div class="hero-program__content">
+            <div class="container">
+              <div class="row component-paragraph hero-program">
+                <div class="col-lg-6 offset-lg-1 col-12">
+                  <div class="row">
+                    <div class="col-12">
+                      <h1 class="hero-program__title" >{{ node.label }}</h1>
+                    </div>
+                    <div class="col-12 order-lg-1">
+                      {{ content.field_ee_program_teaser }}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="ee-program__details">
+        <h3 class="details-title">Program Details</h3>
+        {{ content.field_ee_course_dates }}
+        <div class="ee-program__details--location course_details">
+          <label>Location:</label>
+          {{ content.field_ee_course_location }}
+        </div>
+        <div class="ee-program__details--cost course_details">
+          <label>Cost:</label>
+          {{ content.field_ee_cost }}
+        </div>
+        <div class="ee-program__details--brochure">
+          {# Course brochure link #}
+          {% if content.field_ee_course_brochure|field_value is not empty %}
+          <a href="{{ content.field_ee_course_brochure.0['#url'] }}" class="btn btn-primary--yellow">Request Brochure</a>
+          {% endif %}
+        </div>
+      </div>
     </section>
-
-    <div class="row">
-      <div class="col-lg-10 offset-lg-1">
-
+    <section class="row ee-program__content">
+      <div class="col-12 col-sm-12 col-lg-8">
+        <div class="component-paragraph">
+          {{ content.body }}
+        </div>
+      </div>
+      <div class="col-12 col-sm-12 col-lg-4">
         {# inner_nav region #}
         {% if inner_nav %}
         <div class="row inner_nav">
@@ -119,65 +146,96 @@
           </div>
         </div>
         {% endif %}
-        
-        {# Course brochure link #}
-        {% if content.field_ee_catalog_link|field_value is not empty %}
-        <div class="row ee-landing__catalog">
-          <div class="col-12 text-center">
-            {{ content.field_ee_catalog_link }}
+
+
+        {{ content.field_contact_info }}
+      </div>
+      </section>
+      <section class="ee-course_info">
+        {# Course Info paragraphs #}
+        <div class="row ee-course_info">
+          <div class="ee-audience col-12 col-sm-12 col-lg-6">
+            {{ content.field_course_audi }}
           </div>
+          <div class="ee-benefits col-12 col-sm-12 col-lg-6">
+            {{ content.field_course_ben }}
+          </div>
+        </div>
+      </section>
+      <section class="ee-flexible_features">
+        {# Home Flexible feature paragraphs #}
+        <div class="row">
+            {# Home Flexible feature paragraphs #}
+            {{ content.field_flexible_features }}
+        </div>
+      </section>
+      <section class="ee-field_accordion ee-tabs">
+        <div class="row">
+          <div class="col-12 col-sm-12">
+            <h3>Additional Course Details</h3>
+          </div>
+          <div class="col-12 col-sm-12">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" href="#schedule">Schedule</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#faculty">Faculty</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane container active" id="schedule">
+                <div class="course_schedule">
+                  {{ content.field_course_schedule }}
+                </div>
+                <div class="accordion-content">
+                  {{ content.field_accordion }}
+                </div>
+              </div>
+              <div class="tab-pane container fade" id="faculty">{{ content.field_ee_faculty|field_value }}</div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="ee-program__details-bottom">
+        <div class="container">
+          <div class="row">
+            <div class="col-12 col-md-6 ee-program__content">
+              <h3 class="details-title">Register Today!</h3>
+              {{ content.field_ee_course_dates }}
+              <div class="ee-program__details--location course_details">
+                <label>Location:</label>
+                {{ content.field_ee_course_location }}
+              </div>
+              <div class="ee-program__details--cost course_details">
+                <label>Cost:</label>
+                {{ content.field_ee_cost }}
+              </div>
+            </div>
+            <div class="col-12 col-md-6 ee-program__actions">
+              {{ content.field_ee_course_dates }}
+            </div>
+          </div>
+        </div>
+      </section>
+      {#
+      <div class="row ee-program__bottom">
+        {% if content.field_ee_bottom_first|field_value is not empty %}
+        <div class="col-12 col-lg ee-program__bottom--item">
+          {{ content.field_ee_bottom_first|field_value }}
         </div>
         {% endif %}
 
-        <div class="ee-program__content">
-          <div class="row component-paragraph">
-            <div class="col-12 col-lg-10 offset-lg-1">
-              {{ content.body }}
-            </div>
-          </div>
-          <div class="row ee-program__details">
-            <div class="col-lg-6">Program Details</div>
-            <div class="col-lg-3 ee-program__details--cost"><span>Cost:</span> <span class="ee-program__details--label">{{ content.field_ee_cost }}</span></div>
-            <div class="col-lg-3 ee-program__details--brochure">
+        {% if content.field_ee_bottom_second|field_value is not empty %}
+        <div class="col-12 col-lg ee-program__bottom--item">
+          {{ content.field_ee_bottom_second|field_value }}
+        </div>
+        {% endif %}
 
-              {% if content.field_ee_course_brochure|field_value is not empty %}
-              <a href="{{ content.field_ee_course_brochure.0['#url'] }}">Request Brochure</a>
-              {% endif %}
-
-            </div>
-          </div>
-          <div class="row ee-program__dates component-paragraph">
-            {{ content.field_ee_course_dates }}
-          </div>
-
-          {# Home Flexible feature paragraphs #}
-          {{ content.field_flexible_features }}
-
-          {{ content.field_accordion }}
-
-          {{ content.field_ee_faculty|field_value }}
-
-          {{ content.field_contact_info }}
-          
-          <div class="row ee-program__bottom">
-            {% if content.field_ee_bottom_first|field_value is not empty %}
-            <div class="col-12 col-lg ee-program__bottom--item">
-              {{ content.field_ee_bottom_first|field_value }}
-            </div>
-            {% endif %}
-
-            {% if content.field_ee_bottom_second|field_value is not empty %}
-            <div class="col-12 col-lg ee-program__bottom--item">
-              {{ content.field_ee_bottom_second|field_value }}
-            </div>
-            {% endif %}
-
-            <div class="col-12 col-lg ee-program__bottom--item">
-              {{ node_bottom_right }}
-            </div>
-          </div>
+        <div class="col-12 col-lg ee-program__bottom--item">
+          {{ node_bottom_right }}
         </div>
       </div>
-    </div>
+      #}
   </div>
 </article>

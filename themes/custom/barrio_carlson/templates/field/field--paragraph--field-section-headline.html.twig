@@ -37,16 +37,35 @@
  * @see template_preprocess_field()
  */
 #}
-
-{% block paragraph %}
-  {% block content %}
-      <div class="col-12 magazine--section my-5">
-        {% if content.field_magazine_section_heading|render is not empty %}
-        <h2 class="magazine--section-heading">{{ content.field_magazine_section_heading }}</h2>
-        {% endif %}
-        <div class="row justify-content-start">
-          {{ content.field_news_article }}
-        </div>
+{%-
+  set classes = [
+    'field',
+    'field--name-' ~ field_name|clean_class,
+    'field--type-' ~ field_type|clean_class,
+    'field--label-' ~ label_display,
+  ]
+-%}
+{%-
+  set title_classes = [
+    'field__label',
+    label_display == 'visually_hidden' ? 'visually-hidden',
+  ]
+-%}
+{%- if label_hidden -%}
+  {%- for item in items -%}
+    <h2>{{- item.content -}}</h2>
+  {%- endfor -%}
+{%- else -%}
+  <div{{ attributes.addClass(classes) }}>
+    <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
+    {% if multiple %}
+      <div class='field__items'>
+    {% endif %}
+    {% for item in items %}
+      <div{{ item.attributes.addClass('field__item') }}>{{ item.content }}</div>
+    {% endfor %}
+    {% if multiple %}
       </div>
-  {% endblock %}
-{% endblock paragraph %}
+    {% endif %}
+  </div>
+{%- endif -%}

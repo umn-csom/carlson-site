@@ -86,73 +86,14 @@
       </div>
     {% endif %}
 
-    {# Only rendered if something is placed in this region #}
-    {% if page.featured_top %}
-      {% block featured %}
-        <div class="featured-top">
-          <aside class="featured-top__inner section {{ container }} clearfix" role="complementary">
-            {{ page.featured_top }}
-          </aside>
-        </div>
-      {% endblock %}
-    {% endif %}
 
     {# Start of main page wrapper #}
-    <div id="main-wrapper" class="layout-main-wrapper clearfix">
       {% block content %}
-      {% if node.gettype =='executive_ed_program'%}
-        <div id="main" class="container-fluid">
-      {% else %}
-        <div id="main" class="container">
-      {% endif %}
-          <div class="row">
-            <div class="col breadcrumb">
-              {{ page.breadcrumb }}
-            </div>
-          </div>
-          <div class="row row-offcanvas row-offcanvas-left clearfix">
-            <main{{ content_attributes }}>
-              <section class="section">
                 <a id="main-content" tabindex="-1"></a>
-                {% if node %}
-                  {# Hide the title #}
-                {% else %}
-                  {{ page.page_title }}
-                {% endif %}
-
                 {{ page.content }}
-              </section>
-            </main>
-            {% if page.sidebar_first %}
-              <div{{ sidebar_first_attributes }}>
-                <aside class="section" role="complementary">
-                  {{ page.sidebar_first }}
-                </aside>
-              </div>
-            {% endif %}
-            {% if page.sidebar_second %}
-              <div{{ sidebar_second_attributes }}>
-                <aside class="section" role="complementary">
-                  {{ page.sidebar_second }}
-                </aside>
-              </div>
-            {% endif %}
-          </div>
-        </div>
       {% endblock %}
-    </div>
     {# End of the main page wrapper #}
 
-    {# Only rendered if something is placed in this region #}
-    {% if page.featured_bottom_first or page.featured_bottom_second or page.featured_bottom_third %}
-      <div class="featured-bottom">
-        <aside class="{{ container }} clearfix" role="complementary">
-          {{ page.featured_bottom_first }}
-          {{ page.featured_bottom_second }}
-          {{ page.featured_bottom_third }}
-        </aside>
-      </div>
-    {% endif %}
 
     {# Beginning of footer #}
     <footer class="footer">

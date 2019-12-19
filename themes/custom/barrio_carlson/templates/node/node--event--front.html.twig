@@ -1,0 +1,18 @@
+  {% if content.field_event_date|field_value is not empty %}
+    {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
+    <div class="date-cal mb-4 mt-0 pt-0">
+      <div class="date-cal__item my-0 mx-auto">
+        <time datetime="{{ timestamp|date('U') }}" class="mt-0 pt-0">
+          <span class="date-cal__item--day mt-0 pt-0">{{ timestamp|date('j') }}</span>
+          <span class="date-cal__item--month">{{ timestamp|date('F') }}</span>
+        </time>
+      </div>
+    </div>
+
+
+
+      <a href="{{ url }}">
+        <h3 style="font-family:'Lato', sans-serif;font-size: 24px;line-height:110%;"><em>{{ label }}</em></h3>
+        <div style="color:#000;text-decoration:none;">{{ content.body }}</div>
+      </a>
+  {% endif %}
