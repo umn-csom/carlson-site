@@ -33,9 +33,10 @@
         eeSliders.build('.tab-pane .course_schedule', '.paragraph--type--course-schedule-info');
       },
       build:function(slider, slide){
+        var show = $(slider+' '+slide).length  >= 3 ? 3 : $(slider+' '+slide).length ;
         $(slider).slick({
           slide: slide,
-          slidesToShow: 3,
+          slidesToShow: show,
           slidesToScroll: 1,
           autoplay: false,
           infinite: false,
