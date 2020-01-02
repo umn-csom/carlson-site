@@ -128,34 +128,34 @@
           {% endif %}
         </div>
       </div>
-    </section> <!--end ee-program__top -->
-
-
-
-
-    <section class="row ee-program__content">
-      <div class="col-12 col-sm-12 col-lg-8">
-        <div class="component-paragraph">
-          {{ content.body }}
-        </div>
-      </div>
-      <div class="col-12 col-sm-12 col-lg-4">
-        {# inner_nav region #}
-        <div class="row inner_nav">
-          <div class="col-12">
-            <div class="row">
-              {{ inner_nav }}
-            </div>
+    </section>
+    <section class="container ee-program__content">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-lg-8">
+          <div class="component-paragraph">
+            {{ content.body }}
           </div>
         </div>
-        {{ content.field_contact_info }}
+        <div class="col-12 col-sm-12 col-lg-4">
+          {# inner_nav region #}
+          {% if inner_nav %}
+          <div class="row inner_nav">
+            <div class="col-12">
+              <div class="row">
+                {{ inner_nav }}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+
+          {{ content.field_contact_info }}
+        </div>
       </div>
       </section>
-
-
       <section class="ee-course_info">
         {# Course Info paragraphs #}
-        <div class="row">
+        <div class="row ee-course_info">
           <div class="ee-audience col-12 col-sm-12 col-lg-6">
             {{ content.field_course_audi }}
           </div>
@@ -164,9 +164,6 @@
           </div>
         </div>
       </section>
-
-
-
       <section class="ee-flexible_features">
         {# Home Flexible feature paragraphs #}
         <div class="row">
@@ -174,49 +171,39 @@
             {{ content.field_flexible_features }}
         </div>
       </section>
-
-
-
-      <section class="ee-field_accordion ee-tabs pt-5">
+      <section class="ee-field_accordion ee-tabs">
         <div class="row">
           <div class="col-12 col-sm-12">
             <h3>Additional Course Details</h3>
           </div>
           <div class="col-12 col-sm-12">
-            <ul class="nav nav-tabs" id="eeTab" role="tablist">
+            <ul class="nav nav-tabs">
               <li class="nav-item">
-                <a class="nav-link active" id="sched-eeTab" data-toggle="tab" href="#schedule" role="tab" aria-controls="schedule">Schedule</a>
+                <a class="nav-link active" href="#schedule">Schedule</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" id="faculty-eeTab" data-toggle="tab" href="#faculty" role="tab" aria-controls="faculty" href="#faculty">Faculty</a>
+                <a class="nav-link" href="#faculty">Faculty</a>
               </li>
             </ul>
-
-            <div class="tab-content" id="eeTabContent">
-
-              <div class="tab-pane fade show active" id="schedule" role="tabpanel" aria-labelledby="sched-eeTab">
+            <div class="tab-content">
+              <div class="tab-pane container active" id="schedule">
                 <div class="course_schedule">
                   {{ content.field_course_schedule }}
                 </div>
                 <div class="accordion-content">
                   {{ content.field_accordion }}
                 </div>
-              </div> <!-- end tab-pane container active #sched -->
-
-              <div class="tab-pane fade" id="faculty"  role="tabpanel" aria-labelledby="faculty-eeTab">
+              </div>
+              <div class="tab-pane container fade" id="faculty">
+                <!-- content.field_ee_faculty|field_value -->
                 <div class="container">
                   {{ drupal_view('ee_program_faculty', 'block_1') }}
                 </div>
               </div>
-
             </div>
-
-          </div> <!-- end col-12 that contains the tabs-->
-        </div> <!-- end row-->
+          </div>
+        </div>
       </section>
-
-
-
       <section class="ee-program__details-bottom">
         <div class="container">
           <div class="row">
