@@ -228,6 +228,9 @@
 			}
 			.nav-item {
 				width: 100%;
+				position:relative;
+				border-top:1px solid transparent;
+				
 				@include media-breakpoint-up(lg){
 					flex: 1 1;
 				}
@@ -374,5 +377,13 @@
 .node--type-executive-ed-program{
 	.menu-title{
 			display:block;
+	}
+}
+// Fix for EE menu Dropdowns
+.accordion{
+	&#block-executiveedcation-menu-link{
+		.card{
+			overflow:visible;
+		}
 	}
 }
