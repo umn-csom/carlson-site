@@ -487,11 +487,58 @@
 			}
 		}
 	}
+
+	.course_schedule{
+		padding: 0 10rem;
+		margin-bottom: 50px;
+		&-day{
+			border: 1px solid #D8D8D8;
+			margin: 15px;
+			padding: 15px 15px 30px 15px;
+		}
+		&-title{
+			display: block;
+			width: 100%;
+			text-align: center;
+			padding: 10px 15px;
+			background: rgba(230, 219, 214, .5);
+			margin-bottom: 25px;
+			@include font-crimson-base();
+			font-size: 34px;
+			color: #7A0019;
+			text-align: center;
+			line-height: 31px;
+		}
+		&-part-one,
+		&-part-two{
+			text-align:center;
+			margin: 0 25px;
+		}
+		&-part-title{
+			font-size: 13px;
+			color: #363230;
+			letter-spacing: 1.39px;
+			text-align: center;
+			text-transform: uppercase;
+			font-weight:900;
+			margin-bottom: 15px;
+		}
+		&-part-one{
+			&:after{
+				content:'';
+				display:block;
+				position: relative;
+				margin: 25px;
+				border-bottom: 1px solid #D8D8D8;
+			}
+		}
+	}
 }
 .node__content.ee-program .block-views ul:not([class]) li:before {
 	top: 1.1em;
 }
-.page-node-type-executive-ed-program{
+
+.node--type-executive-ed-program{
 	.faculty-wrapper{
 		display:block;
 		width: 100%;
@@ -550,57 +597,8 @@
 			}
 		}
 	}
-}
 
-.course_schedule{
-	padding: 0 10rem;
-	margin-bottom: 50px;
-	&-day{
-		border: 1px solid #D8D8D8;
-		margin: 15px;
-		padding: 15px 15px 30px 15px;
-	}
-	&-title{
-		display: block;
-		width: 100%;
-		text-align: center;
-		padding: 10px 15px;
-		background: rgba(230, 219, 214, .5);
-		margin-bottom: 25px;
-		@include font-crimson-base();
-		font-size: 34px;
-		color: #7A0019;
-		text-align: center;
-		line-height: 31px;
-	}
-	&-part-one,
-	&-part-two{
-		text-align:center;
-		margin: 0 25px;
-	}
-	&-part-title{
-		font-size: 13px;
-		color: #363230;
-		letter-spacing: 1.39px;
-		text-align: center;
-		text-transform: uppercase;
-		font-weight:900;
-		margin-bottom: 15px;
-	}
-	&-part-one{
-		&:after{
-			content:'';
-			display:block;
-			position: relative;
-			margin: 25px;
-			border-bottom: 1px solid #D8D8D8;
-		}
-	}
-
-}
-
-/* Convert horizontial nav to sidebar vertical nav */
-.node--type-executive-ed-program{
+	/* Convert horizontial nav to sidebar vertical nav */
 	.inner_nav{
 		.block{
 			.inner_nav--accordion{
