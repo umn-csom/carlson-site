@@ -2,8 +2,9 @@
 
 namespace Drupal\group\Entity\Views;
 
-use Drupal\Core\Entity\EntityManagerInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\Sql\SqlEntityStorageInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
@@ -33,11 +34,23 @@ class GroupContentViewsData extends EntityViewsData {
   /**
    * Constructs a GroupContentViewsData object.
    *
+   * @param \Drupal\Core\Entity\EntityTypeInterface $entity_type
+   *   The entity type to provide views integration for.
+   * @param \Drupal\Core\Entity\Sql\SqlEntityStorageInterface $storage_controller
+   *   The storage handler used for this entity type.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
+   * @param \Drupal\Core\StringTranslation\TranslationInterface $translation_manager
+   *   The translation manager.
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
+   *   The entity field manager.
    * @param \Drupal\group\Plugin\GroupContentEnablerManagerInterface $plugin_manager
    *   The group content enabler plugin manager.
    */
-  function __construct(EntityTypeInterface $entity_type, SqlEntityStorageInterface $storage_controller, EntityManagerInterface $entity_manager, ModuleHandlerInterface $module_handler, TranslationInterface $translation_manager, GroupContentEnablerManagerInterface $plugin_manager) {
-    parent::__construct($entity_type, $storage_controller, $entity_manager, $module_handler, $translation_manager);
+  function __construct(EntityTypeInterface $entity_type, SqlEntityStorageInterface $storage_controller, EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler, TranslationInterface $translation_manager, EntityFieldManagerInterface $entity_field_manager, GroupContentEnablerManagerInterface $plugin_manager) {
+    parent::__construct($entity_type, $storage_controller, $entity_type_manager, $module_handler, $translation_manager, $entity_field_manager);
     $this->pluginManager = $plugin_manager;
   }
 
@@ -47,10 +60,11 @@ class GroupContentViewsData extends EntityViewsData {
   public static function createInstance(ContainerInterface $container, EntityTypeInterface $entity_type) {
     return new static(
       $entity_type,
-      $container->get('entity.manager')->getStorage($entity_type->id()),
-      $container->get('entity.manager'),
+      $container->get('entity_type.manager')->getStorage($entity_type->id()),
+      $container->get('entity_type.manager'),
       $container->get('module_handler'),
       $container->get('string_translation'),
+      $container->get('entity_field.manager'),
       $container->get('plugin.manager.group_content_enabler')
     );
   }
@@ -75,8 +89,8 @@ class GroupContentViewsData extends EntityViewsData {
     // @todo Eventually, we may want to replace all of 'entity_id'.
     unset($data[$data_table]['entity_id']['relationship']);
 
-    /** @var \Drupal\Core\Entity\EntityTypeInterface[] $entity_types */
-    $entity_types = $this->entityManager->getDefinitions();
+    /** @var \Drupal\Core\Entity\EntityTypeManagerInterface[] $entity_types */
+    $entity_types = $this->entityTypeManager->getDefinitions();
 
     // Add views data for all defined plugins so modules can provide default
     // views even though their plugins may not have been installed yet.
