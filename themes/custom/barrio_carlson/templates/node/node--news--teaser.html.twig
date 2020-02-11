@@ -80,7 +80,11 @@
         <p>{{ text|length > 200 ? text|slice(0, 200) ~ '...' : text }}</p>
       {% endif %}
 
-      <a href="{{ url }}" class="news__teaser--learn-more">Learn More</a>
+      {% if content.field_in_the_media|field_value is not empty %}
+        <a href="{{ content.field_in_the_media }}" class="news__teaser--learn-more" target="_blank">Learn More</a>
+      {% else %}
+        <a href="{{ url }}" class="news__teaser--learn-more">Learn More</a>
+      {% endif %}
     </div>
   {% else %}
     <div class="col-12">
@@ -97,7 +101,11 @@
         <p>{{ text|length > 200 ? text|slice(0, 200) ~ '...' : text }}</p>
       {% endif %}
 
-      <a href="{{ url }}" class="news__teaser--learn-more">Learn More</a>
+      {% if content.field_in_the_media|field_value is not empty %}
+        <a href="{{ content.field_in_the_media }}" class="news__teaser--learn-more" target="_blank">Learn More</a>
+      {% else %}
+        <a href="{{ url }}" class="news__teaser--learn-more">Learn More</a>
+      {% endif %}
     </div>
   {% endif %}
 </div>
