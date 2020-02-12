@@ -36,6 +36,21 @@
 <div class="news-features__item--thumb">
   {{ fields.field_hero_media.content }}
 </div>
-<h3 class="news-features__item--title">{{ fields.title.content }}</h3>
+
+<h3 class="news-features__item--title">
+  {% if fields.field_in_the_media and fields.field_in_the_media.content is not empty %}
+    <a href="{{ fields.field_in_the_media.content }}" target="_blank" hreflang="en">{{ fields.title_1.content }}</a>
+  {% else %}
+    {{ fields.title.content }}
+  {% endif %}
+</h3>
+
 <p class="news-features__item--body">{{ fields.body.content }}</p>
-<div class="news-features__item--link">{{ fields.view_node.content }}</div>
+
+<div class="news-features__item--link">
+  {% if fields.field_in_the_media and fields.field_in_the_media.content is not empty %}
+    <a href="{{ fields.field_in_the_media.content }}" target="_blank" hreflang="en">Read More</a>
+  {% else %}
+    {{ fields.view_node.content }}
+  {% endif %}
+</div>
