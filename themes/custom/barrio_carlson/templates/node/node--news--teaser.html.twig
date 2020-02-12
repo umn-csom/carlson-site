@@ -60,13 +60,18 @@
  * @see template_preprocess_node()
  */
 #}
+
 <div class="row news__teaser">
   {% if content.field_hero_media|field_value is not empty %}
     <div class="col-12 col-lg-4 news__teaser--image">
       {{ content.field_hero_media }}
     </div>
     <div class="col-12 col-lg-8">
-      <h3 class="news__teaser--heading"><a href="{{ url }}" rel="bookmark">{{ label }}</a></h3>
+      {% if content.field_in_the_media|field_value is not empty %}
+        <h3 class="news__teaser--heading"><a href="{{ content.field_in_the_media }}" target="_blank" rel="bookmark">{{ label }}</a></h3>
+      {% else %}
+        <h3 class="news__teaser--heading"><a href="{{ url }}" rel="bookmark">{{ label }}</a></h3>
+      {% endif %}
       <p><span class="news__teaser--created">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
       {% if content.body.summary|field_value is not empty %}
         {{ content.body.summary }}
@@ -75,11 +80,19 @@
         <p>{{ text|length > 200 ? text|slice(0, 200) ~ '...' : text }}</p>
       {% endif %}
 
-      <a href="{{ url }}" class="news__teaser--learn-more">Learn More</a>
+      {% if content.field_in_the_media|field_value is not empty %}
+        <a href="{{ content.field_in_the_media }}" class="news__teaser--learn-more" target="_blank">Learn More</a>
+      {% else %}
+        <a href="{{ url }}" class="news__teaser--learn-more">Learn More</a>
+      {% endif %}
     </div>
   {% else %}
     <div class="col-12">
-      <h3 class="news__teaser--heading"><a href="{{ url }}" rel="bookmark">{{ label }}</a></h3>
+      {% if content.field_in_the_media|field_value is not empty %}
+        <h3 class="news__teaser--heading"><a href="{{ content.field_in_the_media }}" target="_blank" rel="bookmark">{{ label }}</a></h3>
+      {% else %}
+        <h3 class="news__teaser--heading"><a href="{{ url }}" rel="bookmark">{{ label }}</a></h3>
+      {% endif %}
       <p><span class="news__teaser--created">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
       {% if content.body.summary|field_value is not empty %}
         {{ content.body.summary }}
@@ -88,7 +101,11 @@
         <p>{{ text|length > 200 ? text|slice(0, 200) ~ '...' : text }}</p>
       {% endif %}
 
-      <a href="{{ url }}" class="news__teaser--learn-more">Learn More</a>
+      {% if content.field_in_the_media|field_value is not empty %}
+        <a href="{{ content.field_in_the_media }}" class="news__teaser--learn-more" target="_blank">Learn More</a>
+      {% else %}
+        <a href="{{ url }}" class="news__teaser--learn-more">Learn More</a>
+      {% endif %}
     </div>
   {% endif %}
 </div>
