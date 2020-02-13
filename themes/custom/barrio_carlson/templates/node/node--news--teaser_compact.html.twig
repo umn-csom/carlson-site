@@ -63,17 +63,31 @@
 <div class="row news-items__item mb-5">
   {% if content.field_hero_media|field_value is not empty %}
     <div class="col-4 news-items__item--image">
-      <a href="{{ url }}">{{ content.field_hero_media }}</a>
+      {% if content.field_in_the_media|field_value is not empty %}
+        <a href="{{ content.field_in_the_media }}" target="_blank">
+      {% else %}
+        <a href="{{ url }}" >
+      {% endif %}
+        {{ content.field_hero_media }}
+      </a>
     </div>
     <div class="col-8 news-items__item--text">
-      <a href="{{ url }}">
+      {% if content.field_in_the_media|field_value is not empty %}
+        <a href="{{ content.field_in_the_media }}" target="_blank">
+      {% else %}
+        <a href="{{ url }}" >
+      {% endif %}
         <h4 class="news-items__item--title">{{ label }}</h4>
         <span class="news-items__item--link">Read More</span>
       </a>
     </div>
   {% else %}
     <div class="col-12">
-      <a href="{{ url }}">
+      {% if content.field_in_the_media|field_value is not empty %}
+        <a href="{{ content.field_in_the_media }}" target="_blank">
+      {% else %}
+        <a href="{{ url }}">
+      {% endif %}
         <h4 class="news-items__item--title">{{ label }}</h4>
         <span class="news-items__item--link">Read More</span>
       </a>
