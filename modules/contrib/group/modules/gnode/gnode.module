@@ -101,7 +101,9 @@ function gnode_node_access(NodeInterface $node, $op, AccountInterface $account) 
   foreach ($group_contents as $group_content) {
     /** @var \Drupal\group\Entity\GroupContentInterface $group_content */
     $group = $group_content->getGroup();
-    $groups[$group->id()] = $group;
+    if($group){
+      $groups[$group->id()] = $group;
+    }
   }
 
   // From this point on you need group to allow you to perform the operation.
