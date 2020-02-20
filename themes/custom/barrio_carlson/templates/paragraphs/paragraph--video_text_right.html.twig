@@ -41,6 +41,9 @@
 
 {% block paragraph %}
   {% block content %}
+  {% if content.field_video_anchor_id is not empty %}
+    <a id="{{ content.field_video_anchor_id }}"></a>
+  {% endif %}
   {% if node.gettype =='executive_ed_program' and type == 'video_text_below' %}
       <div class="video-textright__left">
         <div class="video-textright__image">
@@ -53,7 +56,7 @@
       </div>
   {% else %}
     <div class="row align-items-center component-paragraph video-textright">
-      <div class="col-md-7 video-textright__left">
+      <div class="col-md-7 video-textright__left px-0">
         <div class="video-textright__image">
           <a class="use-ajax video-textright__link" data-dialog-type="modal" href="/media/{{ content.field_video_embed.0 }}" data-dialog-options="{&quot;width&quot;:800}">{{ content.field_video_thumb }}</a>
          </div>

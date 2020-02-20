@@ -41,6 +41,9 @@
 
 {% block paragraph %}
   {% block content %}
+    {% if content.field_video_anchor_id is not empty %}
+      <a id="{{ content.field_video_anchor_id }}"></a>
+    {% endif %}
     {% if content.field_video_embed|field_value is empty %}
       <div class="row component-paragraph fullwidth-image">
         <div class="col-12">

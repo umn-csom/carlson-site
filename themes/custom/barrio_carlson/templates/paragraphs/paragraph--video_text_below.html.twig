@@ -46,6 +46,9 @@
 %}
 {% block paragraph %}
   {% block content %}
+    {% if content.field_video_anchor_id is not empty %}
+      <a id="{{ content.field_video_anchor_id }}"></a>
+    {% endif %}
     {% if node.gettype =='executive_ed_program'%}
       <div class="video-textbelow__inner">
         <div class="video-textbelow__inner-wrapper">
