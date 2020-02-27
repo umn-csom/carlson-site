@@ -249,6 +249,16 @@ function barrio_carlson_preprocess_node(&$variables) {
         $variables['byline'] = '<span class="basic-hero__title--byline"> — by '.$byline."</span>";
       }
     break;
+    case 'executive_ed_program':
+      if ($node->get('field_ee_course_dates')->first()) {
+        $referenceItem = $node->get('field_ee_course_dates')->first();
+        $entityReference = $referenceItem->get('entity');
+        $entityAdapter = $entityReference->getTarget();
+        $referencedEntity = $entityAdapter->getValue();
+        $variables['register_link'] = $referencedEntity->get('field_ee_register')->view();
+        $variables['invoice_link'] = $referencedEntity->get('field_ee_request_invoice')->view();
+      }
+    break;
   }
 }
 
