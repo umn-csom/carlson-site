@@ -70,6 +70,14 @@
       <span>{{ content.field_ee_course_dates }}</span>
       {{ content.field_ee_program_teaser }}
       <a href="{{ url }}" class="ee-program__teaser--link">Learn More</a>
+      <div class="ee-program__register-buttons">
+        {% if (register_link is not empty) %}
+        <a href="{{ register_link.0['#url'] }}" class="btn btn-secondary col-12 col-lg-auto mr-lg-3 ee-program__date--details--action-btn">Register by Credit Card</a>
+        {% endif %}
+        {% if (invoice_link is not empty) %}
+        <a href="{{ invoice_link.0['#url'] }}" class="btn btn-primary--maroon col-12 col-lg-auto ee-program__date--details--action-btn">Register by Invoice</a>
+        {% endif %}
+      </div>
     </div>
   {% else %}
     <div class="col-12">
