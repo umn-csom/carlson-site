@@ -28,18 +28,20 @@ class FieldTargetEntityTest extends UnitTestCase {
    * @param array $referenced_entities
    *
    * @return \Drupal\Core\Field\FieldItemBase
+   *   The entity object.
    */
-  protected function mockContentEntity($referenced_entities) {
+  protected function mockContentEntity(array $referenced_entities) {
     $entities = [];
 
-    // Build the 'entity' objects with a property 'entity' that contains the referenced entity.
+    // Build the 'entity' objects with a property 'entity' that contains the
+    // referenced entity.
     foreach ($referenced_entities as $referenced_entity) {
       $entity = new \stdClass();
       $entity->entity = $referenced_entity;
       $entities[] = $entity;
     }
 
-    $field_item  = $this->getMockBuilder('Drupal\Core\Entity\ContentEntityBase')
+    $field_item = $this->getMockBuilder('Drupal\Core\Entity\ContentEntityBase')
       ->disableOriginalConstructor()
       ->getMock();
     $field_item->expects($this->any())
@@ -61,7 +63,7 @@ class FieldTargetEntityTest extends UnitTestCase {
   public function testTargetEntity($expected_result, $render_array) {
 
     $result = $this->extension->getTargetEntity($render_array);
-      $this->assertSame($expected_result, $result);
+    $this->assertSame($expected_result, $result);
   }
 
   /**
@@ -73,34 +75,55 @@ class FieldTargetEntityTest extends UnitTestCase {
   public function providerTestTargetEntity() {
     return [
       // Invalid render arrays.
+      [NULL, NULL],
       [NULL, []],
       [
         NULL,
-        ['#theme' => 'field', '#no_field_name' => []]
+        ['#theme' => 'field', '#no_field_name' => []],
       ],
       [
         NULL,
-        ['#theme' => 'field', '#field_name' => ['reference_field']]
+        ['#theme' => 'field', '#field_name' => ['reference_field']],
       ],
       [
         'foo',
-        ['#theme' => 'field', '#field_name' => ['reference_field'], '#object' => $this->mockContentEntity(
-          [ 'foo' ]
-        )]
+        [
+          '#theme' => 'field',
+          '#field_name' => ['reference_field'],
+          '#object' => $this->mockContentEntity(['foo']),
+        ],
       ],
       [
-        [ 'entity_1', 'entity_2', 'entity_3' ],
-        ['#theme' => 'field', '#field_name' => ['reference_field'], '#object' => $this->mockContentEntity(
-          [ 'entity_1', 'entity_2', 'entity_3' ]
-        )]
+        [
+          'entity_1',
+          'entity_2',
+          'entity_3',
+        ],
+        [
+          '#theme' => 'field',
+          '#field_name' => ['reference_field'],
+          '#object' => $this->mockContentEntity([
+            'entity_1',
+            'entity_2',
+            'entity_3',
+          ]),
+        ],
       ],
       [
-        [ 'entity_1', 'entity_2' ],
-        ['#theme' => 'field', '#field_name' => ['reference_field'], '#field_collection_item' => $this->mockContentEntity(
-          [ 'entity_1', 'entity_2' ]
-        )]
+        [
+          'entity_1',
+          'entity_2',
+        ],
+        [
+          '#theme' => 'field',
+          '#field_name' => ['reference_field'],
+          '#field_collection_item' => $this->mockContentEntity([
+            'entity_1',
+            'entity_2',
+          ]),
+        ],
       ],
-
     ];
   }
+
 }
