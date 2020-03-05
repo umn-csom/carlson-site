@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Hooks provided by the Simple XML sitemap module.
+ * Hooks provided by the Simple XML Sitemap module.
  */
 
 /**
@@ -17,13 +17,13 @@
  * @param array &$links
  *   Array containing multilingual links generated for each path to be indexed
  *
- * @param string|null $sitemap_variant
+ * @param string $sitemap_variant
  */
 function hook_simple_sitemap_links_alter(array &$links, $sitemap_variant) {
 
   // Remove German URL for a certain path in the hreflang sitemap.
   foreach ($links as $key => $link) {
-    if ($link['path'] === 'node/1') {
+    if ($link['meta']['path'] === 'node/1') {
 
       // Remove 'loc' URL if it points to a german site.
       if ($link['langcode'] === 'de') {
@@ -45,7 +45,7 @@ function hook_simple_sitemap_links_alter(array &$links, $sitemap_variant) {
  * Add arbitrary links to the sitemap.
  *
  * @param array &$arbitrary_links
- * @param string|null $sitemap_variant
+ * @param string $sitemap_variant
  */
 function hook_simple_sitemap_arbitrary_links_alter(array &$arbitrary_links, $sitemap_variant) {
 
@@ -85,7 +85,7 @@ function hook_simple_sitemap_arbitrary_links_alter(array &$arbitrary_links, $sit
  * Attributes can be added, changed and removed.
  *
  * @param array &$attributes
- * @param string|null $sitemap_variant
+ * @param string $sitemap_variant
  */
 function hook_simple_sitemap_attributes_alter(array &$attributes, $sitemap_variant) {
 
@@ -98,7 +98,7 @@ function hook_simple_sitemap_attributes_alter(array &$attributes, $sitemap_varia
  * Attributes can be added, changed and removed.
  *
  * @param array &$index_attributes
- * @param string|null $sitemap_variant
+ * @param string $sitemap_variant
  */
 function hook_simple_sitemap_index_attributes_alter(array &$index_attributes, $sitemap_variant) {
 
