@@ -9,6 +9,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Block\BlockPluginInterface;
 use Drupal\we_megamenu\WeMegaMenuBuilder;
 use Drupal\Core\Template\Attribute;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_theme().
@@ -254,6 +255,10 @@ function template_preprocess_we_megamenu_ul(array &$vars) {
       else {
         $vars['href'] = $li['url'];
       }
+    }
+
+    if (!\Drupal\Component\Utility\UrlHelper::isExternal($vars['href'])) {
+      if (Url::fromUri('internal:' . $vars['href'])->access() == FALSE) continue;
     }
 
     if (strpos($vars['href'], 'user/logout') !== FALSE && $current_user->id() == 0 && $vars['section'] != 'admin') {
