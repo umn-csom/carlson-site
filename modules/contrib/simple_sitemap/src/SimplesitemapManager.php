@@ -150,6 +150,7 @@ class SimplesitemapManager {
       $variants = $attach_type_info ? $this->attachSitemapTypeToVariants($variants, $sitemap_type) : $variants;
     }
     array_multisort(array_column($variants, "weight"), SORT_ASC, $variants);
+
     return $variants;
   }
 
@@ -160,14 +161,6 @@ class SimplesitemapManager {
    */
   protected function attachSitemapTypeToVariants(array $variants, $type) {
     return array_map(function($variant) use ($type) { return $variant + ['type' => $type]; }, $variants);
-  }
-
-  /**
-   * @param array $variants
-   * @return array
-   */
-  protected function detachSitemapTypeFromVariants(array $variants) {
-    return array_map(function($variant) { unset($variant['type']); return $variant; }, $variants);
   }
 
   /**

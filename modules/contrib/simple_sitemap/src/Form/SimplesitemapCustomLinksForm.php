@@ -63,21 +63,21 @@ class SimplesitemapCustomLinksForm extends SimplesitemapFormBase {
       '#title' => $this->t('Custom links'),
       '#type' => 'fieldset',
       '#markup' => '<div class="description">' . $this->t('Add custom internal drupal paths to the XML sitemap.') . '</div>',
-      '#prefix' => $this->getDonationText(),
+      '#prefix' => FormHelper::getDonationText(),
     ];
 
     $form['simple_sitemap_custom']['custom_links'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Relative Drupal paths'),
       '#default_value' => $this->customLinksToString($this->generator->setVariants(TRUE)->getCustomLinks(NULL, FALSE)),
-      '#description' => $this->t("Please specify drupal internal (relative) paths, one per line. Do not forget to prepend the paths with a '/'.<br/>Optionally link priority <em>(0.0 - 1.0)</em> can be added by appending it after a space.<br/> Optionally link change frequency <em>(always / hourly / daily / weekly / monthly / yearly / never)</em> can be added by appending it after a space.<br/><br/><strong>Examples:</strong><br/><em>/ 1.0 daily</em> -> home page with the highest priority and daily change frequency<br/><em>/contact</em> -> contact page with the default priority and no change frequency information"),
+      '#description' => $this->t("Please specify drupal internal (relative) paths, one per line. Do not forget to prepend the paths with a '/'.<br>Optionally link priority <em>(0.0 - 1.0)</em> can be added by appending it after a space.<br> Optionally link change frequency <em>(always / hourly / daily / weekly / monthly / yearly / never)</em> can be added by appending it after a space.<br/<br><strong>Examples:</strong><br><em>/ 1.0 daily</em> -> home page with the highest priority and daily change frequency<br><em>/contact</em> -> contact page with the default priority and no change frequency information"),
     ];
 
     $form['simple_sitemap_custom']['variants'] = [
       '#type' => 'select',
       '#multiple' => TRUE,
       '#title' => $this->t('Sitemap variants'),
-      '#description' => $this->t('The sitemap variants to include the above links in.<br/>Variants can be configured <a href="@url">here</a>.', ['@url' => $GLOBALS['base_url'] . '/admin/config/search/simplesitemap/variants']),
+      '#description' => $this->t('The sitemap variants to include the above links in.<br>Variants can be configured <a href="@url">here</a>.', ['@url' => $GLOBALS['base_url'] . '/admin/config/search/simplesitemap/variants']),
       '#options' => array_map(
         function($variant) { return $this->t($variant['label']); },
         $this->generator->getSitemapManager()->getSitemapVariants(NULL, FALSE)
@@ -163,7 +163,9 @@ class SimplesitemapCustomLinksForm extends SimplesitemapFormBase {
 
     // Regenerate sitemaps according to user setting.
     if ($form_state->getValue('simple_sitemap_regenerate_now')) {
-      $this->generator->rebuildQueue()->generateSitemap();
+      $this->generator->setVariants(TRUE)
+        ->rebuildQueue()
+        ->generateSitemap();
     }
   }
 

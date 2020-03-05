@@ -15,13 +15,15 @@
     }
 
     var toggleButton = this;
-    var isSticky = false;
 
     $(window).resize(function () {
       if ($(window).width() <= 991) {
         $(settings.targetWrapper).addClass('mobile-main-menu');
       } else {
         $(settings.targetWrapper).removeClass('mobile-main-menu');
+        $('body').css('overflow', '');
+        $('body').css('height', '');
+        $('body').css('position', '');
         $(settings.pageSelector).removeClass(settings.toggledClass);
         $(settings.pageSelector).find('.overlay').remove();
         $(settings.pageSelector).css('position', '');
@@ -29,23 +31,6 @@
         item.find('ul').css('display', '');
       }
     });
-
-    function setSticky() {
-      var top = $(window).scrollTop();
-      isSticky = ( top > 0 ) ? true : false;
-    }
-
-    $(window).on("wheel", function() {
-      setSticky();
-    });
-
-    $('body').on({
-        'touchmove': function(e) { 
-          setSticky();
-        }
-    });
-
-    setSticky();
 
     function _weMegaMenuClear() {
       var wrapper = $(settings.pageSelector);
@@ -58,35 +43,36 @@
       wrapper.removeClass(settings.toggledClass);
       wrapper.find('div.region-we-mega-menu nav').removeClass('we-mobile-megamenu-active');
 
-      wrapper.find('.btn-close').remove();
-      $('html').removeClass((!isSticky) ? 'lock-screen' : 'lock-screen-sticky');
+      if (overlay.length > 0) {
+        wrapper.find('.btn-close').remove();
+        overlay.remove();
+        $('body').css('overflow', '');
+        $('body').css('height', '');
+        $('body').css('position', '');
+      }
     }
 
     this.off('click.mobileMenu');
     this.on('click.mobileMenu', function (e) {
       var targetWrapper = $(this).closest('div.region-we-mega-menu').find('nav.navbar-we-mega-menu');
       var wrapper = $(settings.pageSelector);
-      var isiOSSafari = (navigator.userAgent.match(/like Mac OS X/i)) ? true: false;
-      var wrapperPosition = 'fixed';
-
       if (!wrapper.hasClass(settings.toggledClass)) {
-        //wrapper.addClass(settings.toggledClass).css('position', wrapperPosition);
+        wrapper.addClass(settings.toggledClass).css('position', 'relative');
         $(settings.targetWrapper).addClass('mobile-main-menu');
         targetWrapper.addClass('we-mobile-megamenu-active');
-        if (wrapper.find('.overlay').length == 0 && !isSticky) {
+        if (wrapper.find('.overlay').length == 0) {
           var overlay = $('<div class="overlay"></div>');
           overlay.prependTo(wrapper);
           overlay.click(function () {
             _weMegaMenuClear();
           });
+          $('body').css('overflow', 'hidden');
+          $('body').css('btn-close', 'hidden');
+          $('body').css('height', '100%');
+          $('body').css('position', 'relative');
         }
-
-        $('html').addClass((!isSticky) ? 'lock-screen' : 'lock-screen-sticky');
-        $('body').css('btn-close', 'hidden');
-
         if (wrapper.find('.btn-close').length == 0) {
-
-          var btnClose = (isSticky) ? $('<span class="btn-close sticky"><label>CLOSE</label></span>') : $('<span class="btn-close"><label>CLOSE</label></span>') ;
+          var btnClose = $('<span class="btn-close"></span>');
           btnClose.prependTo(wrapper);
 
           $('.btn-close').on('click', function (e) {
