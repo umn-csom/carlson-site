@@ -2,6 +2,7 @@
 
 namespace Drupal\we_megamenu;
 
+use Drupal;
 use Drupal\Core\Menu\MenuTreeParameters;
 
 class WeMegaMenuBuilder {
@@ -21,9 +22,9 @@ class WeMegaMenuBuilder {
   public static function getMenuTree($menu_name, $items = [], $level = 0) {
     $result = [];
     if ($level == 0) {
-      $menu_active_trail = \Drupal::service('menu.active_trail')->getActiveTrailIds($menu_name);
+      $menu_active_trail = Drupal::service('menu.active_trail')->getActiveTrailIds($menu_name);
       $menu_tree_parameters = (new MenuTreeParameters)->setActiveTrail($menu_active_trail)->onlyEnabledLinks();
-      $tree = \Drupal::menuTree()->load($menu_name, $menu_tree_parameters);
+      $tree = Drupal::menuTree()->load($menu_name, $menu_tree_parameters);
       foreach ($tree as $item) {
         $route_name = $item->link->getPluginDefinition()['route_name'];
         $result[] = [
@@ -135,9 +136,9 @@ class WeMegaMenuBuilder {
    */
   public static function getMenuItems($menu_name, $items = [], $level = 0, &$result = []) {
     if ($level == 0) {
-      $menu_active_trail = \Drupal::service('menu.active_trail')->getActiveTrailIds($menu_name);
+      $menu_active_trail = Drupal::service('menu.active_trail')->getActiveTrailIds($menu_name);
       $menu_tree_parameters = (new MenuTreeParameters)->setActiveTrail($menu_active_trail)->onlyEnabledLinks();
-      $tree = \Drupal::menuTree()->load($menu_name, $menu_tree_parameters);
+      $tree = Drupal::menuTree()->load($menu_name, $menu_tree_parameters);
       foreach ($tree as $item) {
         $route_name = $item->link->getPluginDefinition()['id'];
         $uuid = ($route_name == 'standard.front_page') ? $item->link->getPluginDefinition()['id'] : $item->link->getDerivativeId();
@@ -181,8 +182,8 @@ class WeMegaMenuBuilder {
   public static function getAllBlocks() {
     static $_list_blocks_array = [];
     if (empty($_list_blocks_array)) {
-      $theme_default = \Drupal::config('system.theme')->get('default');
-      $block_storage = \Drupal::entityManager()->getStorage('block');
+      $theme_default = Drupal::config('system.theme')->get('default');
+      $block_storage = Drupal::entityTypeManager()->getStorage('block');
       $entity_ids = $block_storage->getQuery()->condition('theme', $theme_default)->execute();
       $entities = $block_storage->loadMultiple($entity_ids);
       $_list_blocks_array = [];
@@ -205,7 +206,7 @@ class WeMegaMenuBuilder {
    *   Public static function routeExists int.
    */
   public static function routeExists($name) {
-    $route_provider = \Drupal::service('router.route_provider');
+    $route_provider = Drupal::service('router.route_provider');
     $route_provider = $route_provider->getRoutesByNames([$name]);
     return count($route_provider);
   }
@@ -229,7 +230,7 @@ class WeMegaMenuBuilder {
       $block = \Drupal\block\Entity\Block::load($bid);
       if (isset($block) && !empty($block)) {
         $title = $block->label();
-        $block_content = \Drupal::entityManager()
+        $block_content = Drupal::entityTypeManager()
           ->getViewBuilder('block')
           ->view($block);
 
@@ -285,7 +286,7 @@ class WeMegaMenuBuilder {
    */
   public static function loadConfig($menu_name = '', $theme = '') {
     if (!empty($menu_name) && !empty($theme)) {
-      $query = \Drupal::database()->select('we_megamenu', 'km');
+      $query = Drupal::database()->select('we_megamenu', 'km');
       $query->addField('km', 'data_config');
       $query->condition('km.menu_name', $menu_name);
       $query->condition('km.theme', $theme);
@@ -310,7 +311,7 @@ class WeMegaMenuBuilder {
    *   Public static function saveConfig string.
    */
   public static function saveConfig($menu_name, $theme, $data_config) {
-    $result = \Drupal::service('database')
+    $result = Drupal::service('database')
       ->merge('we_megamenu')
       ->key([
         'menu_name' => $menu_name,
@@ -458,7 +459,7 @@ class WeMegaMenuBuilder {
                       $col_count = $key_row_col;
                       $positions[] = $row_count . '-' . $col_count . '-' . count($cols);
                       foreach ($cols as $key_col => $col) {
-                        $menu_item = \Drupal::entityManager()
+                        $menu_item = Drupal::entityTypeManager()
                           ->getStorage('menu_link_content')
                           ->loadByProperties(['uuid' => $col->mlid]);
                         if (is_array($menu_item)) {
@@ -677,7 +678,7 @@ class WeMegaMenuBuilder {
     $trail = [];
     foreach ($menu_items as $key_item => $item) {
       $plugin_id = $item['plugin_id'];
-      $check_is_front_page = \Drupal::service('path.matcher')->isFrontPage();
+      $check_is_front_page = Drupal::service('path.matcher')->isFrontPage();
       $route_name = $item['route_name'];
 
       if ($route_name == '<front>' && $check_is_front_page) {
@@ -698,7 +699,7 @@ class WeMegaMenuBuilder {
    * Render all drupal view.
    */
   public static function renderView() {
-    $entity_manager = \Drupal::entityManager();
+    $entity_manager = Drupal::entityTypeManager();
     $views = $entity_manager->getStorage('view')->loadMultiple();
     foreach ($views as $key => $view) {
       $view = \Drupal\views\Views::getView($key);

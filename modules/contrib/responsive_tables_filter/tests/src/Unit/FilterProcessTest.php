@@ -23,7 +23,7 @@ class FilterProcessTest extends UnitTestCase {
    *
    * @var \Drupal\responsive_tables_filter\Plugin\Filter\FilterResponsiveTablesFilter
    */
-  protected $responsive_filter;
+  protected $responsiveFilter;
 
   /**
    * {@inheritdoc}
@@ -36,16 +36,17 @@ class FilterProcessTest extends UnitTestCase {
       'allowed_html' => '<a href> <p> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <br> <h3 id> <table class additional> <th> <tr> <td> <thead> <tbody> <tfoot>',
       'filter_html_help' => 1,
       'filter_html_nofollow' => 0,
+      'filter_responsive_tables_filter' => ["tablesaw_type" => "stack"],
     ];
     $this->filter = new FilterHtml($configuration, 'filter_html', ['provider' => 'test']);
     $this->filter->setStringTranslation($this->getStringTranslationStub());
 
     // See Drupal\Core\Plugin\PluginBase.
-    $this->responsive_filter = new FilterResponsiveTablesFilter(array(), 'filter_responsive_tables_filter', ['provider' => 'test']);
+    $this->responsiveFilter = new FilterResponsiveTablesFilter([], 'filter_responsive_tables_filter', ['provider' => 'test']);
   }
 
   /**
-   * @covers ::responsive_tables_filter
+   * @covers ::runFilter
    *
    * @dataProvider providerFilterAttributes
    *
@@ -56,7 +57,7 @@ class FilterProcessTest extends UnitTestCase {
    */
   public function testfilterAttributes($html, $expected) {
     $html_filter = $this->filter->filterAttributes($html);
-    $result = $this->responsive_filter->responsive_tables_filter($html_filter);
+    $result = $this->responsiveFilter->runFilter($html_filter);
     $this->assertSame($expected, $result);
   }
 
@@ -68,10 +69,10 @@ class FilterProcessTest extends UnitTestCase {
    */
   public function providerFilterAttributes() {
     return [
-      ['<table></table>', '<table class="tablesaw tablesaw-stack" data-tablesaw-mode="stack"></table>'],
-      ['<table class="test"></table>', '<table class="test tablesaw tablesaw-stack" data-tablesaw-mode="stack"></table>'],
+      ['<table></table>', '<table class="tablesaw tablesaw-stack" data-tablesaw-mode="stack" data-tablesaw-minimap=""></table>'],
+      ['<table class="test"></table>', '<table class="test tablesaw tablesaw-stack" data-tablesaw-mode="stack" data-tablesaw-minimap=""></table>'],
       ['<table class="no-tablesaw"></table>', '<table class="no-tablesaw"></table>'],
-      ['<table additional="test"><thead><tr><th>Header One<th>Header 2<tbody><tr><td>Easily add tables with the WYSIWYG toolbar<td>Encoded characters test öô & , ?<tr><td>Tables respond to display on smaller screens<td>Fully accessible to screen readers</table>', '<table additional="test" class="tablesaw tablesaw-stack" data-tablesaw-mode="stack">
+      ['<table additional="test"><thead><tr><th>Header One<th>Header 2<tbody><tr><td>Easily add tables with the WYSIWYG toolbar<td>Encoded characters test öô & , ?<tr><td>Tables respond to display on smaller screens<td>Fully accessible to screen readers</table>', '<table additional="test" class="tablesaw tablesaw-stack" data-tablesaw-mode="stack" data-tablesaw-minimap="">
 <thead><tr>
 <th>Header One</th>
 <th>Header 2</th>

@@ -18,13 +18,17 @@ class FieldRawValueTest extends UnitTestCase {
    */
   protected $extension;
 
+  /**
+   * {@inheritdoc}
+   */
   protected function setUp() {
     $this->extension = new FieldValueExtension();
   }
 
   /**
-   * Returns a mock FieldItem
-   * @param $values
+   * Returns a mock FieldItem.
+   *
+   * @param mixed $values
    *
    * @return \Drupal\Core\Field\FieldItemBase
    */
@@ -53,7 +57,7 @@ class FieldRawValueTest extends UnitTestCase {
   public function testRawValues($expected_result, $render_array, $key) {
 
     $result = $this->extension->getRawValues($render_array, $key);
-      $this->assertSame($expected_result, $result);
+    $this->assertSame($expected_result, $result);
   }
 
   /**
@@ -65,63 +69,77 @@ class FieldRawValueTest extends UnitTestCase {
   public function providerTestRawValues() {
     return [
       // Invalid render arrays.
+      [NULL, NULL, ''],
       [NULL, [], ''],
       [
         NULL,
         ['#theme' => 'field', '#no_items' => []],
-        ''
+        '',
       ],
       [
         NULL,
         ['#theme' => 'field', '#items' => []],
-        ''
+        '',
       ],
       [
         NULL,
         ['#theme' => 'field', '#items' => $this->mockFieldItem(NULL)],
-        ''
+        '',
       ],
       // Request all values, field with single value.
       [
         ['value' => 'text_value'],
-        ['#theme' => 'field', '#items' => $this->mockFieldItem([
-          ['value' => 'text_value']
-        ])],
-        ''
+        [
+          '#theme' => 'field',
+          '#items' => $this->mockFieldItem([
+           ['value' => 'text_value'],
+          ]),
+        ],
+        '',
       ],
       // Request all values, field with multiple values.
       [[
         'alt' => 'alt_value',
         'title' => 'title_value',
       ],
-        ['#theme' => 'field', '#items' => $this->mockFieldItem([
-          [
-            'alt' => 'alt_value',
-            'title' => 'title_value',
-          ]
-        ])],
-        ''
+        [
+          '#theme' => 'field',
+          '#items' => $this->mockFieldItem([
+            [
+              'alt' => 'alt_value',
+              'title' => 'title_value',
+            ],
+          ]),
+        ],
+        '',
       ],
       // Request 'foo', but value not exist.
-      [ NULL,
-        ['#theme' => 'field', '#items' => $this->mockFieldItem([
-          [
-            'alt' => 'alt_value',
-            'title' => 'title_value',
-          ]
-        ])],
+      [
+        NULL,
+        [
+          '#theme' => 'field',
+          '#items' => $this->mockFieldItem([
+            [
+              'alt' => 'alt_value',
+              'title' => 'title_value',
+            ],
+          ]),
+        ],
         'foo',
       ],
-      // Request 'alt' value, field cardinality = 1;
+      // Request 'alt' value, field cardinality = 1.
       [
         'alt_value',
-        ['#theme' => 'field', '#items' => $this->mockFieldItem([
-          [
-            'alt' => 'alt_value',
-            'title' => 'title_value',
-          ]
-        ])],
-        'alt'
+        [
+          '#theme' => 'field',
+          '#items' => $this->mockFieldItem([
+            [
+              'alt' => 'alt_value',
+              'title' => 'title_value',
+            ],
+          ]),
+        ],
+        'alt',
       ],
       // Request all values, field cardinality = 2.
       [
@@ -133,35 +151,42 @@ class FieldRawValueTest extends UnitTestCase {
           [
             'alt' => 'alt_value_2',
             'title' => 'title_value_2',
-          ]
+          ],
         ],
-        ['#theme' => 'field', '#items' => $this->mockFieldItem([
-          [
-            'alt' => 'alt_value_1',
-            'title' => 'title_value_1',
-          ],
-          [
-            'alt' => 'alt_value_2',
-            'title' => 'title_value_2',
-          ],
-        ])],
-        ''
+        [
+          '#theme' => 'field',
+          '#items' => $this->mockFieldItem([
+            [
+              'alt' => 'alt_value_1',
+              'title' => 'title_value_1',
+            ],
+            [
+              'alt' => 'alt_value_2',
+              'title' => 'title_value_2',
+            ],
+          ]),
+        ],
+        '',
       ],
       // Request 'alt' value, field cardinality = 2.
       [
         ['alt_value_1', 'alt_value_2'],
-        ['#theme' => 'field', '#items' => $this->mockFieldItem([
-          [
-            'alt' => 'alt_value_1',
-            'title' => 'title_value_1',
-          ],
-          [
-            'alt' => 'alt_value_2',
-            'title' => 'title_value_2',
-          ],
-        ])],
-        'alt'
+        [
+          '#theme' => 'field',
+          '#items' => $this->mockFieldItem([
+            [
+              'alt' => 'alt_value_1',
+              'title' => 'title_value_1',
+            ],
+            [
+              'alt' => 'alt_value_2',
+              'title' => 'title_value_2',
+            ],
+          ]),
+        ],
+        'alt',
       ],
     ];
   }
+
 }
