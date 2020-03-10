@@ -319,6 +319,34 @@ function barrio_carlson_preprocess_page(&$variables) {
   // Add Page Type as variable - needed for execuitve_ed
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
       $variables['node'] = $node;
+
+      $bundle = $node->bundle();
+
+      switch($bundle) {
+        case 'event':
+          // in case this gets a similar set up
+        break;
+        case 'executive_ed_program': 
+          $performer_string = "";
+
+          foreach ($node->get('field_ee_faculty') as $accordion) {
+            foreach ($accordion->entity->get('field_staff_faculty_item') as $staff_faculty_item) {
+              foreach ($staff_faculty_item->entity->get('field_staff_faculty') as $staff_faculty ) {
+                $faculty_entity = $staff_faculty->entity;
+                $name = $faculty_entity->field_first_name->value . " " . $faculty_entity->field_last_name->value;
+                $performer_string .=  " " . $name . ",";
+              }
+            }
+          }
+
+          if ($performer_string != "") {
+            $node->set('field_meta_tags', serialize([
+              'schema_event_performer' => 'a:3:{s:5:"pivot";s:1:"1";s:5:"@type";s:6:"Person";s:4:"name";s:37:"' . $performer_string .'";}'
+            ]));
+            $node->save();
+          }
+        break;
+      }
   }
 }
 
