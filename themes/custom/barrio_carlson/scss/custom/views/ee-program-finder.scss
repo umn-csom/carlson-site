@@ -1,8 +1,9 @@
 .view-executive-ed-program-finder {
-    background: $gold;
+    background: $dark-gray;
     margin-left: -1.5rem;
     margin-right: -1.5rem;
     .view-header {
+        color: $white;
         padding: 3rem;
     }
     .view-filters {
@@ -14,9 +15,9 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-image: url('../images/bg/program-finder_bg.png');
-            background-position: top left;
-            background-repeat: no-repeat;
+            //background-image: url('../images/bg/program-finder_bg.png');
+            //background-position: top left;
+            //background-repeat: no-repeat;
         }
         .form-row {
             > fieldset,
@@ -29,6 +30,12 @@
                     @include make-col(4);
                 }
             }
+        }
+        select.form-control {
+            background-color: $header-gray;
+        }
+        .form-group input[type="submit"] {
+            @include button-solid($submit-gold);
         }
     }
     .view-content, nav {
