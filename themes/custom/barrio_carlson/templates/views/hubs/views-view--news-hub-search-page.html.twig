@@ -35,26 +35,30 @@
 {%
   set classes = [
     dom_id ? 'js-view-dom-id-' ~ dom_id,
+    'row'
   ]
 %}
 <div{{ attributes.addClass(classes) }}>
 
-  {% if header %}
-    <header>
-      <div class="row text-center">
-        <div class="col-lg-8 offset-lg-2">
-          {{ header }}
+  <div class="col-3">
+    {% if header %}
+      <header class="col-12">
+        <div class="row">
+          <div class="col-12">
+            {{ header }}
+          </div>
         </div>
+      </header>
+    {% endif %}
+    <div class="row news-hub-search__filter">
+      <div class="col-12">
+        {{ exposed }}
       </div>
-    </header>
-  {% endif %}
-  <div class="row news-hub-search__filter">
-    <div class="col-12">
-      {{ exposed }}
     </div>
+    <a href="" class="news-hub-search__link">Carlson in the News ></a>
   </div>
   {{ attachment_before }}
-  <div class="row news-hub-search__results">
+  <div class="row news-hub-search__results col-9">
   {{ rows }}
   {{ empty }}
   {{ pager }}
