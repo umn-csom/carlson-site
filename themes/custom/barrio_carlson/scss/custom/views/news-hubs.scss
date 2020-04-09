@@ -18,23 +18,20 @@
 		justify-content: space-between;
 
 		.card {
-			margin: 0 0 3rem;
+			box-sizing: border-box;
+			margin: 0 .25rem 2rem;
 			flex: 100%;
 		}
 
 		@include media-breakpoint-up(lg) {
 			.card {
-				flex: 0 1 calc(50% - 1rem);
+				max-width: calc(50% - 1rem);
 			}
 		}
 		@include media-breakpoint-up(xl) {
 			.card {
-				flex: 0 1 calc(33% - 1rem);
+				max-width: calc(33% - 1rem);
 			}
-		}
-		&::after {
-			content: "";
-			flex: auto;
 		}
 	}
 
