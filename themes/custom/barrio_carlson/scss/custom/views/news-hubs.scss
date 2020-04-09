@@ -15,21 +15,26 @@
 	.card-columns {
 		display: flex;
 		flex-wrap: wrap;
+		justify-content: space-between;
 
 		.card {
-			margin: 0 1% 3rem;
-			width: 100%;
+			margin: 0 0 3rem;
+			flex: 100%;
 		}
 
-		@include media-breakpoint-up(md) {
-			.card {
-				width: 49%;
-			}
-		}
 		@include media-breakpoint-up(lg) {
 			.card {
-				width: 31%;
+				flex: 0 1 calc(50% - 1rem);
 			}
+		}
+		@include media-breakpoint-up(xl) {
+			.card {
+				flex: 0 1 calc(33% - 1rem);
+			}
+		}
+		&::after {
+			content: "";
+			flex: auto;
 		}
 	}
 

@@ -340,3 +340,26 @@
 		}
 	}
 }
+
+.views-field.views-field-field-featured-news{
+	.field-content {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		padding-bottom: 2rem;
+		border-bottom: 1px solid grey;
+		margin-bottom: 2rem;
+		.card {
+			flex: 0 1 100%;
+			background: none;
+			border: none;
+		}
+		@include media-breakpoint-up(md) {
+			flex-wrap: nowrap;
+			.card {
+				flex: 0 1 calc(33% - 1rem);
+				width: 33%;
+			}
+		}
+	}
+}
