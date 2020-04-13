@@ -188,8 +188,12 @@
 */
 .hub-card--news {
 	border: none;
-	border-bottom: 5px solid $maroon;
+	border-bottom: 5px solid;
+	border-bottom-color: $maroon;
 	background-color: $lightergray;
+	&:hover {
+		border-bottom-color: $submit-gold;
+	}
 }
 
 .hub-card--news,
@@ -342,6 +346,9 @@
 }
 
 .views-field.views-field-field-featured-news{
+	h3 {
+		font-size: 4rem;
+	}
 	.field-content {
 		display: flex;
 		flex-wrap: wrap;
@@ -349,6 +356,9 @@
 		padding-bottom: 2rem;
 		border-bottom: 1px solid $light-gray;
 		margin-bottom: 2rem;
+		article {
+			width: 100%;
+		}
 		.card {
 			box-sizing: border-box;
 			margin: 1rem .25rem;
