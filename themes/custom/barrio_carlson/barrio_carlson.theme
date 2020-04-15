@@ -255,6 +255,7 @@ function barrio_carlson_preprocess_node(&$variables) {
         $entityReference = $referenceItem->get('entity');
         $entityAdapter = $entityReference->getTarget();
         $referencedEntity = $entityAdapter->getValue();
+        $variables['register_desc'] = $referencedEntity->get('field_ee_register_desc')->view();
         $variables['register_link'] = $referencedEntity->get('field_ee_register')->view();
         $variables['invoice_link'] = $referencedEntity->get('field_ee_request_invoice')->view();
       }

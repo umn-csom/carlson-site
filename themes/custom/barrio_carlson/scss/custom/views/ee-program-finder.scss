@@ -1,12 +1,13 @@
 .view-executive-ed-program-finder {
-    background: $gold;
+    background: $dark-gray;
     margin-left: -1.5rem;
     margin-right: -1.5rem;
     .view-header {
-        padding: 3rem;
+        color: $white;
+        padding: 1rem 3rem;
     }
     .view-filters {
-        padding: 0 3rem 4rem 3rem;
+        padding: 0 3rem;
         &:before{
             content: '';
             position: absolute;
@@ -14,9 +15,9 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-image: url('../images/bg/program-finder_bg.png');
-            background-position: top left;
-            background-repeat: no-repeat;
+            //background-image: url('../images/bg/program-finder_bg.png');
+            //background-position: top left;
+            //background-repeat: no-repeat;
         }
         .form-row {
             > fieldset,
@@ -25,10 +26,38 @@
                 @include media-breakpoint-up(md){
                     @include make-col(6);
                 }
+            }
+            .form-item-field-ee-business-topic-target-id,
+            .form-item-field-ee-level-target-id {
                 @include media-breakpoint-up(lg){
                     @include make-col(4);
                 }
             }
+            .form-item-sort-bef-combine,
+            div[id^='edit-actions'] {
+                @include media-breakpoint-up(lg){
+                    @include make-col(2);
+                }
+            }
+        }
+        select.form-control {
+            background-color: $header-gray;
+            height: 7rem;
+        }
+        .form-group input[type="submit"] {
+            @include button-solid($submit-gold);
+            margin-top: 0;
+            padding: 2.1rem 3rem;
+            padding: 1.5rem 3rem;
+            margin: 0.6rem 0rem;
+        
+            color: $maroon;
+            // &:hover {
+            //     background: $maroon;
+            // }
+        }
+        label {
+            display: none;
         }
     }
     .view-content, nav {

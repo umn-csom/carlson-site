@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Default theme implementation for main view template.
+ * Theme override for a main view template.
  *
  * Available variables:
  * - attributes: Remaining HTML attributes for the element.
@@ -28,53 +28,71 @@
  *   Javascript.
  *
  * @see template_preprocess_views_view()
- *
- * @ingroup themeable
  */
 #}
 {%
   set classes = [
+    'view',
+    'view-' ~ id|clean_class,
+    'view-id-' ~ id,
+    'view-display-id-' ~ display_id,
     dom_id ? 'js-view-dom-id-' ~ dom_id,
-    'row'
   ]
 %}
 <div{{ attributes.addClass(classes) }}>
-
-  <div class="col-3">
-    {% if header %}
-      <header class="col-12">
-        <div class="row">
-          <div class="col-12">
-            {{ header }}
-          </div>
-        </div>
-      </header>
-    {% endif %}
-    <div class="row news-hub-search__filter">
-      <div class="col-12">
-        {{ exposed }}
-      </div>
+  {{ title_prefix }}
+  {% if title %}
+    {{ title }}
+  {% endif %}
+  {{ title_suffix }}
+  {% if header %}
+    <div class="view-header">
+      {{ header }}
     </div>
-    <a href="/news/carlson-school-in-the-media" class="news-hub-search__link">Faculty in the News →</a><br />
-    <a href="/discovery" class="news-hub-search__link">Discovery at Carlson →</a><br />
-    <a href="/alumni/resources/carlson-school-magazine" class="news-hub-search__link">Alumni Magazine →</a><br />
-    <a href="/news/media" class="news-hub-search__link">Media Inquiries →</a>
-  </div>
-  {{ attachment_before }}
-  <div class="row news-hub-search__results col-9">
-  {{ rows }}
-  {{ empty }}
-  {{ pager }}
-  </div>
-
-  {{ attachment_after }}
-  {{ more }}
-
-  {% if footer %}
-    <footer>
-      {{ footer }}
-    </footer>
+  {% endif %}
+  {% if exposed %}
+    <div class="view-filters">
+      {{ exposed }}
+    </div>
+    <div class="view-header">
+      <p>See our full selection of programs below. To ask a question or learn more about Carlson Executive Education programs, download a catalog or reach out to Carol Roecklein at croeckle@umn.edu or at (612) 625-5412.</p>
+    </div>
+  {% endif %}
+  {% if attachment_before %}
+    <div class="attachment attachment-before">
+      {{ attachment_before }}
+    </div>
   {% endif %}
 
-  {{ feed_icons }}
+  {% if rows %}
+    <div class="view-content row">
+      {{ rows }}
+    </div>
+  {% elseif empty %}
+    <div class="view-empty">
+      {{ empty }}
+    </div>
+  {% endif %}
+
+  {% if pager %}
+    {{ pager }}
+  {% endif %}
+  {% if attachment_after %}
+    <div class="attachment attachment-after">
+      {{ attachment_after }}
+    </div>
+  {% endif %}
+  {% if more %}
+    {{ more }}
+  {% endif %}
+  {% if footer %}
+    <div class="view-footer">
+      {{ footer }}
+    </div>
+  {% endif %}
+  {% if feed_icons %}
+    <div class="feed-icons">
+      {{ feed_icons }}
+    </div>
+  {% endif %}
 </div>
