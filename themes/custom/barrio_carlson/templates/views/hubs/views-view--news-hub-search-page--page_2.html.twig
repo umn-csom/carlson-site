@@ -40,28 +40,30 @@
 %}
 <div{{ attributes.addClass(classes) }}>
 
-  {% if header %}
-    <header class="col-12">
-      <div class="row">
-        <div class="col-12">
-          {{ header }}
+  <div class="col-12 col-md-4 col-md-3">
+    {% if header %}
+      <header class="col-12">
+        <div class="row">
+          <div class="col-12">
+            {{ header }}
+          </div>
         </div>
+      </header>
+    {% endif %}
+    <div class="row news-hub-search__filter">
+      <div class="col-6 col-md-12">
+        {{ exposed }}
       </div>
-    </header>
-  {% endif %}
-  <div class="row news-hub-search__filter col-3">
-    <div class="col-12">
-      {{ exposed }}
+      <div class="col-6 col-md-12">
+        <a href="/news/carlson-school-in-the-media" class="news-hub-search__link">Faculty in the News →</a><br />
+        <a href="/discovery" class="news-hub-search__link">Discovery at Carlson →</a><br />
+        <a href="/alumni/resources/carlson-school-magazine" class="news-hub-search__link">Alumni Magazine →</a><br />
+        <a href="/news/media" class="news-hub-search__link">Media Inquiries →</a>
+      </div>
     </div>
   </div>
-
-  <a href="/news/carlson-school-in-the-media" class="news-hub-search__link">Faculty in the News →</a><br />
-  <a href="/discovery" class="news-hub-search__link">Discovery at Carlson →</a><br />
-  <a href="/alumni/resources/carlson-school-magazine" class="news-hub-search__link">Alumni Magazine →</a><br />
-  <a href="/news/media" class="news-hub-search__link">Media Inquiries →</a>
-
   {{ attachment_before }}
-  <div class="row news-hub-search__results col-9">
+  <div class="row news-hub-search__results col-12 col-md-8 col-lg-9">
   {{ rows }}
   {{ empty }}
   {{ pager }}
