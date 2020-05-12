@@ -63,7 +63,11 @@
 <div class="card hub-card--news">
   <div class="card__body">
     <div class="card__img">
-      {{ content.field_hero_media }}
+      {% if content.field_hero_media|render %}
+        {{ content.field_hero_media }}
+      {% else %}
+        <img src="/sites/default/themes/custom/barrio_carlson/images/placeholders/news-hero-image-card-placeholder_715x400px12.jpg" width="715" height="400" alt="Default News Card Image" class="image-style-hub-teaser img-fluid">
+      {% endif %}
     </div>
     <h3 class="card__title">
       <a href="{{ url }}" class="card__title--link">{{ label }}</a>
