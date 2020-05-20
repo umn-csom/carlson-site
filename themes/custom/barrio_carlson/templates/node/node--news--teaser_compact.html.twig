@@ -82,7 +82,16 @@
       </a>
     </div>
   {% else %}
-    <div class="col-12">
+    <div class="col-4 news-items__item--image">
+      {% if content.field_in_the_media|field_value is not empty %}
+        <a href="{{ content.field_in_the_media }}" target="_blank">
+      {% else %}
+        <a href="{{ url }}" >
+      {% endif %}
+        <img src="/{{ directory }}/images/placeholders/news-hero-image-card-placeholder_715x400px12.jpg" width="185" height="100" alt="Default Image" class="image-style-crop-teaser img-fluid">
+      </a>
+    </div>
+    <div class="col-8">
       <h4 class="news-items__item--title">{{ label }}</h4>
       {% if content.field_in_the_media|field_value is not empty %}
         <a href="{{ content.field_in_the_media }}" target="_blank">
