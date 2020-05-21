@@ -244,13 +244,13 @@ function template_preprocess_we_megamenu_ul(array &$vars) {
     $vars['href'] = '';
     if ($li['url'] == '<front>') {
       $vars['attributes']['data-id'] = 'home';
-      $vars['href'] = Drupal::url('<front>');
+      $vars['href'] = Url::fromRoute('<front>')->toString();
     }
     else {
       $vars['attributes']['data-id'] = !empty($li['derivativeId']) ? $li['derivativeId'] : $li['url'];
       $current_user = \Drupal::currentUser();
       if (WeMegaMenuBuilder::routeExists($li['url'])) {
-        $vars['href'] = Drupal::url($li['url']);
+        $vars['href'] = Url::fromRoute($li['url'])->toString();
       }
       else {
         $vars['href'] = $li['url'];
@@ -311,7 +311,7 @@ function template_preprocess_we_megamenu_li(&$vars) {
   $vars['href'] = '';
   if ($vars['item']['url'] == '<front>') {
     $vars['attributes']['data-id'] = 'home';
-    $vars['href'] = Drupal::url('<front>');
+    $vars['href'] = Url::fromRoute('<front>')->toString();
   }
   else {
     $vars['attributes']['data-id'] = !empty($vars['item']['derivativeId']) ? $vars['item']['derivativeId'] : $vars['item']['url'];

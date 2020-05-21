@@ -16,7 +16,7 @@ class WeMegaMenuAdminController extends ControllerBase {
    * @param string $menu_name
    *   Public function configWeMegaMenu menu_name.
    *
-   * @return string[markup]
+   * @return array[markup]
    *   Public function configWeMegaMenu string.
    */
   public function configWeMegaMenu($menu_name) {
@@ -32,9 +32,9 @@ class WeMegaMenuAdminController extends ControllerBase {
     ];
 
     $build['we_megamenu']['#attached']['library'][] = 'we_megamenu/form.we-mega-menu-backend';
-    $abs_url_save_config = \Drupal::url('we_megamenu.admin.save', [], ['absolute' => TRUE]);
-    $abs_url_reset_config = \Drupal::url('we_megamenu.admin.reset', [], ['absolute' => TRUE]);
-    $abs_url_icons_config = \Drupal::url('we_megamenu.geticons', [], ['absolute' => TRUE]);
+    $abs_url_save_config = Url::fromRoute('we_megamenu.admin.save', [], ['absolute' => TRUE])->toString();
+    $abs_url_reset_config = Url::fromRoute('we_megamenu.admin.reset', [], ['absolute' => TRUE])->toString();
+    $abs_url_icons_config = Url::fromRoute('we_megamenu.geticons', [], ['absolute' => TRUE])->toString();
     $build['#attached']['drupalSettings']['WeMegaMenu']['saveConfigWeMegaMenuURL'] = $abs_url_save_config;
     $build['#attached']['drupalSettings']['WeMegaMenu']['resetConfigWeMegaMenuURL'] = $abs_url_reset_config;
     $build['#attached']['drupalSettings']['WeMegaMenu']['iconsWeMegaMenuURL'] = $abs_url_icons_config;
@@ -147,7 +147,7 @@ class WeMegaMenuAdminController extends ControllerBase {
       '#theme' => 'table',
       '#header' => $header,
       '#rows' => $rows,
-      '#empty' => t('No Drupal 8 Mega Menu block available. <a href="@link">Add Menu</a>.', ['@link' => \Drupal::url('entity.menu.add_form')]),
+      '#empty' => t('No Drupal 8 Mega Menu block available. <a href="@link">Add Menu</a>.', ['@link' => Url::fromRoute('entity.menu.add_form')->toString()]),
       '#attributes' => ['id' => 'we_megamenu'],
     ];
   }

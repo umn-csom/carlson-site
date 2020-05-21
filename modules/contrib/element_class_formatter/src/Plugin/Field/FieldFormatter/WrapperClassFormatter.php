@@ -120,6 +120,16 @@ class WrapperClassFormatter extends FormatterBase {
     $parent = $items->getParent()->getValue();
     foreach ($items as $delta => $item) {
       $text = $item->getValue()['value'];
+      if (!empty($item->format)) {
+        $text = [
+          '#type' => 'processed_text',
+          '#text' => $item->value,
+          '#format' => $item->format,
+          '#langcode' => $item->getLangcode(),
+        ];
+      }
+      $text = render($text);
+
       if ($this->getSetting('link') && $parent->urlInfo()) {
         $link_attributes = new Attribute();
         $link_class = $this->getSetting('link_class');

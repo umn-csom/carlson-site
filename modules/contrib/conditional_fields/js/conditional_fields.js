@@ -3,26 +3,6 @@
 /**
  * Enhancements to states.js.
  */
-
-/**
- * Handle array values.
- * @see http://drupal.org/node/1149078
- */
-Drupal.states.Dependent.comparisons['Array'] = function (reference, value) {
-  // Make sure value is an array.
-  if (!(typeof(value) === 'object' && (value instanceof Array))) {
-    return false;
-  }
-  // We iterate through each value provided in the reference. If all of them
-  // exist in value array, we return true. Otherwise return false.
-  for (var key in reference) {
-    if (reference.hasOwnProperty(key) && $.inArray(reference[key], value) < 0) {
-      return false;
-    }
-  }
-  return true;
-};
-
 // Checking if autocomplete is plugged in.
 if (Drupal.autocomplete) {
   /**
@@ -75,31 +55,45 @@ $(document).bind('state:visible-fade', function(e) {
   }
 })
 // Empty/Filled.
-.bind('state:empty-empty', function(e) {
+.bind('state:empty', function(e) {
   if (e.trigger) {
-    var field = $(e.target).find('input, select, textarea');
-    if (e.effect.reset) {
-      if (typeof oldValue == 'undefined' || field.val() !== e.effect.value) {
-        oldValue = field.val();
+    var fields = $(e.target).find('input, select, textarea');
+    fields.each(function() {
+      if (typeof $(this).data('conditionalFieldsSavedValue') === 'undefined') {
+        $(this).data('conditionalFieldsSavedValue', $(this).val());
       }
-      field.val(e.value ? e.effect.value : oldValue);
-    }
-    else if (e.value) {
-      field.val(e.effect.value);
-    }
+      if (e.effect && e.effect.reset) {
+        if (e.value) {
+          $(this).val(e.effect.value);
+        }
+        else if ($(this).data('conditionalFieldsSavedValue')) {
+          $(this).val($(this).data('conditionalFieldsSavedValue'));
+        }
+      }
+    })
   }
 })
-.bind('state:empty-fill', function(e) {
+// On invisible make empty and unrequired.
+.bind('state:visible', function(e) {
   if (e.trigger) {
-    var field = $(e.target).find('input, select, textarea');
-    if (e.effect.reset) {
-      if (typeof oldValue === 'undefined' || field.val() !== e.effect.value) {
-        oldValue = field.val();
+    // Save required property.
+    if (typeof $(e.target).data('conditionalFieldsSavedRequired') === 'undefined') {
+      var field = $(e.target).find('input, select, textarea');
+      if (field) {
+        $(e.target).data('conditionalFieldsSavedRequired', $(field).attr('required'));
       }
-      field.val(!e.value ? e.effect.value : oldValue);
     }
-    else if (!e.value) {
-      field.val(e.effect.value);
+    // Go invisible.
+    if (!e.value) {
+      // Remove required property.
+      $(e.target).trigger({type: 'state:required', value: false, trigger: true});
+    }
+    // Go visible.
+    else {
+      // Restore required if necessary.
+      if ($(e.target).data('conditionalFieldsSavedRequired')) {
+        $(e.target).trigger({type: 'state:required', value: true, trigger: true});
+      }
     }
   }
 })
@@ -165,24 +159,110 @@ Drupal.behaviors.autocompleteChooseTrigger = {
     }
 };
 
-/**
- * Adds RegEx support
- * https://www.drupal.org/node/1340616
- */
+
 Drupal.behaviors.statesModification = {
   weight: -10,
   attach: function (context, settings) {
     if (Drupal.states) {
+      /**
+       * Handle array values.
+       * @see http://drupal.org/node/1149078
+       */
+      Drupal.states.Dependent.comparisons['Array'] = function (reference, value) {
+        // Make sure value is an array.
+        var compare = [];
+        if ( typeof value === "string" ) {
+          compare = value.split(/\r?\n\r?/);
+        } else if ( typeof(value) === "object" && value instanceof Array ) {
+          compare = value;
+        }
+
+        if (compare.length < 1 ) {
+          return false;
+        }
+        // We iterate through each value provided in the reference. If all of them
+        // exist in value array, we return true. Otherwise return false.
+        for (var key in reference) {
+          if (reference.hasOwnProperty(key) && $.inArray(String(reference[key]), compare) < 0) {
+            return false;
+          }
+        }
+        return true;
+      };
+
+      /**
+       * Handle object values.
+       */
       Drupal.states.Dependent.comparisons.Object = function (reference, value) {
+
+        /**
+         * Adds RegEx support
+         * https://www.drupal.org/node/1340616
+         */
         if ('regex' in reference) {
-          return (new RegExp(reference.regex, reference.flags)).test(value);
+          //The fix for regex when value is array
+          var regObj = new RegExp(reference.regex, reference.flags);
+          if ( value && value.constructor.name == 'Array' ) {
+           for (var index in value) {
+            if (regObj.test( value[index])) {
+              return true;
+            }
+           }
+           return  false;
+          } else {
+            return regObj.test(value);
+          }
+          //Adds single XOR support
+        }else if ('xor' in reference) {
+          var compare = [];
+          if ( typeof value === "string" ) {
+            compare = value.split(/\r?\n\r?/);
+          } else if ( typeof(value) === "object" && value instanceof Array ) {
+            compare = value;
+          }
+          var eq_count = 0;
+          for (var key in reference.xor) {
+            if (reference.xor.hasOwnProperty(key) && $.inArray( reference.xor[key], compare) >= 0) {
+              eq_count++;
+            }
+          }
+          return eq_count % 2 == 1;
         }
         else {
           return reference.indexOf(value) !== false;
+        }
+      }
+      //The fix for compare strings wrapped by control symbols
+      Drupal.states.Dependent.comparisons.String = function( reference, value ) {
+        if ( value && value.constructor.name == 'Array' ) {
+         for (var index in value) {
+           if (_compare2(reference, value[index])) {
+             return true;
+           }
+         }
+         return false;
+        } else {
+          return _compare2(reference, value);
         }
       }
     }
   }
 };
 
+  /**
+   * The function for compare two strings
+   * @param a
+   * @param b
+   * @returns {boolean|*}
+   * @private
+   */
+  function _compare2(a, b) {
+    a = typeof a == "string" ? a.replace(/(^[\n\r]+|[\n\r]+$)/g, '') : a;
+    b = typeof b == "string" ? b.replace(/(^[\n\r]+|[\n\r]+$)/g, '') : b;
+    if (a === b) {
+      return typeof a === 'undefined' ? a : true;
+    }
+
+    return typeof a === 'undefined' || typeof b === 'undefined';
+  }
 })(jQuery, Drupal);
