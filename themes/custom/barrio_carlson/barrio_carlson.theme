@@ -237,6 +237,15 @@ function barrio_carlson_preprocess_node(&$variables) {
       if(!empty($sidebar)) {
         $variables['has_sidebar'] = TRUE;
       }
+
+      if(!$node->get('field_in_the_media')->isEmpty() && !$node->get('field_featured_media_faculty')->isEmpty()) {
+        $referenceItem = $node->get('field_featured_media_faculty')->first();
+        $entityReference = $referenceItem->get('entity');
+        $entityAdapter = $entityReference->getTarget();
+        $referencedEntity = $entityAdapter->getValue();
+        $variables['faculty_member'] = $referencedEntity->getTitle();
+        $variables['faculty_member_link'] = $referencedEntity->url();
+      } 
     break;
     case 'blog_entry':
       // Check if there is a sidebar so we can add the right classes
