@@ -99,8 +99,8 @@ class LinkField extends ConditionalFieldsHandlerBase {
     elseif ($scheme === 'entity') {
       list($entity_type, $entity_id) = explode('/', substr($uri, 7), 2);
       // Show the 'entity:' URI as the entity autocomplete would.
-      $entity_manager = \Drupal::entityManager();
-      if ($entity_manager->getDefinition($entity_type, FALSE) && $entity = \Drupal::entityManager()->getStorage($entity_type)->load($entity_id)) {
+      $entity_type_manager = \Drupal::entityTypeManager();
+      if ($entity_type_manager->getDefinition($entity_type, FALSE) && $entity = $entity_type_manager->getStorage($entity_type)->load($entity_id)) {
         $displayable_string = static::getEntityLabels($entity);
       }
     }
@@ -145,7 +145,7 @@ class LinkField extends ConditionalFieldsHandlerBase {
    *   Values for triggering events.
    */
   public function getWidgetValue(array $value_form) {
-    return $value_form[0]['uri'];
+    return isset($value_form[0]) && isset($value_form[0]['uri']) ? $value_form[0]['uri'] : '';
   }
 
 }

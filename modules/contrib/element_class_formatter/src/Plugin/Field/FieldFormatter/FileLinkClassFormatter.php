@@ -4,7 +4,7 @@ namespace Drupal\element_class_formatter\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\file\Plugin\Field\FieldFormatter\FileFormatterBase;
+use Drupal\file\Plugin\Field\FieldFormatter\DescriptionAwareFileFormatterBase;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
 
@@ -19,7 +19,7 @@ use Drupal\Core\Url;
  *   }
  * )
  */
-class FileLinkClassFormatter extends FileFormatterBase {
+class FileLinkClassFormatter extends DescriptionAwareFileFormatterBase {
 
   use ElementClassTrait;
 
@@ -81,9 +81,9 @@ class FileLinkClassFormatter extends FileFormatterBase {
     $class = $this->getSetting('class');
 
     foreach ($this->getEntitiesToView($items, $langcode) as $delta => $file) {
-      $file_entity = $file->_referringItem->getEntity();
+      $item = $file->_referringItem;
       // Get default link text.
-      $link_text = $file_entity->label();
+      $link_text = $this->getSetting('use_description_as_link_text') ? $item->description : $item->getEntity()->label();
       $attributes = new Attribute();
       $attributes->setAttribute('title', $file->getFilename());
 
@@ -115,13 +115,10 @@ class FileLinkClassFormatter extends FileFormatterBase {
         $link_text = $link_text . ' (' . $file_type . ')';
       }
 
-      // Build URL.
-      $url = Url::fromUserInput(file_url_transform_relative(file_create_url($file->getFileUri())));
-
       $elements[$delta] = [
         '#type' => 'link',
         '#title' => $link_text,
-        '#url' => $url,
+        '#url' => Url::fromUri($file->createFileUrl(FALSE)),
         '#attributes' => $attributes->toArray(),
         '#cache' => [
           'tags' => $file->getCacheTags(),

@@ -6,7 +6,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Trait ElementLinkClassTrait.
+ * The ElementLinkClassTrait is used to add a class to a field which .
  *
  * @package Drupal\element_class_formatter\Plugin\Field\FieldFormatter
  */

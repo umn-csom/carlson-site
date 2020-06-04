@@ -3,15 +3,17 @@
 namespace Drupal\conditional_fields\Form;
 
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Core\Render\Element;
 use Drupal\conditional_fields\Conditions;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Form\FormBuilderInterface;
 
 /**
  * Class ConditionalFieldEditForm.
@@ -30,10 +32,26 @@ class ConditionalFieldEditForm extends FormBase {
   protected $list;
 
   /**
+   * Provides an interface for entity type managers.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * Provides an interface for form building and processing.
+   *
+   * @var \Drupal\Core\Form\FormBuilderInterface
+   */
+  protected $formBuilder;
+
+  /**
    * Class constructor.
    */
-  public function __construct(Conditions $list) {
+  public function __construct(Conditions $list, EntityTypeManagerInterface $entity_type_manager, FormBuilderInterface $form_builder) {
     $this->list = $list;
+    $this->entityTypeManager = $entity_type_manager;
+    $this->formBuilder = $form_builder;
   }
 
   /**
@@ -43,7 +61,9 @@ class ConditionalFieldEditForm extends FormBase {
     // Instantiates this form class.
     return new static(
     // Load the service required to construct this class.
-      $container->get('conditional_fields.conditions')
+      $container->get('conditional_fields.conditions'),
+      $container->get('entity_type.manager'),
+      $container->get('form_builder')
     );
   }
 
@@ -63,7 +83,7 @@ class ConditionalFieldEditForm extends FormBase {
       return $form;
     }
 
-    $form_display_entity = \Drupal::entityTypeManager()
+    $form_display_entity = $this->entityTypeManager
       ->getStorage('entity_form_display')
       ->load("$entity_type.$bundle.default");
     if (!$form_display_entity) {
@@ -254,12 +274,12 @@ class ConditionalFieldEditForm extends FormBase {
     ];
     if ($form_state->getValue('condition') == 'value') {
       if (in_array($form_state->getValue('values_set'), $allowed_values_set) &&
-        Unicode::strlen(trim($form_state->getValue('values')) === 0)
+        mb_strlen(trim($form_state->getValue('values')) === 0)
       ) {
-        $form_state->setErrorByName('values', $this->t('@name field is required.', ['@name' => $this->t('Set of values')]));
+        $form_state->setErrorByName('values', $this->t('Field %name is required.', ['%name' => $this->t('Set of values')]));
       }
-      elseif ($form_state->getValue('values_set') == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX && Unicode::strlen(trim($form_state->getValue('regex'))) == 0) {
-        $form_state->setErrorByName('regex', $this->t('@name field is required.', ['@name' => $this->t('Regular expression')]));
+      elseif ($form_state->getValue('values_set') == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX && mb_strlen(trim($form_state->getValue('regex'))) == 0) {
+        $form_state->setErrorByName('regex', $this->t('Field %name is required.', ['%name' => $this->t('Regular expression')]));
       }
     }
     parent::validateForm($form, $form_state);
@@ -275,7 +295,7 @@ class ConditionalFieldEditForm extends FormBase {
     $bundle = $values['bundle'];
 
     /** @var EntityFormDisplay $entity */
-    $entity = \Drupal::entityTypeManager()
+    $entity = $this->entityTypeManager
       ->getStorage('entity_form_display')
       ->load("$entity_type.$bundle.default");
     if (!$entity) {
@@ -310,14 +330,14 @@ class ConditionalFieldEditForm extends FormBase {
       }
 
       // Set field value.
-      if ($settings['values_set'] == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET) {
+      if ( isset( $settings[ $dependee ] ) && ! empty( $settings[ $dependee ] ) ) {
         // Get and save value as string with timezone.
         $value = &$settings[$dependee];
         if (!empty($value[0]['value']) && is_object($value[0]['value']) && $value[0]['value'] instanceof DrupalDateTime) {
           foreach ($value as $delta => $date) {
             if (!empty($date['value'])) {
               // Need to find a solution to handle both datetime and date types.
-              $value[$delta]['value'] = $date['value']->format(DATETIME_DATE_STORAGE_FORMAT);
+              $value[$delta]['value'] = $date['value']->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
             }
           }
         }
@@ -473,12 +493,12 @@ class ConditionalFieldEditForm extends FormBase {
     $field_name = $condition['dependee'];
     $dummy_field = [];
 
-    $entityTypeManager = \Drupal::entityTypeManager();
+    $entityTypeManager = $this->entityTypeManager;
     $storage = $entityTypeManager->getStorage($entity_type);
     $bundle_key = $storage->getEntityType()->getKey('bundle');
 
     $dummy_entity = $storage->create([
-      'uid' => \Drupal::currentUser()->id(),
+      'uid' => $this->currentUser()->id(),
       $bundle_key => $bundle,
     ]);
 
@@ -500,7 +520,7 @@ class ConditionalFieldEditForm extends FormBase {
       return NULL;
     }
 
-    $form_builder_service = \Drupal::service('form_builder');
+    $form_builder_service = $this->formBuilder;
     $form_state_additions = [];
     $form_state_new = (new FormState())->setFormState($form_state_additions);
 

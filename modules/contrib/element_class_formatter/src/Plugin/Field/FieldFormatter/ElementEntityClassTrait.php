@@ -6,7 +6,8 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Trait ElementEntityClassTrait.
+ * The ElementEntityClassTrait is used for adding classes to the
+ * #item_attributes of fields that display other entities.
  *
  * @package Drupal\element_class_formatter\Plugin\Field\FieldFormatter
  */

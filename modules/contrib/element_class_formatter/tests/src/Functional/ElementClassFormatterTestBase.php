@@ -2,7 +2,6 @@
 
 namespace Drupal\Tests\element_class_formatter\Functional;
 
-use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\field\Entity\FieldConfig;
@@ -61,7 +60,7 @@ abstract class ElementClassFormatterTestBase extends BrowserTestBase {
    */
   protected function createEntityField($formatter, $field_type, array $formatter_settings = []) {
     $entity_type = $bundle = 'entity_test';
-    $field_name = Unicode::strtolower($this->randomMachineName());
+    $field_name = mb_strtolower($this->randomMachineName());
 
     FieldStorageConfig::create([
       'entity_type' => $entity_type,
