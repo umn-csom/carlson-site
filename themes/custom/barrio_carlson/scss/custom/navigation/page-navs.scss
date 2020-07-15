@@ -36,7 +36,7 @@
 			font-weight: normal;
 			padding: 0 0 10px 0;
 			margin-bottom : 10px;
-			max-width: 240px;
+			max-width: 260px;
 		}
 
 		&:before {
@@ -209,6 +209,24 @@
 
 		&:last-child {
 			border-bottom: none;
+		}
+	}
+
+	&__additional {
+		max-width: 260px;
+		.additional-divider {
+			color: $light-gray;
+			max-width: 180px;
+		}
+		a {
+			&::after {
+				@include carlson-icons($icon-external-link);
+				padding-left: 5px;
+    			font-size: 1.2rem;
+			}
+			&:hover {
+				color: $gold;
+			}
 		}
 	}
 
