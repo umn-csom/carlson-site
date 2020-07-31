@@ -44,6 +44,8 @@
  * @see template_process()
  */
 #}
+{% set url = url('<current>') %}
+{% set iframe_view = 'iframe-view' in url|render|render %}
 {%
   set body_classes = [
     logged_in ? 'user-logged-in',
@@ -52,6 +54,7 @@
     db_offline ? 'db-offline',
     theme.settings.navbar_position ? 'navbar-is-' ~ theme.settings.navbar_position,
     theme.has_glyphicons ? 'has-glyphicons',
+    iframe_view ? 'iframe-view',
   ]
 %}
 <!DOCTYPE html>
