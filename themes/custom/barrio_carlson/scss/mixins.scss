@@ -309,3 +309,10 @@ $value in $theme-colors {
         }
     }
 }
+
+// Targetting only IE11 https://gist.github.com/tcrammond/99fd936007685dba97b7
+@mixin target-metro {
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+      @content;
+    }
+  }
