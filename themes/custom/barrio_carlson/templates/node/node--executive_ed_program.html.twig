@@ -115,12 +115,13 @@
         {{ content.field_ee_course_dates }}
         <div class="ee-program__details--location course_details">
           <label>Location:</label>
-          {{ content.field_ee_course_location }}
+          {{ content.field_ee_course_location[0]['#options'].entity.name.value }}
         </div>
         <div class="ee-program__details--cost course_details">
           <label>Cost:</label>
           {{ content.field_ee_cost }}
         </div>
+        {% if (content.field_ee_course_location is not empty) %}{{ content.field_ee_course_location[0]['#options'].entity.field_teaser_view.value|raw }}{% endif %}
         <div class="ee-program__details--brochure">
           {# Course brochure link #}
           {% if content.field_ee_course_brochure|field_value is not empty %}
