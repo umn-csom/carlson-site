@@ -1,5 +1,6 @@
 #block-views-block-event-channels-block-2,
 #block-views-block-event-channels-block-4,
+#block-views-block-event-channels-block-16,
 .department-event-block {
     background: $gold;
     margin-left: -1.5rem;
@@ -20,18 +21,6 @@
             background-position: top left;
             background-repeat: no-repeat;
         }
-        .form-row {
-            > fieldset,
-            .form-actions {
-                @include make-col(12);
-                @include media-breakpoint-up(md){
-                    @include make-col(6);
-                }
-                @include media-breakpoint-up(lg){
-                    @include make-col(4);
-                }
-            }
-        }
     }
     .view-content {
         padding-top: 3rem;
@@ -49,6 +38,42 @@
         .form-actions {
             margin-left: auto;
             margin-right: auto;
+        }
+    }
+}
+
+#block-views-block-event-channels-block-2,
+#block-views-block-event-channels-block-4,
+.department-event-block {
+    .view-filters {
+        .form-row {
+            > fieldset,
+            .form-actions {
+                @include make-col(12);
+                @include media-breakpoint-up(md){
+                    @include make-col(6);
+                }
+                @include media-breakpoint-up(lg){
+                    @include make-col(4);
+                }
+            }
+        }
+    }
+}
+
+#block-views-block-event-channels-block-16 {
+    .view-filters {
+        .form-row {
+            > fieldset,
+            .form-actions {
+                @include make-col(12);
+                @include media-breakpoint-up(lg){
+                    @include make-col(6);
+                }
+                @include media-breakpoint-up(xl){
+                    @include make-col(3);
+                }
+            }
         }
     }
 }
