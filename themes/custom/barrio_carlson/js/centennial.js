@@ -90,26 +90,26 @@
             $('.centennial__floating-nav-wrapper').hide();
           }
         }
-
-        $('.centennial__timeline--nav-item-anchor').click(function (event) {
-          event.preventDefault();
-          var isDesktop = (($(window).width() >= 768) ? true : false);
-          if (!isDesktop && !$('.centennial__timeline--nav-container').hasClass('choose-year')) {
-            $('.centennial__timeline--nav-container').addClass('choose-year');
-          } else {
-            $('.centennial__timeline--nav-container').removeClass('choose-year');
-            if ($('.carlson-header').is(':visible')) {
-              $('.carlson-header').hide();
-            }
-            $(this).blur();
-            $('html, body').animate({
-              scrollTop: $(this.hash).offset().top
-            }, 1000, function () {
-              $(this.hash).focus();
-            });
-          }
-        });
       }
+
+      $('.centennial__timeline--nav-item-anchor').click(function (event) {
+        event.preventDefault();
+        var isDesktop = (($(window).width() >= 768) ? true : false);
+        if (!isDesktop && !$('.centennial__timeline--nav-container').hasClass('choose-year')) {
+          $('.centennial__timeline--nav-container').addClass('choose-year');
+        } else {
+          $('.centennial__timeline--nav-container').removeClass('choose-year');
+          if ($('.carlson-header').is(':visible')) {
+            $('.carlson-header').hide();
+          }
+          $(this).blur();
+          $('html, body').animate({
+            scrollTop: $(this.hash).offset().top
+          }, 1000, function () {
+            $(this.hash).focus();
+          });
+        }
+      });
     }
   }
 
