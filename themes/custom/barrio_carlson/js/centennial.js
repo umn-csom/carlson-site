@@ -13,13 +13,17 @@
         // run test on initial page load
         stickyTimeline();
         highlightTimeline();
-        stickyBottomNav();
+        if ($('.centennial__nav').length > 0 && $('.centennial__floating-nav-wrapper').length > 0) {
+          stickyBottomNav();
+        }
 
         // run test on resize of the window
         $(window).resize(stickyTimeline);
         $(window).scroll(highlightTimeline);
-        $(window).scroll(stickyBottomNav);
-        $(window).resize(stickyBottomNav);
+        if ($('.centennial__nav').length > 0 && $('.centennial__floating-nav-wrapper').length > 0) {
+          $(window).scroll(stickyBottomNav);
+          $(window).resize(stickyBottomNav);
+        }
 
         //Function to the css rule
         function stickyTimeline() {
