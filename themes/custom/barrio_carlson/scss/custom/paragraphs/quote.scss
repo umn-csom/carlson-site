@@ -13,13 +13,13 @@
     img{
       border-radius: 100%;
       border: 1px solid transparent;
-      width: 11rem;
+      width: 10rem;
       margin: 0 auto 15px auto;
       @include media-breakpoint-up(md){
         width: 12rem;
       }
       @include media-breakpoint-up(lg){
-        width: 15.5rem;
+        width: 14rem;
       }
     }
     &--icon {
@@ -47,9 +47,39 @@
     }
   }
 
-  &__source {
+  &__text {
+    display: block;
+    border-width: 0;
+    border-style: solid;
+    border-top: 6px solid $gold;
+    float: right;
+    padding: 1em 1em 0;
+    position: relative;
+    border-bottom: 0;
     color: $maroon;
-    font-size: 17px;
+    font-size: 1.9em;
+    font-weight: 400;
+    margin-top: 1em;
+    line-height: 1.5em;
+  }
+
+  &__text:before {
+    font: 6em/1.08em Georgia,Times,Times New Roman,serif;
+    content: "\201C";
+    position: absolute;
+    top: -17px;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background: #F7F4F2;
+    width: 12rem;
+    height: 6rem;
+    color: $gold;
+    text-align: center;
+  }
+
+  &__source {
+    color: $slate;
+    font-size: 1.25rem;
     font-weight: 700;
     text-transform: uppercase;
   }
