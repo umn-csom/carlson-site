@@ -1,7 +1,7 @@
 
 .sidebar-cta {
-	background: $maroon;
-	padding: .5rem 0;
+	//background: $maroon;
+	//padding: .5rem 0;
 	text-align: center;
 	@include media-breakpoint-up(lg) {
 		margin-right: 0;
@@ -15,8 +15,12 @@
 		}
 	}
     .cta-link, .unb-cta {
+		text-decoration: none;
+		background: $maroon;
+		margin-bottom: 1rem;
+		margin-left: -1rem;
 		flex: 1 1 100%;
-		padding: 1rem;
+		padding: 1rem 0.5rem;
 		display: inline-block;
 		vertical-align: top;
 		max-width: 15rem;
@@ -25,7 +29,7 @@
 		cursor: pointer;
 		@include media-breakpoint-up(lg){
 			display: block;
-			padding: 1rem 0;
+			padding: 1rem 1rem;
 			max-width: none;
 		}
         &__icon {
@@ -43,9 +47,14 @@
                 color: $gold;
             }
 		}
-		&:hover {
-			a, span {
+		&:hover, &:focus {
+			background: $gold;
+			span {
 				text-decoration: underline;
+				color: $maroon;
+			}
+			.cta-link__icon .icon:before, .unb-cta__icon .icon:before {
+				color: $maroon;
 			}
 		}
 		a, span {
@@ -70,7 +79,8 @@
 
 .contact-cta {
 	.contact-cta__contact {
-		.unb-cta-icon-request span:hover {
+		.unb-cta-icon-request span:hover,
+		.unb-cta-icon-request span:focus {
 			text-decoration: underline;
 		}
 	}
