@@ -1,0 +1,239 @@
+.container-full {
+    max-width: none;
+    width: 100%;
+    overflow-x: none;
+}
+.strategic-plan {
+    h1, h2, h3, h4, p {
+        font-family: "Lato",Arial,Verdana,sans-serif;
+    }
+
+    .h2 {
+        font-size: 6rem;
+    }
+    // 1rem = 10px;
+
+    .header {
+        &--maroon, &--gold {
+            text-transform: uppercase;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        &--maroon {
+            background: $maroon;
+            color: $white;
+            text-align: center;
+            width: 100%;
+            height: 300px;
+            h1, h2 {
+                font-size: 8.3rem;
+                font-weight: 100;
+            }
+        }
+        &--gold {
+            color: $maroon;
+            font-weight: 200;
+            background: url("../images/strategic-plan/goldglobebanner.png");
+            background-size: cover;
+            width: 100%;
+            height: 200px;
+            background-position: right bottom;
+            h1, h2 {
+                font-size: 6rem;
+                font-weight: 100;
+            }
+        }
+    }
+
+    .purpose-section {
+        display: flex;
+        justify-content: center;
+        background: url("../images/strategic-plan/strategic-plan-header.png");
+        background-size: cover;
+        background-position: center center;
+        .purpose-header {
+            font-size: 6rem;
+            text-transform: uppercase;
+            text-align: center;
+            color: $maroon;
+        }
+        .purpose-text {
+            font-weight: 200;
+            font-size: 3.2rem;
+            line-height: 5rem;
+        }
+        .long-header {
+            font-size: 4.9rem;
+        }
+        .alignment-text {
+            font-weight: 200;
+            font-size: 2.4rem;
+            line-height: 3.7rem;
+        }
+    }
+
+    .purpose-gradient {
+        max-width: 1080px;
+        padding: 6rem 12rem;
+        justify-content: center;
+        background-image: linear-gradient(to bottom, rgba(255,255,255,1), rgba(255,255,255,0.8));
+    }
+
+    .promises-grid {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+
+        .promise-icon {
+            height: 75px;
+        }
+        .promise-item {
+            width: 450px;
+            display: flex;
+            align-items: center;
+            margin: 3rem;
+            p {
+                border: 3px solid $maroon;
+                padding: 1rem 3rem;
+                margin-left: -1rem;
+                .promise-highlight {
+                    color: $maroon;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    .platform-intro {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        .platform-intro-card {
+            text-align: center;
+            background: $light-slate;
+            border-bottom: 1rem solid $maroon;
+            margin: 0.5rem;
+            width: 35rem;
+            @include media-breakpoint-up(md) {
+                max-width: calc((100% - 3rem) / 3 );
+            }
+            @include media-breakpoint-up(xl) {
+                max-width: calc((100% - 5rem) / 5 );
+            }
+
+            .platform-intro-number {
+                font-size: 6rem;
+                line-height: 6.5rem;
+                margin: 2rem auto;
+                border: 1px solid $maroon;
+                height: 7rem;
+                width: 7rem;
+                border-radius: 3.5rem;
+                color: white;
+                background: $maroon;
+            }
+            .platform-intro-text {
+                padding: 3rem;
+            }
+        }
+    }
+
+    .platform-nav {
+        background: $gold;
+        height: 4rem;
+        .nav-number {
+            float: right;
+            font-size: 2rem;
+            line-height: 2.5rem;
+            border: 1px solid $maroon;
+            margin: 0.5rem;
+            height: 3rem;
+            width: 3rem;
+            border-radius: 1.5rem;
+            color: $maroon;
+        }
+    }
+
+    .platform-section {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+
+        .platform-top {
+            display: flex;
+            flex-flow: row wrap;
+            @include media-breakpoint-up(md) {
+                flex-flow: row;
+            }
+            .platform-image {
+                width: 100%;
+                @include media-breakpoint-up(md) {
+                    width: 450px;
+                }
+                @include media-breakpoint-up(xl) {
+                    width: 600px;
+                }
+                flex-shrink: 0;
+            }
+    
+            .platform-card {
+                height: 100%;
+                width: 100%;
+                background: $maroon;
+                border-bottom: 1rem solid $gold;
+                .platform-card-inner {
+                    display: flex;
+                    padding: 8rem;
+                    .platform-number {
+                        font-size: 6rem;
+                        line-height: 6.5rem;
+                        border: 1px solid $gold;
+                        height: 7rem;
+                        width: 7rem;
+                        border-radius: 3.5rem;
+                        color: $gold;
+                        text-align: center;
+                        flex-shrink: 0;
+                    }
+                    .platform-header-card {
+                        padding-left: 2rem;
+                        .platform-header {
+                            color: $gold;
+                            font-size: 6rem;
+                            font-weight: 200;
+                            text-transform: uppercase;
+                        }
+                        .platform-header-text {
+                            color: $white;
+                            font-size: 2.8rem;
+                            line-height: 4.2rem;
+                            font-weight: 200;
+                            padding-left: 0.8rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        .initiative-card {
+            max-width: 140rem;
+            padding: 5rem;
+            .initiative-header {
+                font-size: 2.4rem;
+                line-height: 4.1rem;
+                text-transform: uppercase;
+                color: $maroon;
+            }
+            .initiative-list {
+                font-size: 2.4rem;
+                line-height: 3.8rem;
+                border-left: 0.5rem solid $gold;
+                li {
+                    padding-bottom: 2.4rem;
+                }
+            }
+        }
+    }
+
+}
