@@ -1,0 +1,190 @@
+<section class="strategic-plan">
+
+    <header class="header header--maroon">
+        <h1>Strategic Vision</h1>
+    </header>
+
+    <section class="purpose-section">
+        <div class="purpose-gradient">
+            <h2 class="purpose-header">Purpose</h2>
+            <p class="purpose-text">
+                Be a leader in business education and research by leveraging the intellectual capital, skills, and talents of our faculty and staff, and our deep partnerships with our business community and alumni to help individuals and organizations create a brighter future for Minnesota, the nation, and the world.
+            </p>
+
+            <h2 class="purpose-header long-header">Alignment with University Systemwide Strategic Plan</h2>
+
+            <p class="alignment-text">
+                The Carlson School’s strategic plan aligns with the five focus areas of the University of Minnesota’s Systemwide Strategic Plan: student success, innovation, state impact, diversity, and fiscal stewardship. Additionally, the Carlson School plan was built with the intent of being flexible to respond to long-term impacts of the COVID-19 pandemic, while also ensuring that we are still investing in the areas that have always made the Carlson School a world-class business school. 
+            </p>
+        </div>
+    </section>
+
+    <section>
+        <div class="header header--gold">
+            <h2>Promises to Our Stakeholders</h2>
+        </div>
+        {%
+            set promises = [
+                {
+                    img: 'strategicvision_students_icon.png',
+                    text: 'We promise our <span class="promise-highlight">students</span> rigorous and transformative learning experiences to prepare them for fulfilling lives and careers.'
+                },
+                {
+                    img: 'strategicvision_facultystaff_icon.png',
+                    text: 'We promise our <span class="promise-highlight">faculty and staff</span> a fulfilling and inclusive work environment where we provide them with resources and opportunities to thrive.'
+                },
+                {
+                    img: 'strategicvision_employersorgs_icon.png',
+                    text: 'We promise <span class="promise-highlight">employers and organizations</span> robust access to diverse talent with a global mindset, and evidence-based insights from world-class experts.'
+                },
+                {
+                    img: 'strategicvision_alumni_icon.png',
+                    text: 'We promise our <span class="promise-highlight">alumni</span> ongoing value by offering meaningful lifelong engagement with the school.'
+                },
+                {
+                    img: 'strategicvision_uofm_icon.png',
+                    text: 'We promise the <span class="promise-highlight">University of Minnesota</span> to be a shining beacon of innovation by leading and engaging in initiatives that fulfill the university’s mission.'
+                },
+                {
+                    img: 'strategicvision_community_icon.png',
+                    text: 'We promise the <span class="promise-highlight">community</span> an opportunity for people of all identities to tackle the grand challenges facing our society'
+                },
+            ]
+        %}
+        <div class="promises-grid">
+            {% for promise in promises %}
+            <div class="promise-item">
+                <img class="promise-icon" src="/{{ directory }}/images/strategic-plan/icons/{{ promise.img }}">
+                <p>{{ promise.text|raw}}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {%
+        set platforms = [
+            {
+                intro_text: 'Foster mutually impactful <span class="platform-highlight">business engagement</span> that informs world-class research and teaching.',
+                img: 'business-engagement.jpg',
+                header: 'Business Engagement',
+                header_text: 'We are located in one of the nation’s most vibrant business communities and have longstanding relationships with companies, organizations, and entrepreneurs. Our faculty are globally respected for their research. We will build on these foundational strengths to create an environment that encourages and rewards closer engagement with the business community to positively impact organizations and society.',
+                initiatives: [
+                    'Foster a culture of openness by faculty and staff to engage in ways (e.g., through research, teaching, thought leadership, consultation, and outreach) that impact the practice of business and/or policy, and increase recognition for achievements beyond traditional measures of research quality and output.',
+                    'Provide rewards, incentives, and resources to encourage greater faculty engagement with, and outreach to, business and society for the purpose of enhancing teaching and research.',
+                    'Include business engagement as an element of the annual review process (being mindful of distinctions between tenure and annual review, and between pre- and post-tenure)',
+                    'Develop a professor of practice model for industry leaders and executives to foster high levels of engagement with our business community.',
+                    'Develop a clinical faculty track to provide promotion opportunities and long-term career paths for primarily teaching faculty.'
+                ],
+            },
+            {
+                intro_text: 'Develop <span class="platform-highlight">innovative programs</span> that respond to and capture market demand.',
+                img: 'innovative-programs.jpg',
+                header: 'Program Innovation',
+                header_text: 'We live in a dynamic world, driven by complex global issues, rapidly advancing technology, changing preferences, and new business and societal challenges. We will thoughtfully assess and adapt our programs, curricula, and instruction methods to constantly evolve and adapt to these shifting market dynamics.',
+                initiatives: [
+                    'Develop an agile approach to assess potential new programs and adapt and sunset existing programs based on program performance and market needs.',
+                    'Create incentives for experimentation and development of new teaching initiatives and approaches.'
+                ],
+            },
+            {
+                intro_text: 'Enrich the <span class="platform-highlight">student experience</span>',
+                img: 'student-experience.jpg',
+                header: 'Student Experience',
+                header_text: 'Our location in one of the nation’s most vibrant business communities, the strength of our partnerships, the passion of our alumni, and the expertise of our faculty and staff make it possible to offer a transformative learning experience for our students. Ever-changing events have made it imperative that we be flexible and innovative in providing a world-class education. We will build on our strengths to increase the depth and breadth of these experiences for all of our students across all of our programs.',
+                initiatives: [
+                    'Develop a robust analytics-infused curriculum (where appropriate) and supporting infrastructure across our programs to equip all of our students with quantitative critical thinking skills.',
+                    'Increase opportunities for active learning by investing in immersive experiential initiatives like the Carlson School enterprises in all of our programs.',
+                    'Facilitate the deployment of online tools and technology to complement and enhance face-to-face programs (e.g., simulations, flipped classrooms).',
+                    'Develop targeted new online programs by building on the expertise the School is developing in online content delivery.',
+                    'Further integrate a global and intercultural perspective across the curriculum and enhance engagement and opportunity in the global business community.'
+                ],
+            },
+            {
+                intro_text: 'Develop leaders committed to <span class="platform-highlight">equity and inclusion</span> for all identities, in a community that supports diverse students, faculty, and staff.',
+                img: 'inclusion-and-equity.jpg',
+                header: 'Inclusion and Equity',
+                header_text: 'in our society. The Carlson School of Management is committed to fostering a diverse, inclusive community that encourages all members to reach their full potential through learning, working, and service. Now more than ever, we envision a school community where all individuals embrace and advance the framework, beliefs, and principles inherent in the value for equity and diversity. We believe this work is at the center of everything that we do. We will advance the recruitment of a highly diverse student body across degree programs; support the academic success of students from historically underrepresented and non-traditional backgrounds; advance diversity and intercultural competencies as essential aspects of intellectual growth and human development for all students; and develop and create opportunities for faculty and staff leaders who reflect the diversity of our community.',
+                initiatives: [
+                    'Establish a leadership position and team to drive the Carlson School’s Diversity, Equity and Inclusion initiatives (inclusive of recommendations from the DEI work group).',
+                    'Increase scholarships to increase access to a Carlson School education for students from historically underrepresented communities and economically disadvantaged backgrounds.',
+                    'Create recruitment pipelines that recognize and account for the unique needs and circumstances of potential business leaders.',
+                    'Promote diversity in our faculty, staff, and advisory boards to provide greater opportunities for individuals from historically underrepresented communities.',
+                    'Create a postdoctoral program for researchers from diverse backgrounds that can provide a hiring pipeline for faculty positions.',
+                    'Encourage faculty program leaders to be advocates for DEI topics in the classroom and ensure faculty are integral to DEI outreach efforts in the community.',
+                    'Develop curriculum, support, and opportunities by and for different identities and perspectives.',
+                    'Support and engage with diverse businesses, entrepreneurs, and leaders through education, training and consulting support.',
+                    'Create and deliver non-degree community programs / certificates for people of color or from varied socioeconomic backgrounds (e.g., MBA-essentials) to build formal business skills and capabilities.',
+                    'Include DEI as a component of ongoing review processes for programs, departments, and instruction.'
+                ],
+            },
+                        {
+                intro_text: 'Build a <span class="platform-highlight">“Carlson for Life”</span> experience that encourages lifelong school engagement and philanthropy.',
+                img: 'carlson-for-life.jpg',
+                header: 'Carlson for Life',
+                header_text: 'With more than 55,000 Carlson School graduates, our alumni represent a powerful force throughout the world. They are our business partners. They employ our graduates, provide experiential learning opportunities, enthusiastically advocate on our behalf, and invest their time and financial resources in our progress. It is crystal clear that alumni are, and will remain, absolutely integral to our future success. We will broaden and deepen our engagement and support with them through a variety of channels and using a personalized approach throughout their post-graduation journey.',
+                initiatives: [
+                    'Leverage the Carlson School’s successful Driven philanthropic campaign to significantly increase unrestricted annual giving support and annual participation rates.',
+                    'Secure a transformative gift of over $50 million to make exponential impact possible.',
+                    'Launch a digital alumni engagement platform that delivers relevant business and thought leadership content while providing opportunities for alumni to connect with each other.',
+                    'Expand volunteer leadership opportunities across the school for alumni to meaningfully support students, faculty, staff and departments/units.',
+                    'Grow alumni networks where alumni can align and connect across programs, degrees, race, gender, sexual orientation, company and geography.',
+                    'Build opportunities for lifelong development and refinement of business skills in formats accessible for working professionals.',
+                    'Expand and promote alumni career development resources and services.',
+                    'Partner with leading state, local, and corporate entities to launch a branding campaign to enhance the reputation of the Twin Cities as the place where business lives and where our alumni can lead extraordinary careers.'
+                ],
+            },
+        ]
+    %}
+
+    <section>
+        <div class="header header--gold">
+            <h2>Platform & Initiatives</h2>
+        </div>
+
+        <div class="platform-intro">
+            {% for platform in platforms %}
+                <div class="platform-intro-card">
+                    <p class="platform-intro-number">{{ loop.index }}</p>
+                    <p class="platform-intro-text">
+                        {{ platform.intro_text|raw }}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <nav class="platform-nav">
+        <p id="nav-message" class="nav-message">Platform 3 = Student Experience</p>
+
+        <div class="nav-number-container">
+        {% for platform in platforms %}
+            <div id="nav-number-{{ loop.index }}" class="nav-number">{{ loop.index }}</div>
+        {% endfor %}
+        </div>
+    </nav>
+
+    {% for platform in platforms %}
+    <section id="platform-section-{{ loop.index }}" class="platform-section" >
+        <div class="platform-top">
+            <img class="platform-image" src="/{{ directory }}/images/strategic-plan/platform-images/{{ platform.img }}">
+            <div class="platform-card">
+                <div class="platform-card-inner">
+                    <p class="platform-number">{{ loop.index }}</p>
+                    <div class="platform-header-card">
+                        <h3 class="platform-header">{{ platform.header }}</h3>
+                        <p class="platform-header-text">{{ platform.header_text }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="initiative-card">
+            <h3 class="initiative-header">Initiatives</h3>
+            <ul class="initiative-list">
+                {% for initiative in platform.initiatives %}
+                    <li>{{ initiative }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+    {% endfor %}
+</section>
