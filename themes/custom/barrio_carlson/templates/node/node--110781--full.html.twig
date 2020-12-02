@@ -143,12 +143,12 @@
 
         <div class="platform-intro">
             {% for platform in platforms %}
-                <div class="platform-intro-card">
+                <a href="#platform-section-{{ loop.index }}" class="platform-intro-card">
                     <p class="platform-intro-number">{{ loop.index }}</p>
                     <p class="platform-intro-text">
                         {{ platform.intro_text|raw }}
                     </p>
-                </div>
+                </a>
             {% endfor %}
         </div>
     </section>
@@ -158,7 +158,7 @@
 
         <div class="nav-number-container">
         {% for platform in platforms %}
-            <div id="nav-number-{{ loop.index }}" class="nav-number">{{ loop.index }}</div>
+            <a id="nav-number-{{ loop.index }}" class="nav-number" href="#platform-section-{{ loop.index }}">{{ loop.index }}</a>
         {% endfor %}
         </div>
     </nav>
