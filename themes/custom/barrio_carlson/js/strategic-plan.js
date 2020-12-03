@@ -42,7 +42,7 @@
         }
 
         if (position > 0) {
-            $('#nav-message').html('Platform ' + position + ' = ' + text);
+            $('#nav-message').html('Platform ' + position + ' | ' + text);
             $('.nav-number').removeClass('highlight');
             $('#nav-number-' + position).addClass('highlight');
         }
