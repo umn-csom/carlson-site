@@ -7,7 +7,7 @@
             width: 100%;
             min-height: 6.5rem;
             position: relative;
-            text-align: center;
+            //text-align: center;
             &:before{
                 content: '';
                 position: absolute;
@@ -48,7 +48,7 @@
             width: 100%;
             @include media-breakpoint-up(lg){
                 width: auto;
-                margin: 0 .8rem;
+                margin: .8rem .8rem 0rem;
             }
             .nav-link {
                 background: $white;
@@ -83,17 +83,15 @@
                 @include media-breakpoint-up(lg){
                     display: block;
                     width: auto;
-                    background: transparent;
+                    background: rgba(255,255,255,0.4);
                     text-align: center;
                     &:hover, &:focus {
-                        background-color: inherit;
+                        background-color: $white;
                     }
                     &.active {
                         padding-right: 2rem;
                         background: $white;
-                        @include tab-box-shadow();
-                        margin-top: -.8rem;
-                        margin-bottom: .8rem;
+                        //@include tab-box-shadow();
                     }
                     &::after {
                         display: none;
