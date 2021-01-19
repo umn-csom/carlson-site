@@ -73,12 +73,12 @@
                           {% set expanded = 'false' %}
                           {% set show = '' %}
 
-                          <button class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{ inc }}">
+                          <button class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{paragraphId}}-{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{paragraphId}}-{{ inc }}">
                               {{ paragraph.field_heading.0.value }}
                           </button>
                       </h5>
                   </div>
-                  <div id="collapse{{ inc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{ inc }}" data-parent="#accordion-list-{{paragraphId}}">
+                  <div id="collapse{{paragraphId}}-{{ inc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{ inc }}" data-parent="#accordion-list-{{paragraphId}}">
                       <div class="card-body">
                             {% set body = {
                             '#type': 'processed_text',

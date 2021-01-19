@@ -112,7 +112,7 @@
 		font-weight: normal;
 		line-height : 130%;
 		border-bottom: 1px solid $warm-gray;
-		padding: 10px 0;
+
 		cursor: pointer;
 
 		@include media-breakpoint-up(lg) {
@@ -120,21 +120,24 @@
 		}
 
 		a {
+			padding: 10px 5px;
 			color: $slate;
 			word-wrap: break-word;
 			white-space: normal;
 			display: inline-table;
 			max-width: 100%;
 			text-decoration: none;
-			width: 83%;
+			max-width: 260px;
+			width: 100%;
 			&:hover, &:focus {
 				color : $maroon;
+				font-weight: bold;
 				text-decoration : underline;
+				background: $lightergray;
 			}
 		}
 
 		&:before {
-			@include carlson-icons($icon-carrot);
 			color: $maroon;
 			position: absolute;
 			font-size: 1rem;
@@ -158,12 +161,15 @@
 
 		&--active-trail {
 			font-weight: bold;
+			a.is-active {
+				border-left: 4px solid $gold;
+				padding-left: 5px;
+			}
+
 
 			&:before {
-				@include carlson-icons($icon-minus);
 
 				@include media-breakpoint-up(lg) {
-					@include carlson-icons($icon-carrot);
 				}
 			}
 		}
@@ -179,8 +185,10 @@
 				display: none;
 				list-style-type: none;
 				padding: 0;
+				width: 100%;
 
 				@include media-breakpoint-up(lg) {
+					width: calc(100% - 15px);
 					line-height: 2rem;
 					margin-left: 15px;
 				}
@@ -193,9 +201,6 @@
 				}
 
 				.sticky-menu__item {
-					&:before {
-						@include carlson-icons($icon-carrot);
-					}
 
 					text-transform: none;
 					letter-spacing: 0;
@@ -279,7 +284,6 @@
 					> .nav-link {
 						padding-right: 4.8rem;
 						&:after {
-							@include carlson-icons($icon-carrot-down);
 							position: absolute;
 							right: 3rem;
 							top: calc(50% - .7rem);

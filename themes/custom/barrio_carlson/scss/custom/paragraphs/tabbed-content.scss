@@ -2,23 +2,11 @@
 .tabbed-content {
     &__nav {
         &--container {
-            background-color: $gold;
             display: inline-block;
             width: 100%;
             min-height: 6.5rem;
             position: relative;
-            text-align: center;
-            &:before{
-                content: '';
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100%;
-                background-image: url('../images/bg/page_cta_bg.png');
-                background-position: top left;
-                background-repeat: no-repeat;
-            }
+            border-bottom: 5px solid $gold;
         }
         &--positioner {
             display: inline-block;
@@ -48,13 +36,13 @@
             width: 100%;
             @include media-breakpoint-up(lg){
                 width: auto;
-                margin: 0 .8rem;
+                //margin: .8rem .8rem 0rem;
             }
             .nav-link {
                 background: $white;
                 border: none;
                 height: 6.5rem;
-                line-height: 4.5rem;
+                line-height: 5.5rem;
                 display: none;
                 min-width: 20rem;
                 width: 100%;
@@ -67,7 +55,6 @@
                 &.active {
                     display: block;
                     position: relative;
-                    padding-right: 4rem;
                     font-weight: normal;
                     &::after{
                         @include carlson-icons($icon-carrot-down);
@@ -78,22 +65,18 @@
                     }
                 }
                 &:hover, &:focus {
-                    background-color: $gray-100;
+                    background-color: $mediumgray;
                 }
                 @include media-breakpoint-up(lg){
                     display: block;
                     width: auto;
-                    background: transparent;
+                    background: $lightergray;
                     text-align: center;
                     &:hover, &:focus {
-                        background-color: inherit;
+                        background-color: $mediumgray;
                     }
                     &.active {
-                        padding-right: 2rem;
-                        background: $white;
-                        @include tab-box-shadow();
-                        margin-top: -.8rem;
-                        margin-bottom: .8rem;
+                        background: $gold;
                     }
                     &::after {
                         display: none;
