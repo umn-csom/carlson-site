@@ -86,6 +86,47 @@
                             '#format': paragraph.field_main_content.0.format
                             } %}
                           {{ body }}
+
+                          {# subaccordion #}
+                          {% if paragraph.field_tab_accordion_subitem is not empty %}
+                          <div class="row component-paragraph accordion-content">
+                            {% set subitems = paragraph.field_tab_accordion_subitem %}
+
+                            <div class="accordion sub-accordion col-12" id="accordion-list-{{paragraphId}}-{{ inc }}">
+                              {% set subinc = 0 %}
+                              {% for subitem in subitems %}
+                                  {% set subparagraph = subitem.entity %}
+                                  <div class="card">
+                                      <div class="card-header">
+                                          <h5 class="mb-0">
+
+                                              {% set collapsed = 'collapsed' %}
+                                              {% set expanded = 'false' %}
+                                              {% set show = '' %}
+
+                                              <button class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{paragraphId}}-{{ inc }}-{{ subinc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{paragraphId}}-{{ inc }}-{{ subinc }}">
+                                                  {{ subparagraph.field_heading.0.value }}
+                                              </button>
+                                          </h5>
+                                      </div>
+                                      <div id="collapse{{paragraphId}}-{{ inc }}-{{ subinc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{ inc }}-{{ subinc }}" data-parent="#accordion-list-{{paragraphId}}-{{ inc }}">
+                                          <div class="card-body">
+                                                {% set body = {
+                                                '#type': 'processed_text',
+                                                '#text': subparagraph.field_main_content.0.value,
+                                                '#format': subparagraph.field_main_content.0.format
+                                                } %}
+                                              {{ body }}
+                                          </div>
+                                      </div>
+                                  </div>
+                                  {% set subinc = subinc+1 %}
+                              {% endfor %}
+                            </div>
+                          </div>
+                          {% endif %}
+                          {#  end subaccordion #}
+
                       </div>
                   </div>
               </div>
