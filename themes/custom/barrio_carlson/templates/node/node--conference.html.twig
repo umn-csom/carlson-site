@@ -140,9 +140,19 @@
 
             {{ content.field_flexible_features_bottom }}
 
-            {% if node_bottom %}
-              {{ node_bottom }}
-            {% endif %}
+            {{ node_bottom }}
+
+            {# Bottom node region for blocks #}
+            <div class="row node__bottom">
+              {% spaceless %}
+              <div class="node__bottom__col">
+                {{ node_bottom_left }}
+              </div>
+              <div class="node__bottom__col">
+                {{ node_bottom_right }}
+              </div>
+              {% endspaceless %}
+            </div>
 
           </div>
         </div>
