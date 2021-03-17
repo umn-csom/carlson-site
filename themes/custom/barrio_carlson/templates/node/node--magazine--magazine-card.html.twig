@@ -10,7 +10,7 @@
         <img
           src="{{ content.field_magazine_cover_image|render|striptags }}"
           class="img-fluid float-left magazine--cover-angle"
-          alt="{{ label }} {% if magazine == "alumni" %}alumni {% elseif magazine == "discovery" %}Discovery {% endif %}magazine cover" >
+          alt='{{ label|field_value }} {% if magazine == "alumni" %}alumni {% elseif magazine == "discovery" %}Discovery {% endif %}magazine cover' >
         {% endif %}
         <h2>This article appeared in the {{ label }} {% if magazine == "alumni" %}alumni {% elseif magazine == "discovery" %}Discovery {% endif %}magazine</h2>
         {{ content.field_teaser }}
