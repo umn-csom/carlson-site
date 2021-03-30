@@ -3,7 +3,8 @@
 
     $(document).ready( function () {
         $('#mn-cup-table').DataTable({
-            'pageLength': 50
+            'pageLength': 50,
+            'order': [0, 'desc'],
         });
     } );
 
