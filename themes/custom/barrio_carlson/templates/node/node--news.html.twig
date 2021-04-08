@@ -129,7 +129,7 @@
     {# Body and side bar #}
     <section class="row news__body">
 
-      <div class="col-12 news__wrap">
+      <div class="col-12">
         {% if content.field_sidebar_content|field_value is not empty %}
           <div class="col-md-4 news__body--sidebar">
             <div>
@@ -138,11 +138,10 @@
           </div>
         {% endif %}
         {{ content.body }}
-      
-
-        {# Flexible features are rendered through the paragraph templates specific to the feature #}
-        {{ content.field_flexible_features }}
       </div>
+
+      {# Flexible features are rendered through the paragraph templates specific to the feature #}
+      {{ content.field_flexible_features }}
     </section>
 
     {% if (node.id == 104056) %}
