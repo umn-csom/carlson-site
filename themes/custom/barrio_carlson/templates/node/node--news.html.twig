@@ -129,17 +129,24 @@
     {# Body and side bar #}
     <section class="row news__body">
 
-      <div class="{{ (has_sidebar == TRUE) ? 'col-md-8' : 'col-12' }}">
+      <div class="col-12">
+        {% if content.field_sidebar_content|field_value is not empty %}
+          <div class="col-md-4 news__body--sidebar">
+            <div>
+              {{ content.field_sidebar_content }}
+            </div>
+          </div>
+        {% endif %}
         {{ content.body }}
       </div>
 
-      {% if content.field_sidebar_content|field_value is not empty %}
+      {# {% if content.field_sidebar_content|field_value is not empty %}
         <div class="col-md-4 news__body--sidebar">
           <div>
             {{ content.field_sidebar_content }}
           </div>
         </div>
-      {% endif %}
+      {% endif %} #}
     </section>
 
     {# Flexible features are rendered through the paragraph templates specific to the feature #}
