@@ -15,7 +15,7 @@
             </figure>
           </div>
           <div class="col-12 col-md-10 col-lg-6 col-xl-7 d-none d-md-block mb-md-4 mb-lg-0 pt-md-3 pt-lg-3 pt-xl-3">
-            <img src="/{{ directory }}/images/magazine-discovery-desktop.png" class="img-fluid mt-1">
+            <img src="/{{ directory }}/images/magazine-discovery-desktop.png" alt='{{ label|field_value }} {% if magazine == "alumni" %}alumni {% elseif magazine == "discovery" %}Discovery {% endif %}magazine cover' class="img-fluid mt-1">
           </div>
           <div class="col-12 col-md-12 col-lg-6 col-xl-5 pb-4 pb-lg-0">
             <h1 class="text-center text-lg-right p-0 m-0">{{ label }}</h1>
@@ -102,7 +102,7 @@
             {% if content.field_magazine_pdf | render %}
               <a href="{{ content.field_magazine_pdf|render|striptags }}" target="_blank">
             {% endif %}
-              <img src="{% spaceless %}{{ content.field_magazine_cover_image|render|striptags }}{% endspaceless %}" class="img-fluid magazine--cover-angle">
+              <img src="{% spaceless %}{{ content.field_magazine_cover_image|render|striptags }}{% endspaceless %}" alt='{{ label|field_value }} {% if magazine == "alumni" %}alumni {% elseif magazine == "discovery" %}Discovery {% endif %}magazine cover' Cover" class="img-fluid magazine--cover-angle">
               {% if content.field_magazine_pdf | render %}
               </a>
             {% endif %}
