@@ -46,26 +46,32 @@
             set promises = [
                 {
                     img: 'strategicvision_students_icon.png',
+                    alt: 'books icon',
                     text: 'We promise our <span class="promise-highlight">students</span> rigorous and transformative learning experiences to prepare them for fulfilling lives and careers.'
                 },
                 {
                     img: 'strategicvision_facultystaff_icon.png',
+                    alt: ' teacher in front of board icon',
                     text: 'We promise our <span class="promise-highlight">faculty and staff</span> a fulfilling and inclusive work environment where we provide them with resources and opportunities to thrive.'
                 },
                 {
                     img: 'strategicvision_employersorgs_icon.png',
+                    alt: 'connected web diagram icon',
                     text: 'We promise <span class="promise-highlight">employers and organizations</span> robust access to diverse talent with a global mindset, and evidence-based insights from world-class experts.'
                 },
                 {
                     img: 'strategicvision_alumni_icon.png',
+                    alt: 'graduation cap icon',
                     text: 'We promise our <span class="promise-highlight">alumni</span> ongoing value by offering meaningful, lifelong engagement with the school.'
                 },
                 {
                     img: 'strategicvision_uofm_icon.png',
+                    alt: 'University of Minnesota M icon',
                     text: 'We promise the <span class="promise-highlight">University of Minnesota</span> to be a shining beacon of innovation by leading and engaging in initiatives that fulfill the University’s mission.'
                 },
                 {
                     img: 'strategicvision_community_icon.png',
+                    alt: 'globe icon',
                     text: 'We promise the <span class="promise-highlight">community</span> an opportunity for people of all identities to tackle the grand challenges facing our society'
                 },
             ]
@@ -73,7 +79,7 @@
         <div class="promises-grid">
             {% for promise in promises %}
             <div class="promise-item">
-                <img class="promise-icon" src="/{{ directory }}/images/strategic-plan/icons/{{ promise.img }}">
+                <img class="promise-icon" alt="{{ promise.alt }}" src="/{{ directory }}/images/strategic-plan/icons/{{ promise.img }}">
                 <p>{{ promise.text|raw}}</p>
             </div>
             {% endfor %}
@@ -85,6 +91,7 @@
             {
                 intro_text: 'Foster mutually impactful <span class="platform-highlight">business engagement</span> that informs world-class research and teaching.',
                 img: 'business-engagement.jpg',
+                alt: 'teacher and students in class with laptops',
                 header: 'Business Engagement',
                 header_text: 'We are located in one of the nation’s most vibrant business communities and have longstanding relationships with companies, organizations, and entrepreneurs. Our faculty are globally respected for their research. We will build on these foundational strengths to create an environment that encourages and rewards closer engagement with the business community to positively impact organizations and society.',
                 initiatives: [
@@ -101,6 +108,7 @@
             {
                 intro_text: 'Develop <span class="platform-highlight">innovative programs</span> that respond to and capture market demand.',
                 img: 'innovative-programs.jpg',
+                alt: 'busy lobby of Carlson School of Management',
                 header: 'Program Innovation',
                 header_text: 'We live in a dynamic world, driven by complex global issues, rapidly advancing technology, changing preferences, and new business and societal challenges. We will thoughtfully assess and adapt our programs, curricula, and instruction methods to constantly evolve and adapt to these shifting market dynamics.',
                 initiatives: [
@@ -111,6 +119,7 @@
             {
                 intro_text: 'Enrich the <span class="platform-highlight">student experience.</span>',
                 img: 'student-experience.jpg',
+                alt: 'Students meeting with recruiter table',
                 header: 'Student Experience',
                 header_text: 'Our location in one of the nation’s most vibrant business communities, the strength of our partnerships, the passion of our alumni, and the expertise of our faculty and staff make it possible to offer a transformative learning experience for our students. Ever-changing events have made it imperative that we be flexible and innovative in providing a world-class education. We will build on our strengths to increase the depth and breadth of these experiences for all of our students across all of our programs.',
                 initiatives: [
@@ -124,6 +133,7 @@
             {
                 intro_text: 'Develop leaders committed to <span class="platform-highlight">equity and inclusion</span> for all identities, in a community that supports diverse students, faculty, and staff.',
                 img: 'inclusion-and-equity.jpg',
+                alt: 'Teacher talking to students in class room',
                 header: 'Inclusion and Equity',
                 header_text: 'There exist stark disparities and inequities in our society. The Carlson School of Management is committed to fostering a diverse, inclusive community that encourages all members to reach their full potential through learning, working, and service. Now more than ever, we envision a school community where all individuals embrace and advance the framework, beliefs, and principles inherent in the value for equity and diversity. We believe this work is at the center of everything that we do. We will advance the recruitment of a highly-diverse student body across degree programs; support the academic success of students from historically underrepresented and non-traditional backgrounds; advance diversity and intercultural competencies as essential aspects of intellectual growth and human development for all students; and develop and create opportunities for faculty and staff leaders who reflect the diversity of our community.',
                 initiatives: [
@@ -142,6 +152,7 @@
                         {
                 intro_text: 'Build a <span class="platform-highlight">“Carlson for Life”</span> experience that encourages lifelong school engagement and philanthropy.',
                 img: 'carlson-for-life.jpg',
+                alt: 'Goldy the Fopher holding a graduate\'s arm up at graduation',
                 header: '"Carlson for Life"',
                 header_text: 'With more than 55,000 Carlson School graduates, our alumni represent a powerful force throughout the world. They are our business partners. They employ our graduates, provide experiential learning opportunities, enthusiastically advocate on our behalf, and invest their time and financial resources in our progress. It is crystal clear that alumni are, and will remain, absolutely integral to our future success. We will broaden and deepen our engagement and support with them through a variety of channels and using a personalized approach throughout their post-graduation journey.',
                 initiatives: [
@@ -188,7 +199,7 @@
     {% for platform in platforms %}
     <section id="platform-section-{{ loop.index }}" class="platform-section" >
         <div class="platform-top">
-            <img class="platform-image" src="/{{ directory }}/images/strategic-plan/platform-images/{{ platform.img }}">
+            <img class="platform-image" alt="{{ platform.alt }}" src="/{{ directory }}/images/strategic-plan/platform-images/{{ platform.img }}">
             <div class="platform-card">
                 <div class="platform-card-inner">
                     <p class="platform-number">{{ loop.index }}</p>
