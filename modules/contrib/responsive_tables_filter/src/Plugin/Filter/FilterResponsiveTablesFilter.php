@@ -14,7 +14,8 @@ use Drupal\Core\Form\FormStateInterface;
  *   title = @Translation("Apply responsive behavior to HTML tables."),
  *   type = Drupal\filter\Plugin\FilterInterface::TYPE_MARKUP_LANGUAGE,
  *   settings = {
- *     "tablesaw_type" = "stack"
+ *     "tablesaw_type" = "stack",
+ *     "tablesaw_persist" = TRUE
  *   }
  * )
  */
@@ -54,6 +55,13 @@ class FilterResponsiveTablesFilter extends FilterBase {
       '#default_value' => $this->settings['tablesaw_type'] ?? 'stack',
       '#description' => $this->t('This will apply by default to tables in WYSIWYGs, but can be overridden on an individual basis by adding the <code>class</code> "tablesaw-stack", "tablesaw-columntoggle", or "tablesaw-swipe" to the <code>table</code> tag. See documentation: https://github.com/filamentgroup/tablesaw'),
       '#options' => self::$modes,
+    ];
+
+    $form['tablesaw_persist'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Persistent first column?'),
+      '#default_value' => $this->settings['tablesaw_persist'] ?? TRUE,
+      '#description' => $this->t('This will apply to all tables in WYSIWYGs.'),
     ];
     return $form;
   }
@@ -103,6 +111,15 @@ class FilterResponsiveTablesFilter extends FilterBase {
             // Set data-tablesaw-mode & minimap.
             $table->setAttribute('data-tablesaw-mode', $type);
             $table->setAttribute('data-tablesaw-minimap', NULL);
+            $persist = $this->settings['tablesaw_persist'] ?? TRUE;
+            if ($persist) {
+              $ths = $table->getElementsByTagName('th');
+              foreach ($ths as $k => $th) {
+                if ($k === 0) {
+                  $th->setAttribute('data-tablesaw-priority', 'persist');
+                }
+              }
+            }
           }
         }
         // Get innerHTML of root node.

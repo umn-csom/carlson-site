@@ -13,7 +13,8 @@
  * @param string $type
  */
 function vardumper($var, $name = '', $type = 'message') {
-  $service = 'vardumper_' . strtolower($type);
+  $service = 'vardumper_' . mb_strtolower($type);
+
   if (\Drupal::hasService($service)) {
     \Drupal::service($service)->dump($var, $name);
   }
@@ -43,7 +44,7 @@ function vdpm($var, $name = '') {
   vardumper($var, $name, 'message');
 }
 
-if (!function_exists('dump')) {
+if (!\function_exists('dump')) {
 
   /**
    * Dump a variable.
@@ -51,5 +52,4 @@ if (!function_exists('dump')) {
   function dump($var, $name) {
     vardumper($var, $name, 'message');
   }
-
 }

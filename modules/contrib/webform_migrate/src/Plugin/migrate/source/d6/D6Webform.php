@@ -17,7 +17,10 @@ use Drupal\node\Entity\Node;
  * Drupal 6 webform source from database.
  *
  * @MigrateSource(
- *   id = "d6_webform"
+ *   id = "d6_webform",
+ *   core = {6},
+ *   source_module = "webform",
+ *   destination_module = "webform"
  * )
  */
 class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackAwareInterface {
@@ -30,7 +33,7 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
     $query->innerJoin('node', 'n', 'wf.nid=n.nid');
     $query->innerJoin('node_revisions', 'nr', 'n.vid=nr.vid');
 
-    $query->fields('wf', array(
+    $query->fields('wf', [
       'nid',
       'confirmation',
       'teaser',
@@ -39,8 +42,6 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
       'submit_limit',
       'submit_interval',
       'submit_notice',
-      'additional_validate',
-      'additional_submit',
       'confirmation_format',
       'allow_draft',
       'redirect_url',
@@ -48,12 +49,12 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
       'auto_save',
       'total_submit_limit',
       'total_submit_interval',
-    ))
-      ->fields('nr', array(
+    ])
+      ->fields('nr', [
         'title',
         'body',
         'format',
-      )
+      ]
     );
 
     $query->addField('n', 'uid', 'node_uid');
@@ -73,7 +74,7 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
    * {@inheritdoc}
    */
   public function fields() {
-    $fields = array(
+    $fields = [
       'nid' => $this->t('Node ID'),
       'title' => $this->t('Webform title'),
       'body' => $this->t('Body'),
@@ -87,8 +88,6 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
       'submit_limit' => $this->t('Submission limit'),
       'submit_interval' => $this->t('Submission interval'),
       'submit_notice' => $this->t('Submission notice'),
-      'additional_validate' => $this->t('Additional validation'),
-      'additional_submit' => $this->t('Additional submit'),
       'allow_draft' => $this->t('Draft submission allowed'),
       'redirect_url' => $this->t('Redirect url'),
       'block' => $this->t('Block'),
@@ -97,7 +96,7 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
       'total_submit_interval' => $this->t('Total submission interval'),
       'webform_id' => $this->t('Id to be used for  Webform'),
       'elements' => $this->t('Elements for the Webform'),
-    );
+    ];
     return $fields;
   }
 
@@ -150,13 +149,13 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
   }
 
   /**
-   * Build form elements from webform component table
+   * Build form elements from webform component table.
    */
   private function buildFormElements($nid) {
     $output = '';
 
     $query = $this->select('webform_component', 'wc');
-    $query->fields('wc', array(
+    $query->fields('wc', [
       'nid',
       'cid',
       'pid',
@@ -167,12 +166,12 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
       'extra',
       'mandatory',
       'weight',
-    ));
+    ]);
     $components = $query->condition('nid', $nid)->orderBy('pid')->orderBy('weight')->execute();
-    $children = array();
-    $parents = array();
-    $elements = array();
-    $xref = array();
+    $children = [];
+    $parents = [];
+    $elements = [];
+    $xref = [];
 
     // Build an array of elements in the correct order for rendering based on
     // pid and weight and a cross reference array to match cid with form_key
@@ -190,9 +189,9 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
     }
     // Keeps track of the parents we have to process, the last entry is used
     // for the next processing step.
-    $process_parents = array();
+    $process_parents = [];
     $process_parents[] = 0;
-    $elements_tree = array();
+    $elements_tree = [];
     // Loops over the parent components and adds its children to the tree array.
     // Uses a loop instead of a recursion, because it's more efficient.
     while (count($process_parents)) {
@@ -223,10 +222,10 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
             next($children[$parent]);
             break;
           }
-        } while($child = next($children[$parent]));
-        
+        } while ($child = next($children[$parent]));
+
         if (!$has_children) {
-          // We processed all components in this hierarchy-level
+          // We processed all components in this hierarchy-level.
           reset($children[$parent]);
         }
       }
@@ -251,7 +250,7 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
 
       // Create an option list if there are items for this element.
       $options = '';
-      $valid_options = array();
+      $valid_options = [];
       if (!empty($extra['items'])) {
         $items = explode("\n", trim($extra['items']));
         $ingroup = '';
@@ -382,7 +381,7 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
         case 'date':
           $markup .= "$indent  '#type': date\n";
           /*if (!empty($element['value'])) {
-            $element['value'] = date('Y-m-d', strtotime($element['value']));
+          $element['value'] = date('Y-m-d', strtotime($element['value']));
           }*/
           break;
 
@@ -397,7 +396,7 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
             }
           }
           /*if (!empty($element['value'])) {
-            $element['value'] = date('c', strtotime($element['value']));
+          $element['value'] = date('c', strtotime($element['value']));
           }*/
           break;
 
@@ -411,6 +410,10 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
           $markup .= "$indent  '#type': wizard_page\n  '#open': true\n  '#title': {" . $current_page . "_title}\n";
           $current_page_title = t('Page') . ' ' . $pageCnt++;
           break;
+      }
+
+      if (!empty($element['type']) && is_string($element['type'])) {
+        $this->getModuleHandler()->alter('webform_migrate_d6_weform_element_' . $element['type'], $markup, $indent, $element);
       }
 
       // Add common fields.
@@ -446,7 +449,7 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
       $output = str_replace('{' . $current_page . '_title}', $current_page_title, $output);
     }
 
-    return array('elements' => $output, 'xref' => $xref);
+    return ['elements' => $output, 'xref' => $xref];
   }
 
   /**
@@ -455,7 +458,7 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
   private function buildEmailHandlers($nid, $xref) {
 
     $query = $this->select('webform_emails', 'we');
-    $query->fields('we', array(
+    $query->fields('we', [
       'nid',
       'eid',
       'email',
@@ -466,18 +469,18 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
       'excluded_components',
       'html',
       'attachments',
-    ));
+    ]);
     $emails = $query->condition('nid', $nid)->execute();
 
-    $handlers = array();
+    $handlers = [];
     foreach ($emails as $email) {
       $id = 'email_' . $email['eid'];
-      foreach (array('email', 'subject', 'from_name', 'from_address') as $field) {
+      foreach (['email', 'subject', 'from_name', 'from_address'] as $field) {
         if (!empty($email[$field]) && is_numeric($email[$field]) && !empty($xref[$email[$field]])) {
           $email[$field] = "[webform-submission:values:{$xref[$email[$field]]}:raw]";
         }
       }
-      $excluded = array();
+      $excluded = [];
       if (!empty($email['excluded_components'])) {
         $excludes = explode(',', $email['excluded_components']);
         foreach ($excludes as $exclude) {
@@ -486,13 +489,13 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
           }
         }
       }
-      $handlers[$id] = array(
+      $handlers[$id] = [
         'id' => 'email',
         'label' => 'Email ' . $email['eid'],
         'handler_id' => $id,
         'status' => 1,
         'weight' => $email['eid'],
-        'settings' => array(
+        'settings' => [
           'to_mail' => $email['email'],
           'from_mail' => $email['from_address'],
           'from_name' => $email['from_name'],
@@ -501,8 +504,8 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
           'html' => $email['html'],
           'attachments' => $email['attachments'],
           'excluded_elements' => $excluded,
-        ),
-      );
+        ],
+      ];
     }
     return $handlers;
   }
@@ -514,22 +517,22 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
 
     $query = $this->select('webform_roles', 'wr');
     $query->innerJoin('role', 'r', 'wr.rid=r.rid');
-    $query->fields('wr', array(
+    $query->fields('wr', [
       'nid',
       'rid',
-    ))
-      ->fields('r', array(
+    ])
+      ->fields('r', [
         'name',
-      )
+      ]
     );
     $wf_roles = $query->condition('nid', $nid)->execute();
 
-    $roles = array();
+    $roles = [];
     // Handle rids 1 and 2 as per user_update_8002.
-    $map = array(
+    $map = [
       1 => 'anonymous',
       2 => 'authenticated',
-    );
+    ];
     foreach ($wf_roles as $role) {
       if (isset($map[$role['rid']])) {
         $roles[] = $map[$role['rid']];
@@ -539,12 +542,12 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
       }
     }
 
-    $access = array(
-      'create' => array(
+    $access = [
+      'create' => [
         'roles' => $roles,
-        'users' => array(),
-      ),
-    );
+        'users' => [],
+      ],
+    ];
 
     return $access;
   }
@@ -592,7 +595,7 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
    * {@inheritdoc}
    */
   private function cleanString($str) {
-    return str_replace(array('"', "\n", "\r"), array("'", '\n', ''), $str);
+    return str_replace(['"', "\n", "\r"], ["'", '\n', ''], $str);
   }
 
   /**
@@ -609,38 +612,38 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
     $field_storage = FieldStorageConfig::loadByName('node', 'webform');
     $field = FieldConfig::loadByName('node', 'webform', 'webform');
     if (empty($field)) {
-      $field = entity_create('field_config', array(
+      $field = \Drupal::service('entity_type.manager')->getStorage('field_config')->create([
         'field_storage' => $field_storage,
         'bundle' => 'webform',
         'label' => 'Webform',
-        'settings' => array(),
-      ));
+        'settings' => [],
+      ]);
       $field->save();
       // Assign widget settings for the 'default' form mode.
-      $display = entity_get_form_display('node', 'webform', 'default')->getComponent('webform');
-      entity_get_form_display('node', 'webform', 'default')
-        ->setComponent('webform', array(
+      $display = \Drupal::service('entity_display.repository')->getFormDisplay('node', 'webform', 'default')->getComponent('webform');
+      \Drupal::service('entity_display.repository')->getFormDisplay('node', 'webform', 'default')
+        ->setComponent('webform', [
           'type' => $display['type'],
-        ))
+        ])
         ->save();
       // Assign display settings for the 'default' and 'teaser' view modes.
-      $display = entity_get_display('node', 'webform', 'default')->getComponent('webform');
-      entity_get_display('node', 'webform', 'default')
-        ->setComponent('webform', array(
+      $display = \Drupal::service('entity_display.repository')->getViewDisplay('node', 'webform', 'default')->getComponent('webform');
+      \Drupal::service('entity_display.repository')->getViewDisplay('node', 'webform', 'default')
+        ->setComponent('webform', [
           'label' => $display['label'],
           'type' => $display['type'],
-        ))
+        ])
         ->save();
       // The teaser view mode is created by the Standard profile and therefore
       // might not exist.
-      $view_modes = \Drupal::entityManager()->getViewModes('node');
+      $view_modes = \Drupal::service('entity_display.repository')->getViewModes('node');
       if (isset($view_modes['teaser'])) {
-        $display = entity_get_display('node', 'webform', 'teaser')->getComponent('webform');
-        entity_get_display('node', 'webform', 'teaser')
-          ->setComponent('webform', array(
+        $display = \Drupal::service('entity_display.repository')->getViewDisplay('node', 'webform', 'teaser')->getComponent('webform');
+        \Drupal::service('entity_display.repository')->getViewDisplay('node', 'webform', 'teaser')
+          ->setComponent('webform', [
             'label' => $display['label'],
             'type' => $display['type'],
-          ))
+          ])
           ->save();
       }
     }
@@ -653,6 +656,7 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
       $webform_id = 'webform_' . $webform_nid;
       $webform = Webform::load($webform_id);
       if (!empty($webform)) {
+        /** @var \Drupal\node\NodeInterface $node */
         $node = Node::load($webform_nid);
         if (!empty($node) && $node->getType() == 'webform') {
           if (empty($node->webform->target_id)) {
@@ -682,6 +686,7 @@ class D6Webform extends DrupalSqlBase implements ImportAwareInterface, RollbackA
       $webform_id = 'webform_' . $webform_nid;
       $webform = Webform::load($webform_id);
       if (empty($webform)) {
+        /** @var \Drupal\node\NodeInterface $node */
         $node = Node::load($webform['nid']);
         if (!empty($node) && $node->getType() == 'webform') {
           if (!empty($node->webform->target_id) && $node->webform->target_id == $webform_id) {

@@ -37,5 +37,6 @@ function we_megamenu_schema() {
  */
 function we_megamenu_update_8101() {
   $sql = 'ALTER TABLE `we_megamenu` CHANGE `data_config` `data_config` LONGTEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL';
-  db_query($sql);
+  \Drupal\Core\Database\Database::getConnection()
+    ->query($sql);
 }

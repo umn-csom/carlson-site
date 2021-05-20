@@ -2,9 +2,7 @@
 
 namespace Drupal\schema_organization\Plugin\metatag\Tag;
 
-use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaActionBase;
-use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaEntryPointBase;
-use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaThingBase;
+use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
 
 /**
  * Provides a plugin for the 'schema_organization_potential_action' meta tag.
@@ -22,52 +20,15 @@ use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaThingBase;
  *   weight = 15,
  *   type = "string",
  *   secure = FALSE,
- *   multiple = TRUE
+ *   multiple = TRUE,
+ *   property_type = "action",
+ *   tree_parent = {
+ *     "OrderAction",
+ *     "ReserveAction",
+ *   },
+ *   tree_depth = 0,
  * )
  */
-class SchemaOrganizationPotentialAction extends SchemaActionBase {
-
-  /**
-   * Generate a form element for this meta tag.
-   */
-  public function form(array $element = []) {
-
-    $this->actionTypes = ['TradeAction', 'OrganizeAction'];
-    $this->actions = ['OrderAction', 'ReserveAction'];
-
-    $form = parent::form($element);
-    return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function testValue() {
-    $items = [];
-    $keys = self::actionFormKeys('OrganizeAction');
-    foreach ($keys as $key) {
-      switch ($key) {
-
-        case '@type':
-          $items[$key] = 'ReserveAction';
-          break;
-
-        case 'target':
-          $items[$key] = SchemaEntryPointBase::testValue();
-          break;
-
-        case 'result':
-          $items[$key] = SchemaThingBase::testValue();
-          break;
-
-        default:
-          $items[$key] = parent::testDefaultValue(1, '');
-          break;
-
-      }
-    }
-    return $items;
-
-  }
+class SchemaOrganizationPotentialAction extends SchemaNameBase {
 
 }

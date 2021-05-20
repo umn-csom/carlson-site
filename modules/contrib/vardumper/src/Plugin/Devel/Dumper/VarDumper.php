@@ -3,35 +3,35 @@
 namespace Drupal\vardumper\Plugin\Devel\Dumper;
 
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\devel\Plugin\Devel\Dumper\VarDumper as DevelVarDumper;
 use Drupal\vardumper\VarDumper\Dumper\HtmlDrupalDumper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
-use Drupal\devel\Plugin\Devel\Dumper\VarDumper as DevelVarDumper;
 
 /**
  * Provides a Symfony VarDumper dumper plugin.
  *
  * @DevelDumper(
- *   id = "var_dumper",
- *   label = @Translation("Symfony var-dumper"),
- *   description = @Translation("Wrapper for <a href='https://github.com/symfony/var-dumper'>Symfony var-dumper</a> debugging tool through <a href='https://drupal.org/project/vardumper'>VarDumper module</a>."),
+ *     id="var_dumper",
+ *     label=@Translation("Symfony var-dumper"),
+ *     description=@Translation("Wrapper for <a href='https://github.com/symfony/var-dumper'>Symfony var-dumper</a> debugging tool through <a href='https://drupal.org/project/vardumper'>VarDumper module</a>."),
  * )
  */
 class VarDumper extends DevelVarDumper implements ContainerFactoryPluginInterface {
+
+  /**
+   * @var \Drupal\vardumper\VarDumper\Dumper\HtmlDrupalDumper
+   */
+  protected $dumper;
 
   /**
    * These are the pattern lines used in the header, before displaying the export.
    *
    * @var string
    */
-  protected $header1 = "<em>Dump called from <strong>%s</strong>, line <strong>%d</strong> at <strong>%s</strong>.</em>";
-  protected $header2 = "<em><strong>%s</strong> :: Dump called from <strong>%s</strong>, line <strong>%d</strong> at <strong>%s</strong>.</em>";
-
-  /**
-   * @var \Drupal\vardumper\VarDumper\Dumper\HtmlDrupalDumper
-   */
-  protected $dumper;
+  protected $header1 = '<em>Dump called from <strong>%s</strong>, line <strong>%d</strong> at <strong>%s</strong>.</em>';
+  protected $header2 = '<em><strong>%s</strong> :: Dump called from <strong>%s</strong>, line <strong>%d</strong> at <strong>%s</strong>.</em>';
 
   /**
    * VarDumper constructor.
@@ -59,17 +59,19 @@ class VarDumper extends DevelVarDumper implements ContainerFactoryPluginInterfac
   }
 
   /**
-   * Generate headers.
+   * {@inheritdoc}
    */
-  public function getHeaders($name, $d) {
-    $time = explode(' ', microtime());
-    $time = date("H:i:s") . '.' . round($time[0], 4) * 10000;
+  public function export($input, $name = NULL) {
+    $cloner = $this->getVarCloner();
+    $dumper = 'cli' === \PHP_SAPI ? new CliDumper() : $this->dumper;
 
-    $result = sprintf($this->header1, $d['file'], $d['line'], $time);
-    if (!empty($name)) {
-      $result = sprintf($this->header2, $name, $d['file'], $d['line'], $time);
-    }
-    return $result;
+    $output = fopen('php://memory', 'r+b');
+    $dumper->dump($cloner->cloneVar($input), $output);
+    $output = stream_get_contents($output, -1, 0);
+
+    $html = $this->getHeaders($name, $this->getDebugInformation()) . $output;
+
+    return $this->setSafeMarkup($html);
   }
 
   /**
@@ -77,27 +79,30 @@ class VarDumper extends DevelVarDumper implements ContainerFactoryPluginInterfac
    */
   public function getDebugInformation() {
     $_ = array_reverse(debug_backtrace());
+
     while ($d = array_pop($_)) {
-      if ((strpos(@$d['file'], 'src/VarDumper') === FALSE) && (strpos(@$d['file'], 'vardumper') === FALSE)) {
+      if ((mb_strpos($d['file'], 'src/VarDumper') === FALSE) && (mb_strpos($d['file'], 'vardumper') === FALSE)) {
         break;
       }
     }
+
     return $d;
   }
 
   /**
-   * {@inheritdoc}
+   * Generate headers.
    */
-  public function export($input, $name = NULL) {
-    $cloner = $this->getVarCloner();
-    $dumper = 'cli' === PHP_SAPI ? new CliDumper() : $this->dumper;
+  public function getHeaders($name, $d) {
+    $time = explode(' ', microtime());
+    $time = date('H:i:s') . '.' . round($time[0], 4) * 10000;
 
-    $output = fopen('php://memory', 'r+b');
-    $dumper->dump($cloner->cloneVar($input), $output);
-    $output = stream_get_contents($output, -1, 0);
+    $result = sprintf($this->header1, $d['file'], $d['line'], $time);
 
-    $html = $this->getHeaders($name, $this->getDebugInformation()) . $output;
-    return $this->setSafeMarkup($html);
+    if (!empty($name)) {
+      $result = sprintf($this->header2, $name, $d['file'], $d['line'], $time);
+    }
+
+    return $result;
   }
 
   /**
@@ -111,6 +116,7 @@ class VarDumper extends DevelVarDumper implements ContainerFactoryPluginInterfac
       'Drupal\Core\Session\UserSession' => 'Drupal\vardumper\Caster\DrupalCaster::castUser',
     ];
     $cloner->addCasters($myCasters);
+
     return $cloner;
   }
 

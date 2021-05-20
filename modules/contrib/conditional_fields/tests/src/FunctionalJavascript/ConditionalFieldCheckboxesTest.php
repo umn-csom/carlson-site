@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\Tests\field\Traits\EntityReferenceTestTrait;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\taxonomy\Entity\Term;
@@ -81,7 +82,7 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->createCondition('body', 'field_' . $this->taxonomyName, 'visible', 'value');
 
     // Change a condition's values set and the value.
-    $this->changeField('#edit-values-set', CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET);
+    $this->changeField('#edit-values-set', ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET);
     // Random term id to check necessary values.
     $term_id_1 = mt_rand(1, $this->termsCount);
     do {
@@ -93,20 +94,18 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
 
-
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
     $this->assertSession()
       ->pageTextContains('body field_' . $this->taxonomyName . ' visible value');
-    $this->clickLink( 'Edit' );
-    $this->createScreenshot($this->screenshotPath . '01. Checkboxes' . __FUNCTION__ .  '.jpg');
+    $this->clickLink('Edit');
+    $this->createScreenshot($this->screenshotPath . '01. Checkboxes' . __FUNCTION__ . '.jpg');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is not visible.
-    $this->createScreenshot($this->screenshotPath . '02. Checkboxes' . __FUNCTION__ .  '.jpg');
+    $this->createScreenshot($this->screenshotPath . '02. Checkboxes' . __FUNCTION__ . '.jpg');
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
     // Change a select value set to show the body.
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
@@ -130,7 +129,7 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->createCondition('body', 'field_' . $this->taxonomyName, 'visible', 'value');
 
     // Change a condition's values set and the value.
-    $this->changeField('#edit-values-set', CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX);
+    $this->changeField('#edit-values-set', ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX);
     // Random term id to check necessary values.
     $term_id_1 = mt_rand(1, $this->termsCount);
     do {
@@ -142,7 +141,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
 
-
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
     $this->assertSession()
@@ -150,7 +148,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
@@ -176,7 +173,7 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->createCondition('body', 'field_' . $this->taxonomyName, 'visible', 'value');
 
     // Change a condition's values set and the value.
-    $this->changeField('#edit-values-set', CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND);
+    $this->changeField('#edit-values-set', ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND);
     // Random term id to check necessary values.
     $term_id_1 = mt_rand(1, $this->termsCount);
     do {
@@ -188,7 +185,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     // Submit the form.
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
@@ -197,7 +193,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
 
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
@@ -224,7 +219,7 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->createCondition('body', 'field_' . $this->taxonomyName, 'visible', 'value');
 
     // Change a condition's values set and the value.
-    $this->changeField('#edit-values-set', CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR);
+    $this->changeField('#edit-values-set', ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR);
     // Random term id to check necessary values.
     $term_id_1 = mt_rand(1, $this->termsCount);
     do {
@@ -236,7 +231,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     // Submit the form.
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
@@ -245,7 +239,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
 
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
@@ -273,7 +266,7 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->createCondition('body', 'field_' . $this->taxonomyName, 'visible', 'value');
 
     // Change a condition's values set and the value.
-    $this->changeField('#edit-values-set', CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT);
+    $this->changeField('#edit-values-set', ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT);
     // Random term id to check necessary values.
     $term_id_1 = mt_rand(1, $this->termsCount);
     do {
@@ -286,7 +279,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
 
-
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
     $this->assertSession()
@@ -294,7 +286,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->waitUntilVisible('.field--name-body', 0, '01. Article Body field is not visible');
@@ -322,7 +313,7 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->createCondition('body', 'field_' . $this->taxonomyName, 'visible', 'value');
 
     // Change a condition's values set and the value.
-    $this->changeField('#edit-values-set', CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR);
+    $this->changeField('#edit-values-set', ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR);
     // Random term id to check necessary values.
     $term_id_1 = mt_rand(1, $this->termsCount);
     do {
@@ -335,7 +326,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
 
-
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
     $this->assertSession()
@@ -343,7 +333,6 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');

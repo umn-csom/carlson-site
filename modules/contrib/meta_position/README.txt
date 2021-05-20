@@ -13,7 +13,7 @@ INTRODUCTION
 ------------
 
 This small module allows you to place the metadata panel (containing
-menu settings, URL path settings, authoring informations, promotions options,
+menu settings, URL path settings, authoring information, promotions options,
 etc.) under the node main form and displayed as vertical tabs.
 
 You can configure the module and choose on which content type you want display

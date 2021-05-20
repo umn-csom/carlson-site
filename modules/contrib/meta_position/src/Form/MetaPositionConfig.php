@@ -6,6 +6,9 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\NodeType;
 
+/**
+ * Config form settings for meta_position module.
+ */
 class MetaPositionConfig extends ConfigFormBase {
 
   /**
@@ -22,8 +25,13 @@ class MetaPositionConfig extends ConfigFormBase {
     return 'meta_position_settings';
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $options = array_map(function (NodeType $nodeType) { return $nodeType->label(); }, NodeType::loadMultiple());
+    $options = array_map(function (NodeType $nodeType) {
+      return $nodeType->label();
+    }, NodeType::loadMultiple());
     $config = $this->config('meta_position.settings');
     $form['enabled'] = array(
       '#type' => 'checkbox',
@@ -41,11 +49,14 @@ class MetaPositionConfig extends ConfigFormBase {
         'visible' => [
           ':input[name="enabled"]' => ['checked' => TRUE],
         ],
-      ]
+      ],
     ];
     return parent::buildForm($form, $form_state);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     parent::submitForm($form, $form_state);
     $config = $this->config('meta_position.settings');

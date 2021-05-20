@@ -2,7 +2,7 @@
 
 namespace Drupal\ape\Tests;
 
-use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\BrowserTestBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -10,14 +10,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @group Advanced Page Expiration
  */
-class ApeMinTest extends WebTestBase {
+class ApeMinTest extends BrowserTestBase {
 
   protected $dumpHeaders = TRUE;
+
+  protected $defaultTheme = 'stark';
 
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['ape', 'ape_test', 'system'];
+  protected static $modules = ['ape', 'ape_test', 'system'];
 
   /**
    * Exempt from strict schema checking.

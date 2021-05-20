@@ -19,12 +19,13 @@ datalayer.settings:
       type: sequence
       sequence:
         type: string
+        label: 'Meta data'
     enable_ia:
       label: 'Display IA paths in output'
       type: boolean
     ia_depth:
       label: 'Set depth of displayed paths'
-      type: number
+      type: integer
     ia_category_primary:
       label: 'Set label for first component of path'
       type: string
@@ -36,6 +37,7 @@ datalayer.settings:
       type: sequence
       sequence:
         type: string
+        label: 'Term'
     expose_user_details:
       label: 'Expose user details'
       type: string
@@ -44,6 +46,13 @@ datalayer.settings:
       type: sequence
       sequence:
         type: string
+        label: 'Role'
+    current_user_meta:
+      label: 'Current user meta data'
+      type: sequence
+      sequence:
+        type: string
+        label: 'Current User Meta Data'
     group:
       label: 'Include group support'
       type: boolean
@@ -77,3 +86,6 @@ datalayer.settings:
     key_replacements:
       label: 'Exposed field sub-key replacements'
       type: sequence
+      sequence:
+        type: string
+        label: 'Replacement'
