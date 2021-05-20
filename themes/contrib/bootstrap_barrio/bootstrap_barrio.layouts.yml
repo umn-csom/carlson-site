@@ -1,36 +1,52 @@
-bb_cardbasic:
+barrio_cardbasic:
   label: Card basic
-  category: Barrio
-  template: templates/ds/layout--ds-card-basic
-  class: '\Drupal\ds\Plugin\DsLayout'
+  category: Barrio Cards
+  path: layouts
+  template: card-basic
+  default_region: first
+  icon_map:
+    - [first]
   regions:
     first:
       label: Content
-bb_cardtopimage:
+barrio_cardtopimage:
   label: Card top image
-  category: Barrio
-  template: templates/ds/layout--ds-card-top-image
-  class: '\Drupal\ds\Plugin\DsLayout'
+  category: Barrio Cards
+  path: layouts
+  template: card-top-image
+  default_region: second
+  icon_map:
+    - [top]
+    - [middle]
   regions:
     first:
       label: Image
     second:
       label: Content
-bb_cardimageoverlay:
+barrio_cardimageoverlay:
   label: Card image overlay
-  category: Barrio
-  template: templates/ds/layout--ds-card-image-overlay
-  class: '\Drupal\ds\Plugin\DsLayout'
+  category: Barrio Cards
+  path: layouts
+  template: card-image-overlay
+  default_region: second
+  icon_map:
+    - [top]
+    - [middle]
   regions:
     first:
       label: Image
     second:
       label: Content
-bb_cardheaderfooter:
+barrio_cardheaderfooter:
   label: Card header footer
-  category: Barrio
-  template: templates/ds/layout--ds-card-header-footer
-  class: '\Drupal\ds\Plugin\DsLayout'
+  category: Barrio Cards
+  path: layouts
+  template: card-header-footer
+  default_region: second
+  icon_map:
+    - [top]
+    - [middle]
+    - [bottom]
   regions:
     first:
       label: Header
@@ -38,11 +54,16 @@ bb_cardheaderfooter:
       label: Content
     third:
       label: Footer
-bb_card3stack:
+barrio_card3stack:
   label: Card three block stacked
-  category: Barrio
-  template: templates/ds/layout--ds-card-3stack
-  class: '\Drupal\ds\Plugin\DsLayout'
+  category: Barrio Cards
+  path: layouts
+  template: card-3stack
+  default_region: second
+  icon_map:
+    - [top]
+    - [middle]
+    - [bottom]
   regions:
     first:
       label: First
@@ -50,13 +71,117 @@ bb_card3stack:
       label: Image
     third:
       label: Second
-bb_media:
+barrio_media:
   label: Media
-  category: Barrio
-  template: templates/ds/layout--ds-media
-  class: '\Drupal\ds\Plugin\DsLayout'
+  category: Barrio Media
+  path: layouts
+  template: bootstrap-media
+  default_region: second
+  icon_map:
+    - [first, second]
   regions:
     first:
       label: Image
     second:
       label: Content
+barrio_col2-equal:
+  label: 2 Columns Equal
+  category: Barrio Columns
+  path: layouts
+  template: col2-equal
+  default_region: first
+  icon_map:
+    - [top]
+    - [first, second]
+    - [bottom]
+  regions:
+    top:
+      label: Top
+    first:
+      label: First
+    second:
+      label: Second
+    bottom:
+      label: Bottom
+barrio_col2-3-9:
+  label: 2 Columns 3 and 9
+  category: Barrio Columns
+  path: layouts
+  template: col2-3-9
+  default_region: first
+  icon_map:
+    - [top]
+    - [first, second]
+    - [bottom]
+  regions:
+    top:
+      label: Top
+    first:
+      label: First
+    second:
+      label: Second
+    bottom:
+      label: Bottom
+barrio_col2-9-3:
+  label: 2 Columns 9 and 3
+  category: Barrio Columns
+  path: layouts
+  template: col2-9-3
+  default_region: first
+  icon_map:
+    - [top]
+    - [first, second]
+    - [bottom]
+  regions:
+    top:
+      label: Top
+    first:
+      label: First
+    second:
+      label: Second
+    bottom:
+      label: Bottom
+barrio_col3-equal:
+  label: 3 Columns Equal
+  category: Barrio Columns
+  path: layouts
+  template: col3-equal
+  default_region: first
+  icon_map:
+    - [top]
+    - [first, second, third]
+    - [bottom]
+  regions:
+    top:
+      label: Top
+    first:
+      label: First
+    second:
+      label: Second
+    third:
+      label: Third
+    bottom:
+      label: Bottom
+barrio_col4-equal:
+  label: 4 Columns Equal
+  category: Barrio Columns
+  path: layouts
+  template: col4-equal
+  default_region: first
+  icon_map:
+    - [top]
+    - [first, second, third, fourth]
+    - [bottom]
+  regions:
+    top:
+      label: Top
+    first:
+      label: First
+    second:
+      label: Second
+    third:
+      label: Third
+    fourth:
+      label: Fourth
+    bottom:
+      label: Bottom
