@@ -42,6 +42,12 @@
     img{
       box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
     }
+    &--alumni {
+      img {
+        box-shadow: none;
+      }
+      
+    }
     margin-bottom: 3rem;
   }
   &__content {
@@ -56,13 +62,24 @@
     &--lead-in {
       flex: 1 1;
     }
+    &--alumni {
+      position: relative;
+      top: -245px;
+      margin-bottom: -347px;
+    }
   }
   &__title {
-    @include heading-title($font-medium, $maroon, 'left')
+      &--no-bar {
+        @include heading-title($font-medium, $maroon, 'left', 'false')
+      }
+      &:not(&--no-bar) {
+        @include heading-title($font-medium, $maroon, 'left')
+      }
   }
   &__link {
     text-align: center;
     text-transform: uppercase;
+
     a, span { // allow span for ubounce
       cursor: pointer;
       line-height: 40px;
@@ -97,12 +114,20 @@
     background-position: top left;
     background-repeat: no-repeat;
     padding: 20px 30px;
+
+    &--alumni {
+      background-image: url('../images/bg/alumni-hero-bg.png');
+      background-size: contain;
+      background-position: top left;
+      background-repeat: no-repeat;
+      padding: 40px 60px;
+    }
   }
   @include media-breakpoint-up(lg) {
-      &__title {
-        margin-top: 2rem;
-      }
-      &__link {
+    &__title {
+      margin-top: 2rem;
+    }
+    &__link {
         text-align: right;
         bottom: -20px;
         left: -150px;
@@ -110,7 +135,12 @@
         max-width: calc(100% + 150px);
         flex: 0 0 calc(100% + 150px);
         padding-right: 0;
-      }
+
+        &--link-only {
+          padding-top: 10px;
+          text-align: left;
+        }
+    } 
   }
 }
 
