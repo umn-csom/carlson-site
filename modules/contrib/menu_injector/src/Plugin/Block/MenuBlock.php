@@ -188,7 +188,8 @@ class MenuBlock extends SuperMenuBlock {
 
   protected function getAllRules($menu_name, $active_trail) {
     $node = \Drupal::routeMatch()->getParameter('node');
-    $rules = \Drupal::entityManager()->getStorage('menu_injector_rule')->loadMultiple();
+    //$rules = \Drupal::entityManager()->getStorage('menu_injector_rule')->loadMultiple();
+    $rules = \Drupal::entityTypeManager()->getStorage('menu_injector_rule')->loadMultiple();
     $active_trail_parent_menu_plugin_id = reset($active_trail);
     $results = [];
     $index = 0;
