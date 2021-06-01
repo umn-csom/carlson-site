@@ -291,7 +291,7 @@ function barrio_carlson_add_regions_to_node($allowed_regions, &$variables) {
   foreach ($regions as $key => $region) {
 
     // Load region blocks
-    $blocks = \Drupal::entityManager()->getStorage('block')->loadByProperties(array('theme' => $theme, 'region' => $region));
+    $blocks = \Drupal::entityTypeManager()->getStorage('block')->loadByProperties(array('theme' => $theme, 'region' => $region));
     // Sort ‘em
     uasort($blocks, 'Drupal\block\Entity\Block::sort');
 
