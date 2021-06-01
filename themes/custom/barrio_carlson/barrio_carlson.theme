@@ -245,7 +245,7 @@ function barrio_carlson_preprocess_node(&$variables) {
         $entityAdapter = $entityReference->getTarget();
         $referencedEntity = $entityAdapter->getValue();
         $variables['faculty_member'] = $referencedEntity->getTitle();
-        $variables['faculty_member_link'] = $referencedEntity->url();
+        $variables['faculty_member_link'] = $referencedEntity->toUrl();
       } 
     break;
     case 'blog_entry':
