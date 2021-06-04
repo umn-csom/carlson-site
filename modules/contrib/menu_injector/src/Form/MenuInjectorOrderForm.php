@@ -4,7 +4,6 @@ namespace Drupal\menu_injector\Form;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\Query\QueryFactory;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\ProxyClass\Routing\RouteBuilder;
@@ -34,12 +33,10 @@ class MenuInjectorOrderForm extends FormBase {
   protected $menu_link_manager;
 
   public function __construct(
-    QueryFactory $entity_query,
     MenuLinkManagerInterface $menu_link_manager,
     EntityTypeManagerInterface $entity_type_manager,
     RouteBuilder $route_builder) {
 
-    $this->entity_query = $entity_query;
     $this->menu_link_manager = $menu_link_manager;
     $this->entityTypeManager = $entity_type_manager;
     $this->route_builder = $route_builder;
@@ -47,7 +44,6 @@ class MenuInjectorOrderForm extends FormBase {
 
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.query'),
       $container->get('plugin.manager.menu.link'),
       $container->get('entity_type.manager'),
       $container->get('router.builder')
@@ -68,7 +64,7 @@ class MenuInjectorOrderForm extends FormBase {
     $config = $this->config('menu_injector.menuinjectorororder_config');
 
     // Get all the rules.
-    $query = $this->entity_query->get('menu_injector_rule');
+    $query = $this->entityTypeManager->getStorage('menu_injector_rule')->getQuery();
     $results = $query->sort('label')->execute();
     $rules = $this->entityTypeManager->getStorage('menu_injector_rule')->loadMultiple($results);
 
@@ -146,6 +142,6 @@ class MenuInjectorOrderForm extends FormBase {
     // Flush appropriate menu cache.
     $this->route_builder->rebuild();
 
-    drupal_set_message($this->t('The new rules ordering has been applied.'));
+    \Drupal::messenger()->addStatus($this->t('The new rules ordering has been applied.'));
   }
 }

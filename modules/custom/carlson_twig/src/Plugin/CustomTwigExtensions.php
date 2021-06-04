@@ -52,7 +52,7 @@ class CustomTwigExtensions extends \Twig_Extension {
         $parent_menu_plugin_def = $parent_menu_instance->getPluginDefinition();
         $parent_title = $parent_menu_instance->getTitle();
         $parent_node_id = $parent_menu_plugin_def['route_parameters']['node'];
-        $parent_alias = \Drupal::service('path.alias_manager')->getAliasByPath( "/node/" . $parent_node_id );
+        $parent_alias = \Drupal::service('path_alias.manager')->getAliasByPath( "/node/" . $parent_node_id );
         
         if(!$isInside) {
           return ('<a href="' . $parent_alias . '" class="sticky-menu__label" data-drupal-link-system-path="node/' . $parent_node_id . '"><span class="sticky-menu__label--inside">' . $parent_title . '</span></a>' );

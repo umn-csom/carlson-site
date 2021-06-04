@@ -2,15 +2,26 @@
 
 namespace Drupal\vardumper\VarDumper;
 
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Render\Markup;
 
-/**
- *
- */
 class VarDumperMessage extends VarDumperDebug {
+  /**
+   * The messenger.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
 
   /**
-   * {@inheritDoc}.
+   * {@inheritdoc}.
+   */
+  public function __construct(MessengerInterface $messenger) {
+    $this->messenger = $messenger;
+  }
+
+  /**
+   * {@inheritdoc}.
    */
   public function dump($var, $name = '') {
     if (!$this->hasPermission()) {
@@ -18,7 +29,7 @@ class VarDumperMessage extends VarDumperDebug {
     }
     $html = $this->getHeaders($name, $this->getDebugInformation()) . $this->getDebug($var);
 
-    drupal_set_message(Markup::create($html), 'status', FALSE);
+    $this->messenger->addStatus(Markup::create($html));
   }
 
 }

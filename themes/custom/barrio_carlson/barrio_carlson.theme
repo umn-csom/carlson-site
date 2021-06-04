@@ -7,6 +7,7 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\Node;
+use Drupal\Core\Url;
 
 /*
 function paragraphs_theme_suggestions_paragraph(array $variables) {
@@ -244,7 +245,7 @@ function barrio_carlson_preprocess_node(&$variables) {
         $entityAdapter = $entityReference->getTarget();
         $referencedEntity = $entityAdapter->getValue();
         $variables['faculty_member'] = $referencedEntity->getTitle();
-        $variables['faculty_member_link'] = $referencedEntity->url();
+        $variables['faculty_member_link'] = $referencedEntity->toUrl();
       } 
     break;
     case 'blog_entry':
@@ -290,8 +291,7 @@ function barrio_carlson_add_regions_to_node($allowed_regions, &$variables) {
   foreach ($regions as $key => $region) {
 
     // Load region blocks
-    $blocks = entity_load_multiple_by_properties('block', array('theme' => $theme, 'region' => $region));
-
+    $blocks = \Drupal::entityTypeManager()->getStorage('block')->loadByProperties(array('theme' => $theme, 'region' => $region));
     // Sort ‘em
     uasort($blocks, 'Drupal\block\Entity\Block::sort');
 
@@ -299,7 +299,8 @@ function barrio_carlson_add_regions_to_node($allowed_regions, &$variables) {
     $build = array();
     foreach ($blocks as $key => $block) {
       if ($block->access('view')) {
-        $build[$key] = entity_view($block, 'block');
+        $builder = \Drupal::entityTypeManager()->getViewBuilder('block');
+        $build[$key] = $builder->view($block, 'block');
       }
     }
 
@@ -408,13 +409,14 @@ function barrio_carlson_preprocess_pager(&$variables) {
 
   // End of generation loop preparation.
   // Create the "first" and "previous" links if we are not on the first page.
+  $pager_manager = \Drupal::service('pager.manager');
   if ($pager_page_array[$element] > 0) {
     if ($pager_page_array[$element] >= $pager_middle) {
       $items['first'] = array();
       $options = array(
-        'query' => pager_query_add_page($parameters, $element, 0),
+        'query' => $pager_manager->getUpdatedParameters($parameters, $element, 0)
       );
-      $items['first']['href'] = \Drupal::url($route_name, $route_parameters, $options);
+      $items['first']['href'] = Url::fromRoute($route_name, $route_parameters, $options);
       if (isset($tags[0])) {
         $items['first']['text'] = 1;
       }
@@ -425,9 +427,9 @@ function barrio_carlson_preprocess_pager(&$variables) {
     }
     $items['previous'] = array();
     $options = array(
-      'query' => pager_query_add_page($parameters, $element, $pager_page_array[$element] - 1),
+      'query' => $pager_manager->getUpdatedParameters($parameters, $element, $pager_page_array[$element] - 1)
     );
-    $items['previous']['href'] = \Drupal::url($route_name, $route_parameters, $options);
+    $items['previous']['href'] = Url::fromRoute($route_name, $route_parameters, $options);
     if (isset($tags[1])) {
       $items['previous']['text'] = $tags[1];
     }
@@ -436,9 +438,9 @@ function barrio_carlson_preprocess_pager(&$variables) {
     // Now generate the actual pager piece.
     for (; $i <= $pager_last && $i <= $pager_max; $i++) {
       $options = array(
-        'query' => pager_query_add_page($parameters, $element, $i - 1),
+        'query' => $pager_manager->getUpdatedParameters($parameters, $element, $i - 1)
       );
-      $items['pages'][$i]['href'] = \Drupal::url($route_name, $route_parameters, $options);
+      $items['pages'][$i]['href'] = Url::fromRoute($route_name, $route_parameters, $options);
       if ($i == $pager_current) {
         $variables['current'] = $i;
       }
@@ -449,18 +451,18 @@ function barrio_carlson_preprocess_pager(&$variables) {
   if ($pager_page_array[$element] < $pager_max - 1) {
     $items['next'] = array();
     $options = array(
-      'query' => pager_query_add_page($parameters, $element, $pager_page_array[$element] + 1),
+      'query' => $pager_manager->getUpdatedParameters($parameters, $element, $pager_page_array[$element] + 1),
     );
-    $items['next']['href'] = \Drupal::url($route_name, $route_parameters, $options);
+    $items['next']['href'] = Url::fromRoute($route_name, $route_parameters, $options);
     if (isset($tags[3])) {
       $items['next']['text'] = $tags[3];
     }
     if ($pager_page_array[$element] < $pager_max - $pager_middle){
       $items['last'] = array();
       $options = array(
-        'query' => pager_query_add_page($parameters, $element, $pager_max - 1),
+        'query' => $pager_manager->getUpdatedParameters($parameters, $element, $pager_max - 1),
       );
-      $items['last']['href'] = \Drupal::url($route_name, $route_parameters, $options);
+      $items['last']['href'] = Url::fromRoute($route_name, $route_parameters, $options);
       if (isset($tags[4])) {
         $items['last']['text'] = $pager_max;
       }

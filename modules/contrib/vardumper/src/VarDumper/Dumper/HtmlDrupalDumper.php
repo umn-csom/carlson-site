@@ -11,7 +11,6 @@ use Symfony\Component\VarDumper\Dumper\HtmlDumper;
  * @author Pol Dellaiera <pol.dellaiera@protonmail.com>
  */
 class HtmlDrupalDumper extends HtmlDumper {
-
   protected $styles = [
     'default' => 'background-color:#18171B; color:#FF8400; line-height:1.2em; font:12px Menlo, Monaco, Consolas, monospace; word-wrap: break-word; white-space: pre-wrap; position:relative;',
     'num' => 'font-weight:bold; color:#1299DA',
@@ -29,6 +28,139 @@ class HtmlDrupalDumper extends HtmlDumper {
   ];
 
   /**
+   * {@inheritdoc}
+   */
+  public function dumpString(Cursor $cursor, $str, $bin, $cut) {
+    $this->dumpKey($cursor);
+
+    if ($bin) {
+      $str = $this->utf8Encode($str);
+    }
+
+    if ($str === '') {
+      $this->line .= '""';
+      $this->dumpLine($cursor->depth, TRUE);
+    }
+    else {
+      $attr = [
+        'length' => $cut >= 0 && \function_exists('iconv_strlen') ? iconv_strlen(
+          $str,
+          'UTF-8'
+        ) + $cut : 0,
+        'binary' => $bin,
+      ];
+      $str = explode("\n", $str);
+
+      if (isset($str[1]) && !isset($str[2]) && !isset($str[1][0])) {
+        unset($str[1]);
+        $str[0] .= "\n";
+      }
+      $m = \count($str) - 1;
+      $i = $lineCut = 0;
+
+      if ($bin) {
+        $this->line .= 'b';
+      }
+
+      if ($m) {
+        $this->line .= '"""';
+        $this->dumpLine($cursor->depth);
+      }
+      else {
+        $this->line .= '"';
+      }
+
+      foreach ($str as $str) {
+        if ($i < $m) {
+          $str .= "\n";
+        }
+
+        if ($this->maxStringWidth > 0 && $this->maxStringWidth < $len = iconv_strlen(
+          $str,
+          'UTF-8'
+        )
+        ) {
+          $str = iconv_substr($str, 0, $this->maxStringWidth, 'UTF-8');
+          $lineCut = $len - $this->maxStringWidth;
+        }
+
+        if ($m && $cursor->depth > 0) {
+          $this->line .= $this->indentPad;
+        }
+
+        if ($str !== '') {
+          if (mb_substr($str, 0, 5) === 'link:') {
+            $this->line .= $this->style('link', $str, $attr);
+          }
+          else {
+            $this->line .= $this->style('str', $str, $attr);
+          }
+        }
+
+        if ($i++ === $m) {
+          if ($m) {
+            if ($str !== '') {
+              $this->dumpLine($cursor->depth);
+
+              if ($cursor->depth > 0) {
+                $this->line .= $this->indentPad;
+              }
+            }
+            $this->line .= '"""';
+          }
+          else {
+            $this->line .= '"';
+          }
+
+          if ($cut < 0) {
+            $this->line .= '…';
+            $lineCut = 0;
+          }
+          elseif ($cut) {
+            $lineCut += $cut;
+          }
+        }
+
+        if ($lineCut) {
+          $this->line .= '…' . $lineCut;
+          $lineCut = 0;
+        }
+
+        $this->dumpLine($cursor->depth, $i > $m);
+      }
+    }
+  }
+
+  /**
+   * @param $style
+   * @param $v
+   * @param $c
+   *
+   * @return string
+   */
+  protected function getClassStyle($style, $v, $c) {
+    if (\Drupal::hasService('webprofiler.ide_link_generator') && \Drupal::hasService('webprofiler.class_shortener')) {
+      $ideLinkGenerator = \Drupal::service('webprofiler.ide_link_generator');
+      $classShortener = \Drupal::service('webprofiler.class_shortener');
+
+      $reflectedClass = new \ReflectionClass($v);
+      $file = $reflectedClass->getFileName();
+
+      $ideLink = $ideLinkGenerator->generateLink($file, 0);
+      $abbr = $classShortener->shortenClass($v, 'sf-dump-' . $style);
+
+      return sprintf('<a href=%s>%s</a>', $ideLink, $abbr);
+    }
+
+    return sprintf(
+      '<abbr title="%s" class=sf-dump-%s>%s</abbr>',
+      $v,
+      $style,
+      mb_substr($v, $c + 1)
+    );
+  }
+
+  /**
    * Dumps the HTML header.
    *
    * This has been overridden to replace the class sf-dump-expanded by
@@ -37,7 +169,7 @@ class HtmlDrupalDumper extends HtmlDumper {
   protected function getDumpHeader() {
     $this->headerIsDumped = TRUE;
 
-    if (NULL !== $this->dumpHeader) {
+    if ($this->dumpHeader !== NULL) {
       return $this->dumpHeader;
     }
 
@@ -249,7 +381,7 @@ pre.sf-dump a {
 EOHTML;
 
     foreach ($this->styles as $class => $style) {
-      $line .= 'pre.sf-dump' . ('default' !== $class ? ' .sf-dump-' . $class : '') . '{' . $style . '}';
+      $line .= 'pre.sf-dump' . ($class !== 'default' ? ' .sf-dump-' . $class : '') . '{' . $style . '}';
     }
 
     return $this->dumpHeader = preg_replace('/\s+/', ' ', $line) . '</style>' . $this->dumpHeader;
@@ -258,148 +390,24 @@ EOHTML;
   /**
    * {@inheritdoc}
    */
-  public function dumpString(Cursor $cursor, $str, $bin, $cut) {
-    $this->dumpKey($cursor);
-
-    if ($bin) {
-      $str = $this->utf8Encode($str);
-    }
-    if ('' === $str) {
-      $this->line .= '""';
-      $this->dumpLine($cursor->depth, TRUE);
-    }
-    else {
-      $attr = [
-        'length' => 0 <= $cut && function_exists('iconv_strlen') ? iconv_strlen(
-            $str,
-            'UTF-8'
-        ) + $cut : 0,
-        'binary' => $bin,
-      ];
-      $str = explode("\n", $str);
-      if (isset($str[1]) && !isset($str[2]) && !isset($str[1][0])) {
-        unset($str[1]);
-        $str[0] .= "\n";
-      }
-      $m = count($str) - 1;
-      $i = $lineCut = 0;
-
-      if ($bin) {
-        $this->line .= 'b';
-      }
-
-      if ($m) {
-        $this->line .= '"""';
-        $this->dumpLine($cursor->depth);
-      }
-      else {
-        $this->line .= '"';
-      }
-
-      foreach ($str as $str) {
-        if ($i < $m) {
-          $str .= "\n";
-        }
-        if (0 < $this->maxStringWidth && $this->maxStringWidth < $len = iconv_strlen(
-            $str,
-            'UTF-8'
-          )
-        ) {
-          $str = iconv_substr($str, 0, $this->maxStringWidth, 'UTF-8');
-          $lineCut = $len - $this->maxStringWidth;
-        }
-        if ($m && 0 < $cursor->depth) {
-          $this->line .= $this->indentPad;
-        }
-        if ('' !== $str) {
-          if ("link:" === substr($str, 0, 5)) {
-            $this->line .= $this->style('link', $str, $attr);
-          }
-          else {
-            $this->line .= $this->style('str', $str, $attr);
-          }
-        }
-        if ($i++ == $m) {
-          if ($m) {
-            if ('' !== $str) {
-              $this->dumpLine($cursor->depth);
-              if (0 < $cursor->depth) {
-                $this->line .= $this->indentPad;
-              }
-            }
-            $this->line .= '"""';
-          }
-          else {
-            $this->line .= '"';
-          }
-          if ($cut < 0) {
-            $this->line .= '…';
-            $lineCut = 0;
-          }
-          elseif ($cut) {
-            $lineCut += $cut;
-          }
-        }
-        if ($lineCut) {
-          $this->line .= '…' . $lineCut;
-          $lineCut = 0;
-        }
-
-        $this->dumpLine($cursor->depth, $i > $m);
-      }
-    }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
   protected function style($style, $value, $attr = []) {
-    if ('' === $value) {
+    if ($value === '') {
       return '';
     }
 
-    $v = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-    if ('note' === $style && FALSE !== $c = strrpos($v, '\\')) {
+    $v = htmlspecialchars($value, \ENT_QUOTES, 'UTF-8');
+
+    if ($style === 'note' && FALSE !== $c = mb_strrpos($v, '\\')) {
       return $this->getClassStyle($style, $v, $c);
     }
 
-    if ('link' === $style) {
+    if ($style === 'link') {
       $parts = explode('|', $value);
-      return sprintf('<a href=%s>%s</a>', substr($parts[0], 6), $parts[1]);
+
+      return sprintf('<a href=%s>%s</a>', mb_substr($parts[0], 6), $parts[1]);
     }
 
     return parent::style($style, $value, $attr);
-  }
-
-  /**
-   * @param $style
-   * @param $v
-   * @param $c
-   *
-   * @return string
-   */
-  protected function getClassStyle($style, $v, $c) {
-    if (\Drupal::hasService('webprofiler.ide_link_generator') && \Drupal::hasService('webprofiler.class_shortener')) {
-
-      $ideLinkGenerator = \Drupal::service('webprofiler.ide_link_generator');
-      $classShortener = \Drupal::service('webprofiler.class_shortener');
-
-      $reflectedClass = new \ReflectionClass($v);
-      $file = $reflectedClass->getFileName();
-
-      $ideLink = $ideLinkGenerator->generateLink($file, 0);
-      $abbr = $classShortener->shortenClass($v, 'sf-dump-' . $style);
-
-      return sprintf('<a href=%s>%s</a>', $ideLink, $abbr);
-    }
-    else {
-      return sprintf(
-        '<abbr title="%s" class=sf-dump-%s>%s</abbr>',
-        $v,
-        $style,
-        substr($v, $c + 1)
-      );
-    }
   }
 
 }

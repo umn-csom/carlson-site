@@ -2,7 +2,7 @@
 
 namespace Drupal\schema_movie\Plugin\metatag\Tag;
 
-use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaTypeBase;
+use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
 
 /**
  * Provides a plugin for the 'type' meta tag.
@@ -20,21 +20,17 @@ use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaTypeBase;
  *   weight = -5,
  *   type = "string",
  *   secure = FALSE,
- *   multiple = FALSE
+ *   multiple = FALSE,
+ *   property_type = "type",
+ *   tree_parent = {
+ *     "Movie",
+ *     "Series",
+ *     "CreativeWorkSeason",
+ *     "Episode",
+ *   },
+ *   tree_depth = -1,
  * )
  */
-class SchemaMovieType extends SchemaTypeBase {
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function labels() {
-    return [
-      'Movie',
-      'TVSeries',
-      'TVSeason',
-      'TVEpisode',
-    ];
-  }
+class SchemaMovieType extends SchemaNameBase {
 
 }

@@ -2,7 +2,7 @@
 
 namespace Drupal\schema_how_to\Plugin\metatag\Tag;
 
-use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaMonetaryAmountBase;
+use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
 
 /**
  * Provides a plugin for the 'schema_how_to_estimated_cost' meta tag.
@@ -13,16 +13,21 @@ use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaMonetaryAmountBase;
  *
  * @MetatagTag(
  *   id = "schema_how_to_estimated_cost",
- *   label = @Translation("image"),
+ *   label = @Translation("estimatedCost"),
  *   description = @Translation("RECOMMENDED BY GOOGLE. The estimated cost of the supplies consumed when performing instructions."),
  *   name = "estimatedCost",
  *   group = "schema_how_to",
  *   weight = 10,
  *   type = "string",
  *   secure = FALSE,
- *   multiple = FALSE
+ *   multiple = FALSE,
+ *   property_type = "monetary_amount",
+ *   tree_parent = {
+ *     "MonetaryAmount",
+ *   },
+ *   tree_depth = -1,
  * )
  */
-class SchemaHowToEstimatedCost extends SchemaMonetaryAmountBase {
-  // Nothing here yet. Just a placeholder class for a plugin.
+class SchemaHowToEstimatedCost extends SchemaNameBase {
+
 }

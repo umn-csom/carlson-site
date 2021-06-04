@@ -1,5 +1,6 @@
 <?php
 
+use Drupal\Component\Utility\UrlHelper;
 /**
  * @file
  * Drupal 8 Mega Menu Module.
@@ -155,7 +156,7 @@ function template_preprocess_we_megamenu_backend(array &$vars) {
   $data_config = WeMegaMenuBuilder::loadConfig($menu_name, $block_theme);
 
   $block_config = isset($data_config->block_config) ? $data_config->block_config : [];
-  $menu_items = WeMegaMenuBuilder::getMenuTreeOrder($menu_name);
+  $menu_items = WeMegaMenuBuilder::getMenuTreeOrder($menu_name, TRUE);
   $trail = WeMegaMenuBuilder::buildPageTrail($menu_items);
 
   $vars['content'] = [
@@ -198,7 +199,7 @@ function template_preprocess_we_megamenu_frontend(&$vars) {
   $menu_name = $vars['menu_name'];
   $block_theme = $vars['block_theme'];
   $data_config = WeMegaMenuBuilder::loadConfig($menu_name, $block_theme);
-  $menu_items = WeMegaMenuBuilder::getMenuTreeOrder($menu_name);
+  $menu_items = WeMegaMenuBuilder::getMenuTreeOrder($menu_name, FALSE);
   $trail = WeMegaMenuBuilder::buildPageTrail($menu_items);
   $vars['content'] = [
     '#theme' => 'we_megamenu_ul',
@@ -237,7 +238,7 @@ function template_preprocess_we_megamenu_frontend(&$vars) {
  * @param array $vars
  *   Variables are declared in theme.
  */
-function template_preprocess_we_megamenu_ul(array &$vars) {
+function template_preprocess_we_megamenu_ul(array &$vars, $backend = FALSE) {
   $data_config = $vars['data_config'];
   foreach ($vars['items'] as $key_li => $li) {
 
@@ -257,15 +258,15 @@ function template_preprocess_we_megamenu_ul(array &$vars) {
       }
     }
 
-    if (!\Drupal\Component\Utility\UrlHelper::isExternal($vars['href'])) {
-      if (Url::fromUri('internal:' . $vars['href'])->access() == FALSE) continue;
+    if (!UrlHelper::isExternal($vars['href'])) {
+      if ($backend === FALSE && Url::fromUri('internal:' . $vars['href'])->access() == FALSE) continue;
     }
 
-    if (strpos($vars['href'], 'user/logout') !== FALSE && $current_user->id() == 0 && $vars['section'] != 'admin') {
+    if (strpos($vars['href'], 'user/logout') !== FALSE && $current_user->id() == 0 && $vars['section'] != 'admin' && $backend === FALSE) {
       continue;
     }
 
-    if (strpos($vars['href'], 'user/login') !== FALSE && $current_user->id() != 0 && $vars['section'] != 'admin') {
+    if (strpos($vars['href'], 'user/login') !== FALSE && $current_user->id() != 0 && $vars['section'] != 'admin' && $backend === FALSE) {
       continue; 
     }
 
@@ -600,7 +601,7 @@ function we_megamenu_block_view_we_megamenu_block_alter(array &$build, BlockPlug
  *
  * Reset menu to default status when origin menu changed.
  */
-function we_megamenu_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
+function we_megamenu_entity_insert(EntityInterface $entity) {
   if (method_exists($entity, 'getTypedData') && method_exists($entity, 'getEntityTypeId')) {
     $data = $entity->getTypedData();
     $data = $data->toArray();
@@ -679,7 +680,7 @@ function we_megamenu_entity_insert(Drupal\Core\Entity\EntityInterface $entity) {
 /**
  * Implements hook_entity_delete().
  */
-function we_megamenu_entity_delete(Drupal\Core\Entity\EntityInterface $entity) {
+function we_megamenu_entity_delete(EntityInterface $entity) {
   if (method_exists($entity, 'getTypedData') && method_exists($entity, 'getEntityTypeId')) {
     $data = $entity->getTypedData();
     $data = $data->toArray();

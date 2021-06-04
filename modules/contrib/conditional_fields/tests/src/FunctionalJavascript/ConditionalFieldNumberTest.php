@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
@@ -76,7 +77,7 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
         'min' => '',
         'max' => '',
         'prefix' => '',
-      ]
+      ],
     ])->save();
 
     EntityFormDisplay::load('node.article.default')
@@ -102,25 +103,24 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
       'field_' . $this->fieldName . '[0][value]' => $this->validValue,
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
-    
+    $this->submitForm($data, 'Save settings');
+
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    
+
     $this->createScreenshot($this->screenshotPath . '03-testNumberInteger-testVisibleValueWidget.png');
     $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' visible value');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -160,13 +160,13 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
       'regex' => '^2019$',
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
@@ -178,7 +178,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -218,13 +217,13 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
       'values' => "2017\r\n2019",
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
@@ -236,7 +235,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -276,13 +274,13 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
       'values' => "2017\r\n2019",
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
@@ -294,7 +292,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -334,13 +331,13 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
       'values' => "2017\r\n2019",
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
@@ -352,7 +349,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -392,13 +388,13 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
       'values' => "2017\r\n2019",
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
 
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
@@ -410,7 +406,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -458,7 +453,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
     $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
@@ -494,7 +488,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
@@ -532,7 +525,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
 
-
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
     $this->waitUntilVisible('.field--name-body', 50, '01. Article Body field is not visible');
@@ -568,7 +560,6 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');

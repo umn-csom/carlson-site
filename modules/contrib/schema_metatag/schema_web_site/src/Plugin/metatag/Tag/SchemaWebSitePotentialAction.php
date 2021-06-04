@@ -2,8 +2,7 @@
 
 namespace Drupal\schema_web_site\Plugin\metatag\Tag;
 
-use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaActionBase;
-use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaEntryPointBase;
+use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
 
 /**
  * Provides a plugin for the 'schema_web_site_potential_action' meta tag.
@@ -21,48 +20,14 @@ use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaEntryPointBase;
  *   weight = 5,
  *   type = "string",
  *   secure = FALSE,
- *   multiple = TRUE
+ *   multiple = TRUE,
+ *   property_type = "action",
+ *   tree_parent = {
+ *     "SearchAction",
+ *   },
+ *   tree_depth = 0,
  * )
  */
-class SchemaWebSitePotentialAction extends SchemaActionBase {
-
-  /**
-   * Generate a form element for this meta tag.
-   */
-  public function form(array $element = []) {
-
-    $this->actionTypes = ['SearchAction'];
-    $this->actions = ['SearchAction'];
-
-    $form = parent::form($element);
-    return $form;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function testValue() {
-    $items = [];
-    $keys = self::actionFormKeys('SearchAction');
-    foreach ($keys as $key) {
-      switch ($key) {
-
-        case '@type':
-          $items[$key] = 'SearchAction';
-          break;
-
-        case 'target':
-          $items[$key] = SchemaEntryPointBase::testValue();
-          break;
-
-        default:
-          $items[$key] = parent::testDefaultValue(1, '');
-          break;
-
-      }
-    }
-    return $items;
-
-  }
+class SchemaWebSitePotentialAction extends SchemaNameBase {
 
 }

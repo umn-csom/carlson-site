@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
@@ -41,14 +42,14 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
   protected $fieldSelector;
 
   /**
-   * The target field name
+   * The target field name.
    *
    * @var string
    */
   protected $targetFieldName = 'body';
 
   /**
-   * The target field wrapper selector
+   * The target field wrapper selector.
    *
    * @var string
    */
@@ -82,7 +83,7 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     parent::setUp();
 
     $this->fieldSelector = '[name="field_' . $this->fieldName . '[0][value]"]';
-    $this->targetFieldWrapp = '.field--name-' . str_replace('_', '-', $this->targetFieldName );
+    $this->targetFieldWrapp = '.field--name-' . str_replace('_', '-', $this->targetFieldName);
 
     $this->fieldStorageDefinition = [
       'field_name' => 'field_' . $this->fieldName,
@@ -118,13 +119,13 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $text = 'drupal test textarea';
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
       'field_' . $this->fieldName . '[0][value]' => $text,
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data,  'Save settings' );
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -161,16 +162,16 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $this->createScreenshot($this->screenshotPath . '01-' . $this->testName . __FUNCTION__ . '.png');
 
     // Set up conditions.
-    $text = [$this->randomString(), $this->randomString()];
+    $text = [$this->randomMachineName(), $this->randomMachineName()];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
       'values' => implode("\r\n", $text),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data,  'Save settings' );
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -220,13 +221,13 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $text = ['drupal textarea text first', 'drupal textarea text second'];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
       'values' => implode("\r\n", $text),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data,  'Save settings' );
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -273,10 +274,9 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $this->createScreenshot($this->screenshotPath . '01-' . $this->testName . __FUNCTION__ . '.png');
 
     // Set up conditions.
-    $text = 'drupal test textarea';
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
       'regex' => '.*data\=[\d]+.*',
       'grouping' => 'AND',
       'state' => 'visible',
@@ -286,7 +286,7 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $text_without_expresion = 'The field in not empty';
     $text_with_expresion = 'The field has data=2 text';
 
-    $this->submitForm( $data,  'Save settings' );
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -330,13 +330,13 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $text = ["first string", "second string"];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
       'values' => implode("\r\n", $text),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data,  'Save settings' );
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -346,7 +346,6 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
@@ -378,16 +377,16 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $this->createCondition($this->targetFieldName, 'field_' . $this->fieldName, 'visible', 'value');
     $this->createScreenshot($this->screenshotPath . '01-' . $this->testName . __FUNCTION__ . '.png');
     // Set up conditions.
-    $text = [$this->randomString(), $this->randomString()];
+    $text = [$this->randomMachineName(), $this->randomMachineName()];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
       'values' => implode("\r\n", $text),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data,  'Save settings' );
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -397,7 +396,6 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-
 
     // Check that the field Body is invisible.
     $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
@@ -456,10 +454,10 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    //
 
     $this->waitUntilHidden($this->targetFieldWrapp, 0, 'Article \'' . $this->targetFieldName . '\' field is visible');
     $this->changeField($this->fieldSelector, 'This field is not empty.');
     $this->waitUntilVisible($this->targetFieldWrapp, 10, 'Article \'' . $this->targetFieldName . '\' field is not visible');
   }
+
 }

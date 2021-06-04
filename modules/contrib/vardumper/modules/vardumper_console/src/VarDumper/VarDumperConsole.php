@@ -12,7 +12,7 @@ use Symfony\Component\VarDumper\Dumper\CliDumper;
 class VarDumperConsole extends VarDumperDebug {
 
   /**
-   * {@inheritDoc}.
+   * {@inheritdoc}.
    */
   public function dump($var, $name = '') {
     $cloner = new VarCloner();
@@ -27,8 +27,9 @@ class VarDumperConsole extends VarDumperDebug {
    * Helper method to add a border around the header in console.
    */
   private function border($string, $character = '*') {
-    $string = $character . " " . $string . " " . $character;
-    $line = str_repeat($character, strlen($string));
+    $string = $character . ' ' . $string . ' ' . $character;
+    $line = str_repeat($character, mb_strlen($string));
+
     return implode("\n", [$line, $string, $line]);
   }
 

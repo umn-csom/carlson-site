@@ -5,11 +5,52 @@ namespace Drupal\we_megamenu\Controller;
 use Drupal\Core\Url;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\we_megamenu\WeMegaMenuBuilder;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Controller routines for block example routes.
  */
 class WeMegaMenuAdminController extends ControllerBase {
+    /**
+   * The config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface
+   *   The module handler.
+   */
+  protected $moduleHandler;
+
+  /**
+   * Constructs the WeMegaMenuAdminController.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
+   * 
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
+   */
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler) {
+    $this->configFactory = $config_factory;
+    $this->moduleHandler = $module_handler;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('config.factory'),
+      $container->get('module_handler')
+    );
+  }
+
   /**
    * A function build page backend.
    *
@@ -20,15 +61,15 @@ class WeMegaMenuAdminController extends ControllerBase {
    *   Public function configWeMegaMenu string.
    */
   public function configWeMegaMenu($menu_name) {
-    $tree = WeMegaMenuBuilder::getMenuTreeOrder($menu_name);
+    // $tree = WeMegaMenuBuilder::getMenuTreeOrder($menu_name);
 
     $build = [];
     $build['we_megamenu'] = [
       '#theme' => 'we_megamenu_backend',
       '#menu_name' => $menu_name,
-      '#items' => $tree,
+      // '#items' => $tree,
       '#blocks' => WeMegaMenuBuilder::getAllBlocks(),
-      '#block_theme' => \Drupal::config('system.theme')->get('default'),
+      '#block_theme' => $this->configFactory->get('system.theme')->get('default'),
     ];
 
     $build['we_megamenu']['#attached']['library'][] = 'we_megamenu/form.we-mega-menu-backend';
@@ -156,7 +197,7 @@ class WeMegaMenuAdminController extends ControllerBase {
    * Render list icon font awesome.
    */
   public function getIcons() {
-    $file = DRUPAL_ROOT . '/' . drupal_get_path('module', 'we_megamenu') . '/assets/resources/icon.wemegamenu';
+    $file = DRUPAL_ROOT . '/' . $this->moduleHandler->getModule('we_megamenu')->getPath() . '/assets/resources/icon.wemegamenu';
     $fh = fopen($file, 'r');
     $result = [];
     while ($line = fgets($fh)) {

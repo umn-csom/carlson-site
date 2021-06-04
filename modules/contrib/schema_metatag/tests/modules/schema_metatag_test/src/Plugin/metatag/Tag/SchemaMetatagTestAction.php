@@ -2,7 +2,7 @@
 
 namespace Drupal\schema_metatag_test\Plugin\metatag\Tag;
 
-use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaActionBase;
+use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaNameBase;
 
 /**
  * A metatag tag for testing.
@@ -16,21 +16,14 @@ use Drupal\schema_metatag\Plugin\metatag\Tag\SchemaActionBase;
  *   weight = 0,
  *   type = "label",
  *   secure = FALSE,
- *   multiple = FALSE
+ *   multiple = FALSE,
+ *   property_type = "action",
+ *   tree_parent = {
+ *     "Action",
+ *   },
+ *   tree_depth = -1,
  * )
  */
-class SchemaMetatagTestAction extends SchemaActionBase {
-
-  /**
-   * Generate a form element for this meta tag.
-   */
-  public function form(array $element = []) {
-
-    $this->actionTypes = ['ConsumeAction'];
-    $this->actions = ['WatchAction', 'ViewAction'];
-
-    $form = parent::form($element);
-    return $form;
-  }
+class SchemaMetatagTestAction extends SchemaNameBase {
 
 }

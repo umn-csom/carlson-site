@@ -19,14 +19,14 @@ class VarDumperBlock extends VarDumperDebug {
   protected $session;
 
   /**
-   * {@inheritDoc}.
+   * {@inheritdoc}.
    */
   public function __construct(SessionInterface $session) {
     $this->session = $session;
   }
 
   /**
-   * {@inheritDoc}.
+   * {@inheritdoc}.
    */
   public function dump($var, $name = '') {
     if (!$this->hasPermission()) {

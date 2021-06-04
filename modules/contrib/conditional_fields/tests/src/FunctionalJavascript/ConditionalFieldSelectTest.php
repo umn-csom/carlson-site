@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
@@ -152,7 +153,7 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
       // Set up conditions.
       $data = [
         '[name="condition"]' => 'value',
-        '[name="values_set"]' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+        '[name="values_set"]' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
         $this->fieldSelectors[$fieldName] => $correct_values[$fieldName],
         '[name="grouping"]' => 'AND',
         '[name="state"]' => 'visible',
@@ -240,7 +241,7 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
       // Set up conditions.
       $data = [
         '[name="condition"]' => 'value',
-        '[name="values_set"]' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+        '[name="values_set"]' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
         '[name="regex"]' => $reg_patterns[$fieldName],
         '[name="grouping"]' => 'AND',
         '[name="state"]' => 'visible',
@@ -304,7 +305,7 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
       'select_single_list_float' => "1.5\n2.5",
       'select_single_list_string' => "one\ntwo",
     ];
-     $test_values = [
+    $test_values = [
       'select_single_entity_reference' => 1,
       'select_single_list_integer' => 1,
       'select_single_list_float' => 1.5,
@@ -320,13 +321,13 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
       // Set up conditions.
       $data = [
         'condition' => 'value',
-        'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+        'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
         'values' => $allowed_values[$fieldName],
         'grouping' => 'AND',
         'state' => 'visible',
         'effect' => 'show',
       ];
-      $this->submitForm( $data, 'Save settings' );
+      $this->submitForm($data, 'Save settings');
       $this->createScreenshot($this->screenshotPath . '02-' . $fieldName . '_' . __FUNCTION__ . '.png');
 
       // Check if that configuration is saved.
@@ -334,7 +335,7 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
       $this->createScreenshot($this->screenshotPath . '03-' . $fieldName . '_' . __FUNCTION__ . '.png');
       $this->assertSession()
         ->pageTextContains('body ' . $fieldName . ' visible value');
-      $this->clickLink( 'Edit');
+      $this->clickLink('Edit');
       $this->createScreenshot($this->screenshotPath . '03.5-' . $fieldName . '_' . __FUNCTION__ . '.png');
 
       // Visit Article Add form to check that conditions are applied.
@@ -398,13 +399,13 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
       // Set up conditions.
       $data = [
         'condition' => 'value',
-        'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+        'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
         'values' => $allowed_values[$fieldName],
         'grouping' => 'AND',
         'state' => 'visible',
         'effect' => 'show',
       ];
-      $this->submitForm( $data, 'Save settings' );
+      $this->submitForm($data, 'Save settings');
       $this->createScreenshot($this->screenshotPath . '02-' . $fieldName . '_' . __FUNCTION__ . '.png');
 
       // Check if that configuration is saved.
@@ -479,13 +480,13 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
       // Set up conditions.
       $data = [
         'condition' => 'value',
-        'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+        'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
         'values' => $allowed_values[$fieldName],
         'grouping' => 'AND',
         'state' => 'visible',
         'effect' => 'show',
       ];
-      $this->submitForm( $data, 'Save settings' );
+      $this->submitForm($data, 'Save settings');
       $this->createScreenshot($this->screenshotPath . '02-' . $fieldName . '_' . __FUNCTION__ . '.png');
 
       // Check if that configuration is saved.
@@ -544,12 +545,6 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
       'select_single_list_float' => 1.5,
       'select_single_list_string' => 'one',
     ];
-    $wrong_values = [
-      'select_single_entity_reference' => 3,
-      'select_single_list_integer' => 3,
-      'select_single_list_float' => 3.5,
-      'select_single_list_string' => 'tree',
-    ];
 
     // Visit a ConditionalFields configuration page for Content bundles.
     foreach ($this->fieldNames as $fieldName) {
@@ -560,13 +555,13 @@ class ConditionalFieldSelectTest extends ConditionalFieldTestBase implements Con
       // Set up conditions.
       $data = [
         'condition' => 'value',
-        'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
+        'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
         'values' => $allowed_values[$fieldName],
         'grouping' => 'AND',
         'state' => 'visible',
         'effect' => 'show',
       ];
-      $this->submitForm( $data, 'Save settings' );
+      $this->submitForm($data, 'Save settings');
       $this->createScreenshot($this->screenshotPath . '02-' . $fieldName . '_' . __FUNCTION__ . '.png');
 
       // Check if that configuration is saved.

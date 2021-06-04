@@ -5,7 +5,7 @@ namespace Drupal\menu_injector\Form;
 use Drupal\Core\Condition\ConditionManager;
 use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Entity\EntityManager;
-use Drupal\Core\Entity\Query\QueryFactory;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Menu\MenuLinkManagerInterface;
@@ -36,7 +36,7 @@ class MenuInjectorRuleForm extends EntityForm {
    *   The entity query.
    */
   public function __construct(
-    QueryFactory $entity_query,
+    EntityTypeManagerInterface $entity_type_manager,
     EntityManager $entity_manager,
     MenuParentFormSelector $menu_parent_form_selector,
     MenuLinkManagerInterface $menu_link_manager,
@@ -44,7 +44,7 @@ class MenuInjectorRuleForm extends EntityForm {
     ContextRepositoryInterface $context_repository,
     RouteBuilder $route_builder) {
 
-    $this->entity_query = $entity_query;
+    $this->entity_type_manager = $entity_type_manager;
     $this->entity_manager = $entity_manager;
     $this->menu_parent_form_selector = $menu_parent_form_selector;
     $this->menu_link_manager = $menu_link_manager;
@@ -58,7 +58,7 @@ class MenuInjectorRuleForm extends EntityForm {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity.query'),
+      $container->get('entity_type.manager'),
       $container->get('entity.manager'),
       $container->get('menu.parent_form_selector'),
       $container->get('plugin.manager.menu.link'),
@@ -362,13 +362,13 @@ class MenuInjectorRuleForm extends EntityForm {
     $status = $rule->save();
     
     if ($status && $is_new) {
-      drupal_set_message($this->t('Rule %label has been added.', ['%label' => $rule->getLabel()]));
+      \Drupal::messenger()->addStatus($this->t('Rule %label has been added.', ['%label' => $rule->getLabel()]));
     }
     else if ($status) {
-      drupal_set_message($this->t('Rule %label has been updated.', ['%label' => $rule->getLabel()]));
+      \Drupal::messenger()->addStatus($this->t('Rule %label has been updated.', ['%label' => $rule->getLabel()]));
     }
     else {
-      drupal_set_message($this->t('Rule %label was not saved.', ['%label' => $rule->getLabel()]), 'warning');
+      \Drupal::messenger()->addStatus($this->t('Rule %label was not saved.', ['%label' => $rule->getLabel()]), 'warning');
     }
 
     // Flush appropriate menu cache.
@@ -385,7 +385,7 @@ class MenuInjectorRuleForm extends EntityForm {
    * @return bool       Whether or not the entity exists already.
    */
   public function exist($id) {
-    $entity = $this->entity_query->get('menu_injector_rule')
+    $entity = $this->entity_type_manager->getStorage('menu_injector_rule')->getQuery()
       ->condition('id', $id)
       ->execute();
     return (bool) $entity;

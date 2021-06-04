@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
@@ -102,7 +103,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $text = 'drupal test text_with_summary';
     $data = [
       '[name="condition"]' => 'value',
-      '[name="values_set"]' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      '[name="values_set"]' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
       $this->fieldSelector => $text,
       '[name="grouping"]' => 'AND',
       '[name="state"]' => 'visible',
@@ -121,7 +122,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
-    $this->clickLink( 'Edit');
+    $this->clickLink('Edit');
     $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
 
     // Visit Article Add form to check that conditions are applied.
@@ -157,13 +158,13 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $text_values = implode("\r\n", $text);
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
       'values' => $text_values,
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings' );
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -171,7 +172,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
-    $this->clickLink( 'Edit');
+    $this->clickLink('Edit');
     $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
 
     // Visit Article Add form to check that conditions are applied.
@@ -211,13 +212,13 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $text = ['drupal text_with_summary text first', 'drupal text_with_summary text second'];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
       'values' => implode("\r\n", $text),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -225,7 +226,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
-    $this->clickLink( 'Edit');
+    $this->clickLink('Edit');
     $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
 
     // Visit Article Add form to check that conditions are applied.
@@ -270,13 +271,13 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $text = 'text_';
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
       'regex' => $text,
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -317,13 +318,13 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $text = ['drupal text_with_summary text first', 'drupal text_with_summary text second'];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
       'values' => implode("\r\n", $text),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -368,13 +369,13 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $text = ['drupal text_with_summary text first', 'drupal text_with_summary text second'];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
       'values' => implode("\r\n", $text),
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
-    $this->submitForm( $data, 'Save settings');
+    $this->submitForm($data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
@@ -452,4 +453,5 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     $this->changeField($this->fieldSelector, 'This field is not empty.');
     $this->waitUntilVisible('.field--name-body', 10, 'Article Body field is not visible');
   }
+
 }

@@ -75,7 +75,7 @@ Drupal.WeMegaMenu = Drupal.WeMegaMenu || {};
             $(li).closest('ul').find('li').removeClass('open');
             $(li).closest('.we-mega-menu-row').find('li').removeClass('open');
             $(li).closest('ul').find('li').removeClass('open');
-            $(li).addClass('open');
+            li.addClass('open');
           }
 
           break;

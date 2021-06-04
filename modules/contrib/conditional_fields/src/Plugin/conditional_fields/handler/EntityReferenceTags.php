@@ -3,6 +3,7 @@
 namespace Drupal\conditional_fields\Plugin\conditional_fields\handler;
 
 use Drupal\conditional_fields\ConditionalFieldsHandlerBase;
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\node\Entity\Node;
 
 /**
@@ -22,14 +23,14 @@ class EntityReferenceTags extends ConditionalFieldsHandlerBase {
     $values_set = $options['values_set'];
 
     switch ($values_set) {
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         $value_form = $this->getWidgetValue($options['value_form']);
         if ($options['field_cardinality'] == 1) {
           $node = Node::load($value_form);
           if ($node instanceof Node) {
             // Create an array of valid formats of title for autocomplete.
             $state[$options['state']][$options['selector']] = [
-              'value' => $this->getAutocompleteSuggestions($node)
+              'value' => $this->getAutocompleteSuggestions($node),
             ];
           }
         }
@@ -38,7 +39,7 @@ class EntityReferenceTags extends ConditionalFieldsHandlerBase {
           $nodes = Node::loadMultiple($value_form);
           if (!empty($nodes)) {
             $suggestion = [];
-            foreach (array_values($nodes) as $key => $node) {
+            foreach (array_values($nodes) as $node) {
               $suggestion[] = $this->getAutocompleteSuggestions($node);
             }
             $state[$options['state']][$options['selector']] = [
@@ -58,12 +59,13 @@ class EntityReferenceTags extends ConditionalFieldsHandlerBase {
   /**
    * Get a variants of node title for autocomplete.
    *
-   * @param Node $node
+   * @param \Drupal\node\Entity\Node $node
    *   A node object.
+   *
    * @return string
    *   An array with a few relevant suggestions for autocomplete.
    */
-  private function getAutocompleteSuggestions($node) {
+  private function getAutocompleteSuggestions(Node $node) {
     return $node->label() . ' (' . $node->id() . ')';
   }
 
