@@ -43,8 +43,13 @@
       box-shadow: 0 15px 60px rgba(0, 0, 0, 0.3);
     }
     &--alumni {
+      height: 514px;
+      background-repeat: no-repeat;
+      background-position: top center;
+      background-size: cover;
       img {
         box-shadow: none;
+        padding-left: -15px;
       }
       
     }
@@ -58,14 +63,20 @@
       > div {
         flex: 1 1 auto;
       }
+      .container {
+        margin-bottom: -75px;
+      }
     }
     &--lead-in {
       flex: 1 1;
     }
     &--alumni {
-      position: relative;
-      top: -245px;
-      margin-bottom: -347px;
+      @include media-breakpoint-up(lg) {
+        //position: relative;
+        //top: -245px;
+        //margin-bottom: -347px;
+      }
+      
     }
   }
   &__title {
@@ -86,7 +97,9 @@
       font-weight: bold;
       color: $slate;
       letter-spacing: 1.78px;
-      margin-right: 41px;
+      @include media-breakpoint-up(lg) {
+        margin-right: 41px;
+      }
       &:hover, &:focus {
         text-decoration: none;
         color: $maroon;
@@ -120,7 +133,10 @@
       background-size: contain;
       background-position: top left;
       background-repeat: no-repeat;
-      padding: 40px 60px;
+      padding: 20px 30px;
+      @include media-breakpoint-up(lg) {
+        padding: 40px 60px;
+      }
     }
   }
   @include media-breakpoint-up(lg) {

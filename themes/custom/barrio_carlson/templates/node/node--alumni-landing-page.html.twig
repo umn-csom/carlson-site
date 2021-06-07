@@ -89,14 +89,13 @@
       <div class="col-lg-12">
         {# Program Hero #}
         <div class="row component-paragraph hero-program">
-          <div class="col-lg hero-program__img--alumni">
-            {{ content.field_hero_media }}
+          <div class="col-lg hero-program__img--alumni d-flex flex-column-reverse" style="background-image: url('{{ file_url(content.field_hero_media|field_target_entity.image.entity.uri.value) }}')">
             <div class="col-12 hero-program__content hero-program__content--alumni">
               <div class="row hero-program__content--wrapper">
                 {% if content.field_link|field_value is not empty %}
-                <div class="container">
+                <div class="container d-flex flex-column-reverse">
                   <div class="row">
-                    <div class="col-6 order-lg-2">
+                    <div class="col-lg-6 order-lg-2">
                       <div class="hero-program__link-inner hero-program__link-inner--alumni">
                         <h1 class="hero-program__title--no-bar">{{ node.label }}</h1>
                         {{ content.field_description }}
@@ -116,23 +115,9 @@
       </div>
     </section>
     <section class="row landing-page__content">
-      <div class="col-lg-10 offset-lg-1 main-content landing-page__content--inner">
+      <div class="col-lg-12 main-content landing-page__content--inner">
         <div class="row">
-
-          {# Stick sidebar region #}
-          {% if sticky_sidebar %}
-          <div class="col-lg-3 sticky-sidebar">
-            <div class="row">
-              <div class="col-12">
-                <div class="sticky-sidebar__inner">
-                {{ sticky_sidebar }}
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endif %}
-
-          <div class="{{ sticky_sidebar ? 'col-lg-9' : 'col-12' }} landing-page__content-components alumni-pad">
+          <div class="col-12 landing-page__content-components">
             {# Inner node region for blocks #}
             {% if node_top %}
               {{ node_top }}
