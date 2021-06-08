@@ -9,6 +9,12 @@
     }
   }
 
+  .component-paragraph {
+    @include media-breakpoint-down(md) {
+      margin-bottom: 0;
+    }
+  }
+
   #carlson-navbar {
     top: -28rem;
     @include media-breakpoint-up(xl) {
@@ -62,30 +68,32 @@
             height: 100%;
           }
         }
+        
+        @include media-breakpoint-up(md) {
+          &.col-md-2,
+          &.col-2 {
+            flex: 0 1 15%;
+          }
 
-        &.col-md-2,
-        &.col-2 {
-          flex: 0 1 15%;
-        }
+          &.col-md-3,
+          &.col-3 {
+            flex: 0 1 24%;
+          }
 
-        &.col-md-3,
-        &.col-3 {
-          flex: 0 1 24%;
-        }
+          &.col-md-4,
+          &.col-4 {
+            flex: 0 1 32%;
+          }
 
-        &.col-md-4,
-        &.col-4 {
-          flex: 0 1 32%;
-        }
+          &.col-md-5,
+          &.col-5 {
+            flex: 0 1 40%;
+          }
 
-        &.col-md-5,
-        &.col-5 {
-          flex: 0 1 40%;
-        }
-
-        &.col-md-6,
-        &.col-6 {
-          flex: 0 1 49%;
+          &.col-md-6,
+          &.col-6 {
+            flex: 0 1 49%;
+          }
         }
       }
     }
@@ -122,6 +130,7 @@
         }
 
         .image {
+          z-index:20;
           position:absolute;
           background-repeat: no-repeat;
           background-position: top center;
@@ -131,7 +140,7 @@
 
         .background {
           position: relative;
-          z-index:-99;
+          z-index:10;
           top: 30px;
         }
       }
@@ -158,8 +167,10 @@
     }
 
     .landing-page__content {
-      position: relative;
-      top: -50px;
+      @include media-breakpoint-up(lg) {
+        position: relative;
+        top: -50px;
+      }
     }
   }
 }
