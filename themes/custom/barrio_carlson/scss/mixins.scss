@@ -15,7 +15,7 @@ $value in $theme-colors {
 }
 
 /* Font mixins embellished headings */
-@mixin heading-title($size: $font-medium, $color: $gold, $align:'center') {
+@mixin heading-title($size: $font-medium, $color: $gold, $align:'center', $include_after:'true') {
     @include font-crimson-base();
     word-break: break-word;
     font-size: $font-large-mobile;
@@ -26,7 +26,7 @@ $value in $theme-colors {
     }
     position: relative;
     margin-bottom: 15px;
-    @if($color != 'none') {
+    @if($color != 'none' and $include_after != 'false' ) {
         &:after{
             content: '';
             height: 2px;
@@ -125,6 +125,21 @@ $value in $theme-colors {
       color: $color;
     }
 }
+
+@mixin button-solid-v($color) {
+    @include button();
+    font-weight: bold;
+    background-color: $color;
+    border-left: 5px solid $color;
+    border-right: 5px solid $color;
+    color: $maroon;
+    &:hover, &:active, &:focus{
+      background: $white;
+      box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20);
+      border-right: 5px solid $white;
+    }
+}
+
 @mixin button-link-primary() {
     color: $hamburger-grey;
     letter-spacing: 1.78;

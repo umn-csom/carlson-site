@@ -20,16 +20,19 @@
  * @ingroup themeable
  */
 #}
-<header class="sticky-top" id="carlson-navbar" role="banner" aria-label="Site header">
+<header class="sticky-top" id="alumni-navbar" role="banner" aria-label="Site header">
   <nav class="navbar navbar-expand-xl navbar-light sticky-top" role="navigation">
-    <div class="container-fluid">
-      <a href="/" title="Home" rel="home" class="navbar-brand">
-        <img src="/{{ directory }}/images/svg/logo.svg" alt="Carlson School of Management (Home)" id="carlson-navbar--brand" class="img-fluid d-inline-block align-top">
+    <div class="container-fluid justify-content-start">
+      <a href="/" id="alumni-navbar--brand" title="Home" rel="home" class="navbar-brand d-none d-lg-block">
+        <span>Alumni Home</span>
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCarlson" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAlumni" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarCarlson">
+      <a href="/" id="alumni-navbar--brand" title="Home" rel="home" class="navbar-brand d-lg-none">
+        <span>Alumni Links</span>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarAlumni">
         {% import _self as menus %}
         {{ menus.menu_links(items, attributes, 0) }}
 
@@ -60,8 +63,8 @@
                       </li>
                     {% endif %}
                   {% else %}
-                    <li{{ item.attributes.addClass('carlson-navbar--endlink', classes) }}>
-                      <a href="{{ item.url }}" class="dropdown-item">{{ item.title }}</a>
+                    <li{{ item.attributes.addClass('nav-item', classes) }}>
+                      <a href="{{ item.url }}" class="nav-link">{{ item.title }}</a>
                     </li>
                   {% endif %}
                 {% endfor %}

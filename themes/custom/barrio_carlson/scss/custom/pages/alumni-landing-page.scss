@@ -1,0 +1,181 @@
+.page-node-type-alumni-landing-page {
+  .row {
+    margin-left:0px;
+    margin-right:0px;
+    
+    div[class*='col-'] {
+      padding-left:0px;
+      padding-right:0px;
+    }
+  }
+
+  .component-paragraph {
+    @include media-breakpoint-down(md) {
+      margin-bottom: 0;
+    }
+  }
+
+  #carlson-navbar {
+    top: -28rem;
+    @include media-breakpoint-up(xl) {
+      top: 0;
+    }
+  }
+
+  .alumni-landing-page {
+    margin-top: 0px !important;
+
+    @media (min-width: 1200px) {
+        .container {
+          width: 1260px;
+        }
+      }
+
+    .space-above {
+      padding-top: 60px;
+      @include media-breakpoint-up(lg) {
+        padding-top: 100px;
+      }
+    }
+
+    .column {
+      &__img {
+          img {
+          box-shadow: none;
+          }
+      }
+    }
+
+    .fluid-columns {
+      @include media-breakpoint-up(md) {
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+      &__item {
+        justify-content: flex-start;
+        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+        flex: 0 1 auto;
+        box-shadow: 2px 4px 7px 0 rgba(54,50,48,0.10);
+    
+        .column__link {
+          margin-top: auto;
+        }
+        .column__img {
+          //ie11 height bug apply rule to only ie11
+          @include target-metro {
+            height: 100%;
+          }
+        }
+        
+        @include media-breakpoint-up(md) {
+          &.col-md-2,
+          &.col-2 {
+            flex: 0 1 15%;
+          }
+
+          &.col-md-3,
+          &.col-3 {
+            flex: 0 1 24%;
+          }
+
+          &.col-md-4,
+          &.col-4 {
+            flex: 0 1 32%;
+          }
+
+          &.col-md-5,
+          &.col-5 {
+            flex: 0 1 40%;
+          }
+
+          &.col-md-6,
+          &.col-6 {
+            flex: 0 1 49%;
+          }
+        }
+      }
+    }
+
+    // TODO - add this to the wysiwyg and don't change the global .basic-paragraph style
+    .basic-paragraph {
+      @include media-breakpoint-up(md) {
+        padding-left: 33%;
+        padding-right: 33%;
+      }
+    }
+
+    .half-and-half {
+      padding-top: 20px;
+      padding-bottom: 20px;
+
+      .basic-paragraph {
+        margin-bottom:0;
+        text-align: left;
+        h2 {
+          &.label-border.yellow:after {
+            margin: 2.4rem 0 auto !important;
+          }
+        }
+        @include media-breakpoint-up(md) {
+          padding-left: 5%;
+          padding-right: 5%;
+        }
+      }
+
+      .image-with-offset-back {
+        height:400px;
+
+        .image, .background {
+          width:90%;
+          height:370px;
+        }
+
+        .image {
+          z-index:20;
+          position:absolute;
+          background-repeat: no-repeat;
+          background-position: top center;
+          background-size: cover;
+          box-shadow: 2px 4px 7px 0 rgba(54,50,48,0.10);
+        } 
+
+        .background {
+          position: relative;
+          z-index:10;
+          top: 30px;
+        }
+      }
+
+      .left {
+        .image {
+          margin-left:30px;
+        }
+
+        .background {
+          left: 0px;
+        }
+      }
+
+      .right {
+        .image {
+          margin-left:0px;
+        }
+
+        .background {
+          left: 30px;
+        }
+      }
+    }
+
+    .landing-page__content {
+      @include media-breakpoint-up(lg) {
+        position: relative;
+        top: -50px;
+      }
+    }
+  }
+}
+
+
