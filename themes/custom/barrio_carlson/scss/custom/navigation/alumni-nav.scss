@@ -1,116 +1,41 @@
-.carlson-nav {
-    border-bottom: 1px solid $menu-line-grey;
-    min-height: 110px;
-    background: $white;
-
-    @include media-breakpoint-up(xl) {
-        max-width: 100%;
-        margin: auto;
-        min-height: 75px;
-    }
-
-
-.overlay {
-    background: none;
-}
-
-.btn-close {
-    top: 145px;
-    right: 4px;
-    background: $white;
-    box-shadow: none;
-    width: 70px;
-    height: 82px;
-    border-radius: 0px;
-    text-align: center;
-    animation: none;
-    transition: none;
-    z-index: 35;
-    display: block;
-    visibility: visible!important;
-    opacity: 1!important;
-
-    &.sticky {
-        top: 13px;
-    }
-
-    @include media-breakpoint-up(sm) {
-        top: 88px;
-    }
-
-    @include media-breakpoint-up(lg) {
-        display: none;
-    }
-
-    &:before,
-    &:after {
-        background-color: $hamburger-grey;
-        top: 37%;
-        margin-left: -14px;
-        width: 30px;
-    }
-
-    label {
-        @include font-lato-base();
-        font-size: 1.2rem;
-        color: $maroon;
-        margin-top: 49px;
-    }
-}
-}
-
-
-
-
-
-#carlson-navbar {
-  z-index: 35;
+#alumni-navbar {
+  top: 0.5rem;
+  z-index: 30;
   border-bottom: 1px solid $menu-line-grey;
-  min-height: 110px;
-  background: $white;
+  min-height: 55px;
+  background: #F9F5F4;
   @include media-breakpoint-up(xl) {
+      top: 7.5rem;
       max-width: 100%;
       margin: auto;
-      min-height: 75px;
+      min-height: 68px;
   }
   .navbar {
-    #carlson-navbar--brand {
+    #alumni-navbar--brand {
       padding: 0;
       margin: 0;
-      margin-top: 25px;
+      margin-top: 10px;
+      margin-left: 15px;
       max-width: 260px;
       float: inherit;
       width: 260px;
       height: auto;
 
+      span {
+        font-family: "Crimson Pro",serif;
+        font-size: 2.7rem;  
+        color: #7A0019;
+        font-weight:400;
+      }
+    
+
       @include media-breakpoint-up(xl) {
           margin-top: 10px;
+          margin-left: 0px;
           max-width: 223px;
           width: 223px;
       }
     }
-    .carlson--navbar-driven {
-      background-image: url('https://carlsonschool.umn.edu/sites/carlsonschool.umn.edu/themes/custom/barrio_carlson/images/svg/driven-logo.svg');
-	    background-size: cover;
-      background-repeat: no-repeat;
-      max-width : 70px;
-      max-height : 16px;
-      display: block;
-      visibility: visible;
-      margin-left: 10px;
-      margin-top : 5px;
-      @include media-breakpoint-up(xl) {
-        margin-top: 12px;
-        margin-left : 0px;
-        max-width: 70px;
-        max-height: 16px;
-      }
-        .carlson--navbar-driven-text {
-          display : block;
-          overflow : hidden;
-          text-indent: 300vw;
-        }
-      }
     .navbar-nav {
       margin-top : 12px;
       > .nav-item {
@@ -200,15 +125,6 @@
       }
     }
   }
-  .carlson-navbar--endlink.active {
-    > a.dropdown-item {
-      background-color : $maroon;
-      color : $white;
-      &:hover, &:focus {
-        background-color : $header-gray;
-      }
-    }
-  }
   .dropright.show .dropdown-toggle.active-dropdown::after {
     transform: rotate(90deg);
     @include media-breakpoint-up(xl) {
@@ -225,7 +141,7 @@
 
 
 @include media-breakpoint-up(xl) {
-  .carlson-navbar--animate {
+  .alumni-navbar--animate {
     animation-duration: 0.5s;
     -webkit-animation-duration: 0.5s;
     animation-fill-mode: both;
