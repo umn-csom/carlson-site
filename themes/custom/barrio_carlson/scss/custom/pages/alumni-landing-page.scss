@@ -51,13 +51,14 @@
         flex-wrap: wrap;
         justify-content: space-between;
       }
+
       &__item {
         justify-content: flex-start;
         margin-bottom: 3rem;
         display: flex;
         flex-direction: column;
         flex: 0 1 auto;
-        box-shadow: 2px 4px 7px 0 rgba(54,50,48,0.10);
+        box-shadow: none;
     
         .column__link {
           margin-top: auto;
@@ -67,6 +68,10 @@
           @include target-metro {
             height: 100%;
           }
+        }
+
+        .column__content {
+          background-color: #f7f3f1;
         }
         
         @include media-breakpoint-up(md) {
@@ -93,6 +98,15 @@
           &.col-md-6,
           &.col-6 {
             flex: 0 1 49%;
+          }
+        }
+      }
+
+      &.gray-bg {
+        .fluid-columns__item {
+          box-shadow: 2px 4px 7px 0 rgba(54,50,48,0.10);
+          .column__content {
+            background-color: white;
           }
         }
       }
