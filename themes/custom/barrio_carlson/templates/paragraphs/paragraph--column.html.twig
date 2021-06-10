@@ -35,7 +35,11 @@
 
       {% if content.field_link|field_value is not empty %}
       <div class="column__link">
-        {{ content.field_link|field_value }}
+        {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
+          <a href="{{ content.field_link.0['#url'] }}">{{ content.field_link.0['#title'] }}</a>
+        {% else %}
+          {{ content.field_link|field_value }}
+        {% endif %}
       </div>
       
       {% endif %}
