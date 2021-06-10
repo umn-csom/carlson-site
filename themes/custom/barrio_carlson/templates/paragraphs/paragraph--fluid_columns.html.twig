@@ -1,7 +1,7 @@
 {% block paragraph %}
 {% set paragraph_parent = paragraph.getParentEntity() %}
     {% block content %}
-      <div class="row component-paragraph fluid-columns {{ paragraph_parent.field_hex_color.0.value is defined ? 'gray-bg' : 'space-above' }}">
+      <div class="row component-paragraph fluid-columns {{ paragraph_parent.field_hex_color.0.value is defined ? 'gray-bg' : '' }}">
 		{% if content.field_column_item is not empty %}
 			{% set data = content.field_column_item|field_value %}
 			{% set len = data|length %}

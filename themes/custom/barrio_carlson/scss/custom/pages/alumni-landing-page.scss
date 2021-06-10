@@ -20,6 +20,10 @@
     }
   }
 
+  .space-below {
+    padding-bottom: 60px;
+  }
+
   .component-paragraph {
     @include media-breakpoint-down(md) {
       margin-bottom: 0;
@@ -68,6 +72,17 @@
         justify-content: space-between;
       }
 
+      margin-bottom: 0;
+
+      &-container {
+        &:not(:last-child) {
+          padding-bottom: 0 !important;
+        }
+        &:not(:first-child) {
+          padding-top: 0 !important;
+        }
+      }
+
       &__item {
         justify-content: flex-start;
         margin-bottom: 3rem;
@@ -91,6 +106,9 @@
 
         .column__content {
           background-color: #f7f3f1;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
         }
         
         @include media-breakpoint-up(md) {
@@ -140,11 +158,20 @@
 
     // TODO - add this to the wysiwyg and don't change the global .basic-paragraph style
     .basic-paragraph {
+      p {
+        font-size: 1.8rem;
+        line-height: 170%;
+      }
       .narrow {
         @include media-breakpoint-up(lg) {
           padding-left: 20%;
           padding-right: 20%;
         }
+      }
+      & > [class*='col-'] {
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
       }
     }
 
@@ -152,6 +179,10 @@
       @include media-breakpoint-up(lg) {
         position: relative;
         top: -50px;
+      }
+      &-components > .container {
+          padding-top: 30px;
+          padding-bottom: 30px;
       }
     }
 

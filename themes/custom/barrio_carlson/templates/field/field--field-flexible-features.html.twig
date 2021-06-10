@@ -72,8 +72,10 @@
         <div class="col-12 col-lg-12">{{ item.content }}</div>
       {% endif %}
     {% elseif node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
-      {% if type != 'hero' and type != 'gray_background' and type != 'quote_group' %}
+      {% if type != 'hero' and type != 'gray_background' and type != 'quote_group' and type != 'fluid_columns' %}
         <div class="container">
+      {% elseif type == 'fluid_columns' %}
+        <div class="container fluid-columns-container">
       {% endif %}
       {% if type == 'quote_group' %}
         {% if count == 1 %}
