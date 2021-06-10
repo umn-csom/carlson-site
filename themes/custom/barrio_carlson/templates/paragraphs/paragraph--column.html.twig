@@ -22,21 +22,28 @@
       {% endif %}
     {% endif %}
     
-    {% if content.field_heading|field_value  is not empty %}
-    <h4 class="column__heading">{{ content.field_heading|field_value }}</h4>
-    {% endif %}
+    <div class="column__content">
+      {% if content.field_heading|field_value  is not empty %}
+      <h4 class="column__heading">{{ content.field_heading|field_value }}</h4>
+      {% endif %}
 
-    {% if content.field_main_content|field_value  is not empty %}
-    <div class="column__markup">
-      {{ content.field_main_content|field_value }}
-    </div>
-    {% endif %}
+      {% if content.field_main_content|field_value  is not empty %}
+      <div class="column__markup">
+        {{ content.field_main_content|field_value }}
+      </div>
+      {% endif %}
 
-    {% if content.field_link|field_value is not empty %}
-    <div class="column__link">
-      {{ content.field_link|field_value }}
+      {% if content.field_link|field_value is not empty %}
+      <div class="column__link">
+        {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
+          <a href="{{ content.field_link.0['#url'] }}">{{ content.field_link.0['#title'] }}</a>
+        {% else %}
+          {{ content.field_link|field_value }}
+        {% endif %}
+      </div>
+      
+      {% endif %}
     </div>
     
-    {% endif %}
   {% endblock %}
 {% endblock paragraph %}

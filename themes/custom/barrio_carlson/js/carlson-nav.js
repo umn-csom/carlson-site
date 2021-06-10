@@ -34,6 +34,33 @@
 
         return false;
     } );
+
+    $( '.navbar-toggler' ).on( 'click', function(e) {
+        var $curr_target = $(this).data("target");
+        var $curr_ariaex = $(this).attr("aria-expanded");
+        var $carl_target = $("#carlson-navbar > nav > div > button").data("target");
+        var $carl_ariaex = $("#carlson-navbar > nav > div > button").attr("aria-expanded");
+        var $alum_target = $("#alumni-navbar > nav > div > button").data("target");
+        var $alum_ariaex = $("#alumni-navbar > nav > div > button").attr("aria-expanded");
+        console.log("Curr Target = " + $curr_target);
+        console.log("Curr AriaEx = " + $curr_ariaex);
+        console.log("Carl Target = " + $carl_target);
+        console.log("Carl AriaEx = " + $carl_ariaex);
+        console.log("Alum Target = " + $alum_target);
+        console.log("Alum AriaEx = " + $alum_ariaex);
+        if (
+            $curr_target == "#navbarAlumni" && 
+            $carl_ariaex == "true") {
+                console.log("Retracting Carlson");
+                $('#carlson-navbar > nav > div > button').click();
+        }
+        if (
+            $curr_target == "#navbarCarlson" && 
+            $alum_ariaex == "true") {
+                console.log("Retracting Alumni");
+                $('#alumni-navbar > nav > div > button').click();
+        }
+    });
 } );
 
 

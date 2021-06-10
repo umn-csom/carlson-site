@@ -1,17 +1,18 @@
 {% block paragraph %}
+{% set paragraph_parent = paragraph.getParentEntity() %}
     {% block content %}
-      <div class="row component-paragraph fluid-columns">
-		    {% if content.field_column_item is not empty %}
-		      {% set data = content.field_column_item|field_value %}
-		      {% set len = data|length %}
-		      {% set divide = 12/len %}
+      <div class="row component-paragraph fluid-columns {{ paragraph_parent.field_hex_color.0.value is defined ? 'gray-bg' : 'space-above' }}">
+		{% if content.field_column_item is not empty %}
+			{% set data = content.field_column_item|field_value %}
+			{% set len = data|length %}
+			{% set divide = 12/len %}
 
-		      {% for key,value in data %}
-		        <div class="col-md-{{ divide }} fluid-columns__item">
-		          {{ data[key] }}
-		        </div>
-		      {% endfor %}
-		    {% endif %}  
-		  </div>
+			{% for key,value in data %}
+			<div class="col-md-{{ divide }} fluid-columns__item">
+				{{ data[key] }}
+			</div>
+			{% endfor %}
+		{% endif %}  
+		</div>
     {% endblock %}
 {% endblock paragraph %}

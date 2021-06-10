@@ -1,0 +1,225 @@
+.page-node-type-alumni-landing-page,
+.page-node-type-alumni-default-page {
+  .label-border.yellow {
+    @include heading-title($font-medium,$menu-gold,'center');
+  }
+
+  .row {
+    margin-left:0px;
+    margin-right:0px;
+    
+    div[class*='col-'] {
+      padding-left:0px;
+      padding-right:0px;
+    }
+  }
+
+  .space-above-child {
+    > div {
+      padding-top: 100px !important;
+    }
+  }
+
+  .component-paragraph {
+    @include media-breakpoint-down(md) {
+      margin-bottom: 0;
+    }
+  }
+
+  #carlson-navbar {
+    top: -28rem;
+    @include media-breakpoint-up(xl) {
+      top: 0;
+    }
+  }
+
+  .basic-hero__title-inner {
+    padding: 0;
+  }
+
+  .alumni-landing-page,
+  .alumni-default-page {
+    margin-top: 0px !important;
+
+    @media (min-width: 1200px) {
+        .container {
+          width: 1260px;
+        }
+      }
+
+    .space-above {
+      padding-top: 30px;
+      @include media-breakpoint-up(lg) {
+        padding-top: 60px;
+      }
+    }
+
+    .column {
+      &__img {
+          img {
+          box-shadow: none;
+          }
+      }
+    }
+
+    .fluid-columns {
+      @include media-breakpoint-up(md) {
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      &__item {
+        justify-content: flex-start;
+        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+        flex: 0 1 auto;
+        box-shadow: none;
+    
+        .column__link {
+          margin-top: auto;
+          color: #363230;
+          letter-spacing: 1.78px;
+          text-transform: uppercase;
+        }
+        .column__img {
+          //ie11 height bug apply rule to only ie11
+          @include target-metro {
+            height: 100%;
+          }
+        }
+
+        .column__content {
+          background-color: #f7f3f1;
+        }
+        
+        @include media-breakpoint-up(md) {
+          &.col-md-2,
+          &.col-2 {
+            flex: 0 1 15%;
+          }
+
+          &.col-md-3,
+          &.col-3 {
+            flex: 0 1 24%;
+          }
+
+          &.col-md-4,
+          &.col-4 {
+            flex: 0 1 32%;
+          }
+
+          &.col-md-5,
+          &.col-5 {
+            flex: 0 1 40%;
+          }
+
+          &.col-md-6,
+          &.col-6 {
+            flex: 0 1 49%;
+          }
+        }
+      }
+
+      &.gray-bg {
+        .fluid-columns__item {
+          box-shadow: 2px 4px 7px 0 rgba(54,50,48,0.10);
+          .column__content {
+            background-color: white;
+          }
+        }
+      }
+    }
+
+    .hero + .col-12 {
+      @include media-breakpoint-up(lg) {
+        position: relative;
+        top: -50px;
+      }
+    }
+
+    // TODO - add this to the wysiwyg and don't change the global .basic-paragraph style
+    .basic-paragraph {
+      .narrow {
+        @include media-breakpoint-up(lg) {
+          padding-left: 20%;
+          padding-right: 20%;
+        }
+      }
+    }
+
+    .landing-page__content {
+      @include media-breakpoint-up(lg) {
+        position: relative;
+        top: -50px;
+      }
+    }
+
+    .quote-group .slick--skin--carlson-slick {
+      padding-bottom: 0;
+    }
+
+    .slick-dotted.slick-slider {
+      margin-bottom: 0;
+    }
+
+    .quote {
+      &-flex {
+        flex-direction: column;
+        justify-content: center;
+        padding-left: 150px !important;
+        padding-right: 150px !important;
+        padding-top: 100px;
+        padding-bottom: 100px;
+        background-image: url('../images/bg/alumni-hero-bg.png');
+        background-color: #FFCC33;
+        background-size: 18%;
+        background-position: top left;
+        background-repeat: no-repeat;
+      }
+
+      &__text {
+        p {
+          line-height: 165%;
+        }
+        &:before {
+          display:none;
+        }
+        padding: 0;
+        border: none;
+        line-height: 2em;
+        &__quotation {
+          font: 12em/1.08em Georgia,Times,Times New Roman,serif;
+          height: 10rem;
+          color: #EFA403;
+          text-align: left;
+        }
+      }
+
+      &__image-bg {
+        background-size:     cover; 
+        background-repeat:   no-repeat;
+        background-position: center center;
+        height: 100%;
+
+      }
+    }
+
+    .slick-dots {
+      padding-left: 200px;
+      text-align: left;
+      margin-bottom: 100px;
+    }
+
+    .slick-arrow {
+      &.slick-prev {
+        margin-left: 20px;
+      }
+      &.slick-next {
+        margin-right: 20px;
+      }
+    }
+  }
+}
+
+
