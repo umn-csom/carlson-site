@@ -16,7 +16,8 @@
 
   .space-above-child {
     > div {
-      @include media-breakpoint-up(lg) {
+      padding-top: 30px !important;
+      @include media-breakpoint-up(md) {
         padding-top: 100px !important;
       }
     }
@@ -415,10 +416,28 @@
 
   .featured-people {
     &__person {
-      padding-left: 15px !important;
-      padding-right: 15px !important;
+      padding-left: 46px !important;
+      padding-right: 46px !important;
+      @include media-breakpoint-up(lg) {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+      }
+    }
+  }
+
+  .card-body {
+    h4 {
+      font-size: 1.8rem;
+      line-height: 170%;
+    }
+  }
+
+  a.gold-solid-button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    @include media-breakpoint-up(lg) {
+      margin-top: 0px;
+      margin-bottom: 0px;
     }
   }
 }
-
-
