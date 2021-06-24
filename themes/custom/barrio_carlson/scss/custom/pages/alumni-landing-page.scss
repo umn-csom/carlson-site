@@ -16,7 +16,9 @@
 
   .space-above-child {
     > div {
-      padding-top: 100px !important;
+      @include media-breakpoint-up(lg) {
+        padding-top: 100px !important;
+      }
     }
   }
 
@@ -162,7 +164,7 @@
 
     // TODO - add this to the wysiwyg and don't change the global .basic-paragraph style
     .basic-paragraph {
-      p {
+      p,a {
         font-size: 1.8rem;
         line-height: 170%;
       }
@@ -409,6 +411,13 @@
   .bx {
     font-size: 1.5em;
     vertical-align: middle;
+  }
+
+  .featured-people {
+    &__person {
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+    }
   }
 }
 
