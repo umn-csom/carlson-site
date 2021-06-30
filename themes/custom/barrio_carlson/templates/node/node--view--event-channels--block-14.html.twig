@@ -75,7 +75,7 @@
             <span>{{ timestamp|date('j') }}</span>
         </time>
     </div>
-    <div class="order-lg-2 offset-lg-0 event-items__item--image {{ node.isSticky() ? 'col-12 col-lg-3' : 'col-3 ' }}">
+    <div class="order-lg-2 offset-lg-0 event-items__item--image mt-lg-auto mb-lg-auto {{ node.isSticky() ? 'col-12 col-lg-3' : 'col-3 ' }}">
         {% if node.field_event_image|file_url is not empty %}
             <img class="{{ node.isSticky() ? 'event-items__item--image' : '' }}" src="{{ node.field_event_image|file_url }}">
         {% else %}
@@ -96,7 +96,11 @@
             </time>
         </div>
         <div class="col-lg-9">
+            <span class="event-items__item--featured {{ node.isSticky() ? '' : 'd-none' }}">Featured</span>
             <h4 class="{{ node.isSticky() ? 'event-items__item--title' : '' }}">{{ label }}</h4>
+            {% if node.field_location_type is not empty %}
+                <span class="event-items__item--location d-none d-lg-block"><i class='bx bxs-map'></i>{{ node.field_location_type.value }}</span>
+            {% endif %}
             <div class="event-items__item--desc {{ node.isSticky() ? 'd-block' : 'd-none d-lg-block' }}">
                 {% set text = node.body.summary|render|striptags|trim %}
                 {{ (text|length > 150 ? text|slice(0, 151)|split(' ')|slice(0, -1)|join(' ') ~ '&hellip;' : text)|raw }}
