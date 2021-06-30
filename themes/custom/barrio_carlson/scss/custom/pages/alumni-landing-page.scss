@@ -209,10 +209,10 @@
       &-flex {
         flex-direction: column;
         justify-content: center;
-        padding-left: 150px !important;
-        padding-right: 150px !important;
-        padding-top: 100px;
-        padding-bottom: 100px;
+        padding: 30px 50px !important;
+        @include media-breakpoint-up(lg) {
+          padding: 100px 150px !important;
+        }
         background-image: url('../images/bg/alumni-hero-bg.png');
         background-color: #FFCC33;
         background-size: 18%;
@@ -223,6 +223,11 @@
       &__text {
         p {
           line-height: 165%;
+          font-size: 1em;
+          @include media-breakpoint-up(lg) {
+            font-size: 2.5em;
+          }
+          
         }
         &:before {
           display:none;
@@ -242,7 +247,11 @@
         background-size:     cover; 
         background-repeat:   no-repeat;
         background-position: center center;
-        height: 100%;
+        height: 300px;
+        @include media-breakpoint-up(lg) {
+          height: 100%;
+        }
+        
 
       }
     }
