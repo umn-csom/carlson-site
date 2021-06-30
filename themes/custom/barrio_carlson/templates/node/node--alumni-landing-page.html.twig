@@ -89,26 +89,34 @@
       <div class="col-lg-12">
         {# Program Hero #}
         <div class="row component-paragraph hero-program">
-          <div class="col-lg hero-program__img--alumni d-flex flex-column-reverse" style="background-image: url('{{ file_url(content.field_hero_media|field_target_entity.image.entity.uri.value) }}')">
-            <div class="col-12 hero-program__content hero-program__content--alumni">
-              <div class="row hero-program__content--wrapper d-none d-lg-flex">
-                {% if content.field_link|field_value is not empty %}
-                <div class="container d-flex flex-column-reverse">
-                  <div class="row">
-                    <div class="col-lg-6 order-lg-2">
-                      <div class="hero-program__link-inner hero-program__link-inner--alumni">
-                        <h1 class="hero-program__title--no-bar">{{ node.label }}</h1>
-                        {{ content.field_description }}
-                        <div class="hero-program__link hero-program__link--link-only">
-                          {{ content.field_link }}
+          {% if content.field_video|field_value is empty %}
+            <!-- Got here -->
+            <div class="col-lg hero-program__img--alumni d-flex flex-column-reverse" style="background-image: url('{{ file_url(content.field_hero_media|field_target_entity.image.entity.uri.value) }}')">
+          {% else %}
+            <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+              <source src="{{ file_url(node.field_video.entity.field_media_video_file.entity.uri.value) }}" type="video/mp4">
+            </video>
+            <div class="col-lg hero-program__img--alumni d-flex flex-column-reverse">
+          {% endif %}
+              <div class="col-12 hero-program__content hero-program__content--alumni">
+                <div class="row hero-program__content--wrapper d-none d-lg-flex">
+                  {% if content.field_link|field_value is not empty %}
+                  <div class="container d-flex flex-column-reverse">
+                    <div class="row">
+                      <div class="col-lg-6 order-lg-2">
+                        <div class="hero-program__link-inner hero-program__link-inner--alumni">
+                          <h1 class="hero-program__title--no-bar">{{ node.label }}</h1>
+                          {{ content.field_description }}
+                          <div class="hero-program__link hero-program__link--link-only">
+                            {{ content.field_link }}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>  
+                    </div>  
+                  </div>
+                  {% endif %}
+                  </div>
                 </div>
-                {% endif %}
-                </div>
-              </div>
           </div>
           <div class="row hero-program__content--wrapper--mobile d-lg-none">
             {% if content.field_link|field_value is not empty %}

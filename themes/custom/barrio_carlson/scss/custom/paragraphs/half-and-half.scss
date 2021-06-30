@@ -17,26 +17,44 @@
     }
 
     .image-with-offset-back {
-      height:400px;
+      height:250px;
+      @include media-breakpoint-up(md) {
+        height:400px;
+      }
+      
 
       .image, .background {
         width:90%;
-        height:370px;
+        height:225px;
+        @include media-breakpoint-up(md) {
+          height:370px;
+        }
+        
       }
 
       .image {
         z-index:20;
         position:absolute;
         background-repeat: no-repeat;
-        background-position: top center;
+        background-position: center center;
         background-size: cover;
-        box-shadow: 2px 4px 7px 0 rgba(54,50,48,0.10);
+        box-shadow: 0 15px 60px 0 rgba(0,0,0,0.30);
       } 
 
       .background {
         position: relative;
         z-index:10;
         top: 30px;
+      }
+    }
+
+    .left,
+    .right {
+      padding-top: 15px;
+      padding-bottom: 15px;
+      @include media-breakpoint-up(md) {
+        padding-top: 0px;
+        padding-bottom: 0px;
       }
     }
 
