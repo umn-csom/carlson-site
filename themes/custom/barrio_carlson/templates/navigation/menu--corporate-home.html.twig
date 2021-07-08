@@ -20,16 +20,19 @@
  * @ingroup themeable
  */
 #}
-<header class="sticky-top" id="carlson-navbar" role="banner" aria-label="Site header">
+<header class="sticky-top" id="alumni-navbar" role="banner" aria-label="Site header">
   <nav class="navbar navbar-expand-xl navbar-light sticky-top" role="navigation">
-    <div class="container-fluid">
-      <a href="/" title="Home" rel="home" class="navbar-brand">
-        <img src="/{{ directory }}/images/svg/logo.svg" alt="Carlson School of Management (Home)" id="carlson-navbar--brand" class="img-fluid d-inline-block align-top">
+    <div class="container-fluid justify-content-start">
+      <a href="/corporate-portal" id="alumni-navbar--brand" title="Home" rel="home" class="navbar-brand d-none d-lg-block">
+        <span>Corporate Home</span>
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCarlson" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAlumni" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarCarlson">
+      <a href="/corporate-portal" id="alumni-navbar--brand" title="Home" rel="home" class="navbar-brand d-lg-none">
+        <span>Corporate Links</span>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarAlumni">
         {% import _self as menus %}
         {{ menus.menu_links(items, attributes, 0) }}
 
@@ -55,20 +58,19 @@
                       </li>
                     {% else %}
                       <li{{ item.attributes.addClass('dropdown', 'dropright', 'dropdown-submenu', classes) }}>
-                        <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropwdown-dark dropdown-toggle">{{ item.title }}</a>
+                        <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">{{ item.title }}</a>
                         {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
                       </li>
                     {% endif %}
                   {% else %}
                     <li{{ item.attributes.addClass('nav-item', classes) }}>
-                      <a href="{{ item.url }}" class="nav-link {% if menu_level == 1 %} dropdown-item dropdown-dark {% endif %}">{{ item.title }}</a>
+                      <a href="{{ item.url }}" class="nav-link">{{ item.title }}</a>
                     </li>
                   {% endif %}
                 {% endfor %}
               </ul>
             {% endif %}
           {% endmacro %}
-          <a style="margin-left:15px;" href="https://driven.carlsonschool.umn.edu/?utm_source=Driven_Campaign&utm_medium=website_menu&utm_campaign=driven_campaign" class="carlson--navbar-driven"><span class="carlson--navbar-driven-text">Driven</span></a>
         </div>
       </div>
     </nav>
