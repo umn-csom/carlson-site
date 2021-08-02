@@ -1,4 +1,4 @@
-global-styling:
+global-scripts:
   version: VERSION
   js:
     js/popper.min.js: {}
@@ -13,22 +13,22 @@ global-styling:
     js/program-finder.js: {}
     js/page-navs.js: {}
     js/centennial.js: {}
-    js/iframe.js: {}
     js/chosen/chosen.jquery.min.js: {}
     //kit.fontawesome.com/f219fe506e.js: { type: external, minified: true }
-    js/strategic-plan.js: {}
 
+  dependencies:
+    - core/jquery
+    - core/drupal.dialog.ajax
+    - core/drupal
+
+global-styling:
+  version: VERSION
   css:
     component:
       css/select2.min.css: {}
       css/style.css: {}
       js/chosen/chosen.min.css: {}
       css/boxicons.min.css: {}
-
-  dependencies:
-    - core/jquery
-    - core/drupal.dialog.ajax
-    - core/drupal
 
 slick:
   version: VERSION
@@ -38,3 +38,14 @@ slick:
   js:
     js/slick.min.js: {}
     js/slick.config.js: {}
+
+strategic-plan:
+  version: VERSION
+  js:
+    js/strategic-plan.js: {}
+
+iframe-library:
+  version: VERSION
+  js:
+    js/iframe.js: {}
+
