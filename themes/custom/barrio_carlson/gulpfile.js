@@ -98,13 +98,13 @@ var options = {
 
 // Compile sass into CSS & auto-inject into browsers
 gulp.task('sass', function() {
-  return gulp.src(['scss/style.scss'], ['sass'])
+  return gulp.src(['scss/*.scss'], ['sass'])
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest("css"))
         .pipe(sass({ outputStyle: 'compressed' }))
-        // .pipe(minifyCss())
+        //.pipe(minifyCss())
         .pipe(browserSync.stream());
 });
 
