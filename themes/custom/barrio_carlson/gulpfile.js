@@ -1,8 +1,8 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
+var cleanCSS = require('gulp-clean-css');
 var concat = require("gulp-concat");
-var minifyCss = require("gulp-minify-css");
 var sourcemaps = require("gulp-sourcemaps");
 var shell = require('gulp-shell');
 
@@ -108,6 +108,12 @@ gulp.task('sass', function() {
         .pipe(browserSync.stream());
 });
 
+gulp.task('minify-css', () => {
+  return gulp.src('css/*.css')
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(gulp.dest('dist'));
+});
+
 // Move the javascript files into our js folder
 gulp.task('js', function() {
     return gulp.src(['node_modules/bootstrap/dist/js/bootstrap.min.js', 'node_modules/jquery/dist/jquery.min.js', 'node_modules/popper.js/dist/umd/popper.min.js'])
@@ -147,4 +153,4 @@ gulp.task('compile:styleguide', function (cb) {
 gulp.task('refresh-sass', shell.task('npm run kss'));
 
 // Default.
-gulp.task('default', ['js','sass','watch']);
+gulp.task('default', ['js','sass','minify-css','watch']);
