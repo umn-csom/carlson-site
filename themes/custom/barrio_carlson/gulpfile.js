@@ -1,8 +1,8 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
 var sass = require('gulp-sass');
+var cleanCSS = require('gulp-clean-css');
 var concat = require("gulp-concat");
-var minifyCss = require("gulp-minify-css");
 var sourcemaps = require("gulp-sourcemaps");
 var shell = require('gulp-shell');
 
@@ -98,14 +98,20 @@ var options = {
 
 // Compile sass into CSS & auto-inject into browsers
 gulp.task('sass', function() {
-  return gulp.src(['scss/style.scss'], ['sass'])
+  return gulp.src(['scss/*.scss'], ['sass'])
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest("css"))
         .pipe(sass({ outputStyle: 'compressed' }))
-        // .pipe(minifyCss())
+        //.pipe(minifyCss())
         .pipe(browserSync.stream());
+});
+
+gulp.task('minify-css', () => {
+  return gulp.src('css/*.css')
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(gulp.dest('dist'));
 });
 
 // Move the javascript files into our js folder
@@ -147,4 +153,4 @@ gulp.task('compile:styleguide', function (cb) {
 gulp.task('refresh-sass', shell.task('npm run kss'));
 
 // Default.
-gulp.task('default', ['js','sass','watch']);
+gulp.task('default', ['js','sass','minify-css','watch']);
