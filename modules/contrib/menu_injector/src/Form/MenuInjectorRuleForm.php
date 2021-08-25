@@ -59,7 +59,6 @@ class MenuInjectorRuleForm extends EntityForm {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('entity_type.manager'),
-      $container->get('entity.manager'),
       $container->get('menu.parent_form_selector'),
       $container->get('plugin.manager.menu.link'),
       $container->get('plugin.manager.condition'),
