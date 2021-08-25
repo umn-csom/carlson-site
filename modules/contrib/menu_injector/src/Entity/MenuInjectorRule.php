@@ -31,7 +31,13 @@ use Drupal\menu_injector\MenuInjectorRuleInterface;
  *     "edit-form" = "/admin/structure/menu-injector/{menu_injector_rule}/edit",
  *     "delete-form" = "/admin/structure/menu-injector/{menu_injector_rule}/delete",
  *     "collection" = "/admin/structure/menu-injector"
- *   }
+ *   },
+ *  config_export = {
+ *     "id",
+ *     "label",
+ *     "description",
+ *     "conf"
+ *   }ß
  * )
  */
 class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInterface {
