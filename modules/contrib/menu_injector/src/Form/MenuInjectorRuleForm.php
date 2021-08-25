@@ -4,7 +4,6 @@ namespace Drupal\menu_injector\Form;
 
 use Drupal\Core\Condition\ConditionManager;
 use Drupal\Core\Entity\EntityForm;
-use Drupal\Core\Entity\EntityManager;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
@@ -37,7 +36,6 @@ class MenuInjectorRuleForm extends EntityForm {
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
-    EntityManager $entity_manager,
     MenuParentFormSelector $menu_parent_form_selector,
     MenuLinkManagerInterface $menu_link_manager,
     ConditionManager $condition_plugin_manager,
@@ -45,7 +43,6 @@ class MenuInjectorRuleForm extends EntityForm {
     RouteBuilder $route_builder) {
 
     $this->entity_type_manager = $entity_type_manager;
-    $this->entity_manager = $entity_manager;
     $this->menu_parent_form_selector = $menu_parent_form_selector;
     $this->menu_link_manager = $menu_link_manager;
     $this->condition_plugin_manager = $condition_plugin_manager;
@@ -239,7 +236,7 @@ class MenuInjectorRuleForm extends EntityForm {
     $vocab_list_value = $rule->getVocabList();
     $taxonomy_options = [];
 
-    $terms = $this->entity_manager->getStorage('taxonomy_term')->loadTree($vocab_list_value);
+    $terms = $this->entity_type_manager->getStorage('taxonomy_term')->loadTree($vocab_list_value);
     if( !empty($terms) ) {
       foreach ($terms as $term) {
         $taxonomy_options[$term->tid] = $term->name;
@@ -313,7 +310,7 @@ class MenuInjectorRuleForm extends EntityForm {
     $default_terms = explode(',', $rule->getTaxonomyTerm());
     $taxonomy_options = [];
 
-    $terms = $this->entity_manager->getStorage('taxonomy_term')->loadTree($vocab_list_value);
+    $terms = $this->entity_type_manager->getStorage('taxonomy_term')->loadTree($vocab_list_value);
     if( !empty($terms) ) {
       foreach ($terms as $term) {
         $taxonomy_options[$term->tid] = $term->name;
