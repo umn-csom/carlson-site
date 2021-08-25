@@ -37,7 +37,7 @@ use Drupal\menu_injector\MenuInjectorRuleInterface;
  *     "label",
  *     "description",
  *     "conf"
- *   }ß
+ *   }
  * )
  */
 class MenuInjectorRule extends ConfigEntityBase implements MenuInjectorRuleInterface {
