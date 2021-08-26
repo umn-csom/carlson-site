@@ -33,10 +33,18 @@ use Drupal\menu_injector\MenuInjectorRuleInterface;
  *     "collection" = "/admin/structure/menu-injector"
  *   },
  *  config_export = {
- *     "id",
- *     "label",
- *     "description",
- *     "conf"
+ *   "id",
+ *   "label",
+ *   "enabled",
+ *   "vocab_list",
+ *   "taxonomy_term",
+ *   "parent",
+ *   "menu_links",
+ *   "menu_choice",
+ *   "menu_mode",
+ *   "is_root",
+ *   "taxonomy_map_field",
+ *   "content_type"
  *   }
  * )
  */
