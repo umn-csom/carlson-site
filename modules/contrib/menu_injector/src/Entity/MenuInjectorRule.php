@@ -31,6 +31,20 @@ use Drupal\menu_injector\MenuInjectorRuleInterface;
  *     "edit-form" = "/admin/structure/menu-injector/{menu_injector_rule}/edit",
  *     "delete-form" = "/admin/structure/menu-injector/{menu_injector_rule}/delete",
  *     "collection" = "/admin/structure/menu-injector"
+ *   },
+ *  config_export = {
+ *   "id",
+ *   "label",
+ *   "enabled",
+ *   "vocab_list",
+ *   "taxonomy_term",
+ *   "parent",
+ *   "menu_links",
+ *   "menu_choice",
+ *   "menu_mode",
+ *   "is_root",
+ *   "taxonomy_map_field",
+ *   "content_type"
  *   }
  * )
  */
