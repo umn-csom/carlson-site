@@ -192,6 +192,29 @@ function barrio_carlson_preprocess_html(&$variables) {
   $block_output = $search_block_instance->build();
   $variables['search_block'] = $block_output;
 
+  $variables['page']['#attached']['html_head'][] = [
+    [
+      '#type' => 'html_tag',
+      '#tag' => 'link',
+      '#attributes' => [
+        'rel' => 'preconnect',
+        'href' => 'https://fonts.googleapis.com',
+      ],
+    ],
+    'google_api_preconnect'
+  ];
+  $variables['page']['#attached']['html_head'][] = [
+    [
+      '#type' => 'html_tag',
+      '#tag' => 'link',
+      '#attributes' => [
+        'rel' => 'preconnect',
+        'href' => 'https://fonts.gstatic.com',
+        'crossorigin' => ''
+      ],
+    ],
+    'google_static_preconnect'
+  ];
 }
 /**
  * Implements hook_theme_suggestions_HOOK_alter().

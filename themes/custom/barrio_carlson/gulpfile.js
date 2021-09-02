@@ -4,6 +4,7 @@ var sass = require('gulp-sass');
 var cleanCSS = require('gulp-clean-css');
 var concat = require("gulp-concat");
 var sourcemaps = require("gulp-sourcemaps");
+var googleWebFonts = require("gulp-google-webfonts");
 var shell = require('gulp-shell');
 
 // Setting pattern this way allows non gulp- plugins to be loaded as well.
@@ -92,6 +93,13 @@ var options = {
     js: [],
     homepage: 'styleguide-dev/homepage.md',
     title: 'Living Style Guide'
+  },
+
+  googleFontsOptions: {
+    fontsDir: './fonts',
+    cssDir: './',
+    cssFilename: 'google-fonts.css',
+    fontDisplayType: 'auto'
   }
 
 };
@@ -117,8 +125,14 @@ gulp.task('minify-css', () => {
 // Move the javascript files into our js folder
 gulp.task('js', function() {
     return gulp.src(['node_modules/bootstrap/dist/js/bootstrap.min.js', 'node_modules/jquery/dist/jquery.min.js', 'node_modules/popper.js/dist/umd/popper.min.js'])
-        .pipe(gulp.dest("js"))
-        .pipe(browserSync.stream());
+      .pipe(gulp.dest("js"))
+      .pipe(browserSync.stream());
+});
+
+gulp.task('font', () => {
+  return gulp.src('./fonts.list')
+    .pipe(googleWebFonts(options.googleFontsOptions))
+    .pipe(gulp.dest("css"));
 });
 
 // Static Server + watching scss/html files
