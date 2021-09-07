@@ -16,19 +16,21 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
         {% for item in breadcrumb %}
-          {
-            "@type": "ListItem",
-            "position": {{ loop.index }},
-            "item":
-              {
-                "@id": "{{ url('<front>')|render|split('/', -1)|join('/') ~ item.url }}",
-                "name": "{{ item.text }}"
-              }
-          {% if loop.last %}
-          }
-          {% else %}
-          },
-          {% endif%}
+            {% if item.text%}
+            {
+              "@type": "ListItem",
+              "position": {{ loop.index }},
+              "item":
+                {
+                  "@id": "{{ url('<front>')|render|split('/', -1)|join('/') ~ item.url }}",
+                  "name": "{{ item.text }}"
+                }
+            {% if loop.last %}
+            }
+            {% else %}
+            },
+            {% endif%}
+          {% endif %}
         {% endfor %}
       ]
     }
