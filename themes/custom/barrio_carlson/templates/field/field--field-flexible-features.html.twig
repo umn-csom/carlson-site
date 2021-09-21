@@ -60,13 +60,19 @@
         {% if count == 1 %}
           <div class="container col-12 col-lg-12 quote-group__wrap">{{ item.content }}</div>
         {% else %}
-          <div class="col-12 col-lg-5 quote-group__wrap">{{ item.content }}</div>
+          <div class="col-12 col-xl-5 quote-group__wrap">{{ item.content }}</div>
         {% endif %}
-      {% elseif (type == 'video_text_below') or (type == 'video_text_right') %}
+      {% elseif type == 'video_text_below' %}
         {% if count == 1 %}
           <div class="container col-12 col-lg-12 align-items-center component-paragraph video-textbelow">{{ item.content }}</div>
         {% else %}
-          <div class="col-12 col-lg-7 align-items-center component-paragraph video-textbelow">{{ item.content }}</div>
+          <div class="col-12 col-xl-7 align-items-center component-paragraph video-textbelow">{{ item.content }}</div>
+        {% endif %}
+      {% elseif type == 'video_text_right' %}
+        {% if count == 1 %}
+          <div class="container col-12 col-lg-12 align-items-center component-paragraph video-textright">{{ item.content }}</div>
+        {% else %}
+          <div class="col-12 col-xl-7 align-items-center component-paragraph video-textright">{{ item.content }}</div>
         {% endif %}
       {% else %}
         <div class="col-12 col-lg-12">{{ item.content }}</div>
