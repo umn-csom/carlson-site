@@ -41,8 +41,9 @@
 					left: 0;
 					height: 100%;
 			    	width: 100%;
-			    	justify-content: center;
+			    	justify-content: space-between;
 					padding-top: 100px;
+					padding: 100px 30px 0px;
 
 					.hero-program__title{
 						color:$white;
@@ -79,6 +80,14 @@
 		background-color: $gold;
 		padding: 30px 30px 0 30px;
 		width: 33.33%;
+		max-width: 500px;
+
+		@media (min-width: 1200px){
+			flex: 0 0 calc(33% - 30px);
+		}
+		@media (max-width: 1200px){
+			margin: auto;
+		}
 
 		&--actions{
 			order:1;
@@ -309,6 +318,8 @@
 	}
 
 	.ee-flexible_features{
+		max-width: 1600px;
+		margin: auto;
 		.quote-group__wrap{
 			padding:0;
 			background-image: linear-gradient(180deg, #F7F4F2 0%, white 100%);
@@ -346,8 +357,6 @@
 			}
 			&__media{
 				position: relative;
-				max-width: 500px;
-				margin: 20px auto;
 				img{
 					box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1);
 				}
@@ -756,7 +765,7 @@
 		background-color: $gold;
 		.ee-course_container {
 			display: flex;
-			padding: 50px 10px 50px;
+			padding: 50px 0px 50px;
 			flex-wrap: wrap;
 		}
 	}
@@ -791,6 +800,7 @@
 		ul:not([class]){
 			 li{
 				 color: #ffffff;
+				 margin-bottom: 10px;
 				 &:before{
 					 background:$yellow;
 				 }
