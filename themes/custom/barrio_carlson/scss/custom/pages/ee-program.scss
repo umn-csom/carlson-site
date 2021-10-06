@@ -323,8 +323,12 @@
 	}
 
 	.ee-flexible_features{
-		background-image: linear-gradient(90deg, #F7F4F2 0%, white 100%);
-		border-bottom: 1px solid #F7F4F2;
+		background: $mid-gray;
+		@include media-breakpoint-up(lg){
+			background: linear-gradient(90deg, $mid-gray 40%, white 60%);
+		}
+
+		border-bottom: 10px solid $mid-gray;
 		margin-left: -15px;
 		margin-right: -15px;
 		> .row {
@@ -360,7 +364,7 @@
 					font-size: 80px;
 				}
 				&__text:before {
-					background: linear-gradient(90deg, #F7F4F2 -50%, white 250%);
+					background: $mid-gray;
 				}
 			}
 		}
