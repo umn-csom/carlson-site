@@ -7,7 +7,10 @@
   margin-top: 3rem;
   margin-bottom : 3rem;
   background-image: linear-gradient(180deg, $mid-gray 0%, $white 100%);
-  padding: 5rem 5rem 3rem;
+  padding: 2rem 2rem 1rem;
+  @include media-breakpoint-up(md){
+    padding: 5rem 5rem 3rem;
+  }
   &__img{
     position : relative;
     img{
@@ -37,13 +40,16 @@
   &__text p {
     font-style: italic;
     @include font-crimson-base();
-    font-size: 2.5rem;
+    font-size: 2rem;
     line-height: 140%;
     margin-bottom : 20px;
     letter-spacing : -.7px;
     @include media-breakpoint-up(md){
-      font-size: 2.875rem;
+      font-size: 2.5rem;
       line-height : 140%;
+    }
+    @include media-breakpoint-up(lg){
+      font-size: 2.875rem;
     }
   }
 
@@ -51,10 +57,13 @@
     border-width: 0;
     border-style: solid;
     border-top: 6px solid $gold;
-    padding: 1em 1em 0;
+    padding: 1em 0 0;
     color: $maroon;
     font-size: 1.9em;
     line-height: 1.5em;
+    @include media-breakpoint-up(md){
+      padding: 1em 1em 0;
+    }
   }
 
   &__text:before {
