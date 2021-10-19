@@ -427,6 +427,7 @@
 			font-size: 3.4rem;
     		line-height: 110%;
 			text-align: center;
+			padding-bottom: 3rem;
 		}
 		.accordion-content__heading{
 			display:none;
@@ -614,21 +615,27 @@
 	.faculty-wrapper{
 		display:block;
 		width: 100%;
+		max-width: 1600px;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		margin: auto;
 
 		.staff-faculty__wrapper{
-			padding: 1rem 5rem;
+			padding: 1rem 1rem;
+			max-width: 500px;
 			.staff-faculty__item{
 
 				&> .row{
-					flex-direction: column;
+					//flex-direction: column;
 					.row{
 						flex-direction: column;
 					}
 					.staff-faculty__item--image{
 						display: block;
-						width: 100%;
-						max-width: 100%;
-						margin: auto;
+						max-width: 30% !important;
+						margin: 0;
+						padding: 0;
 						flex: 1;
 
 						img{
@@ -638,32 +645,31 @@
 						}
 					}
 					.staff-faculty__item--name{
-						    padding: 30px 15px 15px 30px;
-						&:after{
-							content: '';
-							height: 100px;
-							width: 2px;
-							display: block;
-							background: #FFCC33;
-							margin-top: 0;
-							position: absolute;
-							top: -40px;
-							left: 15px;
-						}
+							font-size: 2.2rem;
+						    padding: 10px 5px 5px 10px;
+						// &:after{
+						// 	content: '';
+						// 	height: 100px;
+						// 	width: 2px;
+						// 	display: block;
+						// 	background: #FFCC33;
+						// 	margin-top: 0;
+						// 	position: absolute;
+						// 	top: -40px;
+						// 	left: 15px;
+						// }
 					}
 					.staff-faculty__item--position,
 					.staff-faculty__item--phone,
 					.staff-faculty__item--email{
 						font-weight: normal;
-						padding: 0 30px 15px;
+						padding: 0 10px 5px;
 					}
 
 					[class*='col-']{
 						display: block;
-						width: 100%;
-						//max-width: 100%;
-						max-width: 400px;
-						margin: auto;
+						// width: 100%;
+						max-width: 100%;
 						flex: 1;
 					}
 				}
