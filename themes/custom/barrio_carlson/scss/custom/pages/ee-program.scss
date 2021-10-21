@@ -623,20 +623,39 @@
 
 		.staff-faculty__wrapper{
 			padding: 1rem 1rem;
+			width: 100%;
+			min-width: 500px;
 			max-width: 500px;
+			&:nth-child(1):nth-last-child(1) {
+				max-width: 900px;
+			}
+			&:nth-child(1):nth-last-child(2),
+			&:nth-child(2):nth-last-child(1) {
+				max-width: 700px;
+			}
+			&:nth-child(1):nth-last-child(1),
+			&:nth-child(1):nth-last-child(2),
+			&:nth-child(2):nth-last-child(1) {
+				.staff-faculty__item{
+					&> .row{
+						align-items: center;
+						justify-content: center;
+					}
+				}
+			}
+
 			.staff-faculty__item{
 
 				&> .row{
-					//flex-direction: column;
 					.row{
 						flex-direction: column;
 					}
-					.staff-faculty__item--image{
+					[class*='col-'].staff-faculty__item--image{
+
 						display: block;
-						max-width: 30% !important;
+						max-width: 30%;
 						margin: 0;
 						padding: 0;
-						flex: 1;
 
 						img{
 							-webkit-box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.3);
@@ -647,30 +666,21 @@
 					.staff-faculty__item--name{
 							font-size: 2.2rem;
 						    padding: 10px 5px 5px 10px;
-						// &:after{
-						// 	content: '';
-						// 	height: 100px;
-						// 	width: 2px;
-						// 	display: block;
-						// 	background: #FFCC33;
-						// 	margin-top: 0;
-						// 	position: absolute;
-						// 	top: -40px;
-						// 	left: 15px;
-						// }
+							
 					}
 					.staff-faculty__item--position,
 					.staff-faculty__item--phone,
-					.staff-faculty__item--email{
+					.staff-faculty__item--email,
+					.staff-faculty__item--address{
 						font-weight: normal;
 						padding: 0 10px 5px;
 					}
 
 					[class*='col-']{
 						display: block;
-						// width: 100%;
-						max-width: 100%;
-						flex: 1;
+						max-width: max-content;
+						/* flex: 1; */
+						flex: 0 1 70%;
 					}
 				}
 			}
@@ -975,7 +985,7 @@
 
 .view-id-ee_program_faculty {
 	.staff-faculty__item--name{
-				padding: 0px 15px 15px 30px;
+		padding: 0px 15px 15px 30px;
 		&:after{
 			content: '';
 			height: 100px;
