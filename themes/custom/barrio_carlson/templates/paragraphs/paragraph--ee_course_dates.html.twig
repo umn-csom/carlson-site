@@ -43,6 +43,11 @@
   {% block content %}
     <div class="ee-program__dates course_details">
       <div class="ee-program__date">
+        {% if paragraph.field_pending_date.value %}
+          <div class="date-cal">
+            <label>Dates Pending</label>
+          </div>
+        {% endif %}
   			{{ content.field_ee_program_dates }}
       </div>
     </div>
