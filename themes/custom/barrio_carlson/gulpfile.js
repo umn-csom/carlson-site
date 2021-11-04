@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync').create();
-var sass = require('gulp-sass');
+var sass = require('gulp-sass')(require('node-sass'));
 var cleanCSS = require('gulp-clean-css');
 var concat = require("gulp-concat");
 var sourcemaps = require("gulp-sourcemaps");
@@ -136,16 +136,15 @@ gulp.task('font', () => {
 });
 
 // Static Server + watching scss/html files
-gulp.task('serve', ['sass'], function() {
-
+gulp.task('serve', gulp.series('sass', function() {
     browserSync.init({
         proxy: "http://carlsonschool8.lndo.site/sites/default/themes/custom/barrio_carlson/styleguide/",
     });
 
     gulp.start('watch');
-});
+}));
 
-gulp.task('watch', ['sass'], function() {
+gulp.task('watch', gulp.series('sass', function() {
   gulp.watch(
     [
       'node_modules/bootstrap/scss/bootstrap.scss',
@@ -154,9 +153,9 @@ gulp.task('watch', ['sass'], function() {
       'scss/**/**/*.scss',
       'templates/components/*.twig',
     ],
-    ['sass']
+    gulp.series('sass')
   );
-});
+}));
 
 // Compile the styleguide
 gulp.task('compile:styleguide', function (cb) {
@@ -167,4 +166,4 @@ gulp.task('compile:styleguide', function (cb) {
 gulp.task('refresh-sass', shell.task('npm run kss'));
 
 // Default.
-gulp.task('default', ['js','sass','minify-css','watch']);
+gulp.task('default', gulp.series('js','sass','minify-css','watch'));
