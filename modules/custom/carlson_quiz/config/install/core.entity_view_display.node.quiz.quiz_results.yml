@@ -1,0 +1,53 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.quiz_results
+    - field.field.node.quiz.body
+    - field.field.node.quiz.field_quiz_headline
+    - field.field.node.quiz.field_quiz_main_image
+    - field.field.node.quiz.field_quiz_questions
+    - field.field.node.quiz.field_quiz_results_add_comps
+    - field.field.node.quiz.field_quiz_results_body
+    - field.field.node.quiz.field_quiz_results_title
+    - node.type.quiz
+  module:
+    - layout_builder
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    allow_custom: false
+    enabled: false
+id: node.quiz.quiz_results
+targetEntityType: node
+bundle: quiz
+mode: quiz_results
+content:
+  field_quiz_results_body:
+    type: text_default
+    weight: 2
+    region: content
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+  field_quiz_results_title:
+    type: text_default
+    weight: 1
+    region: content
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  addtoany: true
+  body: true
+  field_quiz_headline: true
+  field_quiz_main_image: true
+  field_quiz_questions: true
+  field_quiz_results_add_comps: true
+  search_api_excerpt: true

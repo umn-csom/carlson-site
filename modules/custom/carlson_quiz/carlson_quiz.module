@@ -1,0 +1,274 @@
+<?php
+
+use Drupal\Component\Utility\NestedArray;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Serialization\Yaml;
+use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\webform\Entity\Webform;
+
+/**
+ * Implements hook_theme().
+ */
+function carlson_quiz_theme() {
+  return [
+    'node__quiz' => [
+      'render element' => 'elements',
+      'base hook' => 'node',
+    ],
+    'node__quiz__quiz_results' => [
+      'render element' => 'elements',
+      'base hook' => 'node',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_entity_update().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *
+ * @throws \Drupal\Core\Entity\EntityStorageException
+ */
+function carlson_quiz_node_update(EntityInterface $entity) {
+
+  if($entity->bundle() == 'quiz' && $entity->hasField('field_quiz_questions')) {
+
+    $elements = [];
+    $questions = $entity->get('field_quiz_questions')->referencedEntities();
+
+    $settings = [
+      'confirmation_type' => 'url',
+      'confirmation_url' => '/node/'.$entity->id().'/results?sid=[webform_submission:sid]'
+    ];
+
+    foreach ($questions as $question_key => $question) {
+      if($question->hasField('field_quiz_question_answers')) {
+        $text = $question->hasField('field_quiz_question_text') ? $question->get('field_quiz_question_text')->value : '';
+        $help_text = $question->hasField('field_quiz_question_help_text') ? $question->get('field_quiz_question_help_text')->value : '';
+        $type = $question->hasField('field_quiz_question_type') && $question->get('field_quiz_question_type')->value === 'multiple' ? 'checkboxes' : 'radios';
+        $answers = $question->get('field_quiz_question_answers')->referencedEntities();
+        $conditional_question = $question->hasField('field_quiz_question_cond_qn') && !empty($question->get('field_quiz_question_cond_qn')->getValue()) ? $question->get('field_quiz_question_cond_qn')->getValue() : '';
+        $conditional_answers = $question->hasField('field_quiz_question_cond_answ') && !empty($question->get('field_quiz_question_cond_answ')->getValue()) ? $question->get('field_quiz_question_cond_answ')->getValue() : '';
+        $options = [];
+        $options_properties = [];
+        $states = [];
+
+        $prev_button = $question_key > 0 ? '<div class="btn-primary d-inline-block mr-2"><a class="question-'.($question_key + 1).'-prev-button question-'.$question->id().'-prev-button btn" href="#edit-question-'.$questions[$question_key - 1]->id().'" id="question-'.$question->id().'-prev-button">Prev</a></div>' : '';
+        $next_button = next($questions) ? '<div class="btn-primary d-inline-block"><a class="question-'.($question_key + 1).'-next-button question-'.$question->id().'-next-button btn" href="#edit-question-'.$questions[$question_key + 1]->id().'" id="question-'.$question->id().'-next-button">Next</a></div>' : '';;
+
+        foreach ($answers as $answer_key => $answer) {
+          $answer_id = $answer->id();
+          $answer_text = $answer->hasField('field_quiz_answer_text') ? $answer->get('field_quiz_answer_text')->value : '';
+          $options[$answer_id] = $answer_text;
+          $options_properties[$answer_id] = [
+            '#wrapper_attributes' => [
+              'class' => [],
+            ],
+            '#attributes' => [
+              'class' => [
+                'question-'.($question_key + 1).'-answer-'.($answer_key + 1),
+                'question-'.$question->id().'-answer-'.$answer->id(),
+              ]
+            ]
+          ];
+        }
+
+        if($conditional_question != '' && $conditional_answers != '') {
+          foreach ($conditional_answers as $conditional_answer_key => $conditional_answer) {
+            if($conditional_answer_key > 0) {
+              $states['visible'][] = 'or';
+            }
+            $states['visible'][][':input[name="question_'.$conditional_question[0]['value'].'"]'] = [
+              'value' => $conditional_answer['value']
+            ];
+          }
+        }
+
+        $elements['question_'.$question->id()] = [
+          '#type' => $type,
+          '#title' => $text,
+          '#help' => $help_text,
+          '#default_value' => '',
+          '#wrapper_attributes' => [
+            'class' => ['mb-5'],
+          ],
+          '#options' => $options,
+          '#options__properties' => $options_properties,
+          '#states' => $states,
+        ];
+
+        $elements['question_'.$question->id().'_buttons'] = [
+          '#type' => 'webform_markup',
+          '#wrapper_attributes' => [
+            'class' => ['mb-5'],
+          ],
+          '#markup' => $prev_button.$next_button,
+        ];
+      }
+    }
+
+    $elements['actions'] = [
+      '#type' => 'webform_actions',
+      '#title' => 'Submit button(s)',
+      '#submit__label' => 'Get My Results',
+    ];
+
+    $webform = Webform::load('quiz_node_'.$entity->id());
+    $settings += Webform::getDefaultSettings();
+    $webform_title = 'Quiz: '.$entity->label();
+
+    if(isset($webform)) {
+      $webform->setElements($elements)
+        ->setSettings($settings)
+        ->save();
+    }
+    else {
+      $webform = Webform::create([
+        'id' => 'quiz_node_'.$entity->id(),
+        'title' => $webform_title,
+        'elements' => Yaml::encode($elements),
+        'settings' => $settings,
+      ]);
+      $webform->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * @param $element
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param $context
+ */
+function carlson_quiz_field_widget_paragraphs_form_alter(&$element, FormStateInterface $form_state, $context) {
+
+  if (isset($element['subform']['#parents'])) {
+
+    $parents_array = $element['subform']['#parents'];
+    $parents = array_shift($parents_array) . '[' . implode('][', $parents_array) . ']';
+
+    if ($element['#paragraph_type'] == 'quiz_question') {
+
+      if($context["items"]->count() > 1) {
+
+        $questions = $context["items"]->getValue();
+        $options = $element["subform"]["field_quiz_question_cond_qn"]["widget"]["#options"];
+
+        foreach ($questions as $selected_question) {
+          if(!empty($selected_question)) {
+            $key = $selected_question["target_id"];
+            $value = strip_tags($selected_question["entity"]->get('field_quiz_question_text')->value);
+            $options[$key] = $value;
+          }
+        }
+
+        $element["subform"]["field_quiz_question_cond_qn"]["widget"]["#options"] = $options;
+
+
+        $question_default_value = $element["subform"]["field_quiz_question_cond_qn"]["widget"]["#default_value"];
+
+        if(!empty($question_default_value) && $question_default_value[0] != '_none') {
+          $selected_question = Paragraph::load($question_default_value[0]);
+          $answers = $selected_question->get('field_quiz_question_answers')->referencedEntities();
+//          $options = $element["subform"]["field_quiz_question_cond_answ"]["widget"]["#options"];
+          $options = [];
+          $options[''] = '- None -';
+          foreach ($answers as $answer_key => $answer) {
+            $answer_id = $answer->id();
+            $answer_text = $answer->get('field_quiz_answer_text')->value;
+            $options[$answer_id] = $answer_text;
+          }
+          $element["subform"]["field_quiz_question_cond_answ"]["widget"]["#options"] = $options;
+        }
+        else {
+          $options = [];
+          $options[''] = '- None -';
+          $element["subform"]["field_quiz_question_cond_answ"]["widget"]["#options"] = $options;
+        }
+
+      }
+
+      $element['subform']['field_quiz_question_cond_answ']['#states'] = [
+        'visible' => [
+          'select[name="' . $parents . '[field_quiz_question_cond_qn]"]' => ['!value' => '_none'],
+        ],
+      ];
+
+      $element['subform']['field_quiz_question_cond_answ']["widget"]['#wrapper_attributes'] = ['id' => 'edit-field-quiz-questions-'.$element["#delta"].'-subform-field-quiz-question-cond-answ-container'];
+
+      $element['subform']['field_quiz_question_cond_qn']['widget']['#ajax'] = [
+        'callback' => 'answersListCallback',
+        'event' => 'change',
+        'wrapper'  => 'edit-field-quiz-questions-'.$element["#delta"].'-subform-field-quiz-question-cond-answ-container',
+        'method'   => 'replace',
+        'progress' => [
+          'type' => 'throbber',
+        ],
+      ];
+    }
+  }
+}
+
+function answersListCallback(&$form, FormStateInterface $form_state) {
+  $element = $form_state->getTriggeringElement();
+  $field = NestedArray::getValue($form, array_slice($element['#array_parents'], 0, -2));
+  return $field["field_quiz_question_cond_answ"]["widget"];
+}
+
+/**
+ * @param \Drupal\Core\Field\FieldStorageDefinitionInterface $definition
+ * @param \Drupal\Core\Entity\FieldableEntityInterface|null $entity
+ * @param null $cacheable
+ *
+ * @return array
+ */
+function carlson_quiz_allowed_values_function(FieldStorageDefinitionInterface $definition, FieldableEntityInterface $entity = NULL, &$cacheable = NULL) {
+  $options = [];
+  if(isset($entity)) {
+    $parent = $entity->getParentEntity();
+    if(isset($parent) && $parent->hasField('field_quiz_questions') && !empty($parent->get('field_quiz_questions')->getValue())) {
+      $questions = $parent->get('field_quiz_questions')->getValue();
+      foreach ($questions as $question) {
+        if(!empty($question)) {
+          $key = $question["target_id"];
+          $value = strip_tags(Paragraph::load($question["target_id"])->get('field_quiz_question_text')->value);
+          $options[$key] = $value;
+        }
+      }
+    }
+    return $options;
+  }
+}
+
+/**
+ * @param \Drupal\Core\Field\FieldStorageDefinitionInterface $definition
+ * @param \Drupal\Core\Entity\FieldableEntityInterface|null $entity
+ * @param null $cacheable
+ *
+ * @return array
+ */
+function carlson_quiz_allowed_values_function_answ(FieldStorageDefinitionInterface $definition, FieldableEntityInterface $entity = NULL, &$cacheable = NULL) {
+  $options = [];
+  if(isset($entity)) {
+    $parent = $entity->getParentEntity();
+    if(isset($parent) && $parent->hasField('field_quiz_questions') && !empty($parent->get('field_quiz_questions')->getValue())) {
+      $questions = $parent->get('field_quiz_questions')->getValue();
+      foreach ($questions as $question) {
+        if(!empty($question)) {
+          $question_entity = Paragraph::load($question["target_id"]);
+          $answers = $question_entity->get('field_quiz_question_answers')->referencedEntities();
+          foreach ($answers as $answer_key => $answer) {
+            $answer_id = $answer->id();
+            $answer_text = $answer->hasField('field_quiz_answer_text') ? strip_tags($answer->get('field_quiz_answer_text')->value) : '';
+            $options[$answer_id] = $answer_text;
+          }
+        }
+      }
+    }
+  }
+  return $options;
+}

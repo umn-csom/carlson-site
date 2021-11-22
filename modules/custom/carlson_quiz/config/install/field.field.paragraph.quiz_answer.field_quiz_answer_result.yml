@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_quiz_answer_result
+    - paragraphs.paragraphs_type.quiz_answer
+    - taxonomy.vocabulary.quiz_result_set
+id: paragraph.quiz_answer.field_quiz_answer_result
+field_name: field_quiz_answer_result
+entity_type: paragraph
+bundle: quiz_answer
+label: Result
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      quiz_result_set: quiz_result_set
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

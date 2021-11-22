@@ -1,0 +1,43 @@
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.quiz.body
+    - field.field.node.quiz.field_quiz_headline
+    - field.field.node.quiz.field_quiz_main_image
+    - field.field.node.quiz.field_quiz_questions
+    - field.field.node.quiz.field_quiz_results_add_comps
+    - field.field.node.quiz.field_quiz_results_body
+    - field.field.node.quiz.field_quiz_results_title
+    - node.type.quiz
+  module:
+    - text
+    - user
+id: node.quiz.teaser
+targetEntityType: node
+bundle: quiz
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  addtoany: true
+  field_quiz_headline: true
+  field_quiz_main_image: true
+  field_quiz_questions: true
+  field_quiz_results_add_comps: true
+  field_quiz_results_body: true
+  field_quiz_results_title: true
+  search_api_excerpt: true
