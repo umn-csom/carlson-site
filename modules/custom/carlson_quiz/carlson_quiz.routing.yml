@@ -1,7 +1,12 @@
 carlson_quiz.results_page:
-  path: '/node/{node}/results'
+  path: '/node/{node}/results/{webform_submission}'
   defaults:
-    _entity_view: node.quiz_results
+    _controller: '\Drupal\carlson_quiz\Controller\QuizController::build'
+  options:
+    node:
+      type: entity:node
+    webform_submission:
+      type: entity:webform_submission
   requirements:
     _entity_bundles: node:quiz
     _permission: 'access content'

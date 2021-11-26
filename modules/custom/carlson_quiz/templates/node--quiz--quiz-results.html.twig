@@ -72,6 +72,9 @@
     'clearfix',
   ]
 %}
+
+{% set results_to_show = 3 %}
+
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
     <div class="container">
@@ -89,7 +92,22 @@
             <a class="btn text-uppercase" href="{{ path('entity.node.canonical', {'node': node.id}) }}">Retake</a>
           </div>
         </div>
-        <div class="col-12">
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-12 col-xl-10">
+          {% if results %}
+            <div class="row">
+              {% for tid in results|slice(0, results_to_show, true)|keys %}
+                <div class="col-12 col-lg">
+                  {{ drupal_entity('taxonomy_term', tid) }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-xl-10">
           {{ content.field_quiz_results_add_comps }}
         </div>
       </div>
