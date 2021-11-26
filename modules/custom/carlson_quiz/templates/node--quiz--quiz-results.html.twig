@@ -73,7 +73,8 @@
   ]
 %}
 
-{% set results_to_show = 3 %}
+{% set results_to_show = results|length > 3 ? 3 : results|length %}
+{% set results_view_mode = results|length > 1 ? 'quiz_result_teaser' : 'quiz_result_teaser_alt' %}
 
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
@@ -81,16 +82,12 @@
       <div class="row align-items-center justify-content-center">
         <div class="col-12 col-md-6 col-xl-5">
           <p class="text-uppercase">Results</p>
-          <h2 class="mb-5">{{ content.field_quiz_results_title }}</h2>
-          <div>{{ content.field_quiz_results_body }}</div>
+          <h2 class="mb-5">{{ node.field_quiz_results_title|view('quiz_results') }}</h2>
+          <div class="mb-5 pb-4" {{ node.field_quiz_results_body|view('quiz_results') }}</div>
         </div>
         <div class="co-12 col-md-6 col-xl-5 d-flex justify-content-end">
-          <div class="btn-primary d-inline-block mr-2">
-            <a class="btn text-uppercase" href="#">Send My Results</a>
-          </div>
-          <div class="btn-primary d-inline-block">
-            <a class="btn text-uppercase" href="{{ path('entity.node.canonical', {'node': node.id}) }}">Retake</a>
-          </div>
+          <a class="btn maroon-solid-button mr-4" href="#">{{ 'Send My Results'|t }}</a>
+          <a class="btn maroon-outline-button" href="{{ path('entity.node.canonical', {'node': node.id}) }}">{{ 'Retake'|t }}</a>
         </div>
       </div>
       <div class="row justify-content-center">
@@ -99,7 +96,7 @@
             <div class="row">
               {% for tid in results|slice(0, results_to_show, true)|keys %}
                 <div class="col-12 col-lg">
-                  {{ drupal_entity('taxonomy_term', tid) }}
+                  {{ drupal_entity('taxonomy_term', tid, results_view_mode) }}
                 </div>
               {% endfor %}
             </div>
@@ -108,7 +105,7 @@
       </div>
       <div class="row">
         <div class="col-12 col-xl-10">
-          {{ content.field_quiz_results_add_comps }}
+          {{ node.field_quiz_results_add_comps|view('quiz_results') }}
         </div>
       </div>
     </div>

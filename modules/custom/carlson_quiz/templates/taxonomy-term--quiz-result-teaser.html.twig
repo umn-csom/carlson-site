@@ -1,0 +1,84 @@
+{#
+/**
+ * @file
+ * Theme override to display a taxonomy term.
+ *
+ * Available variables:
+ * - url: URL of the current term.
+ * - name: Name of the current term.
+ * - content: Items for the content of the term (fields and description).
+ *   Use 'content' to print them all, or print a subset such as
+ *   'content.description'. Use the following code to exclude the
+ *   printing of a given child element:
+ *   @code
+ *   {{ content|without('description') }}
+ *   @endcode
+ * - attributes: HTML attributes for the wrapper.
+ * - page: Flag for the full page state.
+ * - term: The taxonomy term entity, including:
+ *   - id: The ID of the taxonomy term.
+ *   - bundle: Machine name of the current vocabulary.
+ * - view_mode: View mode, e.g. 'full', 'teaser', etc.
+ *
+ * @see template_preprocess_taxonomy_term()
+ */
+#}
+{%
+  set classes = [
+  'taxonomy-term',
+  'vocabulary-' ~ term.bundle|clean_class,
+  'result--' ~ name[0]['#context'].value|clean_class,
+  'program--' ~ name[0]['#context'].value|clean_class
+]
+%}
+
+{% set req_info_url = content.field_quiz_result_set_req_info[0]['#url']|render %}
+{% set learn_more_url = content.field_quiz_result_set_learn_more[0]['#url']|render %}
+{% set req_info_title = content.field_quiz_result_set_req_info[0]['#title']|render %}
+{% set learn_more_title = content.field_quiz_result_set_learn_more[0]['#title']|render %}
+{% set req_info_target = content.field_quiz_result_set_req_info[0]['#url'].external ? '_blank' : '_self' %}
+{% set learn_more_target = content.field_quiz_result_set_learn_more[0]['#url'].external ? '_blank' : '_self' %}
+{%
+  set req_info_classes = [
+  'btn',
+  'maroon-solid-button',
+  'd-block',
+  'mb-4',
+  'result--' ~ name[0]['#context'].value|clean_class ~ '--req-info',
+  'program--' ~ name[0]['#context'].value|clean_class ~ '--req-info',
+  'use-ajax'
+  ]
+%}
+{%
+  set learn_more_classes = [
+  'btn',
+  'maroon-outline-button',
+  'd-block',
+  'result--' ~ name[0]['#context'].value|clean_class ~ '--learn-more',
+  'program--' ~ name[0]['#context'].value|clean_class ~ '--learn-more'
+  ]
+%}
+
+<div{{ attributes.setAttribute('id', 'taxonomy-term-' ~ term.id).addClass(classes) }}>
+  <div class="content">
+    <div class="mb-4">
+      {{ content.field_quiz_result_set_image }}
+    </div>
+    <h4 class="column__heading">{{ content.field_quiz_result_set_title }}</h4>
+    <div class="pb-4 border-bottom mb-4">
+      {{ content.description }}
+    </div>
+    <div class="pt-3">
+      {% if req_info_url %}
+        <a href="{{ req_info_url }}" target="{{ req_info_target }}" class="{{ req_info_classes|join(' ') }}" data-dialog-options="{&quot;width&quot;:800}" data-dialog-type="modal">
+          {{ req_info_title ? req_info_title : 'Request Info'|t }}
+        </a>
+      {% endif %}
+      {% if learn_more_url %}
+        <a href="{{ learn_more_url }}" target="{{ learn_more_target }}" class="{{ learn_more_classes|join(' ') }}">
+          {{ learn_more_title ? learn_more_title : 'Learn More'|t }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
