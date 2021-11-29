@@ -1,0 +1,80 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_image
+    - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_learn_more
+    - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_req_info
+    - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_title
+    - taxonomy.vocabulary.quiz_result_set
+  module:
+    - link
+    - media_library
+    - path
+    - text
+id: taxonomy_term.quiz_result_set.default
+targetEntityType: taxonomy_term
+bundle: quiz_result_set
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+      rows: 5
+    third_party_settings: {  }
+  field_quiz_result_set_image:
+    type: media_library_widget
+    weight: 2
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+    region: content
+  field_quiz_result_set_learn_more:
+    weight: 5
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_quiz_result_set_req_info:
+    weight: 4
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_quiz_result_set_title:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textfield
+    region: content
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 7
+    region: content
+    third_party_settings: {  }
+hidden: {  }

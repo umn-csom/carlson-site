@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.quiz.body
+    - field.field.node.quiz.field_meta_tags
     - field.field.node.quiz.field_quiz_headline
     - field.field.node.quiz.field_quiz_main_image
     - field.field.node.quiz.field_quiz_questions
@@ -14,6 +15,7 @@ dependencies:
     - content_moderation
     - field_group
     - media_library
+    - metatag
     - paragraphs
     - path
     - text
@@ -91,6 +93,13 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_meta_tags:
+    weight: 26
+    settings:
+      sidebar: true
+    third_party_settings: {  }
+    type: metatag_firehose
+    region: content
   field_quiz_headline:
     weight: 3
     settings:

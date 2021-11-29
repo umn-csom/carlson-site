@@ -25,6 +25,8 @@
 #}
 {%
   set classes = [
+  'd-lg-flex',
+  'flex-lg-column',
   'taxonomy-term',
   'vocabulary-' ~ term.bundle|clean_class,
   'result--' ~ name[0]['#context'].value|clean_class,
@@ -36,8 +38,8 @@
 {% set learn_more_url = content.field_quiz_result_set_learn_more[0]['#url']|render %}
 {% set req_info_title = content.field_quiz_result_set_req_info[0]['#title']|render %}
 {% set learn_more_title = content.field_quiz_result_set_learn_more[0]['#title']|render %}
-{% set req_info_target = content.field_quiz_result_set_req_info[0]['#url'].external ? '_blank' : '_self' %}
-{% set learn_more_target = content.field_quiz_result_set_learn_more[0]['#url'].external ? '_blank' : '_self' %}
+{% set req_info_target = content.field_quiz_result_set_req_info[0]['#url'].external ? 'target="_blank"' : '' %}
+{% set learn_more_target = content.field_quiz_result_set_learn_more[0]['#url'].external ? 'target="_blank"' : '' %}
 {%
   set req_info_classes = [
   'btn',
@@ -60,25 +62,26 @@
 %}
 
 <div{{ attributes.setAttribute('id', 'taxonomy-term-' ~ term.id).addClass(classes) }}>
-  <div class="content">
-    <div class="mb-4">
-      {{ content.field_quiz_result_set_image }}
-    </div>
-    <h4 class="column__heading">{{ content.field_quiz_result_set_title }}</h4>
-    <div class="pb-4 border-bottom mb-4">
-      {{ content.description }}
-    </div>
-    <div class="pt-3">
-      {% if req_info_url %}
-        <a href="{{ req_info_url }}" target="{{ req_info_target }}" class="{{ req_info_classes|join(' ') }}" data-dialog-options="{&quot;width&quot;:800}" data-dialog-type="modal">
-          {{ req_info_title ? req_info_title : 'Request Info'|t }}
-        </a>
-      {% endif %}
-      {% if learn_more_url %}
-        <a href="{{ learn_more_url }}" target="{{ learn_more_target }}" class="{{ learn_more_classes|join(' ') }}">
-          {{ learn_more_title ? learn_more_title : 'Learn More'|t }}
-        </a>
-      {% endif %}
-    </div>
+  <div class="d-flex justify-content-end">
+    <label class="d-flex align-items-center">{{ 'Add to compare'|t }} <input class="ml-2" type="checkbox" id="compare--{{ name[0]['#context'].value|clean_class }}" value="{{ name[0]['#context'].value|clean_class }}"></label>
+  </div>
+  <div class="mb-4">
+    {{ content.field_quiz_result_set_image }}
+  </div>
+  <h3 class="column__heading">{{ content.field_quiz_result_set_title }}</h3>
+  <div class="flex-lg-grow-1 pb-4 border-bottom mb-4">
+    {{ content.description }}
+  </div>
+  <div class="pt-3">
+    {% if req_info_url %}
+      <a href="{{ req_info_url }}" {{ req_info_target }} class="{{ req_info_classes|join(' ') }}" data-dialog-options="{&quot;width&quot;:800}" data-dialog-type="modal">
+        {{ req_info_title ? req_info_title : 'Request Info'|t }}
+      </a>
+    {% endif %}
+    {% if learn_more_url %}
+      <a href="{{ learn_more_url }}" {{ learn_more_target }} class="{{ learn_more_classes|join(' ') }}">
+        {{ learn_more_title ? learn_more_title : 'Learn More'|t }}
+      </a>
+    {% endif %}
   </div>
 </div>

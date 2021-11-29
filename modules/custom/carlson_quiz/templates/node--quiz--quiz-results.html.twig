@@ -75,6 +75,23 @@
 
 {% set results_to_show = results|length > 3 ? 3 : results|length %}
 {% set results_view_mode = results|length > 1 ? 'quiz_result_teaser' : 'quiz_result_teaser_alt' %}
+{% set node_title = node.field_quiz_results_title|view('quiz_results') %}
+{% set node_body = node.field_quiz_results_body|view('quiz_results') %}
+{% set numbers = [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five'
+  ]
+%}
+
+{% set title = node_title[0]['#text']|preg_replace('/(@results_text)/', numbers[results_to_show]) %}
+{% set body = node_body[0]['#text']|preg_replace('/(@results_text)/', numbers[results_to_show]) %}
+
+{% set title = title|preg_replace('/(@results)/', results_to_show) %}
+{% set body = body|preg_replace('/(@results)/', results_to_show) %}
 
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
@@ -82,8 +99,9 @@
       <div class="row align-items-center justify-content-center">
         <div class="col-12 col-md-6 col-xl-5">
           <p class="text-uppercase">Results</p>
-          <h2 class="mb-5">{{ node.field_quiz_results_title|view('quiz_results') }}</h2>
-          <div class="mb-5 pb-4" {{ node.field_quiz_results_body|view('quiz_results') }}</div>
+          <h1 class="d-none">{{ node.label }} Results</h1>
+          <h2 class="mb-5">{{ title|raw }}</h2>
+          <div class="mb-5 pb-4">{{ body|raw }}</div>
         </div>
         <div class="co-12 col-md-6 col-xl-5 d-flex justify-content-end">
           <a class="btn maroon-solid-button mr-4" href="#">{{ 'Send My Results'|t }}</a>
@@ -95,7 +113,7 @@
           {% if results %}
             <div class="row">
               {% for tid in results|slice(0, results_to_show, true)|keys %}
-                <div class="col-12 col-lg">
+                <div class="col-12 col-lg d-lg-flex">
                   {{ drupal_entity('taxonomy_term', tid, results_view_mode) }}
                 </div>
               {% endfor %}

@@ -3,6 +3,7 @@ status: true
 dependencies:
   config:
     - field.field.node.quiz.body
+    - field.field.node.quiz.field_meta_tags
     - field.field.node.quiz.field_quiz_headline
     - field.field.node.quiz.field_quiz_main_image
     - field.field.node.quiz.field_quiz_questions
@@ -12,6 +13,7 @@ dependencies:
     - node.type.quiz
   module:
     - entity_reference_revisions
+    - metatag
     - text
     - user
 id: node.quiz.default
@@ -25,6 +27,13 @@ content:
     weight: 101
     settings: {  }
     third_party_settings: {  }
+    region: content
+  field_meta_tags:
+    weight: 108
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
     region: content
   field_quiz_headline:
     weight: 102
@@ -54,7 +63,7 @@ content:
   field_quiz_results_add_comps:
     type: entity_reference_revisions_entity_view
     weight: 107
-    label: above
+    label: hidden
     settings:
       view_mode: default
       link: ''
@@ -62,14 +71,14 @@ content:
     region: content
   field_quiz_results_body:
     weight: 106
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     type: text_default
     region: content
   field_quiz_results_title:
     weight: 105
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     type: text_default

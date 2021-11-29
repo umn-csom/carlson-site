@@ -27,10 +27,28 @@ class QuizController extends ControllerBase {
 
     arsort($results);
 
+    $tags_from_node = metatag_get_tags_from_route($node);
+
+    $allowed_tags = [
+      'description',
+      'og_description'
+    ];
+
+    $tags = array_filter($tags_from_node["#attached"]["html_head"], function($tag) use ($allowed_tags) {
+      return in_array($tag[1], $allowed_tags);
+    });
+
     return [
       '#node' => $node,
       '#results' => $results,
       '#theme' => 'node__quiz__quiz_results',
+      '#attached' => [
+        'html_head' => $tags,
+      ],
     ];
+  }
+
+  function getTitle(NodeInterface $node, WebformSubmissionInterface $webform_submission) {
+    return $node->label().' Results #'.$webform_submission->serial();
   }
 }

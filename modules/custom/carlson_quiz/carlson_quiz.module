@@ -66,8 +66,8 @@ function carlson_quiz_node_update(EntityInterface $entity) {
         $options_properties = [];
         $states = [];
 
-        $prev_button = $question_key > 0 ? '<a class="question-'.($question_key + 1).'-prev-button question-'.$question->id().'-prev-button btn maroon-outline-button py-3" href="#edit-question-'.$questions[$question_key - 1]->id().'" id="question-'.$question->id().'-prev-button">Prev</a>' : '';
-        $next_button = next($questions) ? '<a class="question-'.($question_key + 1).'-next-button question-'.$question->id().'-next-button btn maroon-solid-button py-3" href="#edit-question-'.$questions[$question_key + 1]->id().'" id="question-'.$question->id().'-next-button">Next</a>' : '';;
+        $prev_button = $question_key > 0 ? '<legend class="d-none">Prev Button</legend><a class="question-'.($question_key + 1).'-prev-button question-'.$question->id().'-prev-button btn maroon-outline-button py-3" href="#edit-question-'.$questions[$question_key - 1]->id().'" id="question-'.$question->id().'-prev-button">Prev</a>' : '';
+        $next_button = next($questions) ? '<legend class="d-none">Next Button</legend><a class="question-'.($question_key + 1).'-next-button question-'.$question->id().'-next-button btn maroon-solid-button py-3" href="#edit-question-'.$questions[$question_key + 1]->id().'" id="question-'.$question->id().'-next-button">Next</a>' : '';;
 
         foreach ($answers as $answer_key => $answer) {
           $answer_id = $answer->id();
@@ -97,7 +97,11 @@ function carlson_quiz_node_update(EntityInterface $entity) {
           }
         }
 
-        $elements['question_'.$question->id()] = [
+        $elements['question_'.$question->id().'_container'] = [
+          '#type' => 'container',
+        ];
+
+        $elements['question_'.$question->id().'_container']['question_'.$question->id()] = [
           '#type' => $type,
           '#title' => $text,
           '#help' => $help_text,
@@ -110,29 +114,41 @@ function carlson_quiz_node_update(EntityInterface $entity) {
           '#states' => $states,
         ];
 
-        if($prev_button !== '') {
-          $elements['question_'.$question->id().'_prev_button'] = [
-            '#type' => 'webform_markup',
-            '#wrapper_attributes' => [
-              'class' => ['mb-5 mr-4 d-inline-block'],
-            ],
-            '#markup' => $prev_button,
-            '#states' => $states,
-          ];
-          if(!empty($states)) {
-            $prev_question = $questions[$question_key-1];
-            $elements['question_'.$prev_question->id().'_next_button']['#states'] = $states;
-          }
-        }
+        if($prev_button !== '' || $next_button !== '') {
 
-        if($next_button !== '') {
-          $elements['question_'.$question->id().'_next_button'] = [
-            '#type' => 'webform_markup',
-            '#wrapper_attributes' => [
-              'class' => ['mb-5 d-inline-block'],
+          $elements['question_'.$question->id().'_container']['question_'.$question->id().'_buttons'] = [
+            '#type' => 'container',
+            '#attributes' => [
+              'class' => ['d-flex'],
             ],
-            '#markup' => $next_button,
           ];
+
+          if($prev_button !== '') {
+            $elements['question_'.$question->id().'_container']['question_'.$question->id().'_buttons']['question_'.$question->id().'_prev_button'] = [
+              '#type' => 'processed_text',
+              '#format' => 'rich_text',
+              '#wrapper_attributes' => [
+                'class' => ['mb-5 mr-4 d-inline-block'],
+              ],
+              '#text' => $prev_button,
+              '#states' => $states,
+            ];
+            if(!empty($states)) {
+              $prev_question = $questions[$question_key-1];
+              $elements['question_'.$prev_question->id().'_container']['question_'.$prev_question->id().'_buttons']['question_'.$prev_question->id().'_next_button']['#states'] = $states;
+            }
+          }
+
+          if($next_button !== '') {
+            $elements['question_'.$question->id().'_container']['question_'.$question->id().'_buttons']['question_'.$question->id().'_next_button'] = [
+              '#type' => 'processed_text',
+              '#format' => 'rich_text',
+              '#wrapper_attributes' => [
+                'class' => ['mb-5 d-inline-block'],
+              ],
+              '#text' => $next_button,
+            ];
+          }
         }
       }
     }
@@ -309,4 +325,17 @@ function carlson_quiz_allowed_values_function_answ(FieldStorageDefinitionInterfa
  */
 function carlson_quiz_theme_suggestions_taxonomy_term_alter(&$suggestions, $vars, $hook) {
   $suggestions[] = 'taxonomy_term__' . $vars['elements']['#view_mode'];
+}
+
+/**
+ * Implements hook_preprocess_page().
+ *
+ * @param $variables
+ */
+function carlson_quiz_preprocess_page(&$variables) {
+  $node = \Drupal::routeMatch()->getParameter('node');
+  $webform_submission = \Drupal::routeMatch()->getParameter('webform_submission');
+  if ($node && $node->getType() == 'quiz' && $webform_submission == null) {
+      $variables['content_attributes']['class'] = ['container-fluid', 'mt-0'];
+  }
 }

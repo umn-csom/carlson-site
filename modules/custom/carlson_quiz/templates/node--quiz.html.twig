@@ -73,7 +73,7 @@
   ]
 %}
 <article{{ attributes.addClass(classes) }}>
-  <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'mt-0') }}>
     <div class="row">
       <div class="col-12 col-md-3 d-none d-md-block">
         {{ content.field_quiz_main_image }}
@@ -83,6 +83,9 @@
         <div class="mb-5">{{ content.body }}</div>
         {{ drupal_entity('webform', 'quiz_node_' ~ node.id() ) }}
       </div>
+    </div>
+    <div class="row d-none">
+      <div class="col-12"><h1>{{ label }}</h1></div>
     </div>
   </div>
 </article>
