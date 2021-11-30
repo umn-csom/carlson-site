@@ -1,0 +1,103 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_image
+    - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_learn_more
+    - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_req_info
+    - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_title
+    - image.style.quiz_results_item
+    - taxonomy.vocabulary.quiz_result_set
+  module:
+    - blazy
+    - link
+    - text
+id: taxonomy_term.quiz_result_set.default
+targetEntityType: taxonomy_term
+bundle: quiz_result_set
+mode: default
+content:
+  description:
+    label: hidden
+    type: text_default
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_quiz_result_set_image:
+    type: blazy_media
+    weight: 1
+    label: hidden
+    settings:
+      image_style: quiz_results_item
+      responsive_image_style: ''
+      media_switch: ''
+      thumbnail_style: ''
+      ratio: ''
+      view_mode: default
+      current_view_mode: default
+      background: false
+      caption:
+        field_media_category: '0'
+        image: '0'
+        title: '0'
+        alt: '0'
+      class: ''
+      id: ''
+      image: ''
+      link: ''
+      overlay: ''
+      title: ''
+      vanilla: false
+      icon: ''
+      layout: ''
+      cache: 0
+      skin: ''
+      fx: ''
+      style: ''
+      box_caption: ''
+      box_caption_custom: ''
+      box_media_style: ''
+      box_style: ''
+      _uri: ''
+      breakpoints: {  }
+      sizes: ''
+      grid_header: ''
+      grid: ''
+      grid_medium: ''
+      grid_small: ''
+    third_party_settings: {  }
+    region: content
+  field_quiz_result_set_learn_more:
+    weight: 4
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link_separate
+    region: content
+  field_quiz_result_set_req_info:
+    weight: 3
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link_separate
+    region: content
+  field_quiz_result_set_title:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden:
+  search_api_excerpt: true

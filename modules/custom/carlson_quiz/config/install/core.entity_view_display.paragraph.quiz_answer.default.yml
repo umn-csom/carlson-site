@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.quiz_answer.field_quiz_answer_result
+    - field.field.paragraph.quiz_answer.field_quiz_answer_text
+    - paragraphs.paragraphs_type.quiz_answer
+  module:
+    - text
+id: paragraph.quiz_answer.default
+targetEntityType: paragraph
+bundle: quiz_answer
+mode: default
+content:
+  field_quiz_answer_result:
+    weight: 1
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_quiz_answer_text:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,13 @@
+carlson_quiz.results_page:
+  path: '/node/{node}/results/{webform_submission}'
+  defaults:
+    _controller: '\Drupal\carlson_quiz\Controller\QuizController::build'
+    _title_callback: '\Drupal\carlson_quiz\Controller\QuizController::getTitle'
+  options:
+    node:
+      type: entity:node
+    webform_submission:
+      type: entity:webform_submission
+  requirements:
+    _entity_bundles: node:quiz
+    _permission: 'access content'

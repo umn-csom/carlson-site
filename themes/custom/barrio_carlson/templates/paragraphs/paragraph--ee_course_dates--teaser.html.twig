@@ -44,6 +44,11 @@
 	<div class="col-12 ee-program__date--teaser">
 		<div class="row">
 			<div class="col-12">
+				{% if paragraph.field_pending_date.value %}
+					<div class="row date-cal">
+						Dates Pending
+					</div>
+				{% endif %}
 				{% for key,item in content.field_ee_program_dates|field_value %}
 					{% set start_timestamp = item['start_date']['#attributes']['datetime'] %}
 					{% set end_timestamp = item['end_date']['#attributes']['datetime'] %}
