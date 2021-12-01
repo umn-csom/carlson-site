@@ -7,6 +7,7 @@ use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Serialization\Yaml;
 use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\taxonomy\Entity\Term;
 use Drupal\webform\Entity\Webform;
 
 /**
@@ -36,14 +37,13 @@ function carlson_quiz_theme() {
 }
 
 /**
- * Implements hook_entity_update().
+ * Implements hook_entity_presave().
  *
  * @param \Drupal\Core\Entity\EntityInterface $entity
  *
  * @throws \Drupal\Core\Entity\EntityStorageException
  */
-function carlson_quiz_node_update(EntityInterface $entity) {
-
+function carlson_quiz_node_presave(EntityInterface $entity) {
   if($entity->bundle() == 'quiz' && $entity->hasField('field_quiz_questions')) {
 
     $elements = [];
@@ -153,6 +153,11 @@ function carlson_quiz_node_update(EntityInterface $entity) {
       }
     }
 
+    $elements['results'] = [
+      '#type' => 'hidden',
+      '#title' => 'Results',
+    ];
+
     $elements['actions'] = [
       '#type' => 'webform_actions',
       '#title' => 'Submit button(s)',
@@ -176,6 +181,9 @@ function carlson_quiz_node_update(EntityInterface $entity) {
         'settings' => $settings,
       ]);
       $webform->save();
+    }
+    if($entity->hasField('field_quiz_webform')) {
+      $entity->set('field_quiz_webform', 'quiz_node_'.$entity->id());
     }
   }
 }
@@ -337,5 +345,44 @@ function carlson_quiz_preprocess_page(&$variables) {
   $webform_submission = \Drupal::routeMatch()->getParameter('webform_submission');
   if ($node && $node->getType() == 'quiz' && $webform_submission == null) {
       $variables['content_attributes']['class'] = ['container-fluid', 'mt-0'];
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ *
+ * @param $webform_submission
+ */
+function carlson_quiz_webform_submission_presave(&$webform_submission) {
+  $webform_id = $webform_submission->hasField('webform_id') ? $webform_submission->get('webform_id')->target_id : null;
+  $entity_id = $webform_submission->hasField('entity_id') ? $webform_submission->get('entity_id')->value : null;
+
+  if($webform_id && $entity_id && $webform_id == 'quiz_node_'.$entity_id) {
+    $results = [];
+    $result_ids = [];
+    $data =  $webform_submission->getData();
+
+    foreach ($data as $key => $pid) {
+      if($key != 'results') {
+        $answer = Paragraph::load($pid);
+        if(isset($answer) && $answer->hasField('field_quiz_answer_result') && !empty($answer->get('field_quiz_answer_result'))) {
+          $answer_results = $answer->get('field_quiz_answer_result')->getValue();
+          foreach ($answer_results as $answer_result) {
+            $id = $answer_result["target_id"];
+            $result_ids[$id] = array_key_exists($id, $result_ids) ? ++$result_ids[$id] : 1;
+          }
+        }
+      }
+    }
+
+    arsort($result_ids);
+    $result_ids_to_save = count($result_ids) > 3 ? array_slice($result_ids, 0, 3, true) : $result_ids;
+
+    foreach ($result_ids_to_save as $tid => $value) {
+      $result = Term::load($tid);
+      $results[] = $result->label();
+    }
+
+    $webform_submission->setElementData('results', implode(",", $results));
   }
 }

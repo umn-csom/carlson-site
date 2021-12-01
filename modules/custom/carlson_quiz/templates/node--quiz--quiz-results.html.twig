@@ -98,14 +98,14 @@
     <div class="container">
       <div class="row align-items-center justify-content-center">
         <div class="col-12 col-md-6 col-xl-5">
-          <p class="text-uppercase">Results</p>
+          <p class="results-title-prefix text-uppercase">Results</p>
           <h1 class="d-none">{{ node.label }} Results</h1>
-          <h2 class="mb-5">{{ title|raw }}</h2>
-          <div class="mb-5 pb-4">{{ body|raw }}</div>
+          <h2 class="results--title mb-5">{{ title|raw }}</h2>
+          <div class="results--body mb-5 pb-4">{{ body|raw }}</div>
         </div>
         <div class="co-12 col-md-6 col-xl-5 d-flex justify-content-end">
-          <a class="btn maroon-solid-button mr-4" href="#">{{ 'Send My Results'|t }}</a>
-          <a class="btn maroon-outline-button" href="{{ path('entity.node.canonical', {'node': node.id}) }}">{{ 'Retake'|t }}</a>
+          <a class="results--btn-send btn maroon-solid-button mr-4" id="results--btn-send" href="#">{{ 'Send My Results'|t }}</a>
+          <a class="results--btn-retake btn maroon-outline-button" id="results--btn-retake" href="{{ path('entity.node.canonical', {'node': node.id}) }}">{{ 'Retake'|t }}</a>
         </div>
       </div>
       <div class="row justify-content-center">

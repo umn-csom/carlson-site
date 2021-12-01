@@ -10,12 +10,14 @@ dependencies:
     - field.field.node.quiz.field_quiz_results_add_comps
     - field.field.node.quiz.field_quiz_results_body
     - field.field.node.quiz.field_quiz_results_title
+    - field.field.node.quiz.field_quiz_webform
     - node.type.quiz
   module:
     - entity_reference_revisions
     - metatag
     - text
     - user
+    - webform
 id: node.quiz.default
 targetEntityType: node
 bundle: quiz
@@ -82,6 +84,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: text_default
+    region: content
+  field_quiz_webform:
+    weight: 109
+    label: above
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
     region: content
   links:
     weight: 100

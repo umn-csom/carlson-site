@@ -65,6 +65,7 @@
   set classes = [
     'node',
     'node--type-' ~ node.bundle|clean_class,
+    'quiz',
     node.isPromoted() ? 'node--promoted',
     node.isSticky() ? 'node--sticky',
     not node.isPublished() ? 'node--unpublished',
@@ -75,13 +76,15 @@
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'mt-0') }}>
     <div class="row">
-      <div class="col-12 col-md-3 d-none d-md-block">
+      <div class="quiz--main-img col-12 col-md-3 d-none d-md-block">
         {{ content.field_quiz_main_image }}
       </div>
       <div class="co-12 col-md-9">
-        <h2 class="mb-5">{{ content.field_quiz_headline }}</h2>
-        <div class="mb-5">{{ content.body }}</div>
-        {{ drupal_entity('webform', 'quiz_node_' ~ node.id() ) }}
+        <h2 class="quiz--headline mb-5">{{ content.field_quiz_headline }}</h2>
+        <div class="quiz--body mb-5">{{ content.body }}</div>
+        <div class="quiz--webform">
+          {{ drupal_entity('webform', 'quiz_node_' ~ node.id() ) }}
+        </div>
       </div>
     </div>
     <div class="row d-none">
