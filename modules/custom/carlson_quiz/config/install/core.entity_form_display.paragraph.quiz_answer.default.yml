@@ -1,0 +1,32 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.quiz_answer.field_quiz_answer_result
+    - field.field.paragraph.quiz_answer.field_quiz_answer_text
+    - paragraphs.paragraphs_type.quiz_answer
+  module:
+    - chosen_field
+    - text
+id: paragraph.quiz_answer.default
+targetEntityType: paragraph
+bundle: quiz_answer
+mode: default
+content:
+  field_quiz_answer_result:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: chosen_select
+    region: content
+  field_quiz_answer_text:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textfield
+    region: content
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_quiz_result_set_image
+    - media.type.image
+    - taxonomy.vocabulary.quiz_result_set
+id: taxonomy_term.quiz_result_set.field_quiz_result_set_image
+field_name: field_quiz_result_set_image
+entity_type: taxonomy_term
+bundle: quiz_result_set
+label: Image
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

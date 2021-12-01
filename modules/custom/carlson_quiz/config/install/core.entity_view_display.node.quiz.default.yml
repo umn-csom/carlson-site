@@ -1,0 +1,93 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.quiz.body
+    - field.field.node.quiz.field_meta_tags
+    - field.field.node.quiz.field_quiz_headline
+    - field.field.node.quiz.field_quiz_main_image
+    - field.field.node.quiz.field_quiz_questions
+    - field.field.node.quiz.field_quiz_results_add_comps
+    - field.field.node.quiz.field_quiz_results_body
+    - field.field.node.quiz.field_quiz_results_title
+    - node.type.quiz
+  module:
+    - entity_reference_revisions
+    - metatag
+    - text
+    - user
+id: node.quiz.default
+targetEntityType: node
+bundle: quiz
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 101
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_meta_tags:
+    weight: 108
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
+    region: content
+  field_quiz_headline:
+    weight: 102
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_quiz_main_image:
+    type: entity_reference_entity_view
+    weight: 103
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_quiz_questions:
+    type: entity_reference_revisions_entity_view
+    weight: 104
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_quiz_results_add_comps:
+    type: entity_reference_revisions_entity_view
+    weight: 107
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_quiz_results_body:
+    weight: 106
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_quiz_results_title:
+    weight: 105
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  addtoany: true
+  search_api_excerpt: true
