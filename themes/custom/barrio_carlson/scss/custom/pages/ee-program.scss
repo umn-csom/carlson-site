@@ -648,6 +648,12 @@
 			.staff-faculty__item{
 
 				&> .row{
+					flex-direction: row;
+
+					@include media-breakpoint-up(md){
+						flex-direction: column;
+					}
+
 					.row{
 						flex-direction: column;
 					}
@@ -657,6 +663,11 @@
 						max-width: 30%;
 						margin: 0;
 						padding: 0;
+
+						@include media-breakpoint-up(md){
+							max-width: 100%;
+							padding: 10px;
+						}
 
 						img{
 							-webkit-box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.3);
@@ -672,9 +683,22 @@
 					.staff-faculty__item--position,
 					.staff-faculty__item--phone,
 					.staff-faculty__item--email,
-					.staff-faculty__item--address{
+					.staff-faculty__item--address,
+					.staff-faculty__item--bio,
+					.staff-faculty__item--link {
 						font-weight: normal;
 						padding: 0 10px 5px;
+					}
+
+					.staff-faculty__item--position {
+						font-style: italic;
+					}
+
+					.staff-faculty__item--bio {
+						display: none;
+						@include media-breakpoint-up(md){
+							display: block;
+						}
 					}
 
 					[class*='col-']{
