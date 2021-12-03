@@ -9,6 +9,7 @@ use Drupal\Core\Serialization\Yaml;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\webform\Entity\Webform;
+use Drupal\webform\WebformSubmissionInterface;
 
 /**
  * Implements hook_theme().
@@ -351,9 +352,9 @@ function carlson_quiz_preprocess_page(&$variables) {
 /**
  * Implements hook_ENTITY_TYPE_presave().
  *
- * @param $webform_submission
+ * @param \Drupal\webform\WebformSubmissionInterface $webform_submission
  */
-function carlson_quiz_webform_submission_presave(&$webform_submission) {
+function carlson_quiz_webform_submission_presave(WebformSubmissionInterface &$webform_submission) {
   $webform_id = $webform_submission->hasField('webform_id') ? $webform_submission->get('webform_id')->target_id : null;
   $entity_id = $webform_submission->hasField('entity_id') ? $webform_submission->get('entity_id')->value : null;
 

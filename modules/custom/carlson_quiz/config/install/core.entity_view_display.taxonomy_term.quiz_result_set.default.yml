@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_code
     - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_image
     - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_learn_more
     - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_req_info
@@ -20,13 +21,21 @@ content:
   description:
     label: hidden
     type: text_default
-    weight: 2
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_quiz_result_set_code:
+    weight: 1
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
   field_quiz_result_set_image:
     type: blazy_media
-    weight: 1
+    weight: 2
     label: hidden
     settings:
       image_style: quiz_results_item
@@ -69,7 +78,7 @@ content:
     third_party_settings: {  }
     region: content
   field_quiz_result_set_learn_more:
-    weight: 4
+    weight: 5
     label: hidden
     settings:
       trim_length: 80
@@ -81,7 +90,7 @@ content:
     type: link_separate
     region: content
   field_quiz_result_set_req_info:
-    weight: 3
+    weight: 4
     label: hidden
     settings:
       trim_length: 80

@@ -1,0 +1,350 @@
+langcode: en
+status: open
+dependencies: {  }
+open: null
+close: null
+weight: 0
+uid: 62592
+template: false
+archive: false
+id: quiz_send_results
+title: 'Quiz: Send Results'
+description: ''
+category: ''
+elements: |-
+  container:
+    '#type': container
+    '#attributes':
+      class:
+        - webform__body
+    processed_text:
+      '#type': processed_text
+      '#text': |
+        <h2 class="text-align-center">Send My Results</h2>
+      '#format': rich_text
+  container_form:
+    '#type': container
+    '#attributes':
+      class:
+        - webform__form
+        - row
+        - justify-content-center
+    container_form_inner:
+      '#type': container
+      firstname:
+        '#type': textfield
+        '#title': 'First Name'
+        '#title_display': invisible
+        '#placeholder': 'First Name'
+        '#required': true
+        '#required_error': 'Please enter your first name'
+      lastname:
+        '#type': textfield
+        '#title': 'Last Name'
+        '#title_display': invisible
+        '#placeholder': 'Last Name'
+        '#required': true
+        '#required_error': 'Please enter your last name'
+      email:
+        '#type': email
+        '#title': Email
+        '#title_display': invisible
+        '#placeholder': Email
+        '#required': true
+        '#required_error': 'Please enter your email address'
+  program_1:
+    '#type': hidden
+    '#title': 'Program 1'
+    '#prepopulate': true
+  program_2:
+    '#type': hidden
+    '#title': 'Program 2'
+    '#prepopulate': true
+  program_3:
+    '#type': hidden
+    '#title': 'Program 3'
+    '#prepopulate': true
+  program_1_id:
+    '#type': hidden
+    '#title': 'Program 1 ID'
+    '#prepopulate': true
+  program_2_id:
+    '#type': hidden
+    '#title': 'Program 2 ID'
+    '#prepopulate': true
+  program_3_id:
+    '#type': hidden
+    '#title': 'Program 3 ID'
+    '#prepopulate': true
+css: ''
+javascript: ''
+settings:
+  ajax: true
+  ajax_scroll_top: form
+  ajax_progress_type: ''
+  ajax_effect: ''
+  ajax_speed: null
+  page: true
+  page_submit_path: ''
+  page_confirm_path: ''
+  page_theme_name: ''
+  form_title: both
+  form_submit_once: false
+  form_exception_message: ''
+  form_open_message: ''
+  form_close_message: ''
+  form_previous_submissions: true
+  form_confidential: false
+  form_confidential_message: ''
+  form_disable_remote_addr: false
+  form_convert_anonymous: false
+  form_prepopulate: false
+  form_prepopulate_source_entity: false
+  form_prepopulate_source_entity_required: false
+  form_prepopulate_source_entity_type: ''
+  form_reset: false
+  form_disable_autocomplete: false
+  form_novalidate: false
+  form_disable_inline_errors: false
+  form_required: false
+  form_unsaved: false
+  form_disable_back: false
+  form_submit_back: false
+  form_autofocus: false
+  form_details_toggle: false
+  form_access_denied: default
+  form_access_denied_title: ''
+  form_access_denied_message: ''
+  form_access_denied_attributes: {  }
+  form_file_limit: ''
+  form_method: ''
+  form_action: ''
+  form_attributes: {  }
+  share: false
+  share_node: false
+  share_theme_name: ''
+  share_title: true
+  share_page_body_attributes: {  }
+  submission_label: ''
+  submission_log: false
+  submission_views: {  }
+  submission_views_replace: {  }
+  submission_user_columns: {  }
+  submission_user_duplicate: false
+  submission_access_denied: default
+  submission_access_denied_title: ''
+  submission_access_denied_message: ''
+  submission_access_denied_attributes: {  }
+  submission_exception_message: ''
+  submission_locked_message: ''
+  submission_excluded_elements: {  }
+  submission_exclude_empty: false
+  submission_exclude_empty_checkbox: false
+  previous_submission_message: ''
+  previous_submissions_message: ''
+  autofill: false
+  autofill_message: ''
+  autofill_excluded_elements: {  }
+  wizard_progress_bar: true
+  wizard_progress_pages: false
+  wizard_progress_percentage: false
+  wizard_progress_link: false
+  wizard_progress_states: false
+  wizard_auto_forward: true
+  wizard_auto_forward_hide_next_button: false
+  wizard_keyboard: true
+  wizard_start_label: ''
+  wizard_preview_link: false
+  wizard_confirmation: true
+  wizard_confirmation_label: ''
+  wizard_track: ''
+  wizard_prev_button_label: ''
+  wizard_next_button_label: ''
+  wizard_toggle: false
+  wizard_toggle_show_label: ''
+  wizard_toggle_hide_label: ''
+  preview: 0
+  preview_label: ''
+  preview_title: ''
+  preview_message: ''
+  preview_attributes: {  }
+  preview_excluded_elements: {  }
+  preview_exclude_empty: true
+  preview_exclude_empty_checkbox: false
+  draft: none
+  draft_multiple: false
+  draft_auto_save: false
+  draft_saved_message: ''
+  draft_loaded_message: ''
+  draft_pending_single_message: ''
+  draft_pending_multiple_message: ''
+  confirmation_type: inline
+  confirmation_title: ''
+  confirmation_message: "<div class=\"webform__body\">\r\n<h2 class=\"text-align-center\">Your results have been sent to your email!</h2>\r\n</div>"
+  confirmation_url: node/104731
+  confirmation_attributes: {  }
+  confirmation_back: false
+  confirmation_back_label: ''
+  confirmation_back_attributes: {  }
+  confirmation_exclude_query: false
+  confirmation_exclude_token: false
+  confirmation_update: false
+  limit_total: null
+  limit_total_interval: null
+  limit_total_message: ''
+  limit_total_unique: false
+  limit_user: null
+  limit_user_interval: null
+  limit_user_message: ''
+  limit_user_unique: false
+  entity_limit_total: null
+  entity_limit_total_interval: null
+  entity_limit_user: null
+  entity_limit_user_interval: null
+  purge: none
+  purge_days: null
+  results_disabled: false
+  results_disabled_ignore: false
+  results_customize: false
+  token_view: false
+  token_update: false
+  token_delete: false
+  serial_disabled: false
+access:
+  create:
+    roles:
+      - anonymous
+      - authenticated
+    users: {  }
+    permissions: {  }
+  view_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  update_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  delete_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  purge_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  view_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  update_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  delete_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  administer:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  test:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  configuration:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+handlers:
+  quick_capture:
+    id: remote_post
+    label: 'Quick Capture'
+    notes: ''
+    handler_id: quick_capture
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      method: POST
+      type: x-www-form-urlencoded
+      excluded_data:
+        serial: serial
+        sid: sid
+        token: token
+        created: created
+        completed: completed
+        changed: changed
+        in_draft: in_draft
+        current_page: current_page
+        remote_addr: remote_addr
+        uid: uid
+        langcode: langcode
+        webform_id: webform_id
+        entity_type: entity_type
+        entity_id: entity_id
+        locked: locked
+        sticky: sticky
+        notes: notes
+        program_1: program_1
+        program_2: program_2
+        program_3: program_3
+      custom_data: "program:\r\n- \"[webform_submission:values:program_1]\"\r\n- \"[webform_submission:values:program_2]\"\r\n- \"[webform_submission:values:program_3]\""
+      custom_options: ''
+      file_data: true
+      cast: false
+      debug: false
+      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/bmh5khp/'
+      completed_custom_data: ''
+      updated_url: ''
+      updated_custom_data: ''
+      deleted_url: ''
+      deleted_custom_data: ''
+      draft_created_url: ''
+      draft_created_custom_data: ''
+      draft_updated_url: ''
+      draft_updated_custom_data: ''
+      converted_url: ''
+      converted_custom_data: ''
+      message: ''
+      messages: {  }
+      error_url: ''
+  email:
+    id: email
+    label: Email
+    notes: ''
+    handler_id: email
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      states:
+        - completed
+      to_mail: '[webform_submission:values:email:raw]'
+      to_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: _default
+      subject: 'Find My Graduate Program Results'
+      body: "{% set tids = [data.program_1_id] %}\r\n{% set tids = data.program_2_id is not empty ? tids|merge([data.program_2_id]) : tids %}\r\n{% set tids = data.program_3_id is not empty ? tids|merge([data.program_3_id]) : tids %}\r\n{% set numbers = [\r\n    'zero',\r\n    'one',\r\n    'two',\r\n    'three',\r\n    'four',\r\n    'five'\r\n  ]\r\n%}\r\n\r\n<h3>Find My Graduate Program Results</h3>\r\n\r\n<h2>{{ tids|length }} Graduate programs that are right for you</h2>\r\n\r\n<p>Here’s {{ numbers[tids|length] }} programs that can help you <strong><em>excelerate your career</em></strong>.\r\n\r\n{% for tid in tids %}\r\n  {% set title = drupal_field('field_quiz_result_set_title', 'taxonomy_term', tid) %}\r\n  <h3>{{ title[0]['#text'] }}</h3>\r\n  \r\n  {% set description = drupal_field('description', 'taxonomy_term', tid) %}\r\n  {{ description[0]['#text']|raw }}\r\n  \r\n  {% set req_info = drupal_field('field_quiz_result_set_req_info', 'taxonomy_term', tid) %}\r\n  {% set learn_more = drupal_field('field_quiz_result_set_learn_more', 'taxonomy_term', tid) %}\r\n  {% set req_info_url = req_info[0]['#url']|render %}\r\n  {% set learn_more_url = learn_more[0]['#url']|render %}\r\n  {% set req_info_title = req_info[0]['#title']|render %}\r\n  {% set learn_more_title = learn_more[0]['#title']|render %}\r\n  \r\n  <a href=\"{{ req_info_url }}\" target=\"_blank\">{{ req_info_title ? req_info_title : 'Request Info' }}</a>\r\n  <a href=\"{{ learn_more_url }}\" target=\"_blank\">{{ learn_more_title ? learn_more_title : 'Learn More' }}</a>\r\n  \r\n{% endfor %}"
+      excluded_elements: {  }
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: false
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: true
+      debug: false
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      theme_name: ''
+      parameters: {  }
+variants: {  }
