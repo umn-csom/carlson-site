@@ -2,19 +2,28 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.quiz_answer.field_quiz_answer_icon
     - field.field.paragraph.quiz_answer.field_quiz_answer_result
     - field.field.paragraph.quiz_answer.field_quiz_answer_text
     - paragraphs.paragraphs_type.quiz_answer
   module:
     - chosen_field
+    - media_library
     - text
 id: paragraph.quiz_answer.default
 targetEntityType: paragraph
 bundle: quiz_answer
 mode: default
 content:
-  field_quiz_answer_result:
+  field_quiz_answer_icon:
+    type: media_library_widget
     weight: 1
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+    region: content
+  field_quiz_answer_result:
+    weight: 2
     settings: {  }
     third_party_settings: {  }
     type: chosen_select

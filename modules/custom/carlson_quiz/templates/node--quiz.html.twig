@@ -60,7 +60,8 @@
  */
 #}
 {{ attach_library('bootstrap_barrio/node') }}
-
+{{ attach_library('barrio_carlson/carlson_quiz') }}
+{{ attach_library('carlson_quiz/carlson_quiz') }}
 {%
   set classes = [
     'node',
@@ -76,14 +77,20 @@
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'mt-0') }}>
     <div class="row">
-      <div class="quiz--main-img col-12 col-md-3 d-none d-md-block">
-        {{ content.field_quiz_main_image }}
+      <div class="quiz--main-img col-12 col-md-3 d-none d-md-block pl-0">
+        <div class="quiz--main-img--inner">
+          {{ content.field_quiz_main_image }}
+        </div>
       </div>
-      <div class="co-12 col-md-9">
-        <h2 class="quiz--headline mb-5">{{ content.field_quiz_headline }}</h2>
-        <div class="quiz--body mb-5">{{ content.body }}</div>
-        <div class="quiz--webform">
-          {{ drupal_entity('webform', 'quiz_node_' ~ node.id() ) }}
+      <div class="co-12 col-md-9 col-xl-8 mt-lg-5 pt-5">
+        <div class="row justify-content-center px-3 px-md-0">
+          <div class="quiz--content col-12 col-lg pt-lg-3">
+            <h2 class="quiz--headline column__heading mb-5">{{ content.field_quiz_headline }}</h2>
+            <div class="quiz--body mb-5 pb-5 border-bottom">{{ content.body }}</div>
+            <div class="quiz--webform">
+              {{ drupal_entity('webform', 'quiz_node_' ~ node.id() ) }}
+            </div>
+          </div>
         </div>
       </div>
     </div>

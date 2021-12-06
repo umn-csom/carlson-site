@@ -6,7 +6,9 @@ use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Serialization\Yaml;
+use Drupal\Core\Url;
 use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\file\Entity\File;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\webform\Entity\Webform;
 use Drupal\webform\WebformSubmissionInterface;
@@ -57,9 +59,10 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
 
     foreach ($questions as $question_key => $question) {
       if($question->hasField('field_quiz_question_answers')) {
-        $text = $question->hasField('field_quiz_question_text') ? $question->get('field_quiz_question_text')->value : '';
-        $help_text = $question->hasField('field_quiz_question_help_text') ? $question->get('field_quiz_question_help_text')->value : '';
+        $text = $question->hasField('field_quiz_question_text') ? strip_tags($question->get('field_quiz_question_text')->value, '<a><b><div><strong><i><em><img><span>') : '';
+        $help_text = $question->hasField('field_quiz_question_help_text') && !empty($question->get('field_quiz_question_help_text')->getValue()) ? '<button class="quiz--question--info-btn border-0 p-0 bg-transparent" type="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-html="true" data-content="'.htmlspecialchars($question->get('field_quiz_question_help_text')->value).'"><span class="d-none">Help Text</span></button>' : '';
         $type = $question->hasField('field_quiz_question_type') && $question->get('field_quiz_question_type')->value === 'multiple' ? 'checkboxes' : 'radios';
+        $answers_layout = $question->hasField('field_quiz_question_answs_layout') && !empty($question->get('field_quiz_question_answs_layout')->getValue()) ? $question->get('field_quiz_question_answs_layout')->value : 'stacked';
         $answers = $question->get('field_quiz_question_answers')->referencedEntities();
         $conditional_question = $question->hasField('field_quiz_question_cond_qn') && !empty($question->get('field_quiz_question_cond_qn')->getValue()) ? $question->get('field_quiz_question_cond_qn')->getValue() : '';
         $conditional_answers = $question->hasField('field_quiz_question_cond_answ') && !empty($question->get('field_quiz_question_cond_answ')->getValue()) ? $question->get('field_quiz_question_cond_answ')->getValue() : '';
@@ -67,16 +70,25 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
         $options_properties = [];
         $states = [];
 
-        $prev_button = $question_key > 0 ? '<legend class="d-none">Prev Button</legend><a class="question-'.($question_key + 1).'-prev-button question-'.$question->id().'-prev-button btn maroon-outline-button py-3" href="#edit-question-'.$questions[$question_key - 1]->id().'" id="question-'.$question->id().'-prev-button">Prev</a>' : '';
-        $next_button = next($questions) ? '<legend class="d-none">Next Button</legend><a class="question-'.($question_key + 1).'-next-button question-'.$question->id().'-next-button btn maroon-solid-button py-3" href="#edit-question-'.$questions[$question_key + 1]->id().'" id="question-'.$question->id().'-next-button">Next</a>' : '';;
+        $prev_button = $question_key > 0 ? '<legend class="d-none">Prev Button</legend><a class="question-'.($question_key + 1).'-prev-button question-'.$question->id().'-prev-button quiz--question--prev btn maroon-outline-button py-3" href="#edit-question-'.$questions[$question_key - 1]->id().'-title" id="question-'.$question->id().'-prev-button">Prev</a>' : '';
+        $next_button = next($questions) ? '<legend class="d-none">Next Button</legend><a class="question-'.($question_key + 1).'-next-button question-'.$question->id().'-next-button quiz--question--next btn maroon-solid-button py-3 pr-4" href="#edit-question-'.$questions[$question_key + 1]->id().'-title" id="question-'.$question->id().'-next-button">Next</a>' : '';;
 
         foreach ($answers as $answer_key => $answer) {
           $answer_id = $answer->id();
           $answer_text = $answer->hasField('field_quiz_answer_text') ? $answer->get('field_quiz_answer_text')->value : '';
-          $options[$answer_id] = $answer_text;
+          $answer_icon_entity = $answer->hasField('field_quiz_answer_icon') && !empty($answer->get('field_quiz_answer_icon')->target_id) ? $answer->get('field_quiz_answer_icon')->referencedEntities()[0] : null;
+          $answer_icon_file = $answer_icon_entity ? $answer_icon_entity->get('field_media_file')->referencedEntities()[0] : null;
+          $answer_icon_url = $answer_icon_file ? $answer_icon_file->createFileUrl() : '';
+          $answer_icon = $answer_icon_url ? '<img src="'.$answer_icon_url.'" alt="icon" width="38" height="38" />' : '';
+          $options[$answer_id] = $answer_text.' -- '.$answer_icon;
+          $answer_wrapper_classes = '';
+          switch ($answers_layout) {
+            case 'three_cols':
+              $answer_wrapper_classes .= 'col-lg mx-lg-4';
+          }
           $options_properties[$answer_id] = [
             '#wrapper_attributes' => [
-              'class' => [],
+              'class' => ['quiz--answer col-12 '.$answer_wrapper_classes],
             ],
             '#attributes' => [
               'class' => [
@@ -98,50 +110,60 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
           }
         }
 
-        $elements['question_'.$question->id().'_container'] = [
-          '#type' => 'container',
+//        $elements['question_'.$question->id().'_container'] = [
+//          '#type' => 'container',
+//        ];
+
+        $elements['question_'.$question->id().'_title'] = [
+          '#type' => 'processed_text',
+          '#format' => 'rich_text',
+          '#text' => '<legend class="d-none">Question Title</legend><div class="quiz--question--title-prefix text-uppercase mb-2">Question '.($question_key + 1).'</div><div class="quiz--question--title column__heading"><h3 class="d-inline">'.$text.'</h3>'.$help_text.'</div>',
+          '#wrapper_attributes' => [
+            'class' => ['quiz--question--title-wrapper'],
+          ],
+          '#states' => $states,
         ];
 
-        $elements['question_'.$question->id().'_container']['question_'.$question->id()] = [
+        $elements['question_'.$question->id()] = [
           '#type' => $type,
           '#title' => $text,
-          '#help' => $help_text,
           '#default_value' => '',
           '#wrapper_attributes' => [
-            'class' => ['mb-5'],
+            'class' => ['mb-5', 'quiz--question', $answers_layout],
           ],
           '#options' => $options,
           '#options__properties' => $options_properties,
           '#states' => $states,
+          '#required'=> empty($states)
         ];
 
         if($prev_button !== '' || $next_button !== '') {
 
-          $elements['question_'.$question->id().'_container']['question_'.$question->id().'_buttons'] = [
-            '#type' => 'container',
-            '#attributes' => [
-              'class' => ['d-flex'],
-            ],
-          ];
+//          $elements['question_'.$question->id().'_buttons'] = [
+//            '#type' => 'container',
+//            '#attributes' => [
+//              'class' => ['d-flex'],
+//            ],
+//          ];
 
           if($prev_button !== '') {
-            $elements['question_'.$question->id().'_container']['question_'.$question->id().'_buttons']['question_'.$question->id().'_prev_button'] = [
+            $elements['question_'.$question->id().'_prev_button'] = [
               '#type' => 'processed_text',
               '#format' => 'rich_text',
               '#wrapper_attributes' => [
-                'class' => ['mb-5 mr-4 d-inline-block'],
+                'class' => ['mb-5 mr-4 d-inline-block float-left'],
               ],
               '#text' => $prev_button,
               '#states' => $states,
             ];
             if(!empty($states)) {
               $prev_question = $questions[$question_key-1];
-              $elements['question_'.$prev_question->id().'_container']['question_'.$prev_question->id().'_buttons']['question_'.$prev_question->id().'_next_button']['#states'] = $states;
+              $elements['question_'.$prev_question->id().'_next_button']['#states'] = $states;
             }
           }
 
           if($next_button !== '') {
-            $elements['question_'.$question->id().'_container']['question_'.$question->id().'_buttons']['question_'.$question->id().'_next_button'] = [
+            $elements['question_'.$question->id().'_next_button'] = [
               '#type' => 'processed_text',
               '#format' => 'rich_text',
               '#wrapper_attributes' => [
@@ -163,6 +185,9 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
       '#type' => 'webform_actions',
       '#title' => 'Submit button(s)',
       '#submit__label' => 'Get My Results',
+      '#attributes' => [
+        'class' => ['mb-5 d-inline-block']
+      ]
     ];
 
     $webform = Webform::load('quiz_node_'.$entity->id());
@@ -342,11 +367,11 @@ function carlson_quiz_theme_suggestions_taxonomy_term_alter(&$suggestions, $vars
  * @param $variables
  */
 function carlson_quiz_preprocess_page(&$variables) {
-  $node = \Drupal::routeMatch()->getParameter('node');
-  $webform_submission = \Drupal::routeMatch()->getParameter('webform_submission');
-  if ($node && $node->getType() == 'quiz' && $webform_submission == null) {
-      $variables['content_attributes']['class'] = ['container-fluid', 'mt-0'];
-  }
+//  $node = \Drupal::routeMatch()->getParameter('node');
+//  $webform_submission = \Drupal::routeMatch()->getParameter('webform_submission');
+//  if ($node && $node->getType() == 'quiz' && $webform_submission == null) {
+//      $variables['content_attributes']['class'] = ['container-fluid', 'mt-0'];
+//  }
 }
 
 /**
