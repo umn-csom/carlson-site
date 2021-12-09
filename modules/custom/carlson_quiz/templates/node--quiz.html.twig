@@ -76,6 +76,19 @@
 %}
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'mt-0') }}>
+    <div class="quiz--progress-bar row bg-white">
+      <div class="quiz--progress-bar--bar" style="--seek-width : 0%">
+        <div class="quiz--progress-bar--bar--seek"></div>
+      </div>
+      <div class="col-12 py-lg-3">
+        <div class="row align-items-center px-2 px-lg-4 py-4">
+          <div class="col">
+            <h1 class="quiz--progress-bar--title mb-0">{{ label }}</h1>
+          </div>
+          <div class="col-auto quiz--progress-bar--progress"><span class="quiz--progress-bar--progress-number">0</span>%&nbsp;{{ 'Complete'|t }}</div>
+        </div>
+      </div>
+    </div>
     <div class="row">
       <div class="quiz--main-img col-12 col-md-3 d-none d-md-block pl-0">
         <div class="quiz--main-img--inner">
@@ -94,8 +107,6 @@
         </div>
       </div>
     </div>
-    <div class="row d-none">
-      <div class="col-12"><h1>{{ label }}</h1></div>
-    </div>
+    <div class="quiz--progress-bar--spacer"></div>
   </div>
 </article>

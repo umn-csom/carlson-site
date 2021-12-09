@@ -10,6 +10,8 @@
 
   Drupal.behaviors.carlsonQuiz = {
     attach: function (context, settings) {
+      var questions = $('.quiz--question.required', context);
+
       $('[data-toggle="popover"]').popover({ trigger: "manual" , html: true})
         .on("mouseenter", function () {
         var _this = this;
@@ -40,6 +42,18 @@
         checkbox.trigger('change');
         $(this).closest('.quiz--question').find('.quiz--answer').removeClass('checked');
         $(this).closest('.quiz--question').find('.quiz--answer input:checked').closest('.quiz--answer').addClass('checked');
+
+        if(questions.length > 0) {
+          var progress = 0;
+          questions.each(function () {
+            if($(this).find('.quiz--answer.checked').length > 0) {
+              progress++;
+            }
+          });
+          var progressPercent = Math.floor(progress*100/questions.length)
+          $('.quiz--progress-bar--progress-number', context).text(progressPercent);
+          $('.quiz--progress-bar--bar', context)[0].style.setProperty('--seek-width', progressPercent + '%');
+        }
       });
 
       $('.quiz--question--prev, .quiz--question--next', context).on('click', function (event) {
@@ -56,6 +70,26 @@
       $('.quiz--main-img--inner', context).stick_in_parent({
         parent: '.quiz--main-img',
         offset_top: 75
+      });
+
+      var offset = $(window).outerWidth() > 991 ? $(window).outerHeight() - $('.quiz--progress-bar', context).first().outerHeight() : $('#carlson-navbar', context).outerHeight();
+      $('.quiz--progress-bar', context).stick_in_parent({
+        parent: '.node__content',
+        spacer: '.quiz--progress-bar--spacer',
+        offset_top: offset
+      });
+
+      $(window).on('resize orientationchange', function () {
+        var newOffset = $(window).outerWidth() > 991 ? $(window).outerHeight() - $('.quiz--progress-bar', context).first().outerHeight() : $('#carlson-navbar', context).outerHeight();
+        if(offset !== newOffset) {
+          offset = newOffset;
+          $('.quiz--progress-bar', context).trigger("sticky_kit:detach");
+          $('.quiz--progress-bar', context).stick_in_parent({
+            parent: '.node__content',
+            spacer: '.quiz--progress-bar--spacer',
+            offset_top: offset
+          });
+        }
       });
     }
   };
