@@ -13,15 +13,16 @@ class QuizController extends ControllerBase {
     $results = [];
     $data =  $webform_submission->getData();
 
-    foreach ($data as $pid) {
-      $answer = Paragraph::load($pid);
-      if(isset($answer) && $answer->hasField('field_quiz_answer_result') && !empty($answer->get('field_quiz_answer_result'))) {
-        $answer_results = $answer->get('field_quiz_answer_result')->getValue();
-        foreach ($answer_results as $answer_result) {
-          $id = $answer_result["target_id"];
-          $results[$id] = array_key_exists($id, $results) ? ++$results[$id] : 1;
+    foreach ($data as $key => $pid) {
+      if($key != 'results' && $pid && $pid !== '') {
+        $answer = Paragraph::load($pid);
+        if(isset($answer) && $answer->hasField('field_quiz_answer_result') && !empty($answer->get('field_quiz_answer_result'))) {
+          $answer_results = $answer->get('field_quiz_answer_result')->getValue();
+          foreach ($answer_results as $answer_result) {
+            $id = $answer_result["target_id"];
+            $results[$id] = array_key_exists($id, $results) ? ++$results[$id] : 1;
+          }
         }
-
       }
     }
 
