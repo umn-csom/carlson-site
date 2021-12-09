@@ -25,11 +25,14 @@
 #}
 {%
   set classes = [
-  'd-lg-flex',
-  'flex-lg-column',
+  'd-md-flex',
+  'flex-md-column',
   'taxonomy-term',
   'vocabulary-' ~ term.bundle|clean_class,
   'result',
+  'quiz-results--result',
+  'p-4',
+  'bg-white',
   'result--' ~ term.id,
   'result--' ~ name[0]['#context'].value|clean_class
 ]
@@ -46,7 +49,8 @@
   'btn',
   'maroon-solid-button',
   'd-block',
-  'mb-4',
+  'py-3 py-lg-4 mb-3 mb-lg-4',
+  'quiz-results--result--req-info',
   'result--req-info',
   'result--req-info--' ~ name[0]['#context'].value|clean_class,
   'use-ajax'
@@ -57,32 +61,38 @@
   'btn',
   'maroon-outline-button',
   'd-block',
+  'py-3 py-lg-4',
+  'quiz-results--result--learn-more',
   'result--learn-more',
   'result--learn-more--' ~ name[0]['#context'].value|clean_class,
   ]
 %}
 
 <div{{ attributes.setAttribute('id', 'result--' ~ term.id).setAttribute('data-name', name[0]['#context'].value|clean_class).addClass(classes) }}>
-  <div class="result--compare-checkbox-wrapper d-flex justify-content-end">
-    <label class="result--compare-checkbox-label d-flex align-items-center">{{ 'Add to compare'|t }} <input class="result--compare-checkbox result--compare-checkbox--{{ name[0]['#context'].value|clean_class }} ml-2" type="checkbox" id="result--compare-checkbox--{{ name[0]['#context'].value|clean_class }}" value="{{ name[0]['#context'].value|clean_class }}"></label>
+  <div class="quiz-results--result--compare-checkbox-wrapper d-flex justify-content-end px-3">
+    <label class="quiz-results--result--compare-checkbox-label result--compare-checkbox-label d-flex align-items-center">{{ 'Add to compare'|t }} <input class="quiz-results--result--compare-checkbox result--compare-checkbox result--compare-checkbox--{{ name[0]['#context'].value|clean_class }} ml-3" type="checkbox" id="result--compare-checkbox--{{ name[0]['#context'].value|clean_class }}" value="{{ name[0]['#context'].value|clean_class }}"></label>
   </div>
-  <div class="result--img mb-4">
-    {{ content.field_quiz_result_set_image }}
-  </div>
-  <h3 class="result--title column__heading">{{ content.field_quiz_result_set_title }}</h3>
-  <div class="result--description flex-lg-grow-1 pb-4 border-bottom mb-4">
-    {{ content.description }}
-  </div>
-  <div class="result--links pt-3">
-    {% if req_info_url %}
-      <a id="result--req-info--{{ name[0]['#context'].value|clean_class }}" href="{{ req_info_url }}" {{ req_info_target }} class="{{ req_info_classes|join(' ') }}" data-dialog-options="{&quot;width&quot;:800}" data-dialog-type="modal">
-        {{ req_info_title ? req_info_title : 'Request Info'|t }}
-      </a>
-    {% endif %}
-    {% if learn_more_url %}
-      <a id="result--learn-more--{{ name[0]['#context'].value|clean_class }}" href="{{ learn_more_url }}" {{ learn_more_target }} class="{{ learn_more_classes|join(' ') }}">
-        {{ learn_more_title ? learn_more_title : 'Learn More'|t }}
-      </a>
-    {% endif %}
+  <div class="quiz-results--result--content-wrapper p-3 d-md-flex flex-md-column flex-grow-1">
+    <div class="quiz-results--result--img mb-lg-4 pb-3">
+      {{ content.field_quiz_result_set_image }}
+    </div>
+    <div class="quiz-results--result--content d-md-flex flex-md-column flex-grow-1">
+      <h3 class="quiz-results--result--title column__heading">{{ content.field_quiz_result_set_title }}</h3>
+      <div class="quiz-results--result--description flex-grow-1 pb-4 border-bottom mb-4">
+        {{ content.description }}
+      </div>
+    </div>
+    <div class="quiz-results--result--links pt-3">
+      {% if req_info_url %}
+        <a id="result--req-info--{{ name[0]['#context'].value|clean_class }}" href="{{ req_info_url }}" {{ req_info_target }} class="{{ req_info_classes|join(' ') }}" data-dialog-options="{&quot;width&quot;:800}" data-dialog-type="modal" data-ajax-progress="fullscreen">
+          {{ req_info_title ? req_info_title : 'Request Info'|t }}
+        </a>
+      {% endif %}
+      {% if learn_more_url %}
+        <a id="result--learn-more--{{ name[0]['#context'].value|clean_class }}" href="{{ learn_more_url }}" {{ learn_more_target }} class="{{ learn_more_classes|join(' ') }}">
+          {{ learn_more_title ? learn_more_title : 'Learn More'|t }}
+        </a>
+      {% endif %}
+    </div>
   </div>
 </div>

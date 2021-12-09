@@ -110,10 +110,6 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
           }
         }
 
-//        $elements['question_'.$question->id().'_container'] = [
-//          '#type' => 'container',
-//        ];
-
         $elements['question_'.$question->id().'_title'] = [
           '#type' => 'processed_text',
           '#format' => 'rich_text',
@@ -138,13 +134,6 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
         ];
 
         if($prev_button !== '' || $next_button !== '') {
-
-//          $elements['question_'.$question->id().'_buttons'] = [
-//            '#type' => 'container',
-//            '#attributes' => [
-//              'class' => ['d-flex'],
-//            ],
-//          ];
 
           if($prev_button !== '') {
             $elements['question_'.$question->id().'_prev_button'] = [
@@ -362,16 +351,16 @@ function carlson_quiz_theme_suggestions_taxonomy_term_alter(&$suggestions, $vars
 }
 
 /**
- * Implements hook_preprocess_page().
+ * Implements hook_preprocess_html().
  *
  * @param $variables
  */
-function carlson_quiz_preprocess_page(&$variables) {
-//  $node = \Drupal::routeMatch()->getParameter('node');
-//  $webform_submission = \Drupal::routeMatch()->getParameter('webform_submission');
-//  if ($node && $node->getType() == 'quiz' && $webform_submission == null) {
-//      $variables['content_attributes']['class'] = ['container-fluid', 'mt-0'];
-//  }
+function carlson_quiz_preprocess_html(&$variables) {
+  $node = \Drupal::routeMatch()->getParameter('node');
+  $webform_submission = \Drupal::routeMatch()->getParameter('webform_submission');
+  if ($node && $node->getType() == 'quiz' && $webform_submission) {
+    $variables['attributes']['class'][] = 'page-node-type-quiz-results';
+  }
 }
 
 /**
