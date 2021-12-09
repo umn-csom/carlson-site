@@ -439,15 +439,19 @@ $grid-row-columns:            6 !default;
         .quiz-results {
           &--result {
             &--img {
+              position: relative;
+              &:before {
+                content: '';
+                padding-top: 47.42%;
+                display: block;
+              }
               .media {
-                position: relative;
-                &:before {
-                  content: '';
-                  padding-top: 47.42%;
-                  display: block;
-                }
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
                 img {
-                  position: absolute;
                   width: 100%;
                   height: 100%;
                   object-fit: cover;
