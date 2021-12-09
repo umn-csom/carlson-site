@@ -130,7 +130,8 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
           '#options' => $options,
           '#options__properties' => $options_properties,
           '#states' => $states,
-          '#required'=> empty($states)
+          '#required'=> empty($states),
+          '#required_error' => empty($states) ? 'Please select an answer before proceeding' : ''
         ];
 
         if($prev_button !== '' || $next_button !== '') {

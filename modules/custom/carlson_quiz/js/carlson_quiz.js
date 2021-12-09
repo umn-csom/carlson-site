@@ -54,6 +54,13 @@
           $('.quiz--progress-bar--progress-number', context).text(progressPercent);
           $('.quiz--progress-bar--bar', context)[0].style.setProperty('--seek-width', progressPercent + '%');
         }
+
+        if($(this).closest('.quiz--question').find('.quiz--answer.checked').length > 0) {
+          $(this).closest('.quiz--question').addClass('checked');
+        }
+        else {
+          $(this).closest('.quiz--question').removeClass('checked');
+        }
       });
 
       $('.quiz--question--prev, .quiz--question--next', context).on('click', function (event) {
@@ -91,6 +98,11 @@
           });
         }
       });
+
+      document.addEventListener('invalid', function(e) {
+        $('html, body').animate({scrollTop: $('.quiz--question:not(.checked)', context).first().offset().top - 200 }, 0);
+      }, true);
+      
     }
   };
 }(jQuery, Drupal));
