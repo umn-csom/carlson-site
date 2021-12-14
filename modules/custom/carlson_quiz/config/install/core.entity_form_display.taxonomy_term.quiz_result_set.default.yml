@@ -2,6 +2,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_code
     - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_image
     - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_learn_more
     - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_req_info
@@ -19,21 +20,29 @@ mode: default
 content:
   description:
     type: text_textarea
-    weight: 3
+    weight: 4
     region: content
     settings:
       placeholder: ''
       rows: 5
     third_party_settings: {  }
+  field_quiz_result_set_code:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_quiz_result_set_image:
     type: media_library_widget
-    weight: 2
+    weight: 3
     settings:
       media_types: {  }
     third_party_settings: {  }
     region: content
   field_quiz_result_set_learn_more:
-    weight: 5
+    weight: 6
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -41,7 +50,7 @@ content:
     type: link_default
     region: content
   field_quiz_result_set_req_info:
-    weight: 4
+    weight: 5
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -66,7 +75,7 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 6
+    weight: 7
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -74,7 +83,7 @@ content:
     type: boolean_checkbox
     settings:
       display_label: true
-    weight: 7
+    weight: 8
     region: content
     third_party_settings: {  }
 hidden: {  }

@@ -60,11 +60,13 @@
  */
 #}
 {{ attach_library('bootstrap_barrio/node') }}
+{{ attach_library('barrio_carlson/carlson_quiz') }}
 
 {%
   set classes = [
     'node',
     'node--type-' ~ node.bundle|clean_class,
+    'quiz-results',
     node.isPromoted() ? 'node--promoted',
     node.isSticky() ? 'node--sticky',
     not node.isPublished() ? 'node--unpublished',
@@ -74,7 +76,10 @@
 %}
 
 {% set results_to_show = results|length > 3 ? 3 : results|length %}
-{% set results_view_mode = results|length > 1 ? 'quiz_result_teaser' : 'quiz_result_teaser_alt' %}
+{% set results_view_mode = results_to_show == 1 or results_to_show > 3 ? 'quiz_result_teaser_alt' : 'quiz_result_teaser' %}
+{% set columns_lg = results_to_show == 1 ? 'quiz-results--result-wrapper-alt col-lg-12' : 'col-lg' %}
+{% set columns_lg = results_to_show == 2 ? 'quiz-results--result-wrapper-alt-2 col-lg-6' : columns_lg %}
+{% set columns_lg = results_to_show > 3 ? 'quiz-results--result-wrapper-alt col-lg-12' : columns_lg %}
 {% set node_title = node.field_quiz_results_title|view('quiz_results') %}
 {% set node_body = node.field_quiz_results_body|view('quiz_results') %}
 {% set numbers = [
@@ -93,27 +98,44 @@
 {% set title = title|preg_replace('/(@results)/', results_to_show) %}
 {% set body = body|preg_replace('/(@results)/', results_to_show) %}
 
+{% set title = title|preg_replace('/@pluralize"([^"]*)","([^"]*)"/', results_to_show > 1 ? '$2' : '$1' ) %}
+{% set body = body|preg_replace('/@pluralize"([^"]*)","([^"]*)"/', results_to_show > 1 ? '$2' : '$1' ) %}
+
+{% set send_query = '' %}
+
+{% if results %}
+  {% set send_query = '?' %}
+  {% for tid in results|slice(0, results_to_show, true)|keys %}
+    {% set code = drupal_field('field_quiz_result_set_code', 'taxonomy_term', tid) %}
+    {% set send_query = loop.index > 1 ? send_query ~ '&' : send_query %}
+    {% set send_query = send_query ~ 'program_' ~ loop.index ~ '=' ~ code[0]['#context'].value|clean_class %}
+  {% endfor %}
+  {% for tid in results|slice(0, results_to_show, true)|keys %}
+    {% set send_query = send_query ~ '&program_' ~ loop.index ~ '_id=' ~ tid %}
+  {% endfor %}
+{% endif %}
+
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
-    <div class="container">
-      <div class="row align-items-center justify-content-center">
-        <div class="col-12 col-md-6 col-xl-5">
-          <p class="results-title-prefix text-uppercase">Results</p>
+    <div class="container mb-4">
+      <div class="row align-items-center justify-content-center pt-5 pb-4 mb-5 mt-lg-5">
+        <div class="col-12 col-lg-6 col-xl-5 mb-4 mb-lg-0">
+          <p class="quiz-results--title-prefix text-uppercase mb-0">Results</p>
           <h1 class="d-none">{{ node.label }} Results</h1>
-          <h2 class="results--title mb-5">{{ title|raw }}</h2>
-          <div class="results--body mb-5 pb-4">{{ body|raw }}</div>
+          <h2 class="quiz-results--title column__heading">{{ title|raw }}</h2>
+          <div class="quiz-results--body">{{ body|raw }}</div>
         </div>
-        <div class="co-12 col-md-6 col-xl-5 d-flex justify-content-end">
-          <a class="results--btn-send btn maroon-solid-button mr-4" id="results--btn-send" href="#">{{ 'Send My Results'|t }}</a>
-          <a class="results--btn-retake btn maroon-outline-button" id="results--btn-retake" href="{{ path('entity.node.canonical', {'node': node.id}) }}">{{ 'Retake'|t }}</a>
+        <div class="co-12 col-lg-6 col-xl-5 d-flex justify-content-lg-end">
+{#          <a class="quiz-results--btn-send results--btn-send btn maroon-solid-button px-4 px-lg-5 py-3 py-lg-4 mr-4 use-ajax" id="results--btn-send" href="/form/quiz-send-results{{ send_query }}" data-dialog-options="{&quot;width&quot;:800}" data-dialog-type="modal" data-ajax-progress="fullscreen">{{ 'Send My Results'|t }}</a>#}
+          <a class="quiz-results--btn-retake results--btn-retake btn maroon-outline-button px-4 px-lg-5 py-3 py-lg-4" id="results--btn-retake" href="{{ path('entity.node.canonical', {'node': node.id}) }}">{{ 'Retake'|t }}</a>
         </div>
       </div>
-      <div class="row justify-content-center">
+      <div class="row justify-content-center mb-5 pb-lg-5">
         <div class="col-12 col-xl-10">
           {% if results %}
-            <div class="row">
+            <div class="row justify-content-center">
               {% for tid in results|slice(0, results_to_show, true)|keys %}
-                <div class="col-12 col-lg d-lg-flex">
+                <div class="quiz-results--result-wrapper results-count-{{ results_to_show }} col-12 col-sm-9 col-md-6 {{ columns_lg }} d-md-flex mb-3 pb-3">
                   {{ drupal_entity('taxonomy_term', tid, results_view_mode) }}
                 </div>
               {% endfor %}
@@ -121,11 +143,13 @@
           {% endif %}
         </div>
       </div>
-      <div class="row">
-        <div class="col-12 col-xl-10">
-          {{ node.field_quiz_results_add_comps|view('quiz_results') }}
+      {% if node.field_quiz_results_add_comps|view('quiz_results') %}
+        <div class="row justify-content-center mb-5 pb-lg-5">
+          <div class="col-12 col-xl-10">
+            {{ node.field_quiz_results_add_comps|view('quiz_results') }}
+          </div>
         </div>
-      </div>
+      {% endif %}
     </div>
   </div>
 </article>
