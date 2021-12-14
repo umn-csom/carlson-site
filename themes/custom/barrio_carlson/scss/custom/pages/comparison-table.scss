@@ -1,10 +1,19 @@
 .comparison-table__container {
     display: flex;
+    flex-wrap: wrap-reverse;
+    @include media-breakpoint-up(lg) {
+        flex-wrap: nowrap;
+    }
+
 }
 
 .comparison-table {
     //width: 75%;
-    flex-basis: 0 1 75%;
+    flex: 1 1 100%;
+    @include media-breakpoint-up(lg) {
+        flex: 1 1 75%;
+    }
+    
     th {
         color: #363230;
     }
@@ -15,7 +24,16 @@
         .column-header {
             font-size: 2rem;
             background: white;
+            &-text {
+                float: left;
+            }
+            .remove-float {
+                float:right;
+                padding-bottom: 20px;
+                padding-left: 20px;
+            }
         }
+
     }
     tbody {
         tr {
@@ -36,15 +54,24 @@
 }
 
 .comparison-menu {
-    flex-basis: 0 1 25%;
+    flex: 1 1 100%;
+    padding: 10px;
+    @include media-breakpoint-up(lg) {
+        flex: 1 1 25%;
+    }
     background: rgba(230,216,214,0.3);
     &__header {
+        text-align: center;
         font-size: 2.5rem;
     }
     &__breakline {
-        color: $gold;
+        width: 50px;
+        border: 1px solid $gold;
     }
     &__select {
         width: 100%;
+    }
+    &__label {
+        font-weight: bold;
     }
 }
