@@ -14,6 +14,7 @@ dependencies:
     - field.field.node.quiz.field_quiz_webform
     - node.type.quiz
   module:
+    - entity_reference_revisions
     - layout_builder
     - metatag
     - text
@@ -29,10 +30,19 @@ mode: quiz_results
 content:
   field_meta_tags:
     type: metatag_empty_formatter
-    weight: 3
+    weight: 4
     region: content
     label: hidden
     settings: {  }
+    third_party_settings: {  }
+  field_quiz_results_add_comps:
+    type: entity_reference_revisions_entity_view
+    weight: 3
+    region: content
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
     third_party_settings: {  }
   field_quiz_results_body:
     type: text_default
@@ -59,6 +69,5 @@ hidden:
   field_quiz_headline: true
   field_quiz_main_image: true
   field_quiz_questions: true
-  field_quiz_results_add_comps: true
   field_quiz_webform: true
   search_api_excerpt: true

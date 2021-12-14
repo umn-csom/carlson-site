@@ -290,6 +290,9 @@ handlers:
         program_1: program_1
         program_2: program_2
         program_3: program_3
+        program_1_id: program_1_id
+        program_2_id: program_2_id
+        program_3_id: program_3_id
       custom_data: "program:\r\n- \"[webform_submission:values:program_1]\"\r\n- \"[webform_submission:values:program_2]\"\r\n- \"[webform_submission:values:program_3]\""
       custom_options: ''
       file_data: true
@@ -330,8 +333,8 @@ handlers:
       from_mail: _default
       from_options: {  }
       from_name: _default
-      subject: 'Find My Graduate Program Results'
-      body: "{% set tids = [data.program_1_id] %}\r\n{% set tids = data.program_2_id is not empty ? tids|merge([data.program_2_id]) : tids %}\r\n{% set tids = data.program_3_id is not empty ? tids|merge([data.program_3_id]) : tids %}\r\n{% set numbers = [\r\n    'zero',\r\n    'one',\r\n    'two',\r\n    'three',\r\n    'four',\r\n    'five'\r\n  ]\r\n%}\r\n\r\n<h3>Find My Graduate Program Results</h3>\r\n\r\n<h2>{{ tids|length }} Graduate programs that are right for you</h2>\r\n\r\n<p>Here’s {{ numbers[tids|length] }} programs that can help you <strong><em>excelerate your career</em></strong>.\r\n\r\n{% for tid in tids %}\r\n  {% set title = drupal_field('field_quiz_result_set_title', 'taxonomy_term', tid) %}\r\n  <h3>{{ title[0]['#text'] }}</h3>\r\n  \r\n  {% set description = drupal_field('description', 'taxonomy_term', tid) %}\r\n  {{ description[0]['#text']|raw }}\r\n  \r\n  {% set req_info = drupal_field('field_quiz_result_set_req_info', 'taxonomy_term', tid) %}\r\n  {% set learn_more = drupal_field('field_quiz_result_set_learn_more', 'taxonomy_term', tid) %}\r\n  {% set req_info_url = req_info[0]['#url']|render %}\r\n  {% set learn_more_url = learn_more[0]['#url']|render %}\r\n  {% set req_info_title = req_info[0]['#title']|render %}\r\n  {% set learn_more_title = learn_more[0]['#title']|render %}\r\n  \r\n  <a href=\"{{ req_info_url }}\" target=\"_blank\">{{ req_info_title ? req_info_title : 'Request Info' }}</a>\r\n  <a href=\"{{ learn_more_url }}\" target=\"_blank\">{{ learn_more_title ? learn_more_title : 'Learn More' }}</a>\r\n  \r\n{% endfor %}"
+      subject: 'Find My Graduate Program'
+      body: "{% set tids = [data.program_1_id] %}\r\n{% set tids = data.program_2_id is not empty ? tids|merge([data.program_2_id]) : tids %}\r\n{% set tids = data.program_3_id is not empty ? tids|merge([data.program_3_id]) : tids %}\r\n{% set numbers = [\r\n    'zero',\r\n    'one',\r\n    'two',\r\n    'three',\r\n    'four',\r\n    'five'\r\n  ]\r\n%}\r\n\r\n<h3>Results</h1>\r\n\r\n<h2>{{ tids|length }} Graduate programs that are right for you</h2>\r\n\r\n<p>Here’s {{ numbers[tids|length] }} programs that can help you <strong><em>excelerate your career</em></strong>.\r\n\r\n{% for tid in tids %}\r\n  <hr>\r\n\r\n  {% set title = drupal_field('field_quiz_result_set_title', 'taxonomy_term', tid) %}\r\n  <h3>{{ title[0]['#text'] }}</h3>\r\n  \r\n  {% set description = drupal_field('description', 'taxonomy_term', tid) %}\r\n  {{ description[0]['#text']|raw }}\r\n  \r\n  {% set req_info = drupal_field('field_quiz_result_set_req_info', 'taxonomy_term', tid) %}\r\n  {% set learn_more = drupal_field('field_quiz_result_set_learn_more', 'taxonomy_term', tid) %}\r\n  {% set req_info_url = req_info[0]['#url']|render %}\r\n  {% set learn_more_url = learn_more[0]['#url']|render %}\r\n  {% set req_info_title = req_info[0]['#title']|render %}\r\n  {% set learn_more_title = learn_more[0]['#title']|render %}\r\n  \r\n  <a href=\"{{ req_info_url }}\" target=\"_blank\">{{ req_info_title ? req_info_title : 'Request Info' }}</a>\r\n  <a href=\"{{ learn_more_url }}\" target=\"_blank\">{{ learn_more_title ? learn_more_title : 'Learn More' }}</a>\r\n  \r\n{% endfor %}"
       excluded_elements: {  }
       ignore_access: false
       exclude_empty: true
