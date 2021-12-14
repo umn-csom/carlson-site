@@ -117,7 +117,7 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
         $elements['question_'.$question->id().'_title'] = [
           '#type' => 'processed_text',
           '#format' => 'rich_text',
-          '#text' => '<legend class="d-none">Question Title</legend><div class="quiz--question--title-prefix text-uppercase mb-2">Question '.($question_key + 1).'</div><div class="quiz--question--title column__heading"><h3 class="d-inline">'.$text.'</h3>'.$help_text.'</div>',
+          '#text' => '<legend class="d-none">Question Title</legend><div class="quiz--question--title-prefix text-uppercase mb-2">Question '.($question_key + 1).'</div><div class="quiz--question--title column__heading"><h3 class="d-inline">'.$text.'</h3>'.$help_text.'</div>'.($type === 'checkboxes' ? '<div class="quiz--question--multiple-label">Select all that apply</div>' : ''),
           '#wrapper_attributes' => [
             'class' => ['quiz--question--title-wrapper'],
           ],
@@ -384,12 +384,26 @@ function carlson_quiz_webform_submission_presave(WebformSubmissionInterface &$we
 
     foreach ($data as $key => $pid) {
       if($key != 'results' && $pid) {
-        $answer = Paragraph::load($pid);
-        if(isset($answer) && $answer->hasField('field_quiz_answer_result') && !empty($answer->get('field_quiz_answer_result'))) {
-          $answer_results = $answer->get('field_quiz_answer_result')->getValue();
-          foreach ($answer_results as $answer_result) {
-            $id = $answer_result["target_id"];
-            $result_ids[$id] = array_key_exists($id, $result_ids) ? ++$result_ids[$id] : 1;
+        if(is_array($pid)) {
+          foreach ($pid as $pid_item) {
+            $answer = Paragraph::load($pid_item);
+            if(isset($answer) && $answer->hasField('field_quiz_answer_result') && !empty($answer->get('field_quiz_answer_result'))) {
+              $answer_results = $answer->get('field_quiz_answer_result')->getValue();
+              foreach ($answer_results as $answer_result) {
+                $id = $answer_result["target_id"];
+                $result_ids[$id] = array_key_exists($id, $result_ids) ? ++$result_ids[$id] : 1;
+              }
+            }
+          }
+        }
+        else {
+          $answer = Paragraph::load($pid);
+          if(isset($answer) && $answer->hasField('field_quiz_answer_result') && !empty($answer->get('field_quiz_answer_result'))) {
+            $answer_results = $answer->get('field_quiz_answer_result')->getValue();
+            foreach ($answer_results as $answer_result) {
+              $id = $answer_result["target_id"];
+              $result_ids[$id] = array_key_exists($id, $result_ids) ? ++$result_ids[$id] : 1;
+            }
           }
         }
       }
