@@ -36,6 +36,10 @@ function carlson_quiz_theme() {
       'render element' => 'elements',
       'base hook' => 'taxonomy_term',
     ],
+    'paragraph__quiz_conditional_paragraph' => [
+      'render element' => 'elements',
+      'base hook' => 'paragraph',
+    ],
   ];
 }
 
@@ -218,7 +222,7 @@ function carlson_quiz_field_widget_paragraphs_form_alter(&$element, FormStateInt
     $parents_array = $element['subform']['#parents'];
     $parents = array_shift($parents_array) . '[' . implode('][', $parents_array) . ']';
 
-    if ($element['#paragraph_type'] == 'quiz_question') {
+    if ($element['#paragraph_type'] == 'quiz_question' || $element['#paragraph_type'] == 'quiz_conditional_paragraph') {
 
       if($context["items"]->count() > 1) {
 
@@ -401,4 +405,25 @@ function carlson_quiz_webform_submission_presave(WebformSubmissionInterface &$we
 
     $webform_submission->setElementData('results', implode(",", $results));
   }
+}
+
+/**
+ * Implements hook_preprocess_paragraph().
+ *
+ * @param $variables
+ */
+function carlson_quiz_preprocess_paragraph__quiz_conditional_paragraph(&$variables) {
+  $webform_submission = \Drupal::routeMatch()->getParameter('webform_submission');
+  $paragraph = $variables['paragraph'];
+  $show_paragraph = false;
+  if($webform_submission && $paragraph->hasField('field_quiz_question_cond_answ') && !empty($paragraph->get('field_quiz_question_cond_answ')->getValue())) {
+    $conditional_answers = $paragraph->get('field_quiz_question_cond_answ')->getValue();
+    $data =  $webform_submission->getData();
+    foreach ($conditional_answers as $conditional_answer) {
+      if(in_array($conditional_answer["value"], $data, true)) {
+        $show_paragraph = true;
+      }
+    }
+  }
+  $variables['show_paragraph'] = $show_paragraph;
 }
