@@ -51,14 +51,18 @@
                     if (row_element.id == 'display') {
                         if( index <= render_length) {
                             $( this ).find('.column-header-text').text(table_array[key_thing][row_element.id]);
+                            $( this ).removeClass("column-no-content");
                         } else {
                             $( this ).find('.column-header-text').text("-");
+                            $( this ).addClass("column-no-content");
                         }
                     } else {
                         if( index <= render_length) {
-                            element.innerHTML = table_array[key_thing][row_element.id];
+                            $( this ).html(table_array[key_thing][row_element.id])
+                            $( this ).removeClass("column-no-content");
                         } else {
-                            element.innerHTML = "-";
+                            $( this ).html("-");
+                            $( this ).addClass("column-no-content");
                         }
                     }
                 }
