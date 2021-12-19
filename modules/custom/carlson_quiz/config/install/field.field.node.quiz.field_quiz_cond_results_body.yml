@@ -2,18 +2,18 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_quiz_conditional_paragraph
-    - paragraphs.paragraphs_type.basic_paragraph
+    - field.storage.node.field_quiz_cond_results_body
+    - node.type.quiz
     - paragraphs.paragraphs_type.quiz_conditional_paragraph
   module:
     - entity_reference_revisions
-id: paragraph.quiz_conditional_paragraph.field_quiz_conditional_paragraph
-field_name: field_quiz_conditional_paragraph
-entity_type: paragraph
-bundle: quiz_conditional_paragraph
-label: Paragraph
+id: node.quiz.field_quiz_cond_results_body
+field_name: field_quiz_cond_results_body
+entity_type: node
+bundle: quiz
+label: 'Conditional Results Page Body'
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -22,7 +22,7 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
-      basic_paragraph: basic_paragraph
+      quiz_conditional_paragraph: quiz_conditional_paragraph
     target_bundles_drag_drop:
       accordion:
         weight: 61
@@ -34,8 +34,8 @@ settings:
         weight: 63
         enabled: false
       basic_paragraph:
-        enabled: true
         weight: 64
+        enabled: false
       block_paragraph:
         weight: 65
         enabled: false
@@ -79,16 +79,16 @@ settings:
         weight: 78
         enabled: false
       feature_block:
-        weight: 82
-        enabled: false
-      featured_link_grid:
         weight: 79
         enabled: false
-      featured_people:
+      featured_link_grid:
         weight: 80
         enabled: false
-      featured_person:
+      featured_people:
         weight: 81
+        enabled: false
+      featured_person:
+        weight: 82
         enabled: false
       fluid_columns:
         weight: 83
@@ -145,8 +145,8 @@ settings:
         weight: 100
         enabled: false
       quiz_conditional_paragraph:
+        enabled: true
         weight: 101
-        enabled: false
       quiz_question:
         weight: 102
         enabled: false

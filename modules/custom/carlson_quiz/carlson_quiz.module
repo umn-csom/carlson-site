@@ -25,6 +25,7 @@ function carlson_quiz_theme() {
     'node__quiz__quiz_results' => [
       'variables' => [
         'node' => NULL,
+        'webform_submission' => NULL,
         'results' => NULL,
       ],
     ],
@@ -230,7 +231,7 @@ function carlson_quiz_field_widget_paragraphs_form_alter(&$element, FormStateInt
         $options = $element["subform"]["field_quiz_question_cond_qn"]["widget"]["#options"];
 
         foreach ($questions as $selected_question) {
-          if(!empty($selected_question)) {
+          if(!empty($selected_question) && $selected_question["entity"]->hasField('field_quiz_question_text')) {
             $key = $selected_question["target_id"];
             $value = strip_tags($selected_question["entity"]->get('field_quiz_question_text')->value);
             $options[$key] = $value;
@@ -245,7 +246,6 @@ function carlson_quiz_field_widget_paragraphs_form_alter(&$element, FormStateInt
         if(!empty($question_default_value) && $question_default_value[0] != '_none') {
           $selected_question = Paragraph::load($question_default_value[0]);
           $answers = $selected_question->get('field_quiz_question_answers')->referencedEntities();
-//          $options = $element["subform"]["field_quiz_question_cond_answ"]["widget"]["#options"];
           $options = [];
           $options[''] = '- None -';
           foreach ($answers as $answer_key => $answer) {
@@ -383,7 +383,7 @@ function carlson_quiz_webform_submission_presave(WebformSubmissionInterface &$we
     $data =  $webform_submission->getData();
 
     foreach ($data as $key => $pid) {
-      if($key != 'results' && $pid) {
+      if(substr($key, 0, 9) == 'question_' && $pid) {
         if(is_array($pid)) {
           foreach ($pid as $pid_item) {
             $answer = Paragraph::load($pid_item);
@@ -403,6 +403,28 @@ function carlson_quiz_webform_submission_presave(WebformSubmissionInterface &$we
             foreach ($answer_results as $answer_result) {
               $id = $answer_result["target_id"];
               $result_ids[$id] = array_key_exists($id, $result_ids) ? ++$result_ids[$id] : 1;
+            }
+          }
+        }
+      }
+    }
+
+    foreach ($data as $key => $pid) {
+      if(substr($key, 0, 9) == 'question_') {
+        $question_id = substr($key, 9, strlen($key) - 9);
+        $question = Paragraph::load($question_id);
+        if(isset($question) && $question->hasField('field_quiz_question_cond_results') && !empty($question->get('field_quiz_question_cond_results'))) {
+          $conditional_results = $question->get('field_quiz_question_cond_results')->getValue();
+          if(!empty($conditional_results) && $conditional_results[0]["value"] == '1' && empty($pid)) {
+            $answers = $question->get('field_quiz_question_answers')->referencedEntities();
+            foreach ($answers as $answer_key => $answer) {
+              if(isset($answer) && $answer->hasField('field_quiz_answer_result') && !empty($answer->get('field_quiz_answer_result'))) {
+                $answer_results = $answer->get('field_quiz_answer_result')->getValue();
+                foreach ($answer_results as $answer_result) {
+                  $id = $answer_result["target_id"];
+                  unset($result_ids[$id]);
+                }
+              }
             }
           }
         }
@@ -433,6 +455,13 @@ function carlson_quiz_preprocess_paragraph__quiz_conditional_paragraph(&$variabl
   if($webform_submission && $paragraph->hasField('field_quiz_question_cond_answ') && !empty($paragraph->get('field_quiz_question_cond_answ')->getValue())) {
     $conditional_answers = $paragraph->get('field_quiz_question_cond_answ')->getValue();
     $data =  $webform_submission->getData();
+    foreach ($data as $data_item_key => $data_item) {
+      if(is_array($data_item)) {
+        foreach ($data_item as $data_subitem_key => $data_subitem) {
+          $data[$data_item_key.$data_subitem_key] = $data_subitem;
+        }
+      }
+    }
     foreach ($conditional_answers as $conditional_answer) {
       if(in_array($conditional_answer["value"], $data, true)) {
         $show_paragraph = true;

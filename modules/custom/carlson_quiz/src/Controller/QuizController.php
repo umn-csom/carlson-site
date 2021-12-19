@@ -14,7 +14,7 @@ class QuizController extends ControllerBase {
     $data =  $webform_submission->getData();
 
     foreach ($data as $key => $pid) {
-      if($key != 'results' && $pid && $pid !== '') {
+      if(substr($key, 0, 9) == 'question_' && $pid && $pid !== '') {
         if(is_array($pid)) {
           foreach ($pid as $pid_item) {
             $answer = Paragraph::load($pid_item);
@@ -40,6 +40,25 @@ class QuizController extends ControllerBase {
       }
     }
 
+    $questions = $node->get('field_quiz_questions')->referencedEntities();
+    foreach ($questions as $question) {
+      if($question->hasField('field_quiz_question_cond_results') && !empty($question->get('field_quiz_question_cond_results'))) {
+        $conditional_results = $question->get('field_quiz_question_cond_results')->getValue();
+        if(!empty($conditional_results) && $conditional_results[0]["value"] == '1' && !array_key_exists('question_'.$question->id(), $data)) {
+          $answers = $question->get('field_quiz_question_answers')->referencedEntities();
+          foreach ($answers as $answer_key => $answer) {
+            if(isset($answer) && $answer->hasField('field_quiz_answer_result') && !empty($answer->get('field_quiz_answer_result'))) {
+              $answer_results = $answer->get('field_quiz_answer_result')->getValue();
+              foreach ($answer_results as $answer_result) {
+                $id = $answer_result["target_id"];
+                unset($results[$id]);
+              }
+            }
+          }
+        }
+      }
+    }
+
     arsort($results);
 
     $tags_from_node = metatag_get_tags_from_route($node);
@@ -55,6 +74,7 @@ class QuizController extends ControllerBase {
 
     return [
       '#node' => $node,
+      '#webform_submission' => $webform_submission,
       '#results' => $results,
       '#theme' => 'node__quiz__quiz_results',
       '#attached' => [

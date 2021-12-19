@@ -82,6 +82,16 @@
 {% set columns_lg = results_to_show > 3 ? 'quiz-results--result-wrapper-alt col-lg-12' : columns_lg %}
 {% set node_title = node.field_quiz_results_title|view('quiz_results') %}
 {% set node_body = node.field_quiz_results_body|view('quiz_results') %}
+{% set node_cond_body = node.field_quiz_cond_results_body|view('quiz_results') %}
+{% set webform_submission_data = webform_submission.getData() %}
+{% for data_item_key, data_item in webform_submission_data %}
+  {% if data_item is iterable %}
+    {% for data_subitem in data_item %}
+      {% set data_subitem_key = data_item_key ~ '_' ~ loop.index %}
+      {% set webform_submission_data = webform_submission_data|merge({ (data_subitem_key): data_subitem }) %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
 {% set numbers = [
     'zero',
     'one',
@@ -92,14 +102,12 @@
   ]
 %}
 
-{% set title = node_title[0]['#text']|preg_replace('/(@results_text)/', numbers[results_to_show]) %}
-{% set body = node_body[0]['#text']|preg_replace('/(@results_text)/', numbers[results_to_show]) %}
-
-{% set title = title|preg_replace('/(@results)/', results_to_show) %}
-{% set body = body|preg_replace('/(@results)/', results_to_show) %}
-
-{% set title = title|preg_replace('/@pluralize"([^"]*)","([^"]*)"/', results_to_show > 1 ? '$2' : '$1' ) %}
-{% set body = body|preg_replace('/@pluralize"([^"]*)","([^"]*)"/', results_to_show > 1 ? '$2' : '$1' ) %}
+{% macro preprocess_text(text, results_to_show, numbers) %}
+  {% set text = text|preg_replace('/(@results_text)/', numbers[results_to_show]) %}
+  {% set text = text|preg_replace('/(@results)/', results_to_show) %}
+  {% set text = text|preg_replace('/@pluralize"([^"]*)","([^"]*)"/', results_to_show > 1 ? '$2' : '$1' ) %}
+  {{ text|raw }}
+{% endmacro %}
 
 {% set send_query = '' %}
 
@@ -122,8 +130,31 @@
         <div class="col-12 col-lg-6 col-xl-5 mb-4 mb-lg-0">
           <p class="quiz-results--title-prefix text-uppercase mb-0">Results</p>
           <h1 class="d-none">{{ node.label }} Results</h1>
-          <h2 class="quiz-results--title column__heading">{{ title|raw }}</h2>
-          <div class="quiz-results--body">{{ body|raw }}</div>
+          <h2 class="quiz-results--title column__heading">{{ _self.preprocess_text(node_title[0]['#text'], results_to_show, numbers) }}</h2>
+          <div class="quiz-results--body">
+            {% set show_default_cond_body = false %}
+
+            {% for cond_body_item in node_cond_body|children %}
+              {% set show_cond_body = false %}
+              {% set conditional_answers = cond_body_item['#paragraph'].field_quiz_question_cond_answ.getValue() %}
+
+              {% for conditional_answer in conditional_answers %}
+                {% if conditional_answer['value'] in webform_submission_data %}
+                  {% set show_cond_body = true %}
+                  {% set show_default_cond_body = true %}
+                {% endif %}
+              {% endfor %}
+
+              {% if show_cond_body %}
+                {{ _self.preprocess_text(cond_body_item|render, results_to_show, numbers) }}
+              {% endif %}
+            {% endfor %}
+
+            {% if show_default_cond_body == false %}
+              {{ _self.preprocess_text(node_body[0]['#text'], results_to_show, numbers) }}
+            {% endif %}
+
+          </div>
         </div>
         <div class="co-12 col-lg-6 col-xl-5 d-flex justify-content-lg-end">
 {#          <a class="quiz-results--btn-send results--btn-send btn maroon-solid-button px-4 px-lg-5 py-3 py-lg-4 mr-4 use-ajax" id="results--btn-send" href="/form/quiz-send-results{{ send_query }}" data-dialog-options="{&quot;width&quot;:800}" data-dialog-type="modal" data-ajax-progress="fullscreen">{{ 'Send My Results'|t }}</a>#}
