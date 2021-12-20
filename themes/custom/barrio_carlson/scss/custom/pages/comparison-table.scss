@@ -25,7 +25,7 @@
     th, td {
         width: 25%;
     }
-    
+
     &__header {
         .no-data {
             background: transparent;
@@ -83,6 +83,11 @@
                     }
                 }
                 
+                .tablesaw-cell-label {
+                    .remove-float {
+                        display: none;
+                    }
+                }
             }
         }
     }
@@ -90,8 +95,10 @@
 }
 
 .comparison-menu {
+
     flex: 1 1 100%;
     padding: 10px;
+
     @include media-breakpoint-up(lg) {
         flex: 1 1 25%;
     }
@@ -109,5 +116,37 @@
     }
     &__label {
         font-weight: bold;
+    }
+
+    &.full-table {
+        @include media-breakpoint-up(lg) {
+            display: none;
+        }
+        .comparison_menu__add-program {
+            display: none;
+        }
+    }
+    
+    .comparison_menu__mobile-header {
+        display: flex;
+        flex-wrap: wrap;
+        @include media-breakpoint-up(lg) {
+            display: none;
+        }
+
+        .column-header_mobile-container {
+            width: 100%;
+            .column-header-text__mobile {
+                float: left;
+            }
+            .remove-float {
+                float:right;
+                font-size: 1.5rem;
+            }
+        }
+
+        .column-header_mobile-container.column-no-content {
+            display: none;
+        }
     }
 }

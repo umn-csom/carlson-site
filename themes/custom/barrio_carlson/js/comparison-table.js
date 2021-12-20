@@ -52,9 +52,15 @@
                         if( index <= render_length) {
                             $( this ).find('.column-header-text').text(table_array[key_thing][row_element.id]);
                             $( this ).removeClass("column-no-content");
+
+                            $('.comparison_menu__mobile-header .column-header_mobile-container .column-header-text__mobile').eq(index-1).text(table_array[key_thing][row_element.id]);
+                            $('.comparison_menu__mobile-header .column-header_mobile-container').eq(index-1).removeClass("column-no-content");
                         } else {
                             $( this ).find('.column-header-text').text("-");
                             $( this ).addClass("column-no-content");
+
+                            $('.comparison_menu__mobile-header .column-header_mobile-container .column-header-text__mobile').eq(index-1).text("-");
+                            $('.comparison_menu__mobile-header .column-header_mobile-container').eq(index-1).addClass("column-no-content");
                         }
                     } else {
                         if( index <= render_length) {
@@ -70,24 +76,26 @@
         })
 
         if (render_length >= table_limit) {
-            $('#comparison-menu').hide();
+            $('#comparison-menu').addClass("full-table");
         } else {
-            $('#comparison-menu').show();
+            $('#comparison-menu').removeClass("full-table");
         }
+
+        $('#example').tablesaw().data('tablesaw').refresh();
     }
 
     function add_table() {
-        if (render_array.length < table_limit) {    
+        if (render_array.length < table_limit && $('#comparison-select').val()) {    
             render_array.push($('#comparison-select').val());
         }
-        render_table()
+        render_table();
     }
 
     function delete_table(index) {
         if (render_array.length > 0) {
             render_array.splice(index, 1)
         }
-        render_table()
+        render_table();
     }
 
     $( document ).ready( function() {
