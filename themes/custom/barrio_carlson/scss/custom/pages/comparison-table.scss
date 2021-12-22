@@ -5,25 +5,27 @@
         flex-wrap: nowrap;
     }
 
-}
-
-.remove-float {
-    font-weight: normal;
-    .column-header-button {
-        height: 25px;
-        width: 25px;
-        border-radius: 25px;
-        background: $maroon;
-        border: none;
-
-        i {
-            color: white;
-        }
-        &:hover, &:focus, &:active {
-            background: $gold;
+    .remove-float {
+        font-weight: normal;
+        .column-header-button {
+            height: 25px;
+            width: 25px;
+            border-radius: 25px;
+            background: $maroon;
+            border: none;
+    
+            i {
+                color: white;
+            }
+            &:hover, &:focus, &:active {
+                background: $gold;
+            }
         }
     }
+
 }
+
+
 
 .comparison-table {
     background: white;
@@ -107,6 +109,19 @@
                     }
                 }
             }
+            @media (max-width: 640px) {
+                th.comparison-table__category {
+                    background: rgba(230,216,214,0.3);
+                }
+                td {
+                    &:nth-of-type(odd) {
+                        background: rgba(230,216,214,0.3);
+                    }
+                    &:nth-of-type(even) {
+                        background: transparent;
+                    }
+                }
+            }
         }
     }
 
@@ -136,24 +151,46 @@
         font-weight: bold;
     }
 
+    &__add-program {
+        padding: 10px;
+
+        #comparison-add {
+            margin-top: 20px;
+        }
+    }
+
     &.full-table {
         @include media-breakpoint-up(lg) {
             display: none;
         }
-        .comparison_menu__add-program {
+        .comparison-menu__add-program {
             display: none;
+            max-width: 500px;
+            margin: auto;
         }
     }
     
-    .comparison_menu__mobile-header {
+    .comparison-menu__mobile-header {
         display: flex;
         flex-wrap: wrap;
-        @include media-breakpoint-up(lg) {
-            display: none;
+
+        @media (min-width: 640px) {
+            display: none
         }
 
         .column-header_mobile-container {
             width: 100%;
+            padding: 10px;
+
+            &:nth-of-type(odd) {
+                background: rgba(230,216,214,0.3);
+
+            }
+            &:nth-of-type(even) {
+                background: transparent;
+
+            }
+
             .column-header-text__mobile {
                 float: left;
             }
