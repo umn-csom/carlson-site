@@ -1,0 +1,207 @@
+.comparison-table__container {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    @include media-breakpoint-up(lg) {
+        flex-wrap: nowrap;
+    }
+
+    .remove-float {
+        font-weight: normal;
+        .column-header-button {
+            height: 25px;
+            width: 25px;
+            border-radius: 25px;
+            background: $maroon;
+            border: none;
+    
+            i {
+                color: white;
+            }
+            &:hover, &:focus, &:active {
+                background: $gold;
+            }
+        }
+    }
+
+}
+
+
+
+.comparison-table {
+    background: white;
+
+    flex: 1 1 100%;
+    @include media-breakpoint-up(lg) {
+        flex: 1 1 75%;
+    }
+
+    tr {
+        background: white;
+    }
+    
+    th {
+        color: #363230;
+    }
+    th, td {
+        width: 25%;
+    }
+
+    &__header {
+        .no-data {
+            background: transparent;
+        }
+        .column-header {
+            background: white;
+            &-text {
+                float: left;
+                font-size: 2.5rem;
+                padding-top: 25px;
+            }
+            .remove-float {
+                float:right;
+                font-size: 1.5rem;
+                padding-bottom: 20px;
+                padding-left: 20px;
+            }
+            &.column-no-content {
+                .remove-float {
+                    display: none;
+                }
+            }
+        }
+
+
+    }
+    thead {
+        th, td {
+            &:nth-child(n+4) {
+                &.column-no-content {
+                    display: none;
+                }
+            }
+            
+        }
+    }
+    tbody {
+        tr {
+            &:nth-of-type(odd) {
+                background: rgba(230,216,214,0.3);
+                th, td {
+                    background: rgba(230,216,214,0.3);
+                }
+            }
+            &:nth-of-type(even) {
+                background: transparent;
+                th, td {
+                    background: transparent;
+                }
+            }
+            th, td {
+                &:nth-child(n+4) {
+                    &.column-no-content {
+                        display: none;
+                    }
+                }
+                
+                .tablesaw-cell-label {
+                    .remove-float {
+                        display: none;
+                    }
+                }
+            }
+            @media (max-width: 640px) {
+                th.comparison-table__category {
+                    background: rgba(230,216,214,0.3);
+                }
+                td {
+                    &:nth-of-type(odd) {
+                        background: rgba(230,216,214,0.3);
+                    }
+                    &:nth-of-type(even) {
+                        background: transparent;
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+.comparison-menu {
+
+    flex: 1 1 100%;
+    padding: 10px;
+
+    @include media-breakpoint-up(lg) {
+        flex: 1 1 25%;
+    }
+    background: rgba(230,216,214,0.3);
+    &__header {
+        text-align: center;
+        font-size: 2.5rem;
+    }
+    &__breakline {
+        width: 50px;
+        border: 1px solid $gold;
+    }
+    &__select {
+        width: 100%;
+    }
+    &__label {
+        font-weight: bold;
+    }
+
+    &__add-program {
+        padding: 10px;
+
+        #comparison-add {
+            margin-top: 20px;
+        }
+    }
+
+    &.full-table {
+        @include media-breakpoint-up(lg) {
+            display: none;
+        }
+        .comparison-menu__add-program {
+            display: none;
+            max-width: 500px;
+            margin: auto;
+        }
+    }
+    
+    .comparison-menu__mobile-header {
+        display: flex;
+        flex-wrap: wrap;
+
+        @media (min-width: 640px) {
+            display: none
+        }
+
+        .column-header_mobile-container {
+            width: 100%;
+            padding: 10px;
+
+            &:nth-of-type(odd) {
+                background: rgba(230,216,214,0.3);
+
+            }
+            &:nth-of-type(even) {
+                background: transparent;
+
+            }
+
+            .column-header-text__mobile {
+                float: left;
+            }
+            .remove-float {
+                float:right;
+                font-size: 1.5rem;
+            }
+        }
+
+        .column-header_mobile-container.column-no-content {
+            display: none;
+        }
+    }
+}

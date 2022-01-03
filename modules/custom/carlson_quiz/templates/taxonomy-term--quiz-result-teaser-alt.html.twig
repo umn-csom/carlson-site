@@ -1,0 +1,98 @@
+{#
+/**
+ * @file
+ * Theme override to display a taxonomy term.
+ *
+ * Available variables:
+ * - url: URL of the current term.
+ * - name: Name of the current term.
+ * - content: Items for the content of the term (fields and description).
+ *   Use 'content' to print them all, or print a subset such as
+ *   'content.description'. Use the following code to exclude the
+ *   printing of a given child element:
+ *   @code
+ *   {{ content|without('description') }}
+ *   @endcode
+ * - attributes: HTML attributes for the wrapper.
+ * - page: Flag for the full page state.
+ * - term: The taxonomy term entity, including:
+ *   - id: The ID of the taxonomy term.
+ *   - bundle: Machine name of the current vocabulary.
+ * - view_mode: View mode, e.g. 'full', 'teaser', etc.
+ *
+ * @see template_preprocess_taxonomy_term()
+ */
+#}
+{%
+  set classes = [
+  'd-md-flex',
+  'flex-md-column',
+  'taxonomy-term',
+  'vocabulary-' ~ term.bundle|clean_class,
+  'result',
+  'quiz-results--result',
+  'p-4 pl-lg-0',
+  'bg-white',
+  'result--' ~ term.id,
+  'result--' ~ name[0]['#context'].value|clean_class
+]
+%}
+
+{% set req_info_url = content.field_quiz_result_set_req_info[0]['#url']|render %}
+{% set learn_more_url = content.field_quiz_result_set_learn_more[0]['#url']|render %}
+{% set req_info_title = content.field_quiz_result_set_req_info[0]['#title']|render %}
+{% set learn_more_title = content.field_quiz_result_set_learn_more[0]['#title']|render %}
+{% set req_info_target = content.field_quiz_result_set_req_info[0]['#url'].external ? 'target="_blank"' : '' %}
+{% set learn_more_target = content.field_quiz_result_set_learn_more[0]['#url'].external ? 'target="_blank"' : '' %}
+{%
+  set req_info_classes = [
+  'btn',
+  'maroon-solid-button',
+  'd-block',
+  'py-3 py-lg-4 mb-3 mb-lg-4',
+  'quiz-results--result--req-info',
+  'result--req-info',
+  'result--req-info--' ~ name[0]['#context'].value|clean_class,
+  'use-ajax'
+]
+%}
+{%
+  set learn_more_classes = [
+  'btn',
+  'maroon-outline-button',
+  'd-block',
+  'py-3 py-lg-4',
+  'quiz-results--result--learn-more',
+  'result--learn-more',
+  'result--learn-more--' ~ name[0]['#context'].value|clean_class,
+]
+%}
+
+<div{{ attributes.setAttribute('id', 'result--' ~ term.id).setAttribute('data-name', name[0]['#context'].value|clean_class).addClass(classes) }}>
+  <div class="quiz-results--result--compare-checkbox-wrapper d-flex justify-content-end px-3">
+    <label class="quiz-results--result--compare-checkbox-label result--compare-checkbox-label d-flex align-items-center mb-lg-0">{{ 'Add to compare'|t }} <input class="quiz-results--result--compare-checkbox result--compare-checkbox result--compare-checkbox--{{ name[0]['#context'].value|clean_class }} ml-3" type="checkbox" id="result--compare-checkbox--{{ name[0]['#context'].value|clean_class }}" value="{{ name[0]['#context'].value|clean_class }}"></label>
+  </div>
+  <div class="quiz-results--result--content-wrapper p-3 pl-lg-0 pt-lg-0 mt-lg-n3 d-md-flex flex-md-column flex-lg-row align-items-lg-center flex-grow-1">
+    <div class="quiz-results--result--img col-lg-auto px-0 pb-3 pb-lg-0 pr-lg-5 mr-lg-3">
+      {{ content.field_quiz_result_set_image }}
+    </div>
+    <div class="quiz-results--result--content d-md-flex flex-md-column flex-grow-1 pr-lg-5">
+      <h3 class="quiz-results--result--title column__heading pr-lg-3">{{ content.field_quiz_result_set_title }}</h3>
+      <div class="quiz-results--result--description flex-grow-1 pb-4 mb-4 pb-lg-0 mb-lg-0 pr-lg-3 border-bottom">
+        {{ content.description }}
+      </div>
+    </div>
+    <div class="quiz-results--result--links col-lg-auto px-0 pt-3 px-lg-5 mx-lg-3 pt-lg-0">
+      {% if req_info_url %}
+        <a id="result--req-info--{{ name[0]['#context'].value|clean_class }}" href="{{ req_info_url }}" {{ req_info_target }} class="{{ req_info_classes|join(' ') }}" data-dialog-options="{&quot;width&quot;:800}" data-dialog-type="modal" data-ajax-progress="fullscreen">
+          {{ req_info_title ? req_info_title : 'Request Info'|t }}
+        </a>
+      {% endif %}
+      {% if learn_more_url %}
+        <a id="result--learn-more--{{ name[0]['#context'].value|clean_class }}" href="{{ learn_more_url }}" {{ learn_more_target }} class="{{ learn_more_classes|join(' ') }}">
+          {{ learn_more_title ? learn_more_title : 'Learn More'|t }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>

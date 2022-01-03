@@ -1,0 +1,186 @@
+{#
+/**
+ * @file
+ * Bootstrap Barrio's theme implementation to display a node.
+ *
+ * Available variables:
+ * - node: The node entity with limited access to object properties and methods.
+     Only "getter" methods (method names starting with "get", "has", or "is")
+     and a few common methods such as "id" and "label" are available. Calling
+     other methods (such as node.delete) will result in an exception.
+ * - label: The title of the node.
+ * - content: All node items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}. Use
+ *   {{ content|without('field_example') }} to temporarily suppress the printing
+ *   of a given child element.
+ * - author_picture: The node author user entity, rendered using the "compact"
+ *   view mode.
+ * - metadata: Metadata for this node.
+ * - date: Themed creation date field.
+ * - author_name: Themed author name field.
+ * - url: Direct URL of the current node.
+ * - display_submitted: Whether submission information should be displayed.
+ * - attributes: HTML attributes for the containing element.
+ *   The attributes.class element may contain one or more of the following
+ *   classes:
+ *   - node: The current template type (also known as a "theming hook").
+ *   - node--type-[type]: The current node type. For example, if the node is an
+ *     "Article" it would result in "node--type-article". Note that the machine
+ *     name will often be in a short form of the human readable label.
+ *   - node--view-mode-[view_mode]: The View Mode of the node; for example, a
+ *     teaser would result in: "node--view-mode-teaser", and
+ *     full: "node--view-mode-full".
+ *   The following are controlled through the node publishing options.
+ *   - node--promoted: Appears on nodes promoted to the front page.
+ *   - node--sticky: Appears on nodes ordered above other non-sticky nodes in
+ *     teaser listings.
+ *   - node--unpublished: Appears on unpublished nodes visible only to site
+ *     admins.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - content_attributes: Same as attributes, except applied to the main
+ *   content tag that appears in the template.
+ * - author_attributes: Same as attributes, except applied to the author of
+ *   the node tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ * - view_mode: View mode; for example, "teaser" or "full".
+ * - teaser: Flag for the teaser state. Will be true if view_mode is 'teaser'.
+ * - page: Flag for the full page state. Will be true if view_mode is 'full'.
+ * - readmore: Flag for more state. Will be true if the teaser content of the
+ *   node cannot hold the main body content.
+ * - logged_in: Flag for authenticated user status. Will be true when the
+ *   current user is a logged-in member.
+ * - is_admin: Flag for admin user status. Will be true when the current user
+ *   is an administrator.
+ *
+ * @see template_preprocess_node()
+ */
+#}
+{{ attach_library('bootstrap_barrio/node') }}
+{{ attach_library('barrio_carlson/carlson_quiz') }}
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    'quiz-results',
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix',
+  ]
+%}
+
+{% set results_to_show = results|length > 3 ? 3 : results|length %}
+{% set results_view_mode = results_to_show == 1 or results_to_show > 3 ? 'quiz_result_teaser_alt' : 'quiz_result_teaser' %}
+{% set columns_lg = results_to_show == 1 ? 'quiz-results--result-wrapper-alt col-lg-12' : 'col-lg' %}
+{% set columns_lg = results_to_show == 2 ? 'quiz-results--result-wrapper-alt-2 col-lg-6' : columns_lg %}
+{% set columns_lg = results_to_show > 3 ? 'quiz-results--result-wrapper-alt col-lg-12' : columns_lg %}
+{% set node_title = node.field_quiz_results_title|view('quiz_results') %}
+{% set node_body = node.field_quiz_results_body|view('quiz_results') %}
+{% set node_cond_body = node.field_quiz_cond_results_body|view('quiz_results') %}
+{% set webform_submission_data = webform_submission.getData() %}
+{% for data_item_key, data_item in webform_submission_data %}
+  {% if data_item is iterable %}
+    {% for data_subitem in data_item %}
+      {% set data_subitem_key = data_item_key ~ '_' ~ loop.index %}
+      {% set webform_submission_data = webform_submission_data|merge({ (data_subitem_key): data_subitem }) %}
+    {% endfor %}
+  {% endif %}
+{% endfor %}
+{% set numbers = [
+    'zero',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five'
+  ]
+%}
+
+{% macro preprocess_text(text, results_to_show, numbers) %}
+  {% set text = text|preg_replace('/(@results_text)/', numbers[results_to_show]) %}
+  {% set text = text|preg_replace('/(@results)/', results_to_show) %}
+  {% set text = text|preg_replace('/@pluralize"([^"]*)","([^"]*)"/', results_to_show > 1 ? '$2' : '$1' ) %}
+  {{ text|raw }}
+{% endmacro %}
+
+{% set send_query = '' %}
+
+{% if results %}
+  {% set send_query = '?' %}
+  {% for tid in results|slice(0, results_to_show, true)|keys %}
+    {% set code = drupal_field('field_quiz_result_set_code', 'taxonomy_term', tid) %}
+    {% set send_query = loop.index > 1 ? send_query ~ '&' : send_query %}
+    {% set send_query = send_query ~ 'program_' ~ loop.index ~ '=' ~ code[0]['#context'].value|clean_class %}
+  {% endfor %}
+  {% for tid in results|slice(0, results_to_show, true)|keys %}
+    {% set send_query = send_query ~ '&program_' ~ loop.index ~ '_id=' ~ tid %}
+  {% endfor %}
+{% endif %}
+
+<article{{ attributes.addClass(classes) }}>
+  <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
+    <div class="container mb-4">
+      <div class="row align-items-center justify-content-center pt-5 pb-4 mb-5 mt-lg-5">
+        <div class="col-12 col-lg-6 col-xl-5 mb-4 mb-lg-0">
+          <p class="quiz-results--title-prefix text-uppercase mb-0">Results</p>
+          <h1 class="d-none">{{ node.label }} Results</h1>
+          <h2 class="quiz-results--title column__heading">{{ _self.preprocess_text(node_title[0]['#text'], results_to_show, numbers) }}</h2>
+          <div class="quiz-results--body">
+            {% set show_default_cond_body = false %}
+
+            {% for cond_body_item in node_cond_body|children %}
+              {% set show_cond_body = false %}
+              {% set conditional_answers = cond_body_item['#paragraph'].field_quiz_question_cond_answ.getValue() %}
+
+              {% for conditional_answer in conditional_answers %}
+                {% if conditional_answer['value'] in webform_submission_data %}
+                  {% set show_cond_body = true %}
+                  {% set show_default_cond_body = true %}
+                {% endif %}
+              {% endfor %}
+
+              {% if show_cond_body %}
+                {{ _self.preprocess_text(cond_body_item|render, results_to_show, numbers) }}
+              {% endif %}
+            {% endfor %}
+
+            {% if show_default_cond_body == false %}
+              {{ _self.preprocess_text(node_body[0]['#text'], results_to_show, numbers) }}
+            {% endif %}
+
+          </div>
+        </div>
+        <div class="co-12 col-lg-6 col-xl-5 d-flex justify-content-lg-end">
+{#          <a class="quiz-results--btn-send results--btn-send btn maroon-solid-button px-4 px-lg-5 py-3 py-lg-4 mr-4 use-ajax" id="results--btn-send" href="/form/quiz-send-results{{ send_query }}" data-dialog-options="{&quot;width&quot;:800}" data-dialog-type="modal" data-ajax-progress="fullscreen">{{ 'Send My Results'|t }}</a>#}
+          <a class="quiz-results--btn-retake results--btn-retake btn maroon-outline-button px-4 px-lg-5 py-3 py-lg-4" id="results--btn-retake" href="{{ path('entity.node.canonical', {'node': node.id}) }}">{{ 'Retake'|t }}</a>
+        </div>
+      </div>
+      <div class="row justify-content-center mb-5 pb-lg-5">
+        <div class="col-12 col-xl-10">
+          {% if results %}
+            <div class="row justify-content-center">
+              {% for tid in results|slice(0, results_to_show, true)|keys %}
+                <div class="quiz-results--result-wrapper results-count-{{ results_to_show }} col-12 col-sm-9 col-md-6 {{ columns_lg }} d-md-flex mb-3 pb-3">
+                  {{ drupal_entity('taxonomy_term', tid, results_view_mode) }}
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+      {% if node.field_quiz_results_add_comps|view('quiz_results') %}
+        <div class="row justify-content-center mb-5 pb-lg-5">
+          <div class="col-12 col-xl-10">
+            {{ node.field_quiz_results_add_comps|view('quiz_results') }}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</article>
