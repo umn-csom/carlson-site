@@ -74,6 +74,7 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
         $options = [];
         $options_properties = [];
         $states = [];
+        $question_states = [];
 
         $prev_button = $question_key > 0 ? '<legend class="d-none">Prev Button</legend><a class="question-'.($question_key + 1).'-prev-button question-'.$question->id().'-prev-button quiz--question--prev btn maroon-outline-button py-3" href="#edit-question-'.$questions[$question_key - 1]->id().'-title" id="question-'.$question->id().'-prev-button">Previous</a>' : '';
         $next_button = next($questions) ? '<legend class="d-none">Next Button</legend><a class="question-'.($question_key + 1).'-next-button question-'.$question->id().'-next-button quiz--question--next btn maroon-solid-button py-3 pr-4" href="#edit-question-'.$questions[$question_key + 1]->id().'-title" id="question-'.$question->id().'-next-button">Next</a>' : '';;
@@ -115,6 +116,11 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
           }
         }
 
+        if(!empty($states)) {
+          $question_states['visible'] = $states['visible'];
+          $question_states['required'] = $states['visible'];
+        }
+
         $elements['question_'.$question->id().'_title'] = [
           '#type' => 'processed_text',
           '#format' => 'rich_text',
@@ -134,7 +140,7 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
           ],
           '#options' => $options,
           '#options__properties' => $options_properties,
-          '#states' => $states,
+          '#states' => $question_states,
           '#required'=> empty($states),
           '#required_error' => empty($states) ? 'Please select an answer before proceeding' : ''
         ];

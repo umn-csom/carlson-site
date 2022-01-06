@@ -10,7 +10,6 @@
 
   Drupal.behaviors.carlsonQuiz = {
     attach: function (context, settings) {
-      var questions = $('.quiz--question.required', context);
 
       $('[data-toggle="popover"]').popover({ trigger: "manual" , html: true})
         .on("mouseenter", function () {
@@ -43,6 +42,7 @@
         $(this).closest('.quiz--question').find('.quiz--answer').removeClass('checked');
         $(this).closest('.quiz--question').find('.quiz--answer input:checked').closest('.quiz--answer').addClass('checked');
 
+        var questions = $('.quiz--question.required', context);
         if(questions.length > 0) {
           var progress = 0;
           questions.each(function () {
@@ -102,7 +102,7 @@
       document.addEventListener('invalid', function(e) {
         $('html, body').animate({scrollTop: $('.quiz--question:not(.checked)', context).first().offset().top - 200 }, 0);
       }, true);
-      
+
     }
   };
 }(jQuery, Drupal));
