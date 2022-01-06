@@ -101,7 +101,30 @@
 
       document.addEventListener('invalid', function(e) {
         $('html, body').animate({scrollTop: $('.quiz--question:not(.checked)', context).first().offset().top - 200 }, 0);
+        $('.quiz--question:not(.checked)', context).first().find('.quiz--answer').first().find('button.quiz--answer--popover-btn').popover('show');
       }, true);
+
+      $('.quiz--question .quiz--answer:first-of-type', context).append('<button type="button" class="quiz--answer--popover-btn border-0 p-0 order-last" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="Please select an answer before proceeding"><span class="d-none">Required</span></button>');
+
+      window.addEventListener('load', function() {
+        $('.quiz--answer--popover-btn', context).popover();
+
+        var forms = document.getElementsByClassName('webform-submission-form');
+
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+
+      $(document).on('click','body *',function(){
+        $('button.quiz--answer--popover-btn', context).popover('hide');
+      });
 
     }
   };

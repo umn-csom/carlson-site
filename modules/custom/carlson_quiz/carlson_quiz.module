@@ -59,7 +59,8 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
 
     $settings = [
       'confirmation_type' => 'url',
-      'confirmation_url' => '/node/'.$entity->id().'/results/[webform_submission:sid]'
+      'confirmation_url' => '/node/'.$entity->id().'/results/[webform_submission:sid]',
+      'form_novalidate' => true
     ];
 
     foreach ($questions as $question_key => $question) {

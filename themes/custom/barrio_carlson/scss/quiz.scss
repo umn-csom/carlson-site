@@ -206,11 +206,20 @@ $grid-row-columns:            6 !default;
           }
         }
       }
+      &:focus {
+        outline: 0;
+      }
     }
     &.checked {
       border-color: $maroon;
       border-width: 2px;
       border-left-width: 4px;
+    }
+    &--popover-btn {
+      position: relative;
+      left: -10px;
+      bottom: -10px;
+      z-index: 0;
     }
   }
   &--webform {
@@ -246,6 +255,23 @@ $grid-row-columns:            6 !default;
   .js-webform-states-hidden {
     .quiz--question--title-wrapper {
         margin-top: 100px;
+    }
+  }
+  .was-validated {
+    .form-check-input:invalid ~ .form-check-label,
+    .form-check-input.is-invalid ~ .form-check-label {
+      color: inherit;
+    }
+    .form-check-input:valid ~ .form-check-label,
+    .form-check-input.is-valid ~ .form-check-label {
+      color: inherit;
+    }
+    .webform-button--submit:valid,
+    .webform-button--submit.is-valid {
+      border: 2px solid $maroon;
+      background-image: none;
+      padding-left: 3rem;
+      padding-right: 3rem;
     }
   }
 
@@ -295,6 +321,10 @@ $grid-row-columns:            6 !default;
           &.checked {
             border-left-width: 2px;
             border-bottom-width: 4px;
+          }
+          &--popover-btn {
+            left: 0;
+            bottom: 0;
           }
         }
       }
@@ -361,6 +391,13 @@ $grid-row-columns:            6 !default;
           padding-left: 1.5rem;
           padding-right: 1.5rem;
         }
+      }
+    }
+    .was-validated {
+      .form-control:valid,
+      .form-control.is-valid {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
       }
     }
   }
