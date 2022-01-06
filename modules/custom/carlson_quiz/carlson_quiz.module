@@ -55,6 +55,14 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
   if($entity->bundle() == 'quiz' && $entity->hasField('field_quiz_questions')) {
 
     $elements = [];
+    $numbers = [
+      'zero',
+      'one',
+      'two',
+      'three',
+      'four',
+      'five'
+    ];
     $questions = $entity->get('field_quiz_questions')->referencedEntities();
 
     $settings = [
@@ -72,10 +80,14 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
         $answers = $question->get('field_quiz_question_answers')->referencedEntities();
         $conditional_question = $question->hasField('field_quiz_question_cond_qn') && !empty($question->get('field_quiz_question_cond_qn')->getValue()) ? $question->get('field_quiz_question_cond_qn')->getValue() : '';
         $conditional_answers = $question->hasField('field_quiz_question_cond_answ') && !empty($question->get('field_quiz_question_cond_answ')->getValue()) ? $question->get('field_quiz_question_cond_answ')->getValue() : '';
+        $limit_type = $question->hasField('field_quiz_question_limit_type') && !empty($question->get('field_quiz_question_limit_type')->getValue()) ? $question->get('field_quiz_question_limit_type')->getValue() : '';
+        $limit = $question->hasField('field_quiz_question_limit') && !empty($question->get('field_quiz_question_limit')->getValue()) ? $question->get('field_quiz_question_limit')->getValue() : '';
+        $multiple_choice_label = 'Select all that apply';
         $options = [];
         $options_properties = [];
         $states = [];
         $question_states = [];
+        $question_attributes = [];
 
         $prev_button = $question_key > 0 ? '<legend class="d-none">Prev Button</legend><a class="question-'.($question_key + 1).'-prev-button question-'.$question->id().'-prev-button quiz--question--prev btn maroon-outline-button py-3 px-4 px-sm-5" href="#edit-question-'.$questions[$question_key - 1]->id().'-title" id="question-'.$question->id().'-prev-button">Previous</a>' : '';
         $next_button = next($questions) ? '<legend class="d-none">Next Button</legend><a class="question-'.($question_key + 1).'-next-button question-'.$question->id().'-next-button quiz--question--next btn maroon-solid-button py-3 px-4 pl-sm-5" href="#edit-question-'.$questions[$question_key + 1]->id().'-title" id="question-'.$question->id().'-next-button">Next</a>' : '';;
@@ -122,10 +134,23 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
           $question_states['required'] = $states['visible'];
         }
 
+        $question_attributes['class'] = ['mb-5', 'quiz--question', $answers_layout];
+        if($type == 'checkboxes' && $limit_type !== '' & $limit !== '') {
+          $question_attributes['class'][] = 'has-limit';
+          $question_attributes['data-limit-type'] = $limit_type[0]["value"];
+          $question_attributes['data-limit'] = $limit[0]["value"];
+          if($limit_type[0]["value"] == 'up_to') {
+            $multiple_choice_label = 'Select up to '.$numbers[$limit[0]["value"]];
+          }
+          elseif ($limit_type[0]["value"] == 'at_least') {
+            $multiple_choice_label = 'Select '.$numbers[$limit[0]["value"]].' or more';
+          }
+        }
+
         $elements['question_'.$question->id().'_title'] = [
           '#type' => 'processed_text',
           '#format' => 'rich_text',
-          '#text' => '<legend class="d-none">Question Title</legend><div class="quiz--question--title-prefix text-uppercase mb-2">Question '.($question_key + 1).'</div><div class="quiz--question--title column__heading"><h3 class="d-inline">'.$text.'</h3>'.$help_text.'</div>'.($type === 'checkboxes' ? '<div class="quiz--question--multiple-label">Select all that apply</div>' : ''),
+          '#text' => '<legend class="d-none">Question Title</legend><div class="quiz--question--title-prefix text-uppercase mb-2">Question '.($question_key + 1).'</div><div class="quiz--question--title column__heading"><h3 class="d-inline">'.$text.'</h3>'.$help_text.'</div>'.($type === 'checkboxes' ? '<div class="quiz--question--multiple-label">'.$multiple_choice_label.'</div>' : ''),
           '#wrapper_attributes' => [
             'class' => ['quiz--question--title-wrapper'],
           ],
@@ -136,9 +161,7 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
           '#type' => $type,
           '#title' => $text,
           '#default_value' => '',
-          '#wrapper_attributes' => [
-            'class' => ['mb-5', 'quiz--question', $answers_layout],
-          ],
+          '#wrapper_attributes' => $question_attributes,
           '#options' => $options,
           '#options__properties' => $options_properties,
           '#states' => $question_states,

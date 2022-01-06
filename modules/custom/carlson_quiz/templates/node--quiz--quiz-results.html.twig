@@ -133,8 +133,8 @@
           <h2 class="quiz-results--title column__heading">{{ _self.preprocess_text(node_title[0]['#text'], results_to_show, numbers) }}</h2>
           <div class="quiz-results--body">
             {% set show_default_cond_body = false %}
-
-            {% for cond_body_item in node_cond_body|children %}
+            {% set break = false %}
+            {% for cond_body_item in node_cond_body|children if not break %}
               {% set show_cond_body = false %}
               {% set conditional_answers = cond_body_item['#paragraph'].field_quiz_question_cond_answ.getValue() %}
 
@@ -142,6 +142,7 @@
                 {% if conditional_answer['value'] in webform_submission_data %}
                   {% set show_cond_body = true %}
                   {% set show_default_cond_body = true %}
+                  {% set break = true %}
                 {% endif %}
               {% endfor %}
 

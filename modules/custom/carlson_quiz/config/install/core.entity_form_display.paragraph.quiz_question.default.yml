@@ -8,6 +8,8 @@ dependencies:
     - field.field.paragraph.quiz_question.field_quiz_question_cond_qn
     - field.field.paragraph.quiz_question.field_quiz_question_cond_results
     - field.field.paragraph.quiz_question.field_quiz_question_help_text
+    - field.field.paragraph.quiz_question.field_quiz_question_limit
+    - field.field.paragraph.quiz_question.field_quiz_question_limit_type
     - field.field.paragraph.quiz_question.field_quiz_question_text
     - field.field.paragraph.quiz_question.field_quiz_question_type
     - paragraphs.paragraphs_type.quiz_question
@@ -72,6 +74,7 @@ third_party_settings:
         - field_quiz_question_cond_qn
         - field_quiz_question_cond_answ
         - field_quiz_question_cond_results
+        - group_limit_the_number_of_select
       parent_name: group_tabs
       weight: 10
       format_type: tab
@@ -84,6 +87,21 @@ third_party_settings:
         formatter: closed
         required_fields: true
       label: Conditions
+    group_limit_the_number_of_select:
+      children:
+        - field_quiz_question_limit_type
+        - field_quiz_question_limit
+      parent_name: group_conditions
+      weight: 8
+      format_type: fieldset
+      region: content
+      format_settings:
+        description: ''
+        required_fields: true
+        id: ''
+        classes: ''
+        show_empty_fields: false
+      label: 'Limit the number of selections'
 id: paragraph.quiz_question.default
 targetEntityType: paragraph
 bundle: quiz_question
@@ -140,6 +158,19 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
+    region: content
+  field_quiz_question_limit:
+    weight: 10
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_quiz_question_limit_type:
+    weight: 9
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
     region: content
   field_quiz_question_text:
     weight: 2
