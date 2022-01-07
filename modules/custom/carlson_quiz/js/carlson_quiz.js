@@ -55,7 +55,12 @@
         if(questions.length > 0) {
           var progress = 0;
           questions.each(function () {
-            if($(this).find('.quiz--answer.checked').length > 0) {
+            if($(this).data('limit') !== 'undefined' && $(this).data('limit-type') === 'at_least') {
+              if($(this).find('.quiz--answer.checked').length >= $(this).data('limit')) {
+                progress++;
+              }
+            }
+            else if($(this).find('.quiz--answer.checked').length > 0) {
               progress++;
             }
           });
