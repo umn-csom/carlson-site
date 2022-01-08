@@ -410,6 +410,7 @@ function carlson_quiz_webform_submission_presave(WebformSubmissionInterface &$we
   if($webform_id && $entity_id && $webform_id == 'quiz_node_'.$entity_id) {
     $results = [];
     $result_ids = [];
+    $cond_result_ids = [];
     $data =  $webform_submission->getData();
 
     foreach ($data as $key => $pid) {
@@ -422,6 +423,14 @@ function carlson_quiz_webform_submission_presave(WebformSubmissionInterface &$we
               foreach ($answer_results as $answer_result) {
                 $id = $answer_result["target_id"];
                 $result_ids[$id] = array_key_exists($id, $result_ids) ? ++$result_ids[$id] : 1;
+
+                //Conditional Results Logic
+                if($answer->hasField('field_quiz_answer_cond_results') && !empty($answer->get('field_quiz_answer_cond_results'))) {
+                  $conditional_results = $answer->get('field_quiz_answer_cond_results')->getValue();
+                  if(!empty($conditional_results) && $conditional_results[0]["value"] == '1') {
+                    $cond_result_ids[$id] = array_key_exists($id, $cond_result_ids) ? ++$cond_result_ids[$id] : 1;
+                  }
+                }
               }
             }
           }
@@ -433,32 +442,22 @@ function carlson_quiz_webform_submission_presave(WebformSubmissionInterface &$we
             foreach ($answer_results as $answer_result) {
               $id = $answer_result["target_id"];
               $result_ids[$id] = array_key_exists($id, $result_ids) ? ++$result_ids[$id] : 1;
-            }
-          }
-        }
-      }
-    }
 
-    foreach ($data as $key => $pid) {
-      if(substr($key, 0, 9) == 'question_') {
-        $question_id = substr($key, 9, strlen($key) - 9);
-        $question = Paragraph::load($question_id);
-        if(isset($question) && $question->hasField('field_quiz_question_cond_results') && !empty($question->get('field_quiz_question_cond_results'))) {
-          $conditional_results = $question->get('field_quiz_question_cond_results')->getValue();
-          if(!empty($conditional_results) && $conditional_results[0]["value"] == '1' && empty($pid)) {
-            $answers = $question->get('field_quiz_question_answers')->referencedEntities();
-            foreach ($answers as $answer_key => $answer) {
-              if(isset($answer) && $answer->hasField('field_quiz_answer_result') && !empty($answer->get('field_quiz_answer_result'))) {
-                $answer_results = $answer->get('field_quiz_answer_result')->getValue();
-                foreach ($answer_results as $answer_result) {
-                  $id = $answer_result["target_id"];
-                  unset($result_ids[$id]);
+              //Conditional Results Logic
+              if($answer->hasField('field_quiz_answer_cond_results') && !empty($answer->get('field_quiz_answer_cond_results'))) {
+                $conditional_results = $answer->get('field_quiz_answer_cond_results')->getValue();
+                if(!empty($conditional_results) && $conditional_results[0]["value"] == '1') {
+                  $cond_result_ids[$id] = array_key_exists($id, $cond_result_ids) ? ++$cond_result_ids[$id] : 1;
                 }
               }
             }
           }
         }
       }
+    }
+
+    if(!empty($cond_result_ids)) {
+      $result_ids = $cond_result_ids;
     }
 
     arsort($result_ids);

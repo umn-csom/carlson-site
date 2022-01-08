@@ -149,8 +149,8 @@
               event.preventDefault();
               event.stopPropagation();
             }
-            else if($('.quiz--question[data-limit-type="at_least"]', context).length > 0) {
-              $('.quiz--question[data-limit-type="at_least"]', context).each(function () {
+            else if($('.quiz--question.required[data-limit-type="at_least"]', context).length > 0) {
+              $('.quiz--question.required[data-limit-type="at_least"]', context).each(function () {
                 if($(this).find('.quiz--answer input:checked').length < $(this).data('limit')) {
                   event.preventDefault();
                   event.stopPropagation();
