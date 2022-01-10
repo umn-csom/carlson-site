@@ -126,6 +126,7 @@
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
     <div class="container mb-4">
+      {% if results %}
       <div class="row align-items-center justify-content-center pt-5 pb-4 mb-5 mt-lg-5">
         <div class="col-12 col-lg-6 col-xl-5 mb-4 mb-lg-0">
           <p class="quiz-results--title-prefix text-uppercase mb-0">Results</p>
@@ -162,6 +163,9 @@
           <a class="quiz-results--btn-retake results--btn-retake btn maroon-outline-button px-4 px-lg-5 py-3 py-lg-4" id="results--btn-retake" href="{{ path('entity.node.canonical', {'node': node.id}) }}">{{ 'Retake'|t }}</a>
         </div>
       </div>
+      {% else %}
+        {{ node.field_quiz_no_results_page_body|view('quiz_results') }}
+      {% endif %}
       <div class="row justify-content-center mb-5 pb-lg-5">
         <div class="col-12 col-xl-10">
           {% if results %}

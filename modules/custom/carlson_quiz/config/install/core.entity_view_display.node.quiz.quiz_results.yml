@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.quiz.field_quiz_cond_results_body
     - field.field.node.quiz.field_quiz_headline
     - field.field.node.quiz.field_quiz_main_image
+    - field.field.node.quiz.field_quiz_no_results_page_body
     - field.field.node.quiz.field_quiz_questions
     - field.field.node.quiz.field_quiz_results_add_comps
     - field.field.node.quiz.field_quiz_results_body
@@ -31,23 +32,30 @@ mode: quiz_results
 content:
   field_meta_tags:
     type: metatag_empty_formatter
-    weight: 5
+    weight: 6
     region: content
     label: hidden
     settings: {  }
     third_party_settings: {  }
   field_quiz_cond_results_body:
     type: entity_reference_revisions_entity_view
-    weight: 3
+    weight: 4
     region: content
     label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+  field_quiz_no_results_page_body:
+    type: text_default
+    weight: 3
+    region: content
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
   field_quiz_results_add_comps:
     type: entity_reference_revisions_entity_view
-    weight: 4
+    weight: 5
     region: content
     label: hidden
     settings:
