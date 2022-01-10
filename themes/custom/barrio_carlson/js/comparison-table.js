@@ -85,7 +85,11 @@
     }
 
     function add_table() {
-        if (render_array.length < table_limit && $('#comparison-select').val()) {    
+        let select_value = $('#comparison-select').val();
+        if (render_array.length < table_limit &&
+            select_value &&
+            !render_array.includes(select_value) 
+        ) {    
             render_array.push($('#comparison-select').val());
         }
         render_table();
