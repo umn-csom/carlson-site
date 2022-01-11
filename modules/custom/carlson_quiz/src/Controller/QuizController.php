@@ -11,7 +11,8 @@ class QuizController extends ControllerBase {
   function build(NodeInterface $node, WebformSubmissionInterface $webform_submission) {
 
     $results = [];
-    $cond_result_ids = [];
+//    $cond_result_ids = [];
+    $answer_count = 0;
     $data =  $webform_submission->getData();
 
     foreach ($data as $key => $pid) {
@@ -21,17 +22,18 @@ class QuizController extends ControllerBase {
             $answer = Paragraph::load($pid_item);
             if(isset($answer) && $answer->hasField('field_quiz_answer_result') && !empty($answer->get('field_quiz_answer_result'))) {
               $answer_results = $answer->get('field_quiz_answer_result')->getValue();
+              $answer_count++;
               foreach ($answer_results as $answer_result) {
                 $id = $answer_result["target_id"];
                 $results[$id] = array_key_exists($id, $results) ? ++$results[$id] : 1;
 
                 //Conditional Results Logic
-                if($answer->hasField('field_quiz_answer_cond_results') && !empty($answer->get('field_quiz_answer_cond_results'))) {
-                  $conditional_results = $answer->get('field_quiz_answer_cond_results')->getValue();
-                  if(!empty($conditional_results) && $conditional_results[0]["value"] == '1') {
-                    $cond_result_ids[$id] = array_key_exists($id, $cond_result_ids) ? ++$cond_result_ids[$id] : 1;
-                  }
-                }
+//                if($answer->hasField('field_quiz_answer_cond_results') && !empty($answer->get('field_quiz_answer_cond_results'))) {
+//                  $conditional_results = $answer->get('field_quiz_answer_cond_results')->getValue();
+//                  if(!empty($conditional_results) && $conditional_results[0]["value"] == '1') {
+//                    $cond_result_ids[$id] = array_key_exists($id, $cond_result_ids) ? ++$cond_result_ids[$id] : 1;
+//                  }
+//                }
               }
             }
           }
@@ -40,28 +42,32 @@ class QuizController extends ControllerBase {
           $answer = Paragraph::load($pid);
           if(isset($answer) && $answer->hasField('field_quiz_answer_result') && !empty($answer->get('field_quiz_answer_result'))) {
             $answer_results = $answer->get('field_quiz_answer_result')->getValue();
+            $answer_count++;
             foreach ($answer_results as $answer_result) {
               $id = $answer_result["target_id"];
               $results[$id] = array_key_exists($id, $results) ? ++$results[$id] : 1;
 
               //Conditional Results Logic
-              if($answer->hasField('field_quiz_answer_cond_results') && !empty($answer->get('field_quiz_answer_cond_results'))) {
-                $conditional_results = $answer->get('field_quiz_answer_cond_results')->getValue();
-                if(!empty($conditional_results) && $conditional_results[0]["value"] == '1') {
-                  $cond_result_ids[$id] = array_key_exists($id, $cond_result_ids) ? ++$cond_result_ids[$id] : 1;
-                }
-              }
+//              if($answer->hasField('field_quiz_answer_cond_results') && !empty($answer->get('field_quiz_answer_cond_results'))) {
+//                $conditional_results = $answer->get('field_quiz_answer_cond_results')->getValue();
+//                if(!empty($conditional_results) && $conditional_results[0]["value"] == '1') {
+//                  $cond_result_ids[$id] = array_key_exists($id, $cond_result_ids) ? ++$cond_result_ids[$id] : 1;
+//                }
+//              }
             }
           }
         }
       }
     }
 
-    if(!empty($cond_result_ids)) {
-      $results = $cond_result_ids;
-    }
+//    if(!empty($cond_result_ids)) {
+//      $results = $cond_result_ids;
+//    }
 
     arsort($results);
+    $results = array_filter($results, function($v) use ($answer_count) {
+      return $v === $answer_count;
+    });
 
     $tags_from_node = metatag_get_tags_from_route($node);
 
