@@ -77,7 +77,7 @@ $grid-row-columns:            6 !default;
     }
     &--title-wrapper {
       &:not(:first-of-type) {
-        margin-top: 100px;
+        margin-top: 40px;
       }
     }
     &--title-prefix {
@@ -206,11 +206,30 @@ $grid-row-columns:            6 !default;
           }
         }
       }
+      &:focus {
+        outline: 0;
+      }
     }
     &.checked {
       border-color: $maroon;
       border-width: 2px;
       border-left-width: 4px;
+    }
+    &--popover-btn {
+      position: relative;
+      left: -10px;
+      bottom: -10px;
+      z-index: 0;
+    }
+    &.disabled {
+      opacity: 0.8;
+      cursor: not-allowed;
+      label {
+        cursor: not-allowed;
+      }
+      input {
+        cursor: not-allowed;
+      }
     }
   }
   &--webform {
@@ -245,7 +264,28 @@ $grid-row-columns:            6 !default;
   }
   .js-webform-states-hidden {
     .quiz--question--title-wrapper {
-        margin-top: 100px;
+        margin-top: 40px;
+    }
+  }
+  .was-validated {
+    .form-check-input:invalid ~ .form-check-label,
+    .form-check-input.is-invalid ~ .form-check-label {
+      color: inherit;
+    }
+    .form-check-input:valid ~ .form-check-label,
+    .form-check-input.is-valid ~ .form-check-label {
+      color: inherit;
+    }
+    .webform-button--submit:valid,
+    .webform-button--submit.is-valid {
+      border: 2px solid $maroon;
+      background-image: none;
+      padding-left: 3rem;
+      padding-right: 3rem;
+      &:focus {
+        border-color: $maroon;
+        box-shadow: 0 15px 30px 0 rgba($black, 0.2);
+      }
     }
   }
 
@@ -267,7 +307,7 @@ $grid-row-columns:            6 !default;
     &--question {
       &--title-wrapper {
         &:not(:first-of-type) {
-          margin-top: 100px;
+          margin-top: 40px;
         }
       }
       &--title-prefix {
@@ -295,6 +335,10 @@ $grid-row-columns:            6 !default;
           &.checked {
             border-left-width: 2px;
             border-bottom-width: 4px;
+          }
+          &--popover-btn {
+            left: 0;
+            bottom: 0;
           }
         }
       }
@@ -325,7 +369,7 @@ $grid-row-columns:            6 !default;
     }
     .js-webform-states-hidden {
       .quiz--question--title-wrapper {
-        margin-top: 100px;
+        margin-top: 40px;
       }
     }
   }
@@ -351,6 +395,23 @@ $grid-row-columns:            6 !default;
           width: 24px;
           height: 24px;
         }
+      }
+    }
+  }
+  @include media-breakpoint-only(xs) {
+    .quiz {
+      &--webform {
+        .webform-button--submit {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+      }
+    }
+    .was-validated {
+      .form-control:valid,
+      .form-control.is-valid {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
       }
     }
   }
@@ -499,4 +560,14 @@ $grid-row-columns:            6 !default;
 
 .box-shadow {
   box-shadow: 2px 4px 7px 0 rgba(54,50,48,0.1);
+}
+
+// TODO: remove once comparison table is finished
+
+
+.quiz-results--result--compare-checkbox-wrapper {
+  padding-top: 2rem;
+  label {
+    display: none !important;
+  }
 }

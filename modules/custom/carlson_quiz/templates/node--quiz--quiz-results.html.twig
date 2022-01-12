@@ -126,6 +126,7 @@
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
     <div class="container mb-4">
+      {% if results %}
       <div class="row align-items-center justify-content-center pt-5 pb-4 mb-5 mt-lg-5">
         <div class="col-12 col-lg-6 col-xl-5 mb-4 mb-lg-0">
           <p class="quiz-results--title-prefix text-uppercase mb-0">Results</p>
@@ -133,8 +134,8 @@
           <h2 class="quiz-results--title column__heading">{{ _self.preprocess_text(node_title[0]['#text'], results_to_show, numbers) }}</h2>
           <div class="quiz-results--body">
             {% set show_default_cond_body = false %}
-
-            {% for cond_body_item in node_cond_body|children %}
+            {% set break = false %}
+            {% for cond_body_item in node_cond_body|children if not break %}
               {% set show_cond_body = false %}
               {% set conditional_answers = cond_body_item['#paragraph'].field_quiz_question_cond_answ.getValue() %}
 
@@ -142,6 +143,7 @@
                 {% if conditional_answer['value'] in webform_submission_data %}
                   {% set show_cond_body = true %}
                   {% set show_default_cond_body = true %}
+                  {% set break = true %}
                 {% endif %}
               {% endfor %}
 
@@ -161,6 +163,9 @@
           <a class="quiz-results--btn-retake results--btn-retake btn maroon-outline-button px-4 px-lg-5 py-3 py-lg-4" id="results--btn-retake" href="{{ path('entity.node.canonical', {'node': node.id}) }}">{{ 'Retake'|t }}</a>
         </div>
       </div>
+      {% else %}
+        {{ node.field_quiz_no_results_page_body|view('quiz_results') }}
+      {% endif %}
       <div class="row justify-content-center mb-5 pb-lg-5">
         <div class="col-12 col-xl-10">
           {% if results %}
