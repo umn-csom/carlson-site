@@ -15,7 +15,7 @@
 
         let render_length = render_array.length;
 
-        $('#example tr').each(function(index, element) {
+        $('#course-table tr').each(function(index, element) {
             let row_element = element;
             $(this).find('th, td').each(function(index, element) {
                 if (index > 0) {
@@ -60,7 +60,7 @@
             $('#comparison-menu').removeClass("full-table");
         }
 
-        $('#example').tablesaw().data('tablesaw').refresh();
+        $('#course-table').tablesaw().data('tablesaw').refresh();
     }
 
     function build_request_link(url) {
