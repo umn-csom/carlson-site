@@ -1,0 +1,15 @@
+<?php
+/**
+ * Implements hook_theme().
+ */
+function course_comparison_table_theme($existing, $type, $theme, $path) {
+  return [
+    'course_comparison_table' => [
+        'variables' => ['title' => NULL, 'description' => NULL],
+    ],
+  ];
+}
+
+function course_comparison_table_preprocess_block(&$variables) {
+    $variables['#attached']['library'][] = 'course_comparison_table/course_comparison_table_code';
+}

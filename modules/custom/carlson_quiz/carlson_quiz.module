@@ -141,10 +141,10 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
           $question_attributes['data-limit-type'] = $limit_type[0]["value"];
           $question_attributes['data-limit'] = $limit[0]["value"];
           if($limit_type[0]["value"] == 'up_to') {
-            $multiple_choice_label = 'Select up to '.$numbers[$limit[0]["value"]];
+            $multiple_choice_label = 'Select up to '.$numbers[$limit[0]["value"]].'.';
           }
           elseif ($limit_type[0]["value"] == 'at_least') {
-            $multiple_choice_label = 'Select '.$numbers[$limit[0]["value"]].' or more';
+            $multiple_choice_label = 'Select '.$numbers[$limit[0]["value"]].' or more.';
           }
         }
 

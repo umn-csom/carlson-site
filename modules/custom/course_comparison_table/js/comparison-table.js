@@ -9,39 +9,46 @@
     var table_limit = 3;
 
     var table_array = [];
-    var render_array = [0, 1];
+    var render_array = ["0", "1"];
 
     function render_table() {
 
         let render_length = render_array.length;
 
-        $('#example tr').each(function(index, element) {
+        $('#course-table tr').each(function(index, element) {
             let row_element = element;
             $(this).find('th, td').each(function(index, element) {
                 if (index > 0) {
                     let key_thing = render_array[index - 1];
                     if (row_element.id == 'name') {
                         if( index <= render_length) {
-                            $( this ).find('.column-header-text').text(table_array[key_thing][row_element.id][0].value);
-                            $( this ).removeClass("column-no-content");
+                            $( this ).find('.column-header-text').text(table_array[key_thing][row_element.id]);
 
-                            $('.comparison-menu__mobile-header .column-header_mobile-container .column-header-text__mobile').eq(index-1).text(table_array[key_thing][row_element.id][0].value);
+                            $('.comparison-menu__mobile-header .column-header_mobile-container .column-header-text__mobile').eq(index-1).text(table_array[key_thing][row_element.id]);
                             $('.comparison-menu__mobile-header .column-header_mobile-container').eq(index-1).removeClass("column-no-content");
                         } else {
                             $( this ).find('.column-header-text').text("-");
-                            $( this ).addClass("column-no-content");
 
                             $('.comparison-menu__mobile-header .column-header_mobile-container .column-header-text__mobile').eq(index-1).text("-");
                             $('.comparison-menu__mobile-header .column-header_mobile-container').eq(index-1).addClass("column-no-content");
                         }
                     } else {
-                        if( index <= render_length) {
-                            $( this ).html(table_array[key_thing][row_element.id][0].value)
-                            $( this ).removeClass("column-no-content");
-                        } else {
+                        if (index > render_length) {
                             $( this ).html("-");
-                            $( this ).addClass("column-no-content");
+                        } else if ( row_element.id == 'links') {
+                            $( this ).html(
+                                build_request_link(table_array[key_thing]['req_info']) +
+                                build_learn_link(table_array[key_thing]['learn_more'])
+                            )
+                        } else {
+                            $( this ).html(table_array[key_thing][row_element.id])
                         }
+                    }
+                        
+                    if( index <= render_length) {
+                        $( this ).removeClass("column-no-content");
+                    } else {
+                        $( this ).addClass("column-no-content");
                     }
                 }
             });
@@ -53,11 +60,39 @@
             $('#comparison-menu').removeClass("full-table");
         }
 
-        $('#example').tablesaw().data('tablesaw').refresh();
+        $('#course-table').tablesaw().data('tablesaw').refresh();
+    }
+
+    function build_request_link(url) {
+        let link = '';
+
+        link += '<a href="' + url.replace(/^(entity\:)/,"") + '" target="_blank" data-dialog-options="{&quot;width&quot;:800}"'
+        link += 'class = "btn maroon-solid-button d-block py-3 py-lg-4 mb-3 mb-lg-4 quiz-results--result--req-info result--req-info use-ajax"'
+        link += 'data-dialog-type="modal" data-ajax-progress="fullscreen">';
+        link += 'Request Info';
+        link += '</a>';
+
+        return link;
+    }
+
+    function build_learn_link(url) {
+        let link = '';
+
+        link += '<a href="' + url.replace(/^(entity\:)/,"/") + '" target="_blank" data-dialog-options="{&quot;width&quot;:800}"'
+        link += 'class = "btn maroon-outline-button d-block py-3 py-lg-4 quiz-results--result--learn-more result--learn-more"'
+        link += '>';
+        link += 'Learn More';
+        link += '</a>';
+
+        return link;
     }
 
     function add_table() {
         let select_value = $('#comparison-select').val();
+
+        console.log(select_value);
+        console.log(render_array);
+        console.log(render_array.includes(select_value))
         if (render_array.length < table_limit &&
             select_value &&
             !render_array.includes(select_value) 
@@ -82,7 +117,7 @@
 
             if ($('.comparison-menu__select').length > 0) {
                 for(const [key, value] of Object.entries(table_array)) {
-                    let o = new Option(value.name[0].value, key);
+                    let o = new Option(value.name, key);
                     $('#comparison-select').append($(o));
                 }
             }
