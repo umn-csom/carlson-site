@@ -20,7 +20,7 @@
             $(this).find('th, td').each(function(index, element) {
                 if (index > 0) {
                     let key_thing = render_array[index - 1];
-                    if (row_element.id == 'name') {
+                    if (row_element.id == 'title') {
                         if( index <= render_length) {
                             $( this ).find('.column-header-text').text(table_array[key_thing][row_element.id]);
 
@@ -117,7 +117,7 @@
 
             if ($('.comparison-menu__select').length > 0) {
                 for(const [key, value] of Object.entries(table_array)) {
-                    let o = new Option(value.name, key);
+                    let o = new Option(value.title, key);
                     $('#comparison-select').append($(o));
                 }
             }

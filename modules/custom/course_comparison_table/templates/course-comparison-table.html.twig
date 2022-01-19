@@ -1,7 +1,7 @@
 <div class="comparison-table__container">
     <table id="course-table" class="tablesaw tablesaw-stack comparison-table nowrap" data-tablesaw-mode="stack">
         <thead>
-            <tr id="name" class="comparison-table__header" data-mode="stack">
+            <tr id="title" class="comparison-table__header" data-mode="stack">
                 <th scope="col" class="no-data"></th>
                 <th scope="col" class="column-header">
                     <span class="column-header-text">-</span>
@@ -23,31 +23,25 @@
                 </th>
             </tr>
         </thead>
+
+        {%
+            set table_rows = [
+                {'code': 'name', 'title': 'Name'},
+                {'code': 'code', 'title': 'Code'},
+                {'code': 'description__value', 'title': 'Description'},
+                {'code': 'links', 'title': 'Links'}
+            ]
+        %}
+
         <tbody>
-            <tr id="title">
-                <th scope="row" class="comparison-table__category">Title</td>
+            {% for key, row in table_rows %}
+            <tr id="{{ row.code }}">
+                <th scope="row" class="comparison-table__category">{{ row.title }}</td>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
             </tr>
-            <tr id="code">
-                <th scope="row" class="comparison-table__category">Code</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-            </tr>
-            <tr id="description__value">
-                <th scope="row" class="comparison-table__category">Description</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-            </tr>
-            <tr id="links">
-                <th scope="row" class="comparison-table__category">Links</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
     <div id="comparison-menu" class="comparison-menu">
