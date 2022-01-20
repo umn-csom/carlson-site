@@ -109,7 +109,7 @@
         render_table();
     }
 
-    $( document ).ready( function() {
+    $(function() {
         $.getJSON( table_endpoint, function (data) {
             table_array = data;
 
