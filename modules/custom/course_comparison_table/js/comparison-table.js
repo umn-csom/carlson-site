@@ -54,6 +54,15 @@
             });
         })
 
+
+        $(".quiz-results--result--compare-checkbox").each(function(index, element) {
+            if (render_array.includes($(this).val()) ) {
+                $(this).prop("checked", true);
+            } else {
+                $(this).prop("checked", false);
+            }
+        })
+
         if (render_length >= table_limit) {
             $('#comparison-menu').addClass("full-table");
         } else {
@@ -90,17 +99,18 @@
     function add_table() {
         let select_value = $('#comparison-select').val();
 
-        console.log(select_value);
-        console.log(render_array);
-        console.log(render_array.includes(select_value))
+        add_table_val(select_value);
+    }
+
+    function add_table_val(select_value) {
         if (render_array.length < table_limit &&
             select_value &&
             !render_array.includes(select_value) 
         ) {    
-            render_array.push($('#comparison-select').val());
+            render_array.push(select_value);
         }
         render_table();
-    }
+    } 
 
     function delete_table(index) {
         if (render_array.length > 0) {
@@ -121,6 +131,28 @@
                     $('#comparison-select').append($(o));
                 }
             }
+
+            $(".quiz-results--result--compare-checkbox").each(function(index, element) {
+                let select_code = $(this).val();
+
+                let select_value = table_array.findIndex((element) => {
+                    return element['code'] == select_code;
+                })
+
+                $(this).val(select_value.toString())
+            })
+
+            $(".quiz-results--result--compare-checkbox").on("click", function() {
+                let render_array_index = render_array.findIndex((element) => {
+                    return element == $(this).val();
+                })
+
+                if (render_array_index >= 0) {
+                    delete_table(render_array_index);
+                } else {
+                    add_table_val($(this).val());
+                }
+            })
 
             $('#comparison-add').on("click", add_table);
 
