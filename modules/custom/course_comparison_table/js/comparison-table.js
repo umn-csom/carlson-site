@@ -9,7 +9,7 @@
     var table_limit = 3;
 
     var table_array = [];
-    var render_array = ["0", "1"];
+    var render_array = [];
 
     function render_table() {
 
