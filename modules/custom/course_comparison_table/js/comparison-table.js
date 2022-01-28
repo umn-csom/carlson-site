@@ -63,6 +63,14 @@
             }
         })
 
+        $("#comparison-select > option").each(function(index, element) {
+            if (render_array.includes($(this).val())) {
+                $(this).prop("hidden", true);
+            } else {
+                $(this).prop("hidden", false);
+            }
+        })
+
         if (render_length >= table_limit) {
             $('#comparison-menu').addClass("full-table");
         } else {
@@ -132,6 +140,8 @@
                 }
             }
 
+            //
+
             $(".quiz-results--result--compare-checkbox").each(function(index, element) {
                 let select_code = $(this).val();
 
@@ -139,7 +149,8 @@
                     return element['code'] == select_code;
                 })
 
-                $(this).val(select_value.toString())
+                $(this).val(select_value.toString());
+                add_table_val(select_value.toString());
             })
 
             $(".quiz-results--result--compare-checkbox").on("click", function() {

@@ -3,56 +3,35 @@
         <thead>
             <tr id="title" class="comparison-table__header" data-mode="stack">
                 <th scope="col" class="no-data"></th>
+
+                {% for index in [0, 1 ,2] %}
                 <th scope="col" class="column-header column-no-content">
-                    <span class="column-header-text">-</span>
                     <div class="remove-float">
-                        Remove <button class="column-header-button" data-table-index=0 ><i class="fas fa-times"></i></button>
+                        <span>Remove <button class="column-header-button" data-table-index={{ index }} ><i class="fas fa-times"></i></button></span>
                     </div>
+                    <div class="column-header-text">-</div>
                 </th>
-                <th scope="col" class="column-header column-no-content">
-                    <span class="column-header-text">-</span>
-                    <div class="remove-float">
-                        Remove <button class="column-header-button" data-table-index=1 ><i class="fas fa-times"></i></button>
-                    </div>
-                </th>
-                <th scope="col" class="column-header column-no-content">
-                    <span class="column-header-text">-</span>
-                    <div class="remove-float">
-                        Remove <button class="column-header-button" data-table-index=2 ><i class="fas fa-times"></i></button>
-                    </div>
-                </th>
+                {% endfor %}
+
             </tr>
         </thead>
 
         {%
             set table_rows = {
-                'name': 'Name',
-                'code': 'Code',
                 'description__value': 'Description',
-                'field_access_career_services': "Access Career Services?",
-                'field_application_deadline': "Application Deadline",
-                'field_application_fee': "Application Fee",
-                'field_average_age': "Average Age",
-                'field_average_alumni_starting_sa': "Average Alumni Starting Salary",
-                'field_average_class_size': "Average Class Size",
-                'field_average_gmat_score': "Average GMAT",
-                'field_average_gre_score': "Average GRE Score",
-                'field_average_work_experience': "Average Work Experience",
-                'field_cohort_yes_or_no': "Cohort?",
                 'field_course_modality_delivery': "Course Modality Delivery",
-                'field_credit_required': "Credits Required",
-                'field_degree_required_for_admiss': "Degree Required for Admission",
                 'field_experiential_learning': "Experiential Learning",
-                'field_gmat_gre_required': "GMAT/GRE Required",
-                'field_gpa_average': "GPA Average",
-                'field_knowledge_skills': "Knowledge Skills",
+                'field_knowledge_skills': "Skills Gained",
+                'field_access_career_services': "Career Services",
                 'field_minimum_work_experience_re': "Minimum Work Experience Required",
-                'field_program_length': "Program Length",
-                'field_scholarship_available_yes_': "Scholarship Available",
-                'field_specializations_available_': "Specializations Available?",
-                'field_start_terms': "Start Terms",
+                'field_average_work_experience': "Average Work Experience",
+                'field_gmat_gre_required': "GMAT/GRE Required",
+                'field_undergrad_major': "Undergraduate Major",
                 'field_tuition': "Tuition",
-                'field_undergrad_major': "Undergrad Major",
+                'field_scholarship_available_yes_': "Scholarships Available",
+                'field_program_length': "Program Length",
+                'field_start_terms': "Start Terms",
+                'field_application_deadline': "Application Deadline",
                 'links': 'Links',
             }
         %}
@@ -70,34 +49,24 @@
     </table>
     <div id="comparison-menu" class="comparison-menu">
         <div class="comparison-menu__mobile-header">
-            <div class="column-header_mobile-container column-no-content">
-                <div class="column-header-text__mobile">-</div>
-                <div class="remove-float">
-                    Remove <button class="column-header-button" data-table-index=0 ><i class="fas fa-times"></i></button>
+            {% for index in [0, 1 ,2] %}
+                <div class="column-header_mobile-container column-no-content">
+                    <div class="remove-float">
+                        <span>Remove <button class="column-header-button" data-table-index={{ index }} ><i class="fas fa-times"></i></button></span>
+                    </div>
+                    <div class="column-header-text__mobile">-</div>
                 </div>
-            </div>
-            <div class="column-header_mobile-container column-no-content">
-                <div class="column-header-text__mobile">-</div>
-                <div class="remove-float">
-                    Remove <button class="column-header-button" data-table-index=1 ><i class="fas fa-times"></i></button>
-                </div>
-            </div>
-            <div class="column-header_mobile-container column-no-content">
-                <div class="column-header-text__mobile">-</div>
-                <div class="remove-float">
-                    Remove <button class="column-header-button" data-table-index=2 ><i class="fas fa-times"></i></button>
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
         <div class="comparison-menu__add-program">
-            <h3 class="comparison-menu__header">Add a Program Headline</h3>
+            <h3 class="comparison-menu__header">Add a Master's Program</h3>
             <hr class="comparison-menu__breakline">
             <label for="comparison-select" class="comparison-menu__label">Program</label>
             <select id="comparison-select" class="comparison-menu__select form-control">
                 <option value="">- Select - </option>
             </select>
-            <button id="comparison-add" class="maroon-outline-button">Add to Compare</button>
+            <button id="comparison-add" class="maroon-outline-button">Compare</button>
         </div>
     </div>
 </div>

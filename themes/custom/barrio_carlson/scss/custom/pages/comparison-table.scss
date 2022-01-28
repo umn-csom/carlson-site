@@ -56,15 +56,16 @@
         .column-header {
             background: white;
             &-text {
-                float: left;
+                width: 100%;
                 font-size: 2.5rem;
-                padding-top: 25px;
             }
             .remove-float {
-                float:right;
+                width: 100%;
                 font-size: 1.5rem;
-                padding-bottom: 20px;
-                padding-left: 20px;
+                height: 40px;
+                span {
+                    float: right;
+                }
             }
             &.column-no-content {
                 .remove-float {
@@ -82,7 +83,14 @@
                     display: none;
                 }
             }
-            
+
+            &:nth-child(n+3) {
+                &.column-no-content {
+                    @media (max-width: 640px) {
+                        display: none
+                    }
+                }
+            }
         }
     }
     tbody {
@@ -105,6 +113,14 @@
                         display: none;
                     }
                 }
+
+                &:nth-child(n+3) {
+                    &.column-no-content {
+                        @media (max-width: 640px) {
+                            display: none
+                        }
+                    }
+                }
                 
                 .tablesaw-cell-label {
                     .remove-float {
@@ -114,7 +130,8 @@
             }
             @media (max-width: 640px) {
                 th.comparison-table__category {
-                    background: rgba(230,216,214,0.3);
+                    background: $maroon;
+                    color: $white;
                 }
                 td {
                     &:nth-of-type(odd) {
@@ -179,7 +196,7 @@
         display: flex;
         flex-wrap: wrap;
 
-        @media (min-width: 640px) {
+        @media (min-width: 641px) {
             display: none
         }
 
