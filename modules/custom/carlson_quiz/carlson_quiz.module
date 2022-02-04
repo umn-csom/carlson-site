@@ -207,6 +207,11 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
       '#title' => 'Results',
     ];
 
+    $elements['results_analyze'] = [
+      '#type' => 'hidden',
+      '#title' => 'Results Analyze',
+    ];
+
     $elements['actions'] = [
       '#type' => 'webform_actions',
       '#title' => 'Submit button(s)',
@@ -410,6 +415,7 @@ function carlson_quiz_webform_submission_presave(WebformSubmissionInterface &$we
 
   if($webform_id && $entity_id && $webform_id == 'quiz_node_'.$entity_id) {
     $results = [];
+    $results_analyze = [];
     $result_ids = [];
     $default_result_ids = [];
     $max_result_ids = [];
@@ -500,7 +506,13 @@ function carlson_quiz_webform_submission_presave(WebformSubmissionInterface &$we
       $results[] = $result->label();
     }
 
+    foreach ($result_ids as $tid => $value) {
+      $result = Term::load($tid);
+      $results_analyze[] = $result->label() . ' ' . $value;
+    }
+
     $webform_submission->setElementData('results', implode(",", $results));
+    $webform_submission->setElementData('results_analyze', implode(", ", $results_analyze));
   }
 }
 
