@@ -44,6 +44,7 @@
     }
     th, td {
         width: 25%;
+        white-space: normal;
     }
     td {
         white-space: normal;
@@ -56,15 +57,23 @@
         .column-header {
             background: white;
             &-text {
-                float: left;
-                font-size: 2.5rem;
-                padding-top: 25px;
+                width: 100%;
+                font-size: 1.5rem;
+                white-space: normal;
+                @media (min-width: 641px) {
+                    font-size: 2rem
+                }
+                @include media-breakpoint-up(lg) {
+                    font-size: 2.5rem;
+                }
             }
             .remove-float {
-                float:right;
+                width: 100%;
                 font-size: 1.5rem;
-                padding-bottom: 20px;
-                padding-left: 20px;
+                height: 40px;
+                span {
+                    float: right;
+                }
             }
             &.column-no-content {
                 .remove-float {
@@ -82,7 +91,14 @@
                     display: none;
                 }
             }
-            
+
+            &:nth-child(n+3) {
+                &.column-no-content {
+                    @media (max-width: 640px) {
+                        display: none
+                    }
+                }
+            }
         }
     }
     tbody {
@@ -100,9 +116,19 @@
                 }
             }
             th, td {
+                white-space: normal;
+
                 &:nth-child(n+4) {
                     &.column-no-content {
                         display: none;
+                    }
+                }
+
+                &:nth-child(n+3) {
+                    &.column-no-content {
+                        @media (max-width: 640px) {
+                            display: none
+                        }
                     }
                 }
                 
@@ -114,7 +140,9 @@
             }
             @media (max-width: 640px) {
                 th.comparison-table__category {
-                    background: rgba(230,216,214,0.3);
+                    background: $maroon;
+                    color: $white;
+
                 }
                 td {
                     &:nth-of-type(odd) {
@@ -142,7 +170,14 @@
     background: rgba(230,216,214,0.3);
     &__header {
         text-align: center;
-        font-size: 2.5rem;
+        font-size: 1.5rem;
+        white-space: normal;
+        @media (min-width: 641px) {
+            font-size: 2rem
+        }
+        @include media-breakpoint-up(lg) {
+            font-size: 2.5rem;
+        }
     }
     &__breakline {
         width: 50px;
@@ -179,7 +214,7 @@
         display: flex;
         flex-wrap: wrap;
 
-        @media (min-width: 640px) {
+        @media (min-width: 641px) {
             display: none
         }
 
@@ -207,6 +242,23 @@
 
         .column-header_mobile-container.column-no-content {
             display: none;
+        }
+    }
+}
+
+.tablesaw-stack th.comparison-table__category {
+    @media (max-width: 640px) {
+        text-align: center;
+    }
+    .tablesaw-cell-label {
+        @media (max-width: 640px) {
+            width: 0;
+            padding: 0;
+        }
+    }
+    .tablesaw-cell-content {
+        @media (max-width: 640px) {
+            width: 100%;
         }
     }
 }

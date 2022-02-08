@@ -1,79 +1,67 @@
 <div class="comparison-table__container">
     <table id="course-table" class="tablesaw tablesaw-stack comparison-table nowrap" data-tablesaw-mode="stack">
         <thead>
-            <tr id="name" class="comparison-table__header" data-mode="stack">
+            <tr id="title" class="comparison-table__header" data-mode="stack">
                 <th scope="col" class="no-data"></th>
-                <th scope="col" class="column-header">
-                    <span class="column-header-text">-</span>
+
+                {% for index in [0, 1 ,2] %}
+                <th scope="col" class="column-header column-no-content">
                     <div class="remove-float">
-                        Remove <button class="column-header-button" data-table-index=0 ><i class="fas fa-times"></i></button>
+                        <span>Remove <button class="column-header-button" data-table-index={{ index }} ><i class="fas fa-times"></i></button></span>
                     </div>
+                    <div class="column-header-text">-</div>
                 </th>
-                <th scope="col" class="column-header">
-                    <span class="column-header-text">-</span>
-                    <div class="remove-float">
-                        Remove <button class="column-header-button" data-table-index=1 ><i class="fas fa-times"></i></button>
-                    </div>
-                </th>
-                <th scope="col" class="column-header">
-                    <span class="column-header-text">-</span>
-                    <div class="remove-float">
-                        Remove <button class="column-header-button" data-table-index=2 ><i class="fas fa-times"></i></button>
-                    </div>
-                </th>
+                {% endfor %}
+
             </tr>
         </thead>
+
+        {%
+            set table_rows = {
+                'description__value': 'Description',
+                'field_course_modality_delivery': "Course Modality Delivery",
+                'field_experiential_learning': "Experiential Learning",
+                'field_knowledge_skills': "Skills Gained",
+                'field_access_career_services': "Career Services",
+                'field_minimum_work_experience_re': "Minimum Work Experience Required",
+                'field_average_work_experience': "Average Work Experience",
+                'field_gmat_gre_required': "GMAT/GRE Required",
+                'field_undergrad_major': "Undergraduate Major",
+                'field_tuition': "Tuition",
+                'field_scholarship_available_yes_': "Scholarships Available",
+                'field_program_length': "Program Length",
+                'field_start_terms': "Start Terms",
+                'field_application_deadline': "Application Deadline",
+                'field_international_applicants': 'International Applicants',
+                'links': 'Links',
+            }
+        %}
+
         <tbody>
-            <tr id="title">
-                <th scope="row" class="comparison-table__category">Title</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
+            {% for key, row in table_rows %}
+            <tr id="{{ key }}">
+                <th scope="row" class="comparison-table__category">{{ row }}</td>
+                <td class="column-no-content">-</td>
+                <td class="column-no-content">-</td>
+                <td class="column-no-content">-</td>
             </tr>
-            <tr id="code">
-                <th scope="row" class="comparison-table__category">Code</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-            </tr>
-            <tr id="description__value">
-                <th scope="row" class="comparison-table__category">Description</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-            </tr>
-            <tr id="links">
-                <th scope="row" class="comparison-table__category">Links</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
     <div id="comparison-menu" class="comparison-menu">
         <div class="comparison-menu__mobile-header">
-            <div class="column-header_mobile-container">
-                <div class="column-header-text__mobile">-</div>
-                <div class="remove-float">
-                    Remove <button class="column-header-button" data-table-index=0 ><i class="fas fa-times"></i></button>
+            {% for index in [0, 1 ,2] %}
+                <div class="column-header_mobile-container column-no-content">
+                    <div class="remove-float">
+                        <span>Remove <button class="column-header-button" data-table-index={{ index }} ><i class="fas fa-times"></i></button></span>
+                    </div>
+                    <div class="column-header-text__mobile">-</div>
                 </div>
-            </div>
-            <div class="column-header_mobile-container">
-                <div class="column-header-text__mobile">-</div>
-                <div class="remove-float">
-                    Remove <button class="column-header-button" data-table-index=1 ><i class="fas fa-times"></i></button>
-                </div>
-            </div>
-            <div class="column-header_mobile-container">
-                <div class="column-header-text__mobile">-</div>
-                <div class="remove-float">
-                    Remove <button class="column-header-button" data-table-index=2 ><i class="fas fa-times"></i></button>
-                </div>
-            </div>
+            {% endfor %}
         </div>
 
         <div class="comparison-menu__add-program">
-            <h3 class="comparison-menu__header">Add a Program Headline</h3>
+            <h3 class="comparison-menu__header">Add a Master's Program</h3>
             <hr class="comparison-menu__breakline">
             <label for="comparison-select" class="comparison-menu__label">Program</label>
             <select id="comparison-select" class="comparison-menu__select form-control">
