@@ -207,7 +207,7 @@
         {% if logged_in %}
           <a href="/node/{{ node.id }}/edit" class="faculty-profile__edit">
         {% else %}
-          <a href="/saml_login?destination=/node/{{ node.id }}/edit" class="faculty-profile__edit">
+          <a href="/saml_login?destination=/node/{{ node.id }}/edit" class="faculty-profile__edit" onclick="return confirm('Login or request access to edit page?');">
         {% endif %}
         <span class="sr-only">Edit Profile</span></a>
       </div>
