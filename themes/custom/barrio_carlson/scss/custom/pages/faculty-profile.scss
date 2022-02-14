@@ -221,12 +221,19 @@
 
     &__buttons {
         display: flex;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         max-width: 600px;
+        @include media-breakpoint-up(md){
+            flex-wrap: nowrap;
+        }
     }
 
     &__column {
-        flex-basis: 50%;
+        padding-bottom: 10px;
+        flex-basis: 100%;
+        @include media-breakpoint-up(md){
+            flex-basis: 50%;
+        }
     }
 
     &__close {
