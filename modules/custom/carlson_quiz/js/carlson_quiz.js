@@ -161,6 +161,8 @@
               });
             }
             form.classList.add('was-validated');
+            $(this).find(':submit').val("Submitting...");
+            $(this).find(':submit').attr('disabled', true);
           }, false);
         });
       }, false);
