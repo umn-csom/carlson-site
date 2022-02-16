@@ -20,6 +20,8 @@
         'five'
       ];
 
+      var count = 0;
+
       $('[data-toggle="popover"]').popover({ trigger: "manual" , html: true})
         .on("mouseenter", function () {
         var _this = this;
@@ -145,22 +147,34 @@
 
         var validation = Array.prototype.filter.call(forms, function(form) {
           form.addEventListener('submit', function(event) {
+            let submitting = true;
             if (form.checkValidity() === false) {
               event.preventDefault();
               event.stopPropagation();
+              submitting = false;
             }
             else if($('.quiz--question.required[data-limit-type="at_least"]', context).length > 0) {
               $('.quiz--question.required[data-limit-type="at_least"]', context).each(function () {
                 if($(this).find('.quiz--answer input:checked').length < $(this).data('limit')) {
                   event.preventDefault();
                   event.stopPropagation();
+                  submitting = false;
                   $('html, body').animate({scrollTop: $(this).offset().top - 200 }, 0);
                   $(this).find('.quiz--answer').first().find('button.quiz--answer--popover-btn').popover('show');
                   return false;
                 }
               });
             }
-            form.classList.add('was-validated');
+            if (submitting) {
+              form.classList.add('was-validated');
+              let submit_button = $(this).find(':submit')
+              submit_button.attr('disabled', true);
+              setInterval(function(){
+                count++;
+                var dots = new Array(count % 10).join('.');
+                submit_button.val("Submitting" + dots);
+              }, 1000);
+            }
           }, false);
         });
       }, false);

@@ -218,6 +218,52 @@
             }
         }
     }
+
+    &__buttons {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 600px;
+        @include media-breakpoint-up(md){
+            flex-wrap: nowrap;
+        }
+    }
+
+    &__column {
+        padding-bottom: 10px;
+        flex-basis: 100%;
+        @include media-breakpoint-up(md){
+            flex-basis: 50%;
+        }
+    }
+
+    &__close {
+        color: $maroon;
+        float: right;
+        cursor: pointer;
+    }
+
+    &__confirm {
+        // TODO: remove once dialog is in browser support
+        display: none;
+        left: 0px;
+        right: 0px;
+        width: fit-content;
+        height: fit-content;
+        color: -internal-light-dark(black, white);
+        margin: 100px 0 0 auto;
+        border-width: initial;
+        border-style: solid;
+        border-color: initial;
+        border-image: initial;
+        padding: 1em;
+        background: -internal-light-dark(white, black);
+        z-index: 9999999;
+
+        &.safari-show {
+            display: block;
+        }
+
+    }
 }
 
 .node__content .faculty-profile__works {

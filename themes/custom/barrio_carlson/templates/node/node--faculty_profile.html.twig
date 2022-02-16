@@ -209,11 +209,20 @@
         {% else %}
           <button id="faculty-profile__modal" class="faculty-profile__edit"></button>
           <dialog id="faculty-profile__confirm" class="faculty-profile__confirm">
+            <i id="faculty-profile__close" class="fas fa-times faculty-profile__close"></i>
             <h3>Edit This Page</h3>
 
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSe1qSWLqeY6Il7WNFSaIw0EsdX7EbEmn3L_ShJwP5ssXQow3Q/viewform?usp=sf_link" class="btn maroon-solid-button btn-sm py-2 px-3">Request Edit Access</a>
-            <div>Only select this option if you already have access to a Carlson School's Drupal account:</div>
-            <a href="/saml_login?destination=/node/{{ node.id }}/edit" class="btn maroon-solid-button btn-sm py-2 px-3">Log in to Edit<a>
+            <section class="faculty-profile__buttons">
+              <div class="faculty-profile__column">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSe1qSWLqeY6Il7WNFSaIw0EsdX7EbEmn3L_ShJwP5ssXQow3Q/viewform?usp=sf_link" target="_blank" class="btn maroon-solid-button btn-sm py-3 px-4">Request Edit Access</a>
+              </div>
+
+              <div class="faculty-profile__column">
+                <a href="/saml_login?destination=/node/{{ node.id }}/edit" class="btn maroon-solid-button btn-sm py-3 px-4">Log in to Edit<a>
+                <div>Only select this option if you already have access to a Carlson School Drupal account.</div>
+              </div>
+            </section>
+
           </dialog>
         {% endif %}
         <span class="sr-only">Edit Profile</span></a>
