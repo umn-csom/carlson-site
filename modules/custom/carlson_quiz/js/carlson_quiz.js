@@ -173,7 +173,7 @@
                 count++;
                 var dots = new Array(count % 10).join('.');
                 submit_button.val("Submitting" + dots);
-              }, 1000);
+              }, 500);
             }
           }, false);
         });
