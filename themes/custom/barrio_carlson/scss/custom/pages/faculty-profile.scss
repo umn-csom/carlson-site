@@ -176,6 +176,9 @@
                 color: $slate;
             }
         }
+        &.modal-show {
+            display: none;
+        }
     }
     /* Tease View mode */
     &__teaser {
@@ -245,12 +248,13 @@
     &__confirm {
         // TODO: remove once dialog is in browser support
         display: none;
+        position: static;
         left: 0px;
         right: 0px;
         width: fit-content;
         height: fit-content;
         color: -internal-light-dark(black, white);
-        margin: 100px 0 0 auto;
+        margin: 0 0 0 auto;
         border-width: initial;
         border-style: solid;
         border-color: initial;
@@ -259,7 +263,7 @@
         background: -internal-light-dark(white, black);
         z-index: 9999999;
 
-        &.safari-show {
+        &.modal-show {
             display: block;
         }
 
