@@ -76,9 +76,17 @@
     <label class="quiz-results--result--compare-checkbox-label result--compare-checkbox-label d-flex align-items-center">{{ 'Add to compare'|t }} <input class="quiz-results--result--compare-checkbox result--compare-checkbox result--compare-checkbox--{{ name[0]['#context'].value|clean_class }} ml-3" type="checkbox" id="result--compare-checkbox--{{ name[0]['#context'].value|clean_class }}" value="{{ name[0]['#context'].value|clean_class }}"></label>
   </div>
   <div class="quiz-results--result--content-wrapper p-3 d-md-flex flex-md-column flex-grow-1">
+
     <div class="quiz-results--result--img mb-lg-4 pb-3">
+      {% if learn_more_url %}
+        <a class="result--learn-more-image" href="{{ learn_more_url }}" {{ learn_more_target }} >
+      {% endif %}
       {{ content.field_quiz_result_set_image }}
+      {% if learn_more_url %}
+        </a>
+      {% endif %}
     </div>
+
     <div class="quiz-results--result--content d-md-flex flex-md-column flex-grow-1">
       <h3 class="quiz-results--result--title column__heading">{{ content.field_quiz_result_set_title }}</h3>
       <div class="quiz-results--result--description flex-grow-1 pb-4 border-bottom mb-4">
