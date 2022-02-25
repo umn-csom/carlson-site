@@ -188,9 +188,11 @@
       {% endif %}
     </div>
   </div>
-  {# <div class="row align-items-center justify-content-center pt-5 pb-4 mb-5 mt-lg-5">
+  <div class="row align-items-center justify-content-center pt-5 pb-4 mb-5 mt-lg-5">
     <div class="col-12 col-xl-10">
-      {{ drupal_block('course_comparison_table_block') }}
+      {% if drupal_block('course_comparison_table_block') %}
+        {{ drupal_block('course_comparison_table_block') }}
+      {% endif %}
     </div>
-  </div> #}
+  </div>
 </article>
