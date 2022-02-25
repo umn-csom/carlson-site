@@ -19,7 +19,7 @@
         </div>
         <div class="col-lg-6 col-xs-12 order-1 order-lg-2">
             {% if content.field_quote_image|field_value is not empty %}
-            <div class="quote__image-bg" style="background-image: url('{{ file_url(content.field_quote_image|field_target_entity.image.entity.uri.value) }}')">
+            <div class="quote__image-bg" style="background-image: url('{{ file_url(content.field_quote_image|field_target_entity.image.entity.uri.value  ?: '') }}')">
             </div>
             {% endif %}
             <!--span class="quote__img--icon icon icon-quote"></span-->
