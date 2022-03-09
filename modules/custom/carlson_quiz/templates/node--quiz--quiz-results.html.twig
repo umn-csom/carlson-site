@@ -189,10 +189,15 @@
     </div>
   </div>
   <div class="row align-items-center justify-content-center pt-2 pb-2 mb-2 mt-lg-2">
-    <div class="col-12 col-xl-10">
+    <div id="comparison-table" class="col-12 col-xl-10">
       {% if drupal_block('course_comparison_table_block') %}
         {{ drupal_block('course_comparison_table_block') }}
       {% endif %}
     </div>
   </div>
+  {% if drupal_block('course_comparison_table_block') %}
+    <div class="scroll-to-button">
+      <a href="#comparison-table">Go To Compare <span class="horizontal-divider">|</span> {{ results_to_show }}</a>
+    </div>
+  {% endif %}
 </article>
