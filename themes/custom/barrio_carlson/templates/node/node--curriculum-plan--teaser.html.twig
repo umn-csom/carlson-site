@@ -74,42 +74,22 @@
 %}
 
 <article{{ attributes.addClass(classes) }}>
-  <header>
-    {{ title_prefix }}
-    {% if not page %}
-      <h2{{ title_attributes.addClass('node__title') }}>
-        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-      </h2>
-    {% endif %}
-    {{ title_suffix }}
-  </header>
 
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'basic-page') }}>
     {# Render hero with hero-basic component #}
 
     <section class="row basic-page__content">
       <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
-        {# inner_nav region #}
-		    {% if inner_nav %}
-		    <div class="row inner_nav">
-		      <div class="col-12">
-            <div class="row">
-		          {{ inner_nav }}
-            </div>
-		      </div>
-		    </div>
-		  	{% endif %}
 
         <div class="row">
 
           <div class="col-12 basic-page__content-components">
 
-            {# Inner node region for blocks #}
-              {{ node_top }}
 
             {# Home Flexible feature paragraphs #}
             <div class="row component-paragraph col-12 curriculum-plan__header">
               <div class="curriculum-plan__header-text">
+              EXTRA EXTRA EXTRA
                 {{ content.body }}
               </div>
               <img class="print-logo" src="/{{ directory }}/images/svg/logo.svg" alt="Carlson School of Management (home)">
@@ -119,19 +99,6 @@
             {{ node_content }}
 
             {{ content.field_flexible_features }}
-
-            {{ node_bottom }}
-
-            {# Bottom node region for blocks #}
-            <div class="row node__bottom">
-              {% spaceless %}
-              <div class="node__bottom__col">
-                {{ node_bottom_left }}
-              </div>
-              <div class="node__bottom__col">
-                {{ node_bottom_right }}
-              </div>
-              {% endspaceless %}
             </div>
           </div>
         </div>
