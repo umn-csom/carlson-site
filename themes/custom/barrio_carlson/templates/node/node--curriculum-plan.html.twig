@@ -69,84 +69,71 @@
     node.isSticky() ? 'node--sticky',
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
-    'clearfix',
+    'clearfix'
   ]
 %}
-{# Set the hero image to be used as a background image #}
-{% set image = file_url((content.field_hero_media|field_target_entity.image.entity.uri.value | image_style('crop_full_hero'))  ?: '') %}
 
 <article{{ attributes.addClass(classes) }}>
-
-  <div{{ content_attributes.addClass('node__content', 'clearfix hub-landing-page') }}>
-    {# If there isn't a hero image #}
-    {% if content.field_hero_media|field_value is empty %}
-      <section>
-        <div class="row hub-landing-page__hero">
-          <div class="col-11 col-lg-10 offset-lg-1 hub-hero__title">
-            <h1>{{ label }}</h1>
-            {{ content.field_sub_heading|field_value }}
-          </div>
-        </div>
-      </section>
-    {% else %}
-
-    {# If there is a hero image #}
-    <section>
-      <div class="row hub-landing-page__hero--image" style="background-image: url('{{ image }}')">
-        <div class="col-md-7 offset-md-5 col-lg-5 offset-lg-6">
-          <h1>{{ label }}</h1>
-          {{ content.field_sub_heading|field_value }}
-        </div>
-      </div>
-    </section>
+  <header>
+    {{ title_prefix }}
+    {% if not page %}
+      <h2{{ title_attributes.addClass('node__title') }}>
+        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+      </h2>
     {% endif %}
-    
-    <section class="row hub-landing-page__content">
-      <div class="col-lg-10 offset-lg-1 main-content hub-landing-page__content--inner">
-        <div class="row">
-          <div class="col-12 hub-landing-page__content-components">
-            
-            {# Inner node region for blocks #}
-            {% if node_content %}
-              {{ node_content }}
-            {% endif %}
+    {{ title_suffix }}
+  </header>
 
-            {{ content.field_cta|field_value }}
-            
-          </div>
-        </div>
-      </div>
-    </section>
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'basic-page') }}>
+    {# Render hero with hero-basic component #}
 
-
-    <section class="row hub-landing-page__social">
-      <div class="col-lg-10 offset-lg-1">
-        {# Home Flexible feature paragraphs #}
-        <div class="row component-paragraph hub-landing-page__social--inner">
-          <div class="col-12">
-            <div class="text-center">
-              <h2>{{ content.field_hub_social_heading }}</h2>
-              {{ content.field_hub_social_leadin }}
+    <section class="row basic-page__content">
+      <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
+        {# inner_nav region #}
+		    {% if inner_nav %}
+		    <div class="row inner_nav">
+		      <div class="col-12">
+            <div class="row">
+		          {{ inner_nav }}
             </div>
-            {{ content.field_hub_social_feed }}
+		      </div>
+		    </div>
+		  	{% endif %}
+
+        <div class="row">
+
+          <div class="col-12 basic-page__content-components">
+
+            {# Inner node region for blocks #}
+              {{ node_top }}
+
+            {# Home Flexible feature paragraphs #}
+            <div class="row component-paragraph col-12 curriculum-plan__header">
+              <div class="curriculum-plan__header-text">
+                {{ content.body }}
+              </div>
+              <img class="print-logo" src="/{{ directory }}/images/svg/logo.svg" alt="Carlson School of Management (home)">
+            </div>
+
+            {# Inner node region for blocks #}
+            {{ node_content }}
+
+            {{ content.field_flexible_features }}
+
+            {{ node_bottom }}
+
+            {# Bottom node region for blocks #}
+            <div class="row node__bottom">
+              {% spaceless %}
+              <div class="node__bottom__col">
+                {{ node_bottom_left }}
+              </div>
+              <div class="node__bottom__col">
+                {{ node_bottom_right }}
+              </div>
+              {% endspaceless %}
+            </div>
           </div>
-        </div>
-        <div class="hub-landing-page__social--follow text-center">
-          <h3>Stay Connected, Follow Carlson.</h3>
-          <ul class="list-inline">
-              <li class="list-inline-item contact-cta__social--list-item">
-                <a href="https://www.facebook.com/CarlsonUG"><i class="icon icon-facebook" title="Facebook" alt="Facebook"></i></a>
-              </li>              
-              <li class="list-inline-item contact-cta__social--list-item">
-                <a href="https://twitter.com/carlsonug"><i class="icon icon-twitter" title="Twitter" alt="Twitter"></i></a>
-              </li>
-              <li class="list-inline-item contact-cta__social--list-item">
-                <a href="https://www.linkedin.com/company/carlsonschoolumn" title="LinkedIn" alt="LinkedIn" target="_blank"><i class="icon icon-linkedin"></i></a>
-              </li>              
-              <li class="list-inline-item contact-cta__social--list-item">
-                <a href="http://www.youtube.com/playlist?list=PLAFB306CC24433BE7"><i class="icon icon-youtube" title="YouTube" alt="YouTube"></i></a>
-              </li>
-          </ul>
         </div>
       </div>
     </section>

@@ -4,7 +4,7 @@
   <div class="card-body">
     <a data-toggle="modal" data-target="#m{% spaceless %}{{ node.id|render|striptags }}{% endspaceless %}">
       <div class="text-center">
-        <img {% if content.field_magazine_cover_image | render | striptags is not empty %}src="{{ file_url(node.field_magazine_cover_image.entity.uri.value) }}"{% else %}src="https://carlsonschool.umn.edu/sites/carlsonschool.umn.edu/themes/custom/barrio_carlson/images/placeholders/profile-image-placeholder.jpg"{% endif %} class="img-fluid mb-2" alt="Photo of {{ node.label|render|striptags }}">
+        <img {% if content.field_magazine_cover_image | render | striptags is not empty %}src="{{ file_url(node.field_magazine_cover_image.entity.uri.value  ?: '') }}"{% else %}src="https://carlsonschool.umn.edu/sites/carlsonschool.umn.edu/themes/custom/barrio_carlson/images/placeholders/profile-image-placeholder.jpg"{% endif %} class="img-fluid mb-2" alt="Photo of {{ node.label|render|striptags }}">
       </div>
       <h2 class="magazine--faces--card--body-h2 m-0 text-center">{{ node.label }}</h2>
       {% if content.field_short_sub_heading is not empty %}
@@ -26,7 +26,7 @@
       <article class="modal-body magazine--faces--modal p-5">
         {% if content.field_magazine_cover_image | render | striptags is not empty %}
         <figure class="text-center">
-          <img src="{{ file_url(node.field_magazine_cover_image.entity.uri.value) }}" class="img-fluid mb-3" alt="Photo of {{ node.label|render|striptags }}">
+          <img src="{{ file_url(node.field_magazine_cover_image.entity.uri.value  ?: '') }}" class="img-fluid mb-3" alt="Photo of {{ node.label|render|striptags }}">
         </figure>
         {% endif %}
         <h1 id="mlabel{% spaceless %}{{ node.id|render|striptags }}{% endspaceless %}">{{ node.label }}</h1>

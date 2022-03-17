@@ -57,7 +57,8 @@
         if(questions.length > 0) {
           var progress = 0;
           questions.each(function () {
-            if($(this).data('limit') !== 'undefined' && $(this).data('limit-type') === 'at_least') {
+            if($(this).data('limit') !== 'undefined' && 
+              (($(this).data('limit-type') === 'at_least')  || $(this).data('limit-type') === 'exactly')) {
               if($(this).find('.quiz--answer.checked').length >= $(this).data('limit')) {
                 progress++;
               }
@@ -78,7 +79,8 @@
           $(this).closest('.quiz--question').removeClass('checked');
         }
 
-        if($(this).closest('.quiz--question').data('limit') !== 'undefined' && $(this).closest('.quiz--question').data('limit-type') === 'up_to') {
+        if($(this).closest('.quiz--question').data('limit') !== 'undefined' && 
+          ($(this).closest('.quiz--question').data('limit-type') === 'up_to' || $(this).closest('.quiz--question').data('limit-type') === 'exactly')) {
           if($(this).closest('.quiz--question').find('.quiz--answer input:checked').length >= $(this).closest('.quiz--question').data('limit')) {
             $(this).closest('.quiz--question').find('.quiz--answer input').not(":checked").attr("disabled",true);
             $(this).closest('.quiz--question').find('.quiz--answer input').not(":checked").closest('.quiz--answer').addClass("disabled");
@@ -137,6 +139,9 @@
         if($(this).data('limit') !== 'undefined' && $(this).data('limit-type') === 'at_least') {
           requiredError = 'Please select ' + numbers[$(this).data('limit')] + ' or more answers before proceeding';
         }
+        if($(this).data('limit') !== 'undefined' && $(this).data('limit-type') === 'exactly') {
+          requiredError = 'Please select ' + numbers[$(this).data('limit')] + ' answers before proceeding';
+        }
         $(this).find('.quiz--answer').first().append('<button type="button" class="quiz--answer--popover-btn border-0 p-0 order-last" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="'+ requiredError +'"><span class="d-none">Required</span></button>');
       });
 
@@ -155,6 +160,18 @@
             }
             else if($('.quiz--question.required[data-limit-type="at_least"]', context).length > 0) {
               $('.quiz--question.required[data-limit-type="at_least"]', context).each(function () {
+                if($(this).find('.quiz--answer input:checked').length < $(this).data('limit')) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  submitting = false;
+                  $('html, body').animate({scrollTop: $(this).offset().top - 200 }, 0);
+                  $(this).find('.quiz--answer').first().find('button.quiz--answer--popover-btn').popover('show');
+                  return false;
+                }
+              });
+            }
+            else if($('.quiz--question.required[data-limit-type="exactly"]', context).length > 0) {
+              $('.quiz--question.required[data-limit-type="exactly"]', context).each(function () {
                 if($(this).find('.quiz--answer input:checked').length < $(this).data('limit')) {
                   event.preventDefault();
                   event.stopPropagation();
