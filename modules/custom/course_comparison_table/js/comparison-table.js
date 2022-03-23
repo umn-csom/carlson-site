@@ -128,52 +128,57 @@
     }
 
     $(function() {
-        $.getJSON( table_endpoint, function (data) {
-            table_array = data;
-
-            console.log(table_array);
-
-            if ($('.comparison-menu__select').length > 0) {
-                for(const [key, value] of Object.entries(table_array)) {
-                    let o = new Option(value.title, key);
-                    $('#comparison-select').append($(o));
-                }
+        if($('#comparison-table').length > 0) {
+            if($('.quiz-results').length > 0) {
+                $('.quiz-results').addClass('quiz-display-table');
             }
 
-            //
-
-            $(".quiz-results--result--compare-checkbox").each(function(index, element) {
-                let select_code = $(this).val();
-
-                let select_value = table_array.findIndex((element) => {
-                    return element['code'] == select_code;
-                })
-
-                $(this).val(select_value.toString());
-                add_table_val(select_value.toString());
-            })
-
-            $(".quiz-results--result--compare-checkbox").on("click", function() {
-                let render_array_index = render_array.findIndex((element) => {
-                    return element == $(this).val();
-                })
-
-                if (render_array_index >= 0) {
-                    delete_table(render_array_index);
-                } else {
-                    add_table_val($(this).val());
+            $.getJSON( table_endpoint, function (data) {
+                table_array = data;
+    
+                console.log(table_array);
+    
+                if ($('.comparison-menu__select').length > 0) {
+                    for(const [key, value] of Object.entries(table_array)) {
+                        let o = new Option(value.title, key);
+                        $('#comparison-select').append($(o));
+                    }
                 }
+    
+                //
+    
+                $(".quiz-results--result--compare-checkbox").each(function(index, element) {
+                    let select_code = $(this).val();
+    
+                    let select_value = table_array.findIndex((element) => {
+                        return element['code'] == select_code;
+                    })
+    
+                    $(this).val(select_value.toString());
+                    add_table_val(select_value.toString());
+                })
+    
+                $(".quiz-results--result--compare-checkbox").on("click", function() {
+                    let render_array_index = render_array.findIndex((element) => {
+                        return element == $(this).val();
+                    })
+    
+                    if (render_array_index >= 0) {
+                        delete_table(render_array_index);
+                    } else {
+                        add_table_val($(this).val());
+                    }
+                })
+    
+                $('#comparison-add').on("click", add_table);
+    
+                $(".column-header-button").on('click', function() {
+                    delete_table($(this).data('table-index'));
+                })
+    
+                render_table();
             })
-
-            $('#comparison-add').on("click", add_table);
-
-            $(".column-header-button").on('click', function() {
-                delete_table($(this).data('table-index'));
-            })
-
-            render_table();
-        })
-
+        }
     });
 
   })(jQuery, Drupal);
