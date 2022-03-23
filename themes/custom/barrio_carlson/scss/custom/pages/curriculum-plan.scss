@@ -1,25 +1,39 @@
+body.page-node-type-curriculum-plan, .component-paragraph.curriculum-plan {
 
-body.page-node-type-curriculum-plan {
-    @media print {
-        header, nav, footer{
-            display: none;
+    .curriculum-plan__header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .requirement-section {
+        border: 3px solid $black;
+        padding: 5px;
+
+        .requirement-header {
+            margin: auto;
         }
-        ul:not([class]) li {
-            list-style-type: disc;
-            padding-left: 0;
-            margin-left: 2rem;
-            &:before {
-                display: none;
+
+        .requirement-columns {
+            display: flex;
+            .component-paragraph.basic-paragraph {
+                font-size: 1.5rem;
+                flex-basis: 50%;
+                margin-bottom: 0;
             }
         }
     }
+
+    .print-button {
+        height: fit-content;
+    }
 }
 
-body.page-node-type-curriculum-plan, .component-paragraph.curriculum-plan {
+body.page-node-type-curriculum-plan {
+    line-height: 130%;
 
     .print-logo {
         float: right;
-
+        display: none;
         padding: 0;
         margin: 0;
         margin-top: 25px;
@@ -35,28 +49,24 @@ body.page-node-type-curriculum-plan, .component-paragraph.curriculum-plan {
         }
     }
 
-    .curriculum-plan__header {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .requirement-section {
-        border: 3px solid $black;
-        padding: 15px;
-        width: 100%;
-
-        .requirement-header {
-            margin: auto;
+    @media print {
+        header, nav, footer{
+            display: none;
         }
-
-        .requirement-columns {
-            display: flex;
-            .component-paragraph.basic-paragraph {
-                font-size: 1.5rem;
-                flex-basis: 50%;
-                margin-bottom: 0;
+        ul:not([class]) li {
+            line-height: 120%;
+            list-style-type: disc;
+            padding-left: 0;
+            margin-left: 2rem;
+            &:before {
+                display: none;
             }
+        }
+        .print-logo {
+            display: block;
         }
     }
 }
+
+
 
