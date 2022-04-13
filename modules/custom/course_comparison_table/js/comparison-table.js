@@ -5,6 +5,7 @@
  */
  (function ($, Drupal) {
     'use strict';
+    var label_endpoint = '/comparison-table/labels'
     var table_endpoint = '/comparison-table/feed';
     var table_limit = 3;
 
@@ -133,8 +134,10 @@
                 $('.quiz-results').addClass('quiz-display-table');
             }
 
-            $.getJSON( table_endpoint, function (data) {
-                table_array = data;
+            $.when(
+                $.getJSON(label_endpoint),
+                $.getJSON(table_endpoint)
+            ).done(function(layout_array, table_array) {
     
                 console.log(table_array);
     
@@ -144,8 +147,11 @@
                         $('#comparison-select').append($(o));
                     }
                 }
-    
-                //
+
+                //name, code, learn_more, req_info, title
+
+                console.log(layout_array)
+
     
                 $(".quiz-results--result--compare-checkbox").each(function(index, element) {
                     let select_code = $(this).val();
