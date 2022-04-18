@@ -9,6 +9,7 @@
     var table_endpoint = '/comparison-table/feed';
     var table_limit = 3;
 
+    var layout_array = [];
     var table_array = [];
     var render_array = [];
 
@@ -117,6 +118,12 @@
             !render_array.includes(select_value) 
         ) {    
             render_array.push(select_value);
+
+            let event_name = 'event-select-' + table_array[select_value].code;
+
+            console.log(event_name);
+
+            dataLayer.push({'event': event_name})
         }
         render_table();
     } 
@@ -137,9 +144,9 @@
             $.when(
                 $.getJSON(label_endpoint),
                 $.getJSON(table_endpoint)
-            ).done(function(layout_array, table_array) {
-    
-                console.log(table_array);
+            ).done(function(layout_response, table_response) {
+                layout_array = layout_response[0];
+                table_array = table_response[0];
     
                 if ($('.comparison-menu__select').length > 0) {
                     for(const [key, value] of Object.entries(table_array)) {
@@ -148,9 +155,22 @@
                     }
                 }
 
-                //name, code, learn_more, req_info, title
-
+                //name, code, learn_more, req_info, title TODO: layout
                 console.log(layout_array)
+
+                for (const [key, value] of Object.entries(layout_array[0])) {
+                    console.log(key + ': ' + value);
+                }
+
+            // <tr id="{{ key }}">
+            //     <th scope="row" class="comparison-table__category">{{ row }}</td>
+            //     <td class="column-no-content">-</td>
+            //     <td class="column-no-content">-</td>
+            //     <td class="column-no-content">-</td>
+            // </tr>
+
+
+                //links
 
     
                 $(".quiz-results--result--compare-checkbox").each(function(index, element) {
