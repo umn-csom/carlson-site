@@ -156,21 +156,30 @@
                 }
 
                 //name, code, learn_more, req_info, title TODO: layout
-                console.log(layout_array)
+
+                let comparison_table = $("#comparison-table tbody");
 
                 for (const [key, value] of Object.entries(layout_array[0])) {
+                    comparison_table.append(
+                        '<tr id="' + key + '">' +
+                        '<th scope="row" class="comparison-table__category">' + value +'</td>' +
+                        '<td class="column-no-content">-</td>' +
+                        '<td class="column-no-content">-</td>' +
+                        '<td class="column-no-content">-</td>' +
+                        '</tr>'
+                    )
                     console.log(key + ': ' + value);
                 }
 
-            // <tr id="{{ key }}">
-            //     <th scope="row" class="comparison-table__category">{{ row }}</td>
-            //     <td class="column-no-content">-</td>
-            //     <td class="column-no-content">-</td>
-            //     <td class="column-no-content">-</td>
-            // </tr>
-
-
                 //links
+                comparison_table.append(
+                    '<tr id="' + 'links' + '">' +
+                    '<th scope="row" class="comparison-table__category">' + 'Links' + '</td>' +
+                    '<td class="column-no-content">-</td>' +
+                    '<td class="column-no-content">-</td>' +
+                    '<td class="column-no-content">-</td>' +
+                    '</tr>'
+                )
 
     
                 $(".quiz-results--result--compare-checkbox").each(function(index, element) {
