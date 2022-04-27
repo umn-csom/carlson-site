@@ -564,19 +564,25 @@ $grid-row-columns:            6 !default;
 
 // TODO: remove once comparison table is finished
 
-.quiz-results--result--compare-checkbox-wrapper {
-  padding-top: 2rem;
-  label {
-    display: none !important;
-  }
-}
-
 .quiz-results {
   #comparison-table, .scroll-to-button {
     display: none;
   }
+
+  .quiz-results--result--compare-checkbox-wrapper {
+    padding-top: 2rem;
+    label {
+      display: none !important;
+    }
+  }
 }
 .quiz-results.quiz-display-table {
+  .quiz-results--result--compare-checkbox-wrapper {
+    padding-top: 0;
+    label {
+      display: flex !important;
+    }
+  }
   #comparison-table, .scroll-to-button {
     display: block;
   }

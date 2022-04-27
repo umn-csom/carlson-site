@@ -5,9 +5,11 @@
  */
  (function ($, Drupal) {
     'use strict';
+    var label_endpoint = '/comparison-table/labels'
     var table_endpoint = '/comparison-table/feed';
     var table_limit = 3;
 
+    var layout_array = [];
     var table_array = [];
     var render_array = [];
 
@@ -116,6 +118,12 @@
             !render_array.includes(select_value) 
         ) {    
             render_array.push(select_value);
+
+            let event_name = 'event-select-' + table_array[select_value].code;
+
+            console.log(event_name);
+
+            dataLayer.push({'event': event_name})
         }
         render_table();
     } 
@@ -133,10 +141,12 @@
                 $('.quiz-results').addClass('quiz-display-table');
             }
 
-            $.getJSON( table_endpoint, function (data) {
-                table_array = data;
-    
-                console.log(table_array);
+            $.when(
+                $.getJSON(label_endpoint),
+                $.getJSON(table_endpoint)
+            ).done(function(layout_response, table_response) {
+                layout_array = layout_response[0];
+                table_array = table_response[0];
     
                 if ($('.comparison-menu__select').length > 0) {
                     for(const [key, value] of Object.entries(table_array)) {
@@ -144,8 +154,33 @@
                         $('#comparison-select').append($(o));
                     }
                 }
-    
-                //
+
+                //name, code, learn_more, req_info, title TODO: layout
+
+                let comparison_table = $("#comparison-table tbody");
+
+                for (const [key, value] of Object.entries(layout_array[0])) {
+                    comparison_table.append(
+                        '<tr id="' + key + '">' +
+                        '<th scope="row" class="comparison-table__category">' + value +'</td>' +
+                        '<td class="column-no-content">-</td>' +
+                        '<td class="column-no-content">-</td>' +
+                        '<td class="column-no-content">-</td>' +
+                        '</tr>'
+                    )
+                    console.log(key + ': ' + value);
+                }
+
+                //links
+                comparison_table.append(
+                    '<tr id="' + 'links' + '">' +
+                    '<th scope="row" class="comparison-table__category">' + 'Links' + '</td>' +
+                    '<td class="column-no-content">-</td>' +
+                    '<td class="column-no-content">-</td>' +
+                    '<td class="column-no-content">-</td>' +
+                    '</tr>'
+                )
+
     
                 $(".quiz-results--result--compare-checkbox").each(function(index, element) {
                     let select_code = $(this).val();
