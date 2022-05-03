@@ -39,7 +39,10 @@
                             $( this ).html("-");
                         } else if ( row_element.id == 'links') {
                             $( this ).html(
-                                build_request_link(table_array[key_thing]['req_info']) +
+                                (is_quiz_result() ?
+                                    build_request_link(table_array[key_thing]['req_info']) :
+                                    build_request_link(table_array[key_thing]['req_alt'])
+                                ) +
                                 build_learn_link(table_array[key_thing]['learn_more'])
                             )
                         } else {
@@ -80,16 +83,20 @@
         }
 
         $('#course-table').tablesaw().data('tablesaw').refresh();
+
+        Drupal.ajax.bindAjaxLinks(document.body)
     }
 
     function build_request_link(url) {
         let link = '';
 
-        link += '<a href="' + url.replace(/^(entity\:)/,"") + '" target="_blank" data-dialog-options="{&quot;width&quot;:800}"'
-        link += 'class = "btn maroon-solid-button d-block py-3 py-lg-4 mb-3 mb-lg-4 quiz-results--result--req-info result--req-info use-ajax"'
-        link += 'data-dialog-type="modal" data-ajax-progress="fullscreen">';
-        link += 'Request Info';
-        link += '</a>';
+        if (url) {
+            link += '<a href="' + url.replace(/^(entity\:)/,"/") + '" target="_blank" data-dialog-options="{&quot;width&quot;:800}"'
+            link += 'class = "btn maroon-solid-button d-block py-3 py-lg-4 mb-3 mb-lg-4 quiz-results--result--req-info result--req-info use-ajax"'
+            link += 'data-dialog-type="modal" data-ajax-progress="fullscreen">';
+            link += 'Request Info';
+            link += '</a>';
+        }
 
         return link;
     }
@@ -104,6 +111,10 @@
         link += '</a>';
 
         return link;
+    }
+
+    function is_quiz_result() {
+        return $('.quiz-results.quiz-display-table').length > 0
     }
 
     function add_table() {
@@ -121,8 +132,6 @@
 
             let event_name = 'event-select-' + table_array[select_value].code;
 
-            console.log(event_name);
-
             dataLayer.push({'event': event_name})
         }
         render_table();
@@ -136,7 +145,7 @@
     }
 
     $(function() {
-        if($('#comparison-table').length > 0) {
+        if($('#course-table').length > 0) {
             if($('.quiz-results').length > 0) {
                 $('.quiz-results').addClass('quiz-display-table');
             }
@@ -147,6 +156,8 @@
             ).done(function(layout_response, table_response) {
                 layout_array = layout_response[0];
                 table_array = table_response[0];
+
+                console.log(table_array);
     
                 if ($('.comparison-menu__select').length > 0) {
                     for(const [key, value] of Object.entries(table_array)) {
@@ -155,9 +166,8 @@
                     }
                 }
 
-                //name, code, learn_more, req_info, title TODO: layout
 
-                let comparison_table = $("#comparison-table tbody");
+                let comparison_table = $("#course-table tbody");
 
                 for (const [key, value] of Object.entries(layout_array[0])) {
                     comparison_table.append(
@@ -168,7 +178,6 @@
                         '<td class="column-no-content">-</td>' +
                         '</tr>'
                     )
-                    console.log(key + ': ' + value);
                 }
 
                 //links
