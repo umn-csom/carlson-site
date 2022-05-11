@@ -1,9 +1,4 @@
 .comparison-table__container {
-    display: flex;
-    flex-wrap: wrap-reverse;
-    @include media-breakpoint-up(lg) {
-        flex-wrap: nowrap;
-    }
 
     .remove-float {
         font-weight: normal;
@@ -30,10 +25,7 @@
 .comparison-table {
     background: white;
     table-layout: fixed;
-    flex: 1 1 100%;
-    @include media-breakpoint-up(lg) {
-        flex: 1 1 75%;
-    }
+    width: 100%;
 
     tr {
         background: white;
@@ -86,13 +78,7 @@
     }
     thead {
         th, td {
-            &:nth-child(n+4) {
-                &.column-no-content {
-                    display: none;
-                }
-            }
-
-            &:nth-child(n+3) {
+            &:nth-child(n+3), &:nth-child(n+4) {
                 &.column-no-content {
                     @media (max-width: 640px) {
                         display: none
@@ -118,13 +104,7 @@
             th, td {
                 white-space: normal;
 
-                &:nth-child(n+4) {
-                    &.column-no-content {
-                        display: none;
-                    }
-                }
-
-                &:nth-child(n+3) {
+                &:nth-child(n+3), &:nth-child(n+4) {
                     &.column-no-content {
                         @media (max-width: 640px) {
                             display: none
@@ -160,32 +140,36 @@
 
 .comparison-menu {
 
-    flex: 1 1 100%;
+    width: 100%;
     padding: 10px;
 
-    @include media-breakpoint-up(lg) {
-        flex: 1 1 25%;
-        margin-left: 20px;
-    }
-    background: rgba(230,216,214,0.3);
+    background: $gold;
     &__header {
         text-align: center;
-        font-size: 1.5rem;
+        font-size: 2rem;
         white-space: normal;
         @media (min-width: 641px) {
-            font-size: 2rem
+            font-size: 2.5rem
         }
         @include media-breakpoint-up(lg) {
-            font-size: 2.5rem;
+            font-size: 3rem;
         }
     }
     &__breakline {
         width: 50px;
-        border: 1px solid $gold;
+        border: 1px solid $maroon;
     }
-    &__select {
-        width: 100%;
+
+    &__ui {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
     }
+
+    .comparison-select__fieldset {
+        flex-basis: 500px;
+    }
+
     &__label {
         font-weight: bold;
     }
@@ -194,8 +178,7 @@
         padding: 10px;
 
         #comparison-add {
-            margin-top: 20px;
-            margin-bottom: 50px;
+            margin: 20px;
         }
     }
 
