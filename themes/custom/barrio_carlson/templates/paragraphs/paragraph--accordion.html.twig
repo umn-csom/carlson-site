@@ -73,12 +73,12 @@
                           {% set expanded = 'false' %}
                           {% set show = '' %}
 
-                          <button class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{paragraphId}}-{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{paragraphId}}-{{ inc }}">
+                          <button id="heading{{paragraphId}}-{{ inc }}" class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{paragraphId}}-{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{paragraphId}}-{{ inc }}">
                               {{ paragraph.field_heading.0.value }}
                           </button>
                       </h5>
                   </div>
-                  <div id="collapse{{paragraphId}}-{{ inc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{ inc }}" data-parent="#accordion-list-{{paragraphId}}">
+                  <div id="collapse{{paragraphId}}-{{ inc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{paragraphId}}-{{ inc }}" data-parent="#accordion-list-{{paragraphId}}">
                       <div class="card-body">
                             {% set body = {
                             '#type': 'processed_text',
@@ -104,12 +104,12 @@
                                               {% set expanded = 'false' %}
                                               {% set show = '' %}
 
-                                              <button class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{paragraphId}}-{{ inc }}-{{ subinc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{paragraphId}}-{{ inc }}-{{ subinc }}">
+                                              <button id="heading{{paragraphId}}-{{ inc }}-{{ subinc }}" class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{paragraphId}}-{{ inc }}-{{ subinc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{paragraphId}}-{{ inc }}-{{ subinc }}">
                                                   {{ subparagraph.field_heading.0.value }}
                                               </button>
                                           </h5>
                                       </div>
-                                      <div id="collapse{{paragraphId}}-{{ inc }}-{{ subinc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{ inc }}-{{ subinc }}" data-parent="#accordion-list-{{paragraphId}}-{{ inc }}">
+                                      <div id="collapse{{paragraphId}}-{{ inc }}-{{ subinc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{paragraphId}}-{{ inc }}-{{ subinc }}" data-parent="#accordion-list-{{paragraphId}}-{{ inc }}">
                                           <div class="card-body">
                                                 {% set body = {
                                                 '#type': 'processed_text',
