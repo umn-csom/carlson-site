@@ -92,10 +92,10 @@
         <div class="row component-paragraph hero-program">
           {% if content.field_video|field_value is empty %}
             <!-- Got here -->
-            <div class="col-lg hero-program__img--alumni d-flex flex-column-reverse" style="background-image: url('{{ file_url(content.field_hero_media|field_target_entity.image.entity.uri.value) }}')">
+            <div class="col-lg hero-program__img--alumni d-flex flex-column-reverse" style="background-image: url('{{ file_url(content.field_hero_media|field_target_entity.image.entity.uri.value  ?: '') }}')">
           {% else %}
             <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-              <source src="{{ file_url(node.field_video.entity.field_media_video_file.entity.uri.value) }}" type="video/mp4">
+              <source src="{{ file_url(node.field_video.entity.field_media_video_file.entity.uri.value  ?: '') }}" type="video/mp4">
             </video>
             <div class="col-lg hero-program__img--alumni d-flex flex-column-reverse">
           {% endif %}

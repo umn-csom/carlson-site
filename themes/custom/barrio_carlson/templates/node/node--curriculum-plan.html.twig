@@ -60,6 +60,7 @@
  */
 #}
 {{ attach_library('bootstrap_barrio/node') }}
+{{ attach_library('barrio_carlson/print_page') }}
 
 {%
   set classes = [
@@ -86,28 +87,6 @@
 
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'basic-page') }}>
     {# Render hero with hero-basic component #}
-    {% if content.field_hero_media|field_value is empty %}
-      <section>
-        <div class="row basic-hero">
-          <div class="col-11 col-lg-10 offset-lg-1 basic-hero__title">
-            <h1>{{ label }}</h1>
-          </div>
-        </div>
-      </section>
-    {% else %}
-      <section>
-        <div class="row basic-hero">
-          <div class="col-lg-12 basic-hero__img">
-            {{ content.field_hero_media }}
-          </div>
-          <div class="col-10 offset-1 basic-hero__title">
-            <div class="basic-hero__title-inner">
-              <h1>{{ label }}</h1>
-            </div>
-          </div>
-        </div>
-      </section>
-    {% endif %}
 
     <section class="row basic-page__content">
       <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
@@ -122,56 +101,27 @@
 		    </div>
 		  	{% endif %}
 
-        {# Course brochure link #}
-        {% if content.field_ee_catalog_link|field_value is not empty %}
-        <div class="row basic-page__catalog">
-          <div class="col-12 text-center">
-            {{ content.field_ee_catalog_link }}
-          </div>
-        </div>
-        {% endif %}
-
         <div class="row">
 
-          {# Stick sidebar region #}
-          {% if sticky_sidebar | render %}
-          <div class="col-lg-3 sticky-sidebar">
-            <div class="row">
-              <div class="col-12">
-                <div class="sticky-sidebar__inner">
-                {{ sticky_sidebar }}
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endif %}
-
-          <div class="{{ (sticky_sidebar | render) ? 'col-lg-9' : 'col-12' }} basic-page__content-components">
+          <div class="col-12 basic-page__content-components">
 
             {# Inner node region for blocks #}
-            {% if node_top %}
               {{ node_top }}
-            {% endif %}
 
             {# Home Flexible feature paragraphs #}
-            <div class="row component-paragraph">
-              <div class="col-12">
+            <div class="component-paragraph curriculum-plan__header">
+              <div class="curriculum-plan__header-text">
                 {{ content.body }}
               </div>
+              <img class="print-logo" src="/{{ directory }}/images/svg/logo.svg" alt="Carlson School of Management (home)">
             </div>
 
             {# Inner node region for blocks #}
-            {% if node_content %}
-              {{ node_content }}
-            {% endif %}
+            {{ node_content }}
 
             {{ content.field_flexible_features }}
 
-            {{ content.field_contact_info }}
-
-            {% if node_bottom %}
-              {{ node_bottom }}
-            {% endif %}
+            {{ node_bottom }}
 
             {# Bottom node region for blocks #}
             <div class="row node__bottom">

@@ -89,7 +89,7 @@ class ChartsFieldFormatter extends FormatterBase implements ContainerFactoryPlug
     foreach ($items as $delta => $item) {
       // Get the entity.
       $entity = $item->getEntity();
-      $title = $entity->title->value;
+      $title = (!is_null($entity->title)) ? $entity->title->value : '';
       // Check if there field_chart_type in the entity then set the chart type of its value
       // Otherwise set it from 'Default chart configuration' in /admin/config/content/charts
       if ($entity->hasField('field_chart_type') && $entity->get('field_chart_type')->value != '') {
@@ -123,6 +123,8 @@ class ChartsFieldFormatter extends FormatterBase implements ContainerFactoryPlug
                 $series_name = $tabledata[$row][$col];
               }
               elseif ($tabledata[$row][$col] != '') {
+                // Remove commas from numeric strings
+                if(preg_match("/^[0-9,]+$/", $tabledata[$row][$col])) $tabledata[$row][$col] = str_replace(',', '',  $tabledata[$row][$col]);
                 //Handle the minus values and make sure the value is stored as number
                 if (substr($tabledata[$row][$col], -1) == '-' || substr($tabledata[$row][$col], 1) == '-') {
                   $tabledata[$row][$col] = floatval($tabledata[$row][$col]) * -1;

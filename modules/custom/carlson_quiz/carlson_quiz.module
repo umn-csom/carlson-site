@@ -146,6 +146,9 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
           elseif ($limit_type[0]["value"] == 'at_least') {
             $multiple_choice_label = 'Select '.$numbers[$limit[0]["value"]].' or more.';
           }
+          elseif ($limit_type[0]["value"] == 'exactly') {
+            $multiple_choice_label = 'Select exactly '.$numbers[$limit[0]["value"]].'.';
+          }
         }
 
         $elements['question_'.$question->id().'_title'] = [

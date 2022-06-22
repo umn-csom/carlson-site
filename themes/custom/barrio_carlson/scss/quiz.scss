@@ -487,15 +487,6 @@ $grid-row-columns:            6 !default;
         .quiz-results {
           &--result {
             &--compare-checkbox-wrapper {
-              // TODO: re-add once compare table goes live
-              * {
-                display: none !important;
-              }
-              margin-top: 20px;
-
-
-
-
               position: relative;
               z-index: 1;
             }
@@ -573,10 +564,30 @@ $grid-row-columns:            6 !default;
 
 // TODO: remove once comparison table is finished
 
+#comparison-table {
+  scroll-margin-top: 200px;
+}
 
-// .quiz-results--result--compare-checkbox-wrapper {
-//   padding-top: 2rem;
-//   label {
-//     display: none !important;
-//   }
-// }
+.quiz-results {
+  #comparison-table, .scroll-to-button {
+    display: none;
+  }
+
+  .quiz-results--result--compare-checkbox-wrapper {
+    padding-top: 2rem;
+    label {
+      display: none !important;
+    }
+  }
+}
+.quiz-results.quiz-display-table {
+  .quiz-results--result--compare-checkbox-wrapper {
+    padding-top: 0;
+    label {
+      display: flex !important;
+    }
+  }
+  #comparison-table, .scroll-to-button {
+    display: flex;
+  }
+}

@@ -127,7 +127,7 @@
   <div{{ content_attributes.addClass('node__content', 'clearfix') }}>
     <div class="container mb-4">
       {% if results %}
-      <div class="row align-items-center justify-content-center pt-5 pb-4 mb-5 mt-lg-5">
+      <div class="row align-items-center justify-content-center pt-2 pb-2 mb-2 mt-lg-2">
         <div class="col-12 col-lg-6 col-xl-5 mb-4 mb-lg-0">
           <p class="quiz-results--title-prefix text-uppercase mb-0">Results</p>
           <h1 class="d-none">{{ node.label }} Results</h1>
@@ -166,7 +166,7 @@
       {% else %}
         {{ node.field_quiz_no_results_page_body|view('quiz_results') }}
       {% endif %}
-      <div class="row justify-content-center mb-5 pb-lg-5">
+      <div class="row justify-content-center mb-2 pb-lg-2">
         <div class="col-12 col-xl-10">
           {% if results %}
             <div class="row justify-content-center">
@@ -180,7 +180,7 @@
         </div>
       </div>
       {% if node.field_quiz_results_add_comps|view('quiz_results') %}
-        <div class="row justify-content-center mb-5 pb-lg-5">
+        <div class="row justify-content-center mb-2 pb-lg-2">
           <div class="col-12 col-xl-10">
             {{ node.field_quiz_results_add_comps|view('quiz_results') }}
           </div>
@@ -188,9 +188,16 @@
       {% endif %}
     </div>
   </div>
-  <div class="row align-items-center justify-content-center pt-5 pb-4 mb-5 mt-lg-5">
+  <div id="comparison-table" class="row align-items-center justify-content-center pt-2 pb-2 mb-2 mt-lg-2">
     <div class="col-12 col-xl-10">
-      {{ drupal_block('course_comparison_table_block') }}
+      {% if drupal_block('course_comparison_table_block') %}
+        {{ drupal_block('course_comparison_table_block') }}
+      {% endif %}
     </div>
   </div>
+  {% if drupal_block('course_comparison_table_block') %}
+    <div class="scroll-to-button">
+      <a href="#comparison-table">Go To Compare</a>
+    </div>
+  {% endif %}
 </article>

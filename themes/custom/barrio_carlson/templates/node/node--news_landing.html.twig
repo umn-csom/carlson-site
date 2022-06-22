@@ -115,7 +115,7 @@
         <div class="row">
 
           {# Stick sidebar region #}
-          {% if sticky_sidebar %}
+          {% if sticky_sidebar | render %}
           <div class="col-lg-3 sticky-sidebar">
             <div class="row">
               <div class="col-12">
@@ -127,7 +127,7 @@
           </div>
           {% endif %}
 
-          <div class="{{ sticky_sidebar ? 'col-lg-9' : 'col-12' }} basic-page__content-components">
+          <div class="{{ (sticky_sidebar | render) ? 'col-lg-9' : 'col-12' }} basic-page__content-components">
 
             {# Inner node region for blocks #}
               {{ node_top }}

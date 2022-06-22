@@ -73,7 +73,7 @@
   ]
 %}
 {# Set the hero image to be used as a background image #}
-{% set image = file_url(content.field_hero_media|field_target_entity.image.entity.uri.value | image_style('crop_full_hero')) %}
+{% set image = file_url((content.field_hero_media|field_target_entity.image.entity.uri.value | image_style('crop_full_hero'))  ?: '') %}
 
 <article{{ attributes.addClass(classes) }}>
 
