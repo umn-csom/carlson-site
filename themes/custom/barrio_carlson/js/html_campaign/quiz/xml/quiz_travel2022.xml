@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<data>
+
+    <events>
+    	<event id="screenloaded">
+			<click>
+				<function name="scoreSummary">quiz</function>
+			</click>
+		</event>
+
+		<event id="loadAnotherPage">
+			<click>
+				<url address="http://www.essemble.co.uk" window="true">this</url>
+			</click>
+		</event>
+
+		<event id="btnover">
+			<rollover>
+				<css name="btnOverCss">this</css>
+			</rollover>
+
+			<rollout>
+				<css name="btnOutCss">this</css>
+			</rollout>
+		</event>
+
+		<event id="optionover">
+			<rollover>
+				<css name="optionOverCss">this</css>
+			</rollover>
+
+			<rollout>
+				<css name="optionOutCss">this</css>
+			</rollout>
+		</event>
+
+		<event id="imgoption">
+			<rollover>
+				<css name="imgOverCss">this</css>
+			</rollover>
+
+			<rollout>
+				<css name="imgOutCss">this</css>
+			</rollout>
+
+			<click>
+				<css name="imgOverCss">this</css>
+				<function name="select">this</function>
+				<function name="submit">this</function>
+			</click>
+		</event>
+
+		<event id="selectandsubmit">
+			<click>
+				<css name="optionOverCss">this</css>
+				<function name="select">this</function>
+				<function name="submit">this</function>
+			</click>
+		</event>
+
+		<event id="select">
+			<click>
+				<css name="optionOverCss">this</css>
+				<function name="select">this</function>
+			</click>
+		</event>
+
+		<event id="submit">
+			<click>
+				<function name="submit">this</function>
+			</click>
+		</event>
+
+		<event id="reset">
+			<click>
+				<function name="reset">this</function>
+			</click>
+		</event>
+
+        <event id="begin">
+            <click>
+                <anim type="remove" animtime="0" oncomplete="0">openingText</anim>
+                <function name="begin">this</function>
+            </click>
+        </event>
+
+        <event id="loadNextQuestion">
+            <click>
+                <function name="loadNextQuestion">this</function>
+            </click>
+        </event>
+
+		<event id="restart">
+            <click>
+                <function name="restart">this</function>
+            </click>
+        </event>
+    </events>
+
+    <!--timer-->
+    <box id="timerContainer" position="relative" anim="none" class="timerContainer" margin-top="10"/>
+
+    <!--opening text-->
+    <box id="openingText" position="relative" margin-top="30" anim="top" animtime="1" ease="Bounce.easeOut">
+
+    	<text id="title" position="relative" anim="none"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_answer text-center mt-0 pt-0">We might not be on the coast, but we’ve got enough shoreline to make you think twice. Minnesota is full of little surprises. So before you overlook us, we dare you to learn something about us first.</p></div></div>]]></text>
+
+    	<button id="goBtn" position="relative" margin-top="30" margin="auto" width="auto" anim="none" event="btnover,begin"><![CDATA[Start the quiz]]></button>
+    </box>
+
+    <!--quiz-->
+    <custom type="quiz" id="travelquiz" position="relative">
+		<settings timer="false" timerx="0" timery="0"/>
+
+		<!-- question 1 -->
+        <question id="q1" event="">
+
+    		<text id="question" position="relative" x="0" margin-bottom="30" anim="show" animtime="1" animdelay="0.1" clear="both"><![CDATA[<p class="q_question"><strong>Question 1 of 7.</strong><br>How many <em>Fortune</em> 500 companies are headquartered in Minnesota?</p>]]></text>
+
+			<!--option 1 -->
+			<option correct="false">
+				<text id="option1" position="relative" margin-bottom="10" anim="show" animtime="1" andmdelay="0.2" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">12</p>]]></text>
+			</option>
+
+      <!--option 2 -->
+			<option correct="false">
+				<text id="option2" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.3" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">7</p>]]></text>
+			</option>
+
+      <!--option 3 -->
+			<option correct="true">
+				<text id="option3" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.4" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">16</p>]]></text>
+			</option>
+
+			<!--option 4 -->
+			<option correct="false">
+				<text id="option4" position="relative" margin-bottom="10" anim="show" animtime="1"  animdelay="0.5" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">19</p>]]></text>
+			</option>
+
+			<!-- feedbacks -->
+			<fb id="pass" event="">
+
+				<text id="txt1" position="relative" anim="show" animtime="1" andimdelay="0.1" margin-top="30" margin-bottom="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">16 is correct!</p><p class="text-left p_answer">16 <em>Fortune</em>  500 companies are headquartered in Minnesota, with a majority located in downtown Minneapolis.  The list includes such businesses as Target, Best Buy, 3M, General Mills, Medtronic, Hormel Foods, Ameriprise Financial, and Ecolab.</p><p class="text-left p_answer">Positioned in the heart of this thriving business community, the Carlson School maintains strong relationships with these companies in order to offer its students essential, real-world experiences in the classroom. Students gain experiential learning through <a href="https://carlsonschool.umn.edu/enterprise-programs" target="_blank">Enterprise Programs</a> and internships as well as develop connections for <a href="https://carlsonschool.umn.edu/career-services/employment-reports" target="_blank">recruiting opportunities</a> after graduation.</p></div></div>]]></text>
+
+				<button id="nextQBtn" position="relative" margin="auto" width="150" margin-bottom="30" anim="none" event="btnover,loadNextQuestion"><![CDATA[Next question]]></button>
+			</fb>
+
+			<fb id="fail" event="">
+
+				<text id="txt1" position="relative"  anim="show" animtime="1" andimdelay="0.1" margin-bottom="30" margin-top="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">It’s 16.</p><p class="text-left p_answer">16 <em>Fortune</em> 500 companies are headquartered in Minnesota, with a majority located in downtown Minneapolis.  The list includes such businesses as Target, Best Buy, 3M, General Mills, Medtronic, Hormel Foods, Ameriprise Financial, and Ecolab.</p><p class="text-left p_answer">Positioned in the heart of this thriving business community, the Carlson School maintains strong relationships with these companies in order to offer its students essential, real-world experiences in the classroom. Students gain experiential learning through <a href="https://carlsonschool.umn.edu/enterprise-programs" target="_blank">Enterprise Programs</a> and internships as well as develop connections for <a href="https://carlsonschool.umn.edu/career-services/employment-reports" target="_blank">recruiting opportunities</a> after graduation.</p></div></div>]]></text>
+
+				<button id="nextQBtn" position="relative" margin="auto" width="150" margin-bottom="30" anim="none" event="btnover,loadNextQuestion"><![CDATA[Next question]]></button>
+			</fb>
+		</question>
+
+		<!-- question 2 -->
+        <question id="q2" time="15" event="">
+
+    		<text id="question" position="relative" x="0" margin-bottom="40" anim="show" animtime="1" animdelay="0.1" clear="both"><![CDATA[<p class="q_question"><strong>Question 2 of 7.</strong><br>Minnesota has more shoreline than which of the following states?</p>]]></text>
+
+			<!--option 1 -->
+			<option correct="false">
+				<text id="option1_1" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.2" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">California</p>]]></text>
+			</option>
+
+			<!--option 2 -->
+			<option correct="false">
+				<text id="option1_2" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.3" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Florida</p>]]></text>
+			</option>
+
+      <!--option 3 -->
+			<option correct="false">
+				<text id="option1_3" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.4" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Hawaii</p>]]></text>
+			</option>
+
+			<!--option 4 -->
+			<option correct="true">
+				<text id="option1_4" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.5" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">California, Florida, and Hawaii combined</p>]]></text>
+			</option>
+			<!--/options -->
+
+			<!-- feedbacks -->
+			<fb id="pass" event="">
+
+				<text id="txt1" position="relative" anim="none" margin-bottom="30" margin-top="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">Yes, it's California, Florida, and Hawaii combined!</p><p class="text-left p_answer">Known as the “Land of 10,000 Lakes,” Minnesota has over 90,000 miles of shoreline. That’s more than California, Florida, and Hawaii combined. And we do a lot with that shoreline. From wakeboarding and kayaking in the summer, to pond hockey and ice fishing in the winter, Minnesotans know how to enjoy lake life.</p> <p class="text-left p_answer">Staying active year-round is just one of the reasons why Minnesota is ranked among the top 10 healthiest states in the nation, according to <a href="https://www.usnews.com/news/best-states/slideshows/10-healthiest-states-in-the-us" target="_blank">U.S. News & World Report</a>.</p></div></div>]]></text>
+
+				<button id="nextQBtn" position="relative" margin="auto" width="150" margin-bottom="30" anim="none" event="btnover,loadNextQuestion"><![CDATA[Next question]]></button>
+
+			</fb>
+
+			<fb id="fail" event="">
+
+				<text id="txt1" position="relative" anim="none" margin-bottom="30" margin-top="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">Close, but it's all three—combined.</p><p class="text-left p_answer">Known as the “Land of 10,000 Lakes,” Minnesota has over 90,000 miles of shoreline. That’s more than California, Florida, and Hawaii combined. And we do a lot with that shoreline. From wakeboarding and kayaking in the summer, to pond hockey and ice fishing in the winter, Minnesotans know how to enjoy lake life.</p> <p class="text-left p_answer">Staying active year-round is just one of the reasons why Minnesota is ranked among the top 10 healthiest states in the nation, according to <a href="https://www.usnews.com/news/best-states/slideshows/10-healthiest-states-in-the-us" target="_blank">U.S. News & World Report</a>.</p></div></div>]]></text>
+
+				<button id="nextQBtn" position="relative" margin="auto" width="150" margin-bottom="30" anim="none" event="btnover,loadNextQuestion"><![CDATA[Next question]]></button>
+			</fb>
+		</question>
+
+		<!-- question 3 -->
+        <question id="q3" time="15" event="">
+
+    		<text id="question" position="relative" x="0" margin-bottom="30" anim="show" animtime="1" animdelay="0.1" clear="both"><![CDATA[<p class="q_question"><strong>Question 3 of 7.</strong><br>The University of Minnesota is credited for being the first to successfully complete which of the following groundbreaking medical procedures?</p>]]></text>
+
+
+			<!--option 1 -->
+			<option correct="false">
+				<text id="option1_1" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.2" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Heart Transplant</p>]]></text>
+			</option>
+
+			<!--option 2 -->
+			<option correct="false">
+				<text id="option1_2" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.3" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Bone Marrow Transplant</p>]]></text>
+			</option>
+
+			<!--option 3 -->
+			<option correct="false">
+				<text id="option1_3" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.4" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Kidney Transplant</p>]]></text>
+			</option>
+
+      <!--option 4 -->
+			<option correct="true">
+				<text id="option1_4" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.5" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Both A and B</p>]]></text>
+			</option>
+			<!--/options -->
+
+			<!-- feedbacks -->
+			<fb id="pass" event="">
+
+				<text id="txt1" position="relative" anim="none" margin-bottom="30" margin-top="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">Yes, it’s heart <em>and</em> bone marrow transplant.</p><p class="text-left p_answer">The world's first successful open-heart procedure was carried out by Dr. F. John Lewis at the University of Minnesota in 1952. Shortly following in 1968, the University successfully completed the world’s first bone marrow transplant, performed by Robert Good, MD. Since then, the University of Minnesota has established itself as a top medical research university, making groundbreaking contributions to the state, the nation, and the world.</p> <p class="text-left p_answer">Home to organizations like the Mayo Clinic, Boston Scientific, Medtronic, and UnitedHealth Group, Minnesota’s medical community is strong and vibrant. Through the <a href="/faculty-research/medical-industry-leadership-institute" target="_blank">Medical Industry Leadership Institute</a> and the <a href="/faculty-research/business-advancement-center-health" target="_blank">Business Advancement Center for Health</a>, the Carlson School plays a big role in preparing the next generation of business leaders to tackle the nation’s biggest health challenges.</p></div></div>]]></text>
+
+				<button id="nextQBtn" position="relative" margin="auto" width="150" margin-bottom="30" anim="none" event="btnover,loadNextQuestion"><![CDATA[Next question]]></button>
+			</fb>
+
+			<fb id="fail" event="">
+
+				<text id="txt1" position="relative" anim="none" margin-bottom="30" margin-top="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">The answer is heart <em>and</em> bone marrow transplant.</p><p class="text-left p_answer">The world's first successful open-heart procedure was carried out by Dr. F. John Lewis at the University of Minnesota in 1952. Shortly following in 1968, the University successfully completed the world’s first bone marrow transplant, performed by Robert Good, MD. Since then, the University of Minnesota has established itself as a top medical research university, making groundbreaking contributions to the state, the nation, and the world.</p> <p class="text-left p_answer">Home to organizations like the Mayo Clinic, Boston Scientific, Medtronic, and UnitedHealth Group, Minnesota’s medical community is strong and vibrant. Through the <a href="/faculty-research/medical-industry-leadership-institute" target="_blank">Medical Industry Leadership Institute</a> and the <a href="/faculty-research/business-advancement-center-health" target="_blank">Business Advancement Center for Health</a>, the Carlson School plays a big role in preparing the next generation of business leaders to tackle the nation’s biggest health challenges.</p></div></div>]]></text>
+
+				<button id="nextQBtn" position="relative" margin="auto" width="150" margin-bottom="30" anim="none" event="btnover,loadNextQuestion"><![CDATA[Next question]]></button>
+			</fb>
+		</question>
+		<!-- question 4 -->
+        <question id="q4" time="15" event="">
+
+    		<text id="question" position="relative" x="0" margin-bottom="30" anim="show" animtime="1" animdelay="0.1" clear="both"><![CDATA[<p class="q_question"><strong>Question 4 of 7.</strong><br>Every year, the Carlson School hosts the MN Cup, which is the largest statewide competition in the nation for what:</p>]]></text>
+
+			<!--option 1 -->
+			<option correct="false">
+				<text id="option1_1" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.2" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Investment Fund Management</p>]]></text>
+			</option>
+
+			<!--option 2 -->
+			<option correct="true">
+				<text id="option1_2" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.3" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Startups</p>]]></text>
+			</option>
+
+			<!--option 3 -->
+			<option correct="false">
+				<text id="option1_3" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.4" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Data Analytics</p>]]></text>
+			</option>
+
+      <!--option 4 -->
+			<option correct="false">
+				<text id="option1_4" position="relative" margin-bottom="10" anim="show" animtime="1" animdelay="0.4" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Chili Bake-Off</p>]]></text>
+			</option>
+			<!--/options -->
+
+      <!-- feedbacks -->
+			<fb id="pass" event="">
+
+				<text id="txt1" position="relative" anim="none" margin-bottom="30" margin-top="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">Startups is correct!</p><p class="text-left p_answer"><a href="/mn-cup" target=_blank">MN Cup</a> challenges students and entrepreneurs throughout the state in various industries to advance their big ideas into viable startups through mentorship, exposure, and seed funding. Run by the Carlson School’s <a href="/faculty-research/gary-s-holmes-center-entrepreneurship" target=_blank">Gary S. Holmes Center for Entrepreneurship</a>, MN Cup is just one of many opportunities for creative innovation.</a></p></div></div>]]></text>
+
+				<button id="nextQBtn" position="relative" margin="auto" width="150" margin-bottom="30" anim="none" event="btnover,loadNextQuestion"><![CDATA[Next question]]></button>
+
+			</fb>
+
+			<fb id="fail" event="">
+
+				<text id="txt1" position="relative" anim="none" margin-bottom="30" margin-top="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">No, it's Startups</p><p class="text-left p_answer"><a href="/mn-cup" target=_blank">MN Cup</a> challenges students and entrepreneurs throughout the state in various industries to advance their big ideas into viable startups through mentorship, exposure, and seed funding. Run by the Carlson School’s <a href="/faculty-research/gary-s-holmes-center-entrepreneurship" target=_blank">Gary S. Holmes Center for Entrepreneurship</a>, MN Cup is just one of many opportunities for creative innovation.</a></p></div></div>]]></text>
+
+				<button id="nextQBtn" position="relative" margin="auto" width="150" margin-bottom="30" anim="none" event="btnover,loadNextQuestion"><![CDATA[Next question]]></button>
+			</fb>
+		</question>
+
+		<!-- question 5 -->
+        <question id="q5" time="15" event="">
+
+    		<text id="question" position="relative" x="0" margin-bottom="30" anim="show" animtime="1" animdelay="0.1" clear="both"><![CDATA[<p class="q_question"><strong>Question 5 of 7.</strong><br> In 2007, The Carlson School became one of the first business schools in the nation to require that undergraduate students participate with which of the following experiences:</p>]]></text>
+
+			<!--option 1 -->
+			<option correct="true">
+				<text id="option1_1" position="relative" margin-bottom="5" anim="show" animtime="1" animdelay="0.2" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Education Abroad</p>]]></text>
+			</option>
+
+			<!--option 2 -->
+			<option correct="false">
+				<text id="option1_2" position="relative" margin-bottom="5" anim="show" animtime="1" animdelay="0.3" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Extracurricular Clubs</p>]]></text>
+			</option>
+
+			<!--option 3 -->
+			<option correct="false">
+				<text id="option1_3" position="relative" margin-bottom="5" anim="show" animtime="1" animdelay="0.4" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Intramural Sports</p>]]></text>
+			</option>
+
+			<!--option 4 -->
+			<option correct="false">
+				<text id="option1_4" position="relative" margin-bottom="5" anim="show" animtime="1" animdelay="0.5" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Case Competitions</p>]]></text>
+			</option>
+			<!--/options -->
+
+			<!-- feedbacks -->
+			<fb id="pass" event="">
+				<text id="txt1" position="relative" anim="none" margin-bottom="30" margin-top="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">Education Abroad is right!</p><p class="text-left p_answer">Education Abroad. Our programs offer education abroad experiences with a focus on a variety of business-related topics in locations spread across the world, from the most independent exchange options to short-term January or May/June options led by Carlson School faculty.</p><p class="text-left p_answer">In addition to the programs offered to undergraduates, our MBA and Master’s students have several options available to them as well. Check out our <a href="/faculty-research/carlson-global-institute/education-abroad/program-finder" target="_blank">Program Finder</a> to learn more about the many global partnerships the Carlson School maintains.</p></div></div>]]></text>
+
+				<button id="nextQBtn" position="relative" margin="auto" width="150" margin-bottom="30" anim="none" event="btnover,loadNextQuestion"><![CDATA[Next question]]></button>
+			</fb>
+
+			<fb id="fail" event="">
+
+				<text id="txt1" position="relative" anim="none" margin-bottom="30" margin-top="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">It's Education Abroad.</p><p class="text-left p_answer">Education Abroad. Our programs offer education abroad experiences with a focus on a variety of business-related topics in locations spread across the world, from the most independent exchange options to short-term January or May/June options led by Carlson School faculty.</p><p class="text-left p_answer">In addition to the programs offered to undergraduates, our MBA and Master’s students have several options available to them as well. Check out our <a href="/faculty-research/carlson-global-institute/education-abroad/program-finder" target="_blank">Program Finder</a> to learn more about the many global partnerships the Carlson School maintains.</p></div></div>]]></text>
+
+				<button id="nextQBtn" position="relative" margin="auto" width="150" margin-bottom="30" anim="none" event="btnover,loadNextQuestion"><![CDATA[Next question]]></button>
+			</fb>
+		</question>
+
+		<!-- question 6-->
+        <question id="q6" time="15" event="">
+
+    		<text id="question" position="relative" x="0" margin-bottom="30" anim="show" animtime="1" animdelay="0.1" clear="both"><![CDATA[<p class="q_question"><strong>Question 6 of 7.</strong><br>The University of Minnesota is known for inventing which fruit?</p>]]></text>
+
+			<!--option 1 -->
+      <option correct="false">
+				<text id="option1_1" position="relative" margin-bottom="5" anim="show" animtime="1" animdelay="0.2" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Navel Oranges</p>]]></text>
+			</option>
+
+      <!--option 2 -->
+      <option correct="true">
+				<text id="option1_2" position="relative" margin-bottom="5" anim="show" animtime="1" animdelay="0.3" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Honeycrisp Apple</p>]]></text>
+			</option>
+
+      <!--option 1 -->
+      <option correct="false">
+				<text id="option1_3" position="relative" margin-bottom="5" anim="show" animtime="1" animdelay="0.4" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Blueberries</p>]]></text>
+			</option>
+
+      <!--option 1 -->
+      <option correct="false">
+				<text id="option1_4" position="relative" margin-bottom="5" anim="show" animtime="1" animdelay="0.5" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Meyer Lemons</p>]]></text>
+			</option>
+			<!--/options -->
+
+			<!-- feedbacks -->
+			<fb id="pass" event="">
+
+				<text id="txt1" position="relative" anim="none" margin-top="30" margin-bottom="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">Honeycrisp apple is correct!</p><p class="text-left p_answer">Who doesn’t love a good honeycrisp apple?</p></div></div>]]></text>
+
+        <button id="nextQBtn" position="relative" margin="auto" width="150" margin-bottom="30" anim="none" event="btnover,loadNextQuestion"><![CDATA[Next question]]></button>
+			</fb>
+
+			<fb id="fail" event="">
+
+				<text id="txt1" position="relative" anim="none" margin-top="30" margin-bottom="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">No, it's honeycrisp apple.</p><p class="text-left p_answer">Who doesn’t love a good honeycrisp apple?</p></div></div>]]></text>
+
+        <button id="nextQBtn" position="relative" margin="auto" width="150" margin-bottom="30" anim="none" event="btnover,loadNextQuestion"><![CDATA[Next question]]></button>
+			</fb>
+		</question>
+
+
+
+
+
+
+
+
+
+    <!-- question 7-->
+        <question id="q7" time="15" event="">
+
+    		<text id="question" position="relative" x="0" margin-bottom="30" anim="show" animtime="1" animdelay="0.1" clear="both"><![CDATA[<p class="q_question"><strong>Question 7 of 7.</strong><br>Minnesota is ranked one of the top states in the nation. What makes Minnesota stand out?</p>]]></text>
+
+			<!--option 1 -->
+      <option correct="false">
+				<text id="option1_1" position="relative" margin-bottom="5" anim="show" animtime="1" animdelay="0.2" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Minneapolis is ranked #4 for most bike-friendly city in the country</p>]]></text>
+			</option>
+
+      <!--option 2 -->
+      <option correct="false">
+				<text id="option1_2" position="relative" margin-bottom="5" anim="show" animtime="1" animdelay="0.3" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Minnesota is ranked #9 for employment</p>]]></text>
+			</option>
+
+      <!--option 3 -->
+      <option correct="false">
+				<text id="option1_3" position="relative" margin-bottom="5" anim="show" animtime="1" animdelay="0.4" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">Minnesota is ranked the second least stressed state in the nation</p>]]></text>
+			</option>
+
+      <!--option 4 -->
+      <option correct="true">
+				<text id="option1_4" position="relative" margin-bottom="5" anim="show" animtime="1" animdelay="0.5" event="optionover,selectandsubmit" class="optionBox"><![CDATA[<p class="p_option">All of the above</p>]]></text>
+			</option>
+			<!--/options -->
+
+			<!-- feedbacks -->
+			<fb id="pass" event="">
+
+				<text id="txt1" position="relative" anim="none" margin-top="30" margin-bottom="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">Correct! All of the above -— and more!</p><p class="text-left p_answer"><a href="https://www.usnews.com/news/best-states/rankings" target="_blank">U.S. News & World Report</a> ranks Minnesota as the #2 overall state in the country, scoring high in economic opportunity and public health. Minnesota shines on multiple levels and the Minneapolis-St. Paul metro area consistently ranks as one of the best places to live with one of the top parks systems in the country. There’s so much to explore in the Bold North!</p><p class="text-left p_answer">Sources for rankings in <a href="https://anytimeestimate.com/research/most-bike-friendly-cities-us-2022/" target="_blank">bikeability</a>, <a href="https://www.usnews.com/news/best-states/rankings/economy/employment" target="_blank">employment</a>, and <a href="https://wallethub.com/edu/most-stressful-states/32218" target="_blank">low stress levels</a>.</p></div></div>]]></text>
+
+				<button id="nextQBtn" position="relative" margin="auto" margin-bottom="30" width="230" anim="none" event="btnover,loadNextQuestion"><![CDATA[See how you did]]></button>
+			</fb>
+
+			<fb id="fail" event="">
+
+				<text id="txt1" position="relative" anim="none" margin-top="30" margin-bottom="30"><![CDATA[<div class="row justify-content-center"><div class="col-12 col-md-9 col-lg-7 col-xl-6"><p class="p_result">Sorry, it's all of the above… and more!</p><p class="text-left p_answer">It might be cold, but Minnesotans are always looking for ways to get outside and stay active. Google it. We dare you.</p></div></div>]]></text>
+
+				<button id="nextQBtn" position="relative" margin="auto" margin-bottom="30" width="230" anim="none" event="btnover,loadNextQuestion"><![CDATA[See how you did]]></button>
+			</fb>
+		</question>
+
+
+		<!--generic timeout text-->
+		<timeout>
+			<image id="timeoutimg" position="relative" margin-top="30" margin-bottom="30" anim="top" animtime="1" animdelay="0.3" ease="Bounce.easeOut"><![CDATA[http://www.placehold.it/300x200]]></image>
+
+			<text id="timeoutTxt" position="relative" margin-bottom="30" anim="top" animtime="1" animdelay="0.2" ease="Bounce.easeOut"><![CDATA[<p class="p_42 grey">Times up!</p>]]></text>
+
+			<button id="startAgainBtn" position="relative" margin="auto" margin-bottom="30" width="100" anim="top" animtime="1" animdelay="0.1" ease="Bounce.easeOut" event="btnover,restart"><![CDATA[Start again]]></button>
+        </timeout>
+
+
+        <!--score screen-->
+        <score masteryscore="5">
+           <fb id="pass" event="">
+				<text id="pass_txt" position="relative" margin-bottom="30" anim="top" animtime="1" animdelay="0.2" ease="Bounce.easeOut"><![CDATA[<p class="p_result">You betcha! With [score] of 7 correct, you’re about as&nbsp;Minnesotan as Duck,&nbsp;Duck,&nbsp;Gray&nbsp;Duck.</p><p class="p_answer">It looks like you already know quite a bit about us, but do you want to find out even more about Minnesota and the Carlson School?</p><p class="p_answer"><a href="/em/virtual-recruiting-events"><strong>Connect with us virtually to meet our recruiters, start your application, and join us in the North Star State!</strong></a></p>]]></text>
+            </fb>
+
+            <fb id="fail" event="">
+                <text id="fail_txt" position="relative" margin-bottom="30" anim="top" animtime="1" animdelay="0.2" ease="Bounce.easeOut"><![CDATA[<p class="p_result">Uff-da! Looks like you&nbsp;missed a&nbsp;few&nbsp;there.</p><p class="p_answer">You got [score] of 7 correct. But don’t worry. There’s plenty of time for you to get to know us a little better.</p><p class="p_answer"><a href="/em/virtual-recruiting-events"><strong>Connect with us virtually to meet our recruiters, start your application, and join us in the North Star State!</strong></a></p>]]></text>
+            </fb>
+        </score>
+
+    </custom>
+
+</data>
