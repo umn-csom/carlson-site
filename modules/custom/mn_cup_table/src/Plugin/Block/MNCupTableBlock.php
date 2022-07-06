@@ -13,26 +13,28 @@ use Drupal\Core\Block\BlockBase;
  *   category = @Translation("MN Cup Table Block"),
  * )
  */
-class MNCupTableBlock extends BlockBase {
+class MNCupTableBlock extends BlockBase
+{
 
-  // /**
-  //  * {@inheritdoc}
-  //  */
-  // public function defaultConfiguration() {
-  //   return ['label_display' => FALSE];
-  // }
+    // /**
+    //  * {@inheritdoc}
+    //  */
+    // public function defaultConfiguration() {
+    //   return ['label_display' => FALSE];
+    // }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function build() {
-    $renderable = [
-      '#theme' => 'filterable_table',
-      '#title' => 'Filterable Table',
-      '$description' => 'Filterable Table'
-    ];
+    /**
+     * {@inheritdoc}
+     */
+    public function build()
+    {
+        $renderable = [
+        '#theme' => 'filterable_table',
+        '#title' => 'Filterable Table',
+        '$description' => 'Filterable Table'
+        ];
 
-    return $renderable;
-  }
+        return $renderable;
+    }
 
 }

@@ -13,26 +13,28 @@ use Drupal\Core\Block\BlockBase;
  *   category = @Translation("Course Comparison Table Block"),
  * )
  */
-class CourseComparisonTableBlock extends BlockBase {
+class CourseComparisonTableBlock extends BlockBase
+{
 
-  // /**
-  //  * {@inheritdoc}
-  //  */
-  // public function defaultConfiguration() {
-  //   return ['label_display' => FALSE];
-  // }
+    // /**
+    //  * {@inheritdoc}
+    //  */
+    // public function defaultConfiguration() {
+    //   return ['label_display' => FALSE];
+    // }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function build() {
-    $renderable = [
-      '#theme' => 'course_comparison_table',
-      '#title' => 'Compare Programs',
-      '$description' => 'Compare Programs'
-    ];
+    /**
+     * {@inheritdoc}
+     */
+    public function build()
+    {
+        $renderable = [
+        '#theme' => 'course_comparison_table',
+        '#title' => 'Compare Programs',
+        '$description' => 'Compare Programs'
+        ];
 
-    return $renderable;
-  }
+        return $renderable;
+    }
 
 }
