@@ -1,0 +1,74 @@
+/* generic form styles */
+.form-control {
+    border-color: $light-gray;
+    margin-top: 0;
+    height: 3.8rem;
+    line-height: 3.8rem;
+    font-size: 1.6rem;
+    color: $dark-gray;
+    border-radius: 0.25rem;
+    &::placeholder {
+        color: lighten($slate, 50%);
+    }
+}
+select.form-control {
+    -webkit-appearance: none;
+    -moz-appearance:none;
+    -ms-appearance:none;
+    appearance:none;
+    -webkit-border-radius: 0.25rem;
+    background:#fff url('../images/dd-arrows.png') no-repeat right 1rem center;
+    line-height: normal;
+}
+label {
+    margin-bottom: 1rem;
+    font-family: $font-lato;
+    text-transform: uppercase;
+    letter-spacing: 1.39px;
+    color: $slate;
+    font-size: 1.3rem;
+    line-height: 1.6rem;
+}
+.form-group {
+    &.half-width {
+        display: inline-block;
+        padding: 0;
+        width: calc(49% - 15px);
+        margin-left: 15px;
+        + .form-group.half-width {
+            margin-left: 5px;
+        }
+    }
+    input[type="submit"] {
+        margin-top: 1rem;
+        height: auto;
+        line-height: 2.4rem;
+        @include button-solid($maroon);
+    }
+}
+.select2-search__field {
+    width: 100% !important;
+}
+.select2-container--default {
+    &.select2-container--focus .select2-selection--multiple {
+        border-color: #80bdff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    .select2-selection--multiple {
+        border-color: $light-gray;
+        border-radius: 0.25rem;
+        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        line-height: 2.5rem;
+        background:#fff url('../images/dd-arrows.png') no-repeat right 1rem center;
+        .select2-selection__rendered {
+            padding-right: 3rem;
+            white-space: normal;
+        }
+    }
+}
+
+table tr th a,
+table tr th a:hover,
+table tr th a:focus {
+    color: $maroon;
+}

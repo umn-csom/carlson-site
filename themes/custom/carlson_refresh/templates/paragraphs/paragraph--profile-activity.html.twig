@@ -1,0 +1,15 @@
+{% block paragraph %}
+    <li class="faculty-profile__activity">
+        {% block content %}
+            <div class="faculty-profile__activity--title">
+                {% if content.field_activity_type|field_value is not empty %}
+                    <em>{{ content.field_activity_type|field_value }}</em>
+                {% endif %}
+            </div>
+            <div class="faculty-profile__activity--desc">
+                {{ content.field_activity_description|field_value }}
+                {{ content.field_activity_link|field_value }}
+            </div>
+        {% endblock %}
+    </li>
+{% endblock paragraph %}

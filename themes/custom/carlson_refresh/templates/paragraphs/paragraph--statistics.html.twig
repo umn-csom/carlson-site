@@ -1,0 +1,94 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a paragraph.
+ *
+ * Available variables:
+ * - paragraph: Full paragraph entity.
+ *   Only method names starting with "get", "has", or "is" and a few common
+ *   methods such as "id", "label", and "bundle" are available. For example:
+ *   - paragraph.getCreatedTime() will return the paragraph creation timestamp.
+ *   - paragraph.id(): The paragraph ID.
+ *   - paragraph.bundle(): The type of the paragraph, for example, "image" or "text".
+ *   - paragraph.getOwnerId(): The user ID of the paragraph author.
+ *   See Drupal\paragraphs\Entity\Paragraph for a full list of public properties
+ *   and methods for the paragraph object.
+ * - content: All paragraph items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}. Use
+ *   {{ content|without('field_example') }} to temporarily suppress the printing
+ *   of a given child element.
+ * - attributes: HTML attributes for the containing element.
+ *   The attributes.class element may contain one or more of the following
+ *   classes:
+ *   - paragraphs: The current template type (also known as a "theming hook").
+ *   - paragraphs--type-[type]: The current paragraphs type. For example, if the paragraph is an
+ *     "Image" it would result in "paragraphs--type--image". Note that the machine
+ *     name will often be in a short form of the human readable label.
+ *   - paragraphs--view-mode--[view_mode]: The View Mode of the paragraph; for example, a
+ *     preview would result in: "paragraphs--view-mode--preview", and
+ *     default: "paragraphs--view-mode--default".
+ * - view_mode: View mode; for example, "preview" or "full".
+ * - logged_in: Flag for authenticated user status. Will be true when the
+ *   current user is a logged-in member.
+ * - is_admin: Flag for admin user status. Will be true when the current user
+ *   is an administrator.
+ *
+ * @see template_preprocess_paragraph()
+ *
+ * @ingroup themeable
+ */
+#}
+
+{%
+  set classes = [
+    'paragraph',
+    'paragraph--type--' ~ paragraph.bundle|clean_class,
+    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
+    not paragraph.isPublished() ? 'paragraph--unpublished'
+  ]
+%}
+{% block paragraph %}
+    {% block content %}
+      <div class="row component-paragraph stats">
+        {% if content.field_heading|field_value is not empty %}
+        <div class="col-12">
+          <h2 class="stats__heading text-center">{{ content.field_heading }}</h2>
+        </div>
+        {% endif %}
+
+        {% if content.field_main_content|field_value is not empty %}
+        <div class="col-md-8 offset-md-2 text-center stats__subheading">
+          <p>{{ content.field_main_content }}</p>
+        </div>
+        {% endif %}
+
+        <div class="col-12">
+          <div class="row stats__blocks">
+            {% if content.field_statistic | field_value is not empty %}
+              {% set colCount = 1 %}
+              {% set lastRow = false %}
+              {% set lastRowCount = 0 %}
+              {% for stat in content.field_statistic|field_value %}
+                {% set lastRow = colCount == 1 ? loop.revindex <= 4 : lastRow %}
+                {% if (lastRow and colCount == 1) %}
+                  {% set lastRowCount = loop.revindex %}
+                {% endif %}
+                {% set colSize = lastRow ? (12 / lastRowCount) : 3 %}
+                <div class="col col-10 offset-1 offset-md-0 col-md-{{ colSize }} col-lg-{{ colSize == 12 or (lastRow and colSize == 4 and loop.last) ? 12 : 6 }} col-xl-{{ colSize }}">
+                  <div class="h-100 stats__single text-center">
+                    <h4 class="stats__single-value">{{ stat['#paragraph'].field_statistic_data.0.value }}</h4>
+                    <p class="stats__single-desc">{{ stat['#paragraph'].field_statistic_desc.0.value }}</p>
+                  </div>
+                </div>
+                {% if loop.index % 4 == 0 and not loop.last %}
+                </div>
+                <div class="row stats__blocks">
+                {% endif %}
+                {% set colCount = colCount == 4 ? 1 : (colCount + 1) %}
+              {% endfor %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endblock %}
+{% endblock paragraph %}

@@ -1,0 +1,10 @@
+{{ attach_library('carlson_refresh/magazine') }}
+
+<article class="magazine--magazine-card pb-3 mt-3">
+<h3 class="mt-0 mb-2">
+  <a href="{{ url }}">{{ label }}</a>
+</h3>
+{% if content.field_teaser|render is not empty %}
+  {{ content.field_teaser }}
+{% endif %}
+</article>

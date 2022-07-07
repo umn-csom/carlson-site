@@ -1,0 +1,163 @@
+{#
+/**
+ * @file
+ * Bootstrap Barrio's theme implementation to display a node.
+ *
+ * Available variables:
+ * - node: The node entity with limited access to object properties and methods.
+     Only "getter" methods (method names starting with "get", "has", or "is")
+     and a few common methods such as "id" and "label" are available. Calling
+     other methods (such as node.delete) will result in an exception.
+ * - label: The title of the node.
+ * - content: All node items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}. Use
+ *   {{ content|without('field_example') }} to temporarily suppress the printing
+ *   of a given child element.
+ * - author_picture: The node author user entity, rendered using the "compact"
+ *   view mode.
+ * - metadata: Metadata for this node.
+ * - date: Themed creation date field.
+ * - author_name: Themed author name field.
+ * - url: Direct URL of the current node.
+ * - display_submitted: Whether submission information should be displayed.
+ * - attributes: HTML attributes for the containing element.
+ *   The attributes.class element may contain one or more of the following
+ *   classes:
+ *   - node: The current template type (also known as a "theming hook").
+ *   - node--type-[type]: The current node type. For example, if the node is an
+ *     "Article" it would result in "node--type-article". Note that the machine
+ *     name will often be in a short form of the human readable label.
+ *   - node--view-mode-[view_mode]: The View Mode of the node; for example, a
+ *     teaser would result in: "node--view-mode-teaser", and
+ *     full: "node--view-mode-full".
+ *   The following are controlled through the node publishing options.
+ *   - node--promoted: Appears on nodes promoted to the front page.
+ *   - node--sticky: Appears on nodes ordered above other non-sticky nodes in
+ *     teaser listings.
+ *   - node--unpublished: Appears on unpublished nodes visible only to site
+ *     admins.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - content_attributes: Same as attributes, except applied to the main
+ *   content tag that appears in the template.
+ * - author_attributes: Same as attributes, except applied to the author of
+ *   the node tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ * - view_mode: View mode; for example, "teaser" or "full".
+ * - teaser: Flag for the teaser state. Will be true if view_mode is 'teaser'.
+ * - page: Flag for the full page state. Will be true if view_mode is 'full'.
+ * - readmore: Flag for more state. Will be true if the teaser content of the
+ *   node cannot hold the main body content.
+ * - logged_in: Flag for authenticated user status. Will be true when the
+ *   current user is a logged-in member.
+ * - is_admin: Flag for admin user status. Will be true when the current user
+ *   is an administrator.
+ *
+ * @see template_preprocess_node()
+ */
+#}
+{{ attach_library('bootstrap_barrio/node') }}
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix',
+    'centennial__about'
+  ]
+%}
+<article{{ attributes.addClass(classes) }}>
+
+  <div{{ content_attributes.addClass('node__content', 'clearfix', 'basic-page') }}>
+    <section>
+      <div class="row basic-hero">
+        <div class="col-12">
+          <div class="row centennial__about--hero">
+            <div class="col-12 col-lg-6 col-xl-5 basic-hero__title centennial__about--headline">
+              <h1>About the Celebration</h1>
+              <h2>Commerce, Connections, Community</h2>
+              <p>Since our first graduating class of 14 students in 1920, what has made the University of Minnesota's Carlson School of Management truly special is its community.</p>
+            </div>
+            <div class="d-none d-lg-flex col-lg-3 col-xl-2 centennial__about--hero-image-100">
+              <img src="/{{ directory }}/images/centennial/home/hero-100years.png">
+            </div>
+            <div class="col-12 col-lg-3 col-xl-5 centennial__about--hero-image" style="background-image: url('/{{ directory }}/images/centennial/about/hero-image.png')">
+              <a class="use-ajax fullwidth-video__link" data-dialog-type="modal" href="/media/21956" data-dialog-options="{&quot;width&quot;:800}">
+                <img src="/{{ directory }}/images/centennial/about/hero-image.png"/>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="row basic-page__content centennial__about--content">
+      <div class="col-12">
+        <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
+
+          <div class="row">
+
+            <div class="col-12 col-md-10 offset-md-1 text-center basic-page__content-components">
+              <p class="mb-5">That first class of 14 has grown to 4,500+ students currently enrolled and more than 55,000 graduates worldwide, united with our supporters and faculty around our mission of building a brighter future.</p>
+              <p class="mb-5">We've come a long way, and we have an even brighter tomorrow ahead. Our 100th anniversary is an opportunity to reflect on where we've been and celebrate everyone who has contributed to where Carlson School is now. That means you.</p>
+            </div>
+            <div class="col-12 basic-page__content-components">
+              <hr/>
+            </div>
+            <div class="col-12 col-md-10 offset-md-1 basic-page__content-components text-center">
+              <h3>The Four Pillars of Our Centennial</h3>
+
+              <p>These four pillars are the foundation of our celebration. Everything we do in 2019, whether we're hosting a gala or releasing a podcast, will tie back to these pillars:</p>
+            </div>
+            <div class="col-12 col-md-10 offset-md-1 basic-page__content-components centennial__about--pillars">
+              <div class="row centennial__about--pillar">
+                <div class="col centennial__about--pillar-icon">
+                  <img src="/{{ directory }}/images/centennial/about/future-icon.png"/>
+                </div>
+                <div class="col centennial__about--pillar-content">
+                  <p class="centennial__about--pillar-content--title">Connected to Tomorrow</p>
+                  <p>Just as we're looking backward, we're also looking forward. This anniversary makes our imaginations go wild wondering what the next 100 years of Carlson School will bring.</p>
+                </div>
+              </div>
+              <div class="row centennial__about--pillar">
+                <div class="col centennial__about--pillar-icon">
+                  <img src="/{{ directory }}/images/centennial/about/innovation-icon.png"/>
+                </div>
+                <div class="col centennial__about--pillar-content">
+                  <p class="centennial__about--pillar-content--title">Connected to Innovation</p>
+                  <p>We're never content with what’s always worked. We're always interested in what's new and what's next. In 2019, we will find innovative ways to tell our story and bring our community together.</p>
+                </div>
+              </div>
+              <div class="row centennial__about--pillar">
+                <div class="col centennial__about--pillar-icon">
+                  <img src="/{{ directory }}/images/centennial/about/world-icon.png"/>
+                </div>
+                <div class="col centennial__about--pillar-content">
+                  <p class="centennial__about--pillar-content--title">Connected to the World</p>
+                  <p>We're Minnesota’s premier business school. But we are also top-ranked nationally, our graduates make change worldwide, and we partner with organizations everywhere. That's why our centennial is a global celebration. We will reach you where you are.</p>
+                </div>
+              </div>
+              <div class="row centennial__about--pillar">
+                <div class="col centennial__about--pillar-icon">
+                  <img src="/{{ directory }}/images/centennial/about/one-another-icon.png"/>
+                </div>
+                <div class="col centennial__about--pillar-content">
+                  <p class="centennial__about--pillar-content--title">Connected to One Another:</p>
+                  <p>From life-long relationships to productive business partnerships, the bonds formed at Carlson School are unique. This year, we'll honor our connections.</p>
+                </div>
+              </div>
+              <p><b>Without our tight-knit network of industrious professionals, after all, the Carlson School just wouldn’t be the Carlson School.</b></p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</article>

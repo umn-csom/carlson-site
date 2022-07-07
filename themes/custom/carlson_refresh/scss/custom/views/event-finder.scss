@@ -1,0 +1,122 @@
+#block-views-block-event-channels-block-2,
+#block-views-block-event-channels-block-4,
+#block-views-block-event-channels-block-16,
+.department-event-block {
+    background: $gold;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    background-image: url('../images/bg/program-finder_bg.png');
+    background-position: top left;
+    background-repeat: no-repeat;
+    .view-header {
+        padding: 3rem;
+    }
+    .view-filters {
+        padding: 0 3rem 4rem 3rem;
+    }
+    .view-content {
+        padding-top: 3rem;
+    }
+    .view-content, nav {
+        background: $white;
+    }
+    @include media-breakpoint-up(lg) {
+        .view-content {
+            justify-content: center;
+        }
+        .event-items__item--row {
+            flex: 0 0 100%;
+        }
+        .form-actions {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+}
+
+#block-views-block-event-channels-block-2,
+#block-views-block-event-channels-block-4,
+.department-event-block {
+    .view-filters {
+        .form-row {
+            > fieldset,
+            .form-actions {
+                @include make-col(12);
+                @include media-breakpoint-up(md){
+                    @include make-col(6);
+                }
+                @include media-breakpoint-up(lg){
+                    @include make-col(4);
+                }
+            }
+        }
+    }
+}
+
+#block-views-block-event-channels-block-2 {
+    .view-filters {
+        .form-row {
+            > fieldset,
+            .form-actions {
+                @include make-col(12);
+                @include media-breakpoint-up(md){
+                    @include make-col(6);
+                }
+                @include media-breakpoint-up(lg){
+                    @include make-col(4);
+                }
+            }
+            > fieldset:not(.js-form-wrapper) {
+                @include media-breakpoint-up(lg){
+                    margin-top: 30px;
+                }
+            }
+            > fieldset.js-form-wrapper {
+                @include make-col(12);
+                @include media-breakpoint-up(md){
+                    @include make-col(12);
+                }
+                @include media-breakpoint-up(lg){
+                    @include make-col(8);
+                }
+                .fieldset-legend {
+                    letter-spacing: 1.39px;
+                    font-size: 1.3rem;
+                    text-transform: uppercase;
+                }
+                > .fieldset-wrapper {
+                    display: flex;
+                    flex-flow: row wrap;
+
+                    > fieldset {
+                        padding-right: 5px;
+                        @include make-col(12);
+                        @include media-breakpoint-up(md){
+                            @include make-col(6);
+                        }
+                        @include media-breakpoint-up(lg){
+                            @include make-col(6);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+#block-views-block-event-channels-block-16 {
+    .view-filters {
+        .form-row {
+            > fieldset,
+            .form-actions {
+                @include make-col(12);
+                @include media-breakpoint-up(lg){
+                    @include make-col(6);
+                }
+                @include media-breakpoint-up(xl){
+                    @include make-col(3);
+                }
+            }
+        }
+    }
+}
