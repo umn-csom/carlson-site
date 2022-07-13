@@ -18,7 +18,7 @@ trait ElementLinkClassTrait {
    * {@inheritdoc}
    */
   public static function defaultSettings() {
-    return ElementClassTrait::elementClassDefaultSettings(parent::defaultSettings());
+    return self::elementClassDefaultSettings(parent::defaultSettings());
   }
 
   /**

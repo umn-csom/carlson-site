@@ -21,6 +21,11 @@ use Drupal\Core\Form\FormStateInterface;
  */
 class FilterResponsiveTablesFilter extends FilterBase {
 
+  /**
+   * Available Tablesaw modes.
+   *
+   * @var modes
+   */
   public static $modes = [
     'stack' => "Stack Mode",
     'columntoggle' => "Column Toggle Mode",
@@ -95,29 +100,44 @@ class FilterResponsiveTablesFilter extends FilterBase {
       // Find all tables in text.
       if ($tables->length !== 0) {
         foreach ($tables as $table) {
+          // Check if the table has a thead element #3244317. If the thead is
+          // missing then skip any further modifications.
+          $thead = iterator_to_array($table->getElementsByTagName('thead'));
+          if (empty($thead)) {
+            continue;
+          }
           // Find existing class attributes, if any, and append tablesaw class.
           $existing_classes = $table->getAttribute('class');
           if (strpos($existing_classes, 'no-tablesaw') === FALSE) {
-            $type = $this->settings['tablesaw_type'] ?? 'stack';
+            $mode = $this->settings['tablesaw_type'] ?? 'stack';
             // Allow for class-based override of default.
-            foreach (array_keys(self::$modes) as $mode) {
-              if (strpos($existing_classes, "tablesaw-" . $mode) !== FALSE) {
-                $type = $mode;
+            foreach (array_keys(self::$modes) as $mode_option) {
+              if (strpos($existing_classes, "tablesaw-" . $mode_option) !== FALSE) {
+                $mode = $mode_option;
                 break;
               }
             }
-            $new_classes = !empty($existing_classes) ? $existing_classes . ' tablesaw tablesaw-' . $type : 'tablesaw tablesaw-' . $type;
+            $new_classes = !empty($existing_classes) ? $existing_classes . ' tablesaw tablesaw-' . $mode : 'tablesaw tablesaw-' . $mode;
             $table->setAttribute('class', $new_classes);
             // Set data-tablesaw-mode & minimap.
-            $table->setAttribute('data-tablesaw-mode', $type);
-            $table->setAttribute('data-tablesaw-minimap', NULL);
+            $table->setAttribute('data-tablesaw-mode', $mode);
+            $table->setAttribute('data-tablesaw-minimap', '');
             $persist = $this->settings['tablesaw_persist'] ?? TRUE;
-            if ($persist) {
-              $ths = $table->getElementsByTagName('th');
-              foreach ($ths as $k => $th) {
-                if ($k === 0) {
-                  $th->setAttribute('data-tablesaw-priority', 'persist');
+            $ths = $table->getElementsByTagName('th');
+            $inc = 1;
+            foreach ($ths as $delta => $th) {
+              $th->setAttribute('role', 'columnheader');
+              // Add required columntoggle- & swipe- specific attributes.
+              if (in_array($mode, ['columntoggle', 'swipe'])) {
+                $th->setAttribute('data-tablesaw-sortable-col', '');
+                if (!$th->getAttribute('data-tablesaw-priority')) {
+                  $th->setAttribute('data-tablesaw-priority', $inc);
+                  $inc++;
                 }
+              }
+              // Add persistent first column if no priority has been specified.
+              if ($persist && $delta === 0 && !$th->getAttribute('data-tablesaw-priority')) {
+                $th->setAttribute('data-tablesaw-priority', 'persist');
               }
             }
           }

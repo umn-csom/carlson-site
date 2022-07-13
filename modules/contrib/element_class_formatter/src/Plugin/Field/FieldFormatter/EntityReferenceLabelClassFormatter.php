@@ -30,7 +30,7 @@ class EntityReferenceLabelClassFormatter extends EntityReferenceLabelFormatter {
       'tag' => '',
     ];
 
-    return ElementClassTrait::elementClassDefaultSettings($default_settings);
+    return self::elementClassDefaultSettings($default_settings);
   }
 
   /**

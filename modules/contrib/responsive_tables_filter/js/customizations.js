@@ -12,7 +12,11 @@
   Drupal.responsive_tables_filter = Drupal.responsive_tables_filter || {};
   Drupal.behaviors.facetsCheckboxReset = {
     attach: function (context) {
-      Drupal.responsive_tables_filter.fixCellLabels(context);
+      if (window.Tablesaw !== 'undefined') {
+        $(window).once('tablesaw-create').on(Tablesaw.events.create, function(event, tablesaw) {
+          Drupal.responsive_tables_filter.fixCellLabels(context);
+        });
+      }
     }
   };
 

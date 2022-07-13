@@ -32,7 +32,7 @@ class FileLinkClassFormatter extends DescriptionAwareFileFormatterBase {
       'show_filetype' => '0',
     ];
 
-    return ElementClassTrait::elementClassDefaultSettings($default_settings);
+    return self::elementClassDefaultSettings($default_settings);
   }
 
   /**

@@ -5,6 +5,7 @@ namespace Drupal\element_class_formatter\Plugin\Field\FieldFormatter;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Link;
 use Drupal\Core\Entity\EntityInterface;
@@ -41,7 +42,7 @@ class WrapperClassFormatter extends FormatterBase {
       'trim' => 200,
     ];
 
-    return ElementClassTrait::elementClassDefaultSettings($default_settings);
+    return self::elementClassDefaultSettings($default_settings);
   }
 
   /**
@@ -73,6 +74,7 @@ class WrapperClassFormatter extends FormatterBase {
       'span' => 'span',
       'div' => 'div',
       'p' => 'p',
+      'strong' => 'strong',
     ];
     foreach (range(1, 5) as $level) {
       $wrapper_options['h' . $level] = 'H' . $level;
@@ -136,6 +138,8 @@ class WrapperClassFormatter extends FormatterBase {
   public function viewElements(FieldItemListInterface $items, $langcode = NULL) {
     $elements = [];
     $attributes = new Attribute();
+    $renderer = \Drupal::service('renderer');
+    assert($renderer instanceof RendererInterface);
     $class = $this->getSetting('class');
     if (!empty($class)) {
       $attributes->addClass($class);
@@ -163,7 +167,7 @@ class WrapperClassFormatter extends FormatterBase {
           '#plain_text' => !empty($item->summary) ? strip_tags($item->summary) : text_summary(strip_tags($item->value), 'plain_text', $this->getSetting('trim')),
         ];
       }
-      $text = render($text);
+      $text = $renderer->render($text);
 
       if ($this->getSetting('link') && $parent instanceof EntityInterface) {
         $link_attributes = new Attribute();
@@ -173,7 +177,7 @@ class WrapperClassFormatter extends FormatterBase {
         }
         $link = Link::fromTextAndUrl($text, $parent->toUrl())->toRenderable();
         $link['#attributes'] = $link_attributes->toArray();
-        $text = render($link);
+        $text = $renderer->render($link);
       }
       $elements[$delta] = [
         '#type' => 'html_tag',
