@@ -1,0 +1,24 @@
+{% set content_data = {
+  'image': content.field_image|field_value,
+  'heading': content.field_heading, 
+  'markup': content.field_main_content, 
+  'link': content.field_link, 
+  }
+%} 
+
+{% block paragraph %}
+    {% block content %}
+			<div class="row component-paragraph feature-block">
+		    <div class="col-md-6 pr-md-0 feature-block__img">
+		      <a href="{{ content.field_link.0['#url'] }}">{{ content.field_image|field_value }}</a>
+		    </div>
+		    <div class="col-md-6 pl-md-0 feature-block__content">
+		    	<div class="feature-block__content--inner">
+			      <h3 class="feature-block__content--title"><a href="{{ content.field_link.0['#url'] }}">{{ content.field_heading }}</a></h3>
+			      {{ content.field_main_content }}
+			      <span class="feature-block__content--link">{{ content.field_link }}</span>
+			    </div>
+		    </div>
+		  </div>
+    {% endblock %}
+{% endblock paragraph %}

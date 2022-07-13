@@ -1,0 +1,29 @@
+{% block paragraph %}
+    <li class="faculty-profile__selected-works">
+        {% block content %}
+            {% if content.field_pub_type|field_value is not empty %}
+                <div class="faculty-profile__selected-works--type">
+                    <em>{{ content.field_pub_type|field_value }}</em>
+                </div>
+            {% endif %}
+
+            {% if content.field_pub_title|field_value is not empty %}
+                <div class="faculty-profile__selected-works--title">
+                    {{ content.field_pub_title|field_value }}
+                </div>
+            {% endif %}
+
+            {% if content.field_pub_url|field_value is not empty %}
+                <div class="faculty-profile__selected-works--url">
+                    {{ content.field_pub_url|field_value }}
+                </div>
+            {% endif %}
+
+            {% if content.field_pub_file|field_value is not empty %}
+                <div class="faculty-profile__selected-works--file">
+                    {{ content.field_pub_file|field_value }}
+                </div>
+            {% endif %}
+        {% endblock %}
+    </li>
+{% endblock paragraph %}

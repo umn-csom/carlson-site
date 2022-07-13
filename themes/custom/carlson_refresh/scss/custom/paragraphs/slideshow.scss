@@ -1,0 +1,34 @@
+.slideshow__main-caption, figcaption{
+  color: $slate;
+  opacity: .5;
+  @include font-neutraface-base();
+  font-size: 1.6rem;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.slideshow__main-caption {
+  margin-top: -15px;
+}
+
+.carlson-slideshow .slick-arrow {
+  width: 83px;
+  height: 83px;
+  &:before {
+    width: inherit;
+  }
+  &.slick-next,
+  &.slick-prev {
+    padding: 0;
+    &::before {
+      position: absolute;
+      top: 35%;
+    }
+  }
+  &.slick-prev {
+    margin-left: 35px;
+  }
+  &.slick-next {
+    margin-right: 35px;
+  }
+}

@@ -1,0 +1,116 @@
+.person-profile {
+  /** Top Profile - Block. **/
+  &__top {
+    &--headshot {
+        img {
+            width: 100%;
+            height: auto;
+            @include profile-image-box-shadow();
+        }
+        margin-bottom: 2rem;
+    }
+    &--name {
+      @include heading-title($font-medium,$maroon, 'left');
+    }
+
+    &--dept {
+      color: #363230;
+      @include font-neutraface-base();
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 20px;
+    }
+
+    &--quote{
+      background: $menu-gold;
+      padding: 30px;
+      background-image: url('../images/bg/experience_bg.png');
+      margin-bottom: 2rem;
+      &-inner {
+        padding-left: 80px;
+        &:before {
+          position: absolute;
+          left: 40px;
+          margin-top: 5px;
+          @include carlson-icons($icon-quote);
+          font-size: 50px;
+          line-height: 50px;
+          color: $maroon;
+        }
+      }
+    }
+  }
+  &--title {
+    @include serif-font($font-small);
+    margin-bottom: 2rem;
+  }
+
+  &__summary {
+    @include page-inset($inset-narrow);
+  }
+  &__contact {
+    margin-bottom: 3rem;
+    &--address {
+			&::before {
+				@include carlson-icons($icon-map-pin);
+				font-size: 1.6rem;
+				color: $maroon;
+				width: 2rem;
+				margin-right: 1.5rem;
+				display: inline-block;
+				text-align: center;
+				font-size: 2rem;
+				vertical-align: middle;
+			}
+		}
+		&--phone,
+		&--email {
+			a::before {
+				@include carlson-icons($icon-link);
+				font-size: 1.6rem;
+				color: $maroon;
+				width: 2rem;
+				margin-right: 1.5rem;
+				display: inline-block;
+				text-align: center;
+			}
+		}
+		&--phone {
+			a::before {
+				content: $icon-mobile-phone;
+				font-size: 2rem;
+			}
+		}
+		&--email {
+			a::before {
+				content: $icon-envelope;
+				font-size: 1.2rem;
+			}
+		}
+  }
+  @include media-breakpoint-up(lg) {
+    &__sidebar {
+      > div {
+        padding: 30px 20px;
+      }
+    }
+    &__summary {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+    &__top {
+      &--quote{
+        margin-left: -30px;
+        position: relative;
+        z-index: -1;
+        &-inner {
+          padding-left: 100px;
+          &:before {
+            left: 60px;
+            line-height: 60px;
+          }
+        }
+      }
+    }
+  }
+}

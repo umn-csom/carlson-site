@@ -1,0 +1,22 @@
+<div class="container half-and-half">
+    <div class="row">
+        {% if content.field_left_content.0['#paragraph'].field_main_content.0.value %}
+            <div class="col-md-6 order-2 order-md-1">
+        {% else %}
+            <div class="col-md-6 order-1">
+        {% endif %}
+            <div class="left">
+                {{ content.field_left_content }}
+            </div> 
+        </div>
+        {% if content.field_right_content.0['#paragraph'].field_main_content.0.value %}
+            <div class="col-md-6 order-2">
+        {% else %}
+            <div class="col-md-6 order-1 order-md-2">
+        {% endif %}
+            <div class="right">
+                {{ content.field_right_content }}
+            </div>
+        </div>
+    </div>
+</div>

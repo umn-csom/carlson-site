@@ -1,0 +1,79 @@
+/**
+ * @file
+ * Bootstrap Barrio specific styling for the Book module.
+ */
+
+.btn {
+  font-size: 1.6rem;
+  
+  &.btn-primary--yellow{
+    @include button-outline($menu-gold);
+    background-color: transparent;
+  }
+  &.btn-primary--maroon{
+    @include button-outline($maroon);
+    background-color: transparent;
+  }
+  &.btn-secondary{
+    @include button-solid($maroon);
+  }
+  
+  &.btn-link-primary {
+    @include button-link-primary();
+  }
+  &.btn-link-secondary {
+    @include button-link-secondary();
+  }
+}
+/* Edior button classes */
+
+.gold-outline-button {
+  @include button();
+  display: inline-block;
+  font-size: 1.6rem;
+  @include button-outline($menu-gold);
+  background-color: transparent;
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+.maroon-outline-button{
+  @include button();
+  font-size: 1.6rem;
+  display: inline-block;
+  @include button-outline($maroon);
+  background-color: transparent;
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+.maroon-solid-button{
+  @include button();
+  font-size: 1.6rem;
+  display: inline-block;
+  @include button-solid($maroon);
+  &:hover, &:focus {
+    text-decoration: none;
+  }
+}
+.gold-underline-button {
+  font-size: 1.6rem;
+  @include button-link-primary();
+  display: inline-block;
+}
+.maroon-underline-button {
+  font-size: 1.6rem;
+  @include button-link-secondary();
+  display: inline-block;
+}
+
+.gold-solid-button {
+  @include button();
+  font-size: 1.6rem;
+  display: inline-block;
+  @include button-solid-v($menu-gold);
+  &:hover, &:focus {
+    text-decoration: none;
+
+  }
+}

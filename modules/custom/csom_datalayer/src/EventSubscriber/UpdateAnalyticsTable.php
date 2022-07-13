@@ -3,29 +3,33 @@
 namespace Drupal\csom_datalayer\EventSubscriber;
 
 
-class UpdateAnalyticsTable {
+class UpdateAnalyticsTable
+{
 
-    private $slate_session_data;
+    private $_slate_session_data;
     private $piwik_session_data;
-    private $piwik_update_finished = FALSE;
-    private $slate_update_finished = FALSE;
+    private $piwik_update_finished = false;
+    private $slate_update_finished = false;
     private $database;
 
 
-    //Constructor..
-    public function __construct() {}
+    /** Constructor.. */
+    public function __construct()
+    {
+    }
 
-    function AsyncPHPRequest($user, $password, $url) {
+    function AsyncPHPRequest($user, $password, $url)
+    {
 
         $curl = curl_init();
-		
-		//A given cURL operation should only take
-		//720 seconds max. 12 Minutes
-		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT ,0);
-		curl_setopt($curl, CURLOPT_TIMEOUT, 720);
-		set_time_limit(0);
+        
+        //A given cURL operation should only take
+        //720 seconds max. 12 Minutes
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 0);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 720);
+        set_time_limit(0);
 
-		//curl_setopt ($curl, CURLOPT_SSLVERSION, 5);
+        //curl_setopt ($curl, CURLOPT_SSLVERSION, 5);
         // Optional Authentication:
         curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 
@@ -41,9 +45,9 @@ class UpdateAnalyticsTable {
         curl_multi_add_handle($mh, $curl);
 
         $active = null;
-		//ksm($url);
-		
-		
+        //ksm($url);
+        
+        
         //execute the handle
         do {
             $mrc = curl_multi_exec($mh, $active);
@@ -51,22 +55,22 @@ class UpdateAnalyticsTable {
 
         while ($active && $mrc == CURLM_OK) {
             //if (curl_multi_select($mh) != -1) {
-				if (curl_multi_select($mh) == -1) {
-					usleep(1);
-				}
-				
-                do {
-                    $mrc = curl_multi_exec($mh, $active);
-					// Check for errors
-					//ksm($mrc);
-					if($mrc > 0) {
-						// Display error message
-						// \Drupal::logger('csom_datalayer')->error( "ERROR!\n " . $url . " " . curl_multi_strerror($mrc));
-					}
-                } while ($mrc == CURLM_CALL_MULTI_PERFORM);
+            if (curl_multi_select($mh) == -1) {
+                usleep(1);
+            }
+                
+            do {
+                $mrc = curl_multi_exec($mh, $active);
+                // Check for errors
+                //ksm($mrc);
+                if($mrc > 0) {
+                    // Display error message
+                    // \Drupal::logger('csom_datalayer')->error( "ERROR!\n " . $url . " " . curl_multi_strerror($mrc));
+                }
+            } while ($mrc == CURLM_CALL_MULTI_PERFORM);
             //}
         }
-		
+        
 
         // Retrieve the JSON data
         $data = curl_multi_getcontent($curl);
@@ -74,31 +78,33 @@ class UpdateAnalyticsTable {
         //close the handles
         curl_multi_remove_handle($mh, $curl);
         curl_multi_close($mh);
-		
-		// \Drupal::logger('csom_datalayer')->notice('datalayer content pulled from: ' . $url);
+        
+        // \Drupal::logger('csom_datalayer')->notice('datalayer content pulled from: ' . $url);
 
         return $data;
 
     }
 
-    public function PullSlateData($user, $password, $url) {
+    public function PullSlateData($user, $password, $url)
+    {
 
         if ($this->slate_update_finished) {
             return;
         }
-		
-		//$curl = curl_init();
-		
-        $this->slate_session_data = $this->AsyncPHPRequest($user, $password, $url);
+        
+        //$curl = curl_init();
+        
+        $this->_slate_session_data = $this->AsyncPHPRequest($user, $password, $url);
 
-		//curl_close($curl);
+        //curl_close($curl);
 
-        $this->slate_update_finished = TRUE;
+        $this->slate_update_finished = true;
 
     }
 
 
-    public function PullPiwikData($user, $password, $url) {
+    public function PullPiwikData($user, $password, $url)
+    {
 
         if ($this->piwik_update_finished) {
             return;
@@ -110,15 +116,16 @@ class UpdateAnalyticsTable {
 
         //curl_close($curl);
 
-        $this->piwik_update_finished = TRUE;
+        $this->piwik_update_finished = true;
 
     }
 
-    public function PerformSlateTableUpdate() {
+    public function PerformSlateTableUpdate()
+    {
         // TODO:: replace database string variable that indicates when the last update was run
         //variable_set("LastSlateTableUpdate", date('l jS \of F Y h:i:s A'));
 
-        $someObject = json_decode($this->slate_session_data);
+        $someObject = json_decode($this->_slate_session_data);
         $program_status_entries = $someObject->statuses[0]->people_program_statuses;
 
         foreach ($program_status_entries as $key => $value) {
@@ -130,14 +137,14 @@ class UpdateAnalyticsTable {
             $GA_ClientID = '';
             $Piwik_Visitor_ID = '';
             $Inquiry = '';
-            $Inquiry_Date = NULL;
+            $Inquiry_Date = null;
             $Inquiry_Activities = '';
             $Applicant = '0';
-            $App_Date = NULL;
+            $App_Date = null;
             $App_Term = '';
             $App_Status = '';
             $Inactive = 0;
-            $Inactive_Date = NULL;
+            $Inactive_Date = null;
 
             //we need a unique 'slate_id' and 'program'
             if (!isset($value->slate_id) || !isset($value->program)) {
@@ -191,43 +198,48 @@ class UpdateAnalyticsTable {
                 $Inactive_Date = $value->InactiveDate;
             }
             
-			try {
-				$connection = \Drupal::database();
-				//Here we want to check every slate_id and program pair currently in the database
-				//If a particular pair exists, then update the remaining values
-				//else insert a new entry
-				$connection->merge('csom_slate_status')
-					->key(array(
-						'SlateID' => $slate_id,
-						'Program' => $program,
+            try {
+                $connection = \Drupal::database();
+                //Here we want to check every slate_id and program pair currently in the database
+                //If a particular pair exists, then update the remaining values
+                //else insert a new entry
+                $connection->merge('csom_slate_status')
+                    ->key(
+                        array(
+                        'SlateID' => $slate_id,
+                        'Program' => $program,
 
-					))
-					->fields(array(
-						'CurrentStatus' => $current_status,
-						'Email' => $email,
-						'GAClientID' => $GA_ClientID,
-						'PiwikVisitorID' => $Piwik_Visitor_ID,
-						'Inquiry' => $Inquiry,
-						'InquiryDate' => $Inquiry_Date,
-						'InquiryActivities' => $Inquiry_Activities,
-						'Applicant' => $Applicant,
-						'AppDate' => $App_Date,
-						'AppTerm' => $App_Term,
-						'AppStatus' => $App_Status,
-						'Inactive' => $Inactive,
-						'InactiveDate' => $Inactive_Date,
-					))
-					->execute();
-			}  catch (Exception $e) {
-				// \Drupal::logger('csom_datalayer')->error('Slate load issue - Caught exception: ' .   $e->getMessage());
-			}
+                        )
+                    )
+                    ->fields(
+                        array(
+                        'CurrentStatus' => $current_status,
+                        'Email' => $email,
+                        'GAClientID' => $GA_ClientID,
+                        'PiwikVisitorID' => $Piwik_Visitor_ID,
+                        'Inquiry' => $Inquiry,
+                        'InquiryDate' => $Inquiry_Date,
+                        'InquiryActivities' => $Inquiry_Activities,
+                        'Applicant' => $Applicant,
+                        'AppDate' => $App_Date,
+                        'AppTerm' => $App_Term,
+                        'AppStatus' => $App_Status,
+                        'Inactive' => $Inactive,
+                        'InactiveDate' => $Inactive_Date,
+                        )
+                    )
+                    ->execute();
+            }  catch (Exception $e) {
+                // \Drupal::logger('csom_datalayer')->error('Slate load issue - Caught exception: ' .   $e->getMessage());
+            }
         }
 
         //Log('csom_slate_status', time());
     }
 
     //TODO: Add proper error handling here
-    public function PerformPiwikTableUpdate() {
+    public function PerformPiwikTableUpdate()
+    {
         // TODO:: replace database string variable that indicates when the last update was run
         //variable_set("LastPiwikTableUpdate", date('l jS \of F Y h:i:s A'));
         $PiwikEntries = json_decode($this->piwik_session_data);
@@ -244,10 +256,10 @@ class UpdateAnalyticsTable {
             $Resolution = '';
             $TotalVisits = 0;
             $AvgActionsPerVisit = 0;
-            $AvgVisitDuration = NULL;
+            $AvgVisitDuration = null;
             $DaysSinceLastVisit = 0;
-            $FirstActionDate = NULL;
-            $LastActionDate = NULL;
+            $FirstActionDate = null;
+            $LastActionDate = null;
             $LastLocation = '';
             $LastReferrerUrl = '';
             $LastCampaignSource = '';
@@ -318,11 +330,14 @@ class UpdateAnalyticsTable {
                 $connection = \Drupal::database();
 
                 $connection->merge('csom_piwik_status')
-                    ->key([
+                    ->key(
+                        [
                         'PiwikVisitorID' => $PiwikVisitorID,
 
-                    ])
-                    ->fields([
+                        ]
+                    )
+                    ->fields(
+                        [
                         'SubscriberID' => $SubscriberID,
                         'VisitorType' => $VisitorType,
                         'Browser' => $Browser,
@@ -340,7 +355,8 @@ class UpdateAnalyticsTable {
                         'LastCampaignName' => $LastCampaignName,
                         'LastCampaignMedium' => $LastCampaignMedium,
                         'LastCampaignContent' => $LastCampaignContent,
-                    ])
+                        ]
+                    )
                     ->execute();
             }  catch (Exception $e) {
                 // \Drupal::logger('csom_datalayer')->error('Piwik load issue - Caught exception: ' .   $e->getMessage());

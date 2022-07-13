@@ -1,0 +1,110 @@
+{{ attach_library('bootstrap_barrio/node') }}
+
+
+
+  {{ drupal_view('front_blocks', 'top_feature') }}
+
+<section class="front--programs my-5">
+  <div class="container my-0">
+    <div class="row mt-0 mb-4">
+      <div class="col-12 text-center">
+        <h2 class="m-0 mb-3 front--programs-heading">{{ content.field_front_programs_head }}</h2>
+      </div>
+    </div>
+  <div class="row justify-content-center">
+    {{ content.field_front_programs }}
+  </div>
+</div>
+</section>
+
+<section class="front--featureds py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-7 px-5 py-4 mb-5 mr-lg-5 front--featureds--block">
+        <h2 class="m-0 p-0 text-center">Featured News</h2>
+        <span class="d-block mt-3 mb-4 mx-auto front--featureds--block-line"></span>
+        {{ drupal_view('front_blocks', 'feature_news') }}
+      </div>
+      <div class="col-12 col-sm-6 col-lg-4 px-5 py-4 mr-sm-5 mr-lg-0 mb-5 front--featureds--block front--featureds--block-deadlines">
+        <h2 class="m-0 p-0 text-center">Upcoming Application Deadlines</h2>
+        <span class="d-block mt-3 mb-4 mx-auto front--featureds--block-line"></span>
+        {{ drupal_view('front_deadlines', 'block_1') }}
+        <p class="text-center mt-4 mb-0"><a href="/academics" class="btn btn-sm btn-primary--yellow btn-primary--yellow-solid">Explore all programs</a></p>
+      </div>
+      <div class="col-12 col-sm-5 col-lg-4 px-5 py-4 mb-5 mb-lg-0 front--featureds--block">
+        <h2 class="m-0 p-0 text-center">Featured Event</h2>
+        <span class="d-block mt-3 mb-4 mx-auto front--featureds--block-line"></span>
+        {{ drupal_view('front_blocks', 'feature_events') }}
+      </div>
+      <div class="col-12 col-lg-7 px-5 py-4 ml-lg-5 front--featureds--block">
+        <h2 class="m-0 p-0 text-center">Faculty and Research</h2>
+        <span class="d-block mt-3 mb-4 mx-auto front--featureds--block-line"></span>
+        {{ drupal_view('front_blocks', 'feature_discover') }}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="front--statistics py-5">
+  <div class="container">
+    {{ content.field_front_statistics }}
+</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+<section style="background-image: url('{% spaceless %}{{ content.field_front_advantage_bg }}{% endspaceless %}');" class="front--advantage pt-5 pb-5">
+<div class="front--advantage--gradient"></div>
+
+
+  <div class="container">
+    <div class="row justify-content-center justify-content-lg-end">
+      <div class="col-12 col-sm-9 d-block d-lg-none mb-4 mb-lg-0"><img src="{% spaceless %}{{ content.field_front_advantage_bg }}{% endspaceless %}" class="img-fluid"></div>
+    <div class="col-12 col-lg-6 col-xl-6">
+    <div class="row justify-content-center">
+      <div class="col-10 col-md-9 col-lg-10 col-xl-8">
+  <h2 class="text-center mt-0 pt-0 pb-4 front--advantage--heading">{{ content.field_field_front_advantage_head }}</h2>
+</div>
+</div>
+  <div class="row justify-content-center">
+    <div class="col-10 col-md-9 col-lg-10 col-xl-7 pt-4">
+  <h3 class="front--advantage--subheading mt-0 mb-3"><em>{{ content.field_front_advantage_1head }}</em></h3>
+  {{ content.field_front_advantage_1copy }}
+  <p class="mb-0 mt-4 text-right"><a href="{{ content.field_front_advantage_1link.0['#url'] }}" class="btn btn-sm btn-primary--yellow btn-primary--yellow-solid">{{ content.field_front_advantage_1link.0['#title'] }}</a></p>
+
+  <h3 class="front--advantage--subheading pt-3 mt-5 mb-3"><em>{{ content.field_field_front_advantage_2hea }}</em></h3>
+  {{ content.field_front_advantage_2copy }}
+  <p class="mb-0 mt-4 text-right"><a href="{{ content.field_front_advantage_2link.0['#url'] }}" class="btn btn-sm btn-primary--yellow btn-primary--yellow-solid">{{ content.field_front_advantage_2link.0['#title'] }}</a></p>
+</div>
+</div></div></div>
+</div>
+</section>
+
+
+<section class="mt-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-12 col-lg-10 col-xl-9">
+    <div class="row">
+      {% spaceless %}
+      <div class="col-12 col-lg-6">
+        {{ node_bottom_left }}
+      </div>
+      <div class="col-12 col-lg-6">
+        {{ node_bottom_right }}
+      </div>
+      {% endspaceless %}
+    </div>
+  </div>
+</div>
+</div>
+</section>

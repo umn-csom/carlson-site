@@ -1,0 +1,14 @@
+{% block paragraph %}
+    <li class="faculty-profile__education--item">
+        {% block content %}
+        <div class="faculty-profile__education--item--type">
+            {{ content.field_faculty_degree|field_value }}
+            {{ content.field_faculty_gradyear|field_value }}
+        </div>
+        <div class="faculty-profile__degree--item--desc">
+            {{ content.field_faculty_major|field_value }}
+            {{ content.field_faculty_institution|field_value }}
+        </div>
+        {% endblock %}
+    </li>
+{% endblock paragraph %}

@@ -1,0 +1,79 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a menu.
+ *
+ * Available variables:
+ * - menu_name: The machine name of the menu.
+ * - items: A nested list of menu items. Each menu item contains:
+ *   - attributes: HTML attributes for the menu item.
+ *   - below: The menu item child items.
+ *   - title: The menu link title.
+ *   - url: The menu link url, instance of \Drupal\Core\Url
+ *   - localized_options: Menu link localized options.
+ *   - is_expanded: TRUE if the link has visible children within the current
+ *     menu tree.
+ *   - is_collapsed: TRUE if the link has children within the current menu tree
+ *     that are not currently visible.
+ *   - in_active_trail: TRUE if the link is in the active trail.
+ *
+ * @ingroup themeable
+ */
+#}
+<header class="sticky-top" id="alumni-navbar" role="banner" aria-label="Site header">
+  <nav class="navbar navbar-expand-xl navbar-light sticky-top" role="navigation">
+    <div class="container-fluid justify-content-start">
+      <a href="/give" id="alumni-navbar--brand" title="Home" rel="home" class="navbar-brand d-none d-lg-block">
+        <span>Giving Home</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAlumni" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <a href="/give" id="alumni-navbar--brand" title="Home" rel="home" class="navbar-brand d-lg-none">
+        <span>Giving Links</span>
+      </a>
+      <div class="collapse navbar-collapse" id="navbarAlumni">
+        {% import _self as menus %}
+        {{ menus.menu_links(items, attributes, 0) }}
+
+        {% macro menu_links(items, attributes, menu_level) %}
+          {% import _self as menus %}
+          {% if items %}
+            {% if menu_level == 0 %}
+              <ul class="navbar-nav ml-auto" role="menu">
+            {% else %}
+              <ul class="carlson-navbar--animate carlson-navbar--slide dropdown-menu dropdown-menu-right" role="menu">
+            {% endif %}
+                {% for item in items %}
+                {%
+                  set classes = [
+                    item.in_active_trail ? 'active',
+                  ]
+                %}
+                  {% if item.below %}
+                    {% if menu_level == 0 %}
+                      <li{{ item.attributes.addClass('nav-item', 'dropdown', classes) }}>
+                        <a href="{{ item.url }}" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
+                        {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+                      </li>
+                    {% else %}
+                      <li{{ item.attributes.addClass('dropdown', 'dropright', 'dropdown-submenu', classes) }}>
+                        <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">{{ item.title }}</a>
+                        {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+                      </li>
+                    {% endif %}
+                  {% else %}
+                    <li{{ item.attributes.addClass('nav-item', classes) }}>
+                      <a href="{{ item.url }}" class="nav-link">{{ item.title }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            {% endif %}
+          {% endmacro %}
+        </div>
+      </div>
+    </nav>
+  </header>
+
+<!-- end navbar -->

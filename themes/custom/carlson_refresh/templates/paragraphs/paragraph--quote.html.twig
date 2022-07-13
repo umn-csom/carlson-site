@@ -1,0 +1,53 @@
+{% block paragraph %}
+  {% block content %}
+
+    {% if node.gettype =='alumni_landing_page' or node.gettype =='alumni_default_page' %}
+    <div class="container-fluid no-lr-margins">
+      <div class="row">
+        <div class="col-lg-6 col-xs-12 d-flex quote-flex order-2 order-lg-1">
+          <div class="quote__text__quotation d-none d-lg-block">
+          &#8220;
+          </div>
+          <div class="quote__text">
+              <p>{{ content.field_quote_text|render|striptags }}</p>
+          </div>
+          {% if content.field_quote_source|field_value is not empty %}
+          <div class="quote__source">
+            &ndash; {{ content.field_quote_source|field_value }}
+          </div>
+          {% endif %}
+        </div>
+        <div class="col-lg-6 col-xs-12 order-1 order-lg-2">
+            {% if content.field_quote_image|field_value is not empty %}
+            <div class="quote__image-bg" style="background-image: url('{{ file_url(content.field_quote_image|field_target_entity.image.entity.uri.value  ?: '') }}')">
+            </div>
+            {% endif %}
+            <!--span class="quote__img--icon icon icon-quote"></span-->
+        </div>
+      </div>
+    </div>
+    
+    {% else %}
+    <div class="row component-paragraph quote">
+      <div class="col-12 text-center">    
+        <div class="quote__text">
+            <p>{{ content.field_quote_text|render|striptags }}</p>
+        </div>
+        <div class="quote__img">
+          {% if content.field_quote_image|field_value is not empty %}
+            {{ content.field_quote_image }}
+          {% endif %}
+          <!--span class="quote__img--icon icon icon-quote"></span-->
+        </div>
+        {% if content.field_quote_source|field_value is not empty %}
+        <div class="quote__source">
+          &ndash; {{ content.field_quote_source|field_value }}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endif %}
+      
+    
+  {% endblock %}
+{% endblock paragraph %}

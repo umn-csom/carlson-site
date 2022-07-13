@@ -1,0 +1,135 @@
+{%
+  set body_classes = [
+    logged_in ? 'user-logged-in',
+    not root_path ? 'path-frontpage' : 'path-' ~ root_path|clean_class,
+    node_type ? 'page-node-type-' ~ node_type|clean_class,
+    db_offline ? 'db-offline',
+    theme.settings.navbar_position ? 'navbar-is-' ~ theme.settings.navbar_position,
+    theme.has_glyphicons ? 'has-glyphicons',
+  ]
+%}
+<!DOCTYPE html>
+<html {{ html_attributes }}>
+  <head>
+    <head-placeholder token="{{ placeholder_token|raw }}">
+    <title>{{ head_title|safe_join(' | ') }}</title>
+
+
+
+
+    <css-placeholder token="{{ placeholder_token|raw }}">
+    <js-placeholder token="{{ placeholder_token|raw }}">
+
+      <link rel="stylesheet" href="/{{ directory }}/css/html_campaign/jquery-jvectormap-2.0.3.css" type="text/css" media="screen"/>
+      <link rel="stylesheet" href="/{{ directory }}/css/html_campaign/jvectormap-custom.css" type="text/css" media="screen"/>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+      <script src="/{{ directory }}/js/html_campaign/jquery-jvectormap-2.0.3.min.js"></script>
+      <script src="/{{ directory }}/js/html_campaign/jquery-jvectormap-asia-mill.js"></script>
+
+
+  </head>
+  <body{{ attributes.addClass(body_classes) }}>
+    <div id="skip">
+      <a href="#main-content" class="visually-hidden focusable skip-link">
+        {{ 'Skip to main content'|t }}
+      </a>
+    </div>
+    {% include directory ~ '/templates/layout/umn-header.html.twig' %}
+
+    {{ page_top }}
+    {{ page }}
+    {{ page_bottom }}
+    {% include directory ~ '/templates/layout/umn-footer.html.twig' %}
+
+
+<!--start UNITED STATES -->
+<script>
+
+var  markers = [
+  {latLng: [12.97, 77.59], name: 'Bangalore', dates: 'September 18', weburl : "/events/ontheroad_bangalore"},
+  {latLng: [39.9, 116.41], name: 'Beijing', dates: 'August 24', weburl : "/events/ontheroad_beijing"},
+  {latLng: [17.39, 78.49], name: 'Hyderabad', dates: 'September 23', weburl : "/events/ontheroad_hyderabad"},
+  {latLng: [19.08, 72.88], name: 'Mumbai', dates: 'September 21', weburl : "/events/ontheroad_mumbai"},
+  {latLng: [28.61, 77.20], name: 'Delhi', dates: 'September 16', weburl : "/events/ontheroad_delhi"},
+  {latLng: [37.57, 126.98], name: 'Seoul', dates: 'August 22', weburl : "/events/ontheroad_seoul"},
+  {latLng: [31.23, 121.47], name: 'Shanghai', dates: 'August 25', weburl : "/events/ontheroad_shanghai"},
+];
+
+
+
+  $(function(){
+    $('#asiamap').vectorMap({
+      map: 'asia_mill',
+      normalizeFunction: 'polynomial',
+      backgroundColor: 'transparent',
+      series: {
+        regions: [{
+          values: {
+            'CN': '#ffde7a',
+            'IN': '#ffde7a',
+            'KR': '#ffde7a',
+          },
+          attribute: 'fill'
+        }]
+      },
+      regionStyle: {
+        initial: {
+          fill: '#f9f7f6',
+        },
+      },
+      markerStyle: {
+          initial: {
+              fill: '#900021',
+              "fill-opacity": 1,
+              "stroke-width": 0,
+              "stroke-opacity": 1,
+              r: 8,
+          },
+          hover: {
+            fill: '#7a0019',
+          }
+      },
+      onMarkerClick: function(event, index) {
+          alert(markers[index].weburl);
+      },
+      markers: markers,
+      onMarkerClick: function(events, index) {
+        $(location).attr('href',markers[index].weburl);
+      },
+      onMarkerTipShow: function (e, el, code) {
+        var markers = $('#asiamap').vectorMap('get', 'mapObject').markers;
+        if (typeof markers[code].config.dates !== 'undefined') {
+          el.html(el.html() + '<br /><span class="mapdate">' + markers[code].config.dates + '</span>');
+        } else {
+          el.html(el.html());
+        }
+      },
+      labels: {
+        regions: false
+      },
+      onRegionOver: function (event, code, region) {
+        if (activeNations.indexOf(code) === -1) {
+          event.preventDefault();
+        }
+      },
+      zoomButtons: false,
+      zoomOnScroll: false,
+      panOnDrag: false,
+    });
+  });
+</script>
+
+<!--end-->
+
+
+
+
+
+<js-bottom-placeholder token="{{ placeholder_token|raw }}">
+
+<script type="text/javascript"> _linkedin_partner_id = "33585"; window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || []; window._linkedin_data_partner_ids.push(_linkedin_partner_id); </script><script type="text/javascript"> (function(){var s = document.getElementsByTagName("script")[0]; var b = document.createElement("script"); b.type = "text/javascript";b.async = true; b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js"; s.parentNode.insertBefore(b, s);})(); </script> <noscript> <img height="1" width="1" style="display:none;" alt="" src="https://dc.ads.linkedin.com/collect/?pid=33585&fmt=gif" /> </noscript>
+
+
+
+  </body>
+</html>

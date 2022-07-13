@@ -1,0 +1,549 @@
+<?php
+
+/**
+ * @file
+ * Functions to support theming in the SASS Starterkit subtheme.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\Node;
+use Drupal\Core\Url;
+
+/*
+function paragraphs_theme_suggestions_paragraph(array $variables) {
+  $suggestions = array();
+  $paragraph = $variables['elements']['#paragraph'];
+  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+
+  $suggestions[] = 'paragraph__' . $sanitized_view_mode;
+  $suggestions[] = 'paragraph__' . $paragraph->bundle();
+  $suggestions[] = 'paragraph__' . $paragraph->bundle() . '__' . $sanitized_view_mode;
+
+  return $suggestions;
+}*/
+
+/**
+ * Implements hook_form_system_theme_settings_alter() for settings form.
+ *
+ * Replace Barrio setting options with subtheme ones.
+ */
+function carlson_refresh_form_system_theme_settings_alter(&$form, FormStateInterface $form_state) {
+  $form['components']['navbar']['carlson_refresh_navbar_top_background']['#options'] = array(
+      'bg-primary' => t('Primary'),
+      'bg-secondary' => t('Secondary'),
+      'bg-light' => t('Light'),
+      'bg-dark' => t('Dark'),
+      'bg-white' => t('White'),
+      'bg-transparent' => t('Transparent'),
+  );
+  $form['components']['navbar']['carlson_refresh_navbar_background']['#options'] = array(
+      'bg-primary' => t('Primary'),
+      'bg-secondary' => t('Secondary'),
+      'bg-light' => t('Light'),
+      'bg-dark' => t('Dark'),
+      'bg-white' => t('White'),
+      'bg-transparent' => t('Transparent'),
+  );
+
+  // Work-around for a core bug affecting admin themes. See issue #943212.
+  if (isset($form_id)) {
+    return;
+  }
+
+  unset($form['logo']);
+  $form['theme_settings']['#open'] = FALSE;
+  $form['favicon']['default_favicon']['#default_value'] = theme_get_setting('favicon.use_default');
+  $form['header_options'] = array(
+    '#type' => 'details',
+    '#title' => t('Header options'),
+    '#open' => TRUE,
+  );
+  $form['header_options']['campus_select'] = array(
+    '#type' => 'radios',
+    '#title' => t('Select campus'),
+    '#default_value' => theme_get_setting('campus_select'),
+    '#options' => array(
+      'umnhf-campus-tc' => 'Twin Cities',
+      'umnhf-campus-c' => 'Crookston',
+      'umnhf-campus-d' => 'Duluth',
+      'umnhf-campus-e' => 'Extension',
+      'umnhf-campus-m' => 'Morris',
+      'umnhf-campus-r' => 'Rochester',
+    ),
+  );
+  $form['header_options']['dtd_select'] = array(
+    '#type' => 'radios',
+    '#title' => t('Use "Driven to Discover"'),
+    '#default_value' => theme_get_setting('dtd_select'),
+    '#options' => array(
+      'dtd' => t('yes'),
+      'no-dtd' => t('no'),
+    ),
+  );
+  $form['header_options']['header_color'] = array(
+    '#type' => 'radios',
+    '#title' => t('Header background color'),
+    '#default_value' => theme_get_setting('header_color'),
+    '#options' => array(
+      'umnhf-background-maroon' => 'maroon',
+      'umnhf-background-gold' => 'gold',
+    ),
+  );
+  $form['header_options']['campus_links'] = array(
+    '#type' => 'radios',
+    '#title' => t('Use campus links'),
+    '#options' => array(
+      'no-links' => 'No campus links',
+      'links' => 'Include campus links',
+    ),
+    '#description' => t('Choose whether to include links to system campuses.'),
+    '#default_value' => theme_get_setting('campus_links'),
+  );
+  $form['header_options']['myu_text'] = array(
+    '#type' => 'radios',
+    '#title' => t('MyU link text'),
+    '#description' => t('Header MyU link can be configured to either "MyU: For Students, Faculty, and Staff" or just "MyU"'),
+    '#options' => array(
+      'sfs' => 'use "For Students, Faculty, and Staff',
+      'myu' => 'only use "MyU"',
+    ),
+    '#default_value' => theme_get_setting('myu_text'),
+  );
+  $form['header_options']['mobile_search'] = array(
+    '#type' => 'radios',
+    '#options' => array(
+      'dropdown' => 'Dropdown',
+      'two-tier' => 'Search box always visible',
+    ),
+    '#default_value' => theme_get_setting('mobile_search'),
+    '#title' => t('Mobile search box setting'),
+    '#description' => t('Configure how search appears on small screens - expandable with a dropdown button, or always visible'),
+  );
+
+  $form['footer_options'] = array(
+    '#type' => 'details',
+    '#title' => t('Footer options'),
+    '#open' => TRUE,
+  );
+  $form['footer_options']['privacy_link'] = array(
+    '#type' => 'textfield',
+    '#default_value' => theme_get_setting('privacy_link'),
+    '#title' => 'Privacy link',
+    '#description' => t('If you are using an alternative privacy statement, replace http://privacy.umn.edu with the appropriate url (include "http://" if on another site, or an absolute path - begins with "/" - if using a page on this website).'),
+  );
+  $form['footer_options']['footer_date'] = array(
+    '#type' => 'radios',
+    '#title' => t('Use "Current as of X" Date?'),
+    '#options' => array(
+      0 => 'No',
+      1 => 'Yes',
+    ),
+    '#default_value' => theme_get_setting('footer_date'),
+  );
+}
+
+function carlson_refresh_preprocess_html(&$variables) {
+
+  $home_link = [
+    'umnhf-campus-tc' => 'https://twin-cities.umn.edu',
+    'umnhf-campus-e' => 'http://www.extension.umn.edu',
+    'umnhf-campus-c' => 'https://crk.umn.edu',
+    'umnhf-campus-m' => 'https://www4.morris.umn.edu',
+    'umnhf-campus-d' => 'https://d.umn.edu',
+    'umnhf-campus-r' => 'https://r.umn.edu',
+    'umnhf-campus-rso' => 'https://twin-cities.umn.edu',
+  ];
+
+  $variables['campus_links'] = theme_get_setting('campus_links');
+  $dtd_select = theme_get_setting('dtd_select');
+  $variables['myu_text'] = theme_get_setting('myu_text');
+  $header_color = theme_get_setting('header_color');
+  $variables['campus_header'] = theme_get_setting('campus_select');
+
+  if( isset( $variables['campus_header'] ) ) {
+    $variables['home_link'] = $home_link[$variables['campus_header']];
+  } else {
+    $variables['home_link'] = $home_link['umnhf-campus-tc'];
+  }
+
+  $variables['privacy_link'] = theme_get_setting('privacy_link');
+  $footer_date = theme_get_setting('footer_date');
+
+  if (!empty($footer_date)) {
+    $last_updated_node_array = node_get_recent(1);
+    if (!empty($last_updated_node_array)) {
+      $last_updated_node = array_shift($last_updated_node_array);
+      $variables['last_updated'] = date('F j, Y', $last_updated_node->getRevisionCreationTime());
+    }
+  }
+
+  $variables['mobile_search'] = theme_get_setting('mobile_search');
+  $variables['copyright_year'] = date('Y');
+  $current_page_url = \Drupal::Request()->getUri();
+  $variables['accessibility_reporting_link'] = \Drupal::config('system.site')->get('accessibility_reporting_script') . "?ref_url=$current_page_url";
+  $variables['accessibility_reporting_text'] = \Drupal::config('system.site')->get('accessibility_reporting_text');
+  $variables['onestop_link'] = 'https://onestop.umn.edu';
+
+  $header_class_array = array($variables['campus_header'], $dtd_select, $header_color, $variables['mobile_search'], $variables['campus_links']);
+  $variables['umn_header_classes'] = implode(' ', $header_class_array);
+
+  $block_manager = \Drupal::service('plugin.manager.block');
+  $search_block_instance = $block_manager->createInstance('umn_search_block', array());
+  $block_output = $search_block_instance->build();
+  $variables['search_block'] = $block_output;
+
+  $variables['page']['#attached']['html_head'][] = [
+    [
+      '#type' => 'html_tag',
+      '#tag' => 'script',
+      '#attributes' => [
+        'src' => 'https://www.googleoptimize.com/optimize.js?id=OPT-MFK66GF',
+      ],
+    ],
+    'google_optmize_script'
+  ];
+
+  $variables['page']['#attached']['html_head'][] = [
+    [
+      '#type' => 'html_tag',
+      '#tag' => 'link',
+      '#attributes' => [
+        'rel' => 'preconnect',
+        'href' => 'https://fonts.googleapis.com',
+      ],
+    ],
+    'google_api_preconnect'
+  ];
+  $variables['page']['#attached']['html_head'][] = [
+    [
+      '#type' => 'html_tag',
+      '#tag' => 'link',
+      '#attributes' => [
+        'rel' => 'preconnect',
+        'href' => 'https://fonts.gstatic.com',
+        'crossorigin' => ''
+      ],
+    ],
+    'google_static_preconnect'
+  ];
+}
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ *
+ * This hook for adding a custom suggestion page template.
+ *
+ * Place this function in your THEME_NAME.theme file.
+ * then you can use the template page--[content-type].html.twig
+ *
+ * Tested and worked with Drupal Version 8.3.x
+ */
+function carlson_refresh_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    $content_type = $node->bundle();
+    $suggestions[] = 'page__'.$content_type;
+  }
+}
+
+/**
+* Implements hook_preprocess_node() for NODE document templates.
+*/
+function carlson_refresh_preprocess_node(&$variables) {
+
+  /** @var \Drupal\node\NodeInterface $node */
+  $node = $variables['node'];
+
+  // Check the type
+  $bundle = $node->bundle();
+
+  // Allowed view modes
+  $view_mode = $variables['view_mode']; // Retrieve view mode
+  $allowed_view_modes = ['full']; // Array of allowed view modes (for performance so as to not execute on unneeded nodes)
+
+  // If view mode is in allowed view modes list, pass to THEME_add_regions_to_node()
+  if(in_array($view_mode, $allowed_view_modes)) {
+    // Allowed regions (for performance so as to not execute for unneeded region)
+    $allowed_regions = ['sticky_sidebar', 'inner_nav','node_content','node_bottom_left','node_bottom_right','node_bottom','node_top'];
+    carlson_refresh_add_regions_to_node($allowed_regions, $variables);
+  }
+  switch($bundle) {
+    case 'news':
+      // Check if there is a sidebar so we can add the right classes
+      $sidebar = $node->field_sidebar_content->getValue();
+      if(!empty($sidebar)) {
+        $variables['has_sidebar'] = TRUE;
+      }
+
+      if(!$node->get('field_in_the_media')->isEmpty() && !$node->get('field_featured_media_faculty')->isEmpty()) {
+        $referenceItem = $node->get('field_featured_media_faculty')->first();
+        $entityReference = $referenceItem->get('entity');
+        $entityAdapter = $entityReference->getTarget();
+        $referencedEntity = $entityAdapter->getValue();
+        $variables['faculty_member'] = $referencedEntity->getTitle();
+        $variables['faculty_member_link'] = $referencedEntity->toUrl();
+      }
+    break;
+    case 'blog_entry':
+      // Check if there is a sidebar so we can add the right classes
+      $sidebar = $node->field_blog_categories->getValue();
+      if(!empty($sidebar)) {
+        $variables['has_sidebar'] = TRUE;
+      }
+      $byline = $node->field_blog_by_line->getString();
+      if(!empty($sidebar)) {
+        $variables['byline'] = '<span class="basic-hero__title--byline"> — by '.$byline."</span>";
+      }
+    break;
+    case 'executive_ed_program':
+      if ($node->get('field_ee_course_dates')->first()) {
+        $referenceItem = $node->get('field_ee_course_dates')->first();
+        $entityReference = $referenceItem->get('entity');
+        $entityAdapter = $entityReference->getTarget();
+        $referencedEntity = $entityAdapter->getValue();
+        $variables['register_desc'] = $referencedEntity->get('field_ee_register_desc')->view();
+        $variables['register_link'] = $referencedEntity->get('field_ee_register')->view();
+        $variables['invoice_link'] = $referencedEntity->get('field_ee_request_invoice')->view();
+      }
+    break;
+  }
+}
+
+/**
+* THEME_add_regions_to_node
+*/
+
+function carlson_refresh_add_regions_to_node($allowed_regions, &$variables) {
+  // Retrieve active theme
+  $theme = \Drupal::theme()->getActiveTheme()->getName();
+
+  // Retrieve theme regions
+  $available_regions = system_region_list($theme, 'REGIONS_ALL');
+
+  // Validate allowed regions with available regions
+  $regions = array_intersect(array_keys($available_regions), $allowed_regions);
+
+  // For each region
+  foreach ($regions as $key => $region) {
+
+    // Load region blocks
+    $blocks = \Drupal::entityTypeManager()->getStorage('block')->loadByProperties(array('theme' => $theme, 'region' => $region));
+    // Sort ‘em
+    uasort($blocks, 'Drupal\block\Entity\Block::sort');
+
+    // Capture viewable blocks and their settings to $build
+    $build = array();
+    foreach ($blocks as $key => $block) {
+      if ($block->access('view')) {
+        $builder = \Drupal::entityTypeManager()->getViewBuilder('block');
+        $build[$key] = $builder->view($block, 'block');
+      }
+    }
+
+    // Add build to region
+    $variables[$region] = $build;
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for form templates.
+ * @param array $suggestions
+ * @param array $variables
+ */
+function carlson_refresh_theme_suggestions_block_alter(array &$suggestions, array $variables) {
+  // Block suggestions for custom block bundles.
+  if (isset($variables['elements']['content']['#block_content'])) {
+    array_splice($suggestions, 1, 0, 'block__bundle__' . $variables['elements']['content']['#block_content']->bundle());
+  }
+}
+
+function carlson_refresh_preprocess_views_exposed_form(&$variables) {
+  $form = $variables['form'];
+  $id = $form['#id'];
+  // Do code here
+}
+function carlson_refresh_preprocess_page(&$variables) {
+  // Add Page Type as variable - needed for execuitve_ed
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+      $variables['node'] = $node;
+
+      $bundle = $node->bundle();
+
+      switch($bundle) {
+        case 'event':
+          // in case this gets a similar set up
+        break;
+        case 'executive_ed_program':
+          $performer_string = "";
+
+          foreach ($node->get('field_ee_faculty') as $accordion) {
+            foreach ($accordion->entity->get('field_staff_faculty_item') as $staff_faculty_item) {
+              foreach ($staff_faculty_item->entity->get('field_staff_faculty') as $staff_faculty ) {
+                $faculty_entity = $staff_faculty->entity;
+                $name = $faculty_entity->field_first_name->value . " " . $faculty_entity->field_last_name->value;
+                $performer_string .=  " " . $name . ",";
+              }
+            }
+          }
+
+          if ($performer_string != "") {
+            $node->set('field_meta_tags', serialize([
+              'schema_event_performer' => 'a:3:{s:5:"pivot";s:1:"1";s:5:"@type";s:6:"Person";s:4:"name";s:37:"' . $performer_string .'";}'
+            ]));
+            $node->save();
+          }
+        break;
+      }
+  }
+}
+
+function carlson_refresh_preprocess_pager(&$variables) {
+  $element = $variables['pager']['#element'];
+  $parameters = $variables['pager']['#parameters'];
+  $quantity = 5; //$variables['pager']['#quantity'];
+  $route_name = $variables['pager']['#route_name'];
+  $route_parameters = isset($variables['pager']['#route_parameters']) ? $variables['pager']['#route_parameters'] : [];
+  global $pager_page_array, $pager_total;
+
+  // Nothing to do if there is only one page.
+  if ($pager_total[$element] <= 1) {
+    return;
+  }
+  $tags = $variables['pager']['#tags'];
+
+  // Calculate various markers within this pager piece:
+  // Middle is used to "center" pages around the current page.
+  $pager_middle = ceil($quantity / 2);
+
+  // current is the page we are currently paged to.
+  $pager_current = $pager_page_array[$element] + 1;
+
+  // first is the first page listed by this pager piece (re quantity).
+  $pager_first = $pager_current - $pager_middle + 1;
+
+  // last is the last page listed by this pager piece (re quantity).
+  $pager_last = $pager_current + $quantity - $pager_middle;
+
+  // max is the maximum page number.
+  $pager_max = $pager_total[$element];
+
+  // End of marker calculations.
+  // Prepare for generation loop.
+  $i = $pager_first;
+  if ($pager_last > $pager_max) {
+
+    // Adjust "center" if at end of query.
+    $i = $i + ($pager_max - $pager_last);
+    $pager_last = $pager_max;
+  }
+  if ($i <= 0) {
+
+    // Adjust "center" if at start of query.
+    $pager_last = $pager_last + (1 - $i);
+    $i = 1;
+  }
+
+  // End of generation loop preparation.
+  // Create the "first" and "previous" links if we are not on the first page.
+  $pager_manager = \Drupal::service('pager.manager');
+  if ($pager_page_array[$element] > 0) {
+    if ($pager_page_array[$element] >= $pager_middle) {
+      $items['first'] = array();
+      $options = array(
+        'query' => $pager_manager->getUpdatedParameters($parameters, $element, 0)
+      );
+      $items['first']['href'] = Url::fromRoute($route_name, $route_parameters, $options);
+      if (isset($tags[0])) {
+        $items['first']['text'] = 1;
+      }
+      // Add an ellipsis if there are further previous pages.
+      if ($pager_page_array[$element] > $pager_middle) {
+        $variables['ellipses']['previous'] = true;
+      }
+    }
+    $items['previous'] = array();
+    $options = array(
+      'query' => $pager_manager->getUpdatedParameters($parameters, $element, $pager_page_array[$element] - 1)
+    );
+    $items['previous']['href'] = Url::fromRoute($route_name, $route_parameters, $options);
+    if (isset($tags[1])) {
+      $items['previous']['text'] = $tags[1];
+    }
+  }
+  if ($i != $pager_max) {
+    // Now generate the actual pager piece.
+    for (; $i <= $pager_last && $i <= $pager_max; $i++) {
+      $options = array(
+        'query' => $pager_manager->getUpdatedParameters($parameters, $element, $i - 1)
+      );
+      $items['pages'][$i]['href'] = Url::fromRoute($route_name, $route_parameters, $options);
+      if ($i == $pager_current) {
+        $variables['current'] = $i;
+      }
+    }
+  }
+
+  // Create the "next" and "last" links if we are not on the last page.
+  if ($pager_page_array[$element] < $pager_max - 1) {
+    $items['next'] = array();
+    $options = array(
+      'query' => $pager_manager->getUpdatedParameters($parameters, $element, $pager_page_array[$element] + 1),
+    );
+    $items['next']['href'] = Url::fromRoute($route_name, $route_parameters, $options);
+    if (isset($tags[3])) {
+      $items['next']['text'] = $tags[3];
+    }
+    if ($pager_page_array[$element] < $pager_max - $pager_middle){
+      $items['last'] = array();
+      $options = array(
+        'query' => $pager_manager->getUpdatedParameters($parameters, $element, $pager_max - 1),
+      );
+      $items['last']['href'] = Url::fromRoute($route_name, $route_parameters, $options);
+      if (isset($tags[4])) {
+        $items['last']['text'] = $pager_max;
+      }
+
+      // Add an ellipsis if there are further next pages.
+      if ($pager_page_array[$element] < $pager_max - $pager_middle - 1) {
+        $variables['ellipses']['next'] = true;
+      }
+    }
+  }
+  $variables['items'] = $items;
+
+  // The rendered link needs to play well with any other query parameter used
+  // on the page, like exposed filters, so for the cacheability all query
+  // parameters matter.
+  $variables['#cache']['contexts'][] = 'url.query_args';
+}
+
+/**
+ * Implements template_preprocess_paragraph().
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An array of elements to display in view mode.
+ *   - paragraph: The paragraph object.
+ *   - view_mode: View mode; e.g., 'full', 'teaser'...
+ */
+
+function carlson_refresh_preprocess_paragraph(&$variables) {
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+  $bundle = $paragraph->bundle();
+
+  switch($bundle) {
+    case 'carlson_staff_faculty':
+      // kint($paragraph);
+    break;
+  }
+  // Add Page Type as variable - needed for execuitve_ed
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+      $variables['node'] = $node;
+  }
+}
+
+function carlson_refresh_preprocess_field(&$variables, $hook) {
+  // Add Page Type as variable - needed for execuitve_ed
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+      $variables['node'] = $node;
+  }
+}

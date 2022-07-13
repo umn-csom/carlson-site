@@ -1,0 +1,49 @@
+{% if content.field_image|field_value is not empty %}
+  {% set img = content.field_image %}
+{% else %}
+  {% set img = NULL %}
+{% endif %}
+
+{% block paragraph %}
+  {% block content %}
+    {% if img|field_value is not empty %}
+      {% if content.field_link|field_value is not empty %}
+        <a class="column__img" href="{{ content.field_link.0['#url'] }}">
+      {% else %}
+        <div class="column__img">
+      {% endif %}
+
+      {{ img|field_value }}
+
+      {% if content.field_link|field_value is not empty %}
+        </a>
+      {% else %}
+        </div>
+      {% endif %}
+    {% endif %}
+    
+    <div class="column__content">
+      {% if content.field_heading|field_value  is not empty %}
+      <h4 class="column__heading">{{ content.field_heading|field_value }}</h4>
+      {% endif %}
+
+      {% if content.field_main_content|field_value  is not empty %}
+      <div class="column__markup">
+        {{ content.field_main_content|field_value }}
+      </div>
+      {% endif %}
+
+      {% if content.field_link|field_value is not empty %}
+      <div class="column__link">
+        {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
+          <a href="{{ content.field_link.0['#url'] }}">{{ content.field_link.0['#title'] }}</a>
+        {% else %}
+          {{ content.field_link|field_value }}
+        {% endif %}
+      </div>
+      
+      {% endif %}
+    </div>
+    
+  {% endblock %}
+{% endblock paragraph %}

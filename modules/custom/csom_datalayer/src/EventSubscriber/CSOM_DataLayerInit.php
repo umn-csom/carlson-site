@@ -1,8 +1,8 @@
 <?php
 
 /**
-* Class CSOM_DataLayerInit.
-*/
+ * Class CSOM_DataLayerInit.
+ */
 
 namespace Drupal\csom_datalayer\EventSubscriber;
 
@@ -17,11 +17,12 @@ use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 //Defining code to be run every page load
-class CSOM_DataLayerInit implements EventSubscriberInterface {
+class CSOM_DataLayerInit implements EventSubscriberInterface
+{
     
     //Member variables
     private $clientId = '';
-    private $update_databases = NULL;
+    private $update_databases = null;
     private $visitorId = '';
     private $SubscriberID = '';
     private $email = '';
@@ -29,11 +30,13 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
     private $visitor_status = array();
     private $program_status = array();
 
-    public function __construct() {
+    public function __construct()
+    {
 
     }
 
-    public static function getSubscribedEvents() {
+    public static function getSubscribedEvents()
+    {
         $events[KernelEvents::REQUEST][] = array('initializeMyModule');
         return $events;
     }
@@ -50,7 +53,7 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
     {
 
         $route_name = \Drupal::routeMatch()->getRouteName();
-        if ($route_name != 'view.frontpage.page_1'){
+        if ($route_name != 'view.frontpage.page_1') {
             // \Drupal::logger('csom_datalayer')->notice($route_name);
             
             // pull identifying information
@@ -88,7 +91,7 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
 
                 //make the database connections
                 // \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Slate' );
-                $UpdateObject->PullSlateData($status_user,$status_pass,$status_url);
+                $UpdateObject->PullSlateData($status_user, $status_pass, $status_url);
                 // \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Piwik/Matomo' );
                 $UpdateObject->PullPiwikData($analytics_user, $analytics_pass, $analytics_url);
 
@@ -110,7 +113,7 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
 
                 //make the database connections
                 // \Drupal::logger('csom_datalayer')->notice('datalayer start content pull for: Slate' );
-                $UpdateObject->PullSlateData($status_user,$status_pass,$status_url);
+                $UpdateObject->PullSlateData($status_user, $status_pass, $status_url);
 
                 //perform the updates
                 $UpdateObject->PerformSlateTableUpdate();
@@ -143,7 +146,8 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
 
 
     //Extract ga_id from cookie
-    function extract_GA_id() {
+    function extract_GA_id()
+    {
         $ga_cookie = "";
         
         if (isset($_COOKIE["_ga"])) {
@@ -163,7 +167,8 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
 
 
     //Extract VisitorID from cookie
-    function extract_PIWIK_id() {
+    function extract_PIWIK_id()
+    {
         foreach ($_COOKIE as $key=>$val) {
 
             //Grab piwik analytics visitor id
@@ -172,39 +177,44 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
                 //$current_user = new PIWIKID($_COOKIE, $key);
 
                 //$this->visitorId = $current_user->GetVisitorID();
-	    	$this->visitorId = explode('.', $_COOKIE["$key"])[0];
+                $this->visitorId = explode('.', $_COOKIE["$key"])[0];
             }
 
         }
     }
 
     //Get the current path
-    function c_path() {
+    function c_path()
+    {
         return $_GET['q'];
     }
 
     // Extract the subscriberID from the URL
-    function get_subscriberID() {
+    function get_subscriberID()
+    {
         if (isset($_GET['subscriberid'])) {
             $this->SubscriberID = $_GET['subscriberid'];
         } 
     }
 
     //Extract email from the URL
-    function get_email() {
+    function get_email()
+    {
         if (isset($_GET['email'])) {
             $this->email = $_GET['email'];
         } 
     }
 
-    function update_database_param() {
+    function update_database_param()
+    {
         if (isset($_GET['super_secret_update_param'])) {
             $this->update_database = $_GET['super_secret_update_param'];
         } 
     }
 
 
-    function get_alias() {
+    function get_alias()
+    {
 
         $url = drupal_lookup_path('alias', c_path());
 
@@ -216,7 +226,8 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
     function load_program_status_into_datalayer()
     {
         
-        if (empty($this->program_status)) { return array(); }
+        if (empty($this->program_status)) { return array(); 
+        }
 
         $peoplePrograms = array();
         $JSONDATA = array();
@@ -259,7 +270,8 @@ class CSOM_DataLayerInit implements EventSubscriberInterface {
     function load_visitor_status_into_datalayer()
     {
         // \Drupal::logger('csom_datalayer')->notice('load_visitor_status_into_datalayer');
-        if (empty($this->visitor_status)) { return array(); }
+        if (empty($this->visitor_status)) { return array(); 
+        }
         $visitorStatus = array();
 
         $JSONDATA = array();
