@@ -22,7 +22,7 @@ abstract class ElementClassFormatterTestBase extends BrowserTestBase {
   use NodeCreationTrait;
   use TestFileCreationTrait;
 
-  protected $defaultTheme = 'stark';
+  protected $defaultTheme = 'classy';
 
   /**
    * {@inheritdoc}
@@ -96,7 +96,7 @@ abstract class ElementClassFormatterTestBase extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->drupalLogin($this->createUser([
       'view test entity',

@@ -2,7 +2,6 @@
 
 namespace Drupal\vardumper_watchdog\VarDumper;
 
-use Drupal\Component\Utility\Unicode;
 use Drupal\vardumper\VarDumper\VarDumperDebug;
 
 /**
@@ -21,7 +20,7 @@ class VarDumperWatchdog extends VarDumperDebug {
     // Locale issue https://www.drupal.org/project/drupal/issues/1885192:
     // field locales_source.source is not suitable for long texts and huge config objects.
     if (\Drupal::moduleHandler()->moduleExists('locale') &&
-      $length = Unicode::strlen($html) >= 64000) {
+      $length = mb_strlen($html) >= 64000) {
       \Drupal::logger('vardumper_watchdog')->debug(
         'Cannot log objects longer than 64Kb if Locale module is enabled. Currents size is @size. See <a href=https://www.drupal.org/project/drup al/issues/1885192>https://www.drupal.org/project/drupal/issues/1885192</a>. @excerpt...',
         ['@size' => $length, '@excerpt' => mb_substr(strip_tags($html), 0, 256)]

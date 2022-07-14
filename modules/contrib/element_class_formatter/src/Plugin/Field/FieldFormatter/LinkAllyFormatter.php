@@ -54,7 +54,7 @@ class LinkAllyFormatter extends FormatterBase {
       'tag' => '',
     ];
 
-    return ElementClassTrait::elementClassDefaultSettings($default_settings);
+    return self::elementClassDefaultSettings($default_settings);
   }
 
   /**
