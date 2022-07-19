@@ -262,7 +262,7 @@ function carlson_refresh_preprocess_node(&$variables) {
   // If view mode is in allowed view modes list, pass to THEME_add_regions_to_node()
   if(in_array($view_mode, $allowed_view_modes)) {
     // Allowed regions (for performance so as to not execute for unneeded region)
-    $allowed_regions = ['sticky_sidebar', 'inner_nav','node_content','node_bottom_left','node_bottom_right','node_bottom','node_top'];
+    $allowed_regions = ['sticky_sidebar', 'inner_nav','node_content','node_middle','node_bottom_left','node_bottom_right','node_bottom','node_top'];
     carlson_refresh_add_regions_to_node($allowed_regions, $variables);
   }
   switch($bundle) {
