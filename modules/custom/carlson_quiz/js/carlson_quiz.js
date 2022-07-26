@@ -219,6 +219,23 @@
                                         );
                                     }
                                     if (submitting) {
+
+                                        var utm_fields = [
+                                            'utm_source',
+                                            'utm_medium',
+                                            'utm_term',
+                                            'utm_content',
+                                            'utm_campaign'
+                                        ]
+
+                                        var url_string = window.location.href;
+                                        var url = new URL(url_string);
+
+                                        utm_fields.forEach(utm_type => {
+                                            let url_value = url.searchParams.get(utm_type);
+                                            $('[name='+utm_type+']').val(url_value);
+                                        })
+
                                         form.classList.add('was-validated');
                                         let submit_button = $(this).find(':submit')
                                         submit_button.attr('disabled', true);
