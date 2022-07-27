@@ -83,8 +83,15 @@
                         $('.quiz--progress-bar--bar', context)[0].style.setProperty('--seek-width', progressPercent + '%');
                     }
 
-                    if($(this).closest('.quiz--question').find('.quiz--answer.checked').length > 0) {
-                        $(this).closest('.quiz--question').addClass('checked');
+                    let num_checked = $(this).closest('.quiz--question').find('.quiz--answer.checked').length;
+                    if(num_checked > 0) {
+                        let limit_type = $(this).closest('.quiz--question').data('limit-type');
+                        if ((limit_type === 'at_least' || limit_type === 'exactly')
+                            && num_checked < $(this).closest('.quiz--question').data('limit')){
+                            $(this).closest('.quiz--question').removeClass('checked');
+                        } else {
+                            $(this).closest('.quiz--question').addClass('checked');
+                        }
                     }
                     else {
                         $(this).closest('.quiz--question').removeClass('checked');
