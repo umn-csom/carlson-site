@@ -60,8 +60,16 @@ $value in $theme-colors {
   font-family: $font-newsreader;
 }
 
+@mixin font-open-sans-base() {
+  font-family: $font-open-sans;
+}
+
+@mixin font-sans-serif-base() {
+  @include font-open-sans-base();
+}
+
 @mixin sans-serif-font($size) {
-    @include font-neutraface-base();
+    @include font-open-sans-base();
     font-size: $font-large-mobile;
     line-height: $font-large-mobile;
     @include media-breakpoint-up(lg) {
@@ -103,7 +111,7 @@ $value in $theme-colors {
 }
 
 @mixin menu-sub-font() {
-    @include font-neutraface-base();
+    @include font-sans-serif-base();
     font-size: 1.4rem;
     text-shadow: none;
     color: $slate!important;
@@ -225,7 +233,7 @@ $value in $theme-colors {
 }
 
 @mixin bold_link($font-size: 'initial', $color: $maroon){
-    @include font-neutraface-base();
+    @include font-sans-serif-base();
     font-weight: bold;
     letter-spacing: 1.78px;
     color: $color;

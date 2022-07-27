@@ -83,8 +83,15 @@
                         $('.quiz--progress-bar--bar', context)[0].style.setProperty('--seek-width', progressPercent + '%');
                     }
 
-                    if($(this).closest('.quiz--question').find('.quiz--answer.checked').length > 0) {
-                        $(this).closest('.quiz--question').addClass('checked');
+                    let num_checked = $(this).closest('.quiz--question').find('.quiz--answer.checked').length;
+                    if(num_checked > 0) {
+                        let limit_type = $(this).closest('.quiz--question').data('limit-type');
+                        if ((limit_type === 'at_least' || limit_type === 'exactly')
+                            && num_checked < $(this).closest('.quiz--question').data('limit')){
+                            $(this).closest('.quiz--question').removeClass('checked');
+                        } else {
+                            $(this).closest('.quiz--question').addClass('checked');
+                        }
                     }
                     else {
                         $(this).closest('.quiz--question').removeClass('checked');
@@ -219,6 +226,23 @@
                                         );
                                     }
                                     if (submitting) {
+
+                                        var utm_fields = [
+                                            'utm_source',
+                                            'utm_medium',
+                                            'utm_term',
+                                            'utm_content',
+                                            'utm_campaign'
+                                        ]
+
+                                        var url_string = window.location.href;
+                                        var url = new URL(url_string);
+
+                                        utm_fields.forEach(utm_type => {
+                                            let url_value = url.searchParams.get(utm_type);
+                                            $('[name='+utm_type+']').val(url_value);
+                                        })
+
                                         form.classList.add('was-validated');
                                         let submit_button = $(this).find(':submit')
                                         submit_button.attr('disabled', true);

@@ -120,27 +120,27 @@
         @include media-breakpoint-up(md) {
           &.col-md-2,
           &.col-2 {
-            flex: 0 1 15%;
+            flex: 0 1 calc(2 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
           }
 
           &.col-md-3,
           &.col-3 {
-            flex: 0 1 24%;
+            flex: 0 1 calc(3 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
           }
 
           &.col-md-4,
           &.col-4 {
-            flex: 0 1 32%;
+            flex: 0 1 calc(4 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
           }
 
           &.col-md-5,
           &.col-5 {
-            flex: 0 1 40%;
+            flex: 0 1 calc(5 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
           }
 
           &.col-md-6,
           &.col-6 {
-            flex: 0 1 49%;
+            flex: 0 1 calc(6 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
           }
         }
       }
@@ -415,7 +415,7 @@
         width : 100%;
         height : 100%;
         h4.event-items__item--title {
-          @include font-neutraface-base();
+          @include font-sans-serif-base();
           line-height: 150%;
           font-size: 2.4rem;
           font-weight: bold;
