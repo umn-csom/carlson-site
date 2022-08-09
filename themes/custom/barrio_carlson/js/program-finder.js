@@ -123,14 +123,5 @@
 
     programFinder.bind();
 
-    //this drupal behavior will be run on every page ajax call
-    Drupal.behaviors.viewFiltersMultiSelect = {
-        attach: function (context, settings) {
-            $('.view-filters select[multiple]').select2({
-                placeholder: 'Select Option(s)',
-                width: '100%'
-            });
-        }
-    }
 
 })(jQuery, Drupal);
