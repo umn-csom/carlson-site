@@ -167,7 +167,7 @@ class RedirectExport {
    * @param mixed $context
    *   Context array/iterable.
    */
-  public function batchProcessExport(File $file, array $configuration, array $batch_data, int $start, int $total, &$context) {
+  public static function batchProcessExport(File $file, array $configuration, array $batch_data, int $start, int $total, &$context) {
     $file_path = \Drupal::service('file_system')->realpath($file->getFileUri());
 
     $context['results']['failures'] = isset($context['results']['failures']) ?? 0;
@@ -228,7 +228,7 @@ class RedirectExport {
    * @param array $operations
    *   If $success is FALSE, contains the operations that remained unprocessed.
    */
-  public function batchFinishedExport($success, array $results, array $operations) {
+  public static function batchFinishedExport($success, array $results, array $operations) {
     /** @var \Drupal\file\Entity\File $file */
     $file = !empty($results['file']) ? $results['file'] : NULL;
     if ($success && !empty($file)) {
