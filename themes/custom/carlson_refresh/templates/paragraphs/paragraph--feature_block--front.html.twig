@@ -1,3 +1,5 @@
+{{ attach_library('carlson_refresh/front-top-features') }}
+
 {% set content_data = {
   'image': content.field_image | field_value,
   'heading': content.field_heading,
@@ -5,31 +7,34 @@
   'link': content.field_link
 } %}
 
+{%
+  set content_position = paragraph.getParentEntity().field_front_top_position is not empty
+  and paragraph.getParentEntity().field_front_top_position.value == 'left' ? "" : "justify-content-end"
+%}
+
+{%
+  set overlay_position = paragraph.getParentEntity().field_front_top_position is not empty
+  and paragraph.getParentEntity().field_front_top_position.value == 'left' ? "right" : ""
+%}
+
 {% block paragraph %}
   {% block content %}
-    <section class="front--topfeature mb-5 mb-lg-0">
-
-      <div class="container">
-        <div class="row d-block d-lg-none">
-          <div class="col-12">
-            {{ content.field_image|field_value }}
+    <section class="front-top-features position-relative d-flex">
+      <div class="front-top-features__bg embed-responsive embed-responsive-21by9 position-absolute h-100">
+        {{ content.field_image }}
+        <img class="front-top-features__overlay {{ overlay_position }}" src="sites/carlsonschool.umn.edu/themes/custom/carlson_refresh/images/front-top.png">
+      </div>
+      <div class="front-top-features__content container position-relative">
+        <div class="row h-100 {{ content_position }}">
+          <div class="col-12 col-lg-9 col-xl-5 bg-white-90 p-6 p-lg-12">
+            <h1 class="mb-4">{{ content.field_heading }}</h1>
+            <div class="mb-8">
+              {{ content.field_main_content }}
+            </div>
+            <a href="{{ content.field_link.0['#url'] }}" class="btn btn-primary">{{ content.field_link.0['#title'] }}</a>
           </div>
-        </div>
-        <div class="row justify-content-end front--topfeature--row">
-          <div class="col-12 col-lg-6 col-xl-4 front--topfeature--row-content">
-            <h1 class="my-4">
-              {{ content.field_heading }}
-            </h1>
-            {{ content.field_main_content }}
-            <p class="mb-0 mt-5 text-center"><a href="{{ content.field_link.0['#url'] }}" class="btn btn-lg btn-primary--yellow btn-primary--yellow-solid">{{ content.field_link.0['#title'] }}</a></p>
-          </div>
-          <div class="col-12 col-xl-1 d-none d-xl-block"></div>
         </div>
       </div>
-
-      <div class="d-none d-lg-block front--topfeature--gradient"></div>
-      <section class="front--topfeature--bgimg d-none d-lg-block">{{ content.field_image|field_value }}</section>
-
     </section>
   {% endblock %}
 {% endblock paragraph %}

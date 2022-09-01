@@ -116,6 +116,17 @@ gulp.task('sass', function() {
         .pipe(browserSync.stream());
 });
 
+gulp.task('sass-components', function() {
+  return gulp.src(['scss/components/**/*.scss'], ['sass'])
+    .pipe(sourcemaps.init())
+    .pipe(sass().on('error', sass.logError))
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest("css/components"))
+    .pipe(sass({ outputStyle: 'compressed' }))
+    //.pipe(minifyCss())
+    .pipe(browserSync.stream());
+});
+
 gulp.task('minify-css', () => {
   return gulp.src('css/*.css')
     .pipe(cleanCSS({compatibility: 'ie8'}))
@@ -136,16 +147,16 @@ gulp.task('font', () => {
 });
 
 // Static Server + watching scss/html files
-gulp.task('serve', ['sass'], function() {
+gulp.task('serve', ['sass', 'sass-components'], function() {
 
     browserSync.init({
-        proxy: "https://carlson.lndo.site/sites/carlsonschool.umn.edu/themes/custom/carlson_refresh/styleguide/",
+        proxy: "https://carlson.lndo.site",
     });
 
     gulp.start('watch');
 });
 
-gulp.task('watch', ['sass'], function() {
+gulp.task('watch', ['sass', 'sass-components'], function() {
   gulp.watch(
     [
       'node_modules/bootstrap/scss/bootstrap.scss',
@@ -154,7 +165,7 @@ gulp.task('watch', ['sass'], function() {
       'scss/**/**/*.scss',
       'templates/components/*.twig',
     ],
-    ['sass']
+    ['sass', 'sass-components']
   );
 });
 
@@ -167,4 +178,4 @@ gulp.task('compile:styleguide', function (cb) {
 gulp.task('refresh-sass', shell.task('npm run kss'));
 
 // Default.
-gulp.task('default', ['js','sass','minify-css','watch']);
+gulp.task('default', ['js','sass','sass-components','minify-css','watch']);

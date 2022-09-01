@@ -1,0 +1,27 @@
+@import "../../abstracts/variables";
+@import "node_modules/bootstrap/scss/vendor/rfs";
+@import "node_modules/bootstrap/scss/mixins";
+
+.events {
+  &__item {
+    box-shadow: 0 4px 4px rgba($black, 0.25);
+    &__date {
+      &__month {
+        @include rfs(4rem);
+      }
+      &__day {
+        @include rfs(8.4rem);
+      }
+    }
+    &__title {
+      @include rfs(3.2rem);
+    }
+  }
+  @include media-breakpoint-up(lg) {
+    &__item {
+      &__date {
+        min-width: 160px;
+      }
+    }
+  }
+}

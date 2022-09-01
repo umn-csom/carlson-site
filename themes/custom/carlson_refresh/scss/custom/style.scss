@@ -9,13 +9,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   @include font-sans-serif-base();
   color: $slate;
-  font-size: 1.6rem;
-  line-height: 160%;
+  //font-size: 1.6rem;
+  //line-height: 160%;
 }
 
-.container {
-    max-width: 1600px;
-}
+//.container {
+//    max-width: 1600px;
+//}
 
 /* Override of bootstrap to fix issues in Safari */
 .row:before,
@@ -32,6 +32,30 @@ a {
 hr {
     margin-top: 2rem;
     margin-bottom: 2rem;
+}
+
+.font-weight-semi-bold {
+  font-weight: 600;
+}
+
+.fs-24 {
+  @include rfs($font-size-default * 2.4);
+}
+
+.fs-base {
+  font-size: $font-size-base;
+}
+
+.ff-serif {
+  font-family: $font-family-serif;
+}
+
+.ff-sans-serif {
+  font-family: $font-family-sans-serif;
+}
+
+.lh-1 {
+  line-height: 1;
 }
 
 .img-fluid {

@@ -1,0 +1,19 @@
+@import "../../abstracts/variables";
+@import "node_modules/bootstrap/scss/mixins/breakpoints";
+
+.front-top-features {
+  min-height: 42.8571vw;
+  @include media-breakpoint-up(xl) {
+    min-height: 681px;
+  }
+  &__overlay {
+    object-fit: contain !important;
+    left: 0 !important;
+    width: auto !important;
+    &.right {
+      left: auto !important;
+      right: 0 !important;
+      transform: scaleX(-1);
+    }
+  }
+}

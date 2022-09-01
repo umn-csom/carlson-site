@@ -60,24 +60,19 @@
  * @see template_preprocess_node()
  */
 #}
-<div class="row ml-1 mr-1 mr-lg-0 ml-lg-5 event-items__item mb-5">
+{{ attach_library('carlson_refresh/events') }}
+<div class="row border no-gutters events__item mb-6 flex-grow-1">
   {% if content.field_event_date|field_value is not empty %}
     {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
-    <div class="date-cal">
-      <div class="date-cal__item">
-        <time datetime="{{ timestamp|date('U') }}">
-          <span class="date-cal__item--day">{{ timestamp|date('j') }}</span>
-          <span class="date-cal__item--month">{{ timestamp|date('F') }}</span>
-        </time>
-      </div>
+    <div class="col-auto px-4 px-lg-6 py-4 py-lg-6 text-center events__item__date d-flex align-items-center justify-content-center">
+      <time datetime="{{ timestamp|date('U') }}">
+        <span class="d-block events__item__date__month font-weight-semi-bold lh-1 text-primary text-uppercase mb-4">{{ timestamp|date('M') }}</span>
+        <span class="d-block events__item__date__day ff-serif font-weight-light lh-1 text-primary">{{ timestamp|date('j') }}</span>
+      </time>
     </div>
-    <div class="event-items__details--container">
-      <div class="event-items__details">
-        <h4 class="event-items__item--title">{{ label }}</h4>
-        <a href="{{ url }}">
-          <span class="event-items__item--link">Read More</span>
-        </a>
-      </div>
+    <div class="col px-4 px-lg-6 py-4 py-lg-6 events__item__details d-flex flex-column align-items-start">
+      <p class="events__item__title mb-3 flex-grow-1 ff-serif font-weight-light">{{ label }}</p>
+      <a class="btn btn-primary px-3 py-2 events__item__link lh-1" href="{{ url }}">Read More</a>
     </div>
   {% endif %}
 </div>

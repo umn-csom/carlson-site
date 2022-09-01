@@ -1,0 +1,19 @@
+@import "../../abstracts/variables";
+@import "node_modules/bootstrap/scss/vendor/rfs";
+
+.programs {
+  &__item {
+    position: relative;
+    &__link {
+      position: absolute;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      clip-path: polygon(0 0, calc(100% - 45px) 0%, 100% 25px, 100% 100%, 0 100%);
+      @include rfs(2.4rem);
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+}

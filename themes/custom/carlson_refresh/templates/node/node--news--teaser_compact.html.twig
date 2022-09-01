@@ -60,46 +60,29 @@
  * @see template_preprocess_node()
  */
 #}
-<div class="row news-items__item mb-5">
-  {% if content.field_hero_media|field_value is not empty %}
-    <div class="col-4 news-items__item--image">
-      {% if content.field_in_the_media|field_value is not empty %}
-        <a href="{{ content.field_in_the_media }}" target="_blank">
-      {% else %}
-        <a href="{{ url }}" >
-      {% endif %}
+{{ attach_library('carlson_refresh/news') }}
+<div class="news__item row border no-gutters mb-6 p-5 flex-grow-1">
+  <div class="col-auto mr-5 position-relative">
+    {% if content.field_in_the_media|field_value is not empty %}
+      <a class="embed-responsive embed-responsive-1by1 news__item__img position-static" href="{{ content.field_in_the_media }}" target="_blank">
+    {% else %}
+      <a class="embed-responsive embed-responsive-1by1 news__item__img position-static" href="{{ url }}" >
+    {% endif %}
+      {% if content.field_hero_media|field_value is not empty %}
         {{ content.field_hero_media }}
-      </a>
-    </div>
-    <div class="col-8 news-items__item--text">
-      <h4 class="news-items__item--title">{{ label }}</h4>
-      {% if content.field_in_the_media|field_value is not empty %}
-        <a href="{{ content.field_in_the_media }}" target="_blank">
       {% else %}
-        <a href="{{ url }}" >
+        <img src="/{{ directory }}/images/placeholders/news-hero-image-card-placeholder_715x400px12.jpg" width="180" height="180" alt="Default Image" class="image-style-crop-teaser img-fluid">
       {% endif %}
-        <span class="news-items__item--link">Read More</span>
-      </a>
-    </div>
-  {% else %}
-    <div class="col-4 news-items__item--image">
-      {% if content.field_in_the_media|field_value is not empty %}
-        <a href="{{ content.field_in_the_media }}" target="_blank">
-      {% else %}
-        <a href="{{ url }}" >
-      {% endif %}
-        <img src="/{{ directory }}/images/placeholders/news-hero-image-card-placeholder_715x400px12.jpg" width="185" height="100" alt="Default Image" class="image-style-crop-teaser img-fluid">
-      </a>
-    </div>
-    <div class="col-8">
-      <h4 class="news-items__item--title">{{ label }}</h4>
-      {% if content.field_in_the_media|field_value is not empty %}
-        <a href="{{ content.field_in_the_media }}" target="_blank">
-      {% else %}
-        <a href="{{ url }}">
-      {% endif %}
-        <span class="news-items__item--link">Read More</span>
-      </a>
-    </div>
-  {% endif %}
+    </a>
+  </div>
+  <div class="col d-flex flex-column align-items-start">
+    <p class="news__item__title mb-3 flex-grow-1 ff-serif font-weight-light">{{ label }}</p>
+    {% if content.field_in_the_media|field_value is not empty %}
+    <a class="btn btn-primary px-3 py-2 lh-1" href="{{ content.field_in_the_media }}" target="_blank">
+    {% else %}
+    <a class="btn btn-primary px-3 py-2 lh-1" href="{{ url }}">
+    {% endif %}
+        Read More
+    </a>
+  </div>
 </div>
