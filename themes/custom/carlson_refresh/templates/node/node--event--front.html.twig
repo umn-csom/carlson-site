@@ -1,18 +1,9 @@
   {% if content.field_event_date|field_value is not empty %}
-    {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
-    <div class="date-cal mb-4 mt-0 pt-0">
-      <div class="date-cal__item my-0 mx-auto">
-        <time datetime="{{ timestamp|date('U') }}" class="mt-0 pt-0">
-          <span class="date-cal__item--day mt-0 pt-0">{{ timestamp|date('j') }}</span>
-          <span class="date-cal__item--month">{{ timestamp|date('F') }}</span>
-        </time>
-      </div>
+    <div class="bg-gold px-7 py-5 d-flex flex-column align-items-start h-100">
+      <span class="fs-24 font-weight-semi-bold text-uppercase mb-4">Event</span>
+      {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
+      <p class="mb-4 h3"><em>{{ timestamp|date('M') }}. {{ timestamp|date('j') }}</em></p>
+      <h3 class="h4 flex-grow-1 mb-4">{{ label }}</h3>
+      <a class="btn btn-primary px-3 py-2 lh-1" href="{{ url }}">Read More</a>
     </div>
-
-
-
-    <a href="{{ url }}">
-      <h3 class="front--featured-event--link"><em>{{ label }}</em></h3>
-    </a>
-    <div class="front--featured-event--copy">{{ content.body }}</div>
   {% endif %}

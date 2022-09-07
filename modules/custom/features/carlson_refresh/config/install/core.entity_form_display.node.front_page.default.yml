@@ -1,0 +1,384 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.front_page.field_field_front_advantage_2hea
+    - field.field.node.front_page.field_field_front_advantage_head
+    - field.field.node.front_page.field_front_advantage_1copy
+    - field.field.node.front_page.field_front_advantage_1head
+    - field.field.node.front_page.field_front_advantage_1link
+    - field.field.node.front_page.field_front_advantage_2copy
+    - field.field.node.front_page.field_front_advantage_2link
+    - field.field.node.front_page.field_front_advantage_bg
+    - field.field.node.front_page.field_front_deadlines
+    - field.field.node.front_page.field_front_feature_discover
+    - field.field.node.front_page.field_front_feature_events
+    - field.field.node.front_page.field_front_feature_news
+    - field.field.node.front_page.field_front_programs
+    - field.field.node.front_page.field_front_programs_head
+    - field.field.node.front_page.field_front_statistics
+    - field.field.node.front_page.field_front_top
+    - field.field.node.front_page.field_front_top_position
+    - field.field.node.front_page.field_meta_tags
+    - node.type.front_page
+  module:
+    - content_moderation
+    - field_group
+    - file
+    - link
+    - metatag
+    - paragraphs
+    - path
+    - text
+third_party_settings:
+  field_group:
+    group_front_page_content:
+      children:
+        - group_top
+        - group_programs
+        - group_featured
+        - group_deadlines
+        - group_stats
+        - group_advantage
+      label: 'Front page content'
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: tabs
+      format_settings:
+        classes: ''
+        id: ''
+        direction: horizontal
+    group_featured:
+      children:
+        - field_front_feature_news
+        - field_front_feature_events
+        - field_front_feature_discover
+      label: Featured
+      region: content
+      parent_name: group_front_page_content
+      weight: 22
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: false
+    group_stats:
+      children:
+        - field_front_statistics
+      label: Stats
+      region: content
+      parent_name: group_front_page_content
+      weight: 24
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: false
+    group_programs:
+      children:
+        - field_front_programs_head
+        - field_front_programs
+      label: Programs
+      region: content
+      parent_name: group_front_page_content
+      weight: 21
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: false
+    group_top:
+      children:
+        - field_front_top_position
+        - field_front_top
+      label: Top
+      region: content
+      parent_name: group_front_page_content
+      weight: 20
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: false
+    group_advantage:
+      children:
+        - field_field_front_advantage_head
+        - field_front_advantage_bg
+        - field_front_advantage_1head
+        - field_front_advantage_1copy
+        - field_front_advantage_1link
+        - field_field_front_advantage_2hea
+        - field_front_advantage_2copy
+        - field_front_advantage_2link
+      label: Advantage
+      region: content
+      parent_name: group_front_page_content
+      weight: 25
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: false
+    group_deadlines:
+      children:
+        - field_front_deadlines
+      label: Deadlines
+      region: content
+      parent_name: group_front_page_content
+      weight: 23
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+id: node.front_page.default
+targetEntityType: node
+bundle: front_page
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_field_front_advantage_2hea:
+    type: string_textfield
+    weight: 41
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_field_front_advantage_head:
+    type: string_textfield
+    weight: 36
+    region: content
+    settings:
+      size: 280
+      placeholder: ''
+    third_party_settings: {  }
+  field_front_advantage_1copy:
+    type: text_textarea
+    weight: 39
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_front_advantage_1head:
+    type: string_textfield
+    weight: 38
+    region: content
+    settings:
+      size: 280
+      placeholder: ''
+    third_party_settings: {  }
+  field_front_advantage_1link:
+    type: link_default
+    weight: 40
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_front_advantage_2copy:
+    type: text_textarea
+    weight: 42
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_front_advantage_2link:
+    type: link_default
+    weight: 43
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_front_advantage_bg:
+    type: file_generic
+    weight: 37
+    region: content
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+  field_front_deadlines:
+    type: entity_reference_paragraphs
+    weight: 14
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_front_feature_discover:
+    type: entity_reference_autocomplete
+    weight: 13
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_front_feature_events:
+    type: entity_reference_autocomplete
+    weight: 12
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_front_feature_news:
+    type: entity_reference_autocomplete
+    weight: 11
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_front_programs:
+    type: entity_reference_paragraphs
+    weight: 45
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_front_programs_head:
+    type: string_textfield
+    weight: 44
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_front_statistics:
+    type: entity_reference_paragraphs
+    weight: 9
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_front_top:
+    type: entity_reference_paragraphs
+    weight: 102
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_front_top_position:
+    type: options_select
+    weight: 101
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_meta_tags:
+    type: metatag_firehose
+    weight: 46
+    region: content
+    settings:
+      sidebar: true
+      use_details: true
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 4
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 8
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

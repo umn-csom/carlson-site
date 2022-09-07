@@ -1,0 +1,41 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.related_news_events
+    - views.view.event_channels
+  module:
+    - block_class
+    - block_visibility_groups
+    - system
+    - views
+  theme:
+    - barrio_carlson
+third_party_settings:
+  block_class:
+    classes: news-events
+id: views_block__event_channels_block_3
+theme: barrio_carlson
+region: node_bottom_left
+weight: -64
+provider: null
+plugin: 'views_block:event_channels-block_3'
+settings:
+  id: 'views_block:event_channels-block_3'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: related_news_events
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "<front>\r\n/node/104681"

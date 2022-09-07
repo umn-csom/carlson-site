@@ -1,3 +1,4 @@
+{{ attach_library('carlson_refresh/front-statistics') }}
 {%
   set classes = [
     'paragraph',
@@ -8,27 +9,23 @@
 %}
 {% block paragraph %}
     {% block content %}
-      <div class="row mb-3 justify-content-center" style="text-shadow: 3px 2px 10px #000000;">
+      <div class="row justify-content-center mb-6">
 
-        <div class="col-md-9 text-center mb-5">
-        {% if content.field_heading|field_value is not empty %}
-          <h2 class="text-center m-0 p-0 front--statistics-heading">{{ content.field_heading }}</h2>
-          <span style="height:1px;width : 50%;border-bottom:1px solid rgba(255,255,255,.7);" class="my-4 mx-auto d-block"></span>
-        {% endif %}
+        <div class="col-12 col-md-9 col-lg-8 col-xl-7 text-center">
+          {% if content.field_heading|field_value is not empty %}
+            <h2 class="text-white mb-2">{{ content.field_heading }}</h2>
+          {% endif %}
 
-        {% if content.field_main_content|field_value is not empty %}
-          <p class="m-0 p-0">{{ content.field_main_content }}</p>
-        {% endif %}
-      </div>
-    </div>
-
-
-        <div class="row justify-content-center">
-          <div class="col-lg-10">
-            {{ drupal_view('front_stats', 'block_1') }}
-          </div>
+          {% if content.field_main_content|field_value is not empty %}
+            <div class="text-white">{{ content.field_main_content }}</div>
+          {% endif %}
         </div>
+      </div>
 
+      <div class="row justify-content-center">
+        <div class="col-12">
+          {{ drupal_view('front_stats', 'block_1') }}
+        </div>
       </div>
     {% endblock %}
 {% endblock paragraph %}

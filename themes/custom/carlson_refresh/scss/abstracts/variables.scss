@@ -58,7 +58,25 @@ $green: #28a745;
 $cyan: #17a2b8;
 $gray-100: #f8f9fa !default;
 $gray-800: #343a40 !default;
-$theme-colors: ( primary: $accent-shade, secondary: $primary-shade, success: $green, info: $cyan, warning: $yellow, danger: $red, light: $gray-100, dark: $gray-800);
+$light-blue: #73B5B2;
+
+//new colors
+$white-90: rgba($white, 0.9);
+
+$theme-colors: (
+  primary: $accent-shade,
+  secondary: $primary-shade,
+  success: $green,
+  info: $light-blue,
+  warning: $yellow,
+  danger: $red,
+  light: $gray-100,
+  dark: $gray-800,
+  white-90: $white-90,
+  gold: $gold,
+  ivory: $ivory,
+  light-blue: $light-blue,
+);
 $brand-primary: $accent-shade;
 //$brand-success: $green;
 //$brand-info: $teal;
@@ -92,6 +110,11 @@ $icomoon-font-path: "../carlson-icons/fonts";
 // @import url('https://fonts.googleapis.com/css?family=Crimson+Pro:400,400i,700,700i|Lato:300,400,400i,700,700i,900,900i|Montserrat:300,300i,400,400i,600,600i&display=swap');
 /**/
 
+// Options
+//
+// Quickly modify global styling by enabling or disabling optional features.
+$enable-responsive-font-sizes: true;
+
 /* Font families */
 $font-lato: 'Lato', Arial, Verdana, sans-serif;
 $font-crimson: 'Crimson Pro', serif;
@@ -100,6 +123,10 @@ $font-neutraface: 'Neutraface Text', sans-serif;
 $font-newsreader: 'Newsreader', serif;
 $font-open-sans: 'Open Sans', sans-serif;
 
+$headings-font-family: $font-newsreader;
+$font-family-sans-serif: $font-open-sans;
+$font-family-serif: $font-newsreader;
+
 /* Font sizes */
 $font-xlarge: 7.3rem;
 $font-large: 6rem;
@@ -107,6 +134,15 @@ $font-medium: 4.2rem;
 $font-small: 3.4rem;
 $font-smaller: 2.5rem;
 $font-base: 1.6rem;
+
+$font-size-default:           1rem;
+$font-size-base:              2rem;
+$h1-font-size:                $font-size-default * 6;
+$h2-font-size:                $font-size-default * 5;
+$h3-font-size:                $font-size-default * 4;
+$h4-font-size:                $font-size-default * 3;
+$h5-font-size:                $font-size-default * 2;
+$h6-font-size:                $font-size-default 1.6;
 
 /* Font weight */
 $headings-font-weight: 300;
@@ -122,6 +158,32 @@ $font-base-mobile: 1.4rem;
 $inset-narrow: 1060px;
 $inset-wide: 1330px;
 
+// Grid breakpoints
+//
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1340px,
+  xxl: 1400px,
+) !default;
+
+// Grid containers
+//
+// Define the maximum width of `.container` for different screen sizes.
+
+$container-max-widths: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1340px,
+  xxl: 1340.001px,
+) !default;
+
 // Grid columns
 //
 // Set the number of columns and specify the width of the gutters.
@@ -132,3 +194,60 @@ $grid-gutter-half-width:      $grid-gutter-width * 0.5;
 $grid-padding-x:              $grid-gutter-width;
 $grid-padding-half-x:         $grid-padding-x * 0.5;
 $grid-row-columns:            6 !default;
+
+
+// Spacing
+//
+// Control the default styling of most Bootstrap elements by modifying these
+// variables. Mostly focused on spacing.
+// You can add more entries to the $spacers map, should you need more variation.
+
+$spacer: 1rem !default;
+$spacers: () !default;
+$spacers: map-merge(
+    (
+      0: 0,
+      1: $spacer * .5,
+      2: $spacer * 1,
+      3: $spacer * 1.5,
+      4: $spacer * 2,
+      5: $spacer * 2.5,
+      6: $spacer * 3,
+      7: $spacer * 3.5,
+      8: $spacer * 4,
+      9: $spacer * 4.5,
+      10: $spacer * 5,
+      11: $spacer * 5.5,
+      12: $spacer * 6,
+      24: $spacer * 12,
+    ),
+    $spacers
+);
+
+$embed-responsive-aspect-ratios: () !default;
+$embed-responsive-aspect-ratios: join(
+      (
+          (21 9),
+          (16 9),
+          (4 3),
+          (1 1),
+          (3 4),
+          (11 7),
+      ),
+    $embed-responsive-aspect-ratios
+);
+
+// Buttons + Forms
+//
+// Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
+
+$input-btn-padding-y:         $spacer * 1;
+$input-btn-padding-x:         $spacer * 4;
+
+// Buttons
+//
+// For each of Bootstrap's buttons, define text, background, and border color.
+
+$btn-padding-y:               $input-btn-padding-y !default;
+$btn-padding-x:               $input-btn-padding-x !default;
+$btn-font-weight:             600 !default;

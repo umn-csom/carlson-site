@@ -4,11 +4,11 @@
 
   {{ drupal_view('front_blocks', 'top_feature') }}
 
-<section class="front--programs my-5">
-  <div class="container my-0">
-    <div class="row mt-0 mb-4">
+<section class="py-10">
+  <div class="container">
+    <div class="row mb-10">
       <div class="col-12 text-center">
-        <h2 class="m-0 mb-3 front--programs-heading">{{ content.field_front_programs_head }}</h2>
+        <h2 class="m-0">{{ content.field_front_programs_head }}</h2>
       </div>
     </div>
   <div class="row justify-content-center">
@@ -17,92 +17,110 @@
 </div>
 </section>
 
-<section class="front--featureds py-5">
-  <div class="container">
+<section class="py-10">
+  <div class="container-fluid container-xl">
     <div class="row justify-content-center">
-      <div class="col-12 col-lg-7 px-5 py-4 mb-5 mr-lg-5 front--featureds--block">
-        <h2 class="m-0 p-0 text-center">Featured News</h2>
-        <span class="d-block mt-3 mb-4 mx-auto front--featureds--block-line"></span>
+      <div class="col-12">
+        <h2 class="mb-6 mb-lg-10 text-center">Featured at Carlson</h2>
+      </div>
+      <div class="col-12 mb-3 mb-lg-6">
         {{ drupal_view('front_blocks', 'feature_news') }}
       </div>
-      <div class="col-12 col-sm-6 col-lg-4 px-5 py-4 mr-sm-5 mr-lg-0 mb-5 front--featureds--block front--featureds--block-deadlines">
-        <h2 class="m-0 p-0 text-center">Upcoming Application Deadlines</h2>
-        <span class="d-block mt-3 mb-4 mx-auto front--featureds--block-line"></span>
-        {{ drupal_view('front_deadlines', 'block_1') }}
-        <p class="text-center mt-4 mb-0"><a href="/academics" class="btn btn-sm btn-primary--yellow btn-primary--yellow-solid">Explore all programs</a></p>
-      </div>
-      <div class="col-12 col-sm-5 col-lg-4 px-5 py-4 mb-5 mb-lg-0 front--featureds--block">
-        <h2 class="m-0 p-0 text-center">Featured Event</h2>
-        <span class="d-block mt-3 mb-4 mx-auto front--featureds--block-line"></span>
+      <div class="col-12 col-lg-4 mb-3 mb-lg-0 row row-cols-1 no-gutters">
         {{ drupal_view('front_blocks', 'feature_events') }}
       </div>
-      <div class="col-12 col-lg-7 px-5 py-4 ml-lg-5 front--featureds--block">
-        <h2 class="m-0 p-0 text-center">Faculty and Research</h2>
-        <span class="d-block mt-3 mb-4 mx-auto front--featureds--block-line"></span>
+      <div class="col-12 col-lg-4 mb-3 mb-lg-0 row row-cols-1 no-gutters">
         {{ drupal_view('front_blocks', 'feature_discover') }}
+      </div>
+      <div class="col-12 col-lg-4 row row-cols-1 no-gutters">
+        {{ drupal_view('front_deadlines', 'block_1') }}
       </div>
     </div>
   </div>
 </section>
 
-<section class="front--statistics py-5">
-  <div class="container">
-    {{ content.field_front_statistics }}
-</div>
+
+{#<section class="front--featureds py-10">#}
+{#  <div class="container">#}
+{#    <div class="row justify-content-center">#}
+{#      <div class="col-12 col-lg-7 px-5 py-4 mb-5 mr-lg-5 front--featureds--block">#}
+{#        <h2 class="m-0 p-0 text-center">Featured News</h2>#}
+{#        <span class="d-block mt-3 mb-4 mx-auto front--featureds--block-line"></span>#}
+{#        {{ drupal_view('front_blocks', 'feature_news') }}#}
+{#      </div>#}
+{#      <div class="col-12 col-sm-6 col-lg-4 px-5 py-4 mr-sm-5 mr-lg-0 mb-5 front--featureds--block front--featureds--block-deadlines">#}
+{#        <h2 class="m-0 p-0 text-center">Upcoming Application Deadlines</h2>#}
+{#        <span class="d-block mt-3 mb-4 mx-auto front--featureds--block-line"></span>#}
+{#        {{ drupal_view('front_deadlines', 'block_1') }}#}
+{#        <p class="text-center mt-4 mb-0"><a href="/academics" class="btn btn-sm btn-primary--yellow btn-primary--yellow-solid">Explore all programs</a></p>#}
+{#      </div>#}
+{#      <div class="col-12 col-sm-5 col-lg-4 px-5 py-4 mb-5 mb-lg-0 front--featureds--block">#}
+{#        <h2 class="m-0 p-0 text-center">Featured Event</h2>#}
+{#        <span class="d-block mt-3 mb-4 mx-auto front--featureds--block-line"></span>#}
+{#        {{ drupal_view('front_blocks', 'feature_events') }}#}
+{#      </div>#}
+{#      <div class="col-12 col-lg-7 px-5 py-4 ml-lg-5 front--featureds--block">#}
+{#        <h2 class="m-0 p-0 text-center">Faculty and Research</h2>#}
+{#        <span class="d-block mt-3 mb-4 mx-auto front--featureds--block-line"></span>#}
+{#        {{ drupal_view('front_blocks', 'feature_discover') }}#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</section>#}
+
+<section class="front-statistics bg-light-blue d-flex">
+  <div class="front-statistics__container py-10 bg-primary w-100">
+    <div class="container-fluid container-xl">
+      {{ content.field_front_statistics }}
+    </div>
+  </div>
 </section>
 
-
-
-
-
-
-
-
-
-
-
-
-<section style="background-image: url('{% spaceless %}{{ content.field_front_advantage_bg }}{% endspaceless %}');" class="front--advantage pt-5 pb-5">
-<div class="front--advantage--gradient"></div>
-
-
-  <div class="container">
-    <div class="row justify-content-center justify-content-lg-end">
-      <div class="col-12 col-sm-9 d-block d-lg-none mb-4 mb-lg-0"><img src="{% spaceless %}{{ content.field_front_advantage_bg }}{% endspaceless %}" class="img-fluid"></div>
-    <div class="col-12 col-lg-6 col-xl-6">
+<section style="background-image: url('{% spaceless %}{{ content.field_front_advantage_bg[0]['#markup'] }}{% endspaceless %}');" class="front__advantage">
+  <div class="container-fluid container-lg p-0 px-lg-3">
     <div class="row justify-content-center">
-      <div class="col-10 col-md-9 col-lg-10 col-xl-8">
-  <h2 class="text-center mt-0 pt-0 pb-4 front--advantage--heading">{{ content.field_field_front_advantage_head }}</h2>
-</div>
-</div>
-  <div class="row justify-content-center">
-    <div class="col-10 col-md-9 col-lg-10 col-xl-7 pt-4">
-  <h3 class="front--advantage--subheading mt-0 mb-3"><em>{{ content.field_front_advantage_1head }}</em></h3>
-  {{ content.field_front_advantage_1copy }}
-  <p class="mb-0 mt-4 text-right"><a href="{{ content.field_front_advantage_1link.0['#url'] }}" class="btn btn-sm btn-primary--yellow btn-primary--yellow-solid">{{ content.field_front_advantage_1link.0['#title'] }}</a></p>
-
-  <h3 class="front--advantage--subheading pt-3 mt-5 mb-3"><em>{{ content.field_field_front_advantage_2hea }}</em></h3>
-  {{ content.field_front_advantage_2copy }}
-  <p class="mb-0 mt-4 text-right"><a href="{{ content.field_front_advantage_2link.0['#url'] }}" class="btn btn-sm btn-primary--yellow btn-primary--yellow-solid">{{ content.field_front_advantage_2link.0['#title'] }}</a></p>
-</div>
-</div></div></div>
-</div>
+      <div class="col-12 col-lg-10">
+        <div class="row justify-content-lg-end">
+          <div class="col-12 d-lg-none">
+            <img alt="" src="{% spaceless %}{{ content.field_front_advantage_bg[0]['#markup'] }}{% endspaceless %}" class="img-fluid">
+          </div>
+          <div class="col-12 col-lg-7">
+            <div class="bg-white p-6 px-lg-8 py-lg-12">
+              <h2 class="h1 mb-6 text-center text-lg-left">{{ content.field_field_front_advantage_head }}</h2>
+              <div class="mb-6 mb-lg-12">
+                <p class="front__advantage__subheading text-uppercase mb-2 font-weight-semi-bold">{{ content.field_front_advantage_1head }}</p>
+                {{ content.field_front_advantage_1copy }}
+                <a href="{{ content.field_front_advantage_1link.0['#url'] }}" class="btn btn-primary">{{ content.field_front_advantage_1link.0['#title'] }}</a>
+              </div>
+              <div>
+                <p class="front__advantage__subheading text-uppercase mb-2 font-weight-semi-bold">{{ content.field_field_front_advantage_2hea }}</p>
+                {{ content.field_front_advantage_2copy }}
+                <a href="{{ content.field_front_advantage_2link.0['#url'] }}" class="btn btn-primary">{{ content.field_front_advantage_2link.0['#title'] }}</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
+<div class="bg-info" style="height: 35px;"></div>
 
-<section class="mt-5">
+
+<section class="py-12 py-lg-24">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-12 col-sm-12 col-lg-10 col-xl-9">
-    <div class="row">
-      {% spaceless %}
-      <div class="col-12 col-lg-6">
-        {{ node_bottom_left }}
-      </div>
-      <div class="col-12 col-lg-6">
-        {{ node_bottom_right }}
-      </div>
-      {% endspaceless %}
+      <div class="col-12">
+        <div class="row">
+          {% spaceless %}
+          <div class="col-12 col-xl-6 mb-6 mb-xl-0">
+            {{ node_bottom_left }}
+          </div>
+          <div class="col-12 col-xl-6">
+            {{ node_bottom_right }}
+          </div>
+          {% endspaceless %}
     </div>
   </div>
 </div>
