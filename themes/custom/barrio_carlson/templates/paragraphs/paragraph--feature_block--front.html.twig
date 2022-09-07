@@ -21,7 +21,11 @@
               {{ content.field_heading }}
             </h1>
             {{ content.field_main_content }}
+
+            {% if content.field_link.0['#url'].toString() is not empty%}
             <p class="mb-0 mt-5 text-center"><a href="{{ content.field_link.0['#url'] }}" class="btn btn-lg btn-primary--yellow btn-primary--yellow-solid">{{ content.field_link.0['#title'] }}</a></p>
+            {% endif %}
+
           </div>
           <div class="col-12 col-xl-1 d-none d-xl-block"></div>
         </div>
