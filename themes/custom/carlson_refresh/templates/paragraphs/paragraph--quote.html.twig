@@ -26,28 +26,29 @@
         </div>
       </div>
     </div>
-    
+
     {% else %}
-    <div class="row component-paragraph quote">
-      <div class="col-12 text-center">    
-        <div class="quote__text">
-            <p>{{ content.field_quote_text|render|striptags }}</p>
-        </div>
-        <div class="quote__img">
+    <div class="row no-gutters quote flex-grow-1">
+      <div class="col-12 col-lg-5 position-relative">
+        <div class="quote__img embed-responsive embed-responsive-4by3 position-static">
           {% if content.field_quote_image|field_value is not empty %}
             {{ content.field_quote_image }}
           {% endif %}
-          <!--span class="quote__img--icon icon icon-quote"></span-->
+        </div>
+      </div>
+      <div class="quote__content col-12 col-lg-7 bg-gold px-12 pl-lg-0 pr-lg-24 pt-10 pb-20">
+        <div class="quote__text font-weight-light ff-serif fs-32 mb-5">
+          <em>{{ content.field_quote_text|render|striptags }}</em>
         </div>
         {% if content.field_quote_source|field_value is not empty %}
-        <div class="quote__source">
-          &ndash; {{ content.field_quote_source|field_value }}
-        </div>
+          <div class="quote__source text-uppercase font-weight-semi-bold fs-base">
+            &ndash; {{ content.field_quote_source|field_value }}
+          </div>
         {% endif %}
       </div>
     </div>
     {% endif %}
-      
-    
+
+
   {% endblock %}
 {% endblock paragraph %}

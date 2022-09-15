@@ -21,7 +21,7 @@
         </div>
       {% endif %}
     {% endif %}
-    
+
     <div class="column__content">
       {% if content.field_heading|field_value  is not empty %}
       <h4 class="column__heading">{{ content.field_heading|field_value }}</h4>
@@ -34,16 +34,17 @@
       {% endif %}
 
       {% if content.field_link|field_value is not empty %}
-      <div class="column__link">
+      <div class="column__link mt-6 text-center">
         {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
-          <a href="{{ content.field_link.0['#url'] }}">{{ content.field_link.0['#title'] }}</a>
+          <a class="btn btn-primary" href="{{ content.field_link.0['#url'] }} {{ content.field_link.0['#options'].external ? 'target="_blank"' }}">{{ content.field_link.0['#title'] }}</a>
         {% else %}
-          {{ content.field_link|field_value }}
+          <a class="btn btn-primary" href="{{ content.field_link.0['#url'] }} {{ content.field_link.0['#options'].external ? 'target="_blank"' }}">{{ content.field_link.0['#title'] }}</a>
+{#          {{ content.field_link|field_value }}#}
         {% endif %}
       </div>
-      
+
       {% endif %}
     </div>
-    
+
   {% endblock %}
 {% endblock paragraph %}

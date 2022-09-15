@@ -18,75 +18,138 @@
  *   - in_active_trail: TRUE if the link is in the active trail.
  */
 #}
+{#{% import _self as menus %}#}
+
+{##}
+{#  We call a macro which calls itself to render the full tree.#}
+{#  @see http://twig.sensiolabs.org/doc/tags/macro.html#}
+{##}
+
+{#<div class="sticky-menu">#}
+{#  #}{# For Parent Menus #}
+{#  {% if items %}#}
+{#    {% set first_menu_item = items|first %}#}
+{#    {% if first_menu_item.url.isrouted == true %}#}
+{#      {{ find_parent_by_node( first_menu_item.url.routeParameters.node )|raw }}#}
+{#    {% endif %}#}
+{#  {% endif %}#}
+
+{#  {{ menus.menu_links(items, attributes, 0) }}#}
+
+{#  {% macro menu_links(items, attributes, menu_level) %}#}
+{#    {% import _self as menus %}#}
+{#    {% if items %}#}
+
+{#      #}{# If it's 0 open the UL #}
+{#      {% if menu_level == 0 %}#}
+{#        <ul{{ attributes.addClass('sticky-menu__nav sticky-menu__nav--closed menu-level-1 nav flex-column') }}>#}
+{#        #}{# For Parent Menus #}
+{#        {% if items %}#}
+{#          {% set first_menu_item = items|first %}#}
+{#          {% if first_menu_item.url.isrouted == true %}#}
+{#            {{ find_parent_by_node( first_menu_item.url.routeParameters.node, true )|raw }}#}
+{#          {% endif %}#}
+{#        {% endif %}#}
+{#      {% else %}#}
+{#        <ul class="subnav nav flex-column">#}
+{#      {% endif %}#}
+
+{#      {% for item in items %}#}
+
+{#        {% if item.below is not empty and item.in_active_trail %}#}
+{#          {%#}
+{#            set classes = [#}
+{#              'sticky-menu__item',#}
+{#              item.in_active_trail ? 'sticky-menu__item--active-trail sticky-menu__item--opened',#}
+{#              item.below ? 'sticky-menu__item--has-submenu',#}
+{#              'nav-item'#}
+{#            ]#}
+{#          %}#}
+{#        {% else %}#}
+{#          {%#}
+{#            set classes = [#}
+{#              'sticky-menu__item',#}
+{#              item.in_active_trail ? 'sticky-menu__item--active-trail',#}
+{#              'nav-item'#}
+{#            ]#}
+{#          %}#}
+{#        {% endif %}#}
+
+{#        <li{{ item.attributes.addClass(classes) }}>#}
+{#          {{ link(item.title, item.url, { 'class':['nav-link']}) }}#}
+{#          {% if item.below is not empty and item.in_active_trail %}#}
+{#            {{ menus.menu_links(item.below, attributes, menu_level + 1) }}#}
+{#          {% endif %}#}
+{#        </li>#}
+{#      {% endfor %}#}
+{#      </ul>#}
+{#    {% endif %}#}
+{#  {% endmacro %}#}
+{#  {% if undergrad_menu %}#}
+{#  <div class="sticky-menu__additional">#}
+{#    <hr class="additional-divider" />#}
+{#    <a href="https://sites.google.com/umn.edu/carlsonug" target="_blank" >Current Student Portal</a>#}
+{#  </div>#}
+{#  {% endif %}#}
+{#</div>#}
+
+
 {% import _self as menus %}
 
 {#
-  We call a macro which calls itself to render the full tree.
-  @see http://twig.sensiolabs.org/doc/tags/macro.html
+We call a macro which calls itself to render the full tree.
+@see http://twig.sensiolabs.org/doc/tags/macro.html
 #}
 
-<div class="sticky-menu">
-  {# For Parent Menus #}
+<div class="sticky-menu my-10 pr-6">
   {% if items %}
     {% set first_menu_item = items|first %}
     {% if first_menu_item.url.isrouted == true %}
       {{ find_parent_by_node( first_menu_item.url.routeParameters.node )|raw }}
     {% endif %}
   {% endif %}
-
   {{ menus.menu_links(items, attributes, 0) }}
-
-  {% macro menu_links(items, attributes, menu_level) %}
-    {% import _self as menus %}
-    {% if items %}
-
-      {# If it's 0 open the UL #}
-      {% if menu_level == 0 %}
-        <ul{{ attributes.addClass('sticky-menu__nav sticky-menu__nav--closed menu-level-1') }}>
-        {# For Parent Menus #}
-        {% if items %}
-          {% set first_menu_item = items|first %}
-          {% if first_menu_item.url.isrouted == true %}
-            {{ find_parent_by_node( first_menu_item.url.routeParameters.node, true )|raw }}
-          {% endif %}
-        {% endif %}
-      {% else %}
-        <ul class="subnav">
-      {% endif %}
-      
-      {% for item in items %}
-        
-        {% if item.below is not empty and item.in_active_trail %}
-          {%
-            set classes = [
-              'sticky-menu__item',
-              item.in_active_trail ? 'sticky-menu__item--active-trail sticky-menu__item--opened',
-              item.below ? 'sticky-menu__item--has-submenu'
-            ]
-          %}
-        {% else %}
-          {%
-            set classes = [
-              'sticky-menu__item',
-              item.in_active_trail ? 'sticky-menu__item--active-trail'
-            ]
-          %}
-        {% endif %}
-        
-        <li{{ item.attributes.addClass(classes) }}>
-          {{ link(item.title, item.url) }}
-          {% if item.below is not empty and item.in_active_trail %}
-            {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
-          {% endif %}
-        </li>
-      {% endfor %}
-      </ul>
-    {% endif %}
-  {% endmacro %}
-  {% if undergrad_menu %}
-  <div class="sticky-menu__additional">
-    <hr class="additional-divider" />
-    <a href="https://sites.google.com/umn.edu/carlsonug" target="_blank" >Current Student Portal</a>
-  </div>
-  {% endif %}
 </div>
+
+{% macro menu_links(items, attributes, menu_level) %}
+  {% import _self as menus %}
+  {% if items %}
+    {% if menu_level == 0 %}
+      <ul{{ attributes.addClass('nav flex-column') }}>
+    {% else %}
+      <ul class="sticky-menu__sub-menu nav flex-column pl-6">
+    {% endif %}
+    {% for item in items %}
+      {%
+        set classes = [
+        'nav-item',
+        item.is_expanded ? 'menu-item--expanded',
+        item.is_collapsed ? 'menu-item--collapsed',
+        item.in_active_trail ? 'menu-item--active-trail',
+        'mt-4',
+        'sticky-menu__item'
+      ]
+      %}
+      <li{{ item.attributes.addClass(classes) }}>
+        {%
+          set link_classes = [
+          'nav-link',
+          item.in_active_trail ? 'active',
+          item.url.getOption('attributes').class ? item.url.getOption('attributes').class | join(''),
+          'nav-link-' ~ item.url.toString() | clean_class,
+          menu_level == 0 ? 'fs-24 text-underline-hover' : 'text-body',
+          menu_level == 0 ? 'px-3 py-2': 'px-3 py-0',
+          item.in_active_trail and menu_level == 0 ? 'bg-primary text-white',
+          item.in_active_trail and menu_level != 0 ? 'font-weight-semi-bold border-left border-gold' : 'font-weight-normal',
+          'sticky-menu__link',
+        ]
+        %}
+        {{ link(item.title, item.url, {'class': link_classes}) }}
+        {% if item.below %}
+          {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}
