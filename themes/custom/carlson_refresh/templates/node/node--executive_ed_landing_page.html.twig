@@ -59,7 +59,7 @@
  * @see template_preprocess_node()
  */
 #}
-{{ attach_library('bootstrap_barrio/node') }}
+{#{{ attach_library('bootstrap_barrio/node') }}#}
 
 {%
   set classes = [
@@ -75,20 +75,26 @@
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'ee-landing') }}>
     {# Home hero #}
-    <div class="row align-items-center home-hero">
-      <div class="col-lg-9 order-lg-2 home-hero__image">
-        {{ content.field_hero_media }}
-      </div>
-      <div class="col-lg-4 order-lg-1 home-hero__intro">
-        <h1 class="home-hero__title">{{ label }}</h1>
-        <div class="home-hero__subhead">
-          {{ content.field_sub_heading }}
+    <div class="section-fluid-xl">
+      <div class="row home-hero mb-12">
+        <div class="col-12 col-lg-7 col-xl-8 order-lg-2 home-hero__image px-0 position-relative">
+          <div class="embed-responsive embed-responsive-21by9 position-static">
+            {{ content.field_hero_media }}
+          </div>
+        </div>
+        <div class="col-12 col-lg-5 col-xl-4 order-lg-1 home-hero__intro p-8 p-lg-12 d-flex align-items-center bg-primary text-white">
+          <div>
+            <h1 class="home-hero__title">{{ label }}</h1>
+            <div class="home-hero__subhead">
+              {{ content.field_sub_heading }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="row flex-section">
-      <div class="col-lg-10 offset-lg-1">
+      <div class="col-12">
         {# inner_nav region #}
         {% if inner_nav %}
         <div class="row inner_nav">
@@ -110,8 +116,8 @@
         {% endif %}
 
         {% if content.body|field_value is not empty %}
-        <div class="row ee-landing__body">
-          <div class="col-12 col-lg-10 offset-lg-1">
+        <div class="row justify-content-center ee-landing__body mt-12 mb-12">
+          <div class="col-12 col-lg-10">
             {{ content.body }}
           </div>
         </div>

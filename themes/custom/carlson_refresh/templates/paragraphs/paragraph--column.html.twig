@@ -8,9 +8,9 @@
   {% block content %}
     {% if img|field_value is not empty %}
       {% if content.field_link|field_value is not empty %}
-        <a class="column__img" href="{{ content.field_link.0['#url'] }}">
+        <a class="column__img mb-3" href="{{ content.field_link.0['#url'] }}">
       {% else %}
-        <div class="column__img">
+        <div class="column__img mb-3">
       {% endif %}
 
       {{ img|field_value }}
@@ -22,13 +22,13 @@
       {% endif %}
     {% endif %}
 
-    <div class="column__content">
+    <div class="column__content flex-grow-1 d-flex flex-column">
       {% if content.field_heading|field_value  is not empty %}
       <h4 class="column__heading">{{ content.field_heading|field_value }}</h4>
       {% endif %}
 
       {% if content.field_main_content|field_value  is not empty %}
-      <div class="column__markup">
+      <div class="column__markup flex-grow-1">
         {{ content.field_main_content|field_value }}
       </div>
       {% endif %}
@@ -36,9 +36,9 @@
       {% if content.field_link|field_value is not empty %}
       <div class="column__link mt-6 text-center">
         {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
-          <a class="btn btn-primary" href="{{ content.field_link.0['#url'] }} {{ content.field_link.0['#options'].external ? 'target="_blank"' }}">{{ content.field_link.0['#title'] }}</a>
+          <a class="btn btn-primary px-6" href="{{ content.field_link.0['#url'] }} {{ content.field_link.0['#options'].external ? 'target="_blank"' }}">{{ content.field_link.0['#title'] }}</a>
         {% else %}
-          <a class="btn btn-primary" href="{{ content.field_link.0['#url'] }} {{ content.field_link.0['#options'].external ? 'target="_blank"' }}">{{ content.field_link.0['#title'] }}</a>
+          <a class="btn btn-primary px-6" href="{{ content.field_link.0['#url'] }} {{ content.field_link.0['#options'].external ? 'target="_blank"' }}">{{ content.field_link.0['#title'] }}</a>
 {#          {{ content.field_link|field_value }}#}
         {% endif %}
       </div>

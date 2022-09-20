@@ -1,0 +1,67 @@
+@import "../../abstracts/variables";
+@import "node_modules/bootstrap/scss/vendor/rfs";
+@import "node_modules/bootstrap/scss/mixins/grid";
+@import "node_modules/bootstrap/scss/mixins/breakpoints";
+
+.stats {
+  &__item {
+    //max-width: 290px;
+    clip-path: polygon(0 0, calc(100% - 96.66666px) 0, 100% 55.81052px, 100% 100%, 0 100%);
+    &__wrapper {
+      max-width: 290px;
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    }
+    &__inner-wrapper {
+      //max-width: 290px;
+      clip-path: polygon(0 0, calc(100% - 96.66666px) 0, 100% 55.81052px, 100% 100%, 0 100%);
+      padding: 1px;
+      margin: 1px;
+    }
+    &__number {
+      @include rfs(9rem);
+      line-height: 1;
+    }
+  }
+  .slick__slider {
+    @include make-row();
+    justify-content: center;
+  }
+  .slick-list {
+    @include make-col(12);
+    @include make-col-ready();
+  }
+  .slick-track {
+    display: flex;
+    align-items: stretch;
+  }
+  .slick__slide {
+    height: auto;
+  }
+  .slick-arrow {
+    border: 3px solid $primary;
+  }
+  .slick-dots {
+    @include make-col(12);
+    @include make-col-ready();
+    li {
+      button {
+        background: rgba($primary, 0.6);
+      }
+      &.slick-active {
+        button {
+          background: $primary;
+        }
+      }
+    }
+  }
+  @include media-breakpoint-up(md) {
+    .slick-list {
+      @include make-col(11);
+    }
+  }
+  @include media-breakpoint-up(xl) {
+    .slick-list {
+      @include make-col(10);
+    }
+  }
+}
