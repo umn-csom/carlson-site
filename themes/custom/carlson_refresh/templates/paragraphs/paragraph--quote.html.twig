@@ -43,15 +43,17 @@
         </div>
       </div>
       {% endif %}
-      <div class="quote__content col-12 col-lg {{ bg_color }} {{ color }} px-12 pr-lg-24 pt-10 pb-20 {{ content.field_quote_image|render ? 'ml-lg-n12' }}">
-        <div class="quote__text font-weight-light ff-serif fs-32 mb-5">
-          <em>{{ content.field_quote_text|render|striptags }}</em>
-        </div>
-        {% if content.field_quote_source|field_value is not empty %}
-          <div class="quote__source text-uppercase font-weight-semi-bold fs-base">
-            &ndash; {{ content.field_quote_source|field_value }}
+      <div class="quote__content col-12 col-lg d-flex align-items-center {{ bg_color }} {{ color }} px-12 pr-lg-24 pt-10 pb-20 {{ content.field_quote_image|render ? 'ml-lg-n12' }}">
+        <div>
+          <div class="quote__text font-weight-light ff-serif fs-32 mb-5">
+            <em>{{ content.field_quote_text|render|striptags }}</em>
           </div>
-        {% endif %}
+          {% if content.field_quote_source|field_value is not empty %}
+            <div class="quote__source text-uppercase font-weight-semi-bold fs-base">
+              &ndash; {{ content.field_quote_source|field_value }}
+            </div>
+          {% endif %}
+        </div>
       </div>
     </div>
 {#    {% endif %}#}
