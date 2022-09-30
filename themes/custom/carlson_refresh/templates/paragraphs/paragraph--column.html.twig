@@ -26,11 +26,11 @@
 
     <div class="column__content flex-grow-1 d-flex flex-column">
       {% if content.field_heading|field_value  is not empty %}
-      <h3 class="column__heading h4 font-weight-normal text-center d-flex align-items-center justify-content-center mb-2" data-mh="columns-title-{{ paragraph.parent_id.value }}">{{ content.field_heading|field_value }}</h3>
+      <h3 class="column__heading h4 font-weight-normal d-flex align-items-center mb-2" data-mh="columns-title-{{ paragraph.parent_id.value }}">{{ content.field_heading|field_value }}</h3>
       {% endif %}
 
       {% if content.field_main_content|field_value  is not empty %}
-      <div class="column__markup text-center" data-mh="columns-markup-{{ paragraph.parent_id.value }}">
+      <div class="column__markup" data-mh="columns-markup-{{ paragraph.parent_id.value }}">
         {{ content.field_main_content|field_value }}
       </div>
       {% endif %}
