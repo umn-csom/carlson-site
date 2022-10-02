@@ -210,7 +210,35 @@ hr {
 .table,
 .table-striped,
 table {
-    border: 0;
+  tr {
+    background: $white;
+    border: 0 !important;
+    padding: 0 !important;
+    td {
+      border: 1px solid $ivory;
+    }
+    th {
+      border: 1px solid $ivory;
+      color: $body-color;
+      background: $ivory;
+      font-weight: 600;
+    }
+    td,
+    th {
+      .tablesaw-cell-label {
+        font-weight: 600;
+        width: 40%;
+      }
+    }
+  }
+  @media (min-width: 640px) {
+    tr {
+      th {
+        border-color: $white;
+      }
+    }
+  }
+/*    border: 0;
     thead {
         > tr {
             border-bottom: 4px double $light-gray;
@@ -259,7 +287,7 @@ table {
                 background: transparent;
             }
         }
-    }
+    }*/
 }
 
 // TODO: organize this section

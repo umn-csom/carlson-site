@@ -61,7 +61,7 @@
  */
 #}
 {{ attach_library('carlson_refresh/events') }}
-<div class="row border no-gutters events__item mb-6 flex-grow-1">
+<div {{ attributes.addClass('row border no-gutters events__item mb-6 flex-grow-1') }}>
   {% if content.field_event_date|field_value is not empty %}
     {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
     <div class="col-auto px-4 px-lg-6 py-4 py-lg-6 text-center events__item__date d-flex align-items-center justify-content-center">
