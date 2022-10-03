@@ -1,6 +1,6 @@
 .half-and-half {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 30px;
+  padding-bottom: 30px;
 
   .basic-paragraph {
     margin-bottom: 0;
@@ -13,70 +13,75 @@
     }
 
     @include media-breakpoint-up(md) {
-      padding-left: $grid-padding-x;
+      //padding-left: $grid-padding-x;
       padding-right: $grid-padding-x;
     }
   }
 
-  .image-with-offset-back {
-    height: 250px;
-    @include media-breakpoint-up(md) {
-      height: 400px;
-    }
-
-
-    .image, .background {
-      width: 90%;
-      height: 225px;
-      @include media-breakpoint-up(md) {
-        height: 370px;
-      }
-
-    }
-
-    .image {
-      z-index: 20;
-      position: absolute;
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
-      box-shadow: 0 15px 60px 0 rgba(0, 0, 0, 0.30);
-    }
-
-    .background {
-      position: relative;
-      z-index: 10;
-      top: 30px;
-    }
-  }
+  //.image-with-offset-back {
+  //  height: 250px;
+  //  @include media-breakpoint-up(md) {
+  //    height: 400px;
+  //  }
+  //
+  //
+  //  .image, .background {
+  //    width: calc(100% - 30px);
+  //    height: 225px;
+  //    @include media-breakpoint-up(md) {
+  //      height: 370px;
+  //    }
+  //
+  //  }
+  //
+  //  .image {
+  //    z-index: 20;
+  //    position: absolute;
+  //    background-repeat: no-repeat;
+  //    background-position: center center;
+  //    background-size: cover;
+  //    box-shadow: 0 15px 60px 0 rgba(0, 0, 0, 0.30);
+  //  }
+  //
+  //  .background {
+  //    position: relative;
+  //    z-index: 10;
+  //    top: 30px;
+  //  }
+  //}
 
   .left,
   .right {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    @include media-breakpoint-up(md) {
-      padding-top: 0px;
-      padding-bottom: 0px;
+    .background {
+      top: 30px;
+      z-index: -1;
     }
   }
 
   .left {
-    .image {
-      margin-left: 30px;
+    .image-with-offset-back {
+      padding-left: 30px;
     }
 
     .background {
-      left: 0px;
+      flex-direction: row-reverse;
+      left: -30px;
+      &__inner {
+        clip-path: polygon(0 65%, 100% 75%, 100% 100%, 0 100%);
+      }
     }
   }
 
   .right {
-    .image {
-      margin-left: 0px;
+    .image-with-offset-back {
+      padding-right: 30px;
     }
 
     .background {
       left: 30px;
+      &__inner {
+        clip-path: polygon(0 75%, 100% 65%, 100% 100%, 0 100%);
+      }
     }
   }
 

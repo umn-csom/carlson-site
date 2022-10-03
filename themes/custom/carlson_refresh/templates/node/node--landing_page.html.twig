@@ -95,9 +95,11 @@
               <img style="height: 100%;width: auto;" src="/sites/carlsonschool.umn.edu/themes/custom/carlson_refresh/images/pattern.png">
             </div>
           </div>
-          <div class="col-12 col-lg-6 col-xl-5">
+          <div class="col-12 col-lg-6 col-xl-5 d-flex flex-column align-items-start">
             <h1 class="mt-8">{{ node.label }}</h1>
-            {{ content.body }}
+            <div class="flex-grow-1">
+              {{ content.body }}
+            </div>
             {% if content.field_link|field_value is not empty %}
               <a class="btn btn-gold p-7 fs-22 lh-13 d-inline-flex align-items-center mt-6 mt-lg-10 mb-lg-8 ml-lg-n24 ml-xl-n31" href="{{ content.field_link[0]['#url'] }}" {{ content.field_link[0]['#options']['external'] == true ? 'target="_blank"' }}>{{ content.field_link[0]['#title'] }}<span class="ml-5 icon icon-arrow-right-3"></span></a>
             {% endif %}

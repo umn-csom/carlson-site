@@ -13,7 +13,7 @@
           {{ content.field_image|field_value }}
         </{{ element }}>
       {% endif %}
-      <{{ element }} class="carlson-card__content flex-grow-1 d-block px-6 py-6 mt-n5 text-decoration-none {{ bg_color}} {{ color }}" href="{{ content.field_link.0['#url'] }}">
+      <{{ element }} class="carlson-card__content flex-grow-1 d-block px-6 py-6 text-decoration-none {{ content.field_image|render ? 'mt-n5' }} {{ bg_color}} {{ color }}" {% if content.field_link|render %}href="{{ content.field_link.0['#url'] }}"{% endif %}>
         <div class="text-uppercase font-weight-semi-bold mb-4">{{ content.field_heading }}{% if content.field_link|render %}&nbsp;<span class="icon icon-arrow-right-3 {{ arrow_color }}"></span>{% endif %}</div>
         {{ content.field_main_content }}
       </{{ element }}>
