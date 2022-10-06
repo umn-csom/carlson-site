@@ -37,7 +37,7 @@ class MenuBlock extends SuperMenuBlock {
     $level = $this->configuration['level'];
     $original_level = $this->configuration['level'];
     $depth = $this->configuration['depth'];
-    $expand = $this->configuration['expand'];
+    $expand = isset($this->configuration) && isset($this->configuration['expand']) ? $this->configuration['expand'] : null;
 
     $parent = $this->configuration['parent'];
     $follow = $this->configuration['follow'];
@@ -76,8 +76,8 @@ class MenuBlock extends SuperMenuBlock {
 
     // If the active trail contains less (non-empty) items then the original
     // level, hide the block.
-    if ($follow_parent == '-1' && 
-        count(array_filter($parameters->activeTrail)) < $original_level && 
+    if ($follow_parent == '-1' &&
+        count(array_filter($parameters->activeTrail)) < $original_level &&
         empty($all_rules)) {
       return array();
     }
@@ -170,7 +170,7 @@ class MenuBlock extends SuperMenuBlock {
       $tree = $this->menuTree->transform($tree, $manipulators);
       $build = $this->menuTree->build($tree);
     }
-  
+
     if (!empty($build['#theme'])) {
       // Add the configuration for use in menu_block_theme_suggestions_menu().
       $build['#menu_block_configuration'] = $this->configuration;
@@ -197,14 +197,14 @@ class MenuBlock extends SuperMenuBlock {
     // Iterate over the rules.
     foreach ($rules as $rule) {
 
-      if ($rule->isActive() && 
+      if ($rule->isActive() &&
           $menu_name === $rule->getMenuChoice() &&
           isset($node)
       ) {
 
         if( $node->bundle() === $rule->getContentType() &&
             !empty( $rule->getTaxonomyTerms() ) ) {
-          
+
           // Check for any taxonomy term matches.
           $nodes_matches = [];
           if( strlen( $rule->getTaxonomyMapField() ) > 0 ) {
@@ -212,7 +212,7 @@ class MenuBlock extends SuperMenuBlock {
               'field_menu_rule' => $rule->getTaxonomyTerms(),
             ]);
           }
-          
+
           if( !empty($nodes_matches) ) {
             foreach($nodes_matches as $node_item) {
               if($node_item->id() === $node->id()) {
@@ -226,7 +226,7 @@ class MenuBlock extends SuperMenuBlock {
             }
           }
 
-          if( $rule->getMenuMode() === 'active_trail' && 
+          if( $rule->getMenuMode() === 'active_trail' &&
               $active_trail_parent_menu_plugin_id !== $rule->getParentMenuPluginId() ) {
             unset( $results[$index] );
           }

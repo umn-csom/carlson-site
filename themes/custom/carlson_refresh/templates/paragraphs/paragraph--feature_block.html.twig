@@ -1,22 +1,28 @@
 {% set content_data = {
   'image': content.field_image|field_value,
-  'heading': content.field_heading, 
-  'markup': content.field_main_content, 
-  'link': content.field_link, 
+  'heading': content.field_heading,
+  'markup': content.field_main_content,
+  'link': content.field_link,
   }
-%} 
+%}
+
+{% set element = content.field_link|render ? 'a' : 'div' %}
 
 {% block paragraph %}
     {% block content %}
-			<div class="row component-paragraph feature-block">
-		    <div class="col-md-6 pr-md-0 feature-block__img">
-		      <a href="{{ content.field_link.0['#url'] }}">{{ content.field_image|field_value }}</a>
+			<div class="row no-gutters component-paragraph feature-block bg-gold">
+		    <div class="col-12 col-md-6 feature-block__img position-relative">
+		      <{{ element }} class="embed-responsive embed-responsive-16by9 position-static" {% if content.field_link|render %}href="{{ content.field_link.0['#url'] }}"{% endif %}>
+            {{ content.field_image|field_value }}
+          </{{ element }}>
 		    </div>
-		    <div class="col-md-6 pl-md-0 feature-block__content">
+		    <div class="col-12 col-md-6 feature-block__content p-6">
 		    	<div class="feature-block__content--inner">
-			      <h3 class="feature-block__content--title"><a href="{{ content.field_link.0['#url'] }}">{{ content.field_heading }}</a></h3>
+			      <h3 class="feature-block__content--title fs-24 ff-sans-serif font-weight-semi-bold text-uppercase mb-4">{{ content.field_heading }}</h3>
 			      {{ content.field_main_content }}
-			      <span class="feature-block__content--link">{{ content.field_link }}</span>
+            {% if content.field_link|render %}
+			        <div class="feature-block__content--link mt-4">{{ content.field_link }}</div>
+            {% endif %}
 			    </div>
 		    </div>
 		  </div>

@@ -25,20 +25,23 @@
       border-bottom: 0;
       position: relative;
       .btn-link{
-        background: $mid-gray;
+        //background: $mid-gray;
         cursor: pointer;
         //@include font-newsreader-base();
-        @include font-base-heading($font-medium-mobile);
+        //@include font-base-heading($font-medium-mobile);
         word-break: break-word;
         //font-size: $font-medium-mobile;
         //line-height: $font-medium-mobile;
         padding: 2rem $grid-padding-x;
-        color: $slate;
+        color: $body-color;
+        font-family: $font-family-sans-serif;
         width: 100%;
         text-align: left;
         white-space: normal;
+        font-weight: 600;
+        @include rfs(2rem);
         @include media-breakpoint-up(md) {
-            font-size: $font-small;
+            //font-size: $font-small;
             //line-height: $font-small;
         }
         &::before {
@@ -52,6 +55,9 @@
           text-decoration: none;
           outline: none;
         }
+        //&[aria-expanded="true"] {
+        //  background: $ivory;
+        //}
         &.collapsed {
           background: transparent;
           &::before {
@@ -66,14 +72,18 @@
       }
     }
       .inner{
-        opacity: 0;
+        //opacity: 0;
         transition: all 0.26s ease-in-out;
-        background-image: linear-gradient(180deg, $mid-gray 0%, $light-grayish-orange 100%);
-        &.show{
-          opacity: 1;
-        }
+        //background-image: linear-gradient(180deg, $mid-gray 0%, $light-grayish-orange 100%);
+        //background: $ivory;
+        //&.show{
+        //  opacity: 1;
+        //}
       }
     }
+  .card-body {
+    padding: 3rem 3rem 5rem;
+  }
 }
 
 .sub-accordion.accordion {
