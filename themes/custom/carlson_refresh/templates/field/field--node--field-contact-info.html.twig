@@ -56,6 +56,9 @@
 {% for item in items %}
   <div class="col-12 col-md-6 contact-cta__contact px-12 mb-8 mb-lg-0">
     <h2 class="contact-cta__contact--heading">{{ item.content.field_block_heading }}</h2>
+    {% if item.content.field_block_subheading|field_value is not empty %}
+    <div class="contact-cta__contact--subheading fs-24">{{ item.content.field_block_subheading }}</div>
+    {% endif %}
     {% if item.content.field_email|field_value is not empty %}
     <div class="contact-cta__contact--email fs-24"><span class="font-weight-semi-bold">Email:</span> <a class="font-weight-normal text-black" href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></div>
     {% endif %}
