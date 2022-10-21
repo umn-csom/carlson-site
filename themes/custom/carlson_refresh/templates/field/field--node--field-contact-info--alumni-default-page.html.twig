@@ -39,59 +39,61 @@
 #}
 {%
   set classes = [
-    'field',
-    'field--name-' ~ field_name|clean_class,
-    'field--type-' ~ field_type|clean_class,
-    'field--label-' ~ label_display,
-  ]
+  'field',
+  'field--name-' ~ field_name|clean_class,
+  'field--type-' ~ field_type|clean_class,
+  'field--label-' ~ label_display,
+]
 %}
 {%
   set title_classes = [
-    'field__label',
-    label_display == 'visually_hidden' ? 'visually-hidden',
-  ]
+  'field__label',
+  label_display == 'visually_hidden' ? 'visually-hidden',
+]
 %}
 
 <div class="container space-above">
-  <div class="row component-paragraph contact-cta">
-  {% for item in items %}
-    <div class="col-md-6 contact-cta__contact">
-      <h5 class="contact-cta__contact--heading">{{ item.content.field_block_heading }}</h5>
-      <ul class="list-inline">
+  <div class="row no-gutters component-paragraph contact-cta py-12 border box-shadow">
+    {% for item in items %}
+      <div class="col-12 col-md-6 contact-cta__contact px-12 mb-8 mb-lg-0">
+        <h2 class="contact-cta__contact--heading">{{ item.content.field_block_heading }}</h2>
         {% if item.content.field_email|field_value is not empty %}
-        <li class="list-inline-item contact-cta__contact--email">Email: <a href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></li>
+          <div class="contact-cta__contact--email fs-24"><span class="font-weight-semi-bold">Email:</span> <a class="font-weight-normal text-black" href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></div>
         {% endif %}
         {% if item.content.field_phone|field_value is not empty %}
-        <li class="list-inline-item contact-cta__contact--phone">Phone: {{ item.content.field_phone }}</li>
+          <div class="contact-cta__contact--phone fs-24"><span class="font-weight-semi-bold">Phone:</span> <a class="font-weight-normal text-black" href="{{ item.content.field_phone[0]['#url'] }}">{{ item.content.field_phone[0]['#title'] }}</a></div>
         {% endif %}
-      </ul>
-      <div class="unb-cta-icon-request">{{ item.content.field_request_link }}</div>
-    </div>
-    <div class="col-md-6 contact-cta__social">
-      <h5 class="contact-cta__social--heading">{{ item.content.field_social_heading }}</h5>
-      <ul class="list-inline">
-        {% if item.content.field_link_twitter.0['#url'] is not empty %}
-          <li class="list-inline-item contact-cta__social--list-item"><a href="{{ item.content.field_link_twitter.0['#url'] }}"><i class="icon icon-twitter" title="Twitter" alt="Twitter"></i></a></li>
+        {% if item.content.field_request_link|render %}
+          <div class="btn btn-primary mt-4">{{ item.content.field_request_link }}</div>
         {% endif %}
+      </div>
+      <div class="col-12 col-md-6 contact-cta__social px-12 d-flex align-items-end">
+        <div>
+          <p class="contact-cta__social--heading text-uppercase font-weight-semi-bold mb-4 mb-lg-6">{{ item.content.field_social_heading }}</p>
+          <div class="row mx-n3 align-items-center">
+            {% if item.content.field_link_facebook.0['#url'] is not empty %}
+              <div class="col-auto px-3 fs-40 contact-cta__social--list-item"><a title="Facebook" class="text-decoration-none" alt="Facebook" href="{{ item.content.field_link_facebook.0['#url'] }}"><i class="icon icon-facebook"></i></a></div>
+            {% endif %}
 
-        {% if item.content.field_link_youtube.0['#url'] is not empty %}
-          <li class="list-inline-item contact-cta__social--list-item"><a href="{{ item.content.field_link_youtube.0['#url'] }}"><i class="icon icon-youtube" title="YouTube" alt="YouTube"></i></a></li>
-        {% endif %}
+            {% if item.content.field_link_twitter.0['#url'] is not empty %}
+              <div class="col-auto px-3 fs-40 contact-cta__social--list-item"><a title="Twitter" class="text-decoration-none" alt="Twitter" href="{{ item.content.field_link_twitter.0['#url'] }}"><i class="icon icon-twitter"></i></a></div>
+            {% endif %}
 
-        {% if item.content.field_link_linkedin.0['#url'] is not empty %}
-          <li class="list-inline-item contact-cta__social--list-item"><a href="{{ item.content.field_link_linkedin.0['#url'] }}"><i class="icon icon-linkedin" title="LinkedIn" alt="LinkedIn"></i></a></li>
-        {% endif %}
+            {% if item.content.field_link_instagram.0['#url'] is not empty %}
+              <div class="col-auto px-3 fs-40 contact-cta__social--list-item"><a title="Instagram" class="text-decoration-none" alt="Instagram" href="{{ item.content.field_link_instagram.0['#url'] }}"><i class="icon icon-instagram"></i></a></div>
+            {% endif %}
 
-        {% if item.content.field_link_facebook.0['#url'] is not empty %}  
-          <li class="list-inline-item contact-cta__social--list-item"><a href="{{ item.content.field_link_facebook.0['#url'] }}"><i class="icon icon-facebook" title="Facebook" alt="Facebook"></i></a></li>
-        {% endif %}
+            {% if item.content.field_link_linkedin.0['#url'] is not empty %}
+              <div class="col-auto px-3 fs-40 contact-cta__social--list-item"><a title="LinkedIn" class="text-decoration-none" alt="LinkedIn" href="{{ item.content.field_link_linkedin.0['#url'] }}"><i class="icon icon-linkedin"></i></a></div>
+            {% endif %}
 
-        {% if item.content.field_link_instagram.0['#url'] is not empty %}  
-          <li class="list-inline-item contact-cta__social--list-item"><a href="{{ item.content.field_link_instagram.0['#url'] }}"><i class="fab fa-instagram" title="Instagram" alt="Instagram"></i></a></li>
-        {% endif %}
-      </ul>
-    </div>
+            {% if item.content.field_link_youtube.0['#url'] is not empty %}
+              <div class="col-auto px-3 fs-40 contact-cta__social--list-item"><a title="YouTube" class="text-decoration-none" alt="YouTube" href="{{ item.content.field_link_youtube.0['#url'] }}"><i class="icon icon-youtube"></i></a></div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
 
-  {% endfor %}
+    {% endfor %}
   </div>
 </div>

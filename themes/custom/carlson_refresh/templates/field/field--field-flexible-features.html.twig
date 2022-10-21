@@ -79,9 +79,9 @@
       {% endif %}
     {% elseif node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
       {% if type != 'hero' and type != 'gray_background' and type != 'quote_group' and type != 'fluid_columns' and type != 'quote' %}
-        <div class="container">
+        <div class="container-fluid container-xl">
       {% elseif type == 'fluid_columns' %}
-        <div class="container fluid-columns-container">
+        <div class="container-fluid container-xl fluid-columns-container">
       {% endif %}
       {% if type == 'quote_group' %}
         {% if count == 1 %}
@@ -120,9 +120,9 @@
         {% endif %}
       {% elseif type == 'video_text_below' or type == 'video_text_right' %}
         {% if count == 1 %}
-          <div class="col-12 align-items-center component-paragraph video-textbelow">{{ item.content }}</div>
+          <div class="col-12 align-items-center video-textbelow">{{ item.content }}</div>
         {% else %}
-          <div class="col-12 align-items-center component-paragraph video-textbelow">{{ item.content }}</div>
+          <div class="col-12 align-items-center video-textbelow">{{ item.content }}</div>
         {% endif %}
       {% elseif type == 'hero' %}
         {% if count == 1 %}

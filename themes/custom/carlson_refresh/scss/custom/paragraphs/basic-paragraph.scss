@@ -3,22 +3,54 @@
 }
 
 .node__content {
-    blockquote {
-        margin: 2rem 0rem;
-        padding: 3rem 4rem;
-        background-color: rgb(247,243,241);
-        border-left: 5px solid $gold;
-        border-right: 5px solid rgb(247,243,241);
-        font-family: $font-crimson;
-        line-height: 1.4;
-        font-weight: 500;
-        p {
-            font-size: 1.6rem !important;
-            @media (min-width: 992px){
-                font-size: 1.9rem !important;
-            }
-        }
-        
-        
+  blockquote {
+    //border-left: 5px solid $gold;
+    //border-right: 5px solid rgb(247,243,241);
+    //line-height: 1.4;
+    //font-weight: 500;
+    //p {
+    //  font-size: 1.6rem !important;
+    //  @media (min-width: 992px){
+    //      font-size: 1.9rem !important;
+    //  }
+    //}
+    &:not(.blockquote) {
+      margin: 4rem 0;
+      padding: 3rem 4rem 3rem 12rem;
+      background-color: $ivory;
+      color: $body-color;
+      position: relative;
+      &:before,
+      &:after {
+        content: '';
+        left: 0;
+        top: 0;
+        width: 6rem;
+        height: 100%;
+        position: absolute;
+      }
+      &:before {
+        background: $gold;
+      }
+      &:after {
+        background: $light-blue;
+        clip-path: polygon(0 25%, 100% 35%, 100% 100%, 0 100%);
+      }
+      em {
+        font-family: $font-family-serif;
+      }
     }
+    &.blockquote {
+      margin: 4rem 0;
+      padding: 3rem 4rem;
+      background-color: $primary;
+      color: $white;
+      font-family: $font-family-serif;
+      clip-path: polygon(0 60px, 60px 0, 100% 0, 100% 100%, 0 100%);
+      @include rfs(2.4rem);
+      a {
+        color: $white;
+      }
+    }
+  }
 }

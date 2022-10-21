@@ -7,73 +7,94 @@
   //font-size: 1.6rem;
 
   &.btn-primary--yellow{
-    @include button-outline($menu-gold);
-    background-color: transparent;
+    //@include button-outline($menu-gold);
+    //background-color: transparent;
+    @extend .btn-gold;
   }
   &.btn-primary--maroon{
-    @include button-outline($maroon);
-    background-color: transparent;
+    //@include button-outline($maroon);
+    //background-color: transparent;
+    @extend .btn-primary;
   }
   &.btn-secondary{
-    @include button-solid($maroon);
+    //@include button-solid($maroon);
+    @extend .btn-primary;
   }
 
   &.btn-link-primary {
-    @include button-link-primary();
+    //@include button-link-primary();
+    @extend .btn-primary;
   }
   &.btn-link-secondary {
-    @include button-link-secondary();
+    //@include button-link-secondary();
+    @extend .btn-gold;
   }
 }
 /* Edior button classes */
 
 .gold-outline-button {
-  @include button();
-  display: inline-block;
-  font-size: 1.6rem;
-  @include button-outline($menu-gold);
-  background-color: transparent;
-  &:hover, &:focus {
-    text-decoration: none;
-  }
+  //@include button();
+  //display: inline-block;
+  //font-size: 1.6rem;
+  //@include button-outline($menu-gold);
+  //background-color: transparent;
+  //&:hover, &:focus {
+  //  text-decoration: none;
+  //}
+  @extend .btn;
+  @extend .btn-gold;
+  padding: 0.5rem 1.5rem;
 }
 .maroon-outline-button{
-  @include button();
-  font-size: 1.6rem;
-  display: inline-block;
-  @include button-outline($maroon);
-  background-color: transparent;
-  &:hover, &:focus {
-    text-decoration: none;
-  }
+  //@include button();
+  //font-size: 1.6rem;
+  //display: inline-block;
+  //@include button-outline($maroon);
+  //background-color: transparent;
+  //&:hover, &:focus {
+  //  text-decoration: none;
+  //}
+  @extend .btn;
+  @extend .btn-primary;
+  padding: 0.5rem 1.5rem;
 }
-.maroon-solid-button{
-  @include button();
-  font-size: 1.6rem;
-  display: inline-block;
-  @include button-solid($maroon);
-  &:hover, &:focus {
-    text-decoration: none;
-  }
+.maroon-solid-button {
+  //@include button();
+  //font-size: 1.6rem;
+  //display: inline-block;
+  //@include button-solid($maroon);
+  //&:hover, &:focus {
+  //  text-decoration: none;
+  //}
+  @extend .btn;
+  @extend .btn-primary
 }
 .gold-underline-button {
-  font-size: 1.6rem;
-  @include button-link-primary();
-  display: inline-block;
+  //font-size: 1.6rem;
+  //@include button-link-primary();
+  //display: inline-block;
+  @extend .btn;
+  @extend .btn-gold;
+  padding: 0.5rem 1.5rem;
 }
 .maroon-underline-button {
-  font-size: 1.6rem;
-  @include button-link-secondary();
-  display: inline-block;
+  //font-size: 1.6rem;
+  //@include button-link-secondary();
+  //display: inline-block;
+  @extend .btn;
+  @extend .btn-primary;
+  padding: 0.5rem 1.5rem;
 }
 
 .gold-solid-button {
-  @include button();
-  font-size: 1.6rem;
-  display: inline-block;
-  @include button-solid-v($menu-gold);
-  &:hover, &:focus {
-    text-decoration: none;
-
-  }
+  //@include button();
+  //font-size: 1.6rem;
+  //display: inline-block;
+  //@include button-solid-v($menu-gold);
+  //&:hover, &:focus {
+  //  text-decoration: none;
+  //
+  //}
+  @extend .btn;
+  @extend .btn-gold;
 }

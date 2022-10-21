@@ -1,0 +1,22 @@
+{{ attach_library('carlson_refresh/card') }}
+
+{% set bg_color = content.field_background_color|render ? content.field_background_color[0]['#markup'] : 'bg-ivory' %}
+{% set color =  bg_color == 'bg-primary' ? 'text-white' : 'text-body' %}
+{% set arrow_color =  bg_color == 'bg-ivory' ? 'text-primary'  %}
+{% set element = content.field_link|render ? 'a' : 'div' %}
+
+{% block paragraph %}
+  {% block content %}
+    <div class="carlson-card flex-grow-1 d-flex flex-column">
+      {% if content.field_image|render %}
+        <{{ element }} class="carlson-card__img embed-responsive embed-responsive-4by3" href="{{ content.field_link.0['#url'] }}">
+          {{ content.field_image|field_value }}
+        </{{ element }}>
+      {% endif %}
+      <{{ element }} class="carlson-card__content flex-grow-1 d-block px-6 py-6 text-decoration-none {{ content.field_image|render ? 'mt-n5' }} {{ bg_color}} {{ color }}" {% if content.field_link|render %}href="{{ content.field_link.0['#url'] }}"{% endif %}>
+        <div class="text-uppercase font-weight-semi-bold mb-4">{{ content.field_heading }}{% if content.field_link|render %}&nbsp;<span class="icon icon-arrow-right-3 {{ arrow_color }}"></span>{% endif %}</div>
+        {{ content.field_main_content }}
+      </{{ element }}>
+    </div>
+  {% endblock %}
+{% endblock paragraph %}

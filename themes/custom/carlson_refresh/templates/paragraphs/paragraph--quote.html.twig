@@ -1,53 +1,63 @@
+{{ attach_library('carlson_refresh/quote') }}
+
+{% set bg_color = content.field_background_color|render ? content.field_background_color[0]['#markup'] : 'bg-gold' %}
+{% set color =  bg_color == 'bg-primary' ? 'text-white' : 'text-body' %}
+
 {% block paragraph %}
   {% block content %}
 
-    {% if node.gettype =='alumni_landing_page' or node.gettype =='alumni_default_page' %}
-    <div class="container-fluid no-lr-margins">
-      <div class="row">
-        <div class="col-lg-6 col-xs-12 d-flex quote-flex order-2 order-lg-1">
-          <div class="quote__text__quotation d-none d-lg-block">
-          &#8220;
-          </div>
-          <div class="quote__text">
-              <p>{{ content.field_quote_text|render|striptags }}</p>
-          </div>
-          {% if content.field_quote_source|field_value is not empty %}
-          <div class="quote__source">
-            &ndash; {{ content.field_quote_source|field_value }}
-          </div>
-          {% endif %}
-        </div>
-        <div class="col-lg-6 col-xs-12 order-1 order-lg-2">
-            {% if content.field_quote_image|field_value is not empty %}
-            <div class="quote__image-bg" style="background-image: url('{{ file_url(content.field_quote_image|field_target_entity.image.entity.uri.value  ?: '') }}')">
-            </div>
-            {% endif %}
-            <!--span class="quote__img--icon icon icon-quote"></span-->
-        </div>
-      </div>
-    </div>
-    
-    {% else %}
-    <div class="row component-paragraph quote">
-      <div class="col-12 text-center">    
-        <div class="quote__text">
-            <p>{{ content.field_quote_text|render|striptags }}</p>
-        </div>
-        <div class="quote__img">
+{#    {% if node.gettype =='alumni_landing_page' or node.gettype =='alumni_default_page' %}#}
+{#    <div class="container-fluid no-lr-margins">#}
+{#      <div class="row">#}
+{#        <div class="col-lg-6 col-xs-12 d-flex quote-flex order-2 order-lg-1">#}
+{#          <div class="quote__text__quotation d-none d-lg-block">#}
+{#          &#8220;#}
+{#          </div>#}
+{#          <div class="quote__text">#}
+{#              <p>{{ content.field_quote_text|render|striptags }}</p>#}
+{#          </div>#}
+{#          {% if content.field_quote_source|field_value is not empty %}#}
+{#          <div class="quote__source">#}
+{#            &ndash; {{ content.field_quote_source|field_value }}#}
+{#          </div>#}
+{#          {% endif %}#}
+{#        </div>#}
+{#        <div class="col-lg-6 col-xs-12 order-1 order-lg-2">#}
+{#            {% if content.field_quote_image|field_value is not empty %}#}
+{#            <div class="quote__image-bg" style="background-image: url('{{ file_url(content.field_quote_image|field_target_entity.image.entity.uri.value  ?: '') }}')">#}
+{#            </div>#}
+{#            {% endif %}#}
+{#            <!--span class="quote__img--icon icon icon-quote"></span-->#}
+{#        </div>#}
+{#      </div>#}
+{#    </div>#}
+
+{#    {% else %}#}
+    <div class="row no-gutters quote flex-grow-1 {{ paragraph.getParentEntity().type.target_id != 'quote_group' ? 'component-paragraph' }}">
+      {% if content.field_quote_image|render %}
+      <div class="col-12 col-lg-5 position-relative">
+        <div class="quote__img embed-responsive embed-responsive-4by3 position-static">
           {% if content.field_quote_image|field_value is not empty %}
             {{ content.field_quote_image }}
           {% endif %}
-          <!--span class="quote__img--icon icon icon-quote"></span-->
         </div>
-        {% if content.field_quote_source|field_value is not empty %}
-        <div class="quote__source">
-          &ndash; {{ content.field_quote_source|field_value }}
+      </div>
+      {% endif %}
+      <div class="quote__content col-12 col-lg d-flex align-items-center {{ bg_color }} {{ color }} px-12 pr-lg-24 pt-10 pb-20 {{ content.field_quote_image|render ? 'ml-lg-n12' }}">
+        <div>
+          <div class="quote__text font-weight-light ff-serif fs-32 mb-5">
+            <em>{{ content.field_quote_text|render|striptags }}</em>
+          </div>
+          {% if content.field_quote_source|field_value is not empty %}
+            <div class="quote__source text-uppercase font-weight-semi-bold fs-base">
+              &ndash; {{ content.field_quote_source|field_value }}
+            </div>
+          {% endif %}
         </div>
-        {% endif %}
       </div>
     </div>
-    {% endif %}
-      
-    
+{#    {% endif %}#}
+
+
   {% endblock %}
 {% endblock paragraph %}

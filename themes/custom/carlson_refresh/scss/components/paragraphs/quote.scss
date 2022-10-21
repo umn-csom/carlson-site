@@ -1,0 +1,46 @@
+@import "../../abstracts/variables";
+@import "node_modules/bootstrap/scss/mixins/breakpoints";
+
+.quote-group {
+  .slick-track {
+    display: flex;
+    align-items: stretch;
+  }
+  .slick-dots {
+    margin-top: -5rem;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  .slick-prev {
+    left: 15px;
+  }
+  .slick-next {
+    right: 15px;
+  }
+  .slide {
+    height: inherit !important;
+  }
+  img {
+    height: 100%;
+  }
+}
+
+.quote {
+  @include media-breakpoint-up(lg) {
+    &__content {
+      //position: relative;
+      clip-path: polygon(0 60px, 60px 0, 100% 0, 100% 100%, 0 100%);
+      //&:before {
+      //  content: '';
+      //  display: block;
+      //  position: absolute;
+      //  top: 0;
+      //  right: calc(100% - 1px);
+      //  width: 60px;
+      //  height: 100%;
+      //  background: inherit;
+      //  clip-path: polygon(0 60px, 60px 0, 100% 0, 100% 100%, 0 100%);
+      //}
+    }
+  }
+}

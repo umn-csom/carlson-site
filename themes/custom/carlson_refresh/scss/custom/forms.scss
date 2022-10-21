@@ -1,16 +1,16 @@
 /* generic form styles */
 .form-control {
-    border-color: $light-gray;
-    margin-top: 0;
-    height: 3.8rem;
-    line-height: 3.8rem;
-    font-size: 1.6rem;
-    color: $dark-gray;
-    border-radius: 0.25rem;
-    &::placeholder {
-        color: lighten($slate, 50%);
-    }
-    padding: 0;
+    //border-color: $light-gray;
+    //margin-top: 0;
+    //height: 3.8rem;
+    //line-height: 3.8rem;
+    //font-size: 1.6rem;
+    //color: $dark-gray;
+    //border-radius: 0.25rem;
+    //&::placeholder {
+    //    color: lighten($slate, 50%);
+    //}
+    //padding: 0;
 }
 select.form-control {
     -webkit-appearance: none;
@@ -41,19 +41,21 @@ label {
         }
     }
     input[type="submit"] {
-        margin-top: 1rem;
-        height: auto;
-        line-height: 2.4rem;
-        @include button-solid($maroon);
+        //margin-top: 1rem;
+        //height: auto;
+        //line-height: 2.4rem;
+        //@include button-solid($maroon);
+      @extend .btn;
+      @extend .btn-primary;
     }
 }
 .chosen-container {
     width: 100% !important;
     font-family: unset;
-    height: auto;
+    //height: auto;
 }
 .chosen-container {
-    background:#fff url('../images/dd-arrows.png') no-repeat right 1rem center;
+    //background:#fff url('../images/dd-arrows.png') no-repeat right 1rem center;
     &.select2-container--focus .select2-selection--multiple,
     .chosen-drop .chosen-results .active-result.highlighted {
         border-color: #80bdff;
@@ -73,6 +75,31 @@ label {
             font-family: "Lato",Arial,Verdana,sans-serif;
         }
     }
+  .chosen-single {
+    background: no-repeat;
+    border: none;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    box-shadow: none;
+    border-radius: 0;
+    > span {
+      flex-grow: 1;
+    }
+    > div {
+      position: static;
+      height: 18px;
+    }
+  }
+}
+
+.chosen-container-active.chosen-with-drop {
+  .chosen-single {
+    border: 0;
+    background-image: none;
+    box-shadow: none;
+  }
 }
 
 .chosen-container-multi .chosen-choices li.search-choice,

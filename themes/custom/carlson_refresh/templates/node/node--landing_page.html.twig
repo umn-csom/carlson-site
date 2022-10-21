@@ -59,7 +59,7 @@
  * @see template_preprocess_node()
  */
 #}
-{{ attach_library('bootstrap_barrio/node') }}
+{#{{ attach_library('bootstrap_barrio/node') }}#}
 
 {%
   set classes = [
@@ -74,70 +74,67 @@
 %}
 
 <article{{ attributes.addClass(classes) }}>
-  <header>
-    {{ title_prefix }}
-    {% if not page %}
-      <h2{{ title_attributes.addClass('node__title') }}>
-        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
-      </h2>
-    {% endif %}
-    {{ title_suffix }}
-  </header>
+  {% if not page %}
+    <header>
+      {{ title_prefix }}
+        <h2{{ title_attributes.addClass('node__title') }}>
+          <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+        </h2>
+      {{ title_suffix }}
+    </header>
+  {% endif %}
 
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'landing-page') }}>
     <section class="row landing-page__top">
-      <div class="col-lg-10 offset-lg-1">
+      <div class="col-12">
         {# Program Hero #}
         <div class="row component-paragraph hero-program">
-          <div class="col-lg-7 hero-program__img">
-            {{ content.field_hero_media }}
-          </div>
-          <div class="col-lg-5 col-12 hero-program__content">
-            <div class="row hero-program__content--wrapper">
-              <div class="col-12">
-                <h1 class="hero-program__title" >{{ node.label }}</h1>
-              </div>
-              {% if content.field_link|field_value is not empty %}
-              <div class="col-12 order-lg-2 hero-program__link">
-                <div class="hero-program__link-inner">
-                  {{ content.field_link }}
-                </div>
-              </div>
-              {% endif %}
-              <div class="col-12 order-lg-1 hero-program__content--lead-in">
-                {{ content.body }}
-              </div>
+          <div class="col-12 col-lg-6 col-xl-7">
+            <div class="embed-responsive embed-responsive-4by3 h-100">
+              {{ content.field_hero_media }}
+              <img style="height: 100%;width: auto;" src="/sites/carlsonschool.umn.edu/themes/custom/carlson_refresh/images/pattern.png">
             </div>
+          </div>
+          <div class="col-12 col-lg-6 col-xl-5 d-flex flex-column align-items-start">
+            <h1 class="mt-8">{{ node.label }}</h1>
+            <div class="flex-grow-1">
+              {{ content.body }}
+            </div>
+            {% if content.field_link|field_value is not empty %}
+              <a class="btn btn-gold p-7 fs-22 lh-13 d-inline-flex align-items-center mt-6 mt-lg-10 mb-lg-8 ml-lg-n24 ml-xl-n31" href="{{ content.field_link[0]['#url'] }}" {{ content.field_link[0]['#options']['external'] == true ? 'target="_blank"' }}>{{ content.field_link[0]['#title'] }}<span class="ml-5 icon icon-arrow-right-3"></span></a>
+            {% endif %}
           </div>
         </div>
       </div>
     </section>
     <section class="row landing-page__content">
-      <div class="col-lg-10 offset-lg-1 main-content landing-page__content--inner">
+      <div class="col-12 main-content landing-page__content--inner">
         <div class="row">
 
           {# Stick sidebar region #}
           {% if sticky_sidebar | render %}
-          <div class="col-lg-3 sticky-sidebar">
-            <div class="row">
-              <div class="col-12">
+          <div class="col-12 col-lg-3 sticky-sidebar">
+{#            <div class="row no-gutters">#}
+{#              <div class="col-12">#}
                 <div class="sticky-sidebar__inner">
                 {{ sticky_sidebar }}
                 </div>
-              </div>
-            </div>
+{#              </div>#}
+{#            </div>#}
           </div>
           {% endif %}
 
-          <div class="{{ (sticky_sidebar | render) ? 'col-lg-9' : 'col-12' }} landing-page__content-components">
+          <div class="{{ (sticky_sidebar | render) ? 'col-12 col-lg-9' : 'col-12' }} landing-page__content-components">
             {# Inner node region for blocks #}
             {% if node_top %}
               {{ node_top }}
             {% endif %}
 
             {# Home Flexible feature paragraphs #}
-            {{ content.field_flexible_features }}
-            
+            <div class="row">
+              {{ content.field_flexible_features }}
+            </div>
+
             {# Inner node region for blocks #}
             {% if node_content %}
               {{ node_content }}
@@ -148,7 +145,7 @@
             {% endif %}
 
             {{ content.field_contact_info }}
-            
+
             {% if node_bottom %}
               {{ node_bottom }}
             {% endif %}

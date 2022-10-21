@@ -96,63 +96,6 @@
 
 
     {# Beginning of footer #}
-    <footer class="footer bg-primary py-10">
-      <div class="container">
-        <div class="row footer__logo text-center">
-          <div class="col-12 text-center pb-10 border-bottom border-white">
-            <a class="d-lg-block" href="/"><img src="/{{ directory }}/images/new-footer-logo.png" width="413" height="81" alt="Carlson School of Management (home)"></a>
-          </div>
-        </div>
-        <div class="row footer__content">
-          <div class="col-12 pt-10">
-            <div class="row">
-              {% block footer %}
-                {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
-                  <div class="col-12 col-md-4 col-lg-3 footer__info text-white font-weight-semi-bold {{ (page.footer_first|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
-                    {{ page.footer_first }}
-                  </div>
-                  <div class="col-12 col-md-4 col-lg-3 footer__links text-white {{ (page.footer_second|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
-                    {{ page.footer_second }}
-                  </div>
-                  <div class="col-12 col-md-4 col-lg-3 footer__links text-white {{ (page.footer_third|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
-                    {{ page.footer_third }}
-                  </div>
-                  <div class="col-12 col-lg-3 footer__connect text-white">
-                    <p class="text-center text-md-left mt-0 mb-4 text-uppercase font-weight-semi-bold">Connect with Carlson School</p>
-                    <ul class="list-unstyled list-inline">
-                      <li class="list-inline-item mr-4">
-                        <a href="https://www.facebook.com/CarlsonSchoolUMN" title="Carlson School on Facebook" alt="Carlson School on Facebook" target="_blank">
-                          <i class="fab fa-facebook-square fa-2x"></i>
-                        </a>
-                      </li>
-                      <li class="list-inline-item mr-4">
-                        <a href="https://twitter.com/CarlsonNews" title="Carlson School on Twitter" alt="Carlson School on Twitter" target="_blank">
-                          <i class="fab fa-twitter-square fa-2x"></i>
-                        </a>
-                      </li>
-                      <li class="list-inline-item mr-4">
-                        <a href="https://www.instagram.com/carlsonschoolumn/" title="Carlson School on Instagram" alt="Carlson School on Instagram" target="_blank">
-                          <i class="fab fa-instagram fa-2x"></i>
-                        </a>
-                      </li>
-                      <li class="list-inline-item mr-4">
-                        <a href="https://www.linkedin.com/company/carlsonschoolumn" title="Carlson School on LinkedIn" alt="Carlson School on LinkedIn" target="_blank">
-                          <i class="fab fa-linkedin fa-2x"></i>
-                        </a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a href="https://www.youtube.com/user/CarlsonSchoolUMN" title="Carlson School on YouTube" alt="Carlson School on YouTube" target="_blank">
-                          <i class="fab fa-youtube fa-2x"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              {% endif %}
-            {% endblock %}
-          </div>
-        </div>
-      </div>
-    </footer>
+    {% include '@carlson_refresh/includes/footer.html.twig' %}
   </div>
 </div>

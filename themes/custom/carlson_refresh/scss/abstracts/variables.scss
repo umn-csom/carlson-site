@@ -62,6 +62,7 @@ $light-blue: #73B5B2;
 
 //new colors
 $white-90: rgba($white, 0.9);
+$gray: #EDEDED;
 
 $theme-colors: (
   primary: $accent-shade,
@@ -76,7 +77,10 @@ $theme-colors: (
   gold: $gold,
   ivory: $ivory,
   light-blue: $light-blue,
+  gray: $gray,
+  black: $black,
 );
+$primary:  map-get($theme-colors, "primary");
 $brand-primary: $accent-shade;
 //$brand-success: $green;
 //$brand-info: $teal;
@@ -143,6 +147,7 @@ $h3-font-size:                $font-size-default * 4;
 $h4-font-size:                $font-size-default * 3;
 $h5-font-size:                $font-size-default * 2;
 $h6-font-size:                $font-size-default 1.6;
+$small-font-size:             1.4rem !default;
 
 /* Font weight */
 $headings-font-weight: 300;
@@ -219,7 +224,9 @@ $spacers: map-merge(
       10: $spacer * 5,
       11: $spacer * 5.5,
       12: $spacer * 6,
+      20: $spacer * 10,
       24: $spacer * 12,
+      31: $spacer * 15.5,
     ),
     $spacers
 );
@@ -251,3 +258,22 @@ $input-btn-padding-x:         $spacer * 4;
 $btn-padding-y:               $input-btn-padding-y !default;
 $btn-padding-x:               $input-btn-padding-x !default;
 $btn-font-weight:             600 !default;
+$btn-focus-box-shadow:        none !default;
+$btn-active-box-shadow:       none !default;
+
+// Breadcrumbs
+$breadcrumb-padding-y:              0 !default;
+$breadcrumb-padding-x:              0 !default;
+$breadcrumb-bg:                     transparent !default;
+$breadcrumb-margin-bottom:          0 !default;
+$breadcrumb-divider:                quote("|") !default;
+$breadcrumb-item-padding:           1.5rem !default;
+
+// Navs
+
+$nav-tabs-border-color:             $gray !default;
+$nav-tabs-border-width:             1px !default;
+$nav-tabs-border-radius:            0 !default;
+$nav-tabs-link-hover-border-color:  $gray !default;
+$nav-tabs-link-active-bg:           $gold !default;
+$nav-tabs-link-active-border-color: $gold !default;
