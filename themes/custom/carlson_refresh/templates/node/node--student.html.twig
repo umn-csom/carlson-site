@@ -15,33 +15,40 @@
 {% if 'MBA' in content.field_profile_type.0['#markup'] %}
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'student-profile') }}>
-    <div class="row">
+    <div class="row mt-6">
       <div class="col-lg-10 offset-lg-1">
         <section class="student-profile__top">
           <div class="row">
-            <div class="col-12 col-lg-4">
-                  <div class="student-profile__top--headshot">
-                    {% if content.field_profile_img|field_value is not empty %}
-                      {{ content.field_profile_img|field_value }}
-                    {% else %}
-                      <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
-                    {% endif %}
+            <div class="col-12 col-lg-4 mb-6 mb-lg-10">
+              <div class="image-with-offset-back pb-6 pl-6">
+                <div class="student-profile__top--headshot embed-responsive embed-responsive-5by7 overflow-initial border">
+                  <div class="background embed-responsive-item bg-ivory d-flex ml-n6 mt-6">
+                    <div class="bg-gold">
+                      <div class="background__inner bg-light-blue px-6 h-100" style="clip-path: polygon(0 65%, 100% 75%, 100% 100%, 0 100%);"></div>
+                    </div>
+                    <div class="flex-grow-1"></div>
                   </div>
-
+                  {% if content.field_profile_img|field_value is not empty %}
+                    {{ content.field_profile_img|field_value }}
+                  {% else %}
+                    <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
+                  {% endif %}
+                </div>
+              </div>
             </div>
-            <div class="col-12 col-lg-8 student-profile__top--wrap">
-                <h1 class="student-profile__top--name">
+            <div class="col-12 col-lg-8 mb-10 student-profile__top--wrap">
+                <h1 class="h2 student-profile__top--name mb-1">
                   {{ node.label }}
                 </h1>
 
-                {% if content.field_teaser is not empty %}
+                {% if content.field_teaser|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
                 <div class="student-profile__top--summary">
                   {{ content.field_teaser|field_value  }}
                 </div>
                 {% endif %}
 
-                {% if content.field_profile_quote|field_value is not empty %}
-                <div class="student-profile__top--quote">
+                {% if content.field_profile_quote|field_value|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
+                <div class="student-profile__top--quote bg-gold p-6 font-weight-semi-bold">
                   <div class="student-profile__top--quote-inner">
                     {{ content.field_profile_quote|field_value }}
                   </div>
@@ -55,13 +62,13 @@
         {% if node.body.value|raw is not empty %}
           <section class="student-profile__about">
               <div class="row">
-                  <div class="col-12 col-lg-9">
+                  <div class="col-12 col-lg-8 mb-6 mb-lg-10">
                     <div class="student-profile__about--summary">
                       {{ node.body.value|raw }}
                     </div>
                   </div>
-                  <div class="col-12 col-lg-3 student-profile__sidebar">
-                    <div>
+                  <div class="col-12 col-lg-4 mb-10 student-profile__sidebar">
+                    <div class="border p-6">
                       <h3 class="student-profile__sidebar--label">About {{ content.field_first_name|field_value }}</h3>
 
                       {{ content.field_profile_hometown }}
@@ -86,25 +93,32 @@
 {% else %}
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'student-profile ambassador') }}>
-    <div class="row">
-      <div class="col-lg-10 offset-lg-1">
+    <div class="row justify-content-center mt-6">
+      <div class="col-12 col-lg-10">
         <section class="student-profile__top">
           <div class="row">
-            <div class="col-12 col-lg-4">
-                  <div class="student-profile__top--headshot">
+            <div class="col-12 col-lg-4 mb-6 mb-lg-10">
+              <div class="image-with-offset-back pb-6 pl-6">
+                  <div class="student-profile__top--headshot embed-responsive embed-responsive-5by7 overflow-initial border">
+                    <div class="background embed-responsive-item bg-ivory d-flex ml-n6 mt-6">
+                      <div class="bg-gold">
+                        <div class="background__inner bg-light-blue px-6 h-100" style="clip-path: polygon(0 65%, 100% 75%, 100% 100%, 0 100%);"></div>
+                      </div>
+                      <div class="flex-grow-1"></div>
+                    </div>
                     {% if content.field_profile_img|field_value is not empty %}
                       {{ content.field_profile_img|field_value }}
                     {% else %}
                       <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
                     {% endif %}
                   </div>
-
+                </div>
             </div>
-            <div class="col-12 col-lg-8 student-profile__top--wrap">
-                <h1 class="student-profile__top--name">
+            <div class="col-12 col-lg-8 mb-10 student-profile__top--wrap">
+                <h1 class="h2 student-profile__top--name mb-1">
                   {{ node.label }}
                 </h1>
-                <p class="ambassador__class">Class of {{ content.field_profile_class.0['#markup'] }}</p>
+                <p class="ambassador__class fs-18 font-weight-semi-bold text-uppercase mb-4">Class of {{ content.field_profile_class.0['#markup'] }}</p>
                 {{ content.field_profile_major }}
                 {{ content.field_profile_hometown }}
                 {{ content.field_profile_favorite }}
