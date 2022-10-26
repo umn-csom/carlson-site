@@ -1,6 +1,6 @@
 {{ attach_library('carlson_refresh/quote') }}
 
-{% set bg_color = content.field_background_color|render ? content.field_background_color[0]['#markup'] : 'bg-gold' %}
+{% set bg_color = content.field_background_color|render ? content.field_background_color[0]['#markup'] : 'bg-gold bg-default' %}
 {% set color =  bg_color == 'bg-primary' ? 'text-white' : 'text-body' %}
 
 {% block paragraph %}
@@ -45,7 +45,7 @@
       {% endif %}
       <div class="quote__content col-12 col-lg d-flex align-items-center {{ bg_color }} {{ color }} px-12 pr-lg-24 pt-10 pb-20 {{ content.field_quote_image|render ? 'ml-lg-n12' }}">
         <div>
-          <div class="quote__text font-weight-light ff-serif fs-32 mb-5">
+          <div class="quote__text font-weight-light ff-serif fs-30 mb-5">
             <em>{{ content.field_quote_text|render|striptags }}</em>
           </div>
           {% if content.field_quote_source|field_value is not empty %}
