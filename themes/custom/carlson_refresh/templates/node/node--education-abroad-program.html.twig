@@ -85,17 +85,27 @@
   </header>
 
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'ed-abroad') }}>
-    <section class="row ed-abroad__top">
-      <div class="col-lg-10 offset-lg-1">
+    <section class="row justify-content-center ed-abroad__top">
+      <div class="col-12 col-lg-10">
         {# Program Hero #}
-        <div class="row component-paragraph hero-program">
-          <div class="col-lg-7 hero-program__img">
-            {{ content.field_hero_media }}
+        <div class="row align-items-center component-paragraph hero-program">
+          <div class="col-12 col-lg-7 mb-6 mb-lg-0 hero-program__img">
+            <div class="image-with-offset-back pb-6 pl-6">
+              <div class="embed-responsive embed-responsive-16by9 overflow-initial border">
+                <div class="background embed-responsive-item bg-ivory d-flex ml-n6 mt-6">
+                  <div class="bg-gold">
+                    <div class="background__inner bg-light-blue px-6 h-100" style="clip-path: polygon(0 65%, 100% 75%, 100% 100%, 0 100%);"></div>
+                  </div>
+                  <div class="flex-grow-1"></div>
+                </div>
+                  {{ content.field_hero_media }}
+              </div>
+            </div>
           </div>
-          <div class="col-lg-5 col-12 hero-program__content">
+          <div class="col-12 col-lg-5 hero-program__content">
             <div class="row">
               <div class="col-12">
-                <h1 class="hero-program__title" >{{ node.label }}</h1>
+                <h1 class="h2 hero-program__title">{{ node.label }}</h1>
                 {{ content.field_short_sub_heading }}
               </div>
             </div>
@@ -106,7 +116,7 @@
     <section class="row ed-abroad__content">
       <div class="col-lg-10 offset-lg-1 main-content ed-abroad__content--inner">
         <div class="row">
-          <div class="col-12 col-lg-9">
+          <div class="col-12 col-lg-8">
 
             {% if (content.field_ea_program_dates_info|field_value is not empty) or (content.field_ea_program_dates|field_value is not empty) %}
               <div class="component-paragraph">
@@ -288,8 +298,8 @@
               <div class="component-paragraph">{{ content.field_ea_cost_table }}</div>
             {% endif %}
           </div>
-          <div class="col-12 col-lg-3 ed-abroad__sidebar">
-            <div>
+          <div class="col-12 col-lg-4 ed-abroad__sidebar">
+            <div class="border p-6">
               <h3 class="ed-abroad__sidebar--title">Details:</h3>
               {{ content.field_ea_program_status }}
               {{ content.field_ea_staff }}

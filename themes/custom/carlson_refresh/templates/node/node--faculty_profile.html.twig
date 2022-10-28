@@ -1,4 +1,4 @@
-{{ attach_library('bootstrap_barrio/node') }}
+{#{{ attach_library('bootstrap_barrio/node') }}#}
 
 {%
   set classes = [
@@ -14,115 +14,131 @@
 
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'faculty-profile') }}>
-    <div class="row">
-      <div class="col-10 offset-1">
-        <section class="faculty-profile__top">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xl-10">
+        <section class="faculty-profile__top mb-4">
           <div class="row">
-            <div class="col-12 col-lg-4 faculty-profile__top--headshot-wrapper">
-                {% if content.field_profile_img|field_value is not empty %}
-                  <div class="faculty-profile__top--headshot">
-                    {{ content.field_profile_img|field_value }}
-                  </div>
-                {% endif %}
+            <div class="col-12 col-lg-4 faculty-profile__top--headshot-wrapper d-flex mb-lg-6 pr-lg-0">
+                <div class="w-100 embed-responsive embed-responsive-1by1 border">
+                  {% if content.field_profile_img|field_value is not empty %}
+                    <div class="faculty-profile__top--headshot">
+                      {{ content.field_profile_img|field_value }}
+                    </div>
+                  {% endif %}
+                </div>
             </div>
-            <div class="col-12 col-lg-7 profile-content-wrapper">
+            <div class="col-12 col-lg-8 profile-content-wrapper d-flex mb-6 pl-lg-0">
+              <div class="bg-ivory p-6 p-md-10 w-100">
                 <h1 class="faculty-profile__top--name">
                   {{ node.label }}
                 </h1>
-                <div class="faculty-profile__top--title">
-                  {% if content.field_profile_title|field_value is not empty %}
+                {% if content.field_profile_title|field_value is not empty %}
+                  <div class="faculty-profile__top--title fs-18 font-weight-semi-bold text-uppercase mb-1">
                     {{ content.field_profile_title|field_value }}
-                  {% endif %}
-                </div>
-                <div class="faculty-profile__top--title">
-                  {% if content.field_profile_title_2|field_value is not empty %}
-                    {{ content.field_profile_title_2|field_value }}
-                  {% endif %}
-                </div>
-                <div class="faculty-profile__top--title">
-                  {% if content.field_profile_title_3|field_value is not empty %}
-                    {{ content.field_profile_title_3|field_value }}
-                  {% endif %}
-                </div>
-                <div class="faculty-profile__top--title">
-                  {% if content.field_profile_title_4|field_value is not empty %}
-                    {{ content.field_profile_title_4|field_value }}
-                  {% endif %}
-                </div>
-                <div class="faculty-profile__top--dept">
-                  {{ content.field_profile_dept|field_value }}
-                </div>
-                {% if node.body.summary is not empty %}
-                <div class="faculty-profile__top--summary">
-                    {{ node.body.summary }}
-                </div>
-                {% endif %}
-            </div>
-              <div class="col-12 col-lg-3 faculty-profile__contact">
-                  <h2>Contact</h2>
-
-                  {% if content.field_office_phone|field_value is not empty %}
-                    <div class="faculty-profile__contact--phone">
-                      <a href="tel:{{ content.field_office_phone|field_value }}">
-                        {{ content.field_office_phone|field_value }}
-                      </a>
-                    </div>
-                  {% endif %}
-
-                  {% if content.field_profile_address|field_value is not empty %}
-                  <div class="faculty-profile__contact--address">
-                    {{ content.field_profile_address|field_value }}
                   </div>
-                  {% endif %}
-
-                  {% if content.field_email|field_value is not empty %}
-                    <div class="faculty-profile__contact--email">
-                      <a href="mailto:{{ content.field_email|field_value }}">
-                        {{ content.field_email|field_value }}
-                      </a>
-                    </div>
-                  {% endif %}
-
-                  {% if content.field_profile_cvc|field_value is not empty %}
-                    <div class="faculty-profile__contact--cvc">
-                        <a href="{{ file_url( node.field_profile_cvc.entity.uri.value  ?: '') }}">
-                          Curriculum Vitae
-                        </a>
-                    </div>
-                  {% endif %}
-
-                  {% if content.field_profile_url|field_value is not empty %}
-                    <div class="faculty-profile__contact--link">
-                        {{ content.field_profile_url|field_value }}
-                    </div>
-                  {% endif %}
-
+                {% endif %}
+                {% if content.field_profile_title_2|field_value is not empty %}
+                  <div class="faculty-profile__top--title fs-18 font-weight-semi-bold text-uppercase mb-1">
+                    {{ content.field_profile_title_2|field_value }}
+                  </div>
+                {% endif %}
+                {% if content.field_profile_title_3|field_value is not empty %}
+                  <div class="faculty-profile__top--title fs-18 font-weight-semi-bold text-uppercase mb-1">
+                    {{ content.field_profile_title_3|field_value }}
+                  </div>
+                {% endif %}
+                {% if content.field_profile_title_4|field_value is not empty %}
+                  <div class="faculty-profile__top--title fs-18 font-weight-semi-bold text-uppercase mb-1">
+                    {{ content.field_profile_title_4|field_value }}
+                  </div>
+                {% endif %}
+                {% if content.field_profile_dept|field_value is not empty %}
+                  <div class="faculty-profile__top--dept fs-18 font-weight-semi-bold mb-1">
+                    {{ content.field_profile_dept|field_value }}
+                  </div>
+                {% endif %}
+                {% if node.body.summary is not empty %}
+                  <div class="faculty-profile__top--summary">
+                    {{ node.body.summary }}
+                  </div>
+                {% endif %}
               </div>
-              <div class="col-12 col-lg-9 faculty-profile__experience">
+            </div>
+            <div class="col-12 col-lg-4 faculty-profile__contact d-flex mb-6">
+              <div class="bg-primary text-white p-6 p-md-10 w-100">
+                <h2 class="ff-sans-serif fs-24 font-weight-semi-bold text-uppercase mb-4">Contact</h2>
+
+                {% if content.field_office_phone|field_value is not empty %}
+                  <div class="faculty-profile__contact--phone d-flex align-items-center mb-1">
+                    <span class="icon icon-mobile-phone mr-1"></span>
+                    <a href="tel:{{ content.field_office_phone|field_value }}">
+                      {{ content.field_office_phone|field_value }}
+                    </a>
+                  </div>
+                {% endif %}
+
+                {% if content.field_profile_address|field_value is not empty %}
+                  <div class="faculty-profile__contact--address d-flex align-items-center mb-1">
+                    <span class="icon icon-map-pin mr-1"></span>{{ content.field_profile_address|field_value }}
+                  </div>
+                {% endif %}
+
+                {% if content.field_email|field_value is not empty %}
+                  <div class="faculty-profile__contact--email d-flex align-items-center mb-1">
+                    <span class="icon icon-envelope mr-1"></span>
+                    <a href="mailto:{{ content.field_email|field_value }}">
+                      {{ content.field_email|field_value }}
+                    </a>
+                  </div>
+                {% endif %}
+
+                {% if content.field_profile_cvc|field_value is not empty %}
+                  <div class="faculty-profile__contact--cvc d-flex align-items-center mb-1">
+                    <span class="icon icon-download mr-1"></span>
+                    <a href="{{ file_url( node.field_profile_cvc.entity.uri.value  ?: '') }}">
+                      Curriculum Vitae
+                    </a>
+                  </div>
+                {% endif %}
+
+                {% if content.field_profile_url|field_value is not empty %}
+                  <div class="faculty-profile__contact--link d-flex align-items-center mb-1">
+                    <span class="icon icon-link mr-1"></span>
+                    {{ content.field_profile_url|field_value }}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="col-12 col-lg-8 faculty-profile__experience d-flex mb-6">
+              <div class="faculty-profile__experience__bg bg-gold d-flex">
+                <div class="faculty-profile__experience__bg__inner bg-light-blue px-8"></div>
+              </div>
+              <div class="p-6 p-md-10 bg-ivory flex-grow-1">
                 <div class="row">
                   <div class="col-12 col-md-6">
-                    {% if content.field_profile_degrees|field_value is not empty %}
-                      <h2>Education:</h2>
+                    {% if content.field_profile_degrees|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) %}
+                      <h2 class="ff-sans-serif fs-24 font-weight-semi-bold text-uppercase mb-4">Education:</h2>
                       <ul>
-                          {{ content.field_profile_degrees|field_value }}
+                        {{ content.field_profile_degrees|field_value }}
                       </ul>
                     {% endif %}
                   </div>
                   <div class="col-12 col-md-6">
-                    {% if content.field_profile_expertise|field_value is not empty %}
-                      <h2>Expertise:</h2>
+                    {% if content.field_profile_expertise|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
+                      <h2 class="ff-sans-serif fs-24 font-weight-semi-bold text-uppercase mb-4">Expertise:</h2>
                       <ul>
-                          {{ content.field_profile_expertise|field_value }}
+                        {{ content.field_profile_expertise|field_value }}
                       </ul>
                     {% endif %}
                   </div>
                 </div>
               </div>
+            </div>
           </div>
         </section>
 
         {% if node.body.value|raw is not empty %}
-          <section class="faculty-profile__about">
+          <section class="faculty-profile__about mb-10">
               <div class="row">
                   <div class="col-12">
                     <h2>Biography</h2>
@@ -134,11 +150,12 @@
           </section>
         {% endif %}
 
-        <hr />
+{#        <hr />#}
 
-        {% if content.field_profile_works|field_value is not empty or
-          content.field_profile_activities|field_value is not empty %}
-          <section class="faculty-profile__works">
+        {% if content.field_profile_works|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty or
+          content.field_profile_activities|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty or
+          node.id == 100151 %}
+          <section class="faculty-profile__works mb-10">
               <div class="row">
                   <div class="col-12 text-center">
                     <h2 class="faculty-profile__works--heading">Selected Works & Activities.</h2>
@@ -173,7 +190,7 @@
                         ])
                       %}
                     {% else %}
-                      {% if content.field_profile_works|field_value is not empty %}
+                      {% if content.field_profile_works|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
                         {% set accordion_data = accordion_data|merge([
                             {
                               'label': 'Selected Works',
@@ -185,7 +202,7 @@
                       {% endif %}
                     {% endif %}
 
-                    {% if content.field_profile_activities|field_value is not empty %}
+                    {% if content.field_profile_activities|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
                     {% set accordion_data = accordion_data|merge([
                         {
                           'label': 'Current Activities',

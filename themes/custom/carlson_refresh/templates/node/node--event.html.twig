@@ -59,7 +59,8 @@
  * @see template_preprocess_node()
  */
 #}
-{{ attach_library('bootstrap_barrio/node') }}
+{#{{ attach_library('bootstrap_barrio/node') }}#}
+{{ attach_library('carlson_refresh/events') }}
 
 {%
   set classes = [
@@ -94,78 +95,62 @@
     {# Render hero with hero-basic component #}
     {% if node.field_hero_media.isEmpty %}
       <section>
-        <div class="row basic-hero">
-          <div class="col-11 col-lg-10 offset-lg-1 basic-hero__title">
-            <h1>{{ label }}</h1>
+        <div class="row justify-content-center basic-hero">
+          <div class="col-11 col-lg-10 basic-hero__title">
+            <h1 class="text-center">{{ label }}</h1>
           </div>
         </div>
       </section>
     {% else %}
       <section>
-        <div class="row basic-hero">
-          <div class="col-lg-12 basic-hero__img px-0">
+        <div class="row justify-content-center basic-hero">
+          <div class="col-12 basic-hero__img px-0">
             {{ content.field_hero_media }}
           </div>
-          <div class="col-10 offset-1 basic-hero__title">
+          <div class="col-12 col-lg-10 basic-hero__title">
             <div class="basic-hero__title-inner">
-              <h1>{{ label }}</h1>
+              <h1 class="text-center">{{ label }}</h1>
             </div>
           </div>
         </div>
       </section>
     {% endif %}
     {# Event Details #}
-    <section class="row component-paragraph event__details">
-      <div class="col-12 col-lg-2 event__details--date">
-        {% if content.field_event_date|field_value is not empty %}
-        <div class="date-cal">
+    <section class="row align-items-center border-top border-bottom py-4 py-lg-6 component-paragraph event__details">
+      {% if content.field_event_date|field_value is not empty %}
+        <div class="col-auto px-lg-6 text-center events__item__date d-flex align-items-center justify-content-center">
           {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
-          <div class="date-cal__item">
-            <time datetime="{{ timestamp|date('U') }}">
-              <span class="date-cal__item--day">{{ timestamp|date('d') }}
-              </span>
-              <span class="date-cal__item--month">{{ timestamp|date('F') }}</span>
-            </time>
-          </div>
+          <time datetime="{{ timestamp|date('U') }}">
+            <span class="d-block events__item__date__month font-weight-semi-bold lh-1 text-primary text-uppercase mb-4">{{ timestamp|date('M') }}</span>
+            <span class="d-block events__item__date__day ff-serif font-weight-light lh-1 text-primary">{{ timestamp|date('j') }}</span>
+          </time>
         </div>
-        {% endif %}
-      </div>
-      <div class="col-12 col-lg-10">
-        <div class="row">
-          <div class="col-12">
-            <hr class="event__details--divider event__details--divider__desktop" />
-          </div>
-          <div class="event__details--all-info col-12 col-lg-9 col-xl-10">
-            <div class="event__details--all-info__wrapper col-12">
-              <div class="row">
-                <div class="col-12 col-lg-8 event__details--info event__details--time">
-                  <span class="event__details--label">Time: </span>{{ content.field_event_date }}
-                </div>
-                {% if content.field_event_cost|field_value is not empty %}
-                <div class="col-12 col-lg-4 event__details--info event__details--cost">
-                  <span class="event__details--label">Cost: </span>{{ content.field_event_cost }}
-                </div>
-                {% endif %}
+      {% endif %}
+      <div class="col px-lg-6 fs-18">
+        <div class="row align-items-center">
+          <div class="col-12 col-sm pr-lg-6 mb-3 mb-sm-0">
+            {% if content.field_event_date|field_value is not empty %}
+              <div class="d-flex flex-wrap d-lg-block mb-2">
+                <div class="event__details--label font-weight-semi-bold text-uppercase mr-1">Time: </div><div>{{ content.field_event_date }}</div>
               </div>
-              <div class="row">
-                <div class="col-12 event__details--info event__details--address">
-                  <span class="event__details--label">Location: </span><span class="event__details--address__location">{{ content.field_event_location }}</span>
-                </div>
+            {% endif %}
+            {% if content.field_event_cost|field_value is not empty %}
+              <div class="d-flex flex-wrap d-lg-block mb-2">
+                <div class="event__details--label font-weight-semi-bold text-uppercase mr-1">Cost: </div><div>{{ content.field_event_cost }}</div>
               </div>
-            </div>
-          </div>
-          <div class="col-12 col-lg-3 col-xl-2">
-            {% if content.field_link|field_value is not empty %}
-            <a href="{{ content.field_link.0['#url'] }}" class="event__details--attend">Attend</a>
+            {% endif %}
+            {% if content.field_event_location|field_value is not empty %}
+              <div class="d-flex flex-wrap d-lg-block">
+                <div class="event__details--label font-weight-semi-bold text-uppercase mr-1">Location: </div><div>{{ content.field_event_location }}</div>
+              </div>
             {% endif %}
           </div>
-          <div class="col-12">
-            <hr class="event__details--divider event__details--divider__desktop" />
-          </div>
+          {% if content.field_link|field_value is not empty %}
+            <div class="col-12 col-sm-auto pl-lg-6">
+              <a href="{{ content.field_link.0['#url'] }}" class="btn btn-primary">Attend</a>
+            </div>
+          {% endif %}
         </div>
-      </div>
-      <div class="col-12">
-        <hr class="event__details--divider event__details--divider__mobile" />
       </div>
     </section>
 

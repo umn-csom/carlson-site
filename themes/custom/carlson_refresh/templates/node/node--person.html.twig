@@ -1,4 +1,4 @@
-{{ attach_library('bootstrap_barrio/node') }}
+{#{{ attach_library('bootstrap_barrio/node') }}#}
 
 {%
   set classes = [
@@ -14,32 +14,42 @@
 
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'person-profile') }}>
-    <div class="row">
-      <div class="col-lg-10 offset-lg-1">
+    <div class="row justify-content-center mt-6">
+      <div class="col-12 col-lg-10">
         <section class="person-profile__top">
           <div class="row">
-            <div class="col-12 col-lg-4">
-                  <div class="person-profile__top--headshot">
-                    {% if content.field_profile_img|field_value is not empty %}
-                      {{ content.field_profile_img|field_value }}
-                    {% else %}
-                      <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
-                    {% endif %}
+            <div class="col-12 col-lg-4 mb-6 mb-lg-10">
+              <div class="image-with-offset-back pb-6 pl-6">
+                <div class="person-profile__top--headshot embed-responsive embed-responsive-5by7 overflow-initial border">
+                  <div class="background embed-responsive-item bg-ivory d-flex ml-n6 mt-6">
+                    <div class="bg-gold">
+                      <div class="background__inner bg-light-blue px-6 h-100" style="clip-path: polygon(0 65%, 100% 75%, 100% 100%, 0 100%);"></div>
+                    </div>
+                    <div class="flex-grow-1"></div>
                   </div>
-
+                  {% if content.field_profile_img|field_value is not empty %}
+                    {{ content.field_profile_img|field_value }}
+                  {% else %}
+                    <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
+                  {% endif %}
+                </div>
+              </div>
             </div>
-            <div class="col-12 col-lg-8 person-profile__top--wrap">
-                <h1 class="person-profile__top--name">
+            <div class="col-12 col-lg-8 mb-10 person-profile__top--wrap">
+                <h1 class="h2 person-profile__top--name mb-1">
                   {{ node.label }}
                 </h1>
 
-                {% if content.field_profile_title|field_value is not empty %}
-                  <div class="person-profile--title">{{ content.field_profile_title }}</div>
+                {% if content.field_profile_title|field_value|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
+                  <div class="person-profile--title mb-4 text-uppercase font-weight-semi-bold">{{ content.field_profile_title }}</div>
                 {% endif %}
 
-                <div class="person-profile__contact">
-                  <h2>Contact:</h2>
-                  {% if content.field_office_phone|field_value is not empty %}
+              {% if content.field_office_phone|field_value|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty or
+                content.field_profile_address|field_value|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty or
+                content.field_email|field_value|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
+                <div class="person-profile__contact mb-4">
+                  <h2 class="h3">Contact:</h2>
+                  {% if content.field_office_phone|field_value|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
                     <div class="person-profile__contact--phone">
                       <a href="tel:{{ content.field_office_phone|field_value }}">
                         {{ content.field_office_phone|field_value }}
@@ -47,13 +57,13 @@
                     </div>
                   {% endif %}
 
-                  {% if content.field_profile_address|field_value is not empty %}
+                  {% if content.field_profile_address|field_value|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
                   <div class="person-profile__contact--address">
                     {{ content.field_profile_address|field_value }}
                   </div>
                   {% endif %}
 
-                  {% if content.field_email|field_value is not empty %}
+                  {% if content.field_email|field_value|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
                     <div class="person-profile__contact--email">
                       <a href="mailto:{{ content.field_email|field_value }}">
                         {{ content.field_email|field_value }}
@@ -61,9 +71,10 @@
                     </div>
                   {% endif %}
                 </div>
+              {% endif %}
 
                 {% if content.field_profile_quote|field_value is not empty %}
-                <div class="person-profile__top--quote">
+                <div class="person-profile__top--quote bg-gold p-6">
                     {{ content.field_profile_quote|field_value }}
                 </div>
                 {% endif %}
@@ -73,7 +84,7 @@
         </section>
 
         {% if node.body.value|raw is not empty %}
-          <section>
+          <section class="mb-10">
             <div class="row">
               <div class="col-12 person-profile__summary">
                 <h3>About</h3>
