@@ -49,19 +49,21 @@
 %}
 {% block paragraph %}
     {% block content %}
-    <div class="row component-paragraph speaker">
-      <div class="col-12 col-md-3 col-lg-3 offset-lg-1 speaker__img">
+    <div class="row mb-8 speaker py-6 px-3 border shadow">
+      <div class="col-12 col-md-3  mb-3 mb-lg-0 speaker__img">
         <div class="row">
-          <div class="col-6 col-md-12">
-            {{ content.field_person_headshot }}
+          <div class="col-12">
+            <div class="embed-responsive embed-responsive-5by7 mb-3 mb-lg-0">
+              {{ content.field_person_headshot }}
+            </div>
           </div>
           {% if (content.field_link_linkedin | field_value is not empty) or (content.field_link_facebook | field_value is not empty) or (content.field_link_twitter | field_value is not empty) %}
           <div class="col-12 speaker__social">
-            {% if content.field_link_linkedin | field_value is not empty %}
-              <p><a href="{{ content.field_link_linkedin.0['#url'] }}"><i class="icon icon-linkedin" title="LinkedIn" alt="LinkedIn"></i> View Profile</a></p>
-            {% endif %}
-            {% if (content.field_link_facebook | field_value is not empty) or (content.field_link_twitter | field_value is not empty) %}
-              <ul class="social-media list-unstyled list-inline">
+            {% if (content.field_link_linkedin | field_value is not empty) or (content.field_link_facebook | field_value is not empty) or (content.field_link_twitter | field_value is not empty) %}
+              <ul class="social-media list-unstyled list-inline text-center text-lg-left">
+                {% if content.field_link_linkedin | field_value is not empty %}
+                  <li><a href="{{ content.field_link_linkedin.0['#url'] }}"><i class="icon icon-linkedin" title="LinkedIn" alt="LinkedIn"></i></a></li>
+                {% endif %}
                 {% if content.field_link_facebook | field_value is not empty %}
                 <li><a href="{{ content.field_link_facebook.0['#url'] }}"><i class="icon icon-facebook" title="Facebook" alt="Facebook"></i></a></li>
                 {% endif %}
@@ -74,8 +76,8 @@
           {% endif %}
         </div>
       </div>
-      <div class="col-12 col-md-9 col-lg-7 speaker__bio">
-        <header>
+      <div class="col-12 col-md-9 speaker__bio">
+        <header class="mb-3">
           <h4 class="speaker__bio--name">{{ content.field_person_name }}</h4>
           <p class="speaker__bio--title">{{ content.field_person_role }} - {{ content.field_person_organization }}</p>
         </header>

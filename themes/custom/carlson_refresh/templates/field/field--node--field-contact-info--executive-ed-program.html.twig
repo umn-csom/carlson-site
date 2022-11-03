@@ -52,48 +52,27 @@
 ]
 %}
 
-<div class="container space-above">
-  <div class="row no-gutters component-paragraph contact-cta py-8 py-xl-12 border box-shadow">
-    {% for item in items %}
-      <div class="col-12 col-xl-6 contact-cta__contact px-8 px-xl-12 mb-8 mb-xl-0">
-        <h2 class="contact-cta__contact--heading">{{ item.content.field_block_heading }}</h2>
+<div class="row component-paragraph contact-cta ee_contact-cta">
+  {% for item in items %}
+    <div class="col-md-12 contact-cta__contact">
+      <h5 class="contact-cta__contact--heading">Program Contact</h5>
+      <div class="contact-cta__contact--person">{{ item.content.field_block_heading }}</div>
+      {% if item.content.field_block_subheading|field_value is not empty %}
+        <div class="contact-cta__contact--subheading">{{ item.content.field_block_subheading }}</div>
+      {% endif %}
+      <ul class="list-inline">
         {% if item.content.field_email|field_value is not empty %}
-          <div class="contact-cta__contact--email fs-24"><span class="font-weight-semi-bold">Email:</span> <a class="font-weight-normal text-black" href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></div>
+          <li class="list-inline-item contact-cta__contact--email">Email: <a href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></li>
         {% endif %}
         {% if item.content.field_phone|field_value is not empty %}
-          <div class="contact-cta__contact--phone fs-24"><span class="font-weight-semi-bold">Phone:</span> <a class="font-weight-normal text-black" href="{{ item.content.field_phone[0]['#url'] }}">{{ item.content.field_phone[0]['#title'] }}</a></div>
+          <li class="list-inline-item contact-cta__contact--phone">Phone: {{ item.content.field_phone }}</li>
         {% endif %}
+        {# item.content.field_request_link #}
         {% if item.content.field_request_link|render %}
-          <div class="btn btn-primary mt-4">{{ item.content.field_request_link }}</div>
+          <li class="list-inline-item contact-cta__contact--link">{{ item.content.field_request_link }}</li>
         {% endif %}
-      </div>
-      <div class="col-12 col-xl-6 contact-cta__social px-8 px-xl-12 d-flex align-items-end">
-        <div>
-          <p class="contact-cta__social--heading text-uppercase font-weight-semi-bold mb-4 mb-lg-6">{{ item.content.field_social_heading }}</p>
-          <div class="row mx-n3 align-items-center">
-            {% if item.content.field_link_facebook.0['#url'] is not empty %}
-              <div class="col-auto px-3 fs-40 contact-cta__social--list-item"><a title="Facebook" class="text-decoration-none" alt="Facebook" href="{{ item.content.field_link_facebook.0['#url'] }}"><i class="icon icon-facebook"></i></a></div>
-            {% endif %}
-
-            {% if item.content.field_link_twitter.0['#url'] is not empty %}
-              <div class="col-auto px-3 fs-40 contact-cta__social--list-item"><a title="Twitter" class="text-decoration-none" alt="Twitter" href="{{ item.content.field_link_twitter.0['#url'] }}"><i class="icon icon-twitter"></i></a></div>
-            {% endif %}
-
-            {% if item.content.field_link_instagram.0['#url'] is not empty %}
-              <div class="col-auto px-3 fs-40 contact-cta__social--list-item"><a title="Instagram" class="text-decoration-none" alt="Instagram" href="{{ item.content.field_link_instagram.0['#url'] }}"><i class="icon icon-instagram"></i></a></div>
-            {% endif %}
-
-            {% if item.content.field_link_linkedin.0['#url'] is not empty %}
-              <div class="col-auto px-3 fs-40 contact-cta__social--list-item"><a title="LinkedIn" class="text-decoration-none" alt="LinkedIn" href="{{ item.content.field_link_linkedin.0['#url'] }}"><i class="icon icon-linkedin"></i></a></div>
-            {% endif %}
-
-            {% if item.content.field_link_youtube.0['#url'] is not empty %}
-              <div class="col-auto px-3 fs-40 contact-cta__social--list-item"><a title="YouTube" class="text-decoration-none" alt="YouTube" href="{{ item.content.field_link_youtube.0['#url'] }}"><i class="icon icon-youtube"></i></a></div>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-
-    {% endfor %}
-  </div>
+      </ul>
+    </div>
+  {% endfor %}
 </div>
+
