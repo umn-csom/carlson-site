@@ -50,18 +50,18 @@
 {% block paragraph %}
     {% block content %}
     <div class="row mb-8 speaker py-6 px-3 border shadow">
-      {% if content.field_person_headshot|render|striptags|trim or (content.field_link_linkedin|field_value is not empty) or (content.field_link_facebook|field_value is not empty) or (content.field_link_twitter|field_value is not empty) %}
-        <div class="col-12 col-md-3 mb-3 mb-lg-0 speaker__img">
-          <div class="row">
-            {% if content.field_person_headshot|render|striptags|trim %}
-            <div class="col-12">
+      {% if content.field_person_headshot|render or (content.field_link_linkedin|field_value is not empty) or (content.field_link_facebook|field_value is not empty) or (content.field_link_twitter|field_value is not empty) %}
+        <div class="col-12 col-md-3 px-3 mb-3 mb-lg-0 speaker__img">
+          <div class="row mx-n3">
+            {% if content.field_person_headshot|render %}
+            <div class="col-12 px-3">
               <div class="embed-responsive embed-responsive-5by7 mb-3 mb-lg-0">
                 {{ content.field_person_headshot }}
               </div>
             </div>
             {% endif %}
             {% if (content.field_link_linkedin|field_value is not empty) or (content.field_link_facebook|field_value is not empty) or (content.field_link_twitter|field_value is not empty) %}
-            <div class="col-12 speaker__social">
+            <div class="col-12 px-3 speaker__social">
               {% if (content.field_link_linkedin | field_value is not empty) or (content.field_link_facebook | field_value is not empty) or (content.field_link_twitter | field_value is not empty) %}
                 <ul class="social-media list-unstyled list-inline text-center text-lg-left">
                   {% if content.field_link_linkedin | field_value is not empty %}
@@ -80,7 +80,7 @@
           </div>
         </div>
       {% endif %}
-      <div class="col-12 col-md-9 speaker__bio">
+      <div class="col-12 col-md-9 px-3 speaker__bio">
         <header class="mb-3">
           <h4 class="speaker__bio--name">{{ content.field_person_name }}</h4>
           <p class="speaker__bio--title">{{ content.field_person_role }} - {{ content.field_person_organization }}</p>
