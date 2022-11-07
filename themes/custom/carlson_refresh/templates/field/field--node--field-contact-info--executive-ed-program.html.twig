@@ -39,38 +39,40 @@
 #}
 {%
   set classes = [
-    'field',
-    'field--name-' ~ field_name|clean_class,
-    'field--type-' ~ field_type|clean_class,
-    'field--label-' ~ label_display,
-  ]
+  'field',
+  'field--name-' ~ field_name|clean_class,
+  'field--type-' ~ field_type|clean_class,
+  'field--label-' ~ label_display,
+]
 %}
 {%
   set title_classes = [
-    'field__label',
-    label_display == 'visually_hidden' ? 'visually-hidden',
-  ]
+  'field__label',
+  label_display == 'visually_hidden' ? 'visually-hidden',
+]
 %}
 
 <div class="row component-paragraph contact-cta ee_contact-cta">
-{% for item in items %}
-  <div class="col-md-12 contact-cta__contact">
-    <h5 class="contact-cta__contact--heading">Program Contact</h5>
-    <div class="contact-cta__contact--person">{{ item.content.field_block_heading }}</div>
-    {% if item.content.field_block_subheading|field_value is not empty %}
-    <div class="contact-cta__contact--subheading">{{ item.content.field_block_subheading }}</div>
-    {% endif %}
-    <ul class="list-inline">
-      {% if item.content.field_email|field_value is not empty %}
-      <li class="list-inline-item contact-cta__contact--email">Email: <a href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></li>
+  {% for item in items %}
+    <div class="col-md-12 contact-cta__contact">
+      <h5 class="contact-cta__contact--heading">Program Contact</h5>
+      <div class="contact-cta__contact--person">{{ item.content.field_block_heading }}</div>
+      {% if item.content.field_block_subheading|field_value is not empty %}
+        <div class="contact-cta__contact--subheading">{{ item.content.field_block_subheading }}</div>
       {% endif %}
-      {% if item.content.field_phone|field_value is not empty %}
-      <li class="list-inline-item contact-cta__contact--phone">Phone: {{ item.content.field_phone }}</li>
-      {% endif %}
-      {% if item.content.field_request_link|render %}
-      <li class="list-inline-item contact-cta__contact--link">{{ item.content.field_request_link }}</li>
-      {% endif %}
-    </ul>
-  </div>
-{% endfor %}
+      <ul class="list-inline">
+        {% if item.content.field_email|field_value is not empty %}
+          <li class="list-inline-item contact-cta__contact--email">Email: <a href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></li>
+        {% endif %}
+        {% if item.content.field_phone|field_value is not empty %}
+          <li class="list-inline-item contact-cta__contact--phone">Phone: {{ item.content.field_phone }}</li>
+        {% endif %}
+        {# item.content.field_request_link #}
+        {% if item.content.field_request_link|render %}
+          <li class="list-inline-item contact-cta__contact--link">{{ item.content.field_request_link }}</li>
+        {% endif %}
+      </ul>
+    </div>
+  {% endfor %}
 </div>
+

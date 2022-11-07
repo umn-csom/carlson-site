@@ -570,6 +570,16 @@ function carlson_refresh_preprocess_slick(&$variables) {
         }
         break;
     }
-    $test = 123;
+  }
+  if($variables["settings"]["optionset"] == 'new_front_stats' && count($variables["items"]) < 3) {
+    $data_slick = json_decode($variables['content_attributes']->toArray()['data-slick']);
+    foreach ($data_slick->responsive as $key => $responsive_item) {
+      if($responsive_item->breakpoint == 992) {
+        $data_slick->responsive[$key]->settings->slidesPerRow = count($variables["items"]);
+        $data_slick->responsive[$key]->settings->slidesToShow = count($variables["items"]);
+        $data_slick->responsive[$key]->settings->slidesToScroll = count($variables["items"]);
+      }
+    }
+    $variables['content_attributes']->setAttribute('data-slick', json_encode($data_slick));
   }
 }

@@ -55,7 +55,7 @@
   {% set count = items|length %}
   {% for item in items %}
     {% set type = item.content['#paragraph'].type.0.target_id %}
-    {% if node.gettype == 'executive_ed_program' %}
+    {# {% if node.gettype == 'executive_ed_program' %}
       {% if type == 'quote_group' %}
         {% if count == 1 %}
           <div class="container col-12 col-lg-12 quote-group__wrap">{{ item.content }}</div>
@@ -77,7 +77,8 @@
       {% else %}
         <div class="col-12 col-lg-12">{{ item.content }}</div>
       {% endif %}
-    {% elseif node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
+    {% elseif node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %} #}
+    {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
       {% if type != 'hero' and type != 'gray_background' and type != 'quote_group' and type != 'fluid_columns' and type != 'quote' %}
         <div class="container">
       {% elseif type == 'fluid_columns' %}
