@@ -262,17 +262,21 @@
                     color: $white;
                     text-align: left;
                     font-weight: 600;
-                    font-family: $font-montserrat;
+                    font-family: $font-family-sans-serif;
                     letter-spacing: 0.88px;
                     font-size: 2.8rem;
                     text-transform: none;
                     line-height: 3.8rem;
                     font-weight: bold;
                     padding: 2rem 3rem;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
                     &:before {
-                        @include carlson-icons($icon-carrot-down);
-                        color: $gold;
-                        font-size: 2rem;
+                        //@include carlson-icons($icon-carrot-down);
+                        //color: $gold;
+                        //font-size: 2rem;
+                      display: none;
                     }
                     @include media-breakpoint-up(md){
                         font-size: 2.5rem;
@@ -287,9 +291,9 @@
                     h2 {
                         flex: 0 0 auto;
                         text-align: left;
-                        color: $centennial-red;
-                        font-weight: 300;
-                        font-family: $font-montserrat;
+                        color: $body-color;
+                        font-weight: 600;
+                        font-family: $font-family-sans-serif;
                         letter-spacing: 0.83px;
                         font-size: 2rem;
                         text-transform: uppercase;
@@ -585,7 +589,7 @@
                 padding: 15px 30px 0 30px;
                 background: $white;
                 background-position: bottom;
-                transition: all 0.3s ease-in-out; 
+                transition: all 0.3s ease-in-out;
                 &:last-child {
                     border-bottom: none;
                 }
@@ -773,4 +777,15 @@
             }
         }
     }
+  .sticky-wrapper.is-sticky {
+    .centennial {
+      &__timeline {
+        &--nav {
+          &-wrapper {
+            margin-top: 75px;
+          }
+        }
+      }
+    }
+  }
 }

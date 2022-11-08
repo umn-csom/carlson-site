@@ -60,6 +60,7 @@
  * @see template_preprocess_node()
  */
 #}
+{{ attach_library('carlson_refresh/events') }}
 {%
   set classes = [
     'row',
@@ -68,21 +69,27 @@
   ]
 %}
 {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
-<div class="row ml-1 mr-1 mr-lg-0 ml-lg-0 event-items__item mb-5">
-    <div class="date-cal">
-      <div class="date-cal__item">
-        <time datetime="{{ timestamp|date('U') }}">
-          <span class="date-cal__item--day">{{ timestamp|date('j') }}</span>
-          <span class="date-cal__item--month">{{ timestamp|date('F') }}</span>
-        </time>
-      </div>
+<div class="row border no-gutters events__item mb-6 flex-grow-1">
+  <div class="col-12 col-md-3 m-md-3 m-lg-5 order-md-last embed-responsive embed-responsive-16by9">
+    {% if node.field_event_image|file_url is not empty %}
+      <img class="{{ node.isSticky() ? 'event-items__item--image' : '' }}" src="{{ node.field_event_image|file_url }}">
+    {% else %}
+      <img class="{{ node.isSticky() ? 'event-items__item--image' : '' }}" src="/{{ base_path ~ directory }}/images/events-default.png">
+    {% endif %}
+  </div>
+
+    <div class="col-auto px-4 px-lg-6 py-4 py-lg-6 text-center events__item__date d-flex align-items-center justify-content-center">
+      <time datetime="{{ timestamp|date('U') }}">
+        <span class="d-block events__item__date__month font-weight-semi-bold lh-1 text-primary text-uppercase mb-4">{{ timestamp|date('M') }}</span>
+        <span class="d-block events__item__date__day ff-serif font-weight-light lh-1 text-primary">{{ timestamp|date('j') }}</span>
+      </time>
     </div>
 
-    <div class="event-items__details--container">
+    <div class="col px-4 px-lg-6 py-4 py-lg-6 events__item__details d-flex flex-column align-items-start">
         <div class="event-items__details">
 
             <span class="event-items__item--featured {{ node.isSticky() ? '' : 'd-none' }}">Featured</span>
-            <h4 class="{{ node.isSticky() ? 'event-items__item--title' : '' }}">{{ label }}</h4>
+            <h3 class="{{ node.isSticky() ? 'event-items__item--title' : '' }}">{{ label }}</h3>
             {% if node.field_location_type is not empty %}
                 {% set list_value = node.field_location_type.value %}
                 <span class="event-items__item--location d-none d-lg-block"><i class='bx bxs-map'></i>{{ node.field_location_type.getSetting('allowed_values')[list_value] }}</span>
@@ -92,19 +99,10 @@
                 {{ (text|length > 150 ? text|slice(0, 151)|split(' ')|slice(0, -1)|join(' ') ~ '&hellip;' : text)|raw }}
             </div>
 
-            <a href="{{ url }}">
-                <span class="event-items__item--link">Read More</span>
-            </a>
+            <a class="btn btn-primary mt-3" href="{{ url }}">Read More</a>
         </div>
     </div>
 
-    <div class="order-lg-2 offset-lg-0 event-items__item--image mt-lg-auto mb-lg-auto {{ node.isSticky() ? 'col-12 col-lg-3' : 'col-3 ' }}">
-        {% if node.field_event_image|file_url is not empty %}
-            <img class="{{ node.isSticky() ? 'event-items__item--image' : '' }}" src="{{ node.field_event_image|file_url }}">
-        {% else %}
-            <img class="{{ node.isSticky() ? 'event-items__item--image' : '' }}" src="/{{ base_path ~ directory }}/images/events-default.png">
-        {% endif %}
-    </div>
 
 </div>
 

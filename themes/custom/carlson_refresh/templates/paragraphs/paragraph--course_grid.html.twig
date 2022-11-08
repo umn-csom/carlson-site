@@ -101,12 +101,12 @@
       </div>
       {% endif %}
 
-      <div class="col-12 component-paragraph course-grid__items">
+      <div class="col-12 component-paragraph course-grid__items mt-8">
         <div class="row">
           {% set inc = 0 %}
           {% for item in items %}
             {# {{ vardumper(item['#paragraph'].field_link[0].url) }} #}
-                <div class="col-12 col-lg-4 px-0">
+                <div class="col-12 col-lg-4 mb-6">
                   <!-- Card Flip -->
                   <div class="card-flip text-center {{ item['#paragraph'].field_course_icon.0.value }}">
                     <div class="flip">
@@ -124,7 +124,7 @@
                           <div class="card-block">
                             <p class="card-flip__back--title">{{ item['#paragraph'].field_heading.0.value }}</p>
                             <p class="card-flip__back--text">{{ item['#paragraph'].field_plain_text.0.value|raw|striptags }}</p>
-                            <a href="{{ path(item['#paragraph'].field_link.0.url.routeName, item['#paragraph'].field_link.0.url.routeParameters) }}" class="card-flip__back--link">
+                            <a href="{{ path(item['#paragraph'].field_link.0.url.routeName, item['#paragraph'].field_link.0.url.routeParameters) }}" class="btn btn-gold mt-1">
                               {{ item['#paragraph'].field_link.title }}
                             </a>
                           </div>

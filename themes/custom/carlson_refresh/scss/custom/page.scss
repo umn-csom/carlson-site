@@ -19,7 +19,7 @@
     position: absolute;
     top: 0;
     left: 0;
-    border: solid 1px $light-gray;
+    border: solid 1px $maroon;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -259,31 +259,36 @@
     max-width: 100%;
 }
 
-//.node__bottom {
-//  display: flex;
-//  flex-direction: column;
-//  @include media-breakpoint-up(lg){
-//    flex-direction: row;
-//  }
-//  &__col {
-//    &:not(:empty){
-//      flex: 1 1;
-//    }
-//    &--single {
-//      .event-items__item--row {
-//        @include media-breakpoint-up(lg){
-//          @include make-col(6);
-//          // margin: 0 auto;
-//        }
-//      }
-//      .news-items__item--row {
-//        @include media-breakpoint-up(lg){
-//          @include make-col(6);
-//        }
-//      }
-//    }
-//  }
-//}
+.node__bottom {
+  //display: flex;
+  //flex-direction: column;
+  //@include media-breakpoint-up(lg){
+  //  flex-direction: row;
+  //}
+  &__col {
+    @include make-col(12);
+    padding: 0 15px;
+    @include media-breakpoint-up(lg){
+      @include make-col(6);
+    }
+    //&:not(:empty){
+    //  flex: 1 1;
+    //}
+    //&--single {
+    //  .event-items__item--row {
+    //    @include media-breakpoint-up(lg){
+    //      @include make-col(6);
+    //      // margin: 0 auto;
+    //    }
+    //  }
+    //  .news-items__item--row {
+    //    @include media-breakpoint-up(lg){
+    //      @include make-col(6);
+    //    }
+    //  }
+    //}
+  }
+}
 
 /* Modal Overrides */
 .ui-dialog .ui-dialog-title {
