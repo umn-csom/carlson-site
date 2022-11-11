@@ -2,6 +2,7 @@
 -------------------------------------------------*/
 html {
     font-size: 62.5%;
+  overflow-x: hidden;
 }
 
 body {
@@ -9,9 +10,30 @@ body {
   -moz-osx-font-smoothing: grayscale;
   @include font-sans-serif-base();
   color: $slate;
+  @include rfs($font-size-base);
   //font-size: 1.6rem;
   //line-height: 160%;
 }
+
+h1, .h1 {
+  @include rfs($h1-font-size);
+}
+h2, .h2 {
+  @include rfs($h2-font-size);
+}
+h3, .h3 {
+  @include rfs($h3-font-size);
+}
+h4, .h4 {
+  @include rfs($h4-font-size);
+}
+h5, .h5 {
+  @include rfs($h5-font-size);
+}
+h6, .h6 {
+  @include rfs($h6-font-size);
+}
+
 
 //.container {
 //    max-width: 1600px;
@@ -36,6 +58,12 @@ a {
 hr {
     margin-top: 2rem;
     margin-bottom: 2rem;
+}
+
+ul, ol {
+  li {
+    margin-bottom: 1rem;
+  }
 }
 
 .font-weight-semi-bold {
@@ -230,6 +258,7 @@ hr {
 .table,
 .table-striped,
 table {
+  max-width: 100%;
   tr {
     background: $white;
     border: 0 !important;

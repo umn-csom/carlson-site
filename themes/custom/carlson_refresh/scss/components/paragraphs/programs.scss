@@ -1,5 +1,6 @@
 @import "../../abstracts/variables";
 @import "node_modules/bootstrap/scss/vendor/rfs";
+@import "node_modules/bootstrap/scss/mixins";
 
 .programs {
   &__item {
@@ -13,6 +14,13 @@
       @include rfs(2.4rem);
       &:hover {
         text-decoration: none;
+      }
+    }
+    @include media-breakpoint-down(sm) {
+      .embed-responsive {
+        &:before {
+          padding-top: 100%;
+        }
       }
     }
   }

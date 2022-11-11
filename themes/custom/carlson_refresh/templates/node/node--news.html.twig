@@ -91,8 +91,8 @@
     {% if node.field_hero_media.isEmpty %}
       <section>
         <div class="row justify-content-center basic-hero">
-          <div class="col-12 col-lg-10 basic-hero__title">
-            <h1 class="text-center">{{ label }}</h1>
+          <div class="col-12 basic-hero__title">
+            <h1>{{ label }}</h1>
             <div class="row">
               <div class="col-12 col-lg basic-hero__pub">
                 <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
@@ -107,12 +107,12 @@
     {% else %}
       <section>
         <div class="row justify-content-center basic-hero">
-          <div class="col-md-12 basic-hero__img px-0">
+          <div class="col-12 basic-hero__img">
             {{ content.field_hero_media }}
           </div>
-          <div class="col-11 col-lg-10 basic-hero__title">
+          <div class="col-12 basic-hero__title">
             <div class="basic-hero__title-inner">
-              <h1 class="text-center">{{ label }}</h1>
+              <h1>{{ label }}</h1>
               <div class="row">
                 <div class="col-12 col-lg basic-hero__pub">
                   <p><span class="date">{{ node.getCreatedTime|date('l, F j, Y') }}</span></p>
@@ -151,7 +151,7 @@
     {{ drupal_view('magazine_for_news', 'block_1') }}
 
     <div class="row justify-content-center page-links mb-10">
-      <div class="col-12 col-lg-10">
+      <div class="col-12">
         <div class="row">
           {% if content.field_news_channels|field_value is not empty %}
           <div class="col-lg page-links__tags">
@@ -159,9 +159,9 @@
             {{ content.field_news_channels }}
           </div>
           {% endif %}
-          <div class="col-lg">
-            <p class="share-this">Share This {{ content.addtoany }}</p>
-          </div>
+{#          <div class="col-lg">#}
+{#            <p class="share-this">Share This {{ content.addtoany }}</p>#}
+{#          </div>#}
         </div>
       </div>
     </div>

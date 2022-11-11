@@ -89,20 +89,20 @@
     {% if content.field_hero_media|field_value is empty %}
       <section>
         <div class="row basic-hero">
-          <div class="col-11 col-lg-10 offset-lg-1 basic-hero__title">
-            <h1 class="text-center">{{ label }}</h1>
+          <div class="col-12 basic-hero__title">
+            <h1>{{ label }}</h1>
           </div>
         </div>
       </section>
     {% else %}
       <section>
         <div class="row basic-hero">
-          <div class="col-lg-12 basic-hero__img">
+          <div class="col-12 basic-hero__img">
             {{ content.field_hero_media }}
           </div>
-          <div class="col-10 offset-1 basic-hero__title">
+          <div class="col-12 basic-hero__title">
             <div class="basic-hero__title-inner">
-              <h1 class="text-center">{{ label }}</h1>
+              <h1>{{ label }}</h1>
             </div>
           </div>
         </div>
@@ -152,11 +152,13 @@
               {{ node_top }}
 
             {# Home Flexible feature paragraphs #}
+            {% if content.body|field_value is not empty %}
             <div class="row component-paragraph">
               <div class="col-12">
                 {{ content.body }}
               </div>
             </div>
+            {% endif %}
 
             {# Inner node region for blocks #}
             {{ node_content }}

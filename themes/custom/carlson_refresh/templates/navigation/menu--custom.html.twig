@@ -101,7 +101,7 @@ We call a macro which calls itself to render the full tree.
 @see http://twig.sensiolabs.org/doc/tags/macro.html
 #}
 
-<div class="sticky-menu pr-6">
+<div class="sticky-menu pr-lg-6 mb-10 mb-lg-0">
   {% if items %}
     {% set first_menu_item = items|first %}
     {% if first_menu_item.url.isrouted == true %}
@@ -145,7 +145,7 @@ We call a macro which calls itself to render the full tree.
         ]
         %}
         {{ link(item.title, item.url, {'class': link_classes}) }}
-        {% if item.below %}
+        {% if item.below is not empty and item.in_active_trail %}
           {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
         {% endif %}
       </li>

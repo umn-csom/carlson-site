@@ -7,15 +7,15 @@
   //  @include heading-title($font-medium,$menu-gold,'center');
   //}
 
-  .row {
-    margin-left:0px;
-    margin-right:0px;
-
-    div[class*='col-'] {
-      padding-left:0px;
-      padding-right:0px;
-    }
-  }
+  //.row {
+  //  margin-left:0px;
+  //  margin-right:0px;
+  //
+  //  div[class*='col-'] {
+  //    padding-left:0px;
+  //    padding-right:0px;
+  //  }
+  //}
 
   .space-above-child {
     > div {
@@ -118,37 +118,39 @@
         }
 
         @include media-breakpoint-up(md) {
-          &.col-md-2,
-          &.col-2 {
-            flex: 0 1 calc(2 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
-          }
-
-          &.col-md-3,
-          &.col-3 {
-            flex: 0 1 calc(3 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
-          }
-
-          &.col-md-4,
-          &.col-4 {
-            flex: 0 1 calc(4 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
-          }
-
-          &.col-md-5,
-          &.col-5 {
-            flex: 0 1 calc(5 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
-          }
-
-          &.col-md-6,
-          &.col-6 {
-            flex: 0 1 calc(6 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
-          }
+          //&.col-md-2,
+          //&.col-2 {
+          //  flex: 0 1 calc(2 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
+          //}
+          //
+          //&.col-md-3,
+          //&.col-3 {
+          //  flex: 0 1 calc(3 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
+          //}
+          //
+          //&.col-md-4,
+          //&.col-4 {
+          //  flex: 0 1 calc(4 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
+          //}
+          //
+          //&.col-md-5,
+          //&.col-5 {
+          //  flex: 0 1 calc(5 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
+          //}
+          //
+          //&.col-md-6,
+          //&.col-6 {
+          //  flex: 0 1 calc(6 * 100% / #{$grid-columns} - #{$grid-gutter-half-width});
+          //}
         }
       }
 
       &.gray-bg {
         .fluid-columns__item {
-          box-shadow: 0 4px 4px rgba($black, 0.25);
-          background-color: white;
+          .column__inner {
+            box-shadow: 0 4px 4px rgba($black, 0.25);
+            background-color: white;
+          }
           .column__content {
             padding: 30px;
           }
@@ -156,12 +158,12 @@
       }
     }
 
-    .hero + .col-12 {
-      @include media-breakpoint-up(lg) {
-        position: relative;
-        top: -50px;
-      }
-    }
+    //.hero + .col-12 {
+    //  @include media-breakpoint-up(lg) {
+    //    position: relative;
+    //    top: -50px;
+    //  }
+    //}
 
     .parallax {
       background-attachment: fixed;
@@ -170,8 +172,8 @@
     // TODO - add this to the wysiwyg and don't change the global .basic-paragraph style
     .basic-paragraph {
       p,a {
-        font-size: 1.8rem;
-        line-height: 170%;
+        //font-size: 1.8rem;
+        //line-height: 170%;
       }
       .narrow {
         @include media-breakpoint-up(lg) {
@@ -179,11 +181,11 @@
           padding-right: 20%;
         }
       }
-      & > [class*='col-'] {
-        display:flex;
-        flex-direction: column;
-        justify-content: center;
-      }
+      //& > [class*='col-'] {
+      //  display:flex;
+      //  flex-direction: column;
+      //  justify-content: center;
+      //}
     }
 
     .landing-page__content {

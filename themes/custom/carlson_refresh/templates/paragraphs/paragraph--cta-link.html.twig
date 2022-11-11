@@ -41,23 +41,23 @@
 
 {% block paragraph %}
   {% block content %}
-
+  <div class="col col-lg-12 d-flex">
     {% if content.field_link.0['#url'].toString() is not empty %}
       {% if '1' in content.field_show_in_modal[0] %}
-        <a class="btn btn-primary mb-3 w-100 rounded-0 text-left px-3 py-4 letter-spacing-05 font-small cta-link unb-cta unb-cta-{{ content.field_cta_icon|field_value }} use-ajax" data-dialog-type="modal" href="{{ content.field_link.0['#url'] }}" data-dialog-options="{&quot;width&quot;:600}">
+        <a class="btn btn-primary mb-lg-3 w-100 rounded-0 text-lg-left px-3 py-4 border border-white letter-spacing-05 font-small cta-link unb-cta unb-cta-{{ content.field_cta_icon|field_value }} use-ajax" data-dialog-type="modal" href="{{ content.field_link.0['#url'] }}" data-dialog-options="{&quot;width&quot;:600}">
       {% else %}
-        <a class="btn btn-primary mb-3 w-100 rounded-0 text-left px-3 py-4 letter-spacing-05 cta-link unb-cta unb-cta-{{ content.field_cta_icon|field_value }}" href="{{ content.field_link.0['#url'] }}">
+        <a class="btn btn-primary mb-lg-3 w-100 rounded-0 text-lg-left px-3 py-4 border border-white letter-spacing-05 cta-link unb-cta unb-cta-{{ content.field_cta_icon|field_value }}" href="{{ content.field_link.0['#url'] }}">
       {% endif %}
     {% else %}
-      <div class="btn btn-primary mb-3 w-100 rounded-0 text-left px-3 py-4 letter-spacing-05 cta-link unb-cta unb-cta-{{ content.field_cta_icon|field_value }}">
+      <div class="btn btn-primary mb-lg-3 w-100 rounded-0 text-lg-left px-3 py-4 border border-white letter-spacing-05 cta-link unb-cta unb-cta-{{ content.field_cta_icon|field_value }}">
     {% endif %}
 
-{#          <div class="cta-link__icon">#}
-{#            <i class="icon {{ content.field_cta_icon|field_value }}"></i>#}
-{#          </div>#}
-          <span class="cta-link__anchor">
+          <div class="cta-link__icon d-lg-none">
+            <i class="icon {{ content.field_cta_icon|field_value }}"></i>
+          </div>
+          <div class="cta-link__anchor">
             {{ content.field_link.0['#title'] }}
-          </span>
+          </div>
 
     {% if content.field_link.0['#url'].toString() is not empty %}
       </a>
@@ -66,6 +66,6 @@
     {% endif %}
 
 
-
+  </div>
   {% endblock %}
 {% endblock paragraph %}
