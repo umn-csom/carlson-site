@@ -37,6 +37,7 @@
           slidesToScroll: 1,
           autoplay: false,
           infinite: false,
+          dots: true,
           responsive: [
            {
              breakpoint: 993,

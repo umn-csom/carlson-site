@@ -66,6 +66,10 @@ ul, ol {
   }
 }
 
+ul ul {
+  list-style-type: disc;
+}
+
 .font-weight-semi-bold {
   font-weight: 600;
 }
@@ -277,6 +281,15 @@ table {
       .tablesaw-cell-label {
         font-weight: 600;
         width: 40%;
+      }
+      &:empty {
+        padding: 0;
+        border-right: 0;
+      }
+      &:not(:first-child) {
+        &:empty {
+          border-left: 0;
+        }
       }
     }
   }
