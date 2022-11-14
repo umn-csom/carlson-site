@@ -179,6 +179,8 @@
   &__img img {
     margin-bottom: -5rem;
     @include box-shadow(0, 15px, 60px);
+    min-height: 56.25vw;
+    object-fit: cover;
   }
   &__title {
     //text-align: center;
@@ -235,7 +237,15 @@
       }
     }
   }
+  @include media-breakpoint-up(md) {
+    &__img img {
+      min-height: 42.85vw;
+    }
+  }
   @include media-breakpoint-up(lg) {
+    &__img img {
+      min-height: initial;
+    }
     &__title {
       text-align: left;
     }
