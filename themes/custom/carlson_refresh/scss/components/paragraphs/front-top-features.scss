@@ -3,9 +3,6 @@
 
 .front-top-features {
   min-height: 42.8571vw;
-  @include media-breakpoint-up(xl) {
-    min-height: 500px;
-  }
   &__overlay {
     object-fit: contain !important;
     left: 0 !important;
@@ -15,5 +12,13 @@
       right: 0 !important;
       transform: scaleX(-1);
     }
+  }
+  @include media-breakpoint-up(lg) {
+    &__bg {
+      position: absolute !important;
+    }
+  }
+  @include media-breakpoint-up(xl) {
+    min-height: 500px;
   }
 }
