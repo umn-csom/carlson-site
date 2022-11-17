@@ -3,7 +3,7 @@
   z-index: 30;
   border-bottom: 1px solid $menu-line-grey;
   min-height: 55px;
-  background: #F9F5F4;
+  background: $white;
   @include media-breakpoint-up(xl) {
       top: 7.5rem;
       max-width: 100%;
@@ -41,12 +41,15 @@
       > .nav-item {
         border-radius : 6px !important;
           &:hover, &:focus {
-            background-color : $header-gray;
-            color : $menu-grey;
+            background-color : $white;
+            > a {
+              color : $maroon;
+            }
           }
           a {
             font-size : 1.4rem;
             white-space: nowrap;
+            padding: 0.8rem 1rem;
           }
           @include media-breakpoint-up(xl) {
             margin-left : 1rem;
@@ -65,7 +68,7 @@
           border-radius : 0px;
           -webkit-box-shadow: 5px 5px 15px 0 rgba(0,0,0,.2);
           box-shadow: 5px 5px 15px 0 rgba(0,0,0,.2);
-          background-color : $mid-gray;
+          background-color : $white;
           @include media-breakpoint-up(xl) {
             padding : 0px;
             margin : 0px;
@@ -85,11 +88,11 @@
         }
       }
       .dropdown-item {
-          background-color : $mid-gray;
-          padding: 0.8rem 1rem;
-          &:hover, &:focus {
-            background-color : $menu-line-grey;
-            color : $menu-grey;
+        background-color : $white;
+        padding: 0.8rem 1rem;
+        &:hover, &:focus {
+          background-color : $ivory;
+          //color : $menu-grey;
           }
       }
     }
@@ -99,8 +102,8 @@
     > a.nav-link {
       color : $maroon;
       &:hover, &:focus {
-        background-color : $menu-line-grey;
-        color : $menu-grey;
+        background-color : $white;
+        color : $maroon;
       }
     }
 
@@ -119,10 +122,27 @@
         color : $white;
       }
       &:hover, &:focus {
-        background-color : $menu-line-grey;
+        background-color : $ivory;
+        color: $body-color;
         &.dropdown-toggle::after {
           color : $menu-grey;
         }
+      }
+    }
+  }
+  .dropdown-submenu {
+    > a.dropdown-item {
+      &:hover, &:focus, &:active {
+        color: $body-color;
+      }
+    }
+  }
+  .alumni-navbar--endlink.active {
+    > a.dropdown-item {
+      background-color : $maroon;
+      color : $white;
+      &:hover, &:focus {
+        background-color : $header-gray;
       }
     }
   }
