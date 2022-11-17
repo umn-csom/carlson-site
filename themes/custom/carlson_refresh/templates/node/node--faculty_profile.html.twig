@@ -125,28 +125,30 @@
 
 {#              </div>#}
 {#            </div>#}
-            <div class="col-12 col-lg-12 faculty-profile__experience d-flex mb-6">
-              <div class="p-6 p-md-10 bg-ivory flex-grow-1">
-                <div class="row">
-                  <div class="col-12 col-md-6">
-                    {% if content.field_profile_degrees|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) %}
-                      <h2 class="ff-sans-serif fs-24 font-weight-semi-bold text-uppercase mb-4">Education:</h2>
-                      <ul>
-                        {{ content.field_profile_degrees|field_value }}
-                      </ul>
-                    {% endif %}
+            {% if content.field_profile_degrees|render|striptags|trim != "" or content.field_profile_expertise|render|striptags|trim != "" %}
+              <div class="col-12 col-lg-12 faculty-profile__experience d-flex mb-6">
+                <div class="p-6 p-md-10 bg-ivory flex-grow-1">
+                  <div class="row">
+                    <div class="col-12 col-md-6">
+                      {% if content.field_profile_degrees|render|striptags|trim != "" %}
+                        <h2 class="ff-sans-serif fs-24 font-weight-semi-bold text-uppercase mb-4">Education:</h2>
+                        <ul>
+                          {{ content.field_profile_degrees|field_value }}
+                        </ul>
+                      {% endif %}
+                    </div>
+                    <div class="col-12 col-md-6">
+                      {% if content.field_profile_expertise|render|striptags|trim != "" %}
+                        <h2 class="ff-sans-serif fs-24 font-weight-semi-bold text-uppercase mb-4">Expertise:</h2>
+                        <ul>
+                          {{ content.field_profile_expertise|field_value }}
+                        </ul>
+                      {% endif %}
+                    </div>
                   </div>
-                  <div class="col-12 col-md-6">
-                    {% if content.field_profile_expertise|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
-                      <h2 class="ff-sans-serif fs-24 font-weight-semi-bold text-uppercase mb-4">Expertise:</h2>
-                      <ul>
-                        {{ content.field_profile_expertise|field_value }}
-                      </ul>
-                    {% endif %}
-                  </div>
-                </div>
               </div>
-            </div>
+              </div>
+            {% endif %}
           </div>
         </section>
 

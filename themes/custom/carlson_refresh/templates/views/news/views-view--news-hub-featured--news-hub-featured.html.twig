@@ -1,7 +1,7 @@
 {#
 /**
  * @file
- * Default theme implementation for main view template.
+ * Theme override for a main view template.
  *
  * Available variables:
  * - attributes: Remaining HTML attributes for the element.
@@ -28,55 +28,68 @@
  *   Javascript.
  *
  * @see template_preprocess_views_view()
- *
- * @ingroup themeable
  */
 #}
 {%
   set classes = [
-    dom_id ? 'js-view-dom-id-' ~ dom_id,
-    'row'
-  ]
+  'view',
+  'view-' ~ id|clean_class,
+  'view-id-' ~ id,
+  'view-display-id-' ~ display_id,
+  dom_id ? 'js-view-dom-id-' ~ dom_id,
+]
 %}
 <div{{ attributes.addClass(classes) }}>
-
-  <div class="col-12 col-md-4 col-lg-3">
-    {% if header %}
-      <header class="col-12">
-        <div class="row">
-          <div class="col-12">
-            {{ header }}
-          </div>
-        </div>
-      </header>
-    {% endif %}
-    <div class="row news-hub-search__filter my-3">
-      <div class="col-12">
-        {{ exposed }}
-      </div>
-      <div class="col-12">
-        <a href="/news/carlson-school-in-the-media" class="news-hub-search__link">Faculty in the News →</a><br />
-        <a href="/discovery" class="news-hub-search__link">Discovery at Carlson →</a><br />
-        <a href="/magazine" class="news-hub-search__link">Alumni Magazine →</a><br />
-        <a href="/news/media" class="news-hub-search__link">Media Inquiries →</a>
-      </div>
+  {{ title_prefix }}
+  {% if title %}
+    {{ title }}
+  {% endif %}
+  {{ title_suffix }}
+  {% if header %}
+    <div class="view-header">
+      {{ header }}
     </div>
-  </div>
-  {{ attachment_before }}
-  <div class="news-hub-search__results col-12 col-md-8 col-lg-9 pl-md-0">
-  {{ rows }}
-  {{ empty }}
-  {{ pager }}
-  </div>
-
-  {{ attachment_after }}
-  {{ more }}
-
-  {% if footer %}
-    <footer>
-      {{ footer }}
-    </footer>
+  {% endif %}
+  {% if exposed %}
+    <div class="view-filters">
+      {{ exposed }}
+    </div>
+  {% endif %}
+  {% if attachment_before %}
+    <div class="attachment attachment-before">
+      {{ attachment_before }}
+    </div>
   {% endif %}
 
-  {{ feed_icons }}
+  {% if rows %}
+    <div class="view-content">
+      {{ rows }}
+    </div>
+  {% elseif empty %}
+    <div class="view-empty">
+      {{ empty }}
+    </div>
+  {% endif %}
+
+  {% if pager %}
+    {{ pager }}
+  {% endif %}
+  {% if attachment_after %}
+    <div class="attachment attachment-after">
+      {{ attachment_after }}
+    </div>
+  {% endif %}
+  {% if more %}
+    {{ more }}
+  {% endif %}
+  {% if footer %}
+    <div class="view-footer">
+      {{ footer }}
+    </div>
+  {% endif %}
+  {% if feed_icons %}
+    <div class="feed-icons">
+      {{ feed_icons }}
+    </div>
+  {% endif %}
 </div>
