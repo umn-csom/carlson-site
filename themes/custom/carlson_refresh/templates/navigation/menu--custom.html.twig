@@ -101,7 +101,7 @@ We call a macro which calls itself to render the full tree.
 @see http://twig.sensiolabs.org/doc/tags/macro.html
 #}
 
-<div class="sticky-menu pr-6">
+<div class="sticky-menu pr-lg-6 mb-10 mb-lg-0 pt-4 pb-2 py-lg-0">
   {% if items %}
     {% set first_menu_item = items|first %}
     {% if first_menu_item.url.isrouted == true %}
@@ -115,7 +115,7 @@ We call a macro which calls itself to render the full tree.
   {% import _self as menus %}
   {% if items %}
     {% if menu_level == 0 %}
-      <ul{{ attributes.addClass('nav flex-column') }}>
+      <ul{{ attributes.addClass('sticky-menu__nav sticky-menu__nav--closed nav flex-column') }}>
     {% else %}
       <ul class="sticky-menu__sub-menu nav flex-column pl-6">
     {% endif %}
@@ -126,7 +126,7 @@ We call a macro which calls itself to render the full tree.
         item.is_expanded ? 'menu-item--expanded',
         item.is_collapsed ? 'menu-item--collapsed',
         item.in_active_trail ? 'menu-item--active-trail',
-        'mt-2',
+        menu_level == 0 ? 'mt-lg-2 mb-0' : 'mt-2 mb-0',
         'sticky-menu__item'
       ]
       %}
@@ -145,7 +145,7 @@ We call a macro which calls itself to render the full tree.
         ]
         %}
         {{ link(item.title, item.url, {'class': link_classes}) }}
-        {% if item.below %}
+        {% if item.below is not empty and item.in_active_trail %}
           {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
         {% endif %}
       </li>

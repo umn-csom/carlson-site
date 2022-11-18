@@ -179,9 +179,11 @@
   &__img img {
     margin-bottom: -5rem;
     @include box-shadow(0, 15px, 60px);
+    min-height: 56.25vw;
+    object-fit: cover;
   }
   &__title {
-    text-align: center;
+    //text-align: center;
     border-bottom: solid 1px #D8D8D8;
     margin-bottom: 3rem;
     &--byline {
@@ -235,7 +237,15 @@
       }
     }
   }
+  @include media-breakpoint-up(md) {
+    &__img img {
+      min-height: 42.85vw;
+    }
+  }
   @include media-breakpoint-up(lg) {
+    &__img img {
+      min-height: initial;
+    }
     &__title {
       text-align: left;
     }
@@ -249,8 +259,11 @@
   }
   @include media-breakpoint-up(xl){
     &__title-inner {
-      margin: 0 2rem;
-      padding: 22px 60px;
+      margin: 0 3rem;
+      padding: 3rem;
+      h1 {
+        margin: 0;
+      }
     }
   }
 }

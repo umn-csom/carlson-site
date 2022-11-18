@@ -15,20 +15,27 @@
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'faculty-profile') }}>
     <div class="row justify-content-center">
-      <div class="col-12 col-xl-10">
+      <div class="col-12">
         <section class="faculty-profile__top mb-4">
           <div class="row">
-            <div class="col-12 col-lg-4 faculty-profile__top--headshot-wrapper d-flex mb-lg-6 pr-lg-0">
-                <div class="w-100 embed-responsive embed-responsive-1by1 border">
+            <div class="col-12 col-md-6 col-lg-4 faculty-profile__top--headshot-wrapper d-flex">
+                <div class="faculty-profile__experience__bg bg-gold d-flex">
+                  <div class="faculty-profile__experience__bg__inner bg-primary px-6"></div>
+                </div>
+                <div class="w-100 embed-responsive embed-responsive-1by1">
                   {% if content.field_profile_img|field_value is not empty %}
                     <div class="faculty-profile__top--headshot">
                       {{ content.field_profile_img|field_value }}
                     </div>
+                  {% else %}
+                    <div class="faculty-profile__top--headshot">
+                      <img src="/sites/carlsonschool.umn.edu/themes/custom/carlson_refresh/images/placeholder.jpg" alt="placeholder photo">
+                    </div>
                   {% endif %}
                 </div>
             </div>
-            <div class="col-12 col-lg-8 profile-content-wrapper d-flex mb-6 pl-lg-0">
-              <div class="bg-ivory p-6 p-md-10 w-100">
+            <div class="col-12 col-md-6 col-lg-8 profile-content-wrapper d-flex mb-6 mb-md-0">
+              <div class="px-6 py-6 py-lg-10 w-100">
                 <h1 class="faculty-profile__top--name">
                   {{ node.label }}
                 </h1>
@@ -57,83 +64,91 @@
                     {{ content.field_profile_dept|field_value }}
                   </div>
                 {% endif %}
-                {% if node.body.summary is not empty %}
-                  <div class="faculty-profile__top--summary">
-                    {{ node.body.summary }}
-                  </div>
-                {% endif %}
-              </div>
-            </div>
-            <div class="col-12 col-lg-4 faculty-profile__contact d-flex mb-6">
-              <div class="bg-primary text-white p-6 p-md-10 w-100">
-                <h2 class="ff-sans-serif fs-24 font-weight-semi-bold text-uppercase mb-4">Contact</h2>
+{#                {% if node.body.summary is not empty %}#}
+{#                  <div class="faculty-profile__top--summary">#}
+{#                    {{ node.body.summary }}#}
+{#                  </div>#}
+{#                {% endif %}#}
+                <div class="mt-6 font-weight-bold">
+                  <h2 class="ff-sans-serif fs-18 font-weight-semi-bold text-uppercase mb-4">Contact</h2>
+                  <div class="">
+                    <div class="row">
+                      <div class="col-12 col-lg-6">
+                        {% if content.field_office_phone|field_value is not empty %}
+                          <div class="faculty-profile__contact--phone d-flex align-items-center mb-1">
+                            <span class="icon icon-mobile-phone mr-1 font-weight-bold"></span>
+                            <a href="tel:{{ content.field_office_phone|field_value }}">
+                              {{ content.field_office_phone|field_value }}
+                            </a>
+                          </div>
+                        {% endif %}
 
-                {% if content.field_office_phone|field_value is not empty %}
-                  <div class="faculty-profile__contact--phone d-flex align-items-center mb-1">
-                    <span class="icon icon-mobile-phone mr-1"></span>
-                    <a href="tel:{{ content.field_office_phone|field_value }}">
-                      {{ content.field_office_phone|field_value }}
-                    </a>
-                  </div>
-                {% endif %}
+                        {% if content.field_profile_address|field_value is not empty %}
+                          <div class="faculty-profile__contact--address d-flex align-items-center mb-1">
+                            <span class="icon icon-map-pin mr-1 font-weight-bold"></span>{{ content.field_profile_address|field_value }}
+                          </div>
+                        {% endif %}
 
-                {% if content.field_profile_address|field_value is not empty %}
-                  <div class="faculty-profile__contact--address d-flex align-items-center mb-1">
-                    <span class="icon icon-map-pin mr-1"></span>{{ content.field_profile_address|field_value }}
-                  </div>
-                {% endif %}
+                        {% if content.field_email|field_value is not empty %}
+                          <div class="faculty-profile__contact--email d-flex align-items-center mb-1">
+                            <span class="icon icon-envelope mr-1 font-weight-bold"></span>
+                            <a href="mailto:{{ content.field_email|field_value }}">
+                              {{ content.field_email|field_value }}
+                            </a>
+                          </div>
+                        {% endif %}
+                      </div>
+                      <div class="col-12 col-lg-6">
+                        {% if content.field_profile_cvc|field_value is not empty %}
+                          <div class="faculty-profile__contact--cvc d-flex align-items-center mb-1">
+                            <span class="icon icon-download mr-1 font-weight-bold"></span>
+                            <a href="{{ file_url( node.field_profile_cvc.entity.uri.value  ?: '') }}">
+                              Curriculum Vitae
+                            </a>
+                          </div>
+                        {% endif %}
 
-                {% if content.field_email|field_value is not empty %}
-                  <div class="faculty-profile__contact--email d-flex align-items-center mb-1">
-                    <span class="icon icon-envelope mr-1"></span>
-                    <a href="mailto:{{ content.field_email|field_value }}">
-                      {{ content.field_email|field_value }}
-                    </a>
-                  </div>
-                {% endif %}
-
-                {% if content.field_profile_cvc|field_value is not empty %}
-                  <div class="faculty-profile__contact--cvc d-flex align-items-center mb-1">
-                    <span class="icon icon-download mr-1"></span>
-                    <a href="{{ file_url( node.field_profile_cvc.entity.uri.value  ?: '') }}">
-                      Curriculum Vitae
-                    </a>
-                  </div>
-                {% endif %}
-
-                {% if content.field_profile_url|field_value is not empty %}
-                  <div class="faculty-profile__contact--link d-flex align-items-center mb-1">
-                    <span class="icon icon-link mr-1"></span>
-                    {{ content.field_profile_url|field_value }}
-                  </div>
-                {% endif %}
-              </div>
-            </div>
-            <div class="col-12 col-lg-8 faculty-profile__experience d-flex mb-6">
-              <div class="faculty-profile__experience__bg bg-gold d-flex">
-                <div class="faculty-profile__experience__bg__inner bg-light-blue px-8"></div>
-              </div>
-              <div class="p-6 p-md-10 bg-ivory flex-grow-1">
-                <div class="row">
-                  <div class="col-12 col-md-6">
-                    {% if content.field_profile_degrees|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) %}
-                      <h2 class="ff-sans-serif fs-24 font-weight-semi-bold text-uppercase mb-4">Education:</h2>
-                      <ul>
-                        {{ content.field_profile_degrees|field_value }}
-                      </ul>
-                    {% endif %}
-                  </div>
-                  <div class="col-12 col-md-6">
-                    {% if content.field_profile_expertise|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
-                      <h2 class="ff-sans-serif fs-24 font-weight-semi-bold text-uppercase mb-4">Expertise:</h2>
-                      <ul>
-                        {{ content.field_profile_expertise|field_value }}
-                      </ul>
-                    {% endif %}
+                        {% if content.field_profile_url|field_value is not empty %}
+                          <div class="faculty-profile__contact--link d-flex align-items-center mb-1">
+                            <span class="icon icon-link mr-1 font-weight-bold"></span>
+                            {{ content.field_profile_url|field_value }}
+                          </div>
+                        {% endif %}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+{#            <div class="col-12 col-lg-4 faculty-profile__contact d-flex mb-6">#}
+{#              <div class="bg-primary text-white p-6 p-md-10 w-100">#}
+
+{#              </div>#}
+{#            </div>#}
+            {% if content.field_profile_degrees|render|striptags|trim != "" or content.field_profile_expertise|render|striptags|trim != "" %}
+              <div class="col-12 col-lg-12 faculty-profile__experience d-flex mb-6">
+                <div class="p-6 p-md-10 bg-ivory flex-grow-1">
+                  <div class="row">
+                    <div class="col-12 col-md-6">
+                      {% if content.field_profile_degrees|render|striptags|trim != "" %}
+                        <h2 class="ff-sans-serif fs-24 font-weight-semi-bold text-uppercase mb-4">Education:</h2>
+                        <ul>
+                          {{ content.field_profile_degrees|field_value }}
+                        </ul>
+                      {% endif %}
+                    </div>
+                    <div class="col-12 col-md-6">
+                      {% if content.field_profile_expertise|render|striptags|trim != "" %}
+                        <h2 class="ff-sans-serif fs-24 font-weight-semi-bold text-uppercase mb-4">Expertise:</h2>
+                        <ul>
+                          {{ content.field_profile_expertise|field_value }}
+                        </ul>
+                      {% endif %}
+                    </div>
+                  </div>
+              </div>
+              </div>
+            {% endif %}
           </div>
         </section>
 

@@ -59,7 +59,7 @@
  * @see template_preprocess_node()
  */
 #}
-{{ attach_library('bootstrap_barrio/node') }}
+{#{{ attach_library('bootstrap_barrio/node') }}#}
 
 {%
   set classes = [
@@ -89,7 +89,7 @@
     {% if content.field_hero_media|field_value is empty %}
       <section>
         <div class="row basic-hero">
-          <div class="col-11 col-lg-10 offset-lg-1 basic-hero__title">
+          <div class="col-12 basic-hero__title">
             <h1>{{ label }}</h1>
           </div>
         </div>
@@ -97,10 +97,10 @@
     {% else %}
       <section>
         <div class="row basic-hero">
-          <div class="col-lg-12 basic-hero__img">
+          <div class="col-12 basic-hero__img">
             {{ content.field_hero_media }}
           </div>
-          <div class="col-10 offset-1 basic-hero__title">
+          <div class="col-12 basic-hero__title">
             <div class="basic-hero__title-inner">
               <h1>{{ label }}</h1>
             </div>
@@ -110,7 +110,7 @@
     {% endif %}
 
     <section class="row basic-page__content">
-      <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
+      <div class="col-12 main-content basic-page__content--inner">
         {# inner_nav region #}
 		    {% if inner_nav %}
 		    <div class="row inner_nav">

@@ -31,14 +31,18 @@
  * @ingroup themeable
  */
 #}
-<a class="use-ajax" data-dialog-type="modal" href="/node/{{ fields.nid.content }}" data-dialog-options="{&quot;width&quot;:800}">
-  {% if fields.field_profile_img.content is not empty%}
-    {{ fields.field_profile_img.content }}
-  {% else %}
-    <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
-  {% endif %}
+<a class="use-ajax bg-white border box-shadow w-100 h-100 d-flex flex-column font-weight-semi-bold text-primary" data-dialog-type="modal" href="/node/{{ fields.nid.content }}" data-dialog-options="{&quot;width&quot;:800}">
+  <div class="embed-responsive embed-responsive-5by7">
+    {% if fields.field_profile_img.content is not empty%}
+      {{ fields.field_profile_img.content }}
+    {% else %}
+      <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
+    {% endif %}
+  </div>
 
   {% if fields.title.content is not empty%}
-    <h3 class="student-ambassadors__item--name">{{ fields.title.content }}</h3>
+    <div class="bg-white px-3 py-4 border-top flex-grow-1">
+      <h3 class="student-ambassadors__item--name ff-sans-serif text-uppercase fs-18 font-weight-semi-bold">{{ fields.title.content }}</h3>
+    </div>
   {% endif %}
 </a>

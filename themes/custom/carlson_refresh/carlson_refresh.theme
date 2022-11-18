@@ -552,26 +552,26 @@ function carlson_refresh_preprocess_field(&$variables, $hook) {
  * Implements hook_preprocess_slick().
  */
 function carlson_refresh_preprocess_slick(&$variables) {
-  if ($node = \Drupal::routeMatch()->getParameter('node')) {
-    $variables['node'] = $node;
-    $bundle = $node->bundle();
-    switch ($bundle) {
-      case 'landing_page':
-        if($variables["settings"]["optionset"] == 'new_front_stats' && $variables['content_attributes']->hasAttribute('data-slick')) {
-          $data_slick = json_decode($variables['content_attributes']->toArray()['data-slick']);
-          foreach ($data_slick->responsive as $key => $responsive_item) {
-            if($responsive_item->breakpoint == 992) {
-              $data_slick->responsive[$key]->settings->slidesPerRow = 2;
-              $data_slick->responsive[$key]->settings->slidesToShow = 2;
-              $data_slick->responsive[$key]->settings->slidesToScroll = 2;
-            }
-          }
-          $variables['content_attributes']->setAttribute('data-slick', json_encode($data_slick));
-        }
-        break;
-    }
-  }
-  if($variables["settings"]["optionset"] == 'new_front_stats' && count($variables["items"]) < 3) {
+//  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+//    $variables['node'] = $node;
+//    $bundle = $node->bundle();
+//    switch ($bundle) {
+//      case 'landing_page':
+//        if($variables["settings"]["optionset"] == 'new_front_stats' && $variables['content_attributes']->hasAttribute('data-slick')) {
+//          $data_slick = json_decode($variables['content_attributes']->toArray()['data-slick']);
+//          foreach ($data_slick->responsive as $key => $responsive_item) {
+//            if($responsive_item->breakpoint == 992) {
+//              $data_slick->responsive[$key]->settings->slidesPerRow = 2;
+//              $data_slick->responsive[$key]->settings->slidesToShow = 2;
+//              $data_slick->responsive[$key]->settings->slidesToScroll = 2;
+//            }
+//          }
+//          $variables['content_attributes']->setAttribute('data-slick', json_encode($data_slick));
+//        }
+//        break;
+//    }
+//  }
+  if(isset($variables["settings"]) && $variables["settings"]["optionset"] == 'new_front_stats' && count($variables["items"]) < 3) {
     $data_slick = json_decode($variables['content_attributes']->toArray()['data-slick']);
     foreach ($data_slick->responsive as $key => $responsive_item) {
       if($responsive_item->breakpoint == 992) {

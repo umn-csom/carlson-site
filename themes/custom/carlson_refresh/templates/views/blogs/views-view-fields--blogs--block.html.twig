@@ -31,25 +31,31 @@
  * @ingroup themeable
  */
 #}
-{% if "<img" in fields.field_hero_media.content|render %}
-  <div class="row blog-roll__row">
-    <div class="col-12 col-md-4">
-      {{ fields.field_hero_media.content }}
+<div class="blog-roll__row ee-program__teaser border box-shadow px-6 mb-6">
+  {% if "<img" in fields.field_hero_media.content|render %}
+    <div class="row">
+      <div class="col-12 col-md-4 mb-6 mb-md-0">
+        <div class="position-relative w-100 h-100">
+          <div class="embed-responsive embed-responsive-16by9 position-static">
+            {{ fields.field_hero_media.content }}
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-8 d-flex flex-column align-items-start">
+        <h3 class="blog-roll__row--heading">{{ fields.title.content }}</h3>
+        <div class="blog-roll__row--created">{{ fields.created.content }}</div>
+        <div class="blog-roll__row--teaser flex-grow-1">{{ fields.body.content }}</div>
+        <div class="btn btn-primary mt-5">{{ fields.view_node.content }}</div>
+      </div>
     </div>
-    <div class="col-12 col-md-8">
-      <h2 class="blog-roll__row--heading">{{ fields.title.content }}</h2>
-      <div class="blog-roll__row--created">{{ fields.created.content }}</div>
-      <div class="blog-roll__row--teaser">{{ fields.body.content }}</div>
-      <div class="blog-roll__row--learn-more">{{ fields.view_node.content }}</div>
+  {% else %}
+    <div class="row blog-roll__row">
+      <div class="col-12 d-flex flex-column align-items-start">
+        <h3 class="blog-roll__row--heading">{{ fields.title.content }}</h3>
+        <div class="blog-roll__row--created">{{ fields.created.content }}</div>
+        <div class="blog-roll__row--teaser flex-grow-1">{{ fields.body.content }}</div>
+        <div class="btn btn-primary mt-5">{{ fields.view_node.content }}</div>
+      </div>
     </div>
-  </div>
-{% else %}
-  <div class="row blog-roll__row">
-    <div class="col-12">
-      <h2 class="blog-roll__row--heading">{{ fields.title.content }}</h2>
-      <div class="blog-roll__row--created">{{ fields.created.content }}</div>
-      <div class="blog-roll__row--teaser">{{ fields.body.content }}</div>
-      <div class="blog-roll__row--learn-more">{{ fields.view_node.content }}</div>
-    </div>
-  </div>
-{% endif %}
+  {% endif %}
+</div>

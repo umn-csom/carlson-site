@@ -8,45 +8,48 @@
 
 {% block paragraph %}
   {% block content %}
-    {% if img|field_value is not empty %}
-      {% if content.field_link|field_value is not empty %}
-        <a class="column__img mb-3" href="{{ content.field_link.0['#url'] }}">
-      {% else %}
-        <div class="column__img mb-3">
-      {% endif %}
-
-      {{ img|field_value }}
-
-      {% if content.field_link|field_value is not empty %}
-        </a>
-      {% else %}
-        </div>
-      {% endif %}
-    {% endif %}
-
-    <div class="column__content flex-grow-1 d-flex flex-column">
-      {% if content.field_heading|field_value  is not empty %}
-      <h3 class="column__heading h4 font-weight-normal d-flex align-items-center mb-2" data-mh="columns-title-{{ paragraph.parent_id.value }}">{{ content.field_heading|field_value }}</h3>
-      {% endif %}
-
-      {% if content.field_main_content|field_value  is not empty %}
-      <div class="column__markup" data-mh="columns-markup-{{ paragraph.parent_id.value }}">
-        {{ content.field_main_content|field_value }}
-      </div>
-      {% endif %}
-
-      {% if content.field_link|field_value is not empty %}
-      <div class="column__link mt-6 text-center">
-        {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
-          <a class="btn btn-primary px-6 d-flex align-items-center justify-content-center" data-mh="columns-btn-{{ paragraph.parent_id.value }}" href="{{ content.field_link.0['#url'] }} {{ content.field_link.0['#options'].external ? 'target="_blank"' }}">{{ content.field_link.0['#title'] }}</a>
+    <div class="column__inner h-100">
+      {% if img|field_value is not empty %}
+        {% if content.field_link|field_value is not empty %}
+          <a class="column__img mb-3 d-block" href="{{ content.field_link.0['#url'] }}">
         {% else %}
-          <a class="btn btn-primary px-6 d-flex align-items-center justify-content-center" data-mh="columns-btn-{{ paragraph.parent_id.value }}" href="{{ content.field_link.0['#url'] }} {{ content.field_link.0['#options'].external ? 'target="_blank"' }}">{{ content.field_link.0['#title'] }}</a>
-{#          {{ content.field_link|field_value }}#}
+          <div class="column__img mb-3">
+        {% endif %}
+
+        {{ img|field_value }}
+
+        {% if content.field_link|field_value is not empty %}
+          </a>
+        {% else %}
+          </div>
+        {% endif %}
+      {% endif %}
+
+      <div class="column__content flex-grow-1 d-flex flex-column">
+        {% if content.field_heading|field_value  is not empty %}
+          <h3 class="column__heading h4 font-weight-normal d-flex align-items-center mb-2" data-mh="columns-title-{{ paragraph.parent_id.value }}">{{ content.field_heading|field_value }}</h3>
+        {% endif %}
+
+        {% if content.field_main_content|field_value  is not empty %}
+          <div class="column__markup" data-mh="columns-markup-{{ paragraph.parent_id.value }}">
+            {{ content.field_main_content|field_value }}
+          </div>
+        {% endif %}
+
+        {% if content.field_link|field_value is not empty %}
+          <div class="column__link mt-6 text-center">
+            {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
+              <a class="btn btn-primary px-6 d-flex align-items-center justify-content-center" data-mh="columns-btn-{{ paragraph.parent_id.value }}" href="{{ content.field_link.0['#url'] }} {{ content.field_link.0['#options'].external ? 'target="_blank"' }}">{{ content.field_link.0['#title'] }}</a>
+            {% else %}
+              <a class="btn btn-primary px-6 d-flex align-items-center justify-content-center" data-mh="columns-btn-{{ paragraph.parent_id.value }}" href="{{ content.field_link.0['#url'] }} {{ content.field_link.0['#options'].external ? 'target="_blank"' }}">{{ content.field_link.0['#title'] }}</a>
+              {#          {{ content.field_link|field_value }}#}
+            {% endif %}
+          </div>
+
         {% endif %}
       </div>
-
-      {% endif %}
     </div>
+
 
   {% endblock %}
 {% endblock paragraph %}

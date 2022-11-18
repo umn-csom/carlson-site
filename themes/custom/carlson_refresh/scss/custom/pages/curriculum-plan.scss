@@ -28,6 +28,16 @@ body.page-node-type-curriculum-plan, .component-paragraph.curriculum-plan {
         flex-shrink: 0;
         margin-left: 20px;
     }
+  @include media-breakpoint-down(sm) {
+    .requirement-section {
+      .requirement-columns {
+        flex-direction: column;
+        .component-paragraph.basic-paragraph {
+          margin-bottom: 15px;
+        }
+      }
+    }
+  }
 }
 
 body.page-node-type-curriculum-plan {
@@ -43,7 +53,7 @@ body.page-node-type-curriculum-plan {
         float: inherit;
         width: 260px;
         height: auto;
-  
+
         @include media-breakpoint-up(xl) {
             margin-top: 10px;
             max-width: 223px;
