@@ -4,10 +4,20 @@
     @extend .h3;
     color: $black;
     padding-left: 1.5rem;
-    display: inline-block;
+    display: block;
     &:hover {
       color: $black;
       text-decoration: none;
+    }
+  }
+  &__nav {
+    &--closed {
+      display: none;
+      opacity: 0;
+    }
+    &--opened {
+      display: block;
+      opacity: 1;
     }
   }
   &__sub-menu {
@@ -20,6 +30,17 @@
     }
   }
   @include media-breakpoint-up(lg) {
+    &__label {
+      display: inline-block;
+    }
+    &__nav {
+      &--closed {
+        @include media-breakpoint-up(lg) {
+          display: block;
+          opacity: 1;
+        }
+      }
+    }
     &:after {
       content: "";
       display: block;
@@ -29,6 +50,30 @@
       top: 0;
       right: 0;
       background: map-get($theme-colors, "primary");
+    }
+  }
+  @include media-breakpoint-down(md) {
+    border-top: 1px solid $light-gray;
+    border-bottom: 1px solid $light-gray;
+    &__label {
+      &::before {
+        @include accordion-icon($icon-plus, $maroon);
+        font-weight: bold;
+        @include rfs(2rem);
+        vertical-align: middle;
+        padding-bottom: 0.8rem;
+        display: inline-block;
+      }
+      &:hover,
+      &:focus,
+      &:active {
+        color: $body-color;
+      }
+      &--opened {
+        &::before {
+          content: $icon-minus;
+        }
+      }
     }
   }
 }
