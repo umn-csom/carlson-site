@@ -39,9 +39,9 @@
         {% if content.field_link|field_value is not empty %}
           <div class="column__link mt-6 text-center">
             {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
-              <a class="btn btn-primary px-6 d-flex align-items-center justify-content-center" data-mh="columns-btn-{{ paragraph.parent_id.value }}" href="{{ content.field_link.0['#url'] }} {{ content.field_link.0['#options'].external ? 'target="_blank"' }}">{{ content.field_link.0['#title'] }}</a>
+              <a class="btn btn-primary px-6 d-flex align-items-center justify-content-center" data-mh="columns-btn-{{ paragraph.parent_id.value }}" href="{{ content.field_link.0['#url'] }}">{{ content.field_link.0['#title'] }}</a>
             {% else %}
-              <a class="btn btn-primary px-6 d-flex align-items-center justify-content-center" data-mh="columns-btn-{{ paragraph.parent_id.value }}" href="{{ content.field_link.0['#url'] }} {{ content.field_link.0['#options'].external ? 'target="_blank"' }}">{{ content.field_link.0['#title'] }}</a>
+              <a class="btn btn-primary px-6 d-flex align-items-center justify-content-center" data-mh="columns-btn-{{ paragraph.parent_id.value }}" href="{{ content.field_link.0['#url'] }}">{{ content.field_link.0['#title'] }}</a>
               {#          {{ content.field_link|field_value }}#}
             {% endif %}
           </div>
