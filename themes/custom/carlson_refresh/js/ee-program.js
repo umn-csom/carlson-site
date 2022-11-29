@@ -36,7 +36,7 @@
           slidesToShow: show,
           slidesToScroll: 1,
           autoplay: false,
-          infinite: false,
+          infinite: true,
           dots: true,
           responsive: [
            {
