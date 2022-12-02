@@ -8,7 +8,9 @@
 {# TODO: TEMP field replacement for youtube links #}
 
 <div class="video-embed-field-responsive-video">
-    <iframe id="ytplayer" type="text/html" src="{{ items.0.content["#context"].value|replace({'watch?v=' : 'embed/', '&feature=youtu.be' : ''}) }}" ></iframe>
+    <iframe id="ytplayer" type="text/html"
+        src="{{ items.0.content["#context"].value|replace({'watch?v=' : 'embed/', 'youtu.be/' : 'youtube.com/embed/', '&t=1s' : '', '&feature=youtu.be' : ''}) }}" >
+    </iframe>
 </div>
 
 <style>
