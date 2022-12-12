@@ -6,11 +6,14 @@
   }
 %}
 
+{% set bg_color = content.field_background_color|render ? content.field_background_color[0]['#markup'] : 'bg-primary' %}
+{% set color =  bg_color == 'bg-primary' ? 'text-white' : 'text-body' %}
+
 {% set element = content.field_link|render ? 'a' : 'div' %}
 
 {% block paragraph %}
     {% block content %}
-			<div class="row no-gutters component-paragraph feature-block bg-gold">
+			<div class="row no-gutters component-paragraph feature-block {{ bg_color}} {{ color }}">
 		    <div class="col-12 col-md-6 feature-block__img position-relative">
 		      <{{ element }} class="embed-responsive embed-responsive-16by9 position-static" {% if content.field_link|render %}href="{{ content.field_link.0['#url'] }}"{% endif %}>
             {{ content.field_image|field_value }}
