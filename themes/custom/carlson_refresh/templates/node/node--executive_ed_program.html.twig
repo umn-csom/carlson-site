@@ -124,7 +124,7 @@
             </div>
             <div class="ee-program__details--brochure">
               {# Course brochure link #}
-              {% if content.field_ee_course_brochure|field_value is not empty %}
+              {% if content.field_ee_course_brochure[0]['#url'].toString() is not empty %}
               <a href="{{ content.field_ee_course_brochure.0['#url'] }}" class="btn btn-primary--yellow">Request Brochure</a>
               {% endif %}
             </div>
