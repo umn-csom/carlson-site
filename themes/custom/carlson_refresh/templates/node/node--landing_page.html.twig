@@ -73,6 +73,8 @@
   ]
 %}
 
+{% set webform = content.webform|render is not empty %}
+
 <article{{ attributes.addClass(classes) }}>
   {% if not page %}
     <header>
@@ -88,17 +90,20 @@
     <section class="row landing-page__top">
       <div class="col-12">
         {# Program Hero #}
-        <div class="row component-paragraph hero-program">
-          <div class="col-12 col-lg-6 col-xl-7">
+        <div class="row component-paragraph hero-program {{ webform ? 'hero-program-webform' : '' }}">
+          <div class="col-12 col-lg-6 col-xl-7 px-xl-0 hero-program-image">
             <div class="embed-responsive embed-responsive-3by2">
               {{ content.field_hero_media }}
               <img style="height: 100%;width: auto;" src="/sites/carlsonschool.umn.edu/themes/custom/carlson_refresh/images/pattern.png">
             </div>
           </div>
-          <div class="col-12 col-lg-6 col-xl-5 d-flex flex-column align-items-start">
+          <div class="col-12 col-lg-6 col-xl-5 d-flex flex-column align-items-start hero-program-text">
+            {% if not webform %}
             <h1 class="mt-8">{{ node.label }}</h1>
+            {% endif %}
             <div class="flex-grow-1">
               {{ content.body }}
+              {{ content.webform }}
             </div>
             {# {% if content.field_link|field_value is not empty %} #}
             {% if ((content.field_link[0]['#url'].toString() is not empty) and (content.field_link[0]['#title'] is not empty)) %}

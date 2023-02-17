@@ -113,3 +113,35 @@ table tr th a:hover,
 table tr th a:focus {
     color: $maroon;
 }
+
+.hero-program-webform {
+  .hero-program-text {
+    background: $maroon;
+  }
+  form {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding: 10px;
+    color: white;
+    label {
+      color: white;
+    }
+    .form-group:not(.form-type-webform-markup):not(.form-actions):not(.form-type-email) {
+        width: calc(50% - 10px);
+    }
+    .form-actions.webform-actions {
+      margin: auto;
+    }
+    .form-group input[type="submit"] {
+      color: #212529;
+      background-color: $gold;
+      border-color: $gold;
+      &:hover, &:focus {
+        color: #212529;
+        background-color: #ffc20d;
+        border-color: #ffbf00;
+      }
+    }
+  }
+}
