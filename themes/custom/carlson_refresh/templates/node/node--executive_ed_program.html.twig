@@ -153,18 +153,19 @@
           </div>
           {% endif %}
 
-
           {{ content.field_contact_info }}
+
+          {{ content.field_sidebar_content }}
         </div>
       </div>
       </section>
       <section class="ee-course_info row">
         {# Course Info paragraphs #}
         <div class="ee-course_container container">
-          <div class="ee-audience">
+          <div class="ee-audience {{ node.field_force_single_column.value ? 'force-single-column' }}">
             {{ content.field_course_audi }}
           </div>
-          <div class="ee-benefits">
+          <div class="ee-benefits {{ node.field_force_single_column.value ? 'force-single-column' }}">
             {{ content.field_course_ben }}
           </div>
         </div>
