@@ -8,7 +8,7 @@
     transition: all 0.3s ease-in-out;
     &:hover,
     &:focus {
-      background: grey !important;
+      background: grey;
     }
     &.success{
       background: green;
@@ -26,4 +26,43 @@
         font-family: 'Lato', sans-serif;
       }
     }
+  &.sitewide-alert {
+    display: flex;
+    justify-content: space-between;
+    > span {
+      width: calc(100% - 30px);
+      > p {
+        text-align: center;
+      }
+    }
+
+    > button {
+      width: 30px;
+    }
+
+    &.alert-maroon {
+      background: $maroon;
+      color: $white;
+      &:hover,
+      &:focus {
+        background: $maroon;
+      }
+    }
+    &.alert-burgundy {
+      background: $burgundy;
+      color: $white;
+      &:hover,
+      &:focus {
+        background: $burgundy;
+      }
+    }
+    &.alert-gold {
+      background: $gold;
+      color: $black;
+      &:hover,
+      &:focus {
+        background: $gold;
+      }
+    }
+  }
 }
