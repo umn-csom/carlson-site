@@ -115,6 +115,10 @@ table tr th a:focus {
 }
 
 .hero-program-webform {
+  h1, h2, h3 {
+    color: $white;
+    font-family: "Open Sans",sans-serif;
+  }
   .embed-responsive {
     width: unset;
     height: 100%;
@@ -129,15 +133,16 @@ table tr th a:focus {
   }
   form {
     h1, h2, h3 {
+      color: $white;
       font-family: "Open Sans",sans-serif;
     }
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
     padding: 10px;
-    color: white;
+    color: $white;
     label, a {
-      color: white;
+      color: $white;
     }
     .form-group:not(.form-type-webform-markup):not(.form-actions):not(.form-full-width) {
         width: calc(50% - 10px);
@@ -164,6 +169,10 @@ table tr th a:focus {
       .text-muted {
         color: white !important;
       }
+    }
+
+    .form-required::after {
+      background-image: url(../images/required-gold.svg);
     }
   }
 }
