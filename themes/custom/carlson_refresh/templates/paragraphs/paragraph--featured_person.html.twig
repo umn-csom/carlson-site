@@ -76,6 +76,10 @@
           {% if content.field_person_company|field_value is not empty %}
             <p class="featured-people__person--company">{{ content.field_person_company }}</p>
           {% endif %}
+
+          {% if content.field_person_phone|field_value is not empty %}
+            <a class="featured-people__person--phone" href="tel:+{{ content.field_person_phone }}">{{ content.field_person_phone }}</a>
+          {% endif %}
         </div>
 
       </div>
