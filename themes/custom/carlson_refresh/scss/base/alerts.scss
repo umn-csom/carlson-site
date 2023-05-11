@@ -27,8 +27,10 @@
       }
     }
   &.sitewide-alert {
+    margin-bottom: 0;
     display: flex;
     justify-content: space-between;
+
     > span {
       width: calc(100% - 30px);
       > p {
@@ -43,6 +45,9 @@
     &.alert-maroon {
       background: $maroon;
       color: $white;
+      a {
+        color: $gold;
+      }
       &:hover,
       &:focus {
         background: $maroon;
@@ -51,6 +56,9 @@
     &.alert-burgundy {
       background: $burgundy;
       color: $white;
+      a {
+        color: $gold;
+      }
       &:hover,
       &:focus {
         background: $burgundy;
@@ -65,4 +73,11 @@
       }
     }
   }
+}
+
+div[data-sitewide-alert] {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
 }
