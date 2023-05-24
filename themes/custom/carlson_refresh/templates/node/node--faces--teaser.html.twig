@@ -29,9 +29,9 @@
           <img src="{{ file_url(node.field_magazine_cover_image.entity.uri.value  ?: '') }}" class="img-fluid mb-3" alt="Photo of {{ node.label|render|striptags }}">
         </figure>
         {% endif %}
-        <h1 id="mlabel{% spaceless %}{{ node.id|render|striptags }}{% endspaceless %}">{{ node.label }}</h1>
+        <h2 id="mlabel{% spaceless %}{{ node.id|render|striptags }}{% endspaceless %}">{{ node.label }}</h2>
         {% if content.field_short_sub_heading is not empty %}
-          <h2>{{ content.field_short_sub_heading }}</h2>
+          <h3>{{ content.field_short_sub_heading }}</h3>
         {% endif %}
         {{ content.body }}
       </article>
