@@ -156,8 +156,14 @@
             }
           }
         }
-        > .dropdown-menu /* second-level */ {
-
+        .sub-menu {
+          @include media-breakpoint-up(xl) {
+            padding : 0px;
+            margin : 0px;
+            a {
+              font-size : 1.575rem;
+            }
+          }
         }
       }
       .dropdown-submenu.show {
@@ -233,6 +239,16 @@
       -o-transform: rotate(0deg) translateX(15px);
       -ms-transform: rotate(0deg) translateX(15px);
       transform: rotate(0deg) translateX(15px);
+    }
+  }
+
+  .dropdown--mega-menu {
+    position: initial;
+
+    > .dropdown-menu {
+      position: absolute;
+      left: 0;
+      right: 0;
     }
   }
 }
