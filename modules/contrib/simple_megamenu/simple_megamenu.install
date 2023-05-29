@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the simple_megamenu module.
+ */
+
+/**
+ * Update revision field names.
+ */
+function simple_megamenu_update_8100(array &$sandbox) {
+  $update_manager = \Drupal::entityDefinitionUpdateManager();
+
+  if ($definition = $update_manager->getFieldStorageDefinition('revision_created', 'simple_mega_menu')) {
+    $update_manager->uninstallFieldStorageDefinition($definition);
+  }
+
+  if ($definition = $update_manager->getFieldStorageDefinition('revision_user', 'simple_mega_menu')) {
+    $update_manager->uninstallFieldStorageDefinition($definition);
+  }
+}
