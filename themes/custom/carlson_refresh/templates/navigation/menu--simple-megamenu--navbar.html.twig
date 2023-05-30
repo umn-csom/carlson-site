@@ -27,6 +27,7 @@
                 set classes = [
                   'nav-item',
                   item.below ? 'dropdown',
+                  item.below and has_megamenu(item.url) ? 'dropdown--mega-menu',
                   item.in_active_trail ? 'active',
                   not menu_level == 0 and not has_megamenu(item.url) ? 'dropright dropdown-submenu'
                 ]
@@ -38,7 +39,7 @@
                   <div class="carlson-navbar--animate carlson-navbar--slide dropdown-menu dropdown-menu-right" role="menu">
                     <div class="mega-menu-background"></div>
                     {{ view_megamenu(item.url, 'before') }}
-                    {{ menus.menu_links(item.below, 'sub-menu', menu_level + 1) }}
+                    {# {{ menus.menu_links(item.below, 'sub-menu', menu_level + 1) }} #}
                     {# {{ view_megamenu(item.url, 'after') }} #}
                   </div>
                 {% elseif menu_level == 0 %}
