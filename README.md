@@ -33,17 +33,30 @@ https://it.umn.edu/services-technologies/how-tos/drupal-9-set-local-environment
 
     https://github.umn.edu/settings/keys
 
-2.  One time setup of d9 enterprise multisite:
+2.  Clone the UMN composer project folder and ddev folder.
+
+    This is a one-time setup step of the Drupal 9 enterprise codebase,
+    dependencies, and a companion Ddev multisite configuration.
 
         git clone git@github.umn.edu:drupalplatform/d8-composer.git umn-d9
         cd umn-d9
         git clone git@github.umn.edu:Bluespark/umn-d9-ddev.git .ddev
+
+3.  Install dependencies and provision ddev.
+
+    These steps should be run on initial installation as well as each time
+    you pull updates from the two repositories in the previous step.
+
         ddev auth ssh
         ddev provision-multisite
         ddev composer install
         ddev restart
 
-2.  Install the multisite instance.
+    The `ddev provision-multisite` is a custom ddev command to prepare ddev
+    for a multisite setup. Scaffolding files are stored in the
+    `.ddev/multisite_scaffold/` folder and copied into place in the file system.
+
+4.  Install the multisite instance.
 
     You can install from the Bluespark fork:
 
@@ -53,16 +66,39 @@ https://it.umn.edu/services-technologies/how-tos/drupal-9-set-local-environment
 
         ddev multisite carlsonschool.umn.edu git@github.umn.edu:CarlsonSchool-Web/drupal-8
 
-3.  Install the site-specific dependencies.
+    The `ddev multisite` custom command handles several tasks, including:
 
-        ddev auth ssh
-        ddev start
-        composer install
+    * Create a directory for the new site in `docroot/sites/carlsonschool.umn.edu`, linked to the specified git repository.
+    * Create the `settings.php` file in the new multisite directory and update the database name.
+    * Create the `settings.local.php` file in the new multisite directory and update the stage file proxy settings.
+    * Create a Drush alias `@carlsonschool.ddev` with proper the `root` and `uri` option in the `drush/sites/carlsonschool.yml` file.
+    * Provision Ddev with a `carlsonschool` database and `carlsonschool.ddev.site` hostname in `.ddev/config.multisite.yaml`.
+    * Provision Drupal multisite directory alias for `carlsonschool.ddev.site` in `docroot/sites/sites.php`.
 
-4.  Adjust the configuration sync folder in settings.
+5.  Restart ddev to pick up new database and hostname configurations.
 
-    Config sync is located in a non-standard folder. Add the following
-    lines to docroot/sites/carlsonschool.umn.edu/settings.php
+        ddev restart
+
+    During the restart you should see a message like this:
+
+    > CREATE DATABASE IF NOT EXISTS carlsonschool; GRANT ALL ON carlsonschool.* to 'db'@'%';
+
+    If you don't see that, you may need to run `ddev restart` again. This issue
+    is typically caused by mutagen not having finished syncing the automated
+    file changes that were made to `.ddev/config.multisite.yaml` during the
+    `ddev multisite` command in the previous step.
+
+    Then download the prod database snapshot from the
+    [UMN Drupal Management console website][3] (requires UMN Login).
+
+    And import the database:
+
+        ddev import-db --target-db carlsonschool --src ~/Downloads/prod-carlsonschool-*.sql.gz
+
+6.  Adjust the configuration sync folder in settings.
+
+    Config sync is located in a non-standard folder for the Carlson website.
+    Add the following lines to docroot/sites/carlsonschool.umn.edu/settings.php
 
     ```php
     /**
@@ -75,24 +111,7 @@ https://it.umn.edu/services-technologies/how-tos/drupal-9-set-local-environment
 
         ddev restart
 
-5.  Install the database.
-
-    During the restart you should see a message like this:
-
-    > CREATE DATABASE IF NOT EXISTS carlsonschool; GRANT ALL ON carlsonschool.* to 'db'@'%';
-
-    If you don't see that, it might be due to mutagen not having finished
-    syncing the file changes in .ddev/config.multisite.yaml yet. In which case,
-    the solution is to re-run ddev restart again.
-
-    Then download the prod database snapshot from the
-    [UMN Drupal Management console website][3] (requires UMN Login).
-
-    And import the database:
-
-        ddev import-db --target-db carlsonschool --src ~/Downloads/prod-carlsonschool-*.sql.gz
-
-6.  Enable stage file proxy:
+7.  Enable stage file proxy:
 
         ddev drush @carlsonschool.ddev en stage_file_proxy
 
@@ -109,11 +128,11 @@ https://it.umn.edu/services-technologies/how-tos/drupal-9-set-local-environment
     $config['stage_file_proxy.settings']['origin_dir'] = 'sites/carlsonschool.umn.edu/files';
     ```
 
-7.  Login as admin:
+8.  Login as admin:
 
         ddev drush @carlsonschool.ddev uli
 
-8.  Optionally, re-index solr:
+9.  Optionally, re-index solr:
 
     Note: this site may not leverage UMN / Acquia Solr, but the standard
     documentation exists for future reference.
@@ -125,7 +144,7 @@ https://it.umn.edu/services-technologies/how-tos/drupal-9-set-local-environment
     installation step with sensible default values located in
     docroot/sites/carlsonschool.umn.edu/settings.local.php
 
-9.  Do not use the `ddev drush use` subcommand.
+10. Do not use the `ddev drush use` subcommand.
 
     The `drush use` subcommand typically does not work in ddev.
 ## Frontend Developers
