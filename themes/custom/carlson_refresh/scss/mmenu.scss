@@ -85,7 +85,10 @@ $mm_popupShadow: 0 2px 10px rgba( #000, 0.3 ) !default;
 
 @import '../../../../../../libraries/mmenu/src/mmenu';
 
-
+.mm-menu_fx-menu-slide,
+.mm-slideout {
+  transition: none;
+}
 
 .mm-navbar {
   color: $maroon;
@@ -101,11 +104,28 @@ $mm_popupShadow: 0 2px 10px rgba( #000, 0.3 ) !default;
     font-weight: 700;
     justify-content: start;
   }
+
+  &__branding {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: $white;
+  }
+
+  &__logo {
+    max-width: 260px;
+    width: 260px;
+    float: inherit;
+    height: auto;
+    margin: 10px 0;
+  }
 }
 
 .mm-btn {
   &--close {
-    color: $black;
+    color: $black !important;
+    font-size: 3rem;
   }
 
   &_prev {
@@ -123,21 +143,42 @@ $mm_popupShadow: 0 2px 10px rgba( #000, 0.3 ) !default;
   }
 }
 
+.mm-panels {
+  margin: 20px;
+}
+
 .mm-listitem {
-  margin: 0 20px;
+  //margin: 0 20px;
 
   &::after {
-    left: 0;
+    display: none;
   }
 
   &__text {
     padding-left: 16px;
     font-weight: 400;
+
+    &:not(.btn) {
+      border-color: $ivory-border;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+    }
   }
 
   &__btn:not(.mm-listitem__text) {
     border-left: 0;
+    position: absolute;
+    right: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  a.gold-outline-button,
+  a.gold-solid-button {
+    color: $black;
+  }
+  a.maroon-outline-button,
+  a.maroon-solid-button {
+    color: $white;
   }
 }
-
-
