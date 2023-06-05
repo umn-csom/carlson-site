@@ -144,9 +144,23 @@ https://it.umn.edu/services-technologies/how-tos/drupal-9-set-local-environment
     installation step with sensible default values located in
     docroot/sites/carlsonschool.umn.edu/settings.local.php
 
-10. Do not use the `ddev drush use` subcommand.
+10. Leverage `drush use` appropriately.
 
-    The `drush use` subcommand typically does not work in ddev.
+    The `drush use` subcommand is useful for multisite installations so you
+    do not have to specify the drush alias with each command. However, it
+    only works when executed from within the ddev web container via an SSH
+    session.
+
+    This works:
+
+        ddev ssh
+        drush use @carlsonschool.ddev
+        drush st
+
+    This DOES NOT WORK:
+
+        ddev drush use @carlsonschool.ddev
+        ddev drush st
 ## Frontend Developers
 
 Ignore the `barrio_carlson` theme, it is deprecated.
