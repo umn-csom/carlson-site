@@ -114,6 +114,38 @@ table tr th a:focus {
     color: $maroon;
 }
 
+.paragraph--type--webform, .hero-program-webform {
+  form {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding: 10px;
+
+    .form-group:not(.form-type-webform-markup):not(.form-actions):not(.form-full-width) {
+        width: calc(50% - 10px);
+    }
+    .form-actions.webform-actions {
+      margin: auto;
+    }
+
+    .form-check {
+      width: 100%;
+      padding-bottom: 1.25rem;
+      .form-check-label, .webform-element-description {
+        padding-left: 1.5rem;
+      }
+    }
+
+    .form-control {
+      padding: 1rem;
+    }
+  }
+}
+
+.paragraph--type--webform {
+  background: $ivory;
+}
+
 .hero-program-webform {
   h1, h2, h3 {
     color: $white;
@@ -131,25 +163,19 @@ table tr th a:focus {
   .hero-program-text {
     background: $maroon;
   }
+
   form {
     h1, h2, h3 {
       color: $white;
       font-family: "Open Sans",sans-serif;
     }
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    padding: 10px;
+
     color: $white;
+
     label, a {
       color: $white;
     }
-    .form-group:not(.form-type-webform-markup):not(.form-actions):not(.form-full-width) {
-        width: calc(50% - 10px);
-    }
-    .form-actions.webform-actions {
-      margin: auto;
-    }
+
     .form-group input[type="submit"] {
       color: #212529;
       background-color: $gold;
@@ -160,23 +186,15 @@ table tr th a:focus {
         border-color: #ffbf00;
       }
     }
-    .form-check {
-      width: 100%;
-      padding-bottom: 1.25rem;
-      .form-check-label, .webform-element-description {
-        padding-left: 1.5rem;
-      }
-      .text-muted {
-        color: white !important;
-      }
-    }
 
     .form-required::after {
       background-image: url(../images/required-white.svg);
     }
 
-    .form-control {
-      padding: 1rem;
+    .form-check {
+      .text-muted {
+        color: white !important;
+      }
     }
   }
 }
