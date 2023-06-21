@@ -122,7 +122,10 @@ table tr th a:focus {
     padding: 10px;
 
     .form-group:not(.form-type-webform-markup):not(.form-actions):not(.form-full-width) {
-        width: calc(50% - 10px);
+        width: 100%;
+        @include media-breakpoint-up(md) {
+          width: calc(50% - 10px);
+        }
     }
     .form-actions.webform-actions {
       margin: auto;
@@ -144,6 +147,7 @@ table tr th a:focus {
 
 .paragraph--type--webform {
   background: $ivory;
+  padding: 6rem;
 }
 
 .hero-program-webform {
