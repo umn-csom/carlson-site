@@ -1,0 +1,81 @@
+{#
+/**
+ * @file
+ * Theme override to display a taxonomy term.
+ *
+ * Available variables:
+ * - url: URL of the current term.
+ * - name: Name of the current term.
+ * - content: Items for the content of the term (fields and description).
+ *   Use 'content' to print them all, or print a subset such as
+ *   'content.description'. Use the following code to exclude the
+ *   printing of a given child element:
+ *   @code
+ *   {{ content|without('description') }}
+ *   @endcode
+ * - attributes: HTML attributes for the wrapper.
+ * - page: Flag for the full page state.
+ * - term: The taxonomy term entity, including:
+ *   - id: The ID of the taxonomy term.
+ *   - bundle: Machine name of the current vocabulary.
+ * - view_mode: View mode, e.g. 'full', 'teaser', etc.
+ *
+ * @see template_preprocess_taxonomy_term()
+ */
+#}
+{%
+  set classes = [
+  'd-md-flex',
+  'flex-grow-1',
+  'flex-md-column',
+  'taxonomy-term',
+  'vocabulary-' ~ term.bundle|clean_class,
+  'result',
+  'quiz-results--result',
+  'p-4 pl-lg-0',
+  'bg-white',
+  'result--' ~ term.id,
+  'result--' ~ name[0]['#context'].value|clean_class
+]
+%}
+
+{% set learn_more_url = content.field_quiz_result_set_learn_more[0]['#url']|render %}
+{% set learn_more_title = content.field_quiz_result_set_learn_more[0]['#title']|render %}
+
+<div{{ attributes.setAttribute('id', 'result--' ~ term.id).setAttribute('data-name', name[0]['#context'].value|clean_class).addClass(classes) }}>
+  <div class="program-filter-card--content-wrapper px-3">
+    <div class="">
+      CATEGORY
+    </div>
+
+    <div class="program-filter-card--content">
+      <a class="result--learn-more-image" href="{{ learn_more_url }}">
+        <h2 class="program-filter-card--title column__heading">{{ content.field_quiz_result_set_title }}</h2>
+      </a>
+      <div class="program-filter-card--description">
+        {{ content.description }}
+      </div>
+    </div>
+    
+    <hr />
+
+    <div class="program-filter-card--info-wrapper">
+      <div class="program-filter-card--info-block">
+        <div class="program-filter-card--label">Delivery</div>
+        <div class="program-filter-card--value">{{ content.field_course_modality_delivery }}</div>
+      </div>
+      <div class="program-filter-card--info-block">
+        <div class="program-filter-card--label">Time</div>
+        <div class="program-filter-card--value">{{ content.field_full_time_or_part_time }}</div>
+      </div>
+      <div class="program-filter-card--info-block">
+        <div class="program-filter-card--label">Length</div>
+        <div class="program-filter-card--value">{{ content.field_program_length }}</div>
+      </div>
+      <div class="program-filter-card--info-block">
+        <div class="program-filter-card--label">Start Terms</div>
+        <div class="program-filter-card--value">{{ content.field_start_terms }}</div>
+      </div>
+    </div>
+  </div>
+</div>
