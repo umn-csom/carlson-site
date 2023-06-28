@@ -2,7 +2,7 @@
 .program-filter {
 	margin-top: 1rem;
 
-	.card-columns {
+	.card-columns, .card-columns .views-infinite-scroll-content-wrapper {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
@@ -13,6 +13,10 @@
 			flex: 100%;
 			flex-basis: 100%;
 			flex-grow: 0;
+
+			&:active, &:hover, &:focus {
+				border: 1px solid $maroon;
+			}
 		}
 
 		@include media-breakpoint-up(lg) {
@@ -111,10 +115,7 @@
 				width: 100%;
 			}
 		}
-		label {
-			// display: none;
-			// font-weight: normal;
-		}
+
 		#edit-actions {
 			border-bottom: 1px solid $light-gray;
     		padding-bottom: 20px;
@@ -163,13 +164,18 @@
 	}
 
 	&-card {
+		&--category {
+			padding-bottom: 10px;
+		}
 		&--info-wrapper {
 			display: flex;
 			padding: 15px 0 10px;
+			flex-flow: wrap;
 		}
 		&--info-block {
-			width: 25%;
+			width: 50%;
 			text-align: center;
+			padding-bottom: 10px;
 		}
 		&--label {
 			font-size: 12px;
@@ -180,5 +186,18 @@
 		}
 	}
 
+	legend {
+		text-transform: uppercase;
+	}
+
+	.form-check {
+		display: flex;
+		vertical-align: middle;
+		height: 25px;
+	}
+	.form-check-label {
+		padding-left: 1rem;
+		font-size: 1.5rem;
+	}
 
 }

@@ -35,7 +35,8 @@
 {%
   set classes = [
     dom_id ? 'js-view-dom-id-' ~ dom_id,
-    'row'
+    'row',
+    'program-filter'
   ]
 %}
 <div{{ attributes.addClass(classes) }}>
@@ -50,14 +51,14 @@
         </div>
       </header>
     {% endif %}
-    <div class="row program-filter__filter my-3">
+    <div class="sticky-menu row program-filter__filter my-3">
       <div class="col-12">
         {{ exposed }}
       </div>
     </div>
   </div>
   {{ attachment_before }}
-  <div class="program-filter program-filter__results col-12 col-md-8 col-lg-9 pl-md-0">
+  <div class="program-filter__results col-12 col-md-8 col-lg-9 pl-md-0">
     <div class="card-columns">
       {{ rows }}
     </div>
