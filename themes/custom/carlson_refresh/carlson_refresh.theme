@@ -364,11 +364,8 @@ function carlson_refresh_preprocess_page(&$variables) {
   $header_color = theme_get_setting('header_color');
   $variables['campus_header'] = theme_get_setting('campus_select');
 
-  if (isset($variables['campus_header'])) {
-    $variables['home_link'] = $home_link[$variables['campus_header']];
-  } else {
-    $variables['home_link'] = $home_link['umnhf-campus-tc'];
-  }
+  $campus_select = theme_get_setting('campus_select') ?? 'umnhf-campus-tc';
+  $variables['home_link'] = $home_link[$campus_select];
 
   $variables['privacy_link'] = theme_get_setting('privacy_link');
   $footer_date = theme_get_setting('footer_date');
@@ -391,6 +388,10 @@ function carlson_refresh_preprocess_page(&$variables) {
   $header_class_array = array($variables['campus_header'], $dtd_select, $header_color, $variables['mobile_search'], $variables['campus_links']
   );
   $variables['umn_header_classes'] = implode(' ', $header_class_array);
+
+  // Embed the SVG logo in the mandatory header.
+  $logo_color = str_replace('umnhf-background-', '', $header_color);
+  $variables['svg_logo'] = "${campus_select}-${dtd_select}-${logo_color}.svg";
 
   $block_manager = \Drupal::service('plugin.manager.block');
   $search_block_instance = $block_manager->createInstance('umn_search_block', array());

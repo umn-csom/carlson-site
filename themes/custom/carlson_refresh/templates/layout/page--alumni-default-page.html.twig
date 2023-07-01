@@ -69,42 +69,42 @@
 #}
 {{ attach_library('carlson_refresh/alumni-landing-page') }}
 
-<div id="page-wrapper">
-  <div id="page">
+<header role="banner" aria-label="Site header">
+{% include directory ~ '/templates/layout/umn-header.html.twig' %}
+{% if page.header %}
+  {{ page.header }}
+{% endif %}
+</header>
 
-    {# Header for top navbar #}
-    {% block head %}
-      {% if page.primary_menu %}
-        {{ page.primary_menu }}
-      {% endif %}
-    {% endblock %}
+<section role="banner" aria-label="Top navigation" class="sticky-top" id="top-navigation">
+{% if page.primary_menu %}
+  {{ page.primary_menu }}
+{% endif %}
+{% if page.secondary_menu %}
+  {{ page.secondary_menu }}
+{% endif %}
+</section>
 
-    {# Only rendered if something is placed in this region #}
-    {% if page.highlighted %}
-      <div class="highlighted">
-        <aside class="{{ container }} section clearfix" role="complementary">
-          {{ page.highlighted }}
-        </aside>
-      </div>
-    {% endif %}
-
-    <div class="container-fluid container-xl mb-6 mt-2 mx-2">
-      <div class="row">
-        <div class="col breadcrumb">
-          {{ page.breadcrumb }}
-        </div>
-      </div>
-    </div>
-
-    {# Start of main page wrapper #}
-      {% block content %}
-                <a id="main-content" tabindex="-1"></a>
-                {{ page.content }}
-      {% endblock %}
-    {# End of the main page wrapper #}
-
-
-    {# Beginning of footer #}
-    {% include '@carlson_refresh/includes/footer.html.twig' %}
+{# Only rendered if something is placed in this region #}
+{% if page.highlighted %}
+  <div class="highlighted">
+    <aside class="{{ container }} section clearfix" role="complementary">
+      {{ page.highlighted }}
+    </aside>
   </div>
-</div>
+{% endif %}
+
+{% if page.breadcrumb %}
+{{ page.breadcrumb }}
+{% endif %}
+
+{# Start of main page wrapper #}
+  {% block content %}
+            <a id="main-content" tabindex="-1"></a>
+            {{ page.content }}
+  {% endblock %}
+{# End of the main page wrapper #}
+
+
+{# Beginning of footer #}
+{% include '@carlson_refresh/includes/footer.html.twig' %}

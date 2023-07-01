@@ -65,7 +65,7 @@
           {# Create the tabs #}
           <div class="tabbed-content__nav--container">
             <div class="tabbed-content__nav--positioner">
-              <ul class="tabbed-content__nav nav nav-tabs bg-gray" role="tablist">
+              <ul class="tabbed-content__nav nav nav-tabs" role="tablist">
                 {% set inc = 0 %}
                 {% for item in items  %}
                   {% set paragraph = item['#paragraph'] %}
@@ -78,7 +78,7 @@
                   {% endif %}
 
                   <li class="nav-item">
-                    <a class="nav-link px-4 py-2 btn fs-16 text-black h-100 d-flex align-items-center justify-content-center {{ active }}" id="tab-{{ inc }}" data-toggle="tab" href="#content-{{ inc }}" role="tab" aria-controls="content-{{ inc }}" aria-selected="{{ selected }}">{{ paragraph.field_heading.0.value }}</a>
+                    <a class="nav-link {{ active }}" id="tab-{{ inc }}" data-toggle="tab" href="#content-{{ inc }}" role="tab" aria-controls="content-{{ inc }}" aria-selected="{{ selected }}">{{ paragraph.field_heading.0.value }}</a>
                   </li>
                   {% set inc = inc+1 %}
 

@@ -1,4 +1,22 @@
-#alumni-navbar {
+
+.navbar-brand--secondary,
+.navbar-brand--tertiary {
+  margin: 0;
+  margin-right: $grid-gutter-half-width;
+
+  &,
+  a {
+    color: $black;
+    font-weight: bold;
+    font-size: $navbar-brand-font-size;
+
+    a:hover {
+      text-decoration-thickness: auto;
+      text-underline-position: auto;
+    }
+  }
+}
+#secondary-navbar {
   top: 0.5rem;
   z-index: 30;
   border-bottom: 1px solid $menu-line-grey;
@@ -11,31 +29,6 @@
       min-height: 68px;
   }
   .navbar {
-    #alumni-navbar--brand {
-      padding: 0;
-      margin: 0;
-      margin-top: 10px;
-      margin-left: 15px;
-      max-width: 260px;
-      float: inherit;
-      width: 260px;
-      height: auto;
-
-      span {
-        font-family: "Crimson Pro",serif;
-        font-size: 2.7rem;  
-        color: #7A0019;
-        font-weight:400;
-      }
-    
-
-      @include media-breakpoint-up(xl) {
-          margin-top: 10px;
-          margin-left: 0px;
-          max-width: 223px;
-          width: 223px;
-      }
-    }
     .navbar-nav {
       margin-top : 12px;
       > .nav-item {
@@ -140,7 +133,7 @@
       }
     }
   }
-  .alumni-navbar--endlink.active {
+  .secondary-navbar--endlink.active {
     > a.dropdown-item {
       background-color : $maroon;
       color : $white;
@@ -161,11 +154,8 @@
   }
 }
 
-
-
-
 @include media-breakpoint-up(xl) {
-  .alumni-navbar--animate {
+  .secondary-navbar--animate {
     animation-duration: 0.5s;
     -webkit-animation-duration: 0.5s;
     animation-fill-mode: both;
@@ -201,7 +191,7 @@
     }
   }
 
-  .carlson-navbar--slide {
+  .navbar-primary--slide {
     -webkit-animation-name: slideIn;
     animation-name: slideIn;
   }
