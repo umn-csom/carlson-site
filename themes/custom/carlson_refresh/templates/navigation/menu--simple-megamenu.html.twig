@@ -1,8 +1,4 @@
-
-<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCarlson" aria-expanded="false" aria-label="Toggle navigation">
-  <span class="navbar-toggler-icon"></span>
-</button>
-<div class="collapse navbar-collapse" id="navbarCarlson">
+<div class="container-fluid container-xl pl-0">
   {% import _self as menus %}
 
   {#
@@ -11,7 +7,7 @@
   #}
   {{ attach_library('simple_megamenu/base') }}
   {% set attributes = create_attribute() %}
-  {{ menus.menu_links(items, 'navbar-nav ml-auto', 0) }}
+  {{ menus.menu_links(items, 'navbar-nav', 0) }}
 
   {% macro menu_links(items, classes, menu_level) %}
     {% import _self as menus %}
@@ -30,23 +26,23 @@
         <li{{ item.attributes.addClass(classes) }}>
         {% if item.below %}
           {% if has_megamenu(item.url) %}
-            <a href="{{ item.url }}" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
-            <div class="carlson-navbar--animate carlson-navbar--slide dropdown-menu dropdown-menu-right" role="menu">
+            <a href="{{ item.url }}" class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
+            <div class="navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu--mega-menu dropdown-menu-left" role="menu">
               <div class="mega-menu-background"></div>
               {{ view_megamenu(item.url, 'before') }}
               {# {{ menus.menu_links(item.below, 'sub-menu', menu_level + 1) }} #}
               {# {{ view_megamenu(item.url, 'after') }} #}
             </div>
           {% elseif menu_level == 0 %}
-            <a href="{{ item.url }}" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
-            {{ menus.menu_links(item.below, 'carlson-navbar--animate carlson-navbar--slide dropdown-menu dropdown-menu-right', menu_level + 1) }}
+            <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link" >{{ item.title }}</a>
+            {{ menus.menu_links(item.below, 'navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu-left', menu_level + 1) }}
           {% else %}
             <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropwdown-dark dropdown-toggle">{{ item.title }}</a>
             {% set attrs = create_attribute() %}
-            {{ menus.menu_links(item.below, 'carlson-navbar--animate carlson-navbar--slide dropdown-menu dropdown-menu-right', menu_level + 1) }}
+            {{ menus.menu_links(item.below, 'navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu-left', menu_level + 1) }}
           {% endif %}
         {% else %}
-          <a href="{{ item.url }}" class="nav-link {% if menu_level == 1 %} dropdown-item dropdown-dark {% endif %}">{{ item.title }}</a>
+          <a href="{{ item.url }}" class="{% if menu_level == 0 %}nav-link{% else %}dropdown-item{% endif %}">{{ item.title }}</a>
         {% endif %}
         </li>
         {# <li{{item.attributes.addClass(classes)}}>

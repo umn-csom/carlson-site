@@ -16,7 +16,12 @@
   {% if site_logo or site_name %}
     <a href="{{ path('<front>') }}" title="{{ 'Home'|t }}" rel="home" class="navbar-brand">
       {% if site_logo %}
-        <img src="{{ site_logo }}" alt="{{ 'Home'|t }}" class="img-fluid d-inline-block align-top" />
+        <div class="d-none d-md-block">
+        {{ source(directory ~ '/images/svg/logo-wordmark.svg') }}
+        </div>
+        <div class="d-block d-md-none">
+        {{ source(directory ~ '/images/svg/logo.svg') }}
+        </div>
       {% endif %}
     </a>
   {% endif %}
