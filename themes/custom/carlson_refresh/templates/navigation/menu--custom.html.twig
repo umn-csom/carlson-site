@@ -101,7 +101,7 @@ We call a macro which calls itself to render the full tree.
 @see http://twig.sensiolabs.org/doc/tags/macro.html
 #}
 
-<div class="sticky-menu pr-lg-6 mb-10 mb-lg-0 pt-4 pb-2 py-lg-0">
+<div class="sticky-menu pr-lg-0 mb-10 mb-lg-0 pt-4 pb-2 py-lg-0">
   {% if items %}
     {% set first_menu_item = items|first %}
     {% if first_menu_item.url.isrouted == true %}
@@ -117,7 +117,7 @@ We call a macro which calls itself to render the full tree.
     {% if menu_level == 0 %}
       <ul{{ attributes.addClass('sticky-menu__nav sticky-menu__nav--closed nav flex-column') }}>
     {% else %}
-      <ul class="sticky-menu__sub-menu nav flex-column pl-6">
+      <ul class="sticky-menu__sub-menu nav flex-column pl-5">
     {% endif %}
     {% for item in items %}
       {%
@@ -126,7 +126,7 @@ We call a macro which calls itself to render the full tree.
         item.is_expanded ? 'menu-item--expanded',
         item.is_collapsed ? 'menu-item--collapsed',
         item.in_active_trail ? 'menu-item--active-trail',
-        menu_level == 0 ? 'mt-lg-2 mb-0' : 'mt-2 mb-0',
+        menu_level == 0 ? 'mt-lg-2 mb-0' : 'mt-lg-1 mb-0',
         'sticky-menu__item'
       ]
       %}
@@ -138,10 +138,10 @@ We call a macro which calls itself to render the full tree.
           item.url.getOption('attributes').class ? item.url.getOption('attributes').class | join(''),
           'nav-link-' ~ item.url.toString() | clean_class,
           menu_level == 0 ? 'fs-18' : 'text-body',
-          menu_level == 0 ? 'px-3 py-1': 'px-3 py-0',
+          'pl-3 py-1',
           'text-underline-hover',
-          item.in_active_trail and menu_level == 0 ? 'font-weight-semi-bold' : 'font-weight-normal',
-          item.in_active_trail and menu_level != 0 ? 'font-weight-semi-bold border-left border-gold' : '',
+          item.in_active_trail and menu_level == 0 ? 'font-weight-bold' : 'font-weight-normal',
+          item.in_active_trail and menu_level != 0 ? 'font-weight-semi-bold' : '',
           'sticky-menu__link',
         ]
         %}
