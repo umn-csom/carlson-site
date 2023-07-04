@@ -25,6 +25,13 @@ use Drupal\Core\Menu\MenuTreeParameters;
 class MenuBlock extends SuperMenuBlock {
 
   /**
+   * Instance reference to the derived menu root.
+   *
+   * @var string
+   */
+  protected $menuRoot;
+
+  /**
    * {@inheritdoc}
    */
   public function build() {
@@ -75,12 +82,12 @@ class MenuBlock extends SuperMenuBlock {
         // root based on the parent of the configured start level.
         $menu_trail_ids = array_reverse(array_values($parameters->activeTrail));
         if ($follow_parent === 'root') {
-          $menu_root = empty($menu_trail_ids[0]) ? $menu_trail_ids[1] : $menu_trail_ids[0];
+          $this->menuRoot = empty($menu_trail_ids[0]) ? $menu_trail_ids[1] : $menu_trail_ids[0];
         } else {
           $offset = ($following && $follow_parent == 'active') ? 2 : 1;
-          $menu_root = $menu_trail_ids[$level - $offset];
+          $this->menuRoot = $menu_trail_ids[$level - $offset];
         }
-        $parameters->setRoot($menu_root)->setMinDepth(1);
+        $parameters->setRoot($this->menuRoot)->setMinDepth(1);
         if ($depth > 0) {
           $parameters->setMaxDepth(min($depth, $this->menuTree->maxDepth()));
         }
@@ -141,6 +148,8 @@ class MenuBlock extends SuperMenuBlock {
     ];
     $tree = $this->menuTree->transform($tree, $manipulators);
     $build = $this->menuTree->build($tree);
+
+    $this->tree = $tree;
 
     // Run through menu injector rules if available.
     if (!empty($all_rules)) {
@@ -203,6 +212,9 @@ class MenuBlock extends SuperMenuBlock {
     $active_trail_ids = $this->getDerivativeActiveTrailIds();
 
     if ($active_trail_ids) {
+      if ($this->menuRoot && in_array($this->menuRoot, $active_trail_ids)) {
+        $active_trail_ids = [ $this->menuRoot ];
+      }
       return $this->getLinkTitleFromLink(end($active_trail_ids));
     }
     return NULL;
