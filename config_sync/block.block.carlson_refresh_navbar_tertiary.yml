@@ -1,0 +1,36 @@
+uuid: 57b45f97-adae-4b00-893d-7cf5558eab62
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - block_visibility_groups
+    - menu_injector
+  theme:
+    - carlson_refresh
+id: carlson_refresh_navbar_tertiary
+theme: carlson_refresh
+region: secondary_menu
+weight: 0
+provider: null
+plugin: 'menu_block:main'
+settings:
+  id: 'menu_block:main'
+  label: 'Tertiary navbar'
+  label_display: visible
+  provider: menu_injector
+  follow: false
+  follow_parent: child
+  label_link: true
+  label_type: root
+  level: 3
+  depth: 6
+  expand_all_items: true
+  parent: 'main:'
+  suggestion: navbar_tertiary
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    block_visibility_group: ''
