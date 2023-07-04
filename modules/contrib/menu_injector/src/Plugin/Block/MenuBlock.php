@@ -195,6 +195,19 @@ class MenuBlock extends SuperMenuBlock {
     return $build;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  protected function getActiveTrailRootTitle() {
+    /** @var array $active_trail_ids */
+    $active_trail_ids = $this->getDerivativeActiveTrailIds();
+
+    if ($active_trail_ids) {
+      return $this->getLinkTitleFromLink(end($active_trail_ids));
+    }
+    return NULL;
+  }
+
   protected function getAllRules($menu_name, $active_trail) {
     $node = \Drupal::routeMatch()->getParameter('node');
     //$rules = \Drupal::entityManager()->getStorage('menu_injector_rule')->loadMultiple();
