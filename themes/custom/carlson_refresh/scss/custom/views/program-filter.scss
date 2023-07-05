@@ -2,6 +2,10 @@
 .program-filter {
 	margin-top: 1rem;
 
+	.sticky-menu:after {
+		content: none;
+	}
+
 	.card-columns, .card-columns .views-infinite-scroll-content-wrapper {
 		display: flex;
 		flex-wrap: wrap;
@@ -14,9 +18,27 @@
 			flex-basis: 100%;
 			flex-grow: 0;
 
+			border: 1px solid $light-gray;
+			border-bottom: 5px solid $light-gray;
+
 			&:active, &:hover, &:focus {
 				border: 1px solid $maroon;
+				border-bottom: 5px solid $maroon;
 			}
+
+			/* TEMP STYLING TEST */
+			a {
+				color: unset;
+				h2 {
+					color: $maroon;
+				}
+				&:active, &:hover, &:focus {
+					color: unset;
+					text-decoration: none;
+				}
+			}
+
+			/* END TEST */
 		}
 
 		@include media-breakpoint-up(lg) {
