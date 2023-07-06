@@ -5,6 +5,7 @@
  * Functions to support theming in the SASS Starterkit subtheme.
  */
 
+use Drupal\block\Entity\Block;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
@@ -307,6 +308,57 @@ function carlson_refresh_theme_suggestions_block_alter(array &$suggestions, arra
   if (isset($variables['elements']['content']['#block_content'])) {
     array_splice($suggestions, 1, 0, 'block__bundle__' . $variables['elements']['content']['#block_content']->bundle());
   }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Pass block region value to content so this can be used in
+ * THEME_theme_suggestions_menu_alter.
+ */
+function carlson_refresh_preprocess_block(&$variables) {
+  if (isset($variables['elements']['#id'])) {
+    $region = Block::load($variables['elements']['#id'])->getRegion();
+    if (!empty($region)) {
+      $variables['content']['#attributes']['data-block']['region'] = $region;
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function carlson_refresh_theme_suggestions_menu_alter(array &$suggestions, array $variables) {
+
+  // Add suggestion for menu block region name.
+  $region = '';
+  if (isset($variables['attributes']['data-block']['region'])) {
+    $region = $variables['attributes']['data-block']['region'];
+    $suggestions[] = $variables['theme_hook_original'] . '__' . $region;
+    $suggestions[] = 'menu__region_' . $region;
+  }
+
+  // Add simple mega menu suggestion from menu block configuration.
+  if (!isset($variables['menu_name'])) {
+    return;
+  }
+  $menu_name = $variables['menu_name'];
+
+  /** @var \Drupal\simple_megamenu\SimpleMegaMenuHelperInterface $simple_megamenu_helper */
+  $simple_megamenu_helper = \Drupal::service('simple_megamenu.helper');
+  if ($simple_megamenu_helper->getMegaMenuTypeWhichTargetMenu($menu_name)) {
+    // We add the default suggestion removed in hook_preprocess_block.
+    if (!empty($variables['menu_block_configuration']['suggestion'])) {
+      $suggestion = $variables['menu_block_configuration']['suggestion'];
+      $suggestion_sanitized = strtr($suggestion, '-', '_');
+      $suggestions[] = 'menu__simple_megamenu__' . $suggestion_sanitized;
+    }
+    if (!empty($region)) {
+      $suggestions[] = 'menu__simple_megamenu__region_' . $region;
+    }
+  }
+
+  $suggestions = array_unique($suggestions);
 }
 
 function carlson_refresh_preprocess_views_exposed_form(&$variables) {
