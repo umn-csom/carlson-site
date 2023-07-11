@@ -14,9 +14,9 @@ $ivory-border: #9E9785; // @todo add to variables.scss?
 
 
  //	Animations
-$mm_transitionDuration: 0.4s !default;
-$mm_transitionDelay: 0.4s !default;
-$mm_transitionFunction: ease !default;
+$mm_transitionDuration: 0.15s;
+$mm_transitionDelay: 0.15s;
+$mm_transitionFunction: ease-out;
 
 //	Colors
 $mm_backgroundColor: $ivory;
@@ -43,7 +43,7 @@ $mm_listitemIndent: $mm_padding * 2 !default;
 $mm_navbarSize: $mm_listitemSize !default;
 $mm_panelPadding: $mm_padding * 2 !default;
 $mm_subopenWidth: $mm_btnSize !default;
-$mm_subpanelOffset: 30% !default;
+$mm_subpanelOffset: 100%;
 
 $mm_menuWidth: 1.0 !default;
 $mm_menuMinWidth: 240px !default;
@@ -79,11 +79,23 @@ $mm_fullscreen_full: 1 !default;
 $mm_fullscreen_min: 140px !default;
 $mm_fullscreen_max: 10000px !default;
 
-$mm_pagedimOpacity: 0.3 !default;
-$mm_pagedimDelay: 0.4s !default;
+$mm_pagedimOpacity: 0.4;
+$mm_pagedimDelay: 0.2s !default;
 $mm_popupShadow: 0 2px 10px rgba( #000, 0.3 ) !default;
 
 @import '../../../../../../libraries/mmenu/src/mmenu';
+
+
+body.toolbar-tray-open.toolbar-vertical.mm-wrapper {
+  transition: margin-left 0.15s ease-out;
+}
+body.toolbar-tray-open.toolbar-vertical.mm-wrapper_blocking {
+  margin-left: 0 !important;
+
+  .toolbar-tray-vertical {
+    left: -100%;
+  }
+}
 
 .mm-menu_offcanvas {
   z-index: 500;
@@ -98,7 +110,9 @@ $mm_popupShadow: 0 2px 10px rgba( #000, 0.3 ) !default;
 
 .mm-menu_fx-menu-slide,
 .mm-slideout {
-  transition: none;
+  @media (max-width: 767px) {
+    transition: none;
+  }
 }
 
 .mm-navbar {
