@@ -121,12 +121,17 @@ table tr th a:focus {
     justify-content: space-between;
     padding: 10px;
 
-    .form-group:not(.form-type-webform-markup):not(.form-actions):not(.form-full-width) {
-        width: 100%;
-        @include media-breakpoint-up(md) {
-          width: calc(50% - 10px);
-        }
+    .form-group:not(.form-type-webform-markup):not(.form-actions) {
+      width: 100%;
+      @include media-breakpoint-up(md) {
+        width: calc(50% - 10px);
+      }
     }
+
+    .form-group.form-full-width {
+      width: 100%;
+    }
+
     .form-actions.webform-actions {
       margin: auto;
     }
