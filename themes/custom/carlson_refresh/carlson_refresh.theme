@@ -330,35 +330,61 @@ function carlson_refresh_preprocess_block(&$variables) {
  */
 function carlson_refresh_theme_suggestions_menu_alter(array &$suggestions, array $variables) {
 
-  // Add suggestion for menu block region name.
-  $region = '';
-  if (isset($variables['attributes']['data-block']['region'])) {
-    $region = $variables['attributes']['data-block']['region'];
-    $suggestions[] = $variables['theme_hook_original'] . '__' . $region;
-    $suggestions[] = 'menu__region_' . $region;
-  }
+  $name = $variables['menu_name'] ?? '';
+  $region = $variables['attributes']['data-block']['region'] ?? '';
+  $suggestion = $variables['menu_block_configuration']['suggestion'] ?? '';
 
-  // Add simple mega menu suggestion from menu block configuration.
-  if (!isset($variables['menu_name'])) {
+  if (empty($name)) {
     return;
   }
-  $menu_name = $variables['menu_name'];
 
-  /** @var \Drupal\simple_megamenu\SimpleMegaMenuHelperInterface $simple_megamenu_helper */
-  $simple_megamenu_helper = \Drupal::service('simple_megamenu.helper');
-  if ($simple_megamenu_helper->getMegaMenuTypeWhichTargetMenu($menu_name)) {
-    // We add the default suggestion removed in hook_preprocess_block.
-    if (!empty($variables['menu_block_configuration']['suggestion'])) {
-      $suggestion = $variables['menu_block_configuration']['suggestion'];
-      $suggestion_sanitized = strtr($suggestion, '-', '_');
-      $suggestions[] = 'menu__simple_megamenu__' . $suggestion_sanitized;
+  // Remove pollution from simple_megamenu theme suggestions.
+  $clean_suggestions = [];
+  foreach ($suggestions as $key => $value) {
+    if (!str_contains($value, 'simple_megamenu')) {
+      $clean_suggestions[] = $value;
     }
-    if (!empty($region)) {
-      $suggestions[] = 'menu__simple_megamenu__region_' . $region;
+  }
+  $suggestions = $clean_suggestions;
+
+  if (!empty($region)) {
+    // Add suggestion for menu block region name.
+    $suggestions[] = 'menu__' . $region;
+    $suggestions[] = 'menu__' . $region . '__' . $name;
+
+    if (_carlson_refresh_region_has_simple_megamenu($name, $region)) {
+      // Add simple mega menu suggestion from menu block configuration.
+      $suggestions[] = 'menu__' . $region . '__simple_megamenu';
+      $suggestions[] = 'menu__' . $region . '__' . $name . '__simple_megamenu';
     }
   }
 
+  // Add the menu block suggestion removed in hook_preprocess_block.
+  if (!empty($suggestion)) {
+    // Sanitize suggestion.
+    $suggestion = strtr($suggestion, '-', '_');
+
+    $suggestions[] = 'menu__' . $suggestion;
+    if (!empty($region)) {
+      $suggestions[] = 'menu__' . $region . '__' . $suggestion;
+      $suggestions[] = 'menu__' . $region . '__' . $name . '__' . $suggestion;
+    }
+    else {
+      $suggestions[] = 'menu__' . $name . '__' . $suggestion;
+    }
+  }
+
+  // Remove duplicate suggestions.
   $suggestions = array_unique($suggestions);
+}
+
+function _carlson_refresh_region_has_simple_megamenu($menu_name, $region) {
+  $allowed_regions = ['primary_menu'];
+  /** @var \Drupal\simple_megamenu\SimpleMegaMenuHelperInterface $simple_megamenu_helper */
+  $simple_megamenu = \Drupal::service('simple_megamenu.helper');
+  return
+    in_array($region, $allowed_regions) &&
+    $simple_megamenu->getMegaMenuTypeWhichTargetMenu($menu_name);
 }
 
 function carlson_refresh_preprocess_views_exposed_form(&$variables) {
