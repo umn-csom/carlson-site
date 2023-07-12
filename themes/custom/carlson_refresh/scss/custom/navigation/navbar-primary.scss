@@ -326,14 +326,48 @@
   }
 }
 
+.menu-toggle {
+  &,
+  &:hover,
+  &:focus {
+    text-decoration: none !important;
+  }
+}
 
-#toggle-icon {
-  border: 1px solid $maroon;
-  text-decoration: none;
+.menu-toggle--mega-menu {
+  .dropdown.active:not(.show) & {
+    color: $maroon !important;
+
+    &:hover,
+    &:focus {
+      color: $white !important;
+    }
+  }
+
+  .dropdown.active.show & {
+    &,
+    &:hover,
+    &:focus {
+      color: $black !important;
+    }
+  }
+}
+
+.menu-toggle__button {
+  display: flex;
+  border: 1px solid currentColor;
+  font-weight: 600;
+  font-size: 14px;
   text-transform: uppercase;
-  padding: 0.5rem 1.2rem;
-  vertical-align: middle;
-  white-space: nowrap;
+  padding: 4px 10px;
+  margin: -2px 0;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.menu-toggle__label {
+  margin-right: 4px;
 }
 
 @include media-breakpoint-up(xl) {

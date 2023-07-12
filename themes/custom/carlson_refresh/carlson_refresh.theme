@@ -143,6 +143,14 @@ function carlson_refresh_form_system_theme_settings_alter(&$form, FormStateInter
   );
 }
 
+/**
+ * Prepares global variables for all templates.
+ */
+function carlson_refresh_preprocess(&$variables) {
+  $handler = \Drupal::service('theme_handler');
+  $variables['theme_directory'] = $handler->getTheme('carlson_refresh')->getPath();
+}
+
 function carlson_refresh_preprocess_html(&$variables) {
 
   $variables['page']['#attached']['html_head'][] = [
