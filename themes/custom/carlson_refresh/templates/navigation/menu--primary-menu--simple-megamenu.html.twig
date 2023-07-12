@@ -7,9 +7,9 @@
   #}
   {{ attach_library('simple_megamenu/base') }}
   {% set attributes = create_attribute() %}
-  {{ menus.menu_links(items, 'navbar-nav', 0) }}
+  {{ menus.menu_links(items, 'navbar-nav w-100', 0, _context) }}
 
-  {% macro menu_links(items, classes, menu_level) %}
+  {% macro menu_links(items, classes, menu_level, context) %}
     {% import _self as menus %}
     {% if items %}
       <ul class="{{ classes }}" role="menu">
@@ -20,26 +20,38 @@
             item.below ? 'dropdown',
             item.below and has_megamenu(item.url) ? 'dropdown--mega-menu',
             item.in_active_trail ? 'active',
-            not menu_level == 0 and not has_megamenu(item.url) ? 'dropright dropdown-submenu'
+            not menu_level == 0 and not has_megamenu(item.url) ? 'dropright dropdown-submenu',
+            menu_level == 0 and loop.last ? 'ml-auto',
           ]
         %}
         <li{{ item.attributes.addClass(classes) }}>
         {% if item.below %}
-          {% if has_megamenu(item.url) %}
-            <a href="{{ item.url }}" class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
-            <div class="navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu--mega-menu dropdown-menu-left" role="menu">
-              <div class="mega-menu-background"></div>
-              {{ view_megamenu(item.url, 'before') }}
-              {# {{ menus.menu_links(item.below, 'sub-menu', menu_level + 1) }} #}
-              {# {{ view_megamenu(item.url, 'after') }} #}
-            </div>
-          {% elseif menu_level == 0 %}
-            <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link" >{{ item.title }}</a>
-            {{ menus.menu_links(item.below, 'navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu-left', menu_level + 1) }}
+          {% if menu_level == 0 %}
+            {% if loop.last %}
+              <a href="{{ item.url }}" class="nav-link nav-link--button menu-toggle menu-toggle--mega-menu" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="menu-toggle__button menu-toggle__button--mega-menu">
+                  <span class="menu-toggle__label">{{ 'Menu'|t }}</span>
+                  <span class="menu-toggle__icon">
+                    {{ source(context.theme_directory ~ '/images/svg/icon-menu-search.svg') }}
+                  </span>
+                </span>
+              </a>
+            {% else %}
+              <a href="{{ item.url }}" class="nav-link nav-link--button" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
+            {% endif %}
+            {% if has_megamenu(item.url) %}
+              <div class="navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu--mega-menu dropdown-menu-left" role="menu">
+                <div class="mega-menu-background"></div>
+                {{ view_megamenu(item.url, 'before') }}
+              </div>
+            {% else %}
+              {% set dropdown_side = (loop.last and menu_level == 0) ? 'dropdown-menu-right' : 'dropdown-menu-left' %}
+              {{ menus.menu_links(item.below, 'navbar-primary--animate navbar-primary--slide dropdown-menu ' ~ dropdown_side, menu_level + 1, context) }}
+            {% endif %}
           {% else %}
             <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropwdown-dark dropdown-toggle">{{ item.title }}</a>
             {% set attrs = create_attribute() %}
-            {{ menus.menu_links(item.below, 'navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu-left', menu_level + 1) }}
+            {{ menus.menu_links(item.below, 'navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu-left', menu_level + 1, context) }}
           {% endif %}
         {% else %}
           <a href="{{ item.url }}" class="{% if menu_level == 0 %}nav-link{% else %}dropdown-item{% endif %}">{{ item.title }}</a>
@@ -52,11 +64,11 @@
               <div class="mega-menu-wrapper">
                 <div class="mega-menu-background"></div>
                 {{ view_megamenu(item.url, 'before') }}
-                {{ menus.menu_links(item.below, attributes.addClass('mega-menu-item'), menu_level + 1) }}
+                {{ menus.menu_links(item.below, attributes.addClass('mega-menu-item'), menu_level + 1, context) }}
                 {{ view_megamenu(item.url, 'after') }}
               </div>
             {% else %}
-              {{ menus.menu_links(item.below, attributes.removeClass('mega-menu-item'), menu_level + 1) }}
+              {{ menus.menu_links(item.below, attributes.removeClass('mega-menu-item'), menu_level + 1, context) }}
             {% endif %}
           {% endif %}
         </li> #}
