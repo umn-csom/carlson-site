@@ -125,6 +125,7 @@ class MenuBlock extends SuperMenuBlock {
       '#options' => [
         'active' => $this->t('Active menu item'),
         'child' => $this->t('Children of active menu item'),
+        'child_or_active' => $this->t('Children of active menu item; active menu item if no children'),
         'root' => $this->t('Level 1 root of active menu item'),
       ],
       '#states' => [
@@ -211,8 +212,15 @@ class MenuBlock extends SuperMenuBlock {
         if ($follow_parent === 'root') {
           $this->menuRoot = empty($menu_trail_ids[0]) ? $menu_trail_ids[1] : $menu_trail_ids[0];
         } else {
-          $offset = ($following && $follow_parent == 'active') ? 2 : 1;
+          $offset = ($following && in_array($follow_parent, ['active', 'child_or_active'])) ? 2 : 1;
           $this->menuRoot = $menu_trail_ids[$level - $offset];
+          if ($follow_parent == 'child_or_active') {
+            $active_menu_link_id = end($menu_trail_ids);
+            $has_children = $this->menuTree->getSubtreeHeight($active_menu_link_id) > 1;
+            if ($has_children) {
+              $menu_root = $active_menu_link_id;
+            }
+          }
         }
         $parameters->setRoot($this->menuRoot)->setMinDepth(1);
         if ($depth > 0) {
