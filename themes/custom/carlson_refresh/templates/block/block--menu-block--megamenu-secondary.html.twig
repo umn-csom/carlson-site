@@ -11,14 +11,12 @@
     'block-' ~ plugin_id|clean_class,
   ]
 %}
-<div{{attributes.addClass(classes)}}>
-	{{ title_prefix }}
+<div{{ attributes.addClass(classes) }}>
 	{% if label %}
-		<h2{{title_attributes}}>{{ label }}</h2>
+		<h2{{ title_attributes.addClass('menu-block__title--secondary') }}>{{ label }}</h2>
 	{% endif %}
-	{{ title_suffix }}
 	{% block content %}
-		<div{{content_attributes.addClass('content')}}>
+		<div{{ content_attributes.addClass('content') }}>
 			{{ content }}
 		</div>
 	{% endblock %}

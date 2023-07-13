@@ -325,11 +325,20 @@ function carlson_refresh_theme_suggestions_block_alter(array &$suggestions, arra
  * THEME_theme_suggestions_menu_alter.
  */
 function carlson_refresh_preprocess_block(&$variables) {
-  if (isset($variables['elements']['#id'])) {
-    $region = Block::load($variables['elements']['#id'])->getRegion();
+  $id = $variables['elements']['#id'] ?? '';
+  $plugin = $variables['elements']['#base_plugin_id'] ?? '';
+  $derivative = $variables['elements']['#derivative_plugin_id'] ?? '';
+  if (!empty($id)) {
+    $region = Block::load($id)->getRegion();
     if (!empty($region)) {
       $variables['content']['#attributes']['data-block']['region'] = $region;
     }
+  }
+  if (!empty($plugin) && $plugin !== $id) {
+    $variables['content']['#attributes']['data-block']['plugin'] = $plugin;
+  }
+  if (!empty($derivative) && $derivative !== $plugin && $derivative !== $id) {
+    $variables['content']['#attributes']['data-block']['derivative'] = $derivative;
   }
 }
 
@@ -340,6 +349,8 @@ function carlson_refresh_theme_suggestions_menu_alter(array &$suggestions, array
 
   $name = $variables['menu_name'] ?? '';
   $region = $variables['attributes']['data-block']['region'] ?? '';
+  $plugin = $variables['attributes']['data-block']['plugin'] ?? '';
+  $derivative = $variables['attributes']['data-block']['derivative'] ?? '';
   $suggestion = $variables['menu_block_configuration']['suggestion'] ?? '';
 
   if (empty($name)) {
@@ -364,6 +375,16 @@ function carlson_refresh_theme_suggestions_menu_alter(array &$suggestions, array
       // Add simple mega menu suggestion from menu block configuration.
       $suggestions[] = 'menu__' . $region . '__simple_megamenu';
       $suggestions[] = 'menu__' . $region . '__' . $name . '__simple_megamenu';
+    }
+  }
+
+  if (!empty($plugin)) {
+    // Add suggestion for block plugin name.
+    $suggestions[] = 'menu__' . $plugin;
+    $suggestions[] = 'menu__' . $plugin . '__' . $name;
+    if (!empty($derivative)) {
+      $suggestions[] = 'menu__' . $plugin . '__' . $derivative;
+      $suggestions[] = 'menu__' . $plugin . '__' . $derivative . '__' . $name;
     }
   }
 
