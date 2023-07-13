@@ -1,0 +1,33 @@
+{% set classes = [
+  'container-xl container-fluid',
+  'd-block',
+  'mega-menu-layout',
+  'mega-menu-layout__8-4',
+]
+%}
+{% set main_classes = [
+  'mega-menu-layout__main',
+  'col-8',
+  'pb-6',
+  'my-5',
+  'pr-6',
+]
+%}
+{% set secondary_classes = [
+  'mega-menu-layout__secondary',
+  'col-4',
+  'pb-6',
+  'my-5',
+]
+%}
+
+<div{{attributes.addClass(classes)}}>
+  <div class="row">
+    <div{{region_attributes.main.addClass(main_classes)}}>
+      {{ content.main }}
+    </div>
+    <div{{region_attributes.secondary.addClass(secondary_classes)}}>
+      {{ content.secondary }}
+    </div>
+  </div>
+</div>
