@@ -34,6 +34,133 @@ class MenuBlock extends SuperMenuBlock {
   /**
    * {@inheritdoc}
    */
+  public function blockForm($form, FormStateInterface $form_state) {
+    $config = $this->configuration;
+    $defaults = $this->defaultConfiguration();
+
+    $form = parent::blockForm($form, $form_state);
+    $menu_parent_selector = \Drupal::service('menu.parent_form_selector');
+
+    // If there exists a config value for Expand all menu links (expand), that
+    // value should populate core's Expand all menu items checkbox
+    // (expand_all_items).
+    if (isset($config['expand'])) {
+      $form['menu_levels']['expand_all_items']['#default_value'] = $config['expand'];
+    }
+
+    $form['advanced'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Advanced options'),
+      '#open' => FALSE,
+      '#process' => [[get_class(), 'processMenuBlockFieldSets']],
+    ];
+
+    $menu_name = $this->getDerivativeId();
+    $menus = Menu::loadMultiple([$menu_name]);
+    $menus[$menu_name] = $menus[$menu_name]->label();
+
+    $form['advanced']['parent'] = $menu_parent_selector->parentSelectElement($config['parent'], '', $menus);
+
+    $form['advanced']['parent'] += [
+      '#title' => $this->t('Fixed parent item'),
+      '#description' => $this->t('Alter the options in “Menu levels” to be relative to the fixed parent item. The block will only contain children of the selected menu link.'),
+    ];
+
+    $form['advanced']['label_type'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Use as title'),
+      '#description' => $this->t('Replace the block title with an item from the menu.'),
+      '#options' => [
+        self::LABEL_BLOCK => $this->t('Block title'),
+        self::LABEL_MENU => $this->t('Menu title'),
+        self::LABEL_FIXED => $this->t("Fixed parent item's title"),
+        self::LABEL_ACTIVE_ITEM => $this->t("Active item's title"),
+        self::LABEL_PARENT => $this->t("Active trail's parent title"),
+        self::LABEL_ROOT => $this->t("Active trail's root title"),
+      ],
+      '#default_value' => $config['label_type'],
+      '#states' => [
+        'visible' => [
+          ':input[name="settings[label_display]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+
+    $form['advanced']['label_link'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Link the title?'),
+      '#default_value' => $config['label_link'],
+      '#states' => [
+        'visible' => [
+          ':input[name="settings[label_display]"]' => ['checked' => TRUE],
+          ':input[name="settings[label_type]"]' => [
+            ['value' => self::LABEL_ACTIVE_ITEM],
+            ['value' => self::LABEL_PARENT],
+            ['value' => self::LABEL_ROOT],
+            ['value' => self::LABEL_FIXED],
+          ],
+        ],
+      ],
+    ];
+
+    $form['style'] = [
+      '#type' => 'details',
+      '#title' => $this->t('HTML and style options'),
+      '#open' => FALSE,
+      '#process' => [[get_class(), 'processMenuBlockFieldSets']],
+    ];
+
+    $form['advanced']['follow'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('<strong>Make the initial visibility level follow the active menu item.</strong>'),
+      '#default_value' => $config['follow'],
+      '#description' => $this->t('If the active menu item is deeper than the initial visibility level set above, the initial visibility level will be relative to the active menu item. Otherwise, the initial visibility level of the tree will remain fixed.'),
+    ];
+
+    $form['advanced']['follow_parent'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Initial visibility level will be'),
+      '#description' => $this->t('When following the active menu item, select whether the initial visibility level should be set to the active menu item, its root parent, or its children.'),
+      '#default_value' => $config['follow_parent'],
+      '#options' => [
+        'active' => $this->t('Active menu item'),
+        'child' => $this->t('Children of active menu item'),
+        'root' => $this->t('Level 1 root of active menu item'),
+      ],
+      '#states' => [
+        'visible' => [
+          ':input[name="settings[follow]"]' => ['checked' => TRUE],
+        ],
+      ],
+    ];
+
+    $form['style']['suggestion'] = [
+      '#type' => 'machine_name',
+      '#title' => $this->t('Theme hook suggestion'),
+      '#default_value' => $config['suggestion'],
+      '#field_prefix' => '<code>menu__</code>',
+      '#description' => $this->t('A theme hook suggestion can be used to override the default HTML and CSS classes for menus found in <code>menu.html.twig</code>.'),
+      '#machine_name' => [
+        'error' => $this->t('The theme hook suggestion must contain only lowercase letters, numbers, and underscores.'),
+        'exists' => [$this, 'suggestionExists'],
+      ],
+    ];
+
+    // Open the details field sets if their config is not set to defaults.
+    foreach (['menu_levels', 'advanced', 'style'] as $fieldSet) {
+      foreach (array_keys($form[$fieldSet]) as $field) {
+        if (isset($defaults[$field]) && $defaults[$field] !== $config[$field]) {
+          $form[$fieldSet]['#open'] = TRUE;
+        }
+      }
+    }
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function build() {
     $menu_name = $this->getDerivativeId();
     $parameters = $this->menuTree->getCurrentRouteMenuTreeParameters($menu_name);
