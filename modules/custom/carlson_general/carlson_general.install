@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Install and update tasks for Carlson General module.
+ */
+
+/**
+ * Remove all menu items from the main menu.
+ */
+function carlson_general_update_9001() {
+  $menu_name = 'main';
+
+  // Load all menu links in the specified menu.
+  $menu_links = \Drupal::entityTypeManager()->getStorage('menu_link_content')
+    ->loadByProperties(['menu_name' => $menu_name]);
+
+  // Loop through each menu link and delete it.
+  foreach ($menu_links as $menu_link) {
+    $menu_link->delete();
+  }
+
+  return t('All menu items have been deleted from the main menu.');
+}
