@@ -73,55 +73,105 @@ class MyImportsCommands extends DrushCommands {
 
     $csv = new \SplFileObject($path . '/test.csv');
 
-    // Store menu links by title.
-    $menu_links_by_title = [];
+    // Store last mlid by level.
+    $last_parent_mlid_by_level = [];
 
-    // Store last title by level.
-    $last_title_by_level = [];
+    // Store item weights by level.
+    $menu_item_weights = [
+      0 => '0',
+      1 => '0',
+      2 => '0',
+      3 => '0',
+      4 => '0',
+      5 => '0',
+      6 => '0',
+      7 => '0',
+    ];
+
+    // Allow comparing current menu level with previous menu link level.
+    $last_level = 0;
 
     while (!$csv->eof()) {
       $row = $csv->fgetcsv();
 
       // Skip the header row and rows where Menu is not 'main'.
-      if ($row[4] == 'main' && $csv->key() > 0) {
+      if (isset($row[4]) && $row[4] == 'main' && $csv->key() > 0) {
         $title = '';
         $parent = '';
+        $menu_level = 0;
 
-        // Find the most specific title that is not empty.
-        for ($i = 5; $i <= 11; $i++) {
-          if (!empty($row[$i])) {
-            $title = $row[$i];
-            // Look for a parent in the previously created menu links.
-            $parent = isset($last_title_by_level[$i - 1]) ? $menu_links_by_title[$last_title_by_level[$i - 1]] : '';
-            // Update the last known title for the current level.
-            $last_title_by_level[$i] = $title;
+        // Find the first menu link level title that is not empty.
+        for ($i = 1; $i <= 7; $i++) {
+          if (!empty($row[$i+4])) {
+            $title = $row[$i+4];
+            $menu_level = $i;
+
+            // Set the parent mlid if we're not at the top level and
+            // we find a parent mlid from a previous row.
+            if ($i > 1) {
+              if (isset($last_parent_mlid_by_level[$i - 1])) {
+                $parent = $last_parent_mlid_by_level[$i - 1];
+              }
+              else {
+                $message = str_repeat("  ", $menu_level) . " no parent found for L$i $title.";
+                \Drupal::logger('carlson_general')->warning($message);
+              }
+            }
+            break;
           }
         }
 
-        // Update the node with the new title and breadcrumb.
-        $nodeId = substr($row[0], 6);
-        $node = $this->entityTypeManager->getStorage('node')->load($nodeId);
-        if ($node === NULL) {
-          $this->output()->writeln('No node found with ID: ' . $nodeId);
-          continue;
+        // Zero out deeper menu link weights when we go back up a level.
+        if ($menu_level < $last_level) {
+          $i = $menu_level+1;
+          while ($i < count($menu_item_weights)) {
+            $menu_item_weights[$i++] = '0';
+          }
         }
-        $node->setTitle($row[2]);
-        $node->set('field_breadcrumb_title', $row[3]);
-        $node->save();
+
+        $weight = $menu_item_weights[$menu_level];
+        // Increment menu link weight at the current level.
+        $menu_item_weights[$menu_level] = $menu_item_weights[$menu_level] + 1;
+
+        $uri = $row[0];
+        if (in_array($uri, ['<nolink>', '<button>'])) {
+          $uri = 'route:' . $uri;
+        }
+        // Update the node with the new title and breadcrumb.
+        elseif (preg_match('/^\/node\/(\d+)$/', $uri, $matches)) {
+          $nodeId = $matches[1] ?? '';
+          $uri = 'internal:/node/' . $nodeId;
+          $node = $this->entityTypeManager->getStorage('node')->load($nodeId);
+          if ($node) {
+            $node->setTitle($row[2]);
+            $node->set('field_breadcrumb_title', $row[3]);
+            $node->save();
+          }
+          else {
+            $message = 'No node found with ID: ' . $nodeId;
+            \Drupal::logger('carlson_general')->warning($message);
+          }
+        }
+        elseif (preg_match('/^\//', $uri)) {
+          $uri = 'internal:' . $uri;
+        }
 
         // Create a menu link.
         $menu_link = MenuLinkContent::create([
           'title' => $title,
-          'link' => ['uri' => 'internal:' . $row[0]],
+          'link' => ['uri' => $uri],
           'menu_name' => $row[4],
           'expanded' => TRUE,
           'enabled' => $row[11] == 'FALSE' ? 0 : 1,
           'parent' => $parent,
+          'weight' => $weight,
         ]);
         $menu_link->save();
+        // Store the parent link id for following children rows.
+        $last_parent_mlid_by_level[$menu_level] = $menu_link->getPluginId();
+        $last_level = $menu_level;
 
-        // Store the menu link by its title.
-        $menu_links_by_title[$title] = $menu_link->getPluginId();
+        $this->output()->writeln(str_pad(str_repeat(" -", $menu_level) . " $weight $title", 60) . " " . $menu_link->getPluginId() . " " . $uri);
       }
     }
 
