@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.faces.body
+    - field.field.node.faces.field_breadcrumb_title
     - field.field.node.faces.field_faces_category
     - field.field.node.faces.field_faces_tax
     - field.field.node.faces.field_magazine_cover_image
@@ -31,14 +32,14 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 101
+    weight: 1
     region: content
   field_faces_category:
     type: list_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 107
+    weight: 5
     region: content
   field_faces_tax:
     type: entity_reference_label
@@ -46,14 +47,14 @@ content:
     settings:
       link: false
     third_party_settings: {  }
-    weight: 106
+    weight: 4
     region: content
   field_magazine_cover_image:
     type: file_url_plain
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 103
+    weight: 3
     region: content
   field_short_sub_heading:
     type: string
@@ -61,14 +62,15 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 102
+    weight: 2
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
 hidden:
   addtoany: true
+  field_breadcrumb_title: true
   langcode: true
   search_api_excerpt: true

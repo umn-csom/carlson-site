@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.email_page.body
+    - field.field.node.email_page.field_breadcrumb_title
     - field.field.node.email_page.field_contact_info
     - field.field.node.email_page.field_event_channels
     - field.field.node.email_page.field_flexible_features
@@ -118,6 +119,14 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_breadcrumb_title:
+    type: string_textfield
+    weight: 101
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_contact_info:
     type: entity_reference_autocomplete
     weight: 15
@@ -208,6 +217,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

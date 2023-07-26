@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.magazine.field_breadcrumb_title
     - field.field.node.magazine.field_introduction_copy
     - field.field.node.magazine.field_magazine_cover_image
     - field.field.node.magazine.field_magazine_intro_head
@@ -41,14 +42,14 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 108
+    weight: 8
     region: content
   field_magazine_cover_image:
     type: file_url_plain
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 102
+    weight: 2
     region: content
   field_magazine_intro_head:
     type: string
@@ -56,21 +57,21 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 107
+    weight: 7
     region: content
   field_magazine_pdf:
     type: file_url_plain
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 106
+    weight: 6
     region: content
   field_magazine_publication:
     type: list_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 101
+    weight: 1
     region: content
   field_magazine_section:
     type: entity_reference_revisions_entity_view
@@ -79,7 +80,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 105
+    weight: 5
     region: content
   field_magazine_story_cover:
     type: entity_reference_entity_view
@@ -88,7 +89,7 @@ content:
       view_mode: card
       link: false
     third_party_settings: {  }
-    weight: 103
+    weight: 3
     region: content
   field_magazine_story_intro:
     type: entity_reference_entity_view
@@ -97,14 +98,14 @@ content:
       view_mode: card
       link: false
     third_party_settings: {  }
-    weight: 104
+    weight: 4
     region: content
   field_meta_tags:
     type: metatag_empty_formatter
     label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 111
+    weight: 11
     region: content
   field_profile_image:
     type: image
@@ -115,22 +116,23 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 109
+    weight: 9
     region: content
   field_teaser:
     type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 110
+    weight: 10
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
 hidden:
   addtoany: true
   content_moderation_control: true
+  field_breadcrumb_title: true
   langcode: true
   search_api_excerpt: true

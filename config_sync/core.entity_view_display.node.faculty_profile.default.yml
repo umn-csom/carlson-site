@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.faculty_profile.body
+    - field.field.node.faculty_profile.field_breadcrumb_title
     - field.field.node.faculty_profile.field_email
     - field.field.node.faculty_profile.field_first_name
     - field.field.node.faculty_profile.field_last_name
@@ -58,14 +59,14 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 101
+    weight: 1
     region: content
   field_email:
     type: basic_string
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 111
+    weight: 9
     region: content
   field_first_name:
     type: string
@@ -73,7 +74,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 103
+    weight: 2
     region: content
   field_last_name:
     type: string
@@ -81,14 +82,14 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 104
+    weight: 3
     region: content
   field_meta_tags:
     type: metatag_empty_formatter
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 126
+    weight: 19
     region: content
   field_middle_initial:
     type: string
@@ -96,7 +97,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 106
+    weight: 4
     region: content
   field_office_phone:
     type: string
@@ -104,7 +105,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 110
+    weight: 8
     region: content
   field_profile_activities:
     type: entity_reference_revisions_entity_view
@@ -113,7 +114,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 119
+    weight: 15
     region: content
   field_profile_address:
     type: string
@@ -121,7 +122,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 109
+    weight: 7
     region: content
   field_profile_admin_dept:
     type: entity_reference_label
@@ -129,7 +130,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 121
+    weight: 16
     region: content
   field_profile_cvc:
     type: file_default
@@ -137,7 +138,7 @@ content:
     settings:
       use_description_as_link_text: true
     third_party_settings: {  }
-    weight: 127
+    weight: 20
     region: content
   field_profile_degrees:
     type: entity_reference_revisions_entity_view
@@ -146,7 +147,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 116
+    weight: 13
     region: content
   field_profile_dept:
     type: string
@@ -154,7 +155,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 108
+    weight: 6
     region: content
   field_profile_expertise:
     type: entity_reference_revisions_entity_view
@@ -163,7 +164,7 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 129
+    weight: 22
     region: content
   field_profile_image:
     type: image
@@ -174,7 +175,7 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 128
+    weight: 21
     region: content
   field_profile_img:
     type: entity_reference_entity_view
@@ -183,7 +184,7 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 130
+    weight: 23
     region: content
   field_profile_job_candidate:
     type: boolean
@@ -193,7 +194,7 @@ content:
       format_custom_false: ''
       format_custom_true: ''
     third_party_settings: {  }
-    weight: 114
+    weight: 11
     region: content
   field_profile_owner:
     type: string
@@ -201,7 +202,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 115
+    weight: 12
     region: content
   field_profile_programs:
     type: entity_reference_label
@@ -209,7 +210,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 123
+    weight: 18
     region: content
   field_profile_status:
     type: entity_reference_label
@@ -217,7 +218,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 122
+    weight: 17
     region: content
   field_profile_title:
     type: string
@@ -225,7 +226,7 @@ content:
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 107
+    weight: 5
     region: content
   field_profile_url:
     type: link
@@ -237,7 +238,7 @@ content:
       rel: nofollow
       target: _blank
     third_party_settings: {  }
-    weight: 112
+    weight: 10
     region: content
   field_profile_works:
     type: entity_reference_revisions_entity_view
@@ -246,15 +247,16 @@ content:
       view_mode: default
       link: ''
     third_party_settings: {  }
-    weight: 118
+    weight: 14
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
 hidden:
   addtoany: true
+  field_breadcrumb_title: true
   field_profile_title_2: true
   field_profile_title_3: true
   field_profile_title_4: true

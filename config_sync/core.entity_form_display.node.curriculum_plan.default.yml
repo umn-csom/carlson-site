@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.curriculum_plan.body
+    - field.field.node.curriculum_plan.field_breadcrumb_title
     - field.field.node.curriculum_plan.field_flexible_features
     - node.type.curriculum_plan
     - workflows.workflow.editorial
@@ -32,6 +33,14 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_breadcrumb_title:
+    type: string_textfield
+    weight: 123
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_flexible_features:
     type: entity_reference_paragraphs
@@ -70,6 +79,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

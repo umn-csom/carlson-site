@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.event.body
+    - field.field.node.event.field_breadcrumb_title
     - field.field.node.event.field_email
     - field.field.node.event.field_event_address
     - field.field.node.event.field_event_channels
@@ -69,7 +70,9 @@ content:
   field_event_address:
     type: address_default
     label: above
-    settings: {  }
+    settings:
+      skip_domestic_country: false
+      domestic_country: site_default
     third_party_settings: {  }
     weight: 16
     region: content
@@ -220,6 +223,7 @@ content:
     weight: 0
     region: content
 hidden:
+  field_breadcrumb_title: true
   field_meta_tags: true
   langcode: true
   search_api_excerpt: true

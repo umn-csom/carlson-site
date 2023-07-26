@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.quiz_results
     - field.field.node.quiz.body
+    - field.field.node.quiz.field_breadcrumb_title
     - field.field.node.quiz.field_meta_tags
     - field.field.node.quiz.field_quiz_cond_results_body
     - field.field.node.quiz.field_quiz_headline
@@ -24,8 +25,8 @@ dependencies:
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 _core:
   default_config_hash: XuOEfxmvSkKlOtom1AaccNMYsFcj9ZbCJw7c5qDjVvQ
 id: node.quiz.quiz_results
@@ -35,58 +36,59 @@ mode: quiz_results
 content:
   field_meta_tags:
     type: metatag_empty_formatter
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
     weight: 6
     region: content
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
   field_quiz_cond_results_body:
     type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
     weight: 4
     region: content
-    label: hidden
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
   field_quiz_no_results_page_body:
     type: text_default
-    weight: 3
-    region: content
     label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 3
+    region: content
   field_quiz_results_add_comps:
     type: entity_reference_revisions_entity_view
-    weight: 5
-    region: content
     label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 5
+    region: content
   field_quiz_results_body:
     type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
     weight: 2
     region: content
-    label: hidden
-    settings: {  }
-    third_party_settings: {  }
   field_quiz_results_title:
     type: text_default
-    weight: 1
-    region: content
     label: hidden
     settings: {  }
     third_party_settings: {  }
-  links:
-    weight: 0
+    weight: 1
     region: content
+  links:
     settings: {  }
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   addtoany: true
   body: true
+  field_breadcrumb_title: true
   field_quiz_headline: true
   field_quiz_main_image: true
   field_quiz_questions: true

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - entity_browser.browser.image_browser
+    - field.field.node.magazine.field_breadcrumb_title
     - field.field.node.magazine.field_introduction_copy
     - field.field.node.magazine.field_magazine_cover_image
     - field.field.node.magazine.field_magazine_intro_head
@@ -16,6 +17,7 @@ dependencies:
     - field.field.node.magazine.field_profile_image
     - field.field.node.magazine.field_teaser
     - node.type.magazine
+    - workflows.workflow.editorial
   module:
     - content_moderation
     - entity_browser
@@ -100,6 +102,14 @@ content:
     weight: 2
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_breadcrumb_title:
+    type: string_textfield
+    weight: 101
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_introduction_copy:
     type: text_textarea
@@ -212,6 +222,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

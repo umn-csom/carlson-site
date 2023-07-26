@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.news.body
+    - field.field.node.news.field_breadcrumb_title
     - field.field.node.news.field_featured_media_faculty
     - field.field.node.news.field_flexible_features
     - field.field.node.news.field_hero_media
@@ -16,6 +17,7 @@ dependencies:
     - field.field.node.news.field_news_channels
     - field.field.node.news.field_sidebar_content
     - node.type.news
+    - workflows.workflow.editorial
   module:
     - content_moderation
     - field_group
@@ -143,6 +145,14 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_breadcrumb_title:
+    type: string_textfield
+    weight: 101
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_featured_media_faculty:
     type: options_select
     weight: 5
@@ -253,6 +263,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
