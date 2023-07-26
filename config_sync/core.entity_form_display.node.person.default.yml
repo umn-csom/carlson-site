@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.person.body
+    - field.field.node.person.field_breadcrumb_title
     - field.field.node.person.field_email
     - field.field.node.person.field_fax
     - field.field.node.person.field_first_name
@@ -120,6 +121,14 @@ content:
     weight: 2
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_breadcrumb_title:
+    type: string_textfield
+    weight: 101
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_email:
     type: email_default
@@ -259,6 +268,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

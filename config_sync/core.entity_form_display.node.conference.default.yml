@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.conference.body
+    - field.field.node.conference.field_breadcrumb_title
     - field.field.node.conference.field_flexible_features
     - field.field.node.conference.field_flexible_features_bottom
     - field.field.node.conference.field_hero_media
@@ -116,6 +117,14 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_breadcrumb_title:
+    type: string_textfield
+    weight: 101
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_flexible_features:
     type: entity_reference_paragraphs
     weight: 10
@@ -190,6 +199,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

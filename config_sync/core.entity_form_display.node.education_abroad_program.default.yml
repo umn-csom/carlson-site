@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.education_abroad_program.body
+    - field.field.node.education_abroad_program.field_breadcrumb_title
     - field.field.node.education_abroad_program.field_ea_cost_summary
     - field.field.node.education_abroad_program.field_ea_cost_table
     - field.field.node.education_abroad_program.field_ea_fact_sheet
@@ -219,6 +220,14 @@ content:
     weight: 3
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_breadcrumb_title:
+    type: string_textfield
+    weight: 101
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_ea_cost_summary:
     type: text_textarea
@@ -546,6 +555,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

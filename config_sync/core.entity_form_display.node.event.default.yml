@@ -5,6 +5,7 @@ dependencies:
   config:
     - entity_browser.browser.image_browser
     - field.field.node.event.body
+    - field.field.node.event.field_breadcrumb_title
     - field.field.node.event.field_email
     - field.field.node.event.field_event_address
     - field.field.node.event.field_event_channels
@@ -159,6 +160,14 @@ content:
     weight: 2
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_breadcrumb_title:
+    type: string_textfield
+    weight: 108
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_email:
     type: email_default
@@ -323,6 +332,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.student.body
+    - field.field.node.student.field_breadcrumb_title
     - field.field.node.student.field_first_name
     - field.field.node.student.field_last_name
     - field.field.node.student.field_meta_tags
@@ -157,6 +158,14 @@ content:
     weight: 3
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_breadcrumb_title:
+    type: string_textfield
+    weight: 101
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_first_name:
     type: string_textfield
@@ -631,6 +640,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

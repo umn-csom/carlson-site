@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.webform.body
+    - field.field.node.webform.field_breadcrumb_title
     - field.field.node.webform.field_meta_tags
     - field.field.node.webform.webform
     - node.type.webform
@@ -36,6 +37,14 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_breadcrumb_title:
+    type: string_textfield
+    weight: 122
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_meta_tags:
     type: metatag_firehose
     weight: 121
@@ -67,6 +76,11 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox

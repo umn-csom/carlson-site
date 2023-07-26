@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.video.body
+    - field.field.node.video.field_breadcrumb_title
     - field.field.node.video.field_hub_topic
     - field.field.node.video.field_video
     - field.field.node.video.field_video_thumb
@@ -28,7 +29,7 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 101
+    weight: 1
     region: content
   field_hub_topic:
     type: entity_reference_label
@@ -36,7 +37,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 104
+    weight: 2
     region: content
   field_video:
     type: entity_reference_entity_view
@@ -45,7 +46,7 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 105
+    weight: 3
     region: content
   field_video_thumb:
     type: entity_reference_entity_view
@@ -54,14 +55,15 @@ content:
       view_mode: default
       link: false
     third_party_settings: {  }
-    weight: 106
+    weight: 4
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 0
     region: content
 hidden:
   addtoany: true
+  field_breadcrumb_title: true
   langcode: true
   search_api_excerpt: true

@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.node.quiz_results
     - field.field.node.session.body
+    - field.field.node.session.field_breadcrumb_title
     - field.field.node.session.field_meta_tags
     - field.field.node.session.field_section
     - field.field.node.session.field_session_conference
@@ -18,8 +19,8 @@ dependencies:
     - user
 third_party_settings:
   layout_builder:
-    allow_custom: false
     enabled: false
+    allow_custom: false
 _core:
   default_config_hash: buFFp9NbTH-4ZHL1zEiOM_9AgWb4yT264oMr9-r5fsw
 id: node.session.quiz_results
@@ -28,41 +29,42 @@ bundle: session
 mode: quiz_results
 content:
   body:
-    label: hidden
     type: text_default
-    weight: 101
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 101
     region: content
   field_section:
-    weight: 102
+    type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    type: entity_reference_label
+    weight: 102
     region: content
   field_session_conference:
-    weight: 103
+    type: list_default
     label: above
     settings: {  }
     third_party_settings: {  }
-    type: list_default
+    weight: 103
     region: content
   field_session_speaker:
     type: entity_reference_revisions_entity_view
-    weight: 104
     label: above
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 104
     region: content
   links:
     weight: 100
     region: content
 hidden:
   addtoany: true
+  field_breadcrumb_title: true
   field_meta_tags: true
   langcode: true
   search_api_excerpt: true

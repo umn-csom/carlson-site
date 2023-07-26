@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.node.quiz.body
+    - field.field.node.quiz.field_breadcrumb_title
     - field.field.node.quiz.field_meta_tags
     - field.field.node.quiz.field_quiz_cond_results_body
     - field.field.node.quiz.field_quiz_headline
@@ -29,97 +30,98 @@ bundle: quiz
 mode: default
 content:
   body:
-    label: hidden
     type: text_default
-    weight: 1
+    label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 1
     region: content
   field_meta_tags:
-    weight: 8
+    type: metatag_empty_formatter
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: metatag_empty_formatter
+    weight: 8
     region: content
   field_quiz_cond_results_body:
     type: entity_reference_revisions_entity_view
-    weight: 10
-    region: content
     label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 10
+    region: content
   field_quiz_headline:
-    weight: 2
+    type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 2
     region: content
   field_quiz_main_image:
     type: entity_reference_entity_view
-    weight: 3
     label: hidden
     settings:
       view_mode: default
       link: false
     third_party_settings: {  }
+    weight: 3
     region: content
   field_quiz_no_results_page_body:
-    weight: 11
+    type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 11
     region: content
   field_quiz_questions:
     type: entity_reference_revisions_entity_view
-    weight: 4
     label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 4
     region: content
   field_quiz_results_add_comps:
     type: entity_reference_revisions_entity_view
-    weight: 7
     label: hidden
     settings:
       view_mode: default
       link: ''
     third_party_settings: {  }
+    weight: 7
     region: content
   field_quiz_results_body:
-    weight: 6
+    type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 6
     region: content
   field_quiz_results_title:
-    weight: 5
+    type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    type: text_default
+    weight: 5
     region: content
   field_quiz_webform:
-    weight: 9
+    type: webform_entity_reference_entity_view
     label: hidden
     settings:
       source_entity: true
     third_party_settings: {  }
-    type: webform_entity_reference_entity_view
+    weight: 9
     region: content
   links:
-    weight: 0
-    region: content
     settings: {  }
     third_party_settings: {  }
+    weight: 0
+    region: content
 hidden:
   addtoany: true
+  field_breadcrumb_title: true
   langcode: true
   search_api_excerpt: true
