@@ -1,72 +1,92 @@
 /* VARIABLES */
-// UMN Branding Colors ////////
-$black: rgb(0, 0, 0);
-$white: #ffffff;
-$darkgray: rgb(51, 51, 51);
-$header-dark-gray: #8a8a8a;
-$darkmedgray: rgb(83, 83, 83);
-$mediumgray: rgb(204, 204, 204);
-$header-gray: #dbdbdb;
-$lightgray: #f0efee;
-$lightergray: #f0f0f0;
-$white: rgb(255, 255, 255);
-$gold: #FFCC33;
-$slate: #404d5b;
-$light-slate: #eaecef;
-$burgundy: rgb(144, 0, 33);
-$maroon: #7A0019;
-$light-maroon: #973c49;
-$ivory: #E6E0D2;
-$light-warm-ivory: #eae7e2;
-$light-ivory: #F7F0DF;
-$light-light-ivory: #F9F5F4;
-$light-grayish-orange: #F7F4F2;
-/* Carlson Colors */
-$slate: #363230;
-// $mid-gray: $ivory;
-$mid-gray: #575757;
-$light-gray: #e6d8d6;
-$warm-gray: $light-gray;
-$dark-gray: #5A5450;
-$another-gray: #E6DBD6;
-$submit-gold: $gold;
-/* Centennial Colors */
-$centennial-light-gray: #f5f5f5;
-$centennial-red: #cc2027;
-$centennial-gold: #FEC057;
+// Colors
+$red:               #dc3545;
+$centennial-red:    #cc2027;
+$yellow:            #ffc107;
+$light-yellow:      #ffe7a7;
+$cyan:              #17a2b8;
+$dark-blue:         #1798af;
+$blue:              #2bc;
+$mid-blue:          #68c8e2;
+$light-blue:        #b4d8e2;
+$light-blue:        #73b5b2;
+$green:             #28a745;
+$light-green:       #dbeabd;
+$orange:            #e37222;
+$mid-orange:        #ef8b44;
+$light-orange:      #edc6a6;
+$black:             #000;
+$white:             #fff;
+$white-90:          rgba($white, 0.9);
 
-/* Table colors */
-$light-yellow: #ffe7a7;
-$light-orange:#edc6a6;
-$light-blue:#b4d8e2;
-$light-green:#dbeabd;
+// Maroon
+$maroon:            #7a0019;
+//$maroon-light:      #8d0428;
+$maroon-light:      #900021;
+$burgundy:          $maroon-light;
+$light-maroon:      #973c49;
+
+// Gold
+$gold:              #fc3;
+$submit-gold:       $gold;
+$centennial-gold:   #fec057;
+
+// UMN gold styles
+$gold-dark:         #ffb71e;
+$gold-light:        #ffde7a;
+$gold-header:       #ffd75f;
+
+// Ivory
+$ivory:             #e6e0d2;
+$light-warm-ivory:  #eae7e2;
+$light-ivory:       #f7f0df;
+$light-grayish-orange: #f7f4f2;
+$light-light-ivory: #f9f5f4;
+
+// Slate
+$slate:             #404d5b;
+$slate:             #363230;
+$gray-800:          #343a40 !default;
+$light-slate:       #eaecef;
+
+// Neutral blue and grays for text
+$soft-black:        #1a1a1a;
+$dark-gray:         #303030;
+$darkgray:          #333;
+$mid-gray:          #575757;
+$darkmedgray:       #535353;
+//$dark-gray:         #5a5450;
+//$dark-gray:         #5a5a5a;
+$header-dark-gray:  #8a8a8a;
+
+// Neutral grays for backgrounds
+$mediumgray:        #ccc;
+$header-gray:       #dbdbdb;
+$light-gray:        #e6d8d6;
+$warm-gray:         $light-gray;
+$another-gray:      #e6dbd6;
+$gray:              #ededed;
+$lightgray:         #f0efee;
+$lightergray:       #f0f0f0;
+$centennial-light-gray: #f5f5f5;
+$gray-100:          #f8f9fa !default;
 
 // Navigation
-$hamburger-grey: $dark-gray;
-$menu-gold: $gold;
-$menu-grey: #363230;
-$menu-line-grey: #D8D8D8;
+$hamburger-grey:    $dark-gray;
+$menu-gold:         $gold;
+$menu-grey:         $slate;
+$menu-line-grey:  #d8d8d8;
 
-// colors
-$primary-shade: #A8CF45;
+$primary-shade: #a8cf45;
 $primary-light: lighten($primary-shade, 37%);
-$primary-dark: darken($primary-shade, 12%);
-$accent-shade: $maroon;
-$accent-light: lighten($accent-shade, 37%);
-$accent-dark: darken($accent-shade, 12%);
+$primary-dark:  darken($primary-shade, 12%);
+$inverse-bg:    $primary-shade;
+$brand-inverse: $primary-shade;
 
-// Reassign color vars to semantic color scheme
-$red: #dc3545;
-$yellow: #ffc107;
-$green: #28a745;
-$cyan: #17a2b8;
-$gray-100: #f8f9fa !default;
-$gray-800: #343a40 !default;
-$light-blue: #73B5B2;
-
-//new colors
-$white-90: rgba($white, 0.9);
-$gray: #EDEDED;
+$accent-shade:  $maroon;
+$accent-light:  lighten($accent-shade, 37%);
+$accent-dark:   darken($accent-shade, 12%);
+$brand-primary: $accent-shade;
 
 $theme-colors: (
   primary: $accent-shade,
@@ -85,19 +105,12 @@ $theme-colors: (
   black: $black,
 );
 $primary:  map-get($theme-colors, "primary");
-$brand-primary: $accent-shade;
-//$brand-success: $green;
-//$brand-info: $teal;
-//$brand-warning: $orange;
-//$brand-danger: $red;
-$brand-inverse: $primary-shade;
 
 // Body
 //
 // Settings for the `<body>` element.
 //$body-bg: $white;
 //$body-color: $gray-dark;
-$inverse-bg: $primary-shade;
 //$inverse-color: $gray-lighter;
 
 // Links
