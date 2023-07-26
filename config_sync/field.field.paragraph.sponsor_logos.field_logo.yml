@@ -1,0 +1,25 @@
+uuid: 56b29879-abc1-4f81-b20e-e08172a8ed15
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_logo
+    - paragraphs.paragraphs_type.sponsor_logos
+id: paragraph.sponsor_logos.field_logo
+field_name: field_logo
+entity_type: paragraph
+bundle: sponsor_logos
+label: Logo
+description: 'Optimized logos should be 500x200 or 250x100 in pixels.  Ideally the logo graphic should be expanded to touch whatever edge it hits first.  Logos will then be scaled and sized with necessary whitespace to support design.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: views
+  handler_settings:
+    view:
+      view_name: media_categories
+      display_name: entity_reference_1
+      arguments: {  }
+field_type: entity_reference

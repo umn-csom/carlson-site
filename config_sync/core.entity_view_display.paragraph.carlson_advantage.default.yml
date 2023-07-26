@@ -1,0 +1,59 @@
+uuid: 4145264d-10b7-4786-af90-5fa45fff4063
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.carlson_advantage.field_column_item
+    - field.field.paragraph.carlson_advantage.field_heading
+    - field.field.paragraph.carlson_advantage.field_link
+    - field.field.paragraph.carlson_advantage.field_main_content
+    - paragraphs.paragraphs_type.carlson_advantage
+  module:
+    - entity_reference_revisions
+    - link
+    - text
+_core:
+  default_config_hash: cW8Aha5w04bEn2Fpi03wfCRarYUBzB3vs7AhSMIWi7c
+id: paragraph.carlson_advantage.default
+targetEntityType: paragraph
+bundle: carlson_advantage
+mode: default
+content:
+  field_column_item:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_heading:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_link:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_main_content:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

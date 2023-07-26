@@ -1,0 +1,698 @@
+uuid: f3484836-3392-4d16-be1b-8167c9f06e96
+langcode: en
+status: open
+dependencies: {  }
+weight: 0
+open: null
+close: null
+uid: 52526
+template: false
+archive: false
+id: quiz_on_the_road
+title: 'Quiz: On the Road'
+description: ''
+category: ''
+elements: |-
+  p1:
+    '#type': webform_wizard_page
+    '#title': 'Question 1'
+    '#next_button_label': next
+    quiz_block1:
+      '#type': processed_text
+      '#text': "<p>We might not be on the coast, but we’ve got enough shoreline to make you think twice. Minnesota is full of little surprises. So before you overlook us, we dare you to learn something about us first.</p>\r\n"
+      '#format': rich_text
+    q1:
+      '#type': radios
+      '#title': Q1
+      '#description': 'Question 1: How many Fortune 500 companies are headquartered in Minnesota?'
+      '#title_display': invisible
+      '#description_display': before
+      '#options':
+        a: 'A. 12'
+        b: 'B. 7'
+        c: 'C. 16'
+        4: 'D. 19'
+      '#states':
+        disabled:
+          ':input[name="q1_d"]':
+            checked: true
+      '#states_clear': false
+    q1_d:
+      '#type': checkbox
+      '#title': 'Is this your final answer?'
+      '#description': 'Yeah, I&#39;m done'
+      '#states':
+        visible:
+          - ':input[name="q1"]':
+              value: a
+          - xor
+          - ':input[name="q1"]':
+              value: b
+          - xor
+          - ':input[name="q1"]':
+              value: c
+          - xor
+          - ':input[name="q1"]':
+              value: '4'
+        disabled:
+          ':input[name="q1_d"]':
+            checked: true
+    q1_y:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q1"]':
+            value: '4'
+          ':input[name="q1_d"]':
+            checked: true
+      '#text': "<p>Correct!</p>\r\n"
+      '#format': rich_text
+    q1_n:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q1"]':
+            '!value': '4'
+          ':input[name="q1_d"]':
+            checked: true
+      '#text': "<p>Nope!</p>\r\n"
+      '#format': rich_text
+    q1_a:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q1_d"]':
+            checked: true
+      '#text': "<p>19 Fortune 500 companies are headquartered in Minnesota, with a majority located downtown Minneapolis. These enterprises include such businesses as Target, Best Buy, 3M, General Mills, Medtronic, Hormel Foods, Ameriprise Financial, and Ecolab.</p>\r\n\r\n<p>Positioned in the heart of this thriving business community, the Carlson School has developed relationships with these companies in order to offer its students essential real-world experiences in the classroom throughout their education as well as recruiting opportunities after graduation.</p>\r\n"
+      '#format': rich_text
+  q2:
+    '#type': webform_wizard_page
+    '#title': 'Question 2'
+    '#next_button_label': Next
+    question_2:
+      '#type': radios
+      '#title': q2
+      '#description': 'Question 2: Minnesota has more shoreline than which of the following states?'
+      '#title_display': invisible
+      '#description_display': before
+      '#options':
+        a: 'A. California'
+        b: 'B. Florida'
+        c: 'C. Hawaii'
+        4: 'D. California, Florida, and Hawaii combined'
+      '#states':
+        disabled:
+          ':input[name="q2_d"]':
+            checked: true
+    q2_d:
+      '#type': checkbox
+      '#title': 'Show me the answer!'
+      '#states':
+        visible:
+          - ':input[name="question_2"]':
+              value: a
+          - xor
+          - ':input[name="question_2"]':
+              value: b
+          - xor
+          - ':input[name="question_2"]':
+              value: c
+          - xor
+          - ':input[name="question_2"]':
+              value: '4'
+        disabled:
+          ':input[name="q2_d"]':
+            checked: true
+    q2_y:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q2_d"]':
+            checked: true
+          ':input[name="question_2"]':
+            value: '4'
+      '#text': "<p>Yep!</p>\r\n"
+      '#format': rich_text
+    q2_n:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q2_d"]':
+            checked: true
+          ':input[name="question_2"]':
+            '!value': '4'
+      '#text': "<p>Nope!</p>\r\n"
+      '#format': rich_text
+    q2_a:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q2_d"]':
+            checked: true
+      '#text': "<p>Known as the land of 10,000 lakes, Minnesota has over 90,000 miles of shoreline. That’s more than California, Florida, and Hawaii combined. And we do a lot with that shoreline. From wakeboarding to kayaking -- to swimming, to just plain relaxing on the water, Minnesotans know how to enjoy lake life.</p>\r\n\r\n<p>In fact, water skiing was invented in Minnesota by Ralph Samuelson. Using a clothesline as a tow rope, he took his first ride in 1922 on Lake Pepin. Minnesota is a hotbed for this kind of creative innovation and entrepreneurship. And the Carlson School has become a hub that inspires, educates, and connects the next generation of Minnesota’s entrepreneurs. Need proof? Take one look at what students are doing in the <a href=\"https://carlsonschool.umn.edu/faculty-research/gary-s-holmes-center-entrepreneurship\">Carlson School’s Gary Holmes Center for Entrepreneurship</a>.</p>\r\n"
+      '#format': rich_text
+  question_3:
+    '#type': webform_wizard_page
+    '#title': 'Question 3'
+    computetest:
+      '#type': webform_computed_twig
+      '#title': computetest
+      '#mode': html
+      '#template': "<pre>data.q1: {{ data.q1}}\r\ndata.question_2: {{ data.question_2 }}\r\n<strong>{{ ((data.q1 + data.question_2) / 4) }} of 2</strong></pre>\r\n\r\n<pre>{{ element.elements.q1 }}</pre>"
+      '#whitespace': spaceless
+      '#hide_empty': true
+      '#ajax': true
+    q3:
+      '#type': radios
+      '#title': q3
+      '#description': 'Question 3: The University of Minnesota is credited for being the first to successfully complete which of the following groundbreaking medical procedures?'
+      '#title_display': invisible
+      '#description_display': before
+      '#options':
+        a: 'A. Heart transplant'
+        b: 'B. Bone marrow transplant'
+        c: 'C. Kidney transplant'
+        1: 'D. Both A and B'
+      '#states':
+        disabled:
+          ':input[name="q3_d"]':
+            checked: true
+    q3_d:
+      '#type': checkbox
+      '#title': 'Yep, I''m ready to see the answer.'
+      '#states':
+        visible:
+          - ':input[name="q3"]':
+              value: a
+          - xor
+          - ':input[name="q3"]':
+              value: b
+          - xor
+          - ':input[name="q3"]':
+              value: c
+          - xor
+          - ':input[name="q3"]':
+              value: '1'
+        disabled:
+          ':input[name="q3_d"]':
+            checked: true
+    q3_y:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q3"]':
+            value: '1'
+          ':input[name="q3_d"]':
+            checked: true
+      '#text': "<p>Yes! That's right!</p>\r\n"
+      '#format': rich_text
+    q3_n:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q3"]':
+            '!value': '1'
+          ':input[name="q3_d"]':
+            checked: true
+      '#text': "<p>Nope. Wrong.</p>\r\n"
+      '#format': rich_text
+    q3_a:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q3_d"]':
+            checked: true
+      '#text': "<p>The world's first successful open-heart procedure was carried out by Dr. F. John Lewis at the University of Minnesota in 1952. Shortly following in 1968, the University successfully completed the world’s first bone marrow transplant, performed by Robert Good, MD. Since then, the University of Minnesota has established itself as a top medical research university, making groundbreaking contributions to the state, the nation, and the world.</p>\r\n\r\n<p>Home to organizations like the Mayo Clinic, Boston Scientific, Medtronic, and UnitedHealth Group, Minnesota’s medical community is strong and vibrant. Through the Medical Industry Leadership Institute, the Carlson School plays a big role in preparing the next generation of business leaders to tackle the nation’s biggest health challenges.</p>\r\n"
+      '#format': rich_text
+  question_4:
+    '#type': webform_wizard_page
+    '#title': 'Question 4'
+    q4:
+      '#type': radios
+      '#title': q4
+      '#description': 'Question 4: In 1977, the school took a bold step and hired David Lilly, a nonacademic, as dean. He was a CEO at which Minnesota-based company?'
+      '#title_display': invisible
+      '#description_display': before
+      '#options':
+        a: 'A. General Mills'
+        b: 'B. Cargill'
+        1: 'C. Toro'
+        d: 'D. Donaldson Company'
+      '#states':
+        disabled:
+          ':input[name="q4_d"]':
+            checked: true
+    q4_d:
+      '#type': checkbox
+      '#title': q4_d
+      '#states':
+        visible:
+          - ':input[name="q4"]':
+              value: a
+          - xor
+          - ':input[name="q4"]':
+              value: b
+          - xor
+          - ':input[name="q4"]':
+              value: '1'
+          - xor
+          - ':input[name="q4"]':
+              value: d
+        disabled:
+          ':input[name="q4_d"]':
+            checked: true
+    q4_y:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q4_d"]':
+            checked: true
+          ':input[name="q4"]':
+            value: '1'
+      '#text': "<p>Yes. So right! Very nice!</p>\r\n"
+      '#format': rich_text
+    q4_n:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q4_d"]':
+            checked: true
+          ':input[name="q4"]':
+            '!value': '1'
+      '#text': "<p>No.</p>\r\n"
+      '#format': rich_text
+    q4_a:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q4_d"]':
+            checked: true
+      '#text': "<p>David Lilly, then CEO of Toro Co., brought new energy and a huge list of connections from Twin Cities corporations to the school.</p>\r\n\r\n<p>Today, Dean Sri Zaheer brings the same innovative energy to the school. During her tenure, Sri launched a Military Veterans Initiative to help servicemen and women transition from military to business careers, has increased the business community’s engagement with the school which has resulted in myriad new experiential learning opportunities for students, and has overseen the introduction of several new programs including new master’s programs in Business Analytics, Finance, and Supply Chain Management.</p>\r\n\r\n<p>Learn more about Dean Sri Zaheer.</p>\r\n"
+      '#format': rich_text
+  p5:
+    '#type': webform_wizard_page
+    '#title': 'Question 5'
+    q5:
+      '#type': radios
+      '#title': q5
+      '#description': 'Question 5: In 2007, The Carlson School became one of the first business schools in the nation to require that undergraduate students participate with which of the following experiences:'
+      '#title_display': invisible
+      '#description_display': before
+      '#options':
+        1: 'A. Education abroad'
+        b: 'B. Extracurricular clubs'
+        c: 'C. Intramural sports'
+        d: 'D. Case competitions'
+      '#states':
+        disabled:
+          ':input[name="q5_d"]':
+            checked: true
+    q5_d:
+      '#type': checkbox
+      '#title': q5_d
+      '#states':
+        visible:
+          - ':input[name="q5"]':
+              value: '1'
+          - xor
+          - ':input[name="q5"]':
+              value: b
+          - xor
+          - ':input[name="q5"]':
+              value: c
+          - xor
+          - ':input[name="q5"]':
+              value: d
+        disabled:
+          ':input[name="q5_d"]':
+            checked: true
+    q5_y:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q5_d"]':
+            checked: true
+          ':input[name="q5"]':
+            value: '1'
+      '#text': "<p>Yes</p>\r\n"
+      '#format': rich_text
+    q5_n:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q5_d"]':
+            checked: true
+          ':input[name="q5"]':
+            '!value': '1'
+      '#text': "<p>No.</p>\r\n"
+      '#format': rich_text
+    q5_a:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q5_d"]':
+            checked: true
+      '#text': "<p>Education Abroad. Our programs offer education abroad experiences with a focus on a variety of business-related topics in locations spread across the world, from the most independent exchange options to short-term January or May/June options led by Carlson School faculty.</p>\r\n\r\n<p>In addition to the programs offered to undergraduates, our MBA and Master’s students have several options available to them as well. Check out our Program Finder to learn more about the many global partnerships the Carlson School maintains.</p>\r\n"
+      '#format': rich_text
+  q6:
+    '#type': webform_wizard_page
+    '#title': 'Question 6'
+    q_6:
+      '#type': radios
+      '#title': q6
+      '#description': 'Question 6: The University of Minnesota is known for inventing which fruit?'
+      '#title_display': invisible
+      '#description_display': before
+      '#options':
+        a: 'A. Navel oranges'
+        1: 'B. Honeycrisp apples'
+        c: 'C. Blueberries'
+        d: 'D. Meyer lemons'
+      '#states':
+        disabled:
+          ':input[name="q6_d"]':
+            checked: true
+    q6_d:
+      '#type': checkbox
+      '#title': q6_d
+      '#states':
+        visible:
+          - ':input[name="q_6"]':
+              value: a
+          - xor
+          - ':input[name="q_6"]':
+              value: '1'
+          - xor
+          - ':input[name="q_6"]':
+              value: c
+          - xor
+          - ':input[name="q_6"]':
+              value: d
+        disabled:
+          ':input[name="q6_d"]':
+            checked: true
+    q6_y:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q6_d"]':
+            checked: true
+          ':input[name="q_6"]':
+            value: '1'
+      '#text': "<p>Yes.</p>\r\n"
+      '#format': rich_text
+    q6_n:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q6_d"]':
+            checked: true
+          ':input[name="q_6"]':
+            '!value': '1'
+      '#text': "<p>No. That's wrong.</p>\r\n"
+      '#format': rich_text
+    q6_a:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q6_d"]':
+            checked: true
+      '#text': "<p>B. Who doesn’t love a good honeycrisp apple</p>\r\n"
+      '#format': rich_text
+  q7:
+    '#type': webform_wizard_page
+    '#title': 'Question 7'
+    q_7:
+      '#type': radios
+      '#title': q_7
+      '#description': 'Question 7: Minnesota is ranked one of the top 10 healthiest states in the nation. What makes Minnesota so healthy?'
+      '#title_display': invisible
+      '#description_display': before
+      '#options':
+        a: 'A. Minneapolis is ranked #1 for most bikeable city in the country'
+        b: 'B. Minnesota is ranked #3 for employment'
+        c: 'C. Minnesota is ranked the least stressed state in the nation'
+        1: 'D. All of the above'
+      '#states':
+        disabled:
+          ':input[name="q7_d"]':
+            checked: true
+    q7_d:
+      '#type': checkbox
+      '#title': q7_d
+      '#states':
+        visible:
+          - ':input[name="q_7"]':
+              value: a
+          - xor
+          - ':input[name="q_7"]':
+              value: b
+          - xor
+          - ':input[name="q_7"]':
+              value: c
+          - xor
+          - ':input[name="q_7"]':
+              value: '1'
+        disabled:
+          ':input[name="q7_d"]':
+            checked: true
+    q7_y:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q7_d"]':
+            checked: true
+          ':input[name="q_7"]':
+            value: '1'
+      '#text': "<p>Yes.</p>\r\n"
+      '#format': rich_text
+    q7_n:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q7_d"]':
+            checked: true
+          ':input[name="q_7"]':
+            '!value': '1'
+      '#text': "<p>No.</p>\r\n"
+      '#format': rich_text
+    q7_a:
+      '#type': processed_text
+      '#states':
+        visible:
+          ':input[name="q7_d"]':
+            checked: true
+      '#text': "<p>All of the above—and more! It might be cold, but Minnesotans are always looking for ways to get outside and stay active. Google it. We dare you.</p>\r\n"
+      '#format': rich_text
+  actions:
+    '#type': webform_actions
+    '#title': 'Submit button(s)'
+    '#states':
+      visible:
+        - ':input[name="q1_d"]':
+            checked: true
+        - or
+        - ':input[name="q2_d"]':
+            checked: true
+        - or
+        - ':input[name="q3_d"]':
+            checked: true
+        - or
+        - ':input[name="q4_d"]':
+            checked: true
+        - or
+        - ':input[name="q5_d"]':
+            checked: true
+        - or
+        - ':input[name="q6_d"]':
+            checked: true
+        - or
+        - ':input[name="q7_d"]':
+            checked: true
+    '#states_clear': false
+    '#submit__label': submit
+    '#wizard_prev_hide': true
+    '#wizard_next__label': next
+css: ''
+javascript: ''
+settings:
+  ajax: false
+  ajax_scroll_top: form
+  ajax_progress_type: ''
+  ajax_effect: ''
+  ajax_speed: null
+  page: true
+  page_submit_path: ''
+  page_confirm_path: ''
+  page_theme_name: ''
+  form_title: source_entity_webform
+  form_submit_once: false
+  form_open_message: ''
+  form_close_message: ''
+  form_exception_message: ''
+  form_previous_submissions: true
+  form_confidential: false
+  form_confidential_message: ''
+  form_disable_remote_addr: false
+  form_convert_anonymous: false
+  form_prepopulate: false
+  form_prepopulate_source_entity: false
+  form_prepopulate_source_entity_required: false
+  form_prepopulate_source_entity_type: ''
+  form_unsaved: false
+  form_disable_back: true
+  form_submit_back: false
+  form_disable_autocomplete: true
+  form_novalidate: false
+  form_disable_inline_errors: false
+  form_required: false
+  form_autofocus: false
+  form_details_toggle: false
+  form_reset: false
+  form_access_denied: default
+  form_access_denied_title: ''
+  form_access_denied_message: ''
+  form_access_denied_attributes: {  }
+  form_file_limit: ''
+  form_attributes: {  }
+  form_method: ''
+  form_action: ''
+  share: false
+  share_node: false
+  share_theme_name: ''
+  share_title: true
+  share_page_body_attributes: {  }
+  submission_label: ''
+  submission_exception_message: ''
+  submission_locked_message: ''
+  submission_log: false
+  submission_excluded_elements: {  }
+  submission_exclude_empty: false
+  submission_exclude_empty_checkbox: false
+  submission_views: {  }
+  submission_views_replace: {  }
+  submission_user_columns: {  }
+  submission_user_duplicate: false
+  submission_access_denied: default
+  submission_access_denied_title: ''
+  submission_access_denied_message: ''
+  submission_access_denied_attributes: {  }
+  previous_submission_message: ''
+  previous_submissions_message: ''
+  autofill: false
+  autofill_message: ''
+  autofill_excluded_elements: {  }
+  wizard_progress_bar: false
+  wizard_progress_pages: true
+  wizard_progress_percentage: false
+  wizard_progress_link: false
+  wizard_progress_states: false
+  wizard_start_label: Welcome!
+  wizard_preview_link: false
+  wizard_confirmation: false
+  wizard_confirmation_label: Results
+  wizard_auto_forward: true
+  wizard_auto_forward_hide_next_button: false
+  wizard_keyboard: true
+  wizard_track: index
+  wizard_prev_button_label: ''
+  wizard_next_button_label: ''
+  wizard_toggle: false
+  wizard_toggle_show_label: ''
+  wizard_toggle_hide_label: ''
+  preview: 0
+  preview_label: ''
+  preview_title: ''
+  preview_message: ''
+  preview_attributes: {  }
+  preview_excluded_elements: {  }
+  preview_exclude_empty: true
+  preview_exclude_empty_checkbox: false
+  draft: none
+  draft_multiple: false
+  draft_auto_save: false
+  draft_saved_message: ''
+  draft_loaded_message: ''
+  draft_pending_single_message: ''
+  draft_pending_multiple_message: ''
+  confirmation_type: inline
+  confirmation_url: ''
+  confirmation_title: ''
+  confirmation_message: ''
+  confirmation_attributes: {  }
+  confirmation_back: true
+  confirmation_back_label: ''
+  confirmation_back_attributes: {  }
+  confirmation_exclude_query: false
+  confirmation_exclude_token: false
+  confirmation_update: false
+  limit_total: null
+  limit_total_interval: null
+  limit_total_message: ''
+  limit_total_unique: false
+  limit_user: null
+  limit_user_interval: null
+  limit_user_message: ''
+  limit_user_unique: false
+  entity_limit_total: null
+  entity_limit_total_interval: null
+  entity_limit_user: null
+  entity_limit_user_interval: null
+  purge: none
+  purge_days: null
+  results_disabled: false
+  results_disabled_ignore: false
+  results_customize: false
+  token_view: false
+  token_update: false
+  token_delete: false
+  serial_disabled: false
+access:
+  create:
+    roles:
+      - anonymous
+      - authenticated
+    users: {  }
+    permissions: {  }
+  view_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  update_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  delete_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  purge_any:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  view_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  update_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  delete_own:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  administer:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  test:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+  configuration:
+    roles: {  }
+    users: {  }
+    permissions: {  }
+handlers: {  }
+variants: {  }

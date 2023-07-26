@@ -1,0 +1,28 @@
+uuid: d619011e-ec7a-4a96-8f1d-0d1cbddf6f4e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ea_fact_sheet
+    - media.type.document
+    - node.type.education_abroad_program
+id: node.education_abroad_program.field_ea_fact_sheet
+field_name: field_ea_fact_sheet
+entity_type: node
+bundle: education_abroad_program
+label: 'Fact Sheet'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      document: document
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

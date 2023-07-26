@@ -1,0 +1,28 @@
+uuid: 7a5d4351-62d1-4437-8a98-4568adbfc351
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ee_featured_faculty
+    - node.type.executive_ed_program
+    - node.type.faculty_profile
+id: node.executive_ed_program.field_ee_featured_faculty
+field_name: field_ee_featured_faculty
+entity_type: node
+bundle: executive_ed_program
+label: 'Featured Faculty'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      faculty_profile: faculty_profile
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

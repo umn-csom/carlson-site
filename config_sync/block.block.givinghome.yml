@@ -1,0 +1,43 @@
+uuid: 04d309cc-536a-48a3-bd2b-4d6d2106b6eb
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.giving-home
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - barrio_carlson
+id: givinghome
+theme: barrio_carlson
+region: primary_menu
+weight: -58
+provider: null
+plugin: 'menu_block:giving-home'
+settings:
+  id: 'menu_block:giving-home'
+  label: 'Giving Home'
+  label_display: '0'
+  provider: menu_injector
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: true
+  parent: 'giving-home:'
+  suggestion: giving_home
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: ''
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/give/*\r\n/give"

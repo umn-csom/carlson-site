@@ -1,0 +1,35 @@
+uuid: 281c7049-fe70-4e2d-aa0b-f0da3992a022
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.sponsor_logos.field_logo
+    - field.field.paragraph.sponsor_logos.field_main_content
+    - image.style.sponsor_logo
+    - paragraphs.paragraphs_type.sponsor_logos
+  module:
+    - media
+    - text
+id: paragraph.sponsor_logos.default
+targetEntityType: paragraph
+bundle: sponsor_logos
+mode: default
+content:
+  field_logo:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: sponsor_logo
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_main_content:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

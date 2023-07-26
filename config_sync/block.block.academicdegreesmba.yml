@@ -1,0 +1,44 @@
+uuid: f9e83818-9d57-4024-8468-a407a31dc802
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.academic-degrees-mba
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - barrio_carlson
+id: academicdegreesmba
+theme: barrio_carlson
+region: sticky_sidebar
+weight: -42
+provider: null
+plugin: 'menu_block:academic-degrees-mba'
+settings:
+  id: 'menu_block:academic-degrees-mba'
+  label: 'Academic Degrees MBA'
+  label_display: '0'
+  provider: menu_injector
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 4
+  depth: 9
+  expand_all_items: false
+  parent: 'academic-degrees-mba:'
+  suggestion: academic_degrees_mba
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: "/about-us/diversity-equity-inclusion*\r\n/about-us/diversity-inclusion*"

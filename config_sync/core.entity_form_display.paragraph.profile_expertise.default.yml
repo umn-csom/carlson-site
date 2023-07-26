@@ -1,0 +1,60 @@
+uuid: 79b50ea2-69df-492b-bd41-a35b03c88198
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.profile_expertise.field_expertise_description
+    - field.field.paragraph.profile_expertise.field_expertise_url
+    - paragraphs.paragraphs_type.profile_expertise
+  module:
+    - field_group
+    - link
+third_party_settings:
+  field_group:
+    group_expertise:
+      children:
+        - field_expertise_description
+        - field_expertise_url
+      label: Expertise
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: true
+        required_fields: true
+_core:
+  default_config_hash: cdXmW6X4AoJ_DOqHOIOStVn_kZwpC8rAL79BjsUIOjQ
+id: paragraph.profile_expertise.default
+targetEntityType: paragraph
+bundle: profile_expertise
+mode: default
+content:
+  field_expertise_description:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_expertise_url:
+    type: link_default
+    weight: 1
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

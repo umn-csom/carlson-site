@@ -1,0 +1,84 @@
+uuid: e226ba6d-a266-4bc3-b30c-584d5238b6aa
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser_compact
+    - field.field.node.event.body
+    - field.field.node.event.field_email
+    - field.field.node.event.field_event_address
+    - field.field.node.event.field_event_channels
+    - field.field.node.event.field_event_cost
+    - field.field.node.event.field_event_date
+    - field.field.node.event.field_event_id
+    - field.field.node.event.field_event_image
+    - field.field.node.event.field_event_location
+    - field.field.node.event.field_event_location_category
+    - field.field.node.event.field_event_teaser
+    - field.field.node.event.field_full_name
+    - field.field.node.event.field_google_map
+    - field.field.node.event.field_hero_media
+    - field.field.node.event.field_link
+    - field.field.node.event.field_location_type
+    - field.field.node.event.field_meta_tags
+    - field.field.node.event.field_phone
+    - field.field.node.event.field_section
+    - node.type.event
+  module:
+    - datetime_range
+    - panelizer
+    - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+_core:
+  default_config_hash: CifYQV9SRaHd4ExYEFpl5r-lRvwNirlCyYNZoMtpFh0
+id: node.event.teaser_compact
+targetEntityType: node
+bundle: event
+mode: teaser_compact
+content:
+  field_event_date:
+    type: daterange_default
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: medium
+      separator: '-'
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_hero_media:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: full_hero
+      link: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  addtoany: true
+  body: true
+  field_email: true
+  field_event_address: true
+  field_event_channels: true
+  field_event_cost: true
+  field_event_id: true
+  field_event_image: true
+  field_event_location: true
+  field_event_location_category: true
+  field_event_teaser: true
+  field_full_name: true
+  field_google_map: true
+  field_link: true
+  field_location_type: true
+  field_meta_tags: true
+  field_phone: true
+  field_section: true
+  langcode: true
+  links: true
+  search_api_excerpt: true

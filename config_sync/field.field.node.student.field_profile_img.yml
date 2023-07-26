@@ -1,0 +1,28 @@
+uuid: 8be4f04c-2e23-4f6b-a052-774c040ed233
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_profile_img
+    - media.type.image
+    - node.type.student
+id: node.student.field_profile_img
+field_name: field_profile_img
+entity_type: node
+bundle: student
+label: 'Profile Image'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

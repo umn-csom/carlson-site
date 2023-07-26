@@ -1,0 +1,44 @@
+uuid: 4d78a7e9-a7e6-4262-a7d0-4e48200fa196
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.departments
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_departments
+theme: carlson_refresh
+region: sticky_sidebar
+weight: -36
+provider: null
+plugin: 'menu_block:departments'
+settings:
+  id: 'menu_block:departments'
+  label: Departments
+  label_display: '0'
+  provider: menu_injector
+  follow: false
+  follow_parent: active
+  label_link: false
+  label_type: block
+  level: 3
+  depth: 9
+  expand_all_items: false
+  parent: 'departments:'
+  suggestion: departments
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: /conferences/comis

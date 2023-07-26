@@ -1,0 +1,43 @@
+uuid: 3118dbee-1e30-4309-9134-862549fb9f76
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.conference.body
+    - field.field.node.conference.field_flexible_features
+    - field.field.node.conference.field_flexible_features_bottom
+    - field.field.node.conference.field_hero_media
+    - field.field.node.conference.field_meta_tags
+    - field.field.node.conference.field_sponsor_grid
+    - node.type.conference
+  module:
+    - text
+    - user
+_core:
+  default_config_hash: W1YAg2ZOmz-_Mf6mKgYS_NhXdVAvuv9w-bml-2N3tho
+id: node.conference.teaser
+targetEntityType: node
+bundle: conference
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  addtoany: true
+  field_flexible_features: true
+  field_flexible_features_bottom: true
+  field_hero_media: true
+  field_meta_tags: true
+  field_sponsor_grid: true
+  langcode: true
+  search_api_excerpt: true

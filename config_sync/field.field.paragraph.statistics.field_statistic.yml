@@ -1,0 +1,51 @@
+uuid: fec84041-48c1-4c7e-a60a-d6619ef0773b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_statistic
+    - paragraphs.paragraphs_type.statistic
+    - paragraphs.paragraphs_type.statistics
+  module:
+    - entity_reference_revisions
+_core:
+  default_config_hash: yNgM_NS6I23StkbQm1UTtipWGDDxTWE5l6ARdX0kmFM
+id: paragraph.statistics.field_statistic
+field_name: field_statistic
+entity_type: paragraph
+bundle: statistics
+label: Statistic
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      statistic: statistic
+    target_bundles_drag_drop:
+      carlson_advantage:
+        weight: 8
+        enabled: false
+      profile_activity:
+        weight: 9
+        enabled: false
+      profile_degree:
+        weight: 10
+        enabled: false
+      profile_expertise:
+        weight: 11
+        enabled: false
+      profile_selected_works:
+        weight: 12
+        enabled: false
+      statistic:
+        enabled: true
+        weight: 13
+      statistics:
+        weight: 14
+        enabled: false
+field_type: entity_reference_revisions

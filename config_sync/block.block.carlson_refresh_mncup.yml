@@ -1,0 +1,44 @@
+uuid: b4f95cfd-fbdc-4607-a264-192a495f1cd2
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.mn-cup
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_mncup
+theme: carlson_refresh
+region: inner_nav
+weight: 0
+provider: null
+plugin: 'menu_block:mn-cup'
+settings:
+  id: 'menu_block:mn-cup'
+  label: 'MN Cup'
+  label_display: '0'
+  provider: menu_injector
+  follow: false
+  follow_parent: active
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: true
+  parent: 'mn-cup:menu_link_content:74a0a6b8-9424-4234-ac9b-f0a54328ea00'
+  suggestion: executive_education
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/mn-cup*\r\n/mn-cup\r\n/womeninentrepreneurshipseries"

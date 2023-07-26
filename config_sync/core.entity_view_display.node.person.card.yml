@@ -1,0 +1,182 @@
+uuid: 4c3f03b1-9a5c-4ac8-9ce8-f6f8d968145c
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card
+    - field.field.node.person.body
+    - field.field.node.person.field_email
+    - field.field.node.person.field_fax
+    - field.field.node.person.field_first_name
+    - field.field.node.person.field_last_name
+    - field.field.node.person.field_meta_tags
+    - field.field.node.person.field_middle_initial
+    - field.field.node.person.field_office_phone
+    - field.field.node.person.field_person_type
+    - field.field.node.person.field_profile_admin_dept
+    - field.field.node.person.field_profile_group
+    - field.field.node.person.field_profile_img
+    - field.field.node.person.field_profile_quote
+    - field.field.node.person.field_profile_title
+    - field.field.node.person.field_section
+    - field.field.node.person.field_teaser
+    - image.style.cropped_profile_image
+    - node.type.person
+  module:
+    - layout_builder
+    - media
+    - metatag
+    - options
+    - panelizer
+    - text
+    - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.person.card
+targetEntityType: node
+bundle: person
+mode: card
+content:
+  addtoany:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 15
+    region: content
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_email:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_fax:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_first_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_last_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_meta_tags:
+    type: metatag_empty_formatter
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_middle_initial:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_office_phone:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_person_type:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_profile_admin_dept:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_profile_group:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_profile_img:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: cropped_profile_image
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_profile_quote:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 17
+    region: content
+  field_profile_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_section:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 13
+    region: content
+  field_teaser:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 14
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 16
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

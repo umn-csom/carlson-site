@@ -1,0 +1,87 @@
+uuid: caf2fbd0-faed-49fa-b17a-f492da8217f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - entity_browser.browser.media_browser
+    - field.field.paragraph.quote.field_background_color
+    - field.field.paragraph.quote.field_quote_image
+    - field.field.paragraph.quote.field_quote_source
+    - field.field.paragraph.quote.field_quote_text
+    - paragraphs.paragraphs_type.quote
+  module:
+    - entity_browser
+    - field_group
+    - text
+third_party_settings:
+  field_group:
+    group_quote:
+      children:
+        - field_quote_image
+        - field_quote_text
+        - field_quote_source
+        - field_background_color
+      label: Quote
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        required_fields: true
+_core:
+  default_config_hash: td26xmAQExIuI7MCuAV5BpRRG4uurHNErSrv8TpMo4w
+id: paragraph.quote.default
+targetEntityType: paragraph
+bundle: quote
+mode: default
+content:
+  field_background_color:
+    type: options_select
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_quote_image:
+    type: entity_browser_entity_reference
+    weight: 4
+    region: content
+    settings:
+      entity_browser: media_browser
+      field_widget_display: rendered_entity
+      field_widget_edit: false
+      field_widget_remove: true
+      field_widget_replace: false
+      open: true
+      field_widget_display_settings:
+        view_mode: square
+      selection_mode: selection_append
+    third_party_settings: {  }
+  field_quote_source:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_quote_text:
+    type: text_textarea
+    weight: 5
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

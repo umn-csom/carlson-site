@@ -1,0 +1,45 @@
+uuid: e3145f60-44a5-4a32-aa64-f7ae2a7a0861
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.program_cta.field_heading
+    - field.field.paragraph.program_cta.field_link
+    - paragraphs.paragraphs_type.program_cta
+  module:
+    - link
+id: paragraph.program_cta.default
+targetEntityType: paragraph
+bundle: program_cta
+mode: default
+content:
+  field_heading:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_program_cta_link:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

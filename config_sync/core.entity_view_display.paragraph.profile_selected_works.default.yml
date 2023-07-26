@@ -1,0 +1,58 @@
+uuid: 94f7f174-abd1-4ca2-9a94-cb91c680163b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.profile_selected_works.field_pub_file
+    - field.field.paragraph.profile_selected_works.field_pub_title
+    - field.field.paragraph.profile_selected_works.field_pub_type
+    - field.field.paragraph.profile_selected_works.field_pub_url
+    - paragraphs.paragraphs_type.profile_selected_works
+  module:
+    - file
+    - link
+_core:
+  default_config_hash: aY43ecSl5lw-yMZlDRwULu8lOuxmSjFWmTApSDc6LJU
+id: paragraph.profile_selected_works.default
+targetEntityType: paragraph
+bundle: profile_selected_works
+mode: default
+content:
+  field_pub_file:
+    type: file_default
+    label: hidden
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_pub_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_pub_type:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_pub_url:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: nofollow
+      target: '0'
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

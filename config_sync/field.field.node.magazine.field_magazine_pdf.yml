@@ -1,0 +1,27 @@
+uuid: 0ae0d4e0-a964-4583-bb32-f92dcf756026
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_magazine_pdf
+    - node.type.magazine
+  module:
+    - file
+id: node.magazine.field_magazine_pdf
+field_name: field_magazine_pdf
+entity_type: node
+bundle: magazine
+label: PDF
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: pdf
+  max_filesize: '50 MB'
+  description_field: false
+field_type: file

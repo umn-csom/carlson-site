@@ -1,0 +1,58 @@
+uuid: b462a556-b889-4e95-bc10-d503de2d9e53
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.executive-education
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - node
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_executiveeducation
+theme: carlson_refresh
+region: inner_nav
+weight: -23
+provider: null
+plugin: 'menu_block:executive-education'
+settings:
+  id: 'menu_block:executive-education'
+  label: 'Executive Education'
+  label_display: '0'
+  provider: menu_injector
+  follow: true
+  follow_parent: root
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: true
+  parent: 'executive-education:'
+  suggestion: executive_education
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/executive-education/*\r\n/executive-education"
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      conference: conference
+      education_abroad_program: education_abroad_program
+      event: event
+      executive_ed_landing_page: executive_ed_landing_page
+      landing_page: landing_page
+      news: news
+      page: page

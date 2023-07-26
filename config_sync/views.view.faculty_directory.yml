@@ -1,0 +1,1890 @@
+uuid: 02bc36b8-1f2a-4ff1-a921-59fb440929e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.storage.node.field_profile_image
+    - image.style.cropped_profile_image
+    - node.type.faculty_profile
+    - taxonomy.vocabulary.degree_program_codes
+    - taxonomy.vocabulary.department_codes
+    - taxonomy.vocabulary.faculty_status
+  content:
+    - 'taxonomy_term:faculty_status:4ab4ef26-a969-481e-86b4-968740d13baa'
+    - 'taxonomy_term:faculty_status:4dd8d029-18f8-4b1e-a2e5-fb896c5829ca'
+    - 'taxonomy_term:faculty_status:6a2f868a-1d9d-4b38-85c1-e0ea6161fe69'
+    - 'taxonomy_term:faculty_status:ad32ef73-5639-4726-8ff8-f78c783a7705'
+  module:
+    - image
+    - node
+    - taxonomy
+    - user
+id: faculty_directory
+label: 'Faculty Directory'
+module: views
+description: 'Searchable/Filterable View of Faculty Members'
+tag: ''
+base_table: node_field_data
+base_field: nid
+display:
+  default:
+    id: default
+    display_title: Master
+    display_plugin: default
+    position: 0
+    display_options:
+      title: 'Faculty Directory'
+      fields:
+        field_profile_image:
+          id: field_profile_image
+          table: node__field_profile_image
+          field: field_profile_image
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: image
+          settings:
+            image_link: content
+            image_style: cropped_profile_image
+            image_loading:
+              attribute: lazy
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            make_link: false
+            absolute: false
+            word_boundary: false
+            ellipsis: false
+            strip_tags: false
+            trim: false
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: true
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+      pager:
+        type: mini
+        options:
+          offset: 0
+          items_per_page: 12
+          total_pages: null
+          id: 0
+          tags:
+            next: 'Next ›'
+            previous: '‹ Previous'
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Apply
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      access:
+        type: perm
+        options:
+          perm: 'access content'
+      cache:
+        type: none
+        options: {  }
+      empty: {  }
+      sorts:
+        field_last_name_value:
+          id: field_last_name_value
+          table: node__field_last_name
+          field: field_last_name_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: field_last_name_value
+          exposed: false
+      arguments: {  }
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          value:
+            faculty_profile: faculty_profile
+          group: 1
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_op
+            label: 'Search By Name'
+            description: ''
+            use_operator: false
+            operator: title_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: title
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_profile_programs_target_id:
+          id: field_profile_programs_target_id
+          table: node__field_profile_programs
+          field: field_profile_programs_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_programs_target_id_op
+            label: 'Degree Program'
+            description: ''
+            use_operator: false
+            operator: field_profile_programs_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_profile_programs_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: degree_program_codes
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+        field_profile_admin_dept_target_id:
+          id: field_profile_admin_dept_target_id
+          table: node__field_profile_admin_dept
+          field: field_profile_admin_dept_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_admin_dept_target_id_op
+            label: Department
+            description: ''
+            use_operator: false
+            operator: field_profile_admin_dept_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_profile_admin_dept_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: department_codes
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+        field_profile_status_target_id:
+          id: field_profile_status_target_id
+          table: node__field_profile_status
+          field: field_profile_status_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            - 1641
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: faculty_status
+          type: textfield
+          hierarchy: false
+          limit: true
+          error_message: true
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: default
+        options:
+          row_class: ''
+          default_row_class: true
+          uses_fields: false
+      row:
+        type: 'entity:node'
+        options:
+          relationship: none
+          view_mode: teaser
+      query:
+        type: views_query
+        options:
+          query_comment: ''
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_tags: {  }
+      relationships: {  }
+      css_class: faculty-directory
+      use_ajax: true
+      header: {  }
+      footer: {  }
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:field.storage.node.field_profile_image'
+  block_1:
+    id: block_1
+    display_title: 'Block - Faculty Directory'
+    display_plugin: block
+    position: 1
+    display_options:
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          value:
+            faculty_profile: faculty_profile
+          group: 1
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_op
+            label: 'Search By Name'
+            description: ''
+            use_operator: false
+            operator: title_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: title
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_profile_programs_target_id:
+          id: field_profile_programs_target_id
+          table: node__field_profile_programs
+          field: field_profile_programs_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_programs_target_id_op
+            label: 'Degree Program'
+            description: ''
+            use_operator: false
+            operator: field_profile_programs_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_profile_programs_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: degree_program_codes
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+        field_profile_admin_dept_target_id:
+          id: field_profile_admin_dept_target_id
+          table: node__field_profile_admin_dept
+          field: field_profile_admin_dept_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_admin_dept_target_id_op
+            label: Department
+            description: ''
+            use_operator: false
+            operator: field_profile_admin_dept_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_profile_admin_dept_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: department_codes
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        filters: false
+        filter_groups: false
+      display_description: 'A filterable faculty directory'
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:field.storage.node.field_profile_image'
+  block_2:
+    id: block_2
+    display_title: 'Block - Tenured and Tenure-track Faculty Directory'
+    display_plugin: block
+    position: 1
+    display_options:
+      title: 'Tenured and Tenure-track Faculty'
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          value:
+            faculty_profile: faculty_profile
+          group: 1
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_op
+            label: 'Search By Name'
+            description: ''
+            use_operator: false
+            operator: title_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: title
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_profile_programs_target_id:
+          id: field_profile_programs_target_id
+          table: node__field_profile_programs
+          field: field_profile_programs_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_programs_target_id_op
+            label: 'Degree Program'
+            description: ''
+            use_operator: false
+            operator: field_profile_programs_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_profile_programs_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: degree_program_codes
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+        field_profile_admin_dept_target_id:
+          id: field_profile_admin_dept_target_id
+          table: node__field_profile_admin_dept
+          field: field_profile_admin_dept_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_admin_dept_target_id_op
+            label: Department
+            description: ''
+            use_operator: false
+            operator: field_profile_admin_dept_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_profile_admin_dept_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: department_codes
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+        field_profile_status_target_id:
+          id: field_profile_status_target_id
+          table: node__field_profile_status
+          field: field_profile_status_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            - 1641
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: faculty_status
+          type: textfield
+          hierarchy: false
+          limit: true
+          error_message: true
+        nid:
+          id: nid
+          table: node_field_data
+          field: nid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: nid
+          plugin_id: numeric
+          operator: '!='
+          value:
+            min: ''
+            max: ''
+            value: '99906'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        nid_1:
+          id: nid_1
+          table: node_field_data
+          field: nid
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: nid
+          plugin_id: numeric
+          operator: '!='
+          value:
+            min: ''
+            max: ''
+            value: '99921'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'Tenured faculty directory'
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:field.storage.node.field_profile_image'
+  block_3:
+    id: block_3
+    display_title: 'Block - Instructors: Full-time Lecturers Directory'
+    display_plugin: block
+    position: 1
+    display_options:
+      title: 'Instructors: Full-time Lecturers Directory'
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          value:
+            faculty_profile: faculty_profile
+          group: 1
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_op
+            label: 'Search By Name'
+            description: ''
+            use_operator: false
+            operator: title_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: title
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_profile_programs_target_id:
+          id: field_profile_programs_target_id
+          table: node__field_profile_programs
+          field: field_profile_programs_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_programs_target_id_op
+            label: 'Degree Program'
+            description: ''
+            use_operator: false
+            operator: field_profile_programs_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_profile_programs_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: degree_program_codes
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+        field_profile_admin_dept_target_id:
+          id: field_profile_admin_dept_target_id
+          table: node__field_profile_admin_dept
+          field: field_profile_admin_dept_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_admin_dept_target_id_op
+            label: Department
+            description: ''
+            use_operator: false
+            operator: field_profile_admin_dept_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_profile_admin_dept_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: department_codes
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+        field_profile_status_target_id:
+          id: field_profile_status_target_id
+          table: node__field_profile_status
+          field: field_profile_status_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            - 3596
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: faculty_status
+          type: textfield
+          hierarchy: false
+          limit: true
+          error_message: true
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'Instructors: Full-time Lecturers'
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:field.storage.node.field_profile_image'
+  block_4:
+    id: block_4
+    display_title: 'Block - Emeritus Faculty Directory'
+    display_plugin: block
+    position: 1
+    display_options:
+      title: 'Emeritus Faculty Directory'
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          value:
+            faculty_profile: faculty_profile
+          group: 1
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_op
+            label: 'Search By Name'
+            description: ''
+            use_operator: false
+            operator: title_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: title
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_profile_programs_target_id:
+          id: field_profile_programs_target_id
+          table: node__field_profile_programs
+          field: field_profile_programs_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_programs_target_id_op
+            label: 'Degree Program'
+            description: ''
+            use_operator: false
+            operator: field_profile_programs_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_profile_programs_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: degree_program_codes
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+        field_profile_admin_dept_target_id:
+          id: field_profile_admin_dept_target_id
+          table: node__field_profile_admin_dept
+          field: field_profile_admin_dept_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_admin_dept_target_id_op
+            label: Department
+            description: ''
+            use_operator: false
+            operator: field_profile_admin_dept_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_profile_admin_dept_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: department_codes
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+        field_profile_status_target_id:
+          id: field_profile_status_target_id
+          table: node__field_profile_status
+          field: field_profile_status_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            - 3611
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: faculty_status
+          type: textfield
+          hierarchy: false
+          limit: true
+          error_message: true
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'Emeritus faculty directory'
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:field.storage.node.field_profile_image'
+  block_5:
+    id: block_5
+    display_title: 'Block - Instructors: PhD Students Directory'
+    display_plugin: block
+    position: 1
+    display_options:
+      title: 'Instructors: PhD Students Directory'
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          value:
+            faculty_profile: faculty_profile
+          group: 1
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_op
+            label: 'Search By Name'
+            description: ''
+            use_operator: false
+            operator: title_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: title
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_profile_programs_target_id:
+          id: field_profile_programs_target_id
+          table: node__field_profile_programs
+          field: field_profile_programs_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_programs_target_id_op
+            label: 'Degree Program'
+            description: ''
+            use_operator: false
+            operator: field_profile_programs_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_profile_programs_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: degree_program_codes
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+        field_profile_admin_dept_target_id:
+          id: field_profile_admin_dept_target_id
+          table: node__field_profile_admin_dept
+          field: field_profile_admin_dept_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_admin_dept_target_id_op
+            label: Department
+            description: ''
+            use_operator: false
+            operator: field_profile_admin_dept_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_profile_admin_dept_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              layout_manager: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              blog_entry_reviewer: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+              placeholder_creator: '0'
+              placeholder_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: department_codes
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+        field_profile_status_target_id:
+          id: field_profile_status_target_id
+          table: node__field_profile_status
+          field: field_profile_status_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            - 3671
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: faculty_status
+          type: textfield
+          hierarchy: false
+          limit: true
+          error_message: true
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'PhD student directory'
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:field.storage.node.field_profile_image'

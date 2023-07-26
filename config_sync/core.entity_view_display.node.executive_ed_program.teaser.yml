@@ -1,0 +1,146 @@
+uuid: 60a781ab-bc83-4c6e-a9f7-4c6f058598b6
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.executive_ed_program.body
+    - field.field.node.executive_ed_program.field_accordion
+    - field.field.node.executive_ed_program.field_contact_info
+    - field.field.node.executive_ed_program.field_course_audi
+    - field.field.node.executive_ed_program.field_course_ben
+    - field.field.node.executive_ed_program.field_course_schedule
+    - field.field.node.executive_ed_program.field_ee_benefits
+    - field.field.node.executive_ed_program.field_ee_bottom_first
+    - field.field.node.executive_ed_program.field_ee_bottom_second
+    - field.field.node.executive_ed_program.field_ee_business_challenge
+    - field.field.node.executive_ed_program.field_ee_business_topic
+    - field.field.node.executive_ed_program.field_ee_catalog_link
+    - field.field.node.executive_ed_program.field_ee_cost
+    - field.field.node.executive_ed_program.field_ee_course_brochure
+    - field.field.node.executive_ed_program.field_ee_course_dates
+    - field.field.node.executive_ed_program.field_ee_course_location
+    - field.field.node.executive_ed_program.field_ee_faculty
+    - field.field.node.executive_ed_program.field_ee_featured_faculty
+    - field.field.node.executive_ed_program.field_ee_level
+    - field.field.node.executive_ed_program.field_ee_mili_program
+    - field.field.node.executive_ed_program.field_ee_program_audience
+    - field.field.node.executive_ed_program.field_ee_program_body
+    - field.field.node.executive_ed_program.field_ee_program_teaser
+    - field.field.node.executive_ed_program.field_ee_program_type
+    - field.field.node.executive_ed_program.field_ee_related_courses
+    - field.field.node.executive_ed_program.field_flexible_features
+    - field.field.node.executive_ed_program.field_force_single_column
+    - field.field.node.executive_ed_program.field_hero_media
+    - field.field.node.executive_ed_program.field_menu_rule
+    - field.field.node.executive_ed_program.field_meta_tags
+    - field.field.node.executive_ed_program.field_program_finder_type
+    - field.field.node.executive_ed_program.field_section
+    - field.field.node.executive_ed_program.field_sidebar_content
+    - image.style.large_teaser
+    - node.type.executive_ed_program
+  module:
+    - entity_reference_revisions
+    - media
+    - panelizer
+    - text
+    - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+id: node.executive_ed_program.teaser
+targetEntityType: node
+bundle: executive_ed_program
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_ee_cost:
+    type: number_decimal
+    label: hidden
+    settings:
+      thousand_separator: ','
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_ee_course_dates:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: teaser
+      link: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_ee_course_location:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_ee_program_teaser:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_hero_media:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: large_teaser
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  addtoany: true
+  field_accordion: true
+  field_contact_info: true
+  field_course_audi: true
+  field_course_ben: true
+  field_course_schedule: true
+  field_ee_benefits: true
+  field_ee_bottom_first: true
+  field_ee_bottom_second: true
+  field_ee_business_challenge: true
+  field_ee_business_topic: true
+  field_ee_catalog_link: true
+  field_ee_course_brochure: true
+  field_ee_faculty: true
+  field_ee_featured_faculty: true
+  field_ee_level: true
+  field_ee_mili_program: true
+  field_ee_program_audience: true
+  field_ee_program_body: true
+  field_ee_program_type: true
+  field_ee_related_courses: true
+  field_flexible_features: true
+  field_force_single_column: true
+  field_menu_rule: true
+  field_meta_tags: true
+  field_program_finder_type: true
+  field_section: true
+  field_sidebar_content: true
+  langcode: true
+  search_api_excerpt: true

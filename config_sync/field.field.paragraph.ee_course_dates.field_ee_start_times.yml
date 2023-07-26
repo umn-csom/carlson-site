@@ -1,0 +1,29 @@
+uuid: 9ef32e23-8ce6-4602-9be3-6a1218baa9df
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_ee_start_times
+    - paragraphs.paragraphs_type.ee_course_dates
+    - taxonomy.vocabulary.executive_ed_start_times
+id: paragraph.ee_course_dates.field_ee_start_times
+field_name: field_ee_start_times
+entity_type: paragraph
+bundle: ee_course_dates
+label: 'Program Start Times'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      executive_ed_start_times: executive_ed_start_times
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

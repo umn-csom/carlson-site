@@ -1,0 +1,249 @@
+uuid: 68743295-2bf0-445c-87ce-881acb3d436a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.email_page.body
+    - field.field.node.email_page.field_contact_info
+    - field.field.node.email_page.field_event_channels
+    - field.field.node.email_page.field_flexible_features
+    - field.field.node.email_page.field_hero_media
+    - field.field.node.email_page.field_menu_rule
+    - field.field.node.email_page.field_meta_tags
+    - field.field.node.email_page.field_section
+    - node.type.email_page
+  module:
+    - content_moderation
+    - field_group
+    - media_library
+    - metatag
+    - paragraphs
+    - path
+    - text
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - group_hero_media
+        - group_main_content
+        - group_flexible_features
+        - group_administrative
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        classes: ''
+        id: ''
+        direction: vertical
+    group_hero_media:
+      children:
+        - title
+        - field_hero_media
+      label: 'Hero Media'
+      region: content
+      parent_name: group_content
+      weight: 17
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_main_content:
+      children:
+        - body
+      label: 'Main Content'
+      region: content
+      parent_name: group_content
+      weight: 18
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_flexible_features:
+      children:
+        - field_flexible_features
+      label: 'Flexible Features'
+      region: content
+      parent_name: group_content
+      weight: 19
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_administrative:
+      children:
+        - field_contact_info
+        - field_event_channels
+        - field_menu_rule
+        - field_section
+      label: Administrative
+      region: content
+      parent_name: group_content
+      weight: 20
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+id: node.email_page.default
+targetEntityType: node
+bundle: email_page
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 9
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_contact_info:
+    type: entity_reference_autocomplete
+    weight: 15
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_event_channels:
+    type: entity_reference_autocomplete
+    weight: 16
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_flexible_features:
+    type: entity_reference_paragraphs
+    weight: 10
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_hero_media:
+    type: media_library_widget
+    weight: 26
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_menu_rule:
+    type: entity_reference_autocomplete
+    weight: 17
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_meta_tags:
+    type: metatag_firehose
+    weight: 16
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_section:
+    type: entity_reference_autocomplete
+    weight: 18
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 4
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 8
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

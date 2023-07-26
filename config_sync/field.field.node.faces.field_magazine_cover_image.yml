@@ -1,0 +1,27 @@
+uuid: 927716f9-dd70-4fe6-9c93-371d68823717
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_magazine_cover_image
+    - node.type.faces
+  module:
+    - file
+id: node.faces.field_magazine_cover_image
+field_name: field_magazine_cover_image
+entity_type: node
+bundle: faces
+label: Photo
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'jpg jpeg'
+  max_filesize: '50 MB'
+  description_field: false
+field_type: file

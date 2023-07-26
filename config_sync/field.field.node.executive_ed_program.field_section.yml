@@ -1,0 +1,29 @@
+uuid: 85b4da0c-7d28-4742-88eb-251e3333ae39
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_section
+    - node.type.executive_ed_program
+    - taxonomy.vocabulary.sections
+id: node.executive_ed_program.field_section
+field_name: field_section
+entity_type: node
+bundle: executive_ed_program
+label: Section
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      sections: sections
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

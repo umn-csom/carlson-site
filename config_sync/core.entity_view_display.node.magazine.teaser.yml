@@ -1,0 +1,67 @@
+uuid: 259c560d-556e-42bd-9a19-d57e19008fef
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.magazine.field_introduction_copy
+    - field.field.node.magazine.field_magazine_cover_image
+    - field.field.node.magazine.field_magazine_intro_head
+    - field.field.node.magazine.field_magazine_pdf
+    - field.field.node.magazine.field_magazine_publication
+    - field.field.node.magazine.field_magazine_section
+    - field.field.node.magazine.field_magazine_story_cover
+    - field.field.node.magazine.field_magazine_story_intro
+    - field.field.node.magazine.field_meta_tags
+    - field.field.node.magazine.field_profile_image
+    - field.field.node.magazine.field_teaser
+    - node.type.magazine
+  module:
+    - file
+    - panelizer
+    - text
+    - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+id: node.magazine.teaser
+targetEntityType: node
+bundle: magazine
+mode: teaser
+content:
+  field_magazine_cover_image:
+    type: file_default
+    label: hidden
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_teaser:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  addtoany: true
+  field_introduction_copy: true
+  field_magazine_intro_head: true
+  field_magazine_pdf: true
+  field_magazine_publication: true
+  field_magazine_section: true
+  field_magazine_story_cover: true
+  field_magazine_story_intro: true
+  field_meta_tags: true
+  field_profile_image: true
+  langcode: true
+  search_api_excerpt: true

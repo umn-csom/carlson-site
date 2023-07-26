@@ -1,0 +1,38 @@
+uuid: e94c8952-b9a8-4c9b-9c91-0605910749bb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.slideshow.field_pg_slide
+    - paragraphs.paragraphs_type.slideshow
+  module:
+    - paragraphs
+_core:
+  default_config_hash: sdi4tEKs9Ulbt5qUh1zqJA-oFx4kh4vB92MJkUTgj6o
+id: paragraph.slideshow.default
+targetEntityType: paragraph
+bundle: slideshow
+mode: default
+content:
+  field_pg_slide:
+    type: entity_reference_paragraphs
+    weight: 101
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    settings: {  }
+    region: content
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true
