@@ -1,0 +1,51 @@
+uuid: a75fafa0-152a-4531-b926-b3ea77d57486
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.mn_cup_winners.field_division
+    - field.field.taxonomy_term.mn_cup_winners.field_highest_level_achieved
+    - field.field.taxonomy_term.mn_cup_winners.field_year
+    - taxonomy.vocabulary.mn_cup_winners
+  module:
+    - text
+id: taxonomy_term.mn_cup_winners.default
+targetEntityType: taxonomy_term
+bundle: mn_cup_winners
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_division:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_highest_level_achieved:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_year:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

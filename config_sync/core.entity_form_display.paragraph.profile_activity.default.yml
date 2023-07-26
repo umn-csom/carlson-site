@@ -1,0 +1,72 @@
+uuid: 133a6f02-58f1-4dcb-b23b-d9e473b1bef7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.profile_activity.field_activity_description
+    - field.field.paragraph.profile_activity.field_activity_link
+    - field.field.paragraph.profile_activity.field_activity_type
+    - paragraphs.paragraphs_type.profile_activity
+  module:
+    - field_group
+    - link
+    - text
+third_party_settings:
+  field_group:
+    group_activity:
+      children:
+        - field_activity_type
+        - field_activity_description
+        - field_activity_link
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        id: ''
+        classes: ''
+        open: true
+        required_fields: true
+      label: Activity
+      region: content
+_core:
+  default_config_hash: JyEVEjRlEeAfm9oL9xIbmgfjC4AxUsjfslKIPPSbKRE
+id: paragraph.profile_activity.default
+targetEntityType: paragraph
+bundle: profile_activity
+mode: default
+content:
+  field_activity_description:
+    weight: 3
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_activity_link:
+    weight: 4
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_activity_type:
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 0
+    settings: {  }
+    region: content
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

@@ -1,0 +1,29 @@
+uuid: 54839eef-917d-4a5a-85a1-a1cfb405b782
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_program_finder_type
+    - node.type.executive_ed_program
+    - taxonomy.vocabulary.program_finder_type
+id: node.executive_ed_program.field_program_finder_type
+field_name: field_program_finder_type
+entity_type: node
+bundle: executive_ed_program
+label: 'Program Finder Type'
+description: 'Select the terms that relate to this program.  Select both deepest level terms and parents that pertain to the program.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      program_finder_type: program_finder_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

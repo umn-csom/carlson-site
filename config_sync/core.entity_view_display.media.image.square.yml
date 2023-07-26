@@ -1,0 +1,41 @@
+uuid: 1e68c9d8-9963-4c24-85ed-0fea8c4e7ecc
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.square
+    - field.field.media.image.field_media_category
+    - field.field.media.image.field_media_in_library
+    - field.field.media.image.image
+    - image.style.crop_square
+    - media.type.image
+  module:
+    - image
+_core:
+  default_config_hash: 6v7KYxF68_dgLFod4qZN6ASUuOna_HVtKM-EFiN3Nmk
+id: media.image.square
+targetEntityType: media
+bundle: image
+mode: square
+content:
+  image:
+    type: image
+    weight: 0
+    label: hidden
+    settings:
+      image_style: crop_square
+      image_link: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    region: content
+hidden:
+  addtoany: true
+  created: true
+  field_media_category: true
+  field_media_in_library: true
+  langcode: true
+  name: true
+  search_api_excerpt: true
+  thumbnail: true
+  uid: true

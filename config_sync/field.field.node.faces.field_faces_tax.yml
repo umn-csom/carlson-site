@@ -1,0 +1,29 @@
+uuid: 9725c34b-4d07-47d9-8abf-389ca7bb5852
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_faces_tax
+    - node.type.faces
+    - taxonomy.vocabulary.faces
+id: node.faces.field_faces_tax
+field_name: field_faces_tax
+entity_type: node
+bundle: faces
+label: Name(s)
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      faces: faces
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

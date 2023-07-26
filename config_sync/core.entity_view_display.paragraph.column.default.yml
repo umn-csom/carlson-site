@@ -1,0 +1,70 @@
+uuid: 0fbfab73-f267-4242-860f-7a6a8f7ef231
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.column.field_background_color
+    - field.field.paragraph.column.field_heading
+    - field.field.paragraph.column.field_image
+    - field.field.paragraph.column.field_link
+    - field.field.paragraph.column.field_main_content
+    - field.field.paragraph.column.paragraph_view_mode
+    - paragraphs.paragraphs_type.column
+  module:
+    - element_class_formatter
+    - options
+    - text
+_core:
+  default_config_hash: '-rCd49nUDOJLninOuKfOg8qopY3g91fPUhchPJI3g0s'
+id: paragraph.column.default
+targetEntityType: paragraph
+bundle: column
+mode: default
+content:
+  field_background_color:
+    type: list_key
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_heading:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: feature_two
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_link:
+    type: link_class
+    label: hidden
+    settings:
+      class: ''
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_main_content:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  paragraph_view_mode: true
+  search_api_excerpt: true

@@ -1,0 +1,29 @@
+uuid: c888b31d-86bc-4e5a-8003-d1063c2f8e6a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hub_topic
+    - node.type.news
+    - taxonomy.vocabulary.carlson_hub_topics
+id: node.news.field_hub_topic
+field_name: field_hub_topic
+entity_type: node
+bundle: news
+label: 'Hub Topic'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      carlson_hub_topics: carlson_hub_topics
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

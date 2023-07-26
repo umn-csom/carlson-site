@@ -1,0 +1,85 @@
+uuid: d8b962de-6911-45b8-960a-c9118eed6afe
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.magazine_card
+    - field.field.node.magazine.field_introduction_copy
+    - field.field.node.magazine.field_magazine_cover_image
+    - field.field.node.magazine.field_magazine_intro_head
+    - field.field.node.magazine.field_magazine_pdf
+    - field.field.node.magazine.field_magazine_publication
+    - field.field.node.magazine.field_magazine_section
+    - field.field.node.magazine.field_magazine_story_cover
+    - field.field.node.magazine.field_magazine_story_intro
+    - field.field.node.magazine.field_meta_tags
+    - field.field.node.magazine.field_profile_image
+    - field.field.node.magazine.field_teaser
+    - node.type.magazine
+  module:
+    - file
+    - layout_builder
+    - options
+    - panelizer
+    - text
+    - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.magazine.magazine_card
+targetEntityType: node
+bundle: magazine
+mode: magazine_card
+content:
+  field_magazine_cover_image:
+    type: file_url_plain
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_magazine_publication:
+    type: list_key
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_magazine_story_cover:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: card
+      link: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_teaser:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  addtoany: true
+  field_introduction_copy: true
+  field_magazine_intro_head: true
+  field_magazine_pdf: true
+  field_magazine_section: true
+  field_magazine_story_intro: true
+  field_meta_tags: true
+  field_profile_image: true
+  langcode: true
+  search_api_excerpt: true

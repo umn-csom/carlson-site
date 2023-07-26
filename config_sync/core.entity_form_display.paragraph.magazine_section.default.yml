@@ -1,0 +1,42 @@
+uuid: 328ad88e-ed1e-4b76-995a-59d081642f98
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.magazine_section.field_magazine_highlight
+    - field.field.paragraph.magazine_section.field_magazine_section_heading
+    - field.field.paragraph.magazine_section.field_news_article
+    - paragraphs.paragraphs_type.magazine_section
+id: paragraph.magazine_section.default
+targetEntityType: paragraph
+bundle: magazine_section
+mode: default
+content:
+  field_magazine_highlight:
+    type: options_select
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_magazine_section_heading:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_news_article:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

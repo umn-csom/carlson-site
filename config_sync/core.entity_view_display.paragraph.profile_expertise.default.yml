@@ -1,0 +1,39 @@
+uuid: 2a81187f-11f4-44cf-8ad3-1f4eadd2ab1b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.profile_expertise.field_expertise_description
+    - field.field.paragraph.profile_expertise.field_expertise_url
+    - paragraphs.paragraphs_type.profile_expertise
+  module:
+    - link
+_core:
+  default_config_hash: O6Phaqx3G2Wyk1q66sopLCSXW0pgZzaVuXuIQhyxw48
+id: paragraph.profile_expertise.default
+targetEntityType: paragraph
+bundle: profile_expertise
+mode: default
+content:
+  field_expertise_description:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_expertise_url:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

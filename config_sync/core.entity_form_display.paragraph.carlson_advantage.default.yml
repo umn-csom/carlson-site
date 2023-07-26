@@ -1,0 +1,86 @@
+uuid: 660548be-49e4-4672-bfa2-061822f36619
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.carlson_advantage.field_column_item
+    - field.field.paragraph.carlson_advantage.field_heading
+    - field.field.paragraph.carlson_advantage.field_link
+    - field.field.paragraph.carlson_advantage.field_main_content
+    - paragraphs.paragraphs_type.carlson_advantage
+  module:
+    - field_group
+    - link
+    - paragraphs
+    - text
+third_party_settings:
+  field_group:
+    group_advantage_block:
+      children:
+        - field_heading
+        - field_main_content
+        - field_link
+        - field_column_item
+      label: 'Advantage Block'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: true
+        required_fields: true
+_core:
+  default_config_hash: FPv2vLhxk-PLeHpiJqc3ImDfJTBIE6_mB1qhwoONbPg
+id: paragraph.carlson_advantage.default
+targetEntityType: paragraph
+bundle: carlson_advantage
+mode: default
+content:
+  field_column_item:
+    type: entity_reference_paragraphs
+    weight: 5
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_heading:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_link:
+    type: link_default
+    weight: 4
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_main_content:
+    type: text_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

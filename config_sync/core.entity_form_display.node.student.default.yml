@@ -1,0 +1,672 @@
+uuid: 44931865-96de-498a-8b1f-a4935496fbaa
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.student.body
+    - field.field.node.student.field_first_name
+    - field.field.node.student.field_last_name
+    - field.field.node.student.field_meta_tags
+    - field.field.node.student.field_other
+    - field.field.node.student.field_profile_advice
+    - field.field.node.student.field_profile_carlson_activities
+    - field.field.node.student.field_profile_class
+    - field.field.node.student.field_profile_company
+    - field.field.node.student.field_profile_enterprise
+    - field.field.node.student.field_profile_experience
+    - field.field.node.student.field_profile_favorite
+    - field.field.node.student.field_profile_featured
+    - field.field.node.student.field_profile_hobbies
+    - field.field.node.student.field_profile_hometown
+    - field.field.node.student.field_profile_img
+    - field.field.node.student.field_profile_interests
+    - field.field.node.student.field_profile_internship
+    - field.field.node.student.field_profile_intl
+    - field.field.node.student.field_profile_job
+    - field.field.node.student.field_profile_major
+    - field.field.node.student.field_profile_program
+    - field.field.node.student.field_profile_quote
+    - field.field.node.student.field_profile_region
+    - field.field.node.student.field_profile_type
+    - field.field.node.student.field_profile_undergrad
+    - field.field.node.student.field_section
+    - field.field.node.student.field_teaser
+    - node.type.student
+  module:
+    - conditional_fields
+    - content_moderation
+    - field_group
+    - media_library
+    - metatag
+    - path
+    - text
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - group_basic_information
+        - group_biography
+        - group_undergraduate
+        - group_administrative
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        classes: ''
+        id: ''
+        direction: vertical
+    group_basic_information:
+      children:
+        - title
+        - field_profile_type
+        - field_profile_img
+        - field_first_name
+        - field_last_name
+        - field_teaser
+        - field_profile_quote
+        - field_profile_hometown
+        - field_profile_region
+        - field_profile_class
+        - field_profile_program
+        - field_profile_job
+        - field_profile_company
+      label: 'Basic Information'
+      region: content
+      parent_name: group_content
+      weight: 1
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_undergraduate:
+      children:
+        - field_profile_major
+        - field_profile_favorite
+        - field_profile_advice
+        - field_profile_undergrad
+        - field_profile_interests
+        - field_profile_internship
+        - field_profile_enterprise
+        - field_profile_experience
+        - field_profile_carlson_activities
+        - field_profile_hobbies
+        - field_profile_intl
+        - field_other
+      label: 'Additional information'
+      region: content
+      parent_name: group_content
+      weight: 3
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_biography:
+      children:
+        - body
+      label: Biography
+      region: content
+      parent_name: group_content
+      weight: 2
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_administrative:
+      children:
+        - field_section
+        - field_profile_featured
+      label: Administrative
+      region: content
+      parent_name: group_content
+      weight: 4
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+id: node.student.default
+targetEntityType: node
+bundle: student
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 9
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_first_name:
+    type: string_textfield
+    weight: 16
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_last_name:
+    type: string_textfield
+    weight: 17
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_meta_tags:
+    type: metatag_firehose
+    weight: 9
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_other:
+    type: options_buttons
+    weight: 33
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields:
+        69a2c48b-4093-4e45-b362-f3796252aaa8:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'MBA Student Profiles'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_advice:
+    type: text_textarea
+    weight: 24
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        628214b7-8feb-4f94-8ed8-462e3a059ee7:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'Undergraduate Ambassadors'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_carlson_activities:
+    type: string_textfield
+    weight: 30
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        9315fbe9-805e-4479-b308-f5cf192131a0:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'MBA Student Profiles'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_class:
+    type: options_select
+    weight: 22
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_profile_company:
+    type: string_textfield
+    weight: 25
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        23b96b10-525f-46a6-ac58-d9b73f2a24f4:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'MBA Student Profiles'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_enterprise:
+    type: options_buttons
+    weight: 28
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields:
+        9717725d-1fd9-4cb5-95d9-7b4f458c1112:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'MBA Student Profiles'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_experience:
+    type: string_textfield
+    weight: 29
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        e17396d4-3a12-46c5-9c38-5c3e73f16a56:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'MBA Student Profiles'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_favorite:
+    type: text_textarea
+    weight: 23
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        6a99949b-f361-4a64-8b29-9a46730d85c7:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'Undergraduate Ambassadors'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_featured:
+    type: boolean_checkbox
+    weight: 11
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_profile_hobbies:
+    type: text_textarea
+    weight: 31
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        29290073-0f19-4c71-85bf-e43f47e48420:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'MBA Student Profiles'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_hometown:
+    type: string_textfield
+    weight: 20
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_profile_img:
+    type: media_library_widget
+    weight: 51
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_profile_interests:
+    type: options_buttons
+    weight: 26
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields:
+        967ff14d-7d40-4a59-8683-f9dfa2d11177:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'MBA Student Profiles'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_internship:
+    type: string_textfield
+    weight: 27
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        6b892060-9a9e-468b-a5f6-ee627d7ce2dc:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'MBA Student Profiles'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_intl:
+    type: options_select
+    weight: 32
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields:
+        9ca61a5f-5824-42ad-9151-f047af1a4939:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'MBA Student Profiles'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_job:
+    type: string_textfield
+    weight: 24
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        08994832-fb2d-4849-8415-d42116b34bab:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'MBA Student Profiles'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_major:
+    type: options_buttons
+    weight: 22
+    region: content
+    settings: {  }
+    third_party_settings:
+      conditional_fields:
+        b2dcbc5a-b408-4da0-9809-f5aa8970cb30:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'Undergraduate Ambassadors'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_profile_program:
+    type: options_select
+    weight: 23
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_profile_quote:
+    type: text_textarea
+    weight: 19
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_profile_region:
+    type: options_select
+    weight: 21
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_profile_type:
+    type: options_select
+    weight: 14
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_profile_undergrad:
+    type: string_textfield
+    weight: 25
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        f32734a1-96a2-40e3-9a64-f983577cd9b2:
+          entity_type: node
+          bundle: student
+          dependee: field_profile_type
+          settings:
+            state: visible
+            condition: value
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form:
+              -
+                value: 'MBA Student Profiles'
+            effect: show
+            effect_options: {  }
+            selector: ''
+  field_section:
+    type: entity_reference_autocomplete
+    weight: 10
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_teaser:
+    type: text_textarea
+    weight: 18
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 4
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 8
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 13
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

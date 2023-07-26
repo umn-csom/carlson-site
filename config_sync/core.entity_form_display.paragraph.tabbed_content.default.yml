@@ -1,0 +1,46 @@
+uuid: 07b8fa0a-ab2e-48b4-affe-fe5f4a0e09ac
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.tabbed_content.field_tab_accordion_item
+    - paragraphs.paragraphs_type.tabbed_content
+  module:
+    - field_group
+    - paragraphs
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - field_tab_accordion_item
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        required_fields: true
+id: paragraph.tabbed_content.default
+targetEntityType: paragraph
+bundle: tabbed_content
+mode: default
+content:
+  field_tab_accordion_item:
+    type: entity_reference_paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: accordion_tab_item
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

@@ -1,0 +1,74 @@
+uuid: 77def4e7-c0d2-4317-a2c4-c9e23b8783e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.cta_block
+    - field.field.block_content.cta_block.body
+    - field.field.block_content.cta_block.field_cta_link
+  module:
+    - field_group
+    - paragraphs
+third_party_settings:
+  field_group:
+    group_cta_links:
+      children:
+        - field_cta_link
+      label: 'CTA Links'
+      region: content
+      parent_name: group_content
+      weight: 3
+      format_type: tab
+      format_settings:
+        label: 'CTA Links'
+        classes: ''
+        id: ''
+        formatter: open
+        description: ''
+        required_fields: true
+    group_content:
+      children:
+        - group_cta_links
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: tabs
+      format_settings:
+        classes: ''
+        id: ''
+        direction: vertical
+id: block_content.cta_block.default
+targetEntityType: block_content
+bundle: cta_block
+mode: default
+content:
+  field_cta_link:
+    type: entity_reference_paragraphs
+    weight: 3
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+hidden:
+  body: true

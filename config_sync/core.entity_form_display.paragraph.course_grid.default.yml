@@ -1,0 +1,67 @@
+uuid: 330fd4b9-9625-4bbe-993a-bf6e8dc78e0e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.course_grid.field_course_grid_item
+    - field.field.paragraph.course_grid.field_heading
+    - field.field.paragraph.course_grid.field_main_content
+    - paragraphs.paragraphs_type.course_grid
+  module:
+    - field_group
+    - paragraphs
+    - text
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - field_heading
+        - field_main_content
+        - field_course_grid_item
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        required_fields: true
+id: paragraph.course_grid.default
+targetEntityType: paragraph
+bundle: course_grid
+mode: default
+content:
+  field_course_grid_item:
+    type: entity_reference_paragraphs
+    weight: 5
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_heading:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_main_content:
+    type: text_textarea
+    weight: 4
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

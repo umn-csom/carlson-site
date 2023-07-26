@@ -1,0 +1,28 @@
+uuid: 355af6df-0de4-41dd-9d28-eb27ad6e1570
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_featured_faculty
+    - node.type.executive_ed_landing_page
+    - node.type.faculty_profile
+id: node.executive_ed_landing_page.field_featured_faculty
+field_name: field_featured_faculty
+entity_type: node
+bundle: executive_ed_landing_page
+label: 'Featured Faculty'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      faculty_profile: faculty_profile
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

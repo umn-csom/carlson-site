@@ -1,0 +1,43 @@
+uuid: ba3b15b0-a0e6-4e32-a716-a731c700a1d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.curriculum_plan.body
+    - field.field.node.curriculum_plan.field_flexible_features
+    - node.type.curriculum_plan
+  module:
+    - entity_reference_revisions
+    - text
+    - user
+id: node.curriculum_plan.default
+targetEntityType: node
+bundle: curriculum_plan
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_flexible_features:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  addtoany: true
+  content_moderation_control: true
+  langcode: true
+  search_api_excerpt: true

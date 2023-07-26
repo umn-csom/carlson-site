@@ -1,0 +1,32 @@
+uuid: 0b4d93df-438e-4b3e-a83a-98d1ed605fc9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.carlson_staff_faculty_item.field_heading
+    - field.field.paragraph.carlson_staff_faculty_item.field_staff_faculty
+    - paragraphs.paragraphs_type.carlson_staff_faculty_item
+id: paragraph.carlson_staff_faculty_item.default
+targetEntityType: paragraph
+bundle: carlson_staff_faculty_item
+mode: default
+content:
+  field_heading:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_staff_faculty:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: course_teaser
+      link: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

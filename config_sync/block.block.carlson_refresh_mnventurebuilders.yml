@@ -1,0 +1,44 @@
+uuid: f0209b99-fcce-4fbd-93fe-be452e5a1f6f
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.mn-venture-builders
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_mnventurebuilders
+theme: carlson_refresh
+region: inner_nav
+weight: 0
+provider: null
+plugin: 'menu_block:mn-venture-builders'
+settings:
+  id: 'menu_block:mn-venture-builders'
+  label: 'MN Venture Builders'
+  label_display: visible
+  provider: menu_injector
+  follow: false
+  follow_parent: root
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 9
+  expand_all_items: true
+  parent: 'mn-venture-builders:'
+  suggestion: executive_education
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: '/mn-venture-builders*'

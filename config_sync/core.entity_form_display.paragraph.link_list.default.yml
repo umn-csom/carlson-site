@@ -1,0 +1,34 @@
+uuid: 208735ce-f3b6-4e2d-a7b8-93513a4f8e62
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.link_list.field_heading
+    - field.field.paragraph.link_list.field_links
+    - paragraphs.paragraphs_type.link_list
+  module:
+    - link
+id: paragraph.link_list.default
+targetEntityType: paragraph
+bundle: link_list
+mode: default
+content:
+  field_heading:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_links:
+    type: link_default
+    weight: 1
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

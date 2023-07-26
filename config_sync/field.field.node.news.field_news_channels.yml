@@ -1,0 +1,31 @@
+uuid: 152d24b5-b5a0-4f52-9a49-647ab7824e54
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_news_channels
+    - node.type.news
+    - taxonomy.vocabulary.news_categories
+_core:
+  default_config_hash: 3E8eYAirHwl59hIXPHcx9i5TM00vAeh8yW11iSy9zSk
+id: node.news.field_news_channels
+field_name: field_news_channels
+entity_type: node
+bundle: news
+label: 'News Channels'
+description: 'Select the "news channels" that this news items should be included in.  Channels determine what content is considered "related" when viewing an item of news.  Other pages can also "subscribe" to a channel to display a news feed.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      news_categories: news_categories
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,51 @@
+uuid: 38861c63-d5e5-4d11-aad2-bfcbbb30eabc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.sponsor_logos.field_logo
+    - field.field.paragraph.sponsor_logos.field_main_content
+    - paragraphs.paragraphs_type.sponsor_logos
+  module:
+    - field_group
+    - media_library
+    - text
+third_party_settings:
+  field_group:
+    group_c:
+      children:
+        - field_main_content
+        - field_logo
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        required_fields: true
+id: paragraph.sponsor_logos.default
+targetEntityType: paragraph
+bundle: sponsor_logos
+mode: default
+content:
+  field_logo:
+    type: media_library_widget
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_main_content:
+    type: text_textarea
+    weight: 2
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

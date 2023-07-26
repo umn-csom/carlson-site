@@ -1,0 +1,125 @@
+uuid: c417e07a-c05c-49ea-b076-323ca00a9c0c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.quiz.body
+    - field.field.node.quiz.field_meta_tags
+    - field.field.node.quiz.field_quiz_cond_results_body
+    - field.field.node.quiz.field_quiz_headline
+    - field.field.node.quiz.field_quiz_main_image
+    - field.field.node.quiz.field_quiz_no_results_page_body
+    - field.field.node.quiz.field_quiz_questions
+    - field.field.node.quiz.field_quiz_results_add_comps
+    - field.field.node.quiz.field_quiz_results_body
+    - field.field.node.quiz.field_quiz_results_title
+    - field.field.node.quiz.field_quiz_webform
+    - node.type.quiz
+  module:
+    - entity_reference_revisions
+    - metatag
+    - text
+    - user
+    - webform
+_core:
+  default_config_hash: 8HzknD7Mk7FCZXFO20q9dQ4UAON168IjyD_k0Hd8Byo
+id: node.quiz.default
+targetEntityType: node
+bundle: quiz
+mode: default
+content:
+  body:
+    label: hidden
+    type: text_default
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+  field_meta_tags:
+    weight: 8
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: metatag_empty_formatter
+    region: content
+  field_quiz_cond_results_body:
+    type: entity_reference_revisions_entity_view
+    weight: 10
+    region: content
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_quiz_headline:
+    weight: 2
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_quiz_main_image:
+    type: entity_reference_entity_view
+    weight: 3
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_quiz_no_results_page_body:
+    weight: 11
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_quiz_questions:
+    type: entity_reference_revisions_entity_view
+    weight: 4
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_quiz_results_add_comps:
+    type: entity_reference_revisions_entity_view
+    weight: 7
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_quiz_results_body:
+    weight: 6
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_quiz_results_title:
+    weight: 5
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_quiz_webform:
+    weight: 9
+    label: hidden
+    settings:
+      source_entity: true
+    third_party_settings: {  }
+    type: webform_entity_reference_entity_view
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  addtoany: true
+  langcode: true
+  search_api_excerpt: true

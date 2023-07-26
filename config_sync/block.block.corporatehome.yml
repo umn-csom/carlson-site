@@ -1,0 +1,43 @@
+uuid: 8adb5c60-7a9d-4462-85d4-c224839173e9
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.corporate-home
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - barrio_carlson
+id: corporatehome
+theme: barrio_carlson
+region: primary_menu
+weight: -63
+provider: null
+plugin: 'menu_block:corporate-home'
+settings:
+  id: 'menu_block:corporate-home'
+  label: 'Corporate Home'
+  label_display: '0'
+  provider: menu_injector
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: false
+  parent: 'corporate-home:'
+  suggestion: corporate_home
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: ''
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/corporate-portal/*\r\n/corporate-portal"

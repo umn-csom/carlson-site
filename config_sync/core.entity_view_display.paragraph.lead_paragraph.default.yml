@@ -1,0 +1,32 @@
+uuid: 71ba09a0-b52c-4854-9ffd-1cc9a1cab4e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lead_paragraph.field_heading
+    - field.field.paragraph.lead_paragraph.field_main_content
+    - paragraphs.paragraphs_type.lead_paragraph
+  module:
+    - text
+id: paragraph.lead_paragraph.default
+targetEntityType: paragraph
+bundle: lead_paragraph
+mode: default
+content:
+  field_heading:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_main_content:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,42 @@
+uuid: ca5500fd-adfb-43e9-963c-4fc94c3b6498
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.information_paragraph.field_background_image
+    - field.field.paragraph.information_paragraph.field_info_section_content
+    - field.field.paragraph.information_paragraph.field_section_headline
+    - paragraphs.paragraphs_type.information_paragraph
+  module:
+    - text
+id: paragraph.information_paragraph.default
+targetEntityType: paragraph
+bundle: information_paragraph
+mode: default
+content:
+  field_background_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_info_section_content:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_section_headline:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,57 @@
+uuid: 8538f8a2-0e39-4cfd-b980-6946e17b24b2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.carlson_staff_faculty.field_main_content
+    - field.field.paragraph.carlson_staff_faculty.field_staff_faculty_item
+    - paragraphs.paragraphs_type.carlson_staff_faculty
+  module:
+    - field_group
+    - paragraphs
+    - text
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - field_main_content
+        - field_staff_faculty_item
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        required_fields: true
+id: paragraph.carlson_staff_faculty.default
+targetEntityType: paragraph
+bundle: carlson_staff_faculty
+mode: default
+content:
+  field_main_content:
+    type: text_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_staff_faculty_item:
+    type: entity_reference_paragraphs
+    weight: 4
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

@@ -1,0 +1,25 @@
+uuid: b5449e31-fbeb-4f1a-ac0c-36d89e0cb310
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.curriculum_plan.field_curriculum_plan
+    - paragraphs.paragraphs_type.curriculum_plan
+id: paragraph.curriculum_plan.default
+targetEntityType: paragraph
+bundle: curriculum_plan
+mode: default
+content:
+  field_curriculum_plan:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

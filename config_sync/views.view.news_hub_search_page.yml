@@ -1,0 +1,1246 @@
+uuid: d989fa9e-f4bd-4918-98c5-206cc4168653
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - search_api.index.acquia_search_index
+    - taxonomy.vocabulary.carlson_hub_topics
+  module:
+    - better_exposed_filters
+    - search_api
+    - text
+    - user
+id: news_hub_search_page
+label: 'News Hub Search Page'
+module: views
+description: ''
+tag: ''
+base_table: search_api_index_acquia_search_index
+base_field: search_api_id
+display:
+  default:
+    id: default
+    display_title: Master
+    display_plugin: default
+    position: 0
+    display_options:
+      title: 'Centennial Hub Search'
+      fields:
+        body:
+          id: body
+          table: search_api_index_acquia_search_index
+          field: body
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: null
+          entity_field: null
+          plugin_id: search_api_field
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: text_default
+          settings: {  }
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          field_rendering: true
+          fallback_handler: search_api
+          fallback_options:
+            link_to_item: false
+            use_highlighting: false
+            multi_type: separator
+            multi_separator: ', '
+      pager:
+        type: full
+        options:
+          offset: 0
+          items_per_page: 12
+          total_pages: null
+          id: 0
+          tags:
+            next: ››
+            previous: ‹‹
+            first: '« First'
+            last: 'Last »'
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
+          quantity: 9
+      exposed_form:
+        type: bef
+        options:
+          submit_button: Apply
+          reset_button: true
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+          input_required: false
+          text_input_required: 'Select any filter and click on Apply to see results'
+          text_input_required_format: rich_text
+          bef:
+            general:
+              autosubmit: false
+              autosubmit_exclude_textfield: true
+              autosubmit_hide: false
+              input_required: false
+              allow_secondary: false
+              secondary_label: 'Advanced options'
+              text_input_required: 'Select any filter and click on Apply to see results'
+              text_input_required_format: basic_html
+            sort:
+              plugin_id: default
+              advanced:
+                combine: true
+                combine_rewrite: "Authored on Desc|Sort By Date\r\nAuthored on Asc|\r\nRelevance Desc|Sort By Relevance\r\nRelevance Asc|"
+                reset: false
+                reset_label: ''
+                collapsible: false
+                collapsible_label: 'Sort options'
+                is_secondary: false
+            filter:
+              search_api_fulltext:
+                plugin_id: default
+                advanced:
+                  sort_options: false
+                  placeholder_text: 'Search By Keyword'
+                  rewrite:
+                    filter_rewrite_values: ''
+                  collapsible: false
+                  is_secondary: false
+              type_1:
+                plugin_id: default
+                advanced:
+                  sort_options: false
+                  placeholder_text: ''
+                  rewrite:
+                    filter_rewrite_values: '- Any -|Select Type'
+                  collapsible: false
+                  is_secondary: false
+              field_hub_topic:
+                plugin_id: default
+                advanced:
+                  sort_options: false
+                  placeholder_text: ''
+                  rewrite:
+                    filter_rewrite_values: ''
+                  collapsible: false
+                  is_secondary: false
+      access:
+        type: none
+        options: {  }
+      cache:
+        type: none
+        options: {  }
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: '<div class="col-12 text-center"><p>Sorry, there are no matching results. Try selecting a new filter.</p></div>'
+            format: rich_text
+          tokenize: false
+      sorts:
+        created:
+          id: created
+          table: search_api_index_acquia_search_index
+          field: created
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api
+          order: DESC
+          expose:
+            label: 'Authored on'
+            field_identifier: created
+          exposed: true
+        search_api_relevance:
+          id: search_api_relevance
+          table: search_api_index_acquia_search_index
+          field: search_api_relevance
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api
+          order: DESC
+          expose:
+            label: Relevance
+            field_identifier: search_api_relevance
+          exposed: true
+      arguments: {  }
+      filters:
+        status:
+          id: status
+          table: search_api_index_acquia_search_index
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_boolean
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        type:
+          id: type
+          table: search_api_index_acquia_search_index
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_options
+          operator: or
+          value:
+            blog_entry: blog_entry
+            news: news
+            video: video
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        search_api_fulltext:
+          id: search_api_fulltext
+          table: search_api_index_acquia_search_index
+          field: search_api_fulltext
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_fulltext
+          operator: or
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: search_api_fulltext_op
+            label: Keyword
+            description: ''
+            use_operator: false
+            operator: search_api_fulltext_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: keyword
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              faculty_profile_creator: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              news_editor: '0'
+              ed_abroad_editor: '0'
+              editor: '0'
+              sr_editor: '0'
+              administrator: '0'
+              hub_post_creator: '0'
+              hub_post_reviewer: '0'
+              hub_landing_page_creator: '0'
+              hub_landing_page_reviewer: '0'
+              video_creator: '0'
+              video_reviewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          parse_mode: terms
+          min_length: null
+          fields: {  }
+        type_1:
+          id: type_1
+          table: search_api_index_acquia_search_index
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_options
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: type_1_op
+            label: 'Content type'
+            description: null
+            use_operator: false
+            operator: type_1_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: type_1
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: true
+          group_info:
+            label: Type
+            description: ''
+            identifier: type
+            optional: true
+            widget: select
+            multiple: true
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: Blog
+                operator: or
+                value:
+                  blog_entry: blog_entry
+              2:
+                title: News
+                operator: or
+                value:
+                  news: news
+              3:
+                title: Video
+                operator: or
+                value:
+                  video: video
+              4:
+                title: Link
+                operator: or
+                value:
+                  hub_post: hub_post
+              5:
+                title: Event
+                operator: or
+                value:
+                  event: event
+          reduce_duplicates: false
+        field_hub_topic:
+          id: field_hub_topic
+          table: search_api_index_acquia_search_index
+          field: field_hub_topic
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_term
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_hub_topic_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_hub_topic_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: topic
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              faculty_profile_creator: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              news_editor: '0'
+              ed_abroad_editor: '0'
+              editor: '0'
+              sr_editor: '0'
+              administrator: '0'
+              hub_post_creator: '0'
+              hub_post_reviewer: '0'
+              hub_landing_page_creator: '0'
+              hub_landing_page_reviewer: '0'
+              video_creator: '0'
+              video_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: carlson_hub_topics
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: default
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
+          uses_fields: false
+      row:
+        type: search_api
+        options:
+          view_modes:
+            'entity:node':
+              blog_entry: card
+              event: card
+              hub_post: card
+              news: card
+              video: card
+      query:
+        type: search_api_query
+        options:
+          bypass_access: false
+          skip_access: false
+          preserve_facet_query_args: false
+      relationships: {  }
+      css_class: 'news-hub-search centennial-hub'
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: "<h1>Search & Filter</h1>\r\n<p>Search for Carlson School events, stories, and more using keywords, or find what you’re looking for by selecting categories.</p>"
+            format: rich_text
+          tokenize: false
+      footer: {  }
+      display_extenders: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - 'url.query_args:sort_by'
+        - 'url.query_args:sort_order'
+        - user
+        - 'user.node_grants:view'
+      tags:
+        - 'config:field.storage.node.body'
+        - 'config:search_api.index.acquia_search_index'
+  block_1:
+    id: block_1
+    display_title: Block
+    display_plugin: block
+    position: 1
+    display_options:
+      title: 'Carlson Hub Search'
+      filters:
+        status:
+          id: status
+          table: search_api_index_acquia_search_index
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_boolean
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        type:
+          id: type
+          table: search_api_index_acquia_search_index
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_options
+          operator: or
+          value:
+            news: news
+            video: video
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        search_api_fulltext:
+          id: search_api_fulltext
+          table: search_api_index_acquia_search_index
+          field: search_api_fulltext
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_fulltext
+          operator: or
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: search_api_fulltext_op
+            label: Keyword
+            description: ''
+            use_operator: false
+            operator: search_api_fulltext_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: keyword
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              faculty_profile_creator: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              news_editor: '0'
+              ed_abroad_editor: '0'
+              editor: '0'
+              sr_editor: '0'
+              administrator: '0'
+              hub_post_creator: '0'
+              hub_post_reviewer: '0'
+              hub_landing_page_creator: '0'
+              hub_landing_page_reviewer: '0'
+              video_creator: '0'
+              video_reviewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          parse_mode: terms
+          min_length: null
+          fields: {  }
+        type_1:
+          id: type_1
+          table: search_api_index_acquia_search_index
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_options
+          operator: or
+          value:
+            all: all
+            news: news
+            video: video
+          group: 1
+          exposed: true
+          expose:
+            operator_id: type_1_op
+            label: 'Content type'
+            description: ''
+            use_operator: false
+            operator: type_1_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: news_type
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              faculty_profile_creator: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              news_editor: '0'
+              ed_abroad_editor: '0'
+              editor: '0'
+              sr_editor: '0'
+              administrator: '0'
+              moderator: '0'
+              video_creator: '0'
+              video_reviewer: '0'
+              magazine_creator: '0'
+              magazine_reviewer: '0'
+              email_page_creator: '0'
+              email_page_reviewer: '0'
+              faces_creator: '0'
+              faces_reviewer: '0'
+              front_page_creator: '0'
+              front_page_reviewer: '0'
+              news_landing_creator: '0'
+              news_landing_reviewer: '0'
+              alumni_default_page_creator: '0'
+              alumni_default_page_reviewer: '0'
+              alumni_landing_page_creator: '0'
+              alumni_landing_page_reviewer: '0'
+              quiz_creator: '0'
+              quiz_reviewer: '0'
+              curriculum_plan_creator: '0'
+              curriculum_plan_reviewer: '0'
+              wiley_partnership: '0'
+            reduce: true
+          is_grouped: false
+          group_info:
+            label: Type
+            description: ''
+            identifier: type_1
+            optional: false
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1:
+                title: 'Select Type'
+                operator: or
+                value:
+                  all: all
+                  blog_entry: blog_entry
+                  campaign_location: campaign_location
+                  conference: conference
+                  education_abroad_program: education_abroad_program
+                  email_page: email_page
+                  event: event
+                  executive_ed_landing_page: executive_ed_landing_page
+                  executive_ed_program: executive_ed_program
+                  faces: faces
+                  faculty_profile: faculty_profile
+                  front_page: front_page
+                  homepage: homepage
+                  hub_landing_page: hub_landing_page
+                  hub_post: hub_post
+                  landing_page: landing_page
+                  magazine: magazine
+                  news: news
+                  news_landing: news_landing
+                  page: page
+                  paid_media: paid_media
+                  person: person
+                  placeholder: placeholder
+                  session: session
+                  student: student
+                  video: video
+                  webform: webform
+              2:
+                title: News
+                operator: or
+                value:
+                  news: news
+              3:
+                title: Video
+                operator: or
+                value:
+                  video: video
+          reduce_duplicates: false
+        field_hub_topic:
+          id: field_hub_topic
+          table: search_api_index_acquia_search_index
+          field: field_hub_topic
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_term
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_hub_topic_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_hub_topic_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: topic
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              faculty_profile_creator: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              news_editor: '0'
+              ed_abroad_editor: '0'
+              editor: '0'
+              sr_editor: '0'
+              administrator: '0'
+              hub_post_creator: '0'
+              hub_post_reviewer: '0'
+              hub_landing_page_creator: '0'
+              hub_landing_page_reviewer: '0'
+              video_creator: '0'
+              video_reviewer: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: carlson_hub_topics
+          type: select
+          hierarchy: true
+          limit: true
+          error_message: true
+        field_in_the_media:
+          id: field_in_the_media
+          table: search_api_index_acquia_search_index
+          field: field_in_the_media
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_string
+          operator: empty
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_in_the_media_source:
+          id: field_in_the_media_source
+          table: search_api_index_acquia_search_index
+          field: field_in_the_media_source
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_string
+          operator: empty
+          value:
+            min: ''
+            max: ''
+            value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_hide_from_aggregation:
+          id: field_hide_from_aggregation
+          table: search_api_index_acquia_search_index
+          field: field_hide_from_aggregation
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_boolean
+          operator: '!='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: ''
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - 'url.query_args:sort_by'
+        - 'url.query_args:sort_order'
+        - user
+        - 'user.node_grants:view'
+      tags:
+        - 'config:field.storage.node.body'
+        - 'config:search_api.index.acquia_search_index'
+  page_1:
+    id: page_1
+    display_title: 'Page - Carlson Hub Search'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'Carlson Hub Search'
+      defaults:
+        title: false
+      display_description: ''
+      display_extenders: {  }
+      path: news/news-hub-view
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - 'url.query_args:sort_by'
+        - 'url.query_args:sort_order'
+        - user
+        - 'user.node_grants:view'
+      tags:
+        - 'config:field.storage.node.body'
+        - 'config:search_api.index.acquia_search_index'
+  page_2:
+    id: page_2
+    display_title: 'Page - Centennial Hub Search'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'Centennial Hub Search'
+      access:
+        type: perm
+        options:
+          perm: 'access content'
+      filters:
+        status:
+          id: status
+          table: search_api_index_acquia_search_index
+          field: status
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_boolean
+          operator: '='
+          value: '1'
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        type:
+          id: type
+          table: search_api_index_acquia_search_index
+          field: type
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_options
+          operator: or
+          value:
+            blog_entry: blog_entry
+            event: event
+            hub_post: hub_post
+            news: news
+            video: video
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        search_api_fulltext:
+          id: search_api_fulltext
+          table: search_api_index_acquia_search_index
+          field: search_api_fulltext
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api_fulltext
+          operator: or
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: search_api_fulltext_op
+            label: Keyword
+            description: ''
+            use_operator: false
+            operator: search_api_fulltext_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: keyword
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              faculty_profile_creator: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              news_editor: '0'
+              ed_abroad_editor: '0'
+              editor: '0'
+              sr_editor: '0'
+              administrator: '0'
+              hub_post_creator: '0'
+              hub_post_reviewer: '0'
+              hub_landing_page_creator: '0'
+              hub_landing_page_reviewer: '0'
+              video_creator: '0'
+              video_reviewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          parse_mode: terms
+          min_length: null
+          fields: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        access: false
+        title: false
+        filters: false
+        filter_groups: false
+        header: false
+      display_description: ''
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: "<h1>Search & Filter</h1>\r\n<p>Search for Carlson School events, stories, and more using keywords, or find what you’re looking for by selecting categories.</p>"
+            format: rich_text
+          tokenize: false
+      display_extenders: {  }
+      path: centennial/news-hub
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - 'url.query_args:sort_by'
+        - 'url.query_args:sort_order'
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:field.storage.node.body'
+        - 'config:search_api.index.acquia_search_index'

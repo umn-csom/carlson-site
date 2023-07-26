@@ -1,0 +1,254 @@
+uuid: 10824113-71fa-4c84-aba6-6433370d781b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.landing_page.body
+    - field.field.node.landing_page.field_contact_info
+    - field.field.node.landing_page.field_event_channels
+    - field.field.node.landing_page.field_flexible_features
+    - field.field.node.landing_page.field_hero_media
+    - field.field.node.landing_page.field_link
+    - field.field.node.landing_page.field_menu_rule
+    - field.field.node.landing_page.field_meta_tags
+    - field.field.node.landing_page.field_news_channels
+    - field.field.node.landing_page.panelizer
+    - field.field.node.landing_page.webform
+    - node.type.landing_page
+    - workflows.workflow.editorial
+  module:
+    - chosen_field
+    - content_moderation
+    - field_group
+    - link
+    - media_library
+    - metatag
+    - paragraphs
+    - path
+    - text
+    - webform
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - group_hero
+        - group_flexible_features
+        - group_contact_de
+        - group_administrative
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        classes: ''
+        id: ''
+        direction: vertical
+    group_hero:
+      children:
+        - title
+        - body
+        - webform
+        - field_link
+        - field_hero_media
+      label: Hero
+      region: content
+      parent_name: group_content
+      weight: 9
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_flexible_features:
+      children:
+        - field_flexible_features
+      label: 'Flexible Features'
+      region: content
+      parent_name: group_content
+      weight: 10
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_administrative:
+      children:
+        - field_news_channels
+        - field_event_channels
+        - field_menu_rule
+      label: Administrative
+      region: content
+      parent_name: group_content
+      weight: 12
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_contact_de:
+      children:
+        - field_contact_info
+      label: 'Contact Details'
+      region: content
+      parent_name: group_content
+      weight: 11
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+id: node.landing_page.default
+targetEntityType: node
+bundle: landing_page
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 2
+    region: content
+    settings:
+      rows: 5
+      summary_rows: 2
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_contact_info:
+    type: options_select
+    weight: 26
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_event_channels:
+    type: chosen_select
+    weight: 103
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_flexible_features:
+    type: entity_reference_paragraphs
+    weight: 10
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_hero_media:
+    type: media_library_widget
+    weight: 5
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_link:
+    type: link_default
+    weight: 4
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_menu_rule:
+    type: options_select
+    weight: 104
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_meta_tags:
+    type: metatag_firehose
+    weight: 7
+    region: content
+    settings:
+      sidebar: true
+      use_details: true
+    third_party_settings: {  }
+  field_news_channels:
+    type: chosen_select
+    weight: 102
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  webform:
+    type: webform_entity_reference_select
+    weight: 3
+    region: content
+    settings:
+      default_data: true
+      webforms: {  }
+    third_party_settings: {  }
+hidden:
+  panelizer: true
+  promote: true
+  sticky: true
