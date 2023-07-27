@@ -54,13 +54,7 @@ class MyImportsCommands extends DrushCommands {
     $this->entityTypeManager = $entity_type_manager;
     $this->aliasStorageHelper = $alias_storage_helper;
   }
-
-  /**
-   * Imports menu links from CSV.
-   *
-   * @command my_import:menu_links
-   * @aliases miml
-   */
+  
   /**
    * Imports menu links from CSV.
    *
