@@ -3,6 +3,8 @@
 namespace Drupal\carlson_general\Commands;
 
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
+use Drupal\Core\Language\Language;
+use Drupal\redirect\Entity\Redirect;
 use Drush\Commands\DrushCommands;
 use Drupal\Core\Menu\MenuLinkTreeInterface;
 use Drupal\Core\Menu\MenuLinkManagerInterface;
@@ -64,6 +66,7 @@ class MyImportsCommands extends DrushCommands {
   public function menuLinks() {
     $module_handler = \Drupal::service('module_handler');
     $path = $module_handler->getModule('carlson_general')->getPath();
+    $aliasManager = \Drupal::service('path_alias.manager');
 
     $csv = new \SplFileObject($path . '/test.csv');
 
@@ -139,6 +142,34 @@ class MyImportsCommands extends DrushCommands {
           if ($node) {
             $node->setTitle($row[2]);
             $node->set('field_breadcrumb_title', $row[3]);
+
+            $newAlias = $row[1];
+            $nodePath = '/node/' . $nodeId;
+
+            // Check if the alias already exists for the current path.
+            $existingAlias = $aliasManager->getAliasByPath($nodePath);
+
+            // update the existing alias or create a new one
+            if ($existingAlias !== $newAlias) {
+              $path_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+              $existingPath = $path_storage->loadByProperties(['path' => $nodePath]);
+
+              // If there is an existing alias, update it
+              if ($existingPath) {
+                $existingPath = reset($existingPath);
+                $existingPath->set('alias', $newAlias);
+                $existingPath->save();
+              } else {
+                // If not, create a new one
+                $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
+                  'path' => $nodePath,
+                  'alias' => $newAlias,
+                ]);
+                $path_alias->save();
+              }
+              $this->createRedirect($existingAlias, $newAlias);
+            }
+
             $node->save();
           }
           else {
@@ -173,8 +204,44 @@ class MyImportsCommands extends DrushCommands {
   }
 
 
+  private function createRedirect($oldUrl, $newUrl, $language = Language::LANGCODE_NOT_SPECIFIED)
+  {
+    $oldUrl = trim($oldUrl, '/');
+    $newUrl = trim($newUrl, '/');
 
+    if ($oldUrl == $newUrl) {
+      // Skip creating redirects where the old URL is the same as the new URL.
+      return;
+    }
 
+    // If no existing redirect, then create a new one.
+    if (!$this->getExistingRedirect($oldUrl, $newUrl)) {
+      $redirect = Redirect::create([
+        'redirect_source' => ['path' => $oldUrl],
+        'redirect_redirect' => 'internal:/' . $newUrl,
+        'language' => $language,
+      ]);
+      $redirect->save();
+    }
+  }
+
+  private function getExistingRedirect($oldUrl, $newUrl)
+  {
+    $redirectStorage = \Drupal::entityTypeManager()->getStorage('redirect');
+
+    $oldUrl = trim($oldUrl, '/');
+    $newUrl = str_replace('internal:', '', $newUrl);
+    $newUrl = trim($newUrl, '/');
+
+    $query = $redirectStorage->getQuery()
+      ->condition('redirect_source__path', $oldUrl);
+    //->condition('redirect_redirect__uri', 'internal:' . $newUrl);
+
+    $redirects = $query->execute();
+
+    // If the query returns any results, the exact redirect already exists.
+    return !empty($redirects) ? $redirectStorage->load(reset($redirects)) : null;
+  }
 
   /**
    * Deletes all menu links from the main menu.
