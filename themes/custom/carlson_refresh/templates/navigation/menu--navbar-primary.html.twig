@@ -27,9 +27,9 @@
     </button> #}
     <div class="collapse navbar-collapse" id="navbarCarlson">
       {% import _self as menus %}
-      {{ menus.menu_links(items, attributes, 0) }}
+      {{ menus.menu_links(items, attributes, 0, false) }}
 
-      {% macro menu_links(items, attributes, menu_level) %}
+      {% macro menu_links(items, attributes, menu_level, last_parent) %}
         {% import _self as menus %}
         {% if items %}
           {% if menu_level == 0 %}
@@ -38,6 +38,7 @@
             <ul class="navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu-left" role="menu">
           {% endif %}
               {% for item in items %}
+              {% set last = last_parent or (menu_level == 0 and loop.last) %}
               {%
                 set classes = [
                   item.in_active_trail ? 'active',
@@ -47,12 +48,13 @@
                   {% if menu_level == 0 %}
                     <li{{ item.attributes.addClass('nav-item', 'dropdown', classes) }}>
                       <a href="{{ item.url }}" class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
-                      {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+                      {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
                     </li>
                   {% else %}
-                    <li{{ item.attributes.addClass('nav-item', 'dropdown', 'dropright', 'dropdown-submenu', classes) }}>
+                    {% set dropdirection = last ? 'dropleft' : 'dropright' %}
+                    <li{{ item.attributes.addClass('nav-item', 'dropdown', dropdirection, 'dropdown-submenu', classes) }}>
                       <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropwdown-dark dropdown-toggle">{{ item.title }}</a>
-                      {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+                      {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
                     </li>
                   {% endif %}
                 {% else %}
