@@ -312,10 +312,63 @@ function carlson_refresh_add_regions_to_node($allowed_regions, &$variables) {
  * @param array $variables
  */
 function carlson_refresh_theme_suggestions_block_alter(array &$suggestions, array $variables) {
-  // Block suggestions for custom block bundles.
-  if (isset($variables['elements']['content']['#block_content'])) {
-    array_splice($suggestions, 1, 0, 'block__bundle__' . $variables['elements']['content']['#block_content']->bundle());
+  $id = $variables['elements']['#id'] ?? '';
+  $block_content = $variables['elements']['content']['#block_content'] ?? '';
+  $region = $id ? Block::load($id)->getRegion() : '';
+  $plugin = $variables['elements']['#base_plugin_id'] ?? '';
+  $derivative = $variables['elements']['#derivative_plugin_id'] ?? '';
+
+  // Reset all suggestions.
+  $suggestions = [];
+
+  if ($id) {
+    $name = $id;
   }
+
+  if (is_object($block_content)) {
+    $name = $block_content->bundle();
+  }
+
+  if ($region) {
+    $suggestions[] = 'block__' . $region;
+  }
+
+  if ($plugin) {
+    $suggestions[] = 'block__' . $plugin;
+  }
+
+  if ($name) {
+    $suggestions[] = 'block__bundle__' . $name;
+  }
+
+  if ($plugin && $region) {
+    $suggestions[] = 'block__' . $plugin . '__' . $region;
+  }
+
+  if ($plugin && $derivative && $plugin != $derivative) {
+    $suggestions[] = 'block__' . $plugin . '__' . $derivative;
+  }
+
+  if ($plugin && $name) {
+    $suggestions[] = 'block__' . $plugin . '__' . $name;
+  }
+
+  if ($region) {
+    if ($name) {
+      $suggestions[] = 'block__' . $region . '__' . $name;
+    }
+
+    if ($plugin && $derivative && $plugin != $derivative) {
+      $suggestions[] = 'block__' . $region . '__' . $plugin . '__' . $derivative;
+    }
+
+    if ($plugin && $name) {
+      $suggestions[] = 'block__' . $region . '__' . $plugin . '__' . $name;
+    }
+  }
+
+  // Remove duplicate suggestions.
+  $suggestions = array_unique($suggestions);
 }
 
 /**
@@ -384,7 +437,9 @@ function carlson_refresh_theme_suggestions_menu_alter(array &$suggestions, array
     $suggestions[] = 'menu__' . $plugin . '__' . $name;
     if (!empty($derivative)) {
       $suggestions[] = 'menu__' . $plugin . '__' . $derivative;
-      $suggestions[] = 'menu__' . $plugin . '__' . $derivative . '__' . $name;
+      if ($derivative != $name) {
+        $suggestions[] = 'menu__' . $plugin . '__' . $derivative . '__' . $name;
+      }
     }
   }
 
@@ -394,6 +449,9 @@ function carlson_refresh_theme_suggestions_menu_alter(array &$suggestions, array
     $suggestion = strtr($suggestion, '-', '_');
 
     $suggestions[] = 'menu__' . $suggestion;
+    if (!empty($plugin)) {
+      $suggestions[] = 'menu__' . $plugin . '__' . $suggestion;
+    }
     if (!empty($region)) {
       $suggestions[] = 'menu__' . $region . '__' . $suggestion;
       $suggestions[] = 'menu__' . $region . '__' . $name . '__' . $suggestion;
