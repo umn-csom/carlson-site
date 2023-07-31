@@ -317,6 +317,7 @@ function carlson_refresh_theme_suggestions_block_alter(array &$suggestions, arra
   $region = $id ? Block::load($id)->getRegion() : '';
   $plugin = $variables['elements']['#base_plugin_id'] ?? '';
   $derivative = $variables['elements']['#derivative_plugin_id'] ?? '';
+  $suggestion = $variables['elements']['#configuration']['suggestion'] ?? '';
 
   // Reset all suggestions.
   $suggestions = [];
@@ -347,6 +348,10 @@ function carlson_refresh_theme_suggestions_block_alter(array &$suggestions, arra
 
   if ($plugin && $derivative && $plugin != $derivative) {
     $suggestions[] = 'block__' . $plugin . '__' . $derivative;
+  }
+
+  if ($plugin && $suggestion) {
+    $suggestions[] = 'block__' . $plugin . '__' . $suggestion;
   }
 
   if ($plugin && $name) {
