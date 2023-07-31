@@ -1,0 +1,36 @@
+uuid: bc92974e-9812-4070-9895-853fd661be6b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_profile_degrees
+    - node.type.faculty_profile
+    - paragraphs.paragraphs_type.profile_degree
+  module:
+    - entity_reference_revisions
+_core:
+  default_config_hash: 18k_JW2bDsyBetefbJifANRYfLrHqpbTtLiAWOyIsRc
+id: node.faculty_profile.field_profile_degrees
+field_name: field_profile_degrees
+entity_type: node
+bundle: faculty_profile
+label: Degrees
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      profile_degree: profile_degree
+    negate: 0
+    target_bundles_drag_drop:
+      profile_degree:
+        weight: 3
+        enabled: true
+      statistic:
+        weight: 4
+        enabled: false
+field_type: entity_reference_revisions

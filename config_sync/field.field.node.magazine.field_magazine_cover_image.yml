@@ -1,0 +1,27 @@
+uuid: 574fbf43-0694-48cb-a0de-5c768313e284
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_magazine_cover_image
+    - node.type.magazine
+  module:
+    - file
+id: node.magazine.field_magazine_cover_image
+field_name: field_magazine_cover_image
+entity_type: node
+bundle: magazine
+label: 'Cover image'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'jpg jpeg png gif webp'
+  max_filesize: '1 MB'
+  description_field: false
+field_type: file

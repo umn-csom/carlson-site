@@ -2,7 +2,34 @@
  * @file
  * Theme styling for tabs.
  */
+.nav-tabs {
+  background-color: $light-warm-ivory;
 
-nav.tabs {
-    margin-bottom: $spacer;
+  .nav-item > .nav-link,
+  .nav-item.active > .nav-link {
+    font-weight: 600;
+  }
+
+  .nav-link {
+    margin-right: 6px;
+    margin-bottom: 0;
+    background: transparent;
+    color: $black;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border: 0;
+
+    @include hover-focus() {
+      background: $light-ivory;
+      border-bottom-color: $gold;
+    }
+
+    &.active {
+      font-weight: 600;
+      @include hover-focus() {
+        background: $gold;
+        border-bottom-color: $gold;
+      }
+    }
+  }
 }

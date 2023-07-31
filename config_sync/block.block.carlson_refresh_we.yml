@@ -1,0 +1,44 @@
+uuid: 83290039-93cf-4d11-bc94-a6b4839bcf77
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.we-
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_we
+theme: carlson_refresh
+region: secondary_menu
+weight: 0
+provider: null
+plugin: 'menu_block:we-'
+settings:
+  id: 'menu_block:we-'
+  label: 'WE*'
+  label_display: '0'
+  provider: menu_injector
+  follow: true
+  follow_parent: active
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: true
+  parent: 'we-:'
+  suggestion: executive_education
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/we-start\r\n/we-start*"

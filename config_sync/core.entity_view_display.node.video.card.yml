@@ -1,0 +1,63 @@
+uuid: b5d7a044-dbaa-4bf1-8e24-3df39a06faf1
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card
+    - field.field.node.video.body
+    - field.field.node.video.field_breadcrumb_title
+    - field.field.node.video.field_hub_topic
+    - field.field.node.video.field_video
+    - field.field.node.video.field_video_thumb
+    - image.style.hub_teaser
+    - node.type.video
+  module:
+    - media
+    - panelizer
+    - text
+    - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+id: node.video.card
+targetEntityType: node
+bundle: video
+mode: card
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_video:
+    type: entity_reference_entity_id
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_video_thumb:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: hub_teaser
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  addtoany: true
+  field_breadcrumb_title: true
+  field_hub_topic: true
+  langcode: true
+  search_api_excerpt: true

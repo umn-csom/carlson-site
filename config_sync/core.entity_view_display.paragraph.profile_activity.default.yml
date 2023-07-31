@@ -1,0 +1,48 @@
+uuid: 70e3773c-7507-434b-90f3-4a7e1d4b224e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.profile_activity.field_activity_description
+    - field.field.paragraph.profile_activity.field_activity_link
+    - field.field.paragraph.profile_activity.field_activity_type
+    - paragraphs.paragraphs_type.profile_activity
+  module:
+    - link
+    - text
+_core:
+  default_config_hash: Aa2Sy_KXTeJa4y8gv37S7h-x_Qe1CKCPQ2gqI7VrFa0
+id: paragraph.profile_activity.default
+targetEntityType: paragraph
+bundle: profile_activity
+mode: default
+content:
+  field_activity_description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_activity_link:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_activity_type:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,38 @@
+uuid: 85beb97a-cb6a-4322-bb21-ae87503dd9b3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.gray_background.field_contained_paragraph
+    - field.field.paragraph.gray_background.field_hex_color
+    - paragraphs.paragraphs_type.gray_background
+  module:
+    - paragraphs
+id: paragraph.gray_background.default
+targetEntityType: paragraph
+bundle: gray_background
+mode: default
+content:
+  field_contained_paragraph:
+    type: entity_reference_paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_hex_color:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,31 @@
+uuid: 038230fd-0ed4-4623-b63f-990d0dcf8746
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_profile_admin_dept
+    - node.type.faculty_profile
+    - taxonomy.vocabulary.department_codes
+_core:
+  default_config_hash: skF12blg1uZP6Qp8p0qGSGEm6pB7dn9zRPgwPc8tO1M
+id: node.faculty_profile.field_profile_admin_dept
+field_name: field_profile_admin_dept
+entity_type: node
+bundle: faculty_profile
+label: 'Faculty Department'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      department_codes: department_codes
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: department_codes
+field_type: entity_reference

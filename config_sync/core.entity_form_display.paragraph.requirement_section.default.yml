@@ -1,0 +1,38 @@
+uuid: a6a9c14b-9edd-41e7-a70c-9d1aa2ab00d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.requirement_section.field_header_text
+    - field.field.paragraph.requirement_section.field_requirement_column
+    - paragraphs.paragraphs_type.requirement_section
+  module:
+    - paragraphs
+id: paragraph.requirement_section.default
+targetEntityType: paragraph
+bundle: requirement_section
+mode: default
+content:
+  field_header_text:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_requirement_column:
+    type: entity_reference_paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

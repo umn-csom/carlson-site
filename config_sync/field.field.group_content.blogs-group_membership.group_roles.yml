@@ -1,0 +1,22 @@
+uuid: 313297a6-5338-4bcb-a896-63d84c31b1b4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.group_content.group_roles
+    - group.content_type.blogs-group_membership
+id: group_content.blogs-group_membership.group_roles
+field_name: group_roles
+entity_type: group_content
+bundle: blogs-group_membership
+label: Roles
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'group_type:group_role'
+  handler_settings:
+    group_type_id: blogs
+field_type: entity_reference

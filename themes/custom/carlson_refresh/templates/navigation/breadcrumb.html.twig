@@ -43,11 +43,11 @@
   <nav role="navigation" aria-label="breadcrumb">
     <ol class="breadcrumb">
     {% for item in breadcrumb %}
-      <li class="breadcrumb-item text-uppercase">
-        {% if not loop.last %}
-          <small><a href="{{ item.url }}">{{ item.text|raw }}</a></small>
+      <li class="breadcrumb-item">
+        {% if item.url %}
+          <a href="{{ item.url }}">{{ item.text|raw }}</a>
         {% else %}
-          <small>{{ item.text|raw }}</small>
+          <span>{{ item.text|raw }}</span>
         {% endif %}
       </li>
     {% endfor %}

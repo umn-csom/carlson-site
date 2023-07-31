@@ -1,0 +1,29 @@
+uuid: 5eac5cc2-b0a0-40d4-81d9-6541366282c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_menu_rule
+    - node.type.executive_ed_program
+    - taxonomy.vocabulary.menu_position_rules
+id: node.executive_ed_program.field_menu_rule
+field_name: field_menu_rule
+entity_type: node
+bundle: executive_ed_program
+label: 'Menu Rule'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      menu_position_rules: menu_position_rules
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,29 @@
+uuid: 13cd3eed-eaf7-4b44-b0dc-0b356480a9c3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hub_topic
+    - node.type.blog_entry
+    - taxonomy.vocabulary.carlson_hub_topics
+id: node.blog_entry.field_hub_topic
+field_name: field_hub_topic
+entity_type: node
+bundle: blog_entry
+label: 'Hub Topic'
+description: 'Select the hub topics this item should be searchable by.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      carlson_hub_topics: carlson_hub_topics
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

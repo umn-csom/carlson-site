@@ -67,147 +67,154 @@
  * @see html.html.twig
  */
 #}
-<div id="page-wrapper">
-  <div id="page">
+<header role="banner" aria-label="Site header">
+{% include directory ~ '/templates/layout/umn-header.html.twig' %}
+{% if page.header %}
+  {{ page.header }}
+{% endif %}
+</header>
 
-    {# Header for top navbar #}
-    {% block head %}
-      {% if page.primary_menu %}
-        {{ page.primary_menu }}
-      {% endif %}
-    {% endblock %}
+<section role="banner" aria-label="Top navigation" class="sticky-top" id="top-navigation">
+{% if page.primary_menu %}
+  {{ page.primary_menu }}
+{% endif %}
+{% if page.secondary_menu %}
+  {{ page.secondary_menu }}
+{% endif %}
+</section>
 
-    {# Only rendered if something is placed in this region #}
-    {% if page.highlighted %}
-      <div class="highlighted">
-        <aside class="{{ container }} section clearfix" role="complementary">
-          {{ page.highlighted }}
-        </aside>
-      </div>
-    {% endif %}
+{% if page.local_tasks %}
+  {{ page.local_tasks }}
+{% endif %}
 
-    {# Only rendered if something is placed in this region #}
-    {% if page.featured_top %}
-      {% block featured %}
-        <div class="featured-top">
-          <aside class="featured-top__inner section {{ container }} clearfix" role="complementary">
-            {{ page.featured_top }}
-          </aside>
-        </div>
-      {% endblock %}
-    {% endif %}
-
-    {# Start of main page wrapper #}
-    <div id="main-wrapper" class="layout-main-wrapper clearfix">
-      {% block content %}
-        <div id="main" class="container-full">
-          <div class="row full-width">
-            <div class="col breadcrumb">
-              {{ page.breadcrumb }}
-            </div>
-          </div>
-          <div class="row full-width row-offcanvas row-offcanvas-left clearfix">
-            <main{# content_attributes #}>
-              <section class="section">
-                <a id="main-content" tabindex="-1"></a>
-                {% if node %}
-                  {# Hide the title #}
-                {% else %}
-                  {{ page.page_title }}
-                {% endif %}
-
-                {{ page.content }}
-              </section>
-            </main>
-            {% if page.sidebar_first %}
-              <div{{ sidebar_first_attributes }}>
-                <aside class="section" role="complementary">
-                  {{ page.sidebar_first }}
-                </aside>
-              </div>
-            {% endif %}
-            {% if page.sidebar_second %}
-              <div{{ sidebar_second_attributes }}>
-                <aside class="section" role="complementary">
-                  {{ page.sidebar_second }}
-                </aside>
-              </div>
-            {% endif %}
-          </div>
-        </div>
-      {% endblock %}
-    </div>
-    {# End of the main page wrapper #}
-
-    {# Only rendered if something is placed in this region #}
-    {% if page.featured_bottom_first or page.featured_bottom_second or page.featured_bottom_third %}
-      <div class="featured-bottom">
-        <aside class="{{ container }} clearfix" role="complementary">
-          {{ page.featured_bottom_first }}
-          {{ page.featured_bottom_second }}
-          {{ page.featured_bottom_third }}
-        </aside>
-      </div>
-    {% endif %}
-
-    {# Beginning of footer #}
-    <footer class="footer">
-      <div class="container">
-        <div class="row footer__logo text-center">
-          <p class="mx-auto my-0 p-0">
-            <a href="/"><img src="/{{ directory }}/images/footer-logo.svg" alt="Carlson School of Management (home)"></a>
-          </p>
-        </div>
-        <div class="row footer__content">
-          <div class="col-12 col-md-10 offset-md-1 col-lg-12 offset-lg-0 pb-md-5">
-            <div class="row">
-              {% block footer %}
-                {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
-                  <div class="col-12 col-md-4 col-lg-3 footer__info {{ (page.footer_first|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
-                    {{ page.footer_first }}
-                  </div>
-                  <div class="col-12 col-md-4 col-lg-3 footer__links {{ (page.footer_second|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
-                    {{ page.footer_second }}
-                  </div>
-                  <div class="col-12 col-md-4 col-lg-3 footer__links {{ (page.footer_third|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
-                    {{ page.footer_third }}
-                  </div>
-                  <div class="col-12 col-lg-3 footer__connect">
-                    <p class="text-center mt-0 mb-2">Connect with Carlson School</p>
-                    <ul class="list-unstyled list-inline">
-                      <li class="list-inline-item mr-4">
-                        <a href="https://www.facebook.com/CarlsonSchoolUMN" title="Carlson School on Facebook" alt="Carlson School on Facebook" target="_blank">
-                          <i class="fab fa-facebook-square fa-2x"></i>
-                        </a>
-                      </li>
-                      <li class="list-inline-item mr-4">
-                        <a href="https://twitter.com/CarlsonNews" title="Carlson School on Twitter" alt="Carlson School on Twitter" target="_blank">
-                          <i class="fab fa-twitter-square fa-2x"></i>
-                        </a>
-                      </li>
-                      <li class="list-inline-item mr-4">
-                        <a href="https://www.instagram.com/carlsonschoolumn/" title="Carlson School on Instagram" alt="Carlson School on Instagram" target="_blank">
-                          <i class="fab fa-instagram fa-2x"></i>
-                        </a>
-                      </li>
-                      <li class="list-inline-item mr-4">
-                        <a href="https://www.linkedin.com/company/carlsonschoolumn" title="Carlson School on LinkedIn" alt="Carlson School on LinkedIn" target="_blank">
-                          <i class="fab fa-linkedin fa-2x"></i>
-                        </a>
-                      </li>
-                      <li class="list-inline-item">
-                        <a href="https://www.youtube.com/user/CarlsonSchoolUMN" title="Carlson School on YouTube" alt="Carlson School on YouTube" target="_blank">
-                          <i class="fab fa-youtube fa-2x"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              {% endif %}
-            {% endblock %}
-          </div>
-        </div>
-      </div>
-    </footer>
+{# Only rendered if something is placed in this region #}
+{% if page.highlighted %}
+  <div class="highlighted">
+    <aside class="{{ container }} section clearfix" role="complementary">
+      {{ page.highlighted }}
+    </aside>
   </div>
+{% endif %}
+
+{# Only rendered if something is placed in this region #}
+{% if page.featured_top %}
+  {% block featured %}
+    <div class="featured-top">
+      <aside class="featured-top__inner section {{ container }} clearfix" role="complementary">
+        {{ page.featured_top }}
+      </aside>
+    </div>
+  {% endblock %}
+{% endif %}
+
+{% if page.breadcrumb %}
+{{ page.breadcrumb }}
+{% endif %}
+
+{# Start of main page wrapper #}
+<div id="main-wrapper" class="layout-main-wrapper clearfix">
+  {% block content %}
+    <div id="main" class="container-full">
+      <div class="row full-width row-offcanvas row-offcanvas-left clearfix">
+        <main{# content_attributes #}>
+          <section class="section">
+            <a id="main-content" tabindex="-1"></a>
+            {% if node %}
+              {# Hide the title #}
+            {% else %}
+              {{ page.page_title }}
+            {% endif %}
+
+            {{ page.content }}
+          </section>
+        </main>
+        {% if page.sidebar_first %}
+          <div{{ sidebar_first_attributes }}>
+            <aside class="section" role="complementary">
+              {{ page.sidebar_first }}
+            </aside>
+          </div>
+        {% endif %}
+        {% if page.sidebar_second %}
+          <div{{ sidebar_second_attributes }}>
+            <aside class="section" role="complementary">
+              {{ page.sidebar_second }}
+            </aside>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  {% endblock %}
 </div>
+{# End of the main page wrapper #}
+
+{# Only rendered if something is placed in this region #}
+{% if page.featured_bottom_first or page.featured_bottom_second or page.featured_bottom_third %}
+  <div class="featured-bottom">
+    <aside class="{{ container }} clearfix" role="complementary">
+      {{ page.featured_bottom_first }}
+      {{ page.featured_bottom_second }}
+      {{ page.featured_bottom_third }}
+    </aside>
+  </div>
+{% endif %}
+
+{# Beginning of footer #}
+<footer class="footer">
+  <div class="container">
+    <div class="row footer__logo text-center">
+      <p class="mx-auto my-0 p-0">
+        <a href="/"><img src="/{{ directory }}/images/footer-logo.svg" alt="Carlson School of Management (home)"></a>
+      </p>
+    </div>
+    <div class="row footer__content">
+      <div class="col-12 col-md-10 offset-md-1 col-lg-12 offset-lg-0 pb-md-5">
+        <div class="row">
+          {% block footer %}
+            {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
+              <div class="col-12 col-md-4 col-lg-3 footer__info {{ (page.footer_first|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
+                {{ page.footer_first }}
+              </div>
+              <div class="col-12 col-md-4 col-lg-3 footer__links {{ (page.footer_second|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
+                {{ page.footer_second }}
+              </div>
+              <div class="col-12 col-md-4 col-lg-3 footer__links {{ (page.footer_third|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
+                {{ page.footer_third }}
+              </div>
+              <div class="col-12 col-lg-3 footer__connect">
+                <p class="text-center mt-0 mb-2">Connect with Carlson School</p>
+                <ul class="list-unstyled list-inline">
+                  <li class="list-inline-item mr-4">
+                    <a href="https://www.facebook.com/CarlsonSchoolUMN" title="Carlson School on Facebook" alt="Carlson School on Facebook" target="_blank">
+                      <i class="fab fa-facebook-square fa-2x"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item mr-4">
+                    <a href="https://twitter.com/CarlsonNews" title="Carlson School on Twitter" alt="Carlson School on Twitter" target="_blank">
+                      <i class="fab fa-twitter-square fa-2x"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item mr-4">
+                    <a href="https://www.instagram.com/carlsonschoolumn/" title="Carlson School on Instagram" alt="Carlson School on Instagram" target="_blank">
+                      <i class="fab fa-instagram fa-2x"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item mr-4">
+                    <a href="https://www.linkedin.com/company/carlsonschoolumn" title="Carlson School on LinkedIn" alt="Carlson School on LinkedIn" target="_blank">
+                      <i class="fab fa-linkedin fa-2x"></i>
+                    </a>
+                  </li>
+                  <li class="list-inline-item">
+                    <a href="https://www.youtube.com/user/CarlsonSchoolUMN" title="Carlson School on YouTube" alt="Carlson School on YouTube" target="_blank">
+                      <i class="fab fa-youtube fa-2x"></i>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          {% endif %}
+        {% endblock %}
+      </div>
+    </div>
+  </div>
+</footer>

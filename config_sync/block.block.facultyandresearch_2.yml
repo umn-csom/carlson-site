@@ -1,0 +1,44 @@
+uuid: 9799ce4d-ca95-423b-9476-cdcfa77b35b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.faculty-and-research
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - barrio_carlson
+id: facultyandresearch_2
+theme: barrio_carlson
+region: sticky_sidebar
+weight: -34
+provider: null
+plugin: 'menu_block:faculty-and-research'
+settings:
+  id: 'menu_block:faculty-and-research'
+  label: 'Ed Abroad Menu'
+  label_display: '0'
+  provider: menu_injector
+  follow: false
+  follow_parent: '-1'
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 9
+  expand_all_items: false
+  parent: 'faculty-and-research:menu_link_content:89b06502-2d98-4325-98b7-ebdc24ff57dc'
+  suggestion: faculty_and_research
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/faculty-research/carlson-global-institute/education-abroad\r\n/faculty-research/carlson-global-institute/education-abroad*"

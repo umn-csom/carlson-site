@@ -1,0 +1,116 @@
+uuid: 511b28b4-080e-49f1-9bb8-03d50a549f40
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser_compact
+    - field.field.node.person.body
+    - field.field.node.person.field_breadcrumb_title
+    - field.field.node.person.field_email
+    - field.field.node.person.field_fax
+    - field.field.node.person.field_first_name
+    - field.field.node.person.field_last_name
+    - field.field.node.person.field_meta_tags
+    - field.field.node.person.field_middle_initial
+    - field.field.node.person.field_office_phone
+    - field.field.node.person.field_person_type
+    - field.field.node.person.field_profile_admin_dept
+    - field.field.node.person.field_profile_group
+    - field.field.node.person.field_profile_img
+    - field.field.node.person.field_profile_quote
+    - field.field.node.person.field_profile_title
+    - field.field.node.person.field_section
+    - field.field.node.person.field_teaser
+    - node.type.person
+  module:
+    - panelizer
+    - telephone
+    - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+id: node.person.teaser_compact
+targetEntityType: node
+bundle: person
+mode: teaser_compact
+content:
+  field_email:
+    type: basic_string
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_first_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_last_name:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_middle_initial:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_office_phone:
+    type: telephone_link
+    label: above
+    settings:
+      title: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_profile_admin_dept:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_profile_img:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_profile_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+hidden:
+  addtoany: true
+  body: true
+  field_breadcrumb_title: true
+  field_fax: true
+  field_meta_tags: true
+  field_person_type: true
+  field_profile_group: true
+  field_profile_quote: true
+  field_section: true
+  field_teaser: true
+  langcode: true
+  links: true
+  search_api_excerpt: true

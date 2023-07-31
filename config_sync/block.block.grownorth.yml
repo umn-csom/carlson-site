@@ -1,0 +1,44 @@
+uuid: 017fb6a9-5de7-4ea3-902e-4a45054b659b
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.grow-north
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - barrio_carlson
+id: grownorth
+theme: barrio_carlson
+region: inner_nav
+weight: 0
+provider: null
+plugin: 'menu_block:grow-north'
+settings:
+  id: 'menu_block:grow-north'
+  label: 'Grow North'
+  label_display: '0'
+  provider: menu_injector
+  follow: false
+  follow_parent: root
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: true
+  parent: 'grow-north:menu_link_content:f4c0705e-0a37-4f1a-b301-831e464dc3d6'
+  suggestion: executive_education
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/grow-north*\r\n/grownorth*\r\n/node/102416*"

@@ -1,0 +1,57 @@
+uuid: a068bd3d-644a-4160-9fab-e9442020ae05
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.featured_people.field_main_content
+    - field.field.paragraph.featured_people.field_person
+    - paragraphs.paragraphs_type.featured_people
+  module:
+    - field_group
+    - paragraphs
+    - text
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - field_main_content
+        - field_person
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        required_fields: true
+id: paragraph.featured_people.default
+targetEntityType: paragraph
+bundle: featured_people
+mode: default
+content:
+  field_main_content:
+    type: text_textarea
+    weight: 2
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_person:
+    type: entity_reference_paragraphs
+    weight: 3
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

@@ -1,0 +1,39 @@
+uuid: 095b29b0-913b-4fb4-b2d5-64878352e5c6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_profile_works
+    - node.type.faculty_profile
+    - paragraphs.paragraphs_type.profile_selected_works
+  module:
+    - entity_reference_revisions
+_core:
+  default_config_hash: c6zUoCu4nG0VcRJGya9G6unETp7bNqx9ix6sEDLQp7I
+id: node.faculty_profile.field_profile_works
+field_name: field_profile_works
+entity_type: node
+bundle: faculty_profile
+label: 'Selected Works'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      profile_selected_works: profile_selected_works
+    negate: 0
+    target_bundles_drag_drop:
+      profile_degree:
+        weight: 4
+        enabled: false
+      profile_selected_works:
+        weight: 5
+        enabled: true
+      statistic:
+        weight: 6
+        enabled: false
+field_type: entity_reference_revisions

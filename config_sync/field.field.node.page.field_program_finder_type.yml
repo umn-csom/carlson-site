@@ -1,0 +1,29 @@
+uuid: c25ff204-e210-4b44-b87b-1f8e513d20e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_program_finder_type
+    - node.type.page
+    - taxonomy.vocabulary.program_finder_type
+id: node.page.field_program_finder_type
+field_name: field_program_finder_type
+entity_type: node
+bundle: page
+label: 'Program Finder Type'
+description: 'Select the terms that relate to this program.  Select both deepest level terms and parents that pertain to the program.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      program_finder_type: program_finder_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

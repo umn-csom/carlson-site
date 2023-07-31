@@ -5,6 +5,7 @@
  * Functions to support theming in the SASS Starterkit subtheme.
  */
 
+use Drupal\block\Entity\Block;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
@@ -142,55 +143,15 @@ function carlson_refresh_form_system_theme_settings_alter(&$form, FormStateInter
   );
 }
 
+/**
+ * Prepares global variables for all templates.
+ */
+function carlson_refresh_preprocess(&$variables) {
+  $handler = \Drupal::service('theme_handler');
+  $variables['theme_directory'] = $handler->getTheme('carlson_refresh')->getPath();
+}
+
 function carlson_refresh_preprocess_html(&$variables) {
-
-  $home_link = [
-    'umnhf-campus-tc' => 'https://twin-cities.umn.edu',
-    'umnhf-campus-e' => 'http://www.extension.umn.edu',
-    'umnhf-campus-c' => 'https://crk.umn.edu',
-    'umnhf-campus-m' => 'https://www4.morris.umn.edu',
-    'umnhf-campus-d' => 'https://d.umn.edu',
-    'umnhf-campus-r' => 'https://r.umn.edu',
-    'umnhf-campus-rso' => 'https://twin-cities.umn.edu',
-  ];
-
-  $variables['campus_links'] = theme_get_setting('campus_links');
-  $dtd_select = theme_get_setting('dtd_select');
-  $variables['myu_text'] = theme_get_setting('myu_text');
-  $header_color = theme_get_setting('header_color');
-  $variables['campus_header'] = theme_get_setting('campus_select');
-
-  if( isset( $variables['campus_header'] ) ) {
-    $variables['home_link'] = $home_link[$variables['campus_header']];
-  } else {
-    $variables['home_link'] = $home_link['umnhf-campus-tc'];
-  }
-
-  $variables['privacy_link'] = theme_get_setting('privacy_link');
-  $footer_date = theme_get_setting('footer_date');
-
-  if (!empty($footer_date)) {
-    $last_updated_node_array = node_get_recent(1);
-    if (!empty($last_updated_node_array)) {
-      $last_updated_node = array_shift($last_updated_node_array);
-      $variables['last_updated'] = date('F j, Y', $last_updated_node->getRevisionCreationTime());
-    }
-  }
-
-  $variables['mobile_search'] = theme_get_setting('mobile_search');
-  $variables['copyright_year'] = date('Y');
-  $current_page_url = \Drupal::Request()->getUri();
-  $variables['accessibility_reporting_link'] = \Drupal::config('system.site')->get('accessibility_reporting_script') . "?ref_url=$current_page_url";
-  $variables['accessibility_reporting_text'] = \Drupal::config('system.site')->get('accessibility_reporting_text');
-  $variables['onestop_link'] = 'https://onestop.umn.edu';
-
-  $header_class_array = array($variables['campus_header'], $dtd_select, $header_color, $variables['mobile_search'], $variables['campus_links']);
-  $variables['umn_header_classes'] = implode(' ', $header_class_array);
-
-  $block_manager = \Drupal::service('plugin.manager.block');
-  $search_block_instance = $block_manager->createInstance('umn_search_block', array());
-  $block_output = $search_block_instance->build();
-  $variables['search_block'] = $block_output;
 
   $variables['page']['#attached']['html_head'][] = [
     [
@@ -351,10 +312,171 @@ function carlson_refresh_add_regions_to_node($allowed_regions, &$variables) {
  * @param array $variables
  */
 function carlson_refresh_theme_suggestions_block_alter(array &$suggestions, array $variables) {
-  // Block suggestions for custom block bundles.
-  if (isset($variables['elements']['content']['#block_content'])) {
-    array_splice($suggestions, 1, 0, 'block__bundle__' . $variables['elements']['content']['#block_content']->bundle());
+  $id = $variables['elements']['#id'] ?? '';
+  $block_content = $variables['elements']['content']['#block_content'] ?? '';
+  $region = $id ? Block::load($id)->getRegion() : '';
+  $plugin = $variables['elements']['#base_plugin_id'] ?? '';
+  $derivative = $variables['elements']['#derivative_plugin_id'] ?? '';
+  $suggestion = $variables['elements']['#configuration']['suggestion'] ?? '';
+
+  // Reset all suggestions.
+  $suggestions = [];
+
+  if ($id) {
+    $name = $id;
   }
+
+  if (is_object($block_content)) {
+    $name = $block_content->bundle();
+  }
+
+  if ($region) {
+    $suggestions[] = 'block__' . $region;
+  }
+
+  if ($plugin) {
+    $suggestions[] = 'block__' . $plugin;
+  }
+
+  if ($name) {
+    $suggestions[] = 'block__bundle__' . $name;
+  }
+
+  if ($plugin && $region) {
+    $suggestions[] = 'block__' . $plugin . '__' . $region;
+  }
+
+  if ($plugin && $derivative && $plugin != $derivative) {
+    $suggestions[] = 'block__' . $plugin . '__' . $derivative;
+  }
+
+  if ($plugin && $suggestion) {
+    $suggestions[] = 'block__' . $plugin . '__' . $suggestion;
+  }
+
+  if ($plugin && $name) {
+    $suggestions[] = 'block__' . $plugin . '__' . $name;
+  }
+
+  if ($region) {
+    if ($name) {
+      $suggestions[] = 'block__' . $region . '__' . $name;
+    }
+
+    if ($plugin && $derivative && $plugin != $derivative) {
+      $suggestions[] = 'block__' . $region . '__' . $plugin . '__' . $derivative;
+    }
+
+    if ($plugin && $name) {
+      $suggestions[] = 'block__' . $region . '__' . $plugin . '__' . $name;
+    }
+  }
+
+  // Remove duplicate suggestions.
+  $suggestions = array_unique($suggestions);
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ *
+ * Pass block region value to content so this can be used in
+ * THEME_theme_suggestions_menu_alter.
+ */
+function carlson_refresh_preprocess_block(&$variables) {
+  $id = $variables['elements']['#id'] ?? '';
+  $plugin = $variables['elements']['#base_plugin_id'] ?? '';
+  $derivative = $variables['elements']['#derivative_plugin_id'] ?? '';
+  if (!empty($id)) {
+    $region = Block::load($id)->getRegion();
+    if (!empty($region)) {
+      $variables['content']['#attributes']['data-block']['region'] = $region;
+    }
+  }
+  if (!empty($plugin) && $plugin !== $id) {
+    $variables['content']['#attributes']['data-block']['plugin'] = $plugin;
+  }
+  if (!empty($derivative) && $derivative !== $plugin && $derivative !== $id) {
+    $variables['content']['#attributes']['data-block']['derivative'] = $derivative;
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function carlson_refresh_theme_suggestions_menu_alter(array &$suggestions, array $variables) {
+
+  $name = $variables['menu_name'] ?? '';
+  $region = $variables['attributes']['data-block']['region'] ?? '';
+  $plugin = $variables['attributes']['data-block']['plugin'] ?? '';
+  $derivative = $variables['attributes']['data-block']['derivative'] ?? '';
+  $suggestion = $variables['menu_block_configuration']['suggestion'] ?? '';
+
+  if (empty($name)) {
+    return;
+  }
+
+  // Remove pollution from simple_megamenu theme suggestions.
+  $clean_suggestions = [];
+  foreach ($suggestions as $key => $value) {
+    if (!str_contains($value, 'simple_megamenu')) {
+      $clean_suggestions[] = $value;
+    }
+  }
+  $suggestions = $clean_suggestions;
+
+  if (!empty($region)) {
+    // Add suggestion for menu block region name.
+    $suggestions[] = 'menu__' . $region;
+    $suggestions[] = 'menu__' . $region . '__' . $name;
+
+    if (_carlson_refresh_region_has_simple_megamenu($name, $region)) {
+      // Add simple mega menu suggestion from menu block configuration.
+      $suggestions[] = 'menu__' . $region . '__simple_megamenu';
+      $suggestions[] = 'menu__' . $region . '__' . $name . '__simple_megamenu';
+    }
+  }
+
+  if (!empty($plugin)) {
+    // Add suggestion for block plugin name.
+    $suggestions[] = 'menu__' . $plugin;
+    $suggestions[] = 'menu__' . $plugin . '__' . $name;
+    if (!empty($derivative)) {
+      $suggestions[] = 'menu__' . $plugin . '__' . $derivative;
+      if ($derivative != $name) {
+        $suggestions[] = 'menu__' . $plugin . '__' . $derivative . '__' . $name;
+      }
+    }
+  }
+
+  // Add the menu block suggestion removed in hook_preprocess_block.
+  if (!empty($suggestion)) {
+    // Sanitize suggestion.
+    $suggestion = strtr($suggestion, '-', '_');
+
+    $suggestions[] = 'menu__' . $suggestion;
+    if (!empty($plugin)) {
+      $suggestions[] = 'menu__' . $plugin . '__' . $suggestion;
+    }
+    if (!empty($region)) {
+      $suggestions[] = 'menu__' . $region . '__' . $suggestion;
+      $suggestions[] = 'menu__' . $region . '__' . $name . '__' . $suggestion;
+    }
+    else {
+      $suggestions[] = 'menu__' . $name . '__' . $suggestion;
+    }
+  }
+
+  // Remove duplicate suggestions.
+  $suggestions = array_unique($suggestions);
+}
+
+function _carlson_refresh_region_has_simple_megamenu($menu_name, $region) {
+  $allowed_regions = ['primary_menu'];
+  /** @var \Drupal\simple_megamenu\SimpleMegaMenuHelperInterface $simple_megamenu_helper */
+  $simple_megamenu = \Drupal::service('simple_megamenu.helper');
+  return
+    in_array($region, $allowed_regions) &&
+    $simple_megamenu->getMegaMenuTypeWhichTargetMenu($menu_name);
 }
 
 function carlson_refresh_preprocess_views_exposed_form(&$variables) {
@@ -395,6 +517,56 @@ function carlson_refresh_preprocess_page(&$variables) {
         break;
       }
   }
+
+  $home_link = [
+    'umnhf-campus-tc' => 'https://twin-cities.umn.edu',
+    'umnhf-campus-e' => 'http://www.extension.umn.edu',
+    'umnhf-campus-c' => 'https://crk.umn.edu',
+    'umnhf-campus-m' => 'https://www4.morris.umn.edu',
+    'umnhf-campus-d' => 'https://d.umn.edu',
+    'umnhf-campus-r' => 'https://r.umn.edu',
+    'umnhf-campus-rso' => 'https://twin-cities.umn.edu',
+  ];
+
+  $variables['campus_links'] = theme_get_setting('campus_links');
+  $dtd_select = theme_get_setting('dtd_select');
+  $variables['myu_text'] = theme_get_setting('myu_text');
+  $header_color = theme_get_setting('header_color');
+  $variables['campus_header'] = theme_get_setting('campus_select');
+
+  $campus_select = theme_get_setting('campus_select') ?? 'umnhf-campus-tc';
+  $variables['home_link'] = $home_link[$campus_select];
+
+  $variables['privacy_link'] = theme_get_setting('privacy_link');
+  $footer_date = theme_get_setting('footer_date');
+
+  if (!empty($footer_date)) {
+    $last_updated_node_array = node_get_recent(1);
+    if (!empty($last_updated_node_array)) {
+      $last_updated_node = array_shift($last_updated_node_array);
+      $variables['last_updated'] = date('F j, Y', $last_updated_node->getRevisionCreationTime());
+    }
+  }
+
+  $variables['mobile_search'] = theme_get_setting('mobile_search');
+  $variables['copyright_year'] = date('Y');
+  $current_page_url = \Drupal::Request()->getUri();
+  $variables['accessibility_reporting_link'] = \Drupal::config('system.site')->get('accessibility_reporting_script') . "?ref_url=$current_page_url";
+  $variables['accessibility_reporting_text'] = \Drupal::config('system.site')->get('accessibility_reporting_text');
+  $variables['onestop_link'] = 'https://onestop.umn.edu';
+
+  $header_class_array = array($variables['campus_header'], $dtd_select, $header_color, $variables['mobile_search'], $variables['campus_links']
+  );
+  $variables['umn_header_classes'] = implode(' ', $header_class_array);
+
+  // Embed the SVG logo in the mandatory header.
+  $logo_color = str_replace('umnhf-background-', '', $header_color);
+  $variables['svg_logo'] = "${campus_select}-${dtd_select}-${logo_color}.svg";
+
+  $block_manager = \Drupal::service('plugin.manager.block');
+  $search_block_instance = $block_manager->createInstance('umn_search_block', array());
+  $block_output = $search_block_instance->build();
+  $variables['search_block'] = $block_output;
 }
 
 function carlson_refresh_preprocess_pager(&$variables) {

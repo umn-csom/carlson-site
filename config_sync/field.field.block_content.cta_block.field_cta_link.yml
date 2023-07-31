@@ -1,0 +1,81 @@
+uuid: b40b8c1d-8449-4ad6-9cc4-be353001bcee
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.cta_block
+    - field.storage.block_content.field_cta_link
+    - paragraphs.paragraphs_type.cta_link
+  module:
+    - entity_reference_revisions
+_core:
+  default_config_hash: V1dudYYaH1RQqfXomSP-r6sInUj8TqF0RXsY9ldtGe4
+id: block_content.cta_block.field_cta_link
+field_name: field_cta_link
+entity_type: block_content
+bundle: cta_block
+label: 'CTA Link'
+description: 'Set the link destination.  It can be an external or internal link.  If the link goes to a form that should be opened in a modal, check the "Show in Modal" box.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      cta_link: cta_link
+    negate: 0
+    target_bundles_drag_drop:
+      basic_paragraph:
+        weight: 18
+        enabled: false
+      carlson_advantage:
+        weight: 19
+        enabled: false
+      column:
+        weight: 20
+        enabled: false
+      cta_link:
+        weight: 21
+        enabled: true
+      fluid_columns:
+        weight: 22
+        enabled: false
+      profile_activity:
+        weight: 23
+        enabled: false
+      profile_degree:
+        weight: 24
+        enabled: false
+      profile_expertise:
+        weight: 25
+        enabled: false
+      profile_selected_works:
+        weight: 26
+        enabled: false
+      program_cta:
+        weight: 27
+        enabled: false
+      quote:
+        weight: 28
+        enabled: false
+      quote_group:
+        weight: 29
+        enabled: false
+      slide:
+        weight: 30
+        enabled: false
+      slideshow:
+        weight: 31
+        enabled: false
+      statistic:
+        weight: 32
+        enabled: false
+      statistics:
+        weight: 33
+        enabled: false
+      video:
+        weight: 34
+        enabled: false
+field_type: entity_reference_revisions

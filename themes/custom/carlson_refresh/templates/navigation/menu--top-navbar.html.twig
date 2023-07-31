@@ -20,58 +20,47 @@
  * @ingroup themeable
  */
 #}
-<header class="sticky-top" id="carlson-navbar" role="banner" aria-label="Site header">
-  <nav class="navbar navbar-expand-lg navbar-light sticky-top" role="navigation">
-    <div class="container-fluid">
-      <a href="/" title="Home" rel="home" class="navbar-brand">
-        <img src="/{{ directory }}/images/svg/logo.svg" alt="Carlson School of Management (Home)" id="carlson-navbar--brand" class="img-fluid d-inline-block align-top">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCarlson" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCarlson">
-        {% import _self as menus %}
-        {{ menus.menu_links(items, attributes, 0) }}
+<nav role="navigation" class="bg-primary navbar navbar-dark sticky-top">
+  <div class="container-fluid container-xl">
+    {% import _self as menus %}
+    {{ menus.menu_links(items, attributes, 0) }}
 
-        {% macro menu_links(items, attributes, menu_level) %}
-          {% import _self as menus %}
-          {% if items %}
-            {% if menu_level == 0 %}
-              <ul class="navbar-nav ml-auto" role="menu">
-            {% else %}
-              <ul class="carlson-navbar--animate carlson-navbar--slide dropdown-menu dropdown-menu-right" role="menu">
-            {% endif %}
-                {% for item in items %}
-                {%
-                  set classes = [
-                    item.in_active_trail ? 'active',
-                  ]
-                %}
-                  {% if item.below %}
-                    {% if menu_level == 0 %}
-                      <li{{ item.attributes.addClass('nav-item', 'dropdown', classes) }}>
-                        <a href="{{ item.url }}" class="nav-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
-                        {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
-                      </li>
-                    {% else %}
-                      <li{{ item.attributes.addClass('dropdown', 'dropright', 'dropdown-submenu', classes) }}>
-                        <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropwdown-dark dropdown-toggle">{{ item.title }}</a>
-                        {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
-                      </li>
-                    {% endif %}
-                  {% else %}
-                    <li{{ item.attributes.addClass('nav-item', classes) }}>
-                      <a href="{{ item.url }}" class="nav-link {% if menu_level == 1 %} dropdown-item dropdown-dark {% endif %}">{{ item.title }}</a>
-                    </li>
-                  {% endif %}
-                {% endfor %}
-              </ul>
-            {% endif %}
-          {% endmacro %}
-          {# <a style="margin-left:15px;" href="https://driven.carlsonschool.umn.edu/?utm_source=Driven_Campaign&utm_medium=website_menu&utm_campaign=driven_campaign" class="carlson--navbar-driven"><span class="carlson--navbar-driven-text">Driven</span></a> #}
-        </div>
-      </div>
-    </nav>
-  </header>
-
+    {% macro menu_links(items, attributes, menu_level) %}
+      {% import _self as menus %}
+      {% if items %}
+        {% if menu_level == 0 %}
+          <ul class="navbar-nav" role="menu">
+        {% else %}
+          <ul class="navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu-left" role="menu">
+        {% endif %}
+            {% for item in items %}
+            {%
+              set classes = [
+                item.in_active_trail ? 'active',
+              ]
+            %}
+              {% if item.below %}
+                {% if menu_level == 0 %}
+                  <li{{ item.attributes.addClass('nav-item', 'dropdown', classes) }}>
+                    <a href="{{ item.url }}" class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
+                    {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+                  </li>
+                {% else %}
+                  {% set dropdirection = loop.last ? 'dropleft' : 'dropright' %}
+                  <li{{ item.attributes.addClass('nav-item', 'dropdown', dropdirection, 'dropdown-submenu', classes) }}>
+                    <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropwdown-dark dropdown-toggle">{{ item.title }}</a>
+                    {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+                  </li>
+                {% endif %}
+              {% else %}
+                <li{{ item.attributes.addClass('nav-item', classes) }}>
+                  <a href="{{ item.url }}" class="{% if menu_level == 0 %}nav-link{% else %}dropdown-item{% endif %}">{{ item.title }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endmacro %}
+    </div>
+  </nav>
 <!-- end navbar -->
