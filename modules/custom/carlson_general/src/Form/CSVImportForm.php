@@ -243,6 +243,7 @@ class CSVImportForm extends FormBase {
               $existingPath = reset($existingPath);
               $existingPath->set('alias', $newAlias);
               $existingPath->save();
+              self::createRedirect($existingAlias, $newAlias);
             } else {
               // If not, create a new one
               $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
@@ -252,7 +253,6 @@ class CSVImportForm extends FormBase {
               ]);
               $path_alias->save();
             }
-            self::createRedirect($existingAlias, $newAlias);
           }
 
           $node->save();
