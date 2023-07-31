@@ -7,6 +7,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Site\Settings;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\redirect\Entity\Redirect;
 
@@ -17,6 +18,11 @@ class CSVImportForm extends FormBase {
   }
 
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['warning'] = [
+      '#type' => 'markup',
+      '#markup' => $this->t("<div style='background:#fc3;padding:1em;'><h3>!!!!! POTENTIAL FOR DATA LOSS !!!!</h3><p>Submitting this form will delete the entire contents of the website's main menu.</p><p style='color:red'><strong>Proceed with EXTREME CAUTION.</strong></p></div>"),
+    ];
+
     // Define a form element for the CSV file upload.
     $form['csv_file'] = [
       '#type' => 'file',
@@ -31,6 +37,14 @@ class CSVImportForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Start Import'),
       '#button_type' => 'primary',
+    ];
+
+    $form['debug'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Config sync location'),
+      '#description' => $this->t("Shows the value of <code>\$settings['config_sync_directory']</code>, information and debugging purposes only."),
+      '#value' => Settings::get('config_sync_directory'),
+      '#disabled' => TRUE,
     ];
 
     return $form;
