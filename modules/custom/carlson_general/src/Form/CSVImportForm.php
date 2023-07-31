@@ -6,6 +6,7 @@ use Drupal\Core\Batch\BatchBuilder;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\Language;
+use Drupal\Core\Language\LanguageInterface;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Drupal\redirect\Entity\Redirect;
 
@@ -36,6 +37,13 @@ class CSVImportForm extends FormBase {
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $menu_links = \Drupal::entityTypeManager()->getStorage('menu_link_content')
+      ->loadByProperties(['menu_name' => 'main']);
+
+    foreach ($menu_links as $menu_link) {
+      $menu_link->delete();
+    }
+
     // Get the uploaded file.
     $file = file_save_upload('csv_file', $form['csv_file']['#upload_validators'])[0];
 
@@ -240,6 +248,7 @@ class CSVImportForm extends FormBase {
               $path_alias = \Drupal::entityTypeManager()->getStorage('path_alias')->create([
                 'path' => $nodePath,
                 'alias' => $newAlias,
+                'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
               ]);
               $path_alias->save();
             }
