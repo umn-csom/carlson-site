@@ -15,28 +15,51 @@ class CSVImportForm extends FormBase {
     return 'carlson_general_csv_import';
   }
 
-  public function buildForm(array $form, FormStateInterface $form_state)
-  {
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    // Define a form element for the CSV file upload.
+    $form['csv_file'] = [
+      '#type' => 'file',
+      '#title' => $this->t('CSV File'),
+      '#description' => $this->t('Upload the CSV file containing the links.'),
+      '#upload_validators' => ['file_validate_extensions' => ['csv']],
+      '#upload_location' => 'public://',
+    ];
+
     $form['actions']['#type'] = 'actions';
     $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Start Import'),
       '#button_type' => 'primary',
     ];
+
     return $form;
   }
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $batch = (new BatchBuilder())
-      ->setTitle($this->t('Importing CSV...'))
-      ->setFinishCallback([get_class($this), 'batchFinished']);
-    $batch->addOperation([get_class($this), 'batchProcess'], [0]);
+    // Get the uploaded file.
+    $file = file_save_upload('csv_file', $form['csv_file']['#upload_validators'])[0];
 
-    batch_set($batch->toArray());
+    if ($file) {
+      // Set the temporary file as permanent.
+      $file->setPermanent();
+      $file->save();
+
+      // Create the batch with the file path as an argument.
+      $batch = (new BatchBuilder())
+        ->setTitle($this->t('Importing CSV...'))
+        ->setFinishCallback([get_class($this), 'batchFinished'])
+        ->addOperation([get_class($this), 'batchProcess'], [$file->getFileUri(), 0]);
+
+      batch_set($batch->toArray());
+    }
+    else {
+      \Drupal::messenger()->addError($this->t('Failed to upload the CSV file.'));
+    }
   }
 
 
-  public static function batchProcess($startRow, &$context) {
+
+  public static function batchProcess($fileUri, $startRow, &$context) {
     // Initialize the sandbox.
     if (!isset($context['sandbox']['progress'])) {
       $context['sandbox']['progress'] = 0;
@@ -45,7 +68,7 @@ class CSVImportForm extends FormBase {
     }
 
     // Call your function here.
-    (new CSVImportForm)->createLinks($context['sandbox']);
+    (new CSVImportForm)->createLinks($context['sandbox'], $fileUri);
 
     // Update the finished value from the sandbox to the context.
     $context['finished'] = $context['sandbox']['finished'];
@@ -53,21 +76,21 @@ class CSVImportForm extends FormBase {
 
   public static function batchFinished($success, $results, $operations) {
     if ($success) {
-      $message = \Drupal::translation()->formatPlural(
-        count($results),
-        'One post processed.',
-        '@count posts processed.'
-      );
+      // Add a success message to be displayed in the UI.
+      \Drupal::messenger()->addMessage(t('Links have been created. '));
     } else {
       $message = t('Finished with an error.');
+      // Add an error message to be displayed in the UI.
+      \Drupal::messenger()->addError($message);
     }
-    \Drupal::logger('carlson_general')->notice('Import has been finished. ' . $message);
+    \Drupal::logger('carlson_general')->notice('Import has been finished. ');
   }
 
-  protected function createLinks(&$sandbox) {
+
+  protected function createLinks(&$sandbox, $fileUri) {
     $module_handler = \Drupal::service('module_handler');
     $path = $module_handler->getModule('carlson_general')->getPath();
-    $csv = new \SplFileObject($path . '/test.csv');
+    $csv = new \SplFileObject($fileUri);
 
     // Move file pointer to last position.
     for ($i = 0; $i < $sandbox['current_row']; $i++) {
