@@ -287,7 +287,7 @@ class CSVImportForm extends FormBase {
     $state->set('carlson_general_menu_item_weights', $menu_item_weights);
   }
 
-  protected function createRedirect($oldUrl, $newUrl, $language = Language::LANGCODE_NOT_SPECIFIED) {
+  protected function createRedirect($oldUrl, $newUrl, $language = LanguageInterface::LANGCODE_NOT_SPECIFIED) {
     $oldUrl = trim($oldUrl, '/');
     $newUrl = trim($newUrl, '/');
 
@@ -301,7 +301,7 @@ class CSVImportForm extends FormBase {
       $redirect = Redirect::create([
         'redirect_source' => ['path' => $oldUrl],
         'redirect_redirect' => 'internal:/' . $newUrl,
-        'language' => $language,
+        'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
       ]);
       $redirect->save();
     }
