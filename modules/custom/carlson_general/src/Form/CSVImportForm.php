@@ -261,7 +261,7 @@ class CSVImportForm extends FormBase {
         'link' => ['uri' => $uri],
         'menu_name' => $row[4],
         'expanded' => TRUE,
-        'enabled' => $row[11] == 'FALSE' ? 0 : 1,
+        'enabled' => $row[12] == 'FALSE' ? 0 : 1,
         'parent' => $parent,
         'weight' => $weight,
       ]);
