@@ -6,6 +6,7 @@ dependencies:
     - core.entity_view_mode.taxonomy_term.program_filter_card
     - taxonomy.vocabulary.quiz_result_set
   module:
+    - better_exposed_filters
     - options
     - taxonomy
     - user
@@ -92,7 +93,7 @@ display:
             offset: false
             offset_label: Offset
       exposed_form:
-        type: basic
+        type: bef
         options:
           submit_button: Apply
           reset_button: false
@@ -101,6 +102,70 @@ display:
           expose_sort_order: true
           sort_asc_label: Asc
           sort_desc_label: Desc
+          text_input_required: 'Select any filter and click on Apply to see results'
+          text_input_required_format: rich_text
+          bef:
+            general:
+              autosubmit: false
+              autosubmit_exclude_textfield: false
+              autosubmit_textfield_delay: 500
+              autosubmit_hide: false
+              input_required: false
+              allow_secondary: false
+              secondary_label: 'Advanced options'
+              secondary_open: false
+              reset_button_always_show: false
+            filter:
+              field_course_modality_delivery_value:
+                plugin_id: bef
+                advanced:
+                  sort_options: false
+                  rewrite:
+                    filter_rewrite_values: ''
+                  collapsible: false
+                  is_secondary: false
+                select_all_none: false
+                select_all_none_nested: false
+                display_inline: false
+              field_degree_type_value:
+                plugin_id: bef
+                advanced:
+                  sort_options: false
+                  rewrite:
+                    filter_rewrite_values: ''
+                  collapsible: false
+                  is_secondary: false
+                select_all_none: false
+                select_all_none_nested: false
+                display_inline: false
+              field_full_time_or_part_time_value:
+                plugin_id: bef
+                advanced:
+                  sort_options: false
+                  rewrite:
+                    filter_rewrite_values: ''
+                  collapsible: false
+                  is_secondary: false
+                select_all_none: false
+                select_all_none_nested: false
+                display_inline: false
+              field_minimum_work_experience_re_value:
+                plugin_id: default
+                advanced:
+                  placeholder_text: ''
+                  collapsible: false
+                  is_secondary: false
+              field_stem_designated_value:
+                plugin_id: bef
+                advanced:
+                  sort_options: false
+                  rewrite:
+                    filter_rewrite_values: ''
+                  collapsible: false
+                  is_secondary: false
+                select_all_none: false
+                select_all_none_nested: false
+                display_inline: false
       access:
         type: perm
         options:
@@ -138,8 +203,8 @@ display:
           exposed: true
           expose:
             operator_id: field_course_modality_delivery_value_op
-            label: 'Course Modality/Delivery (field_course_modality_delivery)'
-            description: null
+            label: Delivery
+            description: ''
             use_operator: false
             operator: field_course_modality_delivery_value_op
             operator_limit_selection: false
@@ -147,11 +212,42 @@ display:
             identifier: field_course_modality_delivery_value
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
+              anonymous: '0'
+              faculty_profile_creator: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              news_editor: '0'
+              ed_abroad_editor: '0'
+              editor: '0'
+              sr_editor: '0'
+              administrator: '0'
+              moderator: '0'
+              video_creator: '0'
+              video_reviewer: '0'
+              magazine_creator: '0'
+              magazine_reviewer: '0'
+              email_page_creator: '0'
+              email_page_reviewer: '0'
+              faces_creator: '0'
+              faces_reviewer: '0'
+              front_page_creator: '0'
+              front_page_reviewer: '0'
+              news_landing_creator: '0'
+              news_landing_reviewer: '0'
+              alumni_default_page_creator: '0'
+              alumni_default_page_reviewer: '0'
+              alumni_landing_page_creator: '0'
+              alumni_landing_page_reviewer: '0'
+              quiz_creator: '0'
+              quiz_reviewer: '0'
+              curriculum_plan_creator: '0'
+              curriculum_plan_reviewer: '0'
+              wiley_partnership: '0'
             reduce: false
-          is_grouped: true
+          is_grouped: false
           group_info:
             label: Delivery
             description: ''
@@ -193,8 +289,8 @@ display:
           exposed: true
           expose:
             operator_id: field_degree_type_value_op
-            label: 'Degree Type (field_degree_type)'
-            description: null
+            label: 'Degree Type'
+            description: ''
             use_operator: false
             operator: field_degree_type_value_op
             operator_limit_selection: false
@@ -202,11 +298,42 @@ display:
             identifier: field_degree_type_value
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
+              anonymous: '0'
+              faculty_profile_creator: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              news_editor: '0'
+              ed_abroad_editor: '0'
+              editor: '0'
+              sr_editor: '0'
+              administrator: '0'
+              moderator: '0'
+              video_creator: '0'
+              video_reviewer: '0'
+              magazine_creator: '0'
+              magazine_reviewer: '0'
+              email_page_creator: '0'
+              email_page_reviewer: '0'
+              faces_creator: '0'
+              faces_reviewer: '0'
+              front_page_creator: '0'
+              front_page_reviewer: '0'
+              news_landing_creator: '0'
+              news_landing_reviewer: '0'
+              alumni_default_page_creator: '0'
+              alumni_default_page_reviewer: '0'
+              alumni_landing_page_creator: '0'
+              alumni_landing_page_reviewer: '0'
+              quiz_creator: '0'
+              quiz_reviewer: '0'
+              curriculum_plan_creator: '0'
+              curriculum_plan_reviewer: '0'
+              wiley_partnership: '0'
             reduce: false
-          is_grouped: true
+          is_grouped: false
           group_info:
             label: 'Degree Type'
             description: ''
@@ -378,8 +505,8 @@ display:
           exposed: true
           expose:
             operator_id: field_stem_designated_value_op
-            label: 'STEM Designated (field_stem_designated)'
-            description: null
+            label: 'STEM Designated'
+            description: ''
             use_operator: false
             operator: field_stem_designated_value_op
             operator_limit_selection: false
@@ -387,11 +514,42 @@ display:
             identifier: field_stem_designated_value
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
+              anonymous: '0'
+              faculty_profile_creator: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              news_editor: '0'
+              ed_abroad_editor: '0'
+              editor: '0'
+              sr_editor: '0'
+              administrator: '0'
+              moderator: '0'
+              video_creator: '0'
+              video_reviewer: '0'
+              magazine_creator: '0'
+              magazine_reviewer: '0'
+              email_page_creator: '0'
+              email_page_reviewer: '0'
+              faces_creator: '0'
+              faces_reviewer: '0'
+              front_page_creator: '0'
+              front_page_reviewer: '0'
+              news_landing_creator: '0'
+              news_landing_reviewer: '0'
+              alumni_default_page_creator: '0'
+              alumni_default_page_reviewer: '0'
+              alumni_landing_page_creator: '0'
+              alumni_landing_page_reviewer: '0'
+              quiz_creator: '0'
+              quiz_reviewer: '0'
+              curriculum_plan_creator: '0'
+              curriculum_plan_reviewer: '0'
+              wiley_partnership: '0'
             reduce: false
-          is_grouped: true
+          is_grouped: false
           group_info:
             label: 'STEM Designated'
             description: ''
