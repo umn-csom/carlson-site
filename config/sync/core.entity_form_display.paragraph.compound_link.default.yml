@@ -1,0 +1,35 @@
+uuid: 6b17c094-9e9e-435a-8aac-6f0a83948259
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.compound_link.field_heading
+    - field.field.paragraph.compound_link.field_link
+    - paragraphs.paragraphs_type.compound_link
+  module:
+    - link
+id: paragraph.compound_link.default
+targetEntityType: paragraph
+bundle: compound_link
+mode: default
+content:
+  field_heading:
+    type: string_textfield
+    weight: 102
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_link:
+    type: link_default
+    weight: 101
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

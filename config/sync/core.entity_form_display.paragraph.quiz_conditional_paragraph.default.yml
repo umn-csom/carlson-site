@@ -1,0 +1,53 @@
+uuid: bea9c0e9-7fa9-4f75-9d4e-258d27dd20cc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.quiz_conditional_paragraph.field_quiz_conditional_paragraph
+    - field.field.paragraph.quiz_conditional_paragraph.field_quiz_question_cond_answ
+    - field.field.paragraph.quiz_conditional_paragraph.field_quiz_question_cond_qn
+    - paragraphs.paragraphs_type.quiz_conditional_paragraph
+  module:
+    - chosen_field
+    - paragraphs
+_core:
+  default_config_hash: hM49QzBSgZyVejsx4tRMhFtPliEKR_IK6hyqpsWmIPE
+id: paragraph.quiz_conditional_paragraph.default
+targetEntityType: paragraph
+bundle: quiz_conditional_paragraph
+mode: default
+content:
+  field_quiz_conditional_paragraph:
+    type: paragraphs
+    weight: 2
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: closed
+      closed_mode: summary
+      autocollapse: all
+      closed_mode_threshold: 0
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        add_above: add_above
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+    region: content
+  field_quiz_question_cond_answ:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: chosen_select
+    region: content
+  field_quiz_question_cond_qn:
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    type: chosen_select
+    region: content
+hidden:
+  created: true
+  status: true

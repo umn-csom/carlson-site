@@ -1,0 +1,111 @@
+uuid: b56e0031-1d8b-430a-a8b2-4a7541ae7b5b
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.featured_program
+    - field.field.block_content.featured_program.field_block_heading
+    - field.field.block_content.featured_program.field_block_link
+    - field.field.block_content.featured_program.field_cta_link
+  module:
+    - field_group
+    - link
+    - paragraphs
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - group_details
+        - group_cta_links
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: tabs
+      format_settings:
+        classes: ''
+        id: ''
+        direction: vertical
+    group_details:
+      children:
+        - field_block_heading
+        - field_block_link
+      label: Details
+      region: content
+      parent_name: group_content
+      weight: 8
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_cta_links:
+      children:
+        - field_cta_link
+      label: 'CTA Links'
+      region: content
+      parent_name: group_content
+      weight: 9
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: 'These links get displayed to the right with icons'
+        required_fields: true
+id: block_content.featured_program.default
+targetEntityType: block_content
+bundle: featured_program
+mode: default
+content:
+  field_block_heading:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_block_link:
+    type: link_default
+    weight: 5
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_cta_link:
+    type: paragraphs
+    weight: 6
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+      features:
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+hidden: {  }

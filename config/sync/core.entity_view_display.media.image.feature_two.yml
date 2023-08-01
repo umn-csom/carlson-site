@@ -1,0 +1,55 @@
+uuid: fe19ee54-1d5e-47c5-a57a-ff105f087498
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.feature_two
+    - field.field.media.image.field_media_category
+    - field.field.media.image.field_media_in_library
+    - field.field.media.image.image
+    - image.style.crop_feature_two
+    - media.type.image
+  module:
+    - field_group
+    - image
+third_party_settings:
+  field_group:
+    group_feature_search_image:
+      children: {  }
+      label: 'Feature Search Image'
+      parent_name: ''
+      region: hidden
+      weight: 20
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        id: ''
+        description: ''
+_core:
+  default_config_hash: FoWeaeCuVLpC2UCA1iEn4nBj50ihLUOfKdtKzt808II
+id: media.image.feature_two
+targetEntityType: media
+bundle: image
+mode: feature_two
+content:
+  image:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: crop_feature_two
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  addtoany: true
+  created: true
+  field_media_category: true
+  field_media_in_library: true
+  langcode: true
+  name: true
+  search_api_excerpt: true
+  thumbnail: true
+  uid: true

@@ -1,0 +1,38 @@
+uuid: d187da95-c278-427a-9330-bfc4539f614e
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.student_ambassadors
+    - views.view.student_profiles
+  module:
+    - block_visibility_groups
+    - system
+    - views
+  theme:
+    - carlson_refresh
+id: carlson_refresh_views_block__student_profiles_block_1
+theme: carlson_refresh
+region: node_content
+weight: -26
+provider: null
+plugin: 'views_block:student_profiles-block_1'
+settings:
+  id: 'views_block:student_profiles-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: student_ambassadors
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: /node/64521

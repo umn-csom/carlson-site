@@ -1,0 +1,61 @@
+uuid: e569cc95-2b0d-4875-947e-8bebe29dc793
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.video_text_right.field_heading
+    - field.field.paragraph.video_text_right.field_video_anchor_id
+    - field.field.paragraph.video_text_right.field_video_caption
+    - field.field.paragraph.video_text_right.field_video_embed
+    - field.field.paragraph.video_text_right.field_video_thumb
+    - image.style.crop_featured_video
+    - paragraphs.paragraphs_type.video_text_right
+  module:
+    - media
+    - text
+id: paragraph.video_text_right.default
+targetEntityType: paragraph
+bundle: video_text_right
+mode: default
+content:
+  field_heading:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_video_anchor_id:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_video_caption:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_video_embed:
+    type: entity_reference_entity_id
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_video_thumb:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: crop_featured_video
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true

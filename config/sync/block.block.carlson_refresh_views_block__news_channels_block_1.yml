@@ -1,0 +1,46 @@
+uuid: 585c8318-7d6b-4c05-bf5a-93432eeec90b
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.related_news_events
+    - views.view.news_channels
+  module:
+    - block_class
+    - block_visibility_groups
+    - node
+    - views
+  theme:
+    - carlson_refresh
+third_party_settings:
+  block_class:
+    classes: news-events
+id: carlson_refresh_views_block__news_channels_block_1
+theme: carlson_refresh
+region: node_middle
+weight: -56
+provider: null
+plugin: 'views_block:news_channels-block_1'
+settings:
+  id: 'views_block:news_channels-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+  exposed: {  }
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: related_news_events
+  'entity_bundle:node':
+    id: 'entity_bundle:node'
+    negate: false
+    context_mapping:
+      node: '@node.node_route_context:node'
+    bundles:
+      executive_ed_landing_page: executive_ed_landing_page
+      landing_page: landing_page
+      page: page

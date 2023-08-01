@@ -1,0 +1,29 @@
+uuid: 92a30b88-4320-441a-a5b8-2adb7cf930c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_section
+    - node.type.education_abroad_program
+    - taxonomy.vocabulary.sections
+id: node.education_abroad_program.field_section
+field_name: field_section
+entity_type: node
+bundle: education_abroad_program
+label: Section
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      sections: sections
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

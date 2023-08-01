@@ -1,0 +1,70 @@
+uuid: b067b40e-800f-4122-96dd-2bfc39706267
+langcode: en
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.quiz_results
+    - field.field.node.session.body
+    - field.field.node.session.field_breadcrumb_title
+    - field.field.node.session.field_meta_tags
+    - field.field.node.session.field_section
+    - field.field.node.session.field_session_conference
+    - field.field.node.session.field_session_speaker
+    - node.type.session
+  module:
+    - entity_reference_revisions
+    - layout_builder
+    - options
+    - text
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+_core:
+  default_config_hash: buFFp9NbTH-4ZHL1zEiOM_9AgWb4yT264oMr9-r5fsw
+id: node.session.quiz_results
+targetEntityType: node
+bundle: session
+mode: quiz_results
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_section:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 102
+    region: content
+  field_session_conference:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 103
+    region: content
+  field_session_speaker:
+    type: entity_reference_revisions_entity_view
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 104
+    region: content
+  links:
+    weight: 100
+    region: content
+hidden:
+  addtoany: true
+  field_breadcrumb_title: true
+  field_meta_tags: true
+  langcode: true
+  search_api_excerpt: true

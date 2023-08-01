@@ -1,0 +1,41 @@
+uuid: e13851c7-acd1-4374-b062-682a9771f46e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.table.field_table
+    - paragraphs.paragraphs_type.table
+  module:
+    - field_group
+    - tablefield
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - field_table
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        required_fields: true
+id: paragraph.table.default
+targetEntityType: paragraph
+bundle: table
+mode: default
+content:
+  field_table:
+    type: tablefield
+    weight: 1
+    region: content
+    settings:
+      input_type: textfield
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

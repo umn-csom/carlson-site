@@ -1,0 +1,80 @@
+uuid: 203c5482-7794-4edc-95ca-ad753b6561e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.paragraph.teaser
+    - field.field.paragraph.ee_course_dates.field_ee_days
+    - field.field.paragraph.ee_course_dates.field_ee_program_dates
+    - field.field.paragraph.ee_course_dates.field_ee_register
+    - field.field.paragraph.ee_course_dates.field_ee_register_desc
+    - field.field.paragraph.ee_course_dates.field_ee_register_text
+    - field.field.paragraph.ee_course_dates.field_ee_request_invoice
+    - field.field.paragraph.ee_course_dates.field_ee_start_times
+    - field.field.paragraph.ee_course_dates.field_ee_times
+    - field.field.paragraph.ee_course_dates.field_pending_date
+    - paragraphs.paragraphs_type.ee_course_dates
+  module:
+    - datetime_range
+    - link
+    - text
+id: paragraph.ee_course_dates.teaser
+targetEntityType: paragraph
+bundle: ee_course_dates
+mode: teaser
+content:
+  field_ee_program_dates:
+    type: daterange_default
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: medium
+      separator: '-'
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_ee_register:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_ee_register_desc:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_ee_register_text:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_ee_request_invoice:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  field_ee_days: true
+  field_ee_start_times: true
+  field_ee_times: true
+  field_pending_date: true
+  search_api_excerpt: true

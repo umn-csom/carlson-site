@@ -1,0 +1,62 @@
+uuid: 0bff74dd-acc4-4e18-b234-ffa5c5383a92
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.statistics.field_heading
+    - field.field.paragraph.statistics.field_main_content
+    - field.field.paragraph.statistics.field_statistic
+    - paragraphs.paragraphs_type.statistics
+  module:
+    - slick_paragraphs
+    - text
+_core:
+  default_config_hash: KCiDiyPZw9TwfqD1xp_NubXCtpY3je09k-eUbWnaSR8
+id: paragraph.statistics.default
+targetEntityType: paragraph
+bundle: statistics
+mode: default
+content:
+  field_heading:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_main_content:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_statistic:
+    type: slick_paragraphs_vanilla
+    label: hidden
+    settings:
+      optionset: new_front_stats
+      view_mode: default
+      cache: 0
+      skin: ''
+      lazy: ''
+      style: ''
+      overridables:
+        arrows: '0'
+        autoplay: '0'
+        dots: '0'
+        draggable: '0'
+        infinite: '0'
+        mouseWheel: '0'
+        randomize: '0'
+        variableWidth: '0'
+      override: false
+      skin_arrows: ''
+      skin_dots: ''
+      use_theme_field: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true

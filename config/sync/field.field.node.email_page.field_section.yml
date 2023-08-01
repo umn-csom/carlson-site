@@ -1,0 +1,29 @@
+uuid: 63941d81-f3c3-4f69-a9c6-9fd78e77d682
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_section
+    - node.type.email_page
+    - taxonomy.vocabulary.sections
+id: node.email_page.field_section
+field_name: field_section
+entity_type: node
+bundle: email_page
+label: Section
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      sections: sections
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

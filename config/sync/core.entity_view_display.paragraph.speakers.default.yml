@@ -1,0 +1,43 @@
+uuid: b7d39b0b-e5b5-4377-85e0-bf479d9394af
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.speakers.field_heading
+    - field.field.paragraph.speakers.field_main_content
+    - field.field.paragraph.speakers.field_speaker_item
+    - paragraphs.paragraphs_type.speakers
+  module:
+    - entity_reference_revisions
+    - text
+id: paragraph.speakers.default
+targetEntityType: paragraph
+bundle: speakers
+mode: default
+content:
+  field_heading:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_main_content:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_speaker_item:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,28 @@
+uuid: f4f31ced-a303-4c52-9771-27debb7b8df9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_person_headshot
+    - media.type.image
+    - paragraphs.paragraphs_type.speaker
+id: paragraph.speaker.field_person_headshot
+field_name: field_person_headshot
+entity_type: paragraph
+bundle: speaker
+label: Headshot
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

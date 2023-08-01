@@ -1,0 +1,28 @@
+uuid: c5e4a217-4bed-49ac-aa8a-2748e43df65d
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.contact_block
+    - field.storage.node.field_contact_info
+    - node.type.landing_page
+id: node.landing_page.field_contact_info
+field_name: field_contact_info
+entity_type: node
+bundle: landing_page
+label: 'Contact Info'
+description: 'Select the contact information block that you''d like to display on this page.  It will be displayed at the bottom of the page.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:block_content'
+  handler_settings:
+    target_bundles:
+      contact_block: contact_block
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,28 @@
+uuid: 5674adda-ac43-496f-ada5-8cf35d0f573b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_magazine_story_cover
+    - node.type.magazine
+    - node.type.news
+id: node.magazine.field_magazine_story_cover
+field_name: field_magazine_story_cover
+entity_type: node
+bundle: magazine
+label: 'Cover story'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      news: news
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

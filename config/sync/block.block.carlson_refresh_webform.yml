@@ -1,0 +1,37 @@
+uuid: 29972a61-8817-4eb7-966f-98271d51dd40
+langcode: en
+status: true
+dependencies:
+  config:
+    - webform.webform.grow_north_newsletter_2022
+  module:
+    - block_visibility_groups
+    - system
+    - webform
+  theme:
+    - carlson_refresh
+id: carlson_refresh_webform
+theme: carlson_refresh
+region: node_middle
+weight: -66
+provider: null
+plugin: webform_block
+settings:
+  id: webform_block
+  label: 'Grow North Newsletter'
+  label_display: '0'
+  provider: webform
+  webform_id: grow_north_newsletter_2022
+  default_data: ''
+  redirect: false
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: ''
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/grow-north*\r\n/grownorth*\r\n/node/102416*"

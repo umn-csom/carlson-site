@@ -1,0 +1,29 @@
+uuid: c9296bc6-f4a7-405f-9f51-c5fd1c6b1445
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ee_business_topic
+    - node.type.executive_ed_program
+    - taxonomy.vocabulary.executive_ed_business_topics
+id: node.executive_ed_program.field_ee_business_topic
+field_name: field_ee_business_topic
+entity_type: node
+bundle: executive_ed_program
+label: 'Business Topic'
+description: 'Select one or more business topics'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      executive_ed_business_topics: executive_ed_business_topics
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,41 @@
+uuid: aaf0cb6c-0348-491e-9ec5-d84ea71363b2
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.thumbnail_profile
+    - field.field.media.image.field_media_category
+    - field.field.media.image.field_media_in_library
+    - field.field.media.image.image
+    - image.style.cropped_profile_image
+    - media.type.image
+  module:
+    - image
+_core:
+  default_config_hash: 9VaLzSZWVy_vtqc0M-_I2414ronFOPZNvV2Jp-tXk4M
+id: media.image.thumbnail_profile
+targetEntityType: media
+bundle: image
+mode: thumbnail_profile
+content:
+  image:
+    type: image
+    weight: 0
+    label: hidden
+    settings:
+      image_style: cropped_profile_image
+      image_link: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    region: content
+hidden:
+  addtoany: true
+  created: true
+  field_media_category: true
+  field_media_in_library: true
+  langcode: true
+  name: true
+  search_api_excerpt: true
+  thumbnail: true
+  uid: true

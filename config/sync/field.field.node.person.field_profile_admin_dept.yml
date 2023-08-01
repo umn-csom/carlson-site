@@ -1,0 +1,29 @@
+uuid: 4160dc88-2cfb-4ae6-8dc8-136612ad50e1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_profile_admin_dept
+    - node.type.person
+    - taxonomy.vocabulary.department_codes
+id: node.person.field_profile_admin_dept
+field_name: field_profile_admin_dept
+entity_type: node
+bundle: person
+label: Department
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      department_codes: department_codes
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

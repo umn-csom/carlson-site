@@ -1,0 +1,36 @@
+uuid: 833eeccd-d26e-4f94-ba1d-8fa69d5c2eaf
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - block_visibility_groups
+    - menu_injector
+  theme:
+    - carlson_refresh
+id: carlson_refresh_navbar_primary
+theme: carlson_refresh
+region: primary_menu
+weight: -67
+provider: null
+plugin: 'menu_block:main'
+settings:
+  id: 'menu_block:main'
+  label: 'Primary navbar'
+  label_display: '0'
+  provider: menu_injector
+  follow: false
+  follow_parent: child
+  label_link: true
+  label_type: fixed
+  level: 1
+  depth: 6
+  expand_all_items: true
+  parent: 'main:'
+  suggestion: navbar_primary
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    block_visibility_group: ''

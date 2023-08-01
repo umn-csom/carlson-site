@@ -1,0 +1,55 @@
+uuid: 089692b0-009e-4dba-a8c2-472f88f0b4f1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.quiz_answer.field_quiz_answer_cond_results
+    - field.field.paragraph.quiz_answer.field_quiz_answer_icon
+    - field.field.paragraph.quiz_answer.field_quiz_answer_result
+    - field.field.paragraph.quiz_answer.field_quiz_answer_text
+    - paragraphs.paragraphs_type.quiz_answer
+  module:
+    - text
+_core:
+  default_config_hash: 3wmE7LlJgyRIRxPDR5G88VgHu-iToICX1DZoWGQ246g
+id: paragraph.quiz_answer.default
+targetEntityType: paragraph
+bundle: quiz_answer
+mode: default
+content:
+  field_quiz_answer_cond_results:
+    weight: 3
+    label: hidden
+    settings:
+      format: boolean
+      format_custom_true: ''
+      format_custom_false: ''
+    third_party_settings: {  }
+    type: boolean
+    region: content
+  field_quiz_answer_icon:
+    type: entity_reference_entity_view
+    weight: 1
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    region: content
+  field_quiz_answer_result:
+    weight: 2
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_quiz_answer_text:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden:
+  search_api_excerpt: true

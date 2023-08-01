@@ -1,0 +1,29 @@
+uuid: 3259a3dc-c55d-4534-bda0-f1449b529a36
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_ee_days
+    - paragraphs.paragraphs_type.ee_course_dates
+    - taxonomy.vocabulary.executive_ed_program_days
+id: paragraph.ee_course_dates.field_ee_days
+field_name: field_ee_days
+entity_type: paragraph
+bundle: ee_course_dates
+label: 'Program Days'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      executive_ed_program_days: executive_ed_program_days
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,12 +1,20 @@
+.sticky-sidebar {
+  padding-left: 1rem;
+}
+
 .sticky-menu {
   position: relative;
   &__label {
     @extend .h3;
-    color: $black;
-    padding-left: 1.5rem;
+    color: $maroon;
+    padding-left: 2rem;
+    font-size: 3.2rem;
     display: block;
+    border-bottom: 2px solid $menu-line-grey;
+    margin-bottom: 2.5rem;
+    padding-bottom: 0.8rem;
     &:hover {
-      color: $black;
+      color: $maroon;
       text-decoration: none;
     }
   }
@@ -20,18 +28,19 @@
       opacity: 1;
     }
   }
-  &__sub-menu {
-    .sticky-menu {
-      &__link {
-        &.active {
-          border-left-width: 4px !important;
-        }
-      }
+
+  &__link {
+    border-left: 6px solid transparent;
+    transition: border-left 300ms ease-out;
+
+    &.is-active {
+      border-left-color: $gold;
     }
   }
+
   @include media-breakpoint-up(lg) {
     &__label {
-      display: inline-block;
+      display: block;
     }
     &__nav {
       &--closed {
@@ -40,16 +49,6 @@
           opacity: 1;
         }
       }
-    }
-    &:after {
-      content: "";
-      display: block;
-      width: 2px;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: map-get($theme-colors, "primary");
     }
   }
   @include media-breakpoint-down(md) {

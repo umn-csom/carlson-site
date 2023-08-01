@@ -1,0 +1,29 @@
+uuid: f5fff19c-65e9-4f0b-8c20-c186c3506591
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_event_channels
+    - node.type.email_page
+    - taxonomy.vocabulary.event_categories
+id: node.email_page.field_event_channels
+field_name: field_event_channels
+entity_type: node
+bundle: email_page
+label: 'Event Channels'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      event_categories: event_categories
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

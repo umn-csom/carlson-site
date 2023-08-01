@@ -1,0 +1,25 @@
+uuid: b9330dd9-d263-4e12-9b5a-a8ee1433f588
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.schedule.field_schedule_item
+    - paragraphs.paragraphs_type.schedule
+  module:
+    - entity_reference_revisions
+id: paragraph.schedule.default
+targetEntityType: paragraph
+bundle: schedule
+mode: default
+content:
+  field_schedule_item:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,113 @@
+uuid: 83bd0e7a-0817-4a1d-a01d-4a34a25177b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.speaker.field_link_facebook
+    - field.field.paragraph.speaker.field_link_linkedin
+    - field.field.paragraph.speaker.field_link_twitter
+    - field.field.paragraph.speaker.field_main_content
+    - field.field.paragraph.speaker.field_person_headshot
+    - field.field.paragraph.speaker.field_person_name
+    - field.field.paragraph.speaker.field_person_organization
+    - field.field.paragraph.speaker.field_person_role
+    - paragraphs.paragraphs_type.speaker
+  module:
+    - field_group
+    - link
+    - media_library
+    - text
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - field_person_name
+        - field_person_headshot
+        - field_main_content
+        - field_person_organization
+        - field_person_role
+        - field_link_facebook
+        - field_link_linkedin
+        - field_link_twitter
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        required_fields: true
+id: paragraph.speaker.default
+targetEntityType: paragraph
+bundle: speaker
+mode: default
+content:
+  field_link_facebook:
+    type: link_default
+    weight: 11
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_link_linkedin:
+    type: link_default
+    weight: 12
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_link_twitter:
+    type: link_default
+    weight: 13
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_main_content:
+    type: text_textarea
+    weight: 8
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_person_headshot:
+    type: media_library_widget
+    weight: 14
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_person_name:
+    type: string_textfield
+    weight: 6
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_person_organization:
+    type: string_textfield
+    weight: 9
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_person_role:
+    type: string_textfield
+    weight: 10
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

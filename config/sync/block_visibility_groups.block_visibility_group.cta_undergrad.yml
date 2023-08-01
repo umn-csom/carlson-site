@@ -1,0 +1,23 @@
+uuid: ba7c6a3c-92eb-47ea-ad64-aa7d45024ee1
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+id: cta_undergrad
+label: 'Sidebar CTAs - Undergrad'
+logic: and
+conditions:
+  9be05675-d79c-4efe-ab64-987f079211b7:
+    id: request_path
+    negate: false
+    uuid: 9be05675-d79c-4efe-ab64-987f079211b7
+    context_mapping: {  }
+    pages: "/degrees/undergraduate\r\n/degrees/undergraduate/*"
+  747150af-8a79-4b73-b1e2-d77bc056200a:
+    id: request_path
+    negate: true
+    uuid: 747150af-8a79-4b73-b1e2-d77bc056200a
+    context_mapping: {  }
+    pages: /degrees/undergraduate/plug-in
+allow_other_conditions: true

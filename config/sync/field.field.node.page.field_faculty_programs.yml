@@ -1,0 +1,29 @@
+uuid: c40ac7a7-4cb8-498f-8860-6f631c0f9143
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_faculty_programs
+    - node.type.page
+    - taxonomy.vocabulary.degree_program_codes
+id: node.page.field_faculty_programs
+field_name: field_faculty_programs
+entity_type: node
+bundle: page
+label: 'Faculty Programs'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      degree_program_codes: degree_program_codes
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

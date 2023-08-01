@@ -1,0 +1,42 @@
+uuid: dc4f3d27-1aed-4982-b4dd-0d620c26109c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.magazine_section.field_magazine_highlight
+    - field.field.paragraph.magazine_section.field_magazine_section_heading
+    - field.field.paragraph.magazine_section.field_news_article
+    - paragraphs.paragraphs_type.magazine_section
+  module:
+    - options
+id: paragraph.magazine_section.default
+targetEntityType: paragraph
+bundle: magazine_section
+mode: default
+content:
+  field_magazine_highlight:
+    type: list_key
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_magazine_section_heading:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_news_article:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: magazine_card
+      link: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true

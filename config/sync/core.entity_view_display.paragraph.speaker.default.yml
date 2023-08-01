@@ -1,0 +1,100 @@
+uuid: 81c59dda-f93e-4e25-b5ad-13ad4dbd19c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.speaker.field_link_facebook
+    - field.field.paragraph.speaker.field_link_linkedin
+    - field.field.paragraph.speaker.field_link_twitter
+    - field.field.paragraph.speaker.field_main_content
+    - field.field.paragraph.speaker.field_person_headshot
+    - field.field.paragraph.speaker.field_person_name
+    - field.field.paragraph.speaker.field_person_organization
+    - field.field.paragraph.speaker.field_person_role
+    - paragraphs.paragraphs_type.speaker
+  module:
+    - link
+    - text
+id: paragraph.speaker.default
+targetEntityType: paragraph
+bundle: speaker
+mode: default
+content:
+  field_link_facebook:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_link_linkedin:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_link_twitter:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_main_content:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_person_headshot:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: thumbnail_profile
+      link: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_person_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_person_organization:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_person_role:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+hidden:
+  search_api_excerpt: true

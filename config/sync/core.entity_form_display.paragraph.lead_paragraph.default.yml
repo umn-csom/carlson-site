@@ -1,0 +1,35 @@
+uuid: 4e3a7a96-4b9d-4a30-b03d-836f75e94b77
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.lead_paragraph.field_heading
+    - field.field.paragraph.lead_paragraph.field_main_content
+    - paragraphs.paragraphs_type.lead_paragraph
+  module:
+    - text
+id: paragraph.lead_paragraph.default
+targetEntityType: paragraph
+bundle: lead_paragraph
+mode: default
+content:
+  field_heading:
+    type: string_textfield
+    weight: 101
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_main_content:
+    type: text_textarea
+    weight: 102
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

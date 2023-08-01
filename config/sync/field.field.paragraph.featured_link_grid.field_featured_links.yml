@@ -1,0 +1,31 @@
+uuid: b5a0fafd-a165-42ec-a65b-e8e207065725
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_featured_links
+    - node.type.news
+    - node.type.page
+    - paragraphs.paragraphs_type.featured_link_grid
+id: paragraph.featured_link_grid.field_featured_links
+field_name: field_featured_links
+entity_type: paragraph
+bundle: featured_link_grid
+label: 'Featured Links'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      page: page
+      news: news
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: page
+field_type: entity_reference

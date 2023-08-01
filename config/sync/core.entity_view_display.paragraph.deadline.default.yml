@@ -1,0 +1,39 @@
+uuid: e6d401eb-23a3-4404-8e1b-e70a5239be42
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.deadline.field_deadline_date
+    - field.field.paragraph.deadline.field_link
+    - paragraphs.paragraphs_type.deadline
+  module:
+    - datetime
+    - link
+id: paragraph.deadline.default
+targetEntityType: paragraph
+bundle: deadline
+mode: default
+content:
+  field_deadline_date:
+    type: datetime_default
+    label: above
+    settings:
+      timezone_override: ''
+      format_type: medium
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_link:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,29 @@
+uuid: 19d0cc8c-1442-47c2-94ad-8af485fe906b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ee_level
+    - node.type.executive_ed_program
+    - taxonomy.vocabulary.executive_ed_levels
+id: node.executive_ed_program.field_ee_level
+field_name: field_ee_level
+entity_type: node
+bundle: executive_ed_program
+label: Level
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      executive_ed_levels: executive_ed_levels
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

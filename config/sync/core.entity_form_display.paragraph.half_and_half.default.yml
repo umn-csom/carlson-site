@@ -1,0 +1,42 @@
+uuid: 48cb5e81-a343-46a5-91a5-c416931c254b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.half_and_half.field_left_content
+    - field.field.paragraph.half_and_half.field_right_content
+    - paragraphs.paragraphs_type.half_and_half
+  module:
+    - paragraphs
+id: paragraph.half_and_half.default
+targetEntityType: paragraph
+bundle: half_and_half
+mode: default
+content:
+  field_left_content:
+    type: entity_reference_paragraphs
+    weight: 0
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_right_content:
+    type: entity_reference_paragraphs
+    weight: 1
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

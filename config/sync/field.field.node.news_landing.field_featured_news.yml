@@ -1,0 +1,28 @@
+uuid: 101a0bba-b13c-4bfc-b846-54a541c57d3d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_featured_news
+    - node.type.news
+    - node.type.news_landing
+id: node.news_landing.field_featured_news
+field_name: field_featured_news
+entity_type: node
+bundle: news_landing
+label: 'Featured News'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      news: news
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

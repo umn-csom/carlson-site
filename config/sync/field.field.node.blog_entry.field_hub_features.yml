@@ -1,0 +1,29 @@
+uuid: 476c09ea-8f2d-46e7-936c-9d56c87489d2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hub_features
+    - node.type.blog_entry
+    - taxonomy.vocabulary.carlson_hub_category_features
+id: node.blog_entry.field_hub_features
+field_name: field_hub_features
+entity_type: node
+bundle: blog_entry
+label: 'Hub Features'
+description: 'Select the news hubs categories this item should be featured in.  The lastest featured item is displayed on news hub landing pages.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      carlson_hub_category_features: carlson_hub_category_features
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

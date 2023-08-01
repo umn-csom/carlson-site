@@ -1,0 +1,23 @@
+uuid: 5034d15b-b94e-4d59-a0ea-4883947b5d10
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.curriculum_plan.field_curriculum_plan
+    - paragraphs.paragraphs_type.curriculum_plan
+id: paragraph.curriculum_plan.default
+targetEntityType: paragraph
+bundle: curriculum_plan
+mode: default
+content:
+  field_curriculum_plan:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: teaser
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

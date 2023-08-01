@@ -1,0 +1,49 @@
+{% set classes = [
+  'container-xl container-fluid',
+  'd-block',
+  'mega-menu-layout',
+  'mega-menu-layout__2-col',
+  'mega-menu-layout__2-col--image-' ~ settings.image_location,
+]
+%}
+{% set main_attributes = create_attribute() %}
+{% set main_classes = [
+  'mega-menu-layout__main',
+  settings.image_location != 'none' ? 'col-8',
+  settings.image_location == 'left' ? 'order-2',
+  settings.image_location == 'right' ? 'order-1',
+  'pb-6',
+]
+%}
+{% set image_classes = [
+  'mega-menu-layout__image',
+  settings.image_location == 'none' ? 'd-none' : 'col-4',
+  settings.image_location == 'left' ? 'order-1',
+  settings.image_location == 'right' ? 'order-2',
+]
+%}
+
+<div{{attributes.addClass(classes)}}>
+  <div class="row">
+    <div{{main_attributes.addClass(main_classes)}}>
+      <div class="row mega-menu-layout__heading my-5">
+        <div{{region_attributes.heading.addClass('col-12')}}>
+          {{ content.heading }}
+        </div>
+      </div>
+      <div class="row mega-menu-layout__below-heading my-5">
+        <div{{region_attributes.col_1.addClass('col-4')}}>
+          {{ content.col_1 }}
+        </div>
+        <div{{region_attributes.col_2.addClass('col-8')}}>
+          {{ content.col_2 }}
+        </div>
+      </div>
+    </div>
+    {% if settings.image_location != 'none' %}
+    <div{{region_attributes.image.addClass(image_classes)}}>
+      {{ content.image }}
+    </div>
+    {% endif %}
+  </div>
+</div>

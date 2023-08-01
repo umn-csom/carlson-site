@@ -1,0 +1,28 @@
+uuid: 26573371-e4a4-4c50-99d9-2ccc25babb15
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_featured_media_faculty
+    - node.type.faculty_profile
+    - node.type.news
+id: node.news.field_featured_media_faculty
+field_name: field_featured_media_faculty
+entity_type: node
+bundle: news
+label: 'Featured Media Faculty'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      faculty_profile: faculty_profile
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
