@@ -9,6 +9,7 @@ use Drupal\block\Entity\Block;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 /*
 function paragraphs_theme_suggestions_paragraph(array $variables) {
@@ -472,11 +473,15 @@ function carlson_refresh_theme_suggestions_menu_alter(array &$suggestions, array
 
 function _carlson_refresh_region_has_simple_megamenu($menu_name, $region) {
   $allowed_regions = ['primary_menu'];
-  /** @var \Drupal\simple_megamenu\SimpleMegaMenuHelperInterface $simple_megamenu_helper */
-  $simple_megamenu = \Drupal::service('simple_megamenu.helper');
-  return
-    in_array($region, $allowed_regions) &&
-    $simple_megamenu->getMegaMenuTypeWhichTargetMenu($menu_name);
+  if (in_array($region, $allowed_regions)) {
+    try {
+      /** @var \Drupal\simple_megamenu\SimpleMegaMenuHelperInterface $simple_megamenu_helper */
+      $simple_megamenu = \Drupal::service('simple_megamenu.helper');
+      return $simple_megamenu->getMegaMenuTypeWhichTargetMenu($menu_name);
+    } catch (ServiceNotFoundException $e) {
+    }
+  }
+  return FALSE;
 }
 
 function carlson_refresh_preprocess_views_exposed_form(&$variables) {
