@@ -71,3 +71,11 @@ if (
 ) {
   $config['metatag.metatag_defaults.global']['tags']['robots'] = 'noindex, nofollow, noimageindex';
 }
+
+// Hardcode Stage File Proxy module logic.
+if (in_array($environment, ['local', 'dev', 'test'])) {
+  $origin = 'https://carlsonschool.umn.edu';
+  $origin_dir = 'sites/carlsonschool.umn.edu/files';
+  $config['stage_file_proxy.settings']['origin'] = $origin;
+  $config['stage_file_proxy.settings']['origin_dir'] = $origin_dir;
+}
