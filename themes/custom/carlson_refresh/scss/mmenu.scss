@@ -227,22 +227,10 @@ body.toolbar-tray-open.toolbar-vertical.mm-wrapper_blocking {
   &__text {
     padding-left: 16px;
     font-weight: 400;
-
-    &:not(.btn) {
-
-    }
   }
 
   &__btn:not(.mm-listitem__text) {
     border: 0;
-    // width: 30px;
-    // height: 30px;
-    // border-radius: 50%;
-    // display: flex;
-    // align-items: center;
-    // text-align: center;
-    // padding: 0;
-    // margin: 0 15px;
   }
 
   &_selected {
@@ -253,12 +241,19 @@ body.toolbar-tray-open.toolbar-vertical.mm-wrapper_blocking {
     }
   }
 
-  a.gold-outline-button,
-  a.gold-solid-button {
-    color: $black;
-  }
-  a.maroon-outline-button,
-  a.maroon-solid-button {
-    color: $white;
+  &.menu-name--mobile-menu-buttons {
+    width: calc(50% - 37px);
+    float: left;
+    margin-top: 25px;
+    border: 0;
+
+    &:nth-last-child(-n + 1) {
+      margin-left: 12px;
+
+    }
+
+    &:nth-last-child(-n + 2) {
+      margin-right: 12px;
+    }
   }
 }
