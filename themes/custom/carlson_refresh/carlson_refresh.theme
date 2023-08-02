@@ -323,12 +323,19 @@ function carlson_refresh_theme_suggestions_block_alter(array &$suggestions, arra
   // Reset all suggestions.
   $suggestions = [];
 
+  // Normal blocks.
   if ($id) {
     $name = $id;
   }
 
+  // Custom block content blocks.
   if (is_object($block_content)) {
     $name = $block_content->bundle();
+  }
+
+  // @todo layout builder blocks
+  if (!$name) {
+    $name = 'unnamed';
   }
 
   if ($region) {
