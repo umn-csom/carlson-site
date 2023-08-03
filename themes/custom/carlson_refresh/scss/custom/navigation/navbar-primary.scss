@@ -39,22 +39,26 @@
 }
 
 .navbar-dark .navbar-nav > .nav-item {
-  > .nav-link {
+  > .nav-link,
+  > .nav-button--has-dropdown {
     color: $navbar-dark-color;
     background-color: $navbar-dark-bg-color;
     text-decoration: $navbar-dark-text-decoration;
   }
 
-  &.active > .nav-link {
+  &.active > .nav-link,
+  &.active > .nav-button--has-dropdown {
     color: $navbar-dark-active-color;
     background-color: $navbar-dark-active-bg-color;
     text-decoration: $navbar-dark-active-text-decoration;
   }
 
   > .nav-link,
-  &.active > .nav-link {
+  > .nav-button--has-dropdown,
+  &.active > .nav-link,
+  &.active > .nav-button--has-dropdown {
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: $navbar-dark-hover-color;
       background-color: $navbar-dark-hover-bg-color;
       text-decoration: $navbar-dark-hover-text-decoration;
@@ -62,10 +66,12 @@
   }
 
   &.show > .nav-link,
-  &.active.show > .nav-link {
+  &.show > .nav-button--has-dropdown,
+  &.active.show > .nav-link,
+  &.active.show > .nav-button--has-dropdown {
     &,
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: $navbar-dark-show-color;
       background-color: $navbar-dark-show-bg-color;
       text-decoration: $navbar-dark-show-text-decoration;
@@ -73,7 +79,9 @@
   }
 
   > .nav-link[disabled],
-  > .nav-link.disabled {
+  > .nav-link.disabled,
+  > .nav-button--has-dropdown[disabled],
+  > .nav-button--has-dropdown.disabled {
       color: $navbar-dark-disabled-color;
       background-color: $navbar-dark-disabled-bg-color;
       text-decoration: $navbar-dark-disabled-text-decoration;
@@ -81,22 +89,26 @@
 }
 
 .navbar-light .navbar-nav > .nav-item {
-  > .nav-link {
+  > .nav-link,
+  > .nav-button--has-dropdown {
     color: $navbar-light-color;
     background-color: $navbar-light-bg-color;
     text-decoration: $navbar-light-text-decoration;
   }
 
-  &.active > .nav-link {
+  &.active > .nav-link,
+  &.active > .nav-button--has-dropdown {
     color: $navbar-light-active-color;
     background-color: $navbar-light-active-bg-color;
     text-decoration: $navbar-light-active-text-decoration;
   }
 
   > .nav-link,
-  &.active > .nav-link {
+  > .nav-button--has-dropdown,
+  &.active > .nav-link,
+  &.active > .nav-button--has-dropdown {
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: $navbar-light-hover-color;
       background-color: $navbar-light-hover-bg-color;
       text-decoration: $navbar-light-hover-text-decoration;
@@ -104,10 +116,12 @@
   }
 
   &.show > .nav-link,
-  &.active.show > .nav-link {
+  &.show > .nav-button--has-dropdown,
+  &.active.show > .nav-link,
+  &.active.show > .nav-button--has-dropdown {
     &,
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: $navbar-light-show-color;
       background-color: $navbar-light-show-bg-color;
       text-decoration: $navbar-light-show-text-decoration;
@@ -115,10 +129,12 @@
   }
 
   > .nav-link[disabled],
-  > .nav-link.disabled {
+  > .nav-link.disabled,
+  > .nav-button--has-dropdown[disabled],
+  > .nav-button--has-dropdown.disabled {
     &,
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: $navbar-light-disabled-color;
       background-color: $navbar-light-disabled-bg-color;
       text-decoration: $navbar-light-disabled-text-decoration;
@@ -141,6 +157,18 @@
       padding: 14px 25px;
       font-size: 18px;
       font-weight: normal;
+
+      @media screen and (max-width: 1150px) {
+        padding: 14px 20px;
+      }
+
+      @media screen and (max-width: 1025px) {
+        padding: 14px 18px;
+      }
+    }
+    > .nav-button--has-dropdown {
+      padding-left: 16px;
+      padding-right: 16px;
     }
     &.active {
       > .nav-link {
@@ -199,8 +227,8 @@
 
   &.active,
   &:hover,
-  &:focus,
-  &:active {
+  &:focus-visible,
+  .show & {
     background: $light-ivory;
   }
 
@@ -212,7 +240,8 @@
 //.dropdown-item > .nav-link,
 .navbar-nav > .nav-item.dropdown {
 
-  > .nav-link {
+  > .nav-link,
+  > .nav-button--has-dropdown {
     transition: background 120ms ease-out, color 120ms ease-out;
     position: relative;
 
@@ -232,8 +261,7 @@
     }
 
     &:hover,
-    &:active,
-    &:focus {
+    &:focus-visible {
       &::before {
         height: .4rem;
         transition: height 120ms ease-out 0ms;
@@ -245,7 +273,8 @@
     &,
     &:hover,
     &:active,
-    &:focus {
+    &:focus,
+    &:focus-visible {
       &::before {
         height: 0;
         background-color: transparent;
@@ -306,7 +335,8 @@
 }
 
 .nav-item.dropdown.show {
-  > .nav-link {
+  > .nav-link,
+  > .nav-button--has-dropdown {
     z-index: 37;
   }
 
@@ -316,10 +346,12 @@
 }
 
 .navbar-nav > .nav-item.active.show > .nav-link,
-.nav-item.dropdown.show > .nav-link {
+.navbar-nav > .nav-item.active.show > .nav-button--has-dropdown,
+.nav-item.dropdown.show > .nav-link,
+.nav-item.dropdown.show > .nav-button--has-dropdown {
   &:hover,
   &:active,
-  &:focus {
+  &:focus-visible {
     &::before {
       background-color: $ivory;
       height: 0;
@@ -341,48 +373,61 @@
   }
 }
 
-.menu-toggle {
+.nav-link--is-button {
   &,
   &:hover,
-  &:focus {
+  &:focus-visible {
     text-decoration: none !important;
   }
 }
 
-.menu-toggle--mega-menu {
-  .dropdown.active:not(.show) & {
-    color: $maroon !important;
-
-    &:hover,
-    &:focus {
-      color: $white !important;
-    }
-  }
-
-  .dropdown.active.show & {
-    &,
-    &:hover,
-    &:focus {
-      color: $black !important;
-    }
-  }
-}
-
-.menu-toggle__button {
+.nav-button {
   display: flex;
-  border: 1px solid currentColor;
-  font-weight: 600;
-  font-size: 14px;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  margin: -2px 0;
-  display: flex;
-  flex-wrap: nowrap;
+  height: 100%;
+  justify-content: center;
   align-items: center;
-}
 
-.menu-toggle__label {
-  margin-right: 4px;
+  &:hover {
+    text-decoration: none;
+  }
+
+  .btn {
+    font-weight: 600;
+    font-size: 14px;
+    padding: 4px 10px;
+    margin: -2px 0;
+
+    svg {
+      display: flex;
+    }
+
+    &.btn-outline-primary {
+      color: $white;
+      border: 1px solid currentColor;
+
+      &:hover {
+        background-color: transparent;
+        border-color: currentColor;
+      }
+
+      .dropdown.active:not(.show) & {
+        color: $maroon !important;
+
+        &:hover,
+        &:focus-visible {
+          color: $white !important;
+        }
+      }
+
+      .dropdown.show & {
+        &,
+        &:hover,
+        &:focus-visible {
+          color: $black !important;
+        }
+      }
+    }
+  }
 }
 
 @include media-breakpoint-up(xl) {

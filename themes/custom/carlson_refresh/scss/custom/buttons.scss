@@ -7,58 +7,71 @@
   //font-size: 1.6rem;
   border-radius: 0;
 
-  &.btn-primary--yellow{
+  &.d-flex {
+    flex-wrap: nowrap;
+
+    > * + * {
+      margin-left: 4px;
+    }
+  }
+
+  &.btn-primary--yellow,
+  &.btn-primary--gold {
     //@include button-outline($menu-gold);
     //background-color: transparent;
     @extend .btn-gold;
   }
-  &.btn-primary--maroon{
+
+  &.btn-primary--maroon {
     //@include button-outline($maroon);
     //background-color: transparent;
     @extend .btn-primary;
   }
-  &.btn-secondary{
+
+  &.btn-secondary {
     //@include button-solid($maroon);
-    @extend .btn-primary;
+    @extend .btn-secondary;
   }
 
   &.btn-link-primary {
     //@include button-link-primary();
     @extend .btn-primary;
   }
+
   &.btn-link-secondary {
     //@include button-link-secondary();
-    @extend .btn-gold;
+    @extend .btn-secondary;
   }
 }
 /* Edior button classes */
 
 .gold-outline-button {
-  //@include button();
-  //display: inline-block;
-  //font-size: 1.6rem;
-  //@include button-outline($menu-gold);
-  //background-color: transparent;
-  //&:hover, &:focus {
-  //  text-decoration: none;
-  //}
+  @include button();
+  display: inline-block;
+  font-size: 1.6rem;
+  @include button-outline($gold);
+  background-color: transparent;
+  &:hover, &:focus {
+    text-decoration: none;
+  }
   @extend .btn;
-  @extend .btn-gold;
-  padding: 0.5rem 1.5rem;
+  @extend .btn-outline-secondary;
+  //padding: 0.5rem 1.5rem;
 }
-.maroon-outline-button{
-  //@include button();
-  //font-size: 1.6rem;
-  //display: inline-block;
-  //@include button-outline($maroon);
-  //background-color: transparent;
-  //&:hover, &:focus {
-  //  text-decoration: none;
-  //}
+.maroon-outline-button {
+  // @include button();
+  // font-size: 1.6rem;
+  // display: inline-block;
+  // @include button-outline($maroon);
+  // background-color: transparent;
+  // &:hover, &:focus {
+  //   text-decoration: none;
+  // }
   @extend .btn;
-  @extend .btn-primary;
-  padding: 0.5rem 1.5rem;
+  @extend .btn-outline-primary;
+  //padding: 0.5rem 1.5rem;
 }
+
 .maroon-solid-button {
   //@include button();
   //font-size: 1.6rem;
@@ -70,6 +83,7 @@
   @extend .btn;
   @extend .btn-primary
 }
+
 .gold-underline-button {
   //font-size: 1.6rem;
   //@include button-link-primary();
@@ -98,4 +112,36 @@
   //}
   @extend .btn;
   @extend .btn-gold;
+}
+
+// A non-standard bootstrap-like class.
+.btn-md {
+  padding: 0.5em 1em;
+  font-size: 1.1em;
+}
+
+.btn-sm,
+.btn-md {
+  letter-spacing: normal;
+  text-transform: capitalize;
+
+  &.btn-outline-primary {
+    color: $soft-black;
+
+    &:hover {
+      color: $white;
+    }
+  }
+
+  &.btn-outline-secondary {
+    color: $maroon;
+  }
+
+  &.btn-secondary {
+    color: $maroon;
+
+    &:hover {
+      color: $maroon;
+    }
+  }
 }

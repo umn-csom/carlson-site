@@ -313,6 +313,7 @@ function carlson_refresh_add_regions_to_node($allowed_regions, &$variables) {
  * @param array $variables
  */
 function carlson_refresh_theme_suggestions_block_alter(array &$suggestions, array $variables) {
+  $name = '';
   $id = $variables['elements']['#id'] ?? '';
   $block_content = $variables['elements']['content']['#block_content'] ?? '';
   $region = $id ? Block::load($id)->getRegion() : '';

@@ -1,23 +1,42 @@
 /* Google Custom search */
-.gsc-search-box {
+form.gsc-search-box {
   tbody,
   tr {
     border: none;
+  }
+
+  main & {
+    display: block !important;
+    margin-bottom: 40px !important;
   }
 }
 
 .umn-search-form {
   margin: 8px 0 40px;
+}
+
+.gsc-control-cse {
+  padding: 0 !important;
+
+  main & {
+    margin-bottom: 100px;
+  }
+}
+
+form.gsc-search-box {
+
+  margin-bottom: 0 !important;;
 
   table,
   table tr,
   table td,
-  form.gsc-search-box,
+  &,
   table.gsc-search-box td.gsc-input {
-    background: transparent;
-    border: 0;
-    padding: 0;
-    margin: 0;
+    background-color: transparent !important;
+    background: transparent !important;
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
   .gsc-input-box {
@@ -27,6 +46,7 @@
     border-bottom-left-radius: 2px;
     border-right: 0;
     box-shadow: 0px -4px 8px 0px rgba(97, 97, 97, 0.15) inset;
+    padding: 0;
 
     input.gsc-input {
       margin: 0 !important;
@@ -35,6 +55,11 @@
       padding: 15px 20px !important;
       height: 54px !important;
       line-height: 1.5;
+
+      @include media-breakpoint-down(md) {
+        padding: 10px 15px !important;
+        height: 44px !important;
+      }
     }
 
     .gsst_b {
@@ -44,7 +69,15 @@
 
     .gsst_a {
       padding: 10px 15px;
+      height: 54px;
       margin: 0;
+      display: flex;
+      align-items: center;
+
+      @include media-breakpoint-down(md) {
+        padding: 10px 15px !important;
+        height: 44px !important;
+      }
 
       .gscb_a {
         color: $header-dark-gray;
@@ -58,6 +91,12 @@
     background: $maroon;
     border-radius: 0;
     margin: 0;
+    height: 56px;
+
+    @include media-breakpoint-down(md) {
+      padding: 11px !important;
+      height: 46px !important;
+    }
 
     svg {
       width: 24px;
