@@ -5,9 +5,10 @@
  * Contains carlson_general.module.
  */
 
-use \Drupal\Core\Breadcrumb\Breadcrumb;
+use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Cache\CacheableMetadata;
-use \Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\node\Entity\Node;
 
 /**
  * Implements hook_system_breadcrumb_alter().
@@ -19,9 +20,9 @@ use \Drupal\Core\Routing\RouteMatchInterface;
  * @return void
  */
 function carlson_general_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInterface $route_match, array $context): void {
-  // Remove "Search & More" link in breadcrumb trail.
   // This will work when drupal.org/i/2966004 gets added.
   if (method_exists($breadcrumb, 'filterLinks')) {
+    // Remove "Search & More" link in breadcrumb trail.
     $breadcrumb->filterLinks(function ($v, $k) {
       return !($k == 0 && $v->getText() == 'Search & More');
     });
@@ -35,9 +36,30 @@ function carlson_general_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteM
 
     /** @var \Drupal\Core\Link $link */
     foreach ($original_links as $link) {
-      if ($link->getText() !== 'Search & More') {
-        $filtered_links[] = $link;
+      // Remove "Search & More" link in breadcrumb trail.
+      if ($link->getText() == 'Search & More') {
+        continue;
       }
+      if (
+        $link->getUrl()->isRouted() &&
+        $link->getUrl()->getRouteName() == 'entity.node.canonical'
+      ) {
+        $nid = $link->getUrl()->getRouteParameters()['node'];
+        if ($title = _carlson_get_breadcrumb_title($nid)) {
+          $link->setText($title);
+        }
+      }
+      if (
+        !next($original_links) &&
+        $link->getUrl()->getRouteName() == '<none>' &&
+        $route_match->getRouteName() == 'entity.node.canonical'
+      ) {
+        $nid = $route_match->getRawParameter('node');
+        if ($title = _carlson_get_breadcrumb_title($nid)) {
+          $link->setText($title);
+        }
+      }
+      $filtered_links[] = $link;
     }
 
     // Recreate breadcrumbs using filtered links.
@@ -46,4 +68,15 @@ function carlson_general_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteM
     $breadcrumb->addCacheableDependency($cacheability);
   }
 
+}
+
+function _carlson_get_breadcrumb_title($nid) {
+  /** @var Drupal\node\Entity\Node $node */
+  $node = Node::load($nid);
+  if ($node->hasField('field_breadcrumb_title')) {
+    $breadcrumb_title = $node->get('field_breadcrumb_title')->value;
+    if (!empty($breadcrumb_title)) {
+      return $breadcrumb_title;
+    }
+  }
 }
