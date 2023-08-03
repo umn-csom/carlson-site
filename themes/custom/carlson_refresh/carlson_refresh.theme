@@ -396,7 +396,7 @@ function carlson_refresh_preprocess_block(&$variables) {
   $plugin = $variables['elements']['#base_plugin_id'] ?? '';
   $derivative = $variables['elements']['#derivative_plugin_id'] ?? '';
   if (!empty($id)) {
-    $region = Block::load($id)->getRegion();
+    $region = Block::load($id) ? Block::load($id)->getRegion() : '';
     if (!empty($region)) {
       $variables['content']['#attributes']['data-block']['region'] = $region;
     }
