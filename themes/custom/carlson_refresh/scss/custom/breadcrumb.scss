@@ -18,19 +18,10 @@
     color: $maroon;
   }
 
-  span {
-    color: $black;
-  }
-
   &::after {
     content: '>';
     padding: 0;
     margin: 0;
-  }
-
-  &:last-child::after {
-    content: '';
-    display: none;
   }
 
   & + & {
@@ -41,7 +32,19 @@
     }
   }
 
-  &:first-child:last-child {
-    display: none;
+  &:last-child {
+    span {
+      color: $black;
+    }
+
+    &::after {
+      content: '';
+      display: none;
+    }
+
+    &:first-child {
+      display: none;
+    }
   }
+
 }
