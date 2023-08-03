@@ -54,7 +54,7 @@
   > .nav-link,
   &.active > .nav-link {
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: $navbar-dark-hover-color;
       background-color: $navbar-dark-hover-bg-color;
       text-decoration: $navbar-dark-hover-text-decoration;
@@ -65,7 +65,7 @@
   &.active.show > .nav-link {
     &,
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: $navbar-dark-show-color;
       background-color: $navbar-dark-show-bg-color;
       text-decoration: $navbar-dark-show-text-decoration;
@@ -96,7 +96,7 @@
   > .nav-link,
   &.active > .nav-link {
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: $navbar-light-hover-color;
       background-color: $navbar-light-hover-bg-color;
       text-decoration: $navbar-light-hover-text-decoration;
@@ -107,7 +107,7 @@
   &.active.show > .nav-link {
     &,
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: $navbar-light-show-color;
       background-color: $navbar-light-show-bg-color;
       text-decoration: $navbar-light-show-text-decoration;
@@ -118,7 +118,7 @@
   > .nav-link.disabled {
     &,
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: $navbar-light-disabled-color;
       background-color: $navbar-light-disabled-bg-color;
       text-decoration: $navbar-light-disabled-text-decoration;
@@ -199,8 +199,8 @@
 
   &.active,
   &:hover,
-  &:focus,
-  &:active {
+  &:focus-visible,
+  .show & {
     background: $light-ivory;
   }
 
@@ -232,8 +232,7 @@
     }
 
     &:hover,
-    &:active,
-    &:focus {
+    &:focus-visible {
       &::before {
         height: .4rem;
         transition: height 120ms ease-out 0ms;
@@ -245,7 +244,8 @@
     &,
     &:hover,
     &:active,
-    &:focus {
+    &:focus,
+    &:focus-visible {
       &::before {
         height: 0;
         background-color: transparent;
@@ -319,7 +319,7 @@
 .nav-item.dropdown.show > .nav-link {
   &:hover,
   &:active,
-  &:focus {
+  &:focus-visible {
     &::before {
       background-color: $ivory;
       height: 0;
@@ -344,7 +344,7 @@
 .menu-toggle {
   &,
   &:hover,
-  &:focus {
+  &:focus-visible {
     text-decoration: none !important;
   }
 }
@@ -354,7 +354,7 @@
     color: $maroon !important;
 
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: $white !important;
     }
   }
@@ -362,7 +362,7 @@
   .dropdown.active.show & {
     &,
     &:hover,
-    &:focus {
+    &:focus-visible {
       color: $black !important;
     }
   }
