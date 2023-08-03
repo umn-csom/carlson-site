@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * Contains carlson_general.module.
+ */
+
+use \Drupal\Core\Breadcrumb\Breadcrumb;
+use Drupal\Core\Cache\CacheableMetadata;
+use \Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_system_breadcrumb_alter().
+ *
+ * @param \Drupal\Core\Breadcrumb\Breadcrumb $breadcrumb
+ * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+ * @param array $context
+ *
+ * @return void
+ */
+function carlson_general_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInterface $route_match, array $context): void {
+  // Remove "Search & More" link in breadcrumb trail.
+  // This will work when drupal.org/i/2966004 gets added.
+  if (method_exists($breadcrumb, 'filterLinks')) {
+    $breadcrumb->filterLinks(function ($v, $k) {
+      return !($k == 0 && $v->getText() == 'Search & More');
+    });
+  }
+  // But until then, we have to do the following.
+  else {
+    // Saving the original links and caching
+    $original_links = $breadcrumb->getLinks();
+    $filtered_links = [];
+    $cacheability = CacheableMetadata::createFromObject($breadcrumb);
+
+    /** @var \Drupal\Core\Link $link */
+    foreach ($original_links as $link) {
+      if ($link->getText() !== 'Search & More') {
+        $filtered_links[] = $link;
+      }
+    }
+
+    // Recreate breadcrumbs using filtered links.
+    $breadcrumb = new Breadcrumb();
+    $breadcrumb->setLinks($filtered_links);
+    $breadcrumb->addCacheableDependency($cacheability);
+  }
+
+}
