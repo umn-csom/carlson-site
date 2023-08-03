@@ -316,7 +316,7 @@ function carlson_refresh_theme_suggestions_block_alter(array &$suggestions, arra
   $name = '';
   $id = $variables['elements']['#id'] ?? '';
   $block_content = $variables['elements']['content']['#block_content'] ?? '';
-  $region = $id ? Block::load($id)->getRegion() : '';
+  $region = $id ? (Block::load($id) ? Block::load($id)->getRegion() : '') : '';
   $plugin = $variables['elements']['#base_plugin_id'] ?? '';
   $derivative = $variables['elements']['#derivative_plugin_id'] ?? '';
   $suggestion = $variables['elements']['#configuration']['suggestion'] ?? '';
