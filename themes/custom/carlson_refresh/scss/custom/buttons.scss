@@ -7,6 +7,14 @@
   //font-size: 1.6rem;
   border-radius: 0;
 
+  &.d-flex {
+    flex-wrap: nowrap;
+
+    > * + * {
+      margin-left: 4px;
+    }
+  }
+
   &.btn-primary--yellow,
   &.btn-primary--gold {
     //@include button-outline($menu-gold);
@@ -120,8 +128,7 @@
   &.btn-outline-primary {
     color: $soft-black;
 
-    &:hover,
-    &:focus {
+    &:hover {
       color: $white;
     }
   }
@@ -133,8 +140,7 @@
   &.btn-secondary {
     color: $maroon;
 
-    &:hover,
-    &:focus {
+    &:hover {
       color: $maroon;
     }
   }
