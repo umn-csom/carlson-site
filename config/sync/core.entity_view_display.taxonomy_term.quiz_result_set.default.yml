@@ -8,6 +8,7 @@ dependencies:
     - field.field.taxonomy_term.quiz_result_set.field_average_work_experience
     - field.field.taxonomy_term.quiz_result_set.field_career_services
     - field.field.taxonomy_term.quiz_result_set.field_course_modality_delivery
+    - field.field.taxonomy_term.quiz_result_set.field_course_schedule
     - field.field.taxonomy_term.quiz_result_set.field_degree_type
     - field.field.taxonomy_term.quiz_result_set.field_full_time_or_part_time
     - field.field.taxonomy_term.quiz_result_set.field_international_applicants
@@ -26,6 +27,7 @@ dependencies:
     - field.field.taxonomy_term.quiz_result_set.field_stem_designated
     - field.field.taxonomy_term.quiz_result_set.field_tuition
     - field.field.taxonomy_term.quiz_result_set.field_undergrad_major
+    - field.field.taxonomy_term.quiz_result_set.field_work_experience
     - image.style.quiz_results_item
     - taxonomy.vocabulary.quiz_result_set
   module:
@@ -47,12 +49,51 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
-  field_degree_type:
+  field_average_work_experience:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_course_modality_delivery:
     type: list_default
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 6
+    weight: 10
+    region: content
+  field_course_schedule:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 14
+    region: content
+  field_degree_type:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 13
+    region: content
+  field_full_time_or_part_time:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_minimum_work_experience_re:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 11
     region: content
   field_quiz_result_set_code:
     type: string
@@ -82,12 +123,16 @@ content:
       view_mode: default
       cache: 0
       skin: ''
+      lazy: ''
       style: ''
       background: false
       box_caption: ''
       box_caption_custom: ''
       box_media_style: ''
+      loading: lazy
+      preload: false
       responsive_image_style: ''
+      use_theme_field: false
       box_style: ''
       image_style: quiz_results_item
       media_switch: ''
@@ -96,13 +141,6 @@ content:
       grid: ''
       grid_medium: ''
       grid_small: ''
-      breakpoints: {  }
-      current_view_mode: default
-      fx: ''
-      icon: ''
-      sizes: ''
-      grid_header: ''
-      _uri: ''
     third_party_settings: {  }
     weight: 2
     region: content
@@ -139,20 +177,24 @@ content:
     region: content
   field_stem_designated:
     type: list_default
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     weight: 7
     region: content
+  field_work_experience:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 15
+    region: content
 hidden:
   field__gmat_gre_required: true
   field_application_deadlines: true
-  field_average_work_experience: true
   field_career_services: true
-  field_course_modality_delivery: true
-  field_full_time_or_part_time: true
   field_international_applicants: true
-  field_minimum_work_experience_re: true
   field_program_experiences: true
   field_program_length: true
   field_quiz_result_set_req_alt: true

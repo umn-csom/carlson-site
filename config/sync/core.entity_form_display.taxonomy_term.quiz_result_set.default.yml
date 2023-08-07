@@ -8,6 +8,7 @@ dependencies:
     - field.field.taxonomy_term.quiz_result_set.field_average_work_experience
     - field.field.taxonomy_term.quiz_result_set.field_career_services
     - field.field.taxonomy_term.quiz_result_set.field_course_modality_delivery
+    - field.field.taxonomy_term.quiz_result_set.field_course_schedule
     - field.field.taxonomy_term.quiz_result_set.field_degree_type
     - field.field.taxonomy_term.quiz_result_set.field_full_time_or_part_time
     - field.field.taxonomy_term.quiz_result_set.field_international_applicants
@@ -26,6 +27,7 @@ dependencies:
     - field.field.taxonomy_term.quiz_result_set.field_stem_designated
     - field.field.taxonomy_term.quiz_result_set.field_tuition
     - field.field.taxonomy_term.quiz_result_set.field_undergrad_major
+    - field.field.taxonomy_term.quiz_result_set.field_work_experience
     - taxonomy.vocabulary.quiz_result_set
   module:
     - link
@@ -49,7 +51,7 @@ content:
     third_party_settings: {  }
   field__gmat_gre_required:
     type: options_select
-    weight: 26
+    weight: 27
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -63,7 +65,7 @@ content:
     third_party_settings: {  }
   field_average_work_experience:
     type: string_textfield
-    weight: 24
+    weight: 25
     region: content
     settings:
       size: 60
@@ -79,19 +81,25 @@ content:
     third_party_settings: {  }
   field_course_modality_delivery:
     type: options_select
-    weight: 20
+    weight: 19
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_course_schedule:
+    type: options_buttons
+    weight: 21
     region: content
     settings: {  }
     third_party_settings: {  }
   field_degree_type:
-    type: options_select
-    weight: 19
+    type: options_buttons
+    weight: 30
     region: content
     settings: {  }
     third_party_settings: {  }
   field_full_time_or_part_time:
     type: options_select
-    weight: 21
+    weight: 20
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -121,7 +129,7 @@ content:
     third_party_settings: {  }
   field_program_length:
     type: text_textarea
-    weight: 27
+    weight: 28
     region: content
     settings:
       rows: 5
@@ -176,7 +184,7 @@ content:
     third_party_settings: {  }
   field_scholarships:
     type: options_select
-    weight: 25
+    weight: 26
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -216,6 +224,12 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
+  field_work_experience:
+    type: options_buttons
+    weight: 24
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   langcode:
     type: language_select
     weight: 2
@@ -244,7 +258,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 28
+    weight: 29
     region: content
     settings:
       display_label: true

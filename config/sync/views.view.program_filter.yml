@@ -4,6 +4,9 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.taxonomy_term.program_filter_card
+    - taxonomy.vocabulary.course_schedule
+    - taxonomy.vocabulary.degree_type
+    - taxonomy.vocabulary.minimum_work_experience_required
     - taxonomy.vocabulary.quiz_result_set
   module:
     - better_exposed_filters
@@ -24,7 +27,7 @@ display:
     display_plugin: default
     position: 0
     display_options:
-      title: 'Browse Programs'
+      title: 'Browse Graduate Programs'
       fields:
         name:
           id: name
@@ -75,23 +78,9 @@ display:
           field_api_classes: false
           convert_spaces: false
       pager:
-        type: mini
+        type: none
         options:
           offset: 0
-          items_per_page: 10
-          total_pages: null
-          id: 0
-          tags:
-            next: ››
-            previous: ‹‹
-          expose:
-            items_per_page: false
-            items_per_page_label: 'Items per page'
-            items_per_page_options: '5, 10, 25, 50'
-            items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
-            offset: false
-            offset_label: Offset
       exposed_form:
         type: bef
         options:
@@ -116,6 +105,17 @@ display:
               secondary_open: false
               reset_button_always_show: false
             filter:
+              field_degree_type_target_id:
+                plugin_id: bef
+                advanced:
+                  sort_options: false
+                  rewrite:
+                    filter_rewrite_values: ''
+                  collapsible: false
+                  is_secondary: false
+                select_all_none: false
+                select_all_none_nested: false
+                display_inline: false
               field_course_modality_delivery_value:
                 plugin_id: bef
                 advanced:
@@ -127,7 +127,7 @@ display:
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
-              field_degree_type_value:
+              field_course_schedule_target_id:
                 plugin_id: bef
                 advanced:
                   sort_options: false
@@ -138,23 +138,17 @@ display:
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
-              field_full_time_or_part_time_value:
+              field_work_experience_target_id:
                 plugin_id: bef
                 advanced:
                   sort_options: false
                   rewrite:
-                    filter_rewrite_values: ''
+                    filter_rewrite_values: 'No work experience required|None required'
                   collapsible: false
                   is_secondary: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
-              field_minimum_work_experience_re_value:
-                plugin_id: default
-                advanced:
-                  placeholder_text: ''
-                  collapsible: false
-                  is_secondary: false
               field_stem_designated_value:
                 plugin_id: bef
                 advanced:
@@ -186,9 +180,86 @@ display:
           plugin_id: bundle
           value:
             quiz_result_set: quiz_result_set
+          group: 1
           expose:
             operator_limit_selection: false
             operator_list: {  }
+        field_degree_type_target_id:
+          id: field_degree_type_target_id
+          table: taxonomy_term__field_degree_type
+          field: field_degree_type_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_degree_type_target_id_op
+            label: 'Degree Type'
+            description: ''
+            use_operator: false
+            operator: field_degree_type_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_degree_type_target_id
+            required: false
+            remember: false
+            multiple: true
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              faculty_profile_creator: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              news_editor: '0'
+              ed_abroad_editor: '0'
+              editor: '0'
+              sr_editor: '0'
+              administrator: '0'
+              moderator: '0'
+              video_creator: '0'
+              video_reviewer: '0'
+              magazine_creator: '0'
+              magazine_reviewer: '0'
+              email_page_creator: '0'
+              email_page_reviewer: '0'
+              faces_creator: '0'
+              faces_reviewer: '0'
+              front_page_creator: '0'
+              front_page_reviewer: '0'
+              news_landing_creator: '0'
+              news_landing_reviewer: '0'
+              alumni_default_page_creator: '0'
+              alumni_default_page_reviewer: '0'
+              alumni_landing_page_creator: '0'
+              alumni_landing_page_reviewer: '0'
+              quiz_creator: '0'
+              quiz_reviewer: '0'
+              curriculum_plan_creator: '0'
+              curriculum_plan_reviewer: '0'
+              wiley_partnership: '0'
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: degree_type
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
         field_course_modality_delivery_value:
           id: field_course_modality_delivery_value
           table: taxonomy_term__field_course_modality_delivery
@@ -274,28 +345,28 @@ display:
                 operator: or
                 value:
                   Online: Online
-          reduce_duplicates: false
-        field_degree_type_value:
-          id: field_degree_type_value
-          table: taxonomy_term__field_degree_type
-          field: field_degree_type_value
+          reduce_duplicates: true
+        field_course_schedule_target_id:
+          id: field_course_schedule_target_id
+          table: taxonomy_term__field_course_schedule
+          field: field_course_schedule_target_id
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: list_field
+          plugin_id: taxonomy_index_tid
           operator: or
           value: {  }
           group: 1
           exposed: true
           expose:
-            operator_id: field_degree_type_value_op
-            label: 'Degree Type'
+            operator_id: field_course_schedule_target_id_op
+            label: Schedule
             description: ''
             use_operator: false
-            operator: field_degree_type_value_op
+            operator: field_course_schedule_target_id_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: field_degree_type_value
+            identifier: field_course_schedule_target_id
             required: false
             remember: false
             multiple: true
@@ -335,113 +406,46 @@ display:
             reduce: false
           is_grouped: false
           group_info:
-            label: 'Degree Type'
+            label: ''
             description: ''
-            identifier: field_degree_type_value
+            identifier: ''
             optional: true
-            widget: radios
+            widget: select
             multiple: false
             remember: false
             default_group: All
             default_group_multiple: {  }
-            group_items:
-              1:
-                title: MBA/Masters
-                operator: or
-                value:
-                  MBA/Masters: MBA/Masters
-              2:
-                title: 'Graduate Certificates'
-                operator: or
-                value:
-                  'Graduate Certificates': 'Graduate Certificates'
-              3:
-                title: Dual-Degree
-                operator: or
-                value:
-                  Dual-Degree: Dual-Degree
+            group_items: {  }
           reduce_duplicates: false
-        field_full_time_or_part_time_value:
-          id: field_full_time_or_part_time_value
-          table: taxonomy_term__field_full_time_or_part_time
-          field: field_full_time_or_part_time_value
+          vid: course_schedule
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+        field_work_experience_target_id:
+          id: field_work_experience_target_id
+          table: taxonomy_term__field_work_experience
+          field: field_work_experience_target_id
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: list_field
+          plugin_id: taxonomy_index_tid
           operator: or
           value: {  }
           group: 1
           exposed: true
           expose:
-            operator_id: field_full_time_or_part_time_value_op
-            label: 'Full-Time or Part-Time (field_full_time_or_part_time)'
-            description: null
-            use_operator: false
-            operator: field_full_time_or_part_time_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_full_time_or_part_time_value
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: true
-          group_info:
-            label: Delivery
-            description: ''
-            identifier: field_full_time_or_part_time_value
-            optional: true
-            widget: radios
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items:
-              1:
-                title: Full-time
-                operator: or
-                value:
-                  Full-time: Full-time
-                  'Full-time and part-time options': 'Full-time and part-time options'
-                  'Full-time on Fridays and Saturdays (alternating weeks)': 'Full-time on Fridays and Saturdays (alternating weeks)'
-              2:
-                title: Part-time
-                operator: or
-                value:
-                  Part-time: Part-time
-                  'Full-time and part-time options': 'Full-time and part-time options'
-              3:
-                title: ''
-                operator: or
-                value: {  }
-          reduce_duplicates: false
-        field_minimum_work_experience_re_value:
-          id: field_minimum_work_experience_re_value
-          table: taxonomy_term__field_minimum_work_experience_re
-          field: field_minimum_work_experience_re_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: string
-          operator: '='
-          value: ''
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_minimum_work_experience_re_value_op
+            operator_id: field_work_experience_target_id_op
             label: 'Minimum Work Experience'
             description: ''
             use_operator: false
-            operator: field_minimum_work_experience_re_value_op
+            operator: field_work_experience_target_id_op
             operator_limit_selection: false
             operator_list: {  }
-            identifier: field_minimum_work_experience_re_value
+            identifier: field_work_experience_target_id
             required: false
             remember: false
-            multiple: false
+            multiple: true
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
@@ -475,22 +479,25 @@ display:
               curriculum_plan_creator: '0'
               curriculum_plan_reviewer: '0'
               wiley_partnership: '0'
-            placeholder: ''
+            reduce: false
           is_grouped: false
           group_info:
-            label: 'Minimum Work Experience Required (field_minimum_work_experience_re)'
-            description: null
-            identifier: field_minimum_work_experience_re_value
+            label: ''
+            description: ''
+            identifier: ''
             optional: true
             widget: select
             multiple: false
             remember: false
             default_group: All
             default_group_multiple: {  }
-            group_items:
-              1: {  }
-              2: {  }
-              3: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: minimum_work_experience_required
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
         field_stem_designated_value:
           id: field_stem_designated_value
           table: taxonomy_term__field_stem_designated
@@ -575,7 +582,90 @@ display:
                 title: ''
                 operator: or
                 value: {  }
-          reduce_duplicates: false
+          reduce_duplicates: true
+        field_quiz_result_set_code_value:
+          id: field_quiz_result_set_code_value
+          table: taxonomy_term__field_quiz_result_set_code
+          field: field_quiz_result_set_code_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: string
+          operator: '!='
+          value: maba
+          group: 2
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_quiz_result_set_code_value_1:
+          id: field_quiz_result_set_code_value_1
+          table: taxonomy_term__field_quiz_result_set_code
+          field: field_quiz_result_set_code_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: string
+          operator: empty
+          value: ''
+          group: 2
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+          2: OR
       style:
         type: default
         options:
@@ -605,7 +695,7 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.query_args
+        - user
         - user.permissions
       tags: {  }
   page_1:
@@ -626,6 +716,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url
-        - url.query_args
+        - user
         - user.permissions
       tags: {  }
