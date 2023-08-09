@@ -10,6 +10,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\file\FileInterface;
+use Drupal\file\FileRepositoryInterface;
 use Drupal\migrate\MigrateMessage;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
@@ -51,6 +52,13 @@ class MigrateRedirectForm extends FormBase {
   protected $entityTypeManager;
 
   /**
+   * The file repository.
+   *
+   * @var \Drupal\file\FileRepositoryInterface
+   */
+  protected $fileRepository;
+
+  /**
    * Constructs a MigrateRedirectForm object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -61,12 +69,21 @@ class MigrateRedirectForm extends FormBase {
    *   The tempstore factory.
    * @param \Drupal\Core\Session\AccountInterface $current_user
    *   Current user.
+   * @param \Drupal\file\FileRepositoryInterface $file_repository
+   *   The file repository.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, MigrationPluginManagerInterface $migration_plugin_manager, PrivateTempStoreFactory $temp_store_factory, AccountInterface $current_user) {
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    MigrationPluginManagerInterface $migration_plugin_manager,
+    PrivateTempStoreFactory $temp_store_factory,
+    AccountInterface $current_user,
+    FileRepositoryInterface $file_repository
+  ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->migrationPluginManager = $migration_plugin_manager;
     $this->privateTempStore = $temp_store_factory->get('redirect_multiple_delete_confirm');
     $this->currentUser = $current_user;
+    $this->fileRepository = $file_repository;
   }
 
   /**
@@ -77,7 +94,8 @@ class MigrateRedirectForm extends FormBase {
       $container->get('entity_type.manager'),
       $container->get('plugin.manager.migration'),
       $container->get('tempstore.private'),
-      $container->get('current_user')
+      $container->get('current_user'),
+      $container->get('file.repository')
     );
   }
 
@@ -153,13 +171,20 @@ my-source-path,https://example.com,und,302',
 
       foreach ($reader as $key => $record) {
         $csvLine = $key + 1;
+        // Validate if the headers in the CSV file have the correct label.
+        if (!isset($record['source']) || !isset($record['destination'])
+         || !isset($record['language']) || !isset($record['status_code'])) {
+          $form_state->setErrorByName($key, 'Header line should follow the following labels: source,destination,language,status_code');
+          $file->delete();
+          return;
+        }
         // Validate character encoding.
         if (mb_check_encoding($record['source'], 'UTF-8') === FALSE
           || mb_check_encoding($record['destination'], 'UTF-8') === FALSE
           || mb_check_encoding($record['language'], 'UTF-8') === FALSE
           || mb_check_encoding($record['status_code'], 'UTF-8') === FALSE) {
           $removeFile = TRUE;
-          $csvHtml = t('Line @line in @label contains wrong character(s)', [
+          $csvHtml = $this->t('Line @line in @label contains wrong character(s)', [
             '@line' => $csvLine,
             '@name' => $file->label(),
           ]);
@@ -169,7 +194,7 @@ my-source-path,https://example.com,und,302',
 
         if (in_array(NULL, $record, TRUE) || in_array('', $record, TRUE)) {
           $removeFile = TRUE;
-          $csvHtml = t('Line @line in @label contains empty/null value(s)', [
+          $csvHtml = $this->t('Line @line in @label contains empty/null value(s)', [
             '@line' => $csvLine,
             '@name' => $file->label(),
           ]);
@@ -180,7 +205,7 @@ my-source-path,https://example.com,und,302',
         // Use ltrim to compare url with /url.
         if (trim($record['source']) === ltrim(trim($record['destination']), '/')) {
           $removeFile = TRUE;
-          $csvHtml = t('Line @line in @label contains the same URL destination as source', [
+          $csvHtml = $this->t('Line @line in @label contains the same URL destination as source', [
             '@line' => $csvLine,
             '@name' => $file->label(),
           ]);
@@ -272,7 +297,7 @@ my-source-path,https://example.com,und,302',
   protected function processSpreadsheet(int $fid) {
     /** @var \Drupal\file\Entity\File $file */
     $file = $this->entityTypeManager->getStorage('file')->load($fid);
-    return file_move($file, self::MIGRATE_FILE_PATH, FileSystemInterface::EXISTS_REPLACE);
+    return $this->fileRepository->move($file, self::MIGRATE_FILE_PATH, FileSystemInterface::EXISTS_REPLACE);
   }
 
   /**
@@ -293,7 +318,7 @@ my-source-path,https://example.com,und,302',
     $records = $this->getReader()->getRecords($header);
 
     foreach ($records as $record) {
-      $parsed_url = UrlHelper::parse($record['source']);
+      $parsed_url = UrlHelper::parse(urldecode($record['source']));
       $path = $parsed_url['path'] ?? NULL;
       $query = $parsed_url['query'] ?? NULL;
       $hash = Redirect::generateHash($path, $query, $record['language']);
