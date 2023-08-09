@@ -7,6 +7,7 @@ use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
+use Drupal\file\FileRepositoryInterface;
 use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
 use League\Csv\Writer;
 
@@ -35,6 +36,13 @@ class RedirectExport {
   protected $entityTypeManager;
 
   /**
+   * The file repository.
+   *
+   * @var \Drupal\file\FileRepositoryInterface
+   */
+  protected $fileRepository;
+
+  /**
    * Constructs a RedirectExport object.
    *
    * @param \Drupal\Core\File\FileSystemInterface $file_system
@@ -43,11 +51,19 @@ class RedirectExport {
    *   The entity type manager.
    * @param \Drupal\migrate\Plugin\MigrationPluginManagerInterface $migration_plugin_manager
    *   The plugin manager for config entity-based migrations.
+   * @param \Drupal\file\FileRepositoryInterface $file_repository
+   *   The file repository.
    */
-  public function __construct(FileSystemInterface $file_system, EntityTypeManagerInterface $entity_type_manager, MigrationPluginManagerInterface $migration_plugin_manager) {
+  public function __construct(
+    FileSystemInterface $file_system,
+    EntityTypeManagerInterface $entity_type_manager,
+    MigrationPluginManagerInterface $migration_plugin_manager,
+    FileRepositoryInterface $file_repository
+  ) {
     $this->fileSystem = $file_system;
     $this->entityTypeManager = $entity_type_manager;
     $this->migrationPluginManager = $migration_plugin_manager;
+    $this->fileRepository = $file_repository;
   }
 
   /**
@@ -60,7 +76,7 @@ class RedirectExport {
   /**
    * Creates the spreadsheet file to export entries to.
    *
-   * @return \Drupal\file\FileInterface|false
+   * @return \Drupal\file\FileInterface
    *   File.
    *
    * @throws \Drupal\Core\Entity\EntityStorageException
@@ -70,7 +86,7 @@ class RedirectExport {
     $uri = self::MIGRATE_FOLDER . $filename;
     $directory = self::MIGRATE_FOLDER;
     $result = $this->fileSystem->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
-    return file_save_data('', $uri, FileSystemInterface::EXISTS_REPLACE);
+    return $this->fileRepository->writeData('', $uri, FileSystemInterface::EXISTS_REPLACE);
   }
 
   /**
@@ -135,6 +151,7 @@ class RedirectExport {
     $ids = $this->entityTypeManager
       ->getStorage('redirect')
       ->getQuery()
+      ->accessCheck(TRUE)
       ->execute();
 
     // Breakdown process into small batches.
@@ -232,7 +249,7 @@ class RedirectExport {
     /** @var \Drupal\file\Entity\File $file */
     $file = !empty($results['file']) ? $results['file'] : NULL;
     if ($success && !empty($file)) {
-      $uri = file_create_url($file->getFileUri());
+      $uri = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
       $url = Url::fromUri($uri);
       $download = Link::fromTextAndUrl(t('link'), $url);
       $return['link'] = $url;

@@ -28,11 +28,15 @@ process:
     plugin: default_value
     default_value: 1
   redirect_source:
-    plugin: callback
-    callable:
-      - '\Drupal\Component\Utility\UrlHelper'
-      - parse
-    source: source
+    -
+      plugin: callback
+      callable: urldecode
+      source: source
+    -
+      plugin: callback
+      callable:
+        - '\Drupal\Component\Utility\UrlHelper'
+        - parse
   redirect_redirect/uri:
     plugin: link_uri
     validate_route: false

@@ -9,7 +9,7 @@ use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\migrate\Plugin\MigrationPluginManager;
-use Drupal\migrate_tools\Commands\MigrateToolsCommands;
+use Drupal\migrate_tools\Drush\MigrateToolsCommands;
 use Drupal\path_redirect_import\Form\MigrateRedirectForm;
 use Drupal\path_redirect_import\RedirectExport;
 
