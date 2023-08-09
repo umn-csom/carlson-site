@@ -1,0 +1,42 @@
+uuid: ceb6d11c-a9b7-494e-a941-015acc5b4afa
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.main
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_sidenav_main_level_3
+theme: carlson_refresh
+region: sticky_sidebar
+weight: 0
+provider: null
+plugin: 'menu_block:main'
+settings:
+  id: 'menu_block:main'
+  label: 'Sidenav Main - level 3'
+  label_display: '0'
+  provider: menu_injector
+  follow: true
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 3
+  depth: 0
+  expand_all_items: true
+  parent: 'main:'
+  suggestion: custom__sidenav_without_parent
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/centers-institutes/*\r\n!/centers-institutes/*/*"
