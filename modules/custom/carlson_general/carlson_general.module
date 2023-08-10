@@ -22,22 +22,22 @@ use Drupal\node\Entity\Node;
 function carlson_general_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInterface $route_match, array $context): void {
   // This will work when drupal.org/i/2966004 gets added.
   if (method_exists($breadcrumb, 'filterLinks')) {
-    // Remove "Search & More" link in breadcrumb trail.
+    // Remove "More" link in breadcrumb trail.
     $breadcrumb->filterLinks(function ($v, $k) {
-      return !($k == 0 && $v->getText() == 'Search & More');
+      return !($k == 0 && $v->getText() == 'More');
     });
   }
   // But until then, we have to do the following.
   else {
-    // Saving the original links and caching
+    // Saving the original links and caching.
     $original_links = $breadcrumb->getLinks();
     $filtered_links = [];
     $cacheability = CacheableMetadata::createFromObject($breadcrumb);
 
     /** @var \Drupal\Core\Link $link */
     foreach ($original_links as $link) {
-      // Remove "Search & More" link in breadcrumb trail.
-      if ($link->getText() == 'Search & More') {
+      // Remove "More" link in breadcrumb trail.
+      if ($link->getText() == 'More') {
         continue;
       }
       if (
