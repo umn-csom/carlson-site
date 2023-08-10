@@ -40,6 +40,7 @@ function carlson_general_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteM
       if ($link->getText() == 'More') {
         continue;
       }
+      // Use shorter breadcrumb title from node.
       if (
         $link->getUrl()->isRouted() &&
         $link->getUrl()->getRouteName() == 'entity.node.canonical'
@@ -50,12 +51,14 @@ function carlson_general_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteM
         }
       }
       if (
-        !next($original_links) &&
         $link->getUrl()->getRouteName() == '<none>' &&
         $route_match->getRouteName() == 'entity.node.canonical'
       ) {
         $nid = $route_match->getRawParameter('node');
-        if ($title = _carlson_get_breadcrumb_title($nid)) {
+        if (
+          $link->getText() == _carlson_get_title($nid) &&
+          $title = _carlson_get_breadcrumb_title($nid)
+        ) {
           $link->setText($title);
         }
       }
@@ -69,6 +72,13 @@ function carlson_general_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteM
   }
 
 }
+
+function _carlson_get_title($nid) {
+  /** @var Drupal\node\Entity\Node $node */
+  $node = Node::load($nid);
+  return $node->getTitle();
+}
+
 
 function _carlson_get_breadcrumb_title($nid) {
   /** @var Drupal\node\Entity\Node $node */
