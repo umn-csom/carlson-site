@@ -64,11 +64,11 @@
               <a href="{{ item.url }}" class="nav-link nav-link--button" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
             {% endif %}
             {% set dropdown_side = (loop.last and menu_level == 0) ? 'dropdown-menu-right' : 'dropdown-menu-left' %}
-            {{ menus.menu_links(item.below, 'navbar-primary--animate navbar-primary--slide dropdown-menu ' ~ dropdown_side, menu_level + 1, context, last) }}
+            {{ menus.menu_links(item.below, 'dropdown-animate dropdown-slide dropdown-menu ' ~ dropdown_side, menu_level + 1, context, last) }}
           {% else %}
-            <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropwdown-dark dropdown-toggle">{{ item.title }}</a>
+            <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropdown-toggle">{{ item.title }}</a>
             {% set attrs = create_attribute() %}
-            {{ menus.menu_links(item.below, 'navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu-left', menu_level + 1, context, last) }}
+            {{ menus.menu_links(item.below, 'dropdown-animate dropdown-slide dropdown-menu dropdown-menu-left', menu_level + 1, context, last) }}
           {% endif %}
         {% else %}
           <a href="{{ item.url }}" class="{% if menu_level == 0 %}nav-link{% else %}dropdown-item{% endif %}">{{ item.title }}</a>

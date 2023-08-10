@@ -17,6 +17,7 @@
       {% for item in items %}
         {% set last = last_parent or (menu_level == 0 and loop.last) %}
         {% set is_top_level = menu_level == 0 %}
+        {% set is_sub_level = menu_level > 0 %}
         {% set is_with_megamenu = item.below and has_megamenu(item.url) %}
         {% set is_submenu = item.below and not is_top_level and not is_with_megamenu %}
         {% set is_apply_button = item.title == 'Apply' %}
@@ -28,85 +29,69 @@
             'nav-item',
             item.below ? 'dropdown',
             is_with_megamenu ? 'dropdown--mega-menu',
-            item.in_active_trail ? 'active',
             is_submenu ? 'dropdown-submenu',
             is_submenu and not last ? 'dropright',
             is_submenu and last ? 'dropleft',
             is_search_and_more and not has_apply_button ? 'ml-auto',
             is_apply_button ? 'ml-auto',
+            item.in_active_trail ? 'in-active-trail',
           ]
         %}
-        {% set link_classes = [
+        {%
+          set link_classes = [
             is_top_level and is_button ? 'nav-button',
-            is_top_level and is_button and item.below ? 'nav-button--has-dropdown',
             is_top_level and not is_button ? 'nav-link',
-            is_top_level and not is_button and item.below ? 'nav-link--has-dropdown',
+            is_top_level and item.below ? 'has-dropdown',
+            is_top_level and item.below and is_link ? 'is-unreachable',
             not is_top_level ? 'dropdown-item',
-            not is_top_level and item.below ? 'dropwdown-dark dropdown-toggle',
+            not is_top_level and item.below ? 'dropdown-toggle',
             is_search_and_more ? 'menu-toggle menu-toggle--mega-menu',
+            item.in_active_trail ? 'in-active-trail',
           ]
         %}
         {% set link_attrs = {
-            'class': link_classes,
-            'href': item.url|render,
-          }
-        %}
+          'class': link_classes
+        } %}
         {% if is_with_megamenu or item.below %}
           {% set link_attrs = link_attrs|merge({
-              'role': ['button'],
-              'data-toggle': ['dropdown'],
-              'aria-haspopup': ['true'],
-              'aria-expanded': ['false'],
-            })
-          %}
+            'role': 'button',
+            'data-toggle': 'dropdown',
+            'aria-haspopup': 'true',
+            'aria-expanded': 'false',
+          }) %}
         {% endif %}
-        {% set linkAttr = create_attribute(link_attrs) %}
         <li{{ item.attributes.addClass(classes) }}>
-          <a{{ linkAttr }}>
-          {% if is_search_and_more %}
-            <span class="btn btn--menu-toggle btn-sm btn-outline-primary d-flex flex-nowrap text-uppercase">
-              <span>{{ 'Menu'|t }}</span>
-              {{ source(context.theme_directory ~ '/images/svg/icon-menu-search.svg') }}
-            </span>
-          {% elseif is_apply_button %}
-            <span class="btn btn-sm btn-secondary">
+          {% set link_markup %}
+            {% if is_search_and_more %}
+              <span class="btn btn--menu-toggle btn-sm btn-outline-primary d-flex flex-nowrap text-uppercase">
+                <span>{{ 'Menu'|t }}</span>
+                {{ source(context.theme_directory ~ '/images/svg/icon-menu-search.svg') }}
+              </span>
+            {% elseif is_apply_button %}
+              <span class="btn btn-sm btn-secondary">
+                {{ item.title }}
+              </span>
+            {% else %}
               {{ item.title }}
-            </span>
-          {% else %}
-            {{ item.title }}
-          {% endif %}
-          </a>
+            {% endif %}
+          {% endset %}
+          {{ link(link_markup, item.url, link_attrs) }}
         {% if item.below %}
           {% if is_top_level %}
             {% if is_with_megamenu %}
-              <div class="navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu--mega-menu dropdown-menu-left" role="menu">
+              <div class="dropdown-animate dropdown-slide dropdown-menu dropdown-menu--mega-menu dropdown-menu-left" role="menu">
                 <div class="mega-menu-background"></div>
                 {{ view_megamenu(item.url, 'before') }}
               </div>
             {% else %}
               {% set dropdown_side = (loop.last and is_top_level) ? 'dropdown-menu-right' : 'dropdown-menu-left' %}
-              {{ menus.menu_links(item.below, 'navbar-primary--animate navbar-primary--slide dropdown-menu ' ~ dropdown_side, menu_level + 1, context, last) }}
+              {{ menus.menu_links(item.below, 'dropdown-animate dropdown-slide dropdown-menu ' ~ dropdown_side, menu_level + 1, context, last) }}
             {% endif %}
           {% else %}
-            {{ menus.menu_links(item.below, 'navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu-left', menu_level + 1, context, last) }}
+            {{ menus.menu_links(item.below, 'dropdown-animate dropdown-slide dropdown-menu dropdown-menu-left', menu_level + 1, context, last) }}
           {% endif %}
         {% endif %}
         </li>
-        {# <li{{item.attributes.addClass(classes)}}>
-          {{ link(item.title, item.url) }}
-          {% if item.below %}
-            {% if has_megamenu(item.url) %}
-              <div class="mega-menu-wrapper">
-                <div class="mega-menu-background"></div>
-                {{ view_megamenu(item.url, 'before') }}
-                {{ menus.menu_links(item.below, attributes.addClass('mega-menu-item'), menu_level + 1, context, last) }}
-                {{ view_megamenu(item.url, 'after') }}
-              </div>
-            {% else %}
-              {{ menus.menu_links(item.below, attributes.removeClass('mega-menu-item'), menu_level + 1, context, last) }}
-            {% endif %}
-          {% endif %}
-        </li> #}
       {% endfor %}
       </ul>
     {% endif %}
