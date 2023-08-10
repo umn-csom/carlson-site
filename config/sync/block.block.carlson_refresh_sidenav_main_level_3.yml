@@ -1,38 +1,42 @@
-uuid: d3d24bfa-d6e2-47b4-9e0d-5caf9ac674de
+uuid: ceb6d11c-a9b7-494e-a941-015acc5b4afa
 langcode: en
-status: false
+status: true
 dependencies:
   config:
     - block_visibility_groups.block_visibility_group.sidebar_navs
-    - system.menu.academic-degrees-undergradu
+    - system.menu.main
   module:
     - block_visibility_groups
     - menu_injector
+    - system
   theme:
     - carlson_refresh
-id: carlson_refresh_academicdegreesundergraduate
+id: carlson_refresh_sidenav_main_level_3
 theme: carlson_refresh
 region: sticky_sidebar
-weight: -40
+weight: 0
 provider: null
-plugin: 'menu_block:academic-degrees-undergradu'
+plugin: 'menu_block:main'
 settings:
-  id: 'menu_block:academic-degrees-undergradu'
-  label: 'Academic Degrees Undergraduate'
+  id: 'menu_block:main'
+  label: 'Sidenav Main - level 3'
   label_display: '0'
   provider: menu_injector
   follow: true
-  follow_parent: '-1'
+  follow_parent: child
   label_link: false
   label_type: block
-  level: 2
-  depth: 9
-  expand_all_items: false
-  parent: 'academic-degrees-undergradu:'
-  suggestion: custom__sidenav_with_parent
+  level: 3
+  depth: 0
+  expand_all_items: true
+  parent: 'main:'
+  suggestion: custom__sidenav_without_parent
 visibility:
   condition_group:
     id: condition_group
     negate: false
-    context_mapping: {  }
     block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/centers-institutes/*\r\n!/centers-institutes/*/*"
