@@ -43,8 +43,11 @@
         {% if item.below %}
           {% if menu_level == 0 %}
             <li{{ item.attributes.addClass('nav-item', 'dropdown', classes) }}>
-              <a href="{{ item.url }}" class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
-              {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
+              <div class="btn-group">
+                <a href="{{ item.url }}" class="nav-link" role="button">{{ item.title }}</a>
+                <button class="btn btn-sm navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="sr-only">Toggle children links</span><svg fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><path d="m15.146 6.263-1.292-1.526L8 9.69 2.146 4.737.854 6.263 8 12.31l7.146-6.047Z"></path></svg></button>
+                {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
+              </div>
             </li>
           {% else %}
             {% set dropdirection = last ? 'dropleft' : 'dropright' %}
