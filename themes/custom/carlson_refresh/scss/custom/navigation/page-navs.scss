@@ -8,6 +8,10 @@
     top: 0; // overridden by inline styles from sticky-menu.js
   }
 
+  &__collapsed-trigger {
+    display: none;
+  }
+
   &__label {
     @extend .h3;
     color: $maroon;
@@ -22,16 +26,6 @@
       text-decoration: none;
     }
   }
-  &__nav {
-    &--closed {
-      display: none;
-      opacity: 0;
-    }
-    &--opened {
-      display: block;
-      opacity: 1;
-    }
-  }
 
   &__link {
     border-left: 6px solid transparent;
@@ -43,40 +37,48 @@
   }
 
   @include media-breakpoint-up(lg) {
-    &__label {
-      display: block;
-    }
-    &__nav {
-      &--closed {
-        @include media-breakpoint-up(lg) {
-          display: block;
-          opacity: 1;
-        }
-      }
+    &__collapsed-trigger {
+      display: none;
     }
   }
   @include media-breakpoint-down(md) {
-    border-top: 1px solid $light-gray;
-    border-bottom: 1px solid $light-gray;
-    &__label {
-      &::before {
-        @include accordion-icon($icon-plus, $maroon);
-        font-weight: bold;
-        @include rfs(2rem);
-        vertical-align: middle;
-        padding-bottom: 0.8rem;
-        display: inline-block;
-      }
-      &:hover,
-      &:focus,
-      &:active {
-        color: $body-color;
-      }
-      &--opened {
-        &::before {
-          content: $icon-minus;
+    margin: 0 0 3rem;
+    &__collapsed-target {
+      background: $light-light-ivory;
+      padding: 0 2rem 1.5rem;
+    }
+
+    &__collapsed-trigger {
+      display: block;
+      background-color: $light-warm-ivory;
+
+      &[aria-expanded="false"] {
+        .close-icon {
+          display: none;
+        }
+
+        + .sticky-menu__collapsed-target {
+          display: none;
         }
       }
+
+      &[aria-expanded="true"] {
+        background: $light-light-ivory;
+
+        .open-icon {
+          display: none;
+        }
+
+        + .sticky-menu__collapsed-target {
+          display: block;
+        }
+      }
+    }
+
+    &__label {
+      margin: 0 0 1.5rem;
+      padding: 1rem 0;
+      font-size: 2rem;
     }
   }
 }
