@@ -34,7 +34,7 @@
   {% macro menu_links(items, classes, menu_level, context, last_parent) %}
     {% import _self as menus %}
     {% if items %}
-      <ul class="{{ classes }}" role="menu">
+      <ul class="{{ classes }}" >
       {% for item in items %}
         {% set last = last_parent or (menu_level == 0 and loop.last) %}
         {%
