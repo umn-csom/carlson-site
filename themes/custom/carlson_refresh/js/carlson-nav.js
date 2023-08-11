@@ -11,7 +11,7 @@
    // Multi Level dropdowns
    // ------------------------------------------------------ //
    $( document ).ready( function () {
-    $( '.dropdown-menu a.dropdown-toggle' ).on( 'click', function ( e ) {
+    $( '.dropdown-menu .dropdown-toggle' ).on( 'click', function ( e ) {
         var $el = $( this );
         $el.toggleClass('active-dropdown');
         var $parent = $( this ).offsetParent( ".dropdown-menu" );

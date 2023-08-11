@@ -35,31 +35,54 @@
           {% if menu_level == 0 %}
             <ul class="navbar-nav  navbar-nav--primary" role="menu">
           {% else %}
-            <ul class="navbar-primary--animate navbar-primary--slide dropdown-menu dropdown-menu-left" role="menu">
+            <ul class="dropdown-animate dropdown-slide dropdown-menu dropdown-menu-left" role="menu">
           {% endif %}
               {% for item in items %}
               {% set last = last_parent or (menu_level == 0 and loop.last) %}
+              {% set is_top_level = menu_level == 0 %}
+              {% set is_sub_level = menu_level > 0 %}
               {%
-                set classes = [
-                  item.in_active_trail ? 'active',
+                set item_classes = [
+                  'nav-item',
+                  item.below ? 'dropdown',
+                  item.below and is_sub_level ? 'dropdown-submenu',
+                  item.below and is_sub_level and last ? 'dropleft',
+                  item.below and is_sub_level and not last ? 'dropright',
+                  item.in_active_trail ? 'is-active-trail',
                 ]
               %}
-                {% if item.below %}
-                  {% if menu_level == 0 %}
-                    <li{{ item.attributes.addClass('nav-item', 'dropdown', classes) }}>
-                      <a href="{{ item.url }}" class="nav-link" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ item.title }}</a>
+              {%
+                set link_classes = [
+                  is_top_level ? 'nav-link' : 'dropdown-item',
+                  is_top_level and item.below and is_link ? 'is-unreachable',
+                  item.below and is_sub_level ? 'dropdown-toggle',
+                  item.in_active_trail ? 'is-active-trail',
+                ]
+              %}
+              {% set link_attrs = {
+                'class': link_classes,
+              } %}
+              {% if item.below %}
+                {% set link_attrs = link_attrs|merge({
+                  'role': 'button',
+                  'data-toggle': 'dropdown',
+                  'aria-haspopup': 'true',
+                  'aria-expanded': 'false',
+                }) %}
+                  {% if is_top_level %}
+                    <li{{ item.attributes.addClass(item_classes) }}>
+                      {{ link(item.title, item.url, link_attrs) }}
                       {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
                     </li>
                   {% else %}
-                    {% set dropdirection = last ? 'dropleft' : 'dropright' %}
-                    <li{{ item.attributes.addClass('nav-item', 'dropdown', dropdirection, 'dropdown-submenu', classes) }}>
-                      <a href="{{ item.url }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-item dropwdown-dark dropdown-toggle">{{ item.title }}</a>
+                    <li{{ item.attributes.addClass(item_classes) }}>
+                      {{ link(item.title, item.url, link_attrs) }}
                       {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
                     </li>
                   {% endif %}
                 {% else %}
-                  <li{{ item.attributes.addClass('nav-item', classes) }}>
-                    <a href="{{ item.url }}" class="{% if menu_level == 0 %}nav-link{% else %}dropdown-item{% endif %}">{{ item.title }}</a>
+                  <li{{ item.attributes.addClass(item_classes) }}>
+                    {{ link(item.title, item.url, link_attrs) }}
                   </li>
                 {% endif %}
               {% endfor %}
