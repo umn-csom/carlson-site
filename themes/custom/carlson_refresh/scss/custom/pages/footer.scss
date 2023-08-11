@@ -3,39 +3,44 @@
  * Visual styles for comments in Barrio.
  */
 .footer {
-  font-size: $font-size-default * 1.6;
+  font-size: $font-size-default * 1.7;
+  font-weight: normal;
+
   a {
     color: $white;
-    font-weight: 600;
-    &:hover, &:focus{
-      text-decoration: underline;
-      text-underline-position: under;
-    }
+    font-weight: normal;
   }
-  &__info {
-    line-height: 1.8;
-  }
+
   @include media-breakpoint-down(md) {
     a {
       text-decoration: underline;
-      text-underline-position: under;
+    }
+  }
+
+  &__info {
+    line-height: 1.8;
+  }
+
+  &__links {
+    line-height: 1.5;
+    .nav-item {
+      margin: 0 0 1.6rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .nav-link {
+      margin: 0;
+      padding: 0.15rem 0;
+
+      font-weight: normal;
+
+      &.in-active-trail,
+      &.is-active {
+        font-weight: 600; //semi-bold
+      }
     }
   }
 }
-//#umnhf-f.umnhf a {
-//  color: $maroon;
-//}
-//#umnhf-f.umnhf small a {
-//  font-size: inherit;
-//  font-family: inherit;
-//}
-//#umnhf-f-myu {
-//  text-align: center;
-//  ul li {
-//    display: inline-block;
-//    a {
-//      padding: 0 2rem;
-//      text-decoration: underline;
-//    }
-//  }
-//}
