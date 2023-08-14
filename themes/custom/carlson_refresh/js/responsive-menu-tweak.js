@@ -13,14 +13,14 @@
           .append(
             '<a class="mm-btn--close" id="close-nav" href="#mm-0" aria-label="close menu">&times;</a>'
           ),
-        brandingMinessota = $("#umnhf-h-wm-svg svg").clone()
+        brandingMinnesota = $("#umnhf-h-wm-svg svg").clone()
         .wrap('<div class="mm-navbar__logo" />').parent()
-        .wrap('<div class="mm-navbar__branding umnhf-background-gold minessota_logo" />').parent();
+        .wrap('<div class="mm-navbar__branding umnhf-background-gold minnesota_logo" />').parent();
       if (!mm_menu.hasClass("mm-menu--csm-customized")) {
         mm_menu
           .prepend(gsc_search)
           .prepend(branding)
-          .prepend(brandingMinessota)
+          .prepend(brandingMinnesota)
           .addClass("mm-menu--csm-customized");
       }
 
