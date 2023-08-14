@@ -7,16 +7,20 @@
       var mm_menu = $(".mm-menu"),
         gsc_search = $(".umn-search-form").clone()
           .addClass('mm-navbar__search'),
-        branding = $(".site-branding__logo--mobile").clone()
+        branding = $(".site-branding__logo--desktop").clone()
           .wrap('<div class="mm-navbar__logo" />').parent()
           .wrap('<div class="mm-navbar__branding" />').parent()
           .append(
             '<a class="mm-btn--close" id="close-nav" href="#mm-0" aria-label="close menu">&times;</a>'
-          );
+          ),
+        brandingMinessota = $("#umnhf-h-wm-svg svg").clone()
+        .wrap('<div class="mm-navbar__logo" />').parent()
+        .wrap('<div class="mm-navbar__branding umnhf-background-gold minessota_logo" />').parent();
       if (!mm_menu.hasClass("mm-menu--csm-customized")) {
         mm_menu
           .prepend(gsc_search)
           .prepend(branding)
+          .prepend(brandingMinessota)
           .addClass("mm-menu--csm-customized");
       }
 
