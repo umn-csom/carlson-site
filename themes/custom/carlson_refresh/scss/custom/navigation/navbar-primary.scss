@@ -521,31 +521,30 @@
     svg {
       display: flex;
     }
+  }
+  .btn-outline-primary {
+    color: $white;
+    border: 1px solid currentColor;
 
-    &.btn-outline-primary {
-      color: $white;
-      border: 1px solid currentColor;
+    &:hover {
+      background-color: transparent;
+      border-color: currentColor;
+    }
 
-      &:hover {
-        background-color: transparent;
-        border-color: currentColor;
+    .dropdown.in-active-trail:not(.show) & {
+      color: $maroon !important;
+
+      &:hover,
+      &:focus-visible {
+        color: $white !important;
       }
+    }
 
-      .dropdown.active:not(.show) & {
-        color: $maroon !important;
-
-        &:hover,
-        &:focus-visible {
-          color: $white !important;
-        }
-      }
-
-      .dropdown.show & {
-        &,
-        &:hover,
-        &:focus-visible {
-          color: $black !important;
-        }
+    .dropdown.show & {
+      &,
+      &:hover,
+      &:focus-visible {
+        color: $black !important;
       }
     }
   }
