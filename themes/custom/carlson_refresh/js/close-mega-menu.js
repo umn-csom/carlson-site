@@ -9,6 +9,12 @@
           }
         }
       });
+
+      $(document).keyup(function(e) {
+        if (e.key === "Escape") {
+          $('div.dropdown-menu--mega-menu').removeClass('show');
+        }
+      });
     },
   };
 })(jQuery, Drupal);
