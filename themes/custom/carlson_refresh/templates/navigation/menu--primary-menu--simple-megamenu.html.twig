@@ -12,7 +12,7 @@
   {% macro menu_links(items, classes, menu_level, context, last_parent) %}
     {% import _self as menus %}
     {% if items %}
-      <ul class="{{ classes }}" >
+      <ul class="{{ classes }}">
       {% set has_apply_button = FALSE %}
       {% for item in items %}
         {% set last = last_parent or (menu_level == 0 and loop.last) %}
@@ -75,11 +75,15 @@
               {{ item.title }}
             {% endif %}
           {% endset %}
-          {{ link(link_markup, item.url, link_attrs) }}
+          {% set url = item.url %}
+          {% if is_search_and_more %}
+            {% set url = 'route:<button>' %}
+          {% endif %}
+          {{ link(link_markup, url, link_attrs) }}
         {% if item.below %}
           {% if is_top_level %}
             {% if is_with_megamenu %}
-              <div class="dropdown-animate dropdown-slide dropdown-menu dropdown-menu--mega-menu dropdown-menu-left" >
+              <div class="dropdown-animate dropdown-slide dropdown-menu dropdown-menu--mega-menu dropdown-menu-left">
                 <div class="mega-menu-background"></div>
                 {{ view_megamenu(item.url, 'before') }}
               </div>

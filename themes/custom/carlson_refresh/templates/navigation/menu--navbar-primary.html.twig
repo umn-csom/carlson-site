@@ -33,7 +33,7 @@
         {% import _self as menus %}
         {% if items %}
           {% if menu_level == 0 %}
-            <ul class="navbar-nav  navbar-nav--primary" >
+            <ul class="navbar-nav navbar-nav--primary">
           {% else %}
             <ul class="dropdown-animate dropdown-slide dropdown-menu dropdown-menu-left" >
           {% endif %}
@@ -62,6 +62,10 @@
               {% set link_attrs = {
                 'class': link_classes,
               } %}
+              {% set url = item.url %}
+              {% if is_search_and_more %}
+                {% set url = 'route:<button>' %}
+              {% endif %}
               {% if item.below %}
                 {% set link_attrs = link_attrs|merge({
                   'role': 'button',
@@ -71,18 +75,18 @@
                 }) %}
                   {% if is_top_level %}
                     <li{{ item.attributes.addClass(item_classes) }}>
-                      {{ link(item.title, item.url, link_attrs) }}
+                      {{ link(item.title, url, link_attrs) }}
                       {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
                     </li>
                   {% else %}
                     <li{{ item.attributes.addClass(item_classes) }}>
-                      {{ link(item.title, item.url, link_attrs) }}
+                      {{ link(item.title, url, link_attrs) }}
                       {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
                     </li>
                   {% endif %}
                 {% else %}
                   <li{{ item.attributes.addClass(item_classes) }}>
-                    {{ link(item.title, item.url, link_attrs) }}
+                    {{ link(item.title, url, link_attrs) }}
                   </li>
                 {% endif %}
               {% endfor %}
