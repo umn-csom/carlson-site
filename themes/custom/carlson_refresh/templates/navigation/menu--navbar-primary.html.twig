@@ -1,95 +1,103 @@
-{#
-/**
- * @file
- * Default theme implementation to display a menu.
- *
- * Available variables:
- * - menu_name: The machine name of the menu.
- * - items: A nested list of menu items. Each menu item contains:
- *   - attributes: HTML attributes for the menu item.
- *   - below: The menu item child items.
- *   - title: The menu link title.
- *   - url: The menu link url, instance of \Drupal\Core\Url
- *   - localized_options: Menu link localized options.
- *   - is_expanded: TRUE if the link has visible children within the current
- *     menu tree.
- *   - is_collapsed: TRUE if the link has children within the current menu tree
- *     that are not currently visible.
- *   - in_active_trail: TRUE if the link is in the active trail.
- *
- * @ingroup themeable
- */
-#}
-<div class="d-none d-lg-block">
-  <div class="container-fluid container-xl pl-0">
-    {# <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCarlson" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button> #}
-    <div class="collapse navbar-collapse" id="navbarCarlson">
-      {% import _self as menus %}
-      {{ menus.menu_links(items, attributes, 0, false) }}
+<div class="container-fluid container-xl pl-0">
+  {% import _self as menus %}
 
-      {% macro menu_links(items, attributes, menu_level, last_parent) %}
-        {% import _self as menus %}
-        {% if items %}
-          {% if menu_level == 0 %}
-            <ul class="navbar-nav  navbar-nav--primary" >
+  {#
+    We call a macro which calls itself to render the full tree.
+    @see http://twig.sensiolabs.org/doc/tags/macro.html
+  #}
+  {{ attach_library('simple_megamenu/base') }}
+  {% set attributes = create_attribute() %}
+  {{ menus.menu_links(items, 'navbar-nav navbar-nav--primary w-100', 0, _context, false) }}
+
+  {% macro menu_links(items, classes, menu_level, context, last_parent) %}
+    {% import _self as menus %}
+    {% if items %}
+      <ul class="{{ classes }}">
+      {% set has_apply_button = FALSE %}
+      {% for item in items %}
+        {% set last = last_parent or (menu_level == 0 and loop.last) %}
+        {% set is_top_level = menu_level == 0 %}
+        {% set is_sub_level = menu_level > 0 %}
+        {% set is_with_megamenu = item.below and has_megamenu(item.url) %}
+        {% set is_submenu = item.below and not is_top_level and not is_with_megamenu %}
+        {% set is_apply_button = item.title == 'Apply' %}
+        {% set is_search_and_more = menu_level == 0 and loop.last %}
+        {% set has_apply_button = has_apply_button or is_apply_button %}
+        {% set is_button = is_apply_button or is_search_and_more %}
+        {%
+          set classes = [
+            'nav-item',
+            item.below ? 'dropdown',
+            is_with_megamenu ? 'dropdown--mega-menu',
+            is_submenu ? 'dropdown-submenu',
+            is_submenu and not last ? 'dropright',
+            is_submenu and last ? 'dropleft',
+            is_search_and_more and not has_apply_button ? 'ml-auto',
+            is_apply_button ? 'ml-auto',
+            item.in_active_trail ? 'in-active-trail',
+          ]
+        %}
+        {%
+          set link_classes = [
+            is_top_level and is_button ? 'nav-button',
+            is_top_level and not is_button ? 'nav-link',
+            is_top_level and item.below ? 'has-dropdown',
+            is_top_level and item.below and is_link ? 'is-unreachable',
+            not is_top_level ? 'dropdown-item',
+            not is_top_level and item.below ? 'dropdown-toggle',
+            is_search_and_more ? 'menu-toggle menu-toggle--mega-menu',
+            item.in_active_trail ? 'in-active-trail',
+          ]
+        %}
+        {% set link_attrs = {
+          'class': link_classes
+        } %}
+        {% if is_with_megamenu or item.below %}
+          {% set link_attrs = link_attrs|merge({
+            'role': 'button',
+            'data-toggle': 'dropdown',
+            'aria-haspopup': 'true',
+            'aria-expanded': 'false',
+          }) %}
+        {% endif %}
+        <li{{ item.attributes.addClass(classes) }}>
+          {% set link_markup %}
+            {% if is_search_and_more %}
+              <span class="btn btn--menu-toggle btn-sm btn-outline-primary d-flex flex-nowrap text-uppercase">
+                <span>{{ 'Menu'|t }}</span>
+                {{ source(context.theme_directory ~ '/images/svg/icon-menu-search.svg') }}
+              </span>
+            {% elseif is_apply_button %}
+              <span class="btn btn-sm btn-secondary">
+                {{ item.title }}
+              </span>
+            {% else %}
+              {{ item.title }}
+            {% endif %}
+          {% endset %}
+          {% set url = item.url %}
+          {% if is_search_and_more %}
+            {% set url = 'route:<button>' %}
+          {% endif %}
+          {{ link(link_markup, url, link_attrs) }}
+        {% if item.below %}
+          {% if is_top_level %}
+            {% if is_with_megamenu %}
+              <div class="dropdown-animate dropdown-slide dropdown-menu dropdown-menu--mega-menu dropdown-menu-left">
+                <div class="mega-menu-background"></div>
+                {{ view_megamenu(item.url, 'before') }}
+              </div>
+            {% else %}
+              {% set dropdown_side = (loop.last and is_top_level) ? 'dropdown-menu-right' : 'dropdown-menu-left' %}
+              {{ menus.menu_links(item.below, 'dropdown-animate dropdown-slide dropdown-menu ' ~ dropdown_side, menu_level + 1, context, last) }}
+            {% endif %}
           {% else %}
-            <ul class="dropdown-animate dropdown-slide dropdown-menu dropdown-menu-left" >
+            {{ menus.menu_links(item.below, 'dropdown-animate dropdown-slide dropdown-menu dropdown-menu-left', menu_level + 1, context, last) }}
           {% endif %}
-              {% for item in items %}
-              {% set last = last_parent or (menu_level == 0 and loop.last) %}
-              {% set is_top_level = menu_level == 0 %}
-              {% set is_sub_level = menu_level > 0 %}
-              {%
-                set item_classes = [
-                  'nav-item',
-                  item.below ? 'dropdown',
-                  item.below and is_sub_level ? 'dropdown-submenu',
-                  item.below and is_sub_level and last ? 'dropleft',
-                  item.below and is_sub_level and not last ? 'dropright',
-                  item.in_active_trail ? 'is-active-trail',
-                ]
-              %}
-              {%
-                set link_classes = [
-                  is_top_level ? 'nav-link' : 'dropdown-item',
-                  is_top_level and item.below and is_link ? 'is-unreachable',
-                  item.below and is_sub_level ? 'dropdown-toggle',
-                  item.in_active_trail ? 'is-active-trail',
-                ]
-              %}
-              {% set link_attrs = {
-                'class': link_classes,
-              } %}
-              {% if item.below %}
-                {% set link_attrs = link_attrs|merge({
-                  'role': 'button',
-                  'data-toggle': 'dropdown',
-                  'aria-haspopup': 'true',
-                  'aria-expanded': 'false',
-                }) %}
-                  {% if is_top_level %}
-                    <li{{ item.attributes.addClass(item_classes) }}>
-                      {{ link(item.title, item.url, link_attrs) }}
-                      {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
-                    </li>
-                  {% else %}
-                    <li{{ item.attributes.addClass(item_classes) }}>
-                      {{ link(item.title, item.url, link_attrs) }}
-                      {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
-                    </li>
-                  {% endif %}
-                {% else %}
-                  <li{{ item.attributes.addClass(item_classes) }}>
-                    {{ link(item.title, item.url, link_attrs) }}
-                  </li>
-                {% endif %}
-              {% endfor %}
-            </ul>
-          {% endif %}
-        {% endmacro %}
-      </div>
-    </div>
-  </div>
-<!-- end navbar -->
+        {% endif %}
+        </li>
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endmacro %}
+</div>
