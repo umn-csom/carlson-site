@@ -70,12 +70,6 @@
               {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
             </li>
           {% else %}
-            {% set link_attrs = link_attrs|merge({
-              'role': 'button',
-              'data-toggle': 'dropdown',
-              'aria-haspopup': 'true',
-              'aria-expanded': 'false',
-            }) %}
             <li{{ item.attributes.addClass(item_classes) }}>
               {{ link(item.title, item.url, link_attrs) }}
               <button class="btn btn-sm nav-button dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><svg fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><title>Toggle sub-menu</title><path d="M6.263 15.146 12.31 8 6.263.854 4.737 2.146 9.69 8l-4.953 5.854 1.526 1.292Z"></path></svg></button>
