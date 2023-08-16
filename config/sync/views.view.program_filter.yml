@@ -85,7 +85,7 @@ display:
         type: bef
         options:
           submit_button: Apply
-          reset_button: false
+          reset_button: true
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
@@ -111,7 +111,7 @@ display:
                   sort_options: false
                   rewrite:
                     filter_rewrite_values: ''
-                  collapsible: false
+                  collapsible: true
                   is_secondary: false
                 select_all_none: false
                 select_all_none_nested: false
@@ -122,7 +122,7 @@ display:
                   sort_options: false
                   rewrite:
                     filter_rewrite_values: ''
-                  collapsible: false
+                  collapsible: true
                   is_secondary: false
                 select_all_none: false
                 select_all_none_nested: false
@@ -133,7 +133,7 @@ display:
                   sort_options: false
                   rewrite:
                     filter_rewrite_values: ''
-                  collapsible: false
+                  collapsible: true
                   is_secondary: false
                 select_all_none: false
                 select_all_none_nested: false
@@ -144,7 +144,7 @@ display:
                   sort_options: false
                   rewrite:
                     filter_rewrite_values: 'No work experience required|None required'
-                  collapsible: false
+                  collapsible: true
                   is_secondary: false
                 select_all_none: false
                 select_all_none_nested: false
@@ -155,7 +155,7 @@ display:
                   sort_options: false
                   rewrite:
                     filter_rewrite_values: ''
-                  collapsible: false
+                  collapsible: true
                   is_secondary: false
                 select_all_none: false
                 select_all_none_nested: false
@@ -168,7 +168,22 @@ display:
         type: tag
         options: {  }
       empty: {  }
-      sorts: {  }
+      sorts:
+        weight:
+          id: weight
+          table: taxonomy_term_field_data
+          field: weight
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: taxonomy_term
+          entity_field: weight
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       arguments: {  }
       filters:
         vid:
