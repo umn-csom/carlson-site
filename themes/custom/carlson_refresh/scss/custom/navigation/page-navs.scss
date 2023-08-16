@@ -1,324 +1,87 @@
 .sticky-menu {
-  position: relative;
+  // NOTE: sticky-menu must appear inside sticky-sidebar, and all inner divs
+  // sticky-sidebar and sticky-menu must have height: 100% (i.e. class h-100)
+  // for the stickiness to take effect on scroll.
+
+  &.is-stuck {
+    position: sticky;
+    top: 0; // overridden by inline styles from sticky-menu.js
+  }
+
+  &__collapsed-trigger {
+    display: none;
+  }
+
   &__label {
     @extend .h3;
-    color: $black;
-    padding-left: 1.5rem;
+    color: $maroon;
+    padding-left: 2rem;
+    font-size: 3.2rem;
     display: block;
+    border-bottom: 2px solid $menu-line-grey;
+    margin-bottom: 2.5rem;
+    padding-bottom: 0.8rem;
     &:hover {
-      color: $black;
+      color: $maroon;
       text-decoration: none;
     }
   }
-  &__nav {
-    &--closed {
-      display: none;
-      opacity: 0;
-    }
-    &--opened {
-      display: block;
-      opacity: 1;
-    }
-  }
-  &__sub-menu {
-    .sticky-menu {
-      &__link {
-        &.active {
-          border-left-width: 4px !important;
-        }
-      }
+
+  &__link {
+    border-left: 6px solid transparent;
+    transition: border-left 300ms ease-out;
+
+    &.is-active {
+      border-left-color: $gold;
     }
   }
+
   @include media-breakpoint-up(lg) {
-    &__label {
-      display: inline-block;
-    }
-    &__nav {
-      &--closed {
-        @include media-breakpoint-up(lg) {
-          display: block;
-          opacity: 1;
-        }
-      }
-    }
-    &:after {
-      content: "";
-      display: block;
-      width: 2px;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      right: 0;
-      background: map-get($theme-colors, "primary");
+    &__collapsed-trigger {
+      display: none;
     }
   }
   @include media-breakpoint-down(md) {
-    border-top: 1px solid $light-gray;
-    border-bottom: 1px solid $light-gray;
-    &__label {
-      &::before {
-        @include accordion-icon($icon-plus, $maroon);
-        font-weight: bold;
-        @include rfs(2rem);
-        vertical-align: middle;
-        padding-bottom: 0.8rem;
-        display: inline-block;
+    margin: 0 0 3rem;
+    &__collapsed-target {
+      background: $light-light-ivory;
+      padding: 0 2rem 1.5rem;
+    }
+
+    &__collapsed-trigger {
+      display: block;
+      background-color: $light-warm-ivory;
+
+      &[aria-expanded="false"] {
+        .close-icon {
+          display: none;
+        }
+
+        + .sticky-menu__collapsed-target {
+          display: none;
+        }
       }
-      &:hover,
-      &:focus,
-      &:active {
-        color: $body-color;
-      }
-      &--opened {
-        &::before {
-          content: $icon-minus;
+
+      &[aria-expanded="true"] {
+        background: $light-light-ivory;
+
+        .open-icon {
+          display: none;
+        }
+
+        + .sticky-menu__collapsed-target {
+          display: block;
         }
       }
     }
+
+    &__label {
+      margin: 0 0 1.5rem;
+      padding: 1rem 0;
+      font-size: 2rem;
+    }
   }
 }
-
-//.sticky-menu {
-//	margin-bottom: 25px;
-//	margin-top: 10px;
-//
-//	&.freeze {
-//		position: fixed!important;
-//		height: 600px;
-//		overflow: auto;
-//	}
-//
-//	a {
-//		&:hover, &:focus {
-//			text-decoration: none!important;
-//		}
-//	}
-//
-//	&__label {
-//		@include menu-sub-font();
-//		font-weight: bold;
-//		color: $maroon!important;
-//		font-size: 1.8rem;
-//		line-height : 110%;
-//		width: 100%;
-//		display: inline-block;
-//		border-top: 1px solid $warm-gray;
-//		border-bottom: 1px solid $warm-gray;
-//		padding : 10px 0;
-//		min-height : 65px;
-//		@include media-breakpoint-up(lg) {
-//			@include font-newsreader-base();
-//			font-size: 3rem;
-//			border-top: none;
-//			border-bottom: 2px solid $gold;
-//			letter-spacing: 0;
-//			text-transform: none;
-//			font-weight: normal;
-//			padding: 0 0 10px 0;
-//			margin-bottom : 10px;
-//			max-width: 260px;
-//		}
-//
-//		&:before {
-//			@include carlson-icons($icon-plus);
-//            color: $dark-gray;
-//			font-size: 2.5rem;
-//
-//			@include media-breakpoint-up(lg) {
-//                display: none;
-//            }
-//		}
-//
-//		&--inside {
-//			word-wrap: break-word;
-//			white-space: normal;
-//			padding-left: 25px;
-//			padding-top: 0;
-//			display: inline-block;
-//			max-width: 100%;
-//			margin-top: 9px;
-//			position: absolute;
-//
-//			@include media-breakpoint-up(lg) {
-//				padding: 0;
-//				position: relative;
-//			}
-//		}
-//
-//		&--opened {
-//			&:before {
-//				@include carlson-icons($icon-minus);
-//			}
-//		}
-//
-//		&--single {
-//			@include font-sans-serif-base();
-//			text-transform: uppercase;
-//			letter-spacing: 1.5px;
-//		}
-//	}
-//
-//	&__nav {
-//		list-style-type: none;
-//		padding: 0;
-//		transition: opacity .5s;
-//		max-width: 90%;
-//		margin-left: auto;
-//		margin-right: auto;
-//
-//		@include media-breakpoint-up(lg) {
-//			max-width: 100%;
-//		}
-//
-//		&--closed {
-//			display: none;
-//			opacity: 0;
-//
-//			@include media-breakpoint-up(lg) {
-//				display: block;
-//				opacity: 1;
-//            }
-//		}
-//
-//		&--opened {
-//			display: block;
-//			opacity: 1;
-//		}
-//	}
-//
-//	&__item {
-//		width: 100%;
-//		@include font-sans-serif-base();
-//		font-weight: normal;
-//		line-height : 130%;
-//		border-bottom: 1px solid $warm-gray;
-//
-//		cursor: pointer;
-//
-//		@include media-breakpoint-up(lg) {
-//			border-bottom: none;
-//		}
-//
-//		a {
-//			padding: 10px 5px;
-//			color: $slate;
-//			word-wrap: break-word;
-//			white-space: normal;
-//			display: inline-table;
-//			max-width: 100%;
-//			text-decoration: none;
-//			max-width: 260px;
-//			width: 100%;
-//			&:hover, &:focus {
-//				color : $maroon;
-//				font-weight: bold;
-//				text-decoration : underline;
-//				background: $lightergray;
-//			}
-//		}
-//
-//		&:before {
-//			color: $maroon;
-//			position: absolute;
-//			font-size: 1rem;
-//			right: 0;
-//			margin-right: 45px;
-//			margin-top : 2px;
-//			@include media-breakpoint-up(sm) {
-//				margin-right: 7%;
-//			}
-//
-//			@include media-breakpoint-up(lg) {
-//				margin: 0;
-//				padding: 0;
-//				left: 0;
-//				right: inherit;
-//				position: relative;
-//				padding-right: 5px;
-//				top: -2px;
-//			}
-//		}
-//
-//		&--active-trail {
-//			font-weight: bold;
-//			a.is-active {
-//				border-left: 4px solid $gold;
-//				padding-left: 5px;
-//			}
-//
-//
-//			&:before {
-//
-//				@include media-breakpoint-up(lg) {
-//				}
-//			}
-//		}
-//
-//		&--extra {
-//			.is-active {
-//				display: none;
-//			}
-//			@include media-breakpoint-up(lg) {
-//				display: none;
-//			}
-//		}
-//
-//		&--has-submenu {
-//			.subnav {
-//				display: none;
-//				list-style-type: none;
-//				padding: 0;
-//				width: 100%;
-//
-//				@include media-breakpoint-up(lg) {
-//					width: calc(100% - 15px);
-//					line-height: 2rem;
-//					margin-left: 15px;
-//				}
-//
-//				&--opened {
-//					display: inline-block;
-//					@include media-breakpoint-up(lg) {
-//						margin-top: 10px;
-//					}
-//				}
-//
-//				.sticky-menu__item {
-//
-//					text-transform: none;
-//					letter-spacing: 0;
-//
-//					@include media-breakpoint-up(lg) {
-//						line-height: 2rem;
-//					}
-//				}
-//			}
-//		}
-//
-//		&:last-child {
-//			border-bottom: none;
-//		}
-//	}
-//
-//	&__additional {
-//		max-width: 260px;
-//		.additional-divider {
-//			color: $light-gray;
-//			max-width: 180px;
-//		}
-//		a {
-//			&::after {
-//				@include carlson-icons($icon-external-link);
-//				padding-left: 5px;
-//    			font-size: 1.2rem;
-//			}
-//			&:hover, &:focus {
-//				color: $gold;
-//			}
-//		}
-//	}
-//
-//}
 
 .inner_nav {
   .block {

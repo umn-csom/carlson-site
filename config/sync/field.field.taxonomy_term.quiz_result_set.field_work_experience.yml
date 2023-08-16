@@ -1,0 +1,29 @@
+uuid: 474fb5b3-a3d2-4b9d-8702-694055945634
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_work_experience
+    - taxonomy.vocabulary.minimum_work_experience_required
+    - taxonomy.vocabulary.quiz_result_set
+id: taxonomy_term.quiz_result_set.field_work_experience
+field_name: field_work_experience
+entity_type: taxonomy_term
+bundle: quiz_result_set
+label: 'Minimum Work Experience Required'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      minimum_work_experience_required: minimum_work_experience_required
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

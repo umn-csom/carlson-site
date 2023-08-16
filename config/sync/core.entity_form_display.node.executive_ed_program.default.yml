@@ -1,0 +1,539 @@
+uuid: a71548e7-0e5b-4599-8ccd-dd3371210b24
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.executive_ed_program.body
+    - field.field.node.executive_ed_program.field_accordion
+    - field.field.node.executive_ed_program.field_breadcrumb_title
+    - field.field.node.executive_ed_program.field_contact_info
+    - field.field.node.executive_ed_program.field_course_audi
+    - field.field.node.executive_ed_program.field_course_ben
+    - field.field.node.executive_ed_program.field_course_schedule
+    - field.field.node.executive_ed_program.field_ee_benefits
+    - field.field.node.executive_ed_program.field_ee_bottom_first
+    - field.field.node.executive_ed_program.field_ee_bottom_second
+    - field.field.node.executive_ed_program.field_ee_business_challenge
+    - field.field.node.executive_ed_program.field_ee_business_topic
+    - field.field.node.executive_ed_program.field_ee_catalog_link
+    - field.field.node.executive_ed_program.field_ee_cost
+    - field.field.node.executive_ed_program.field_ee_course_brochure
+    - field.field.node.executive_ed_program.field_ee_course_dates
+    - field.field.node.executive_ed_program.field_ee_course_location
+    - field.field.node.executive_ed_program.field_ee_faculty
+    - field.field.node.executive_ed_program.field_ee_featured_faculty
+    - field.field.node.executive_ed_program.field_ee_level
+    - field.field.node.executive_ed_program.field_ee_mili_program
+    - field.field.node.executive_ed_program.field_ee_program_audience
+    - field.field.node.executive_ed_program.field_ee_program_body
+    - field.field.node.executive_ed_program.field_ee_program_teaser
+    - field.field.node.executive_ed_program.field_ee_program_type
+    - field.field.node.executive_ed_program.field_ee_related_courses
+    - field.field.node.executive_ed_program.field_flexible_features
+    - field.field.node.executive_ed_program.field_force_single_column
+    - field.field.node.executive_ed_program.field_hero_media
+    - field.field.node.executive_ed_program.field_menu_rule
+    - field.field.node.executive_ed_program.field_meta_tags
+    - field.field.node.executive_ed_program.field_program_finder_type
+    - field.field.node.executive_ed_program.field_section
+    - field.field.node.executive_ed_program.field_sidebar_content
+    - node.type.executive_ed_program
+  module:
+    - chosen_field
+    - content_moderation
+    - field_group
+    - link
+    - media_library
+    - metatag
+    - paragraphs
+    - path
+    - text
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - group_hero
+        - group_main_content
+        - group_cost_registration
+        - group_dates
+        - group_f
+        - group_course_details
+        - group_bottom_blocks
+        - group_contact
+        - group_administrative
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: tabs
+      format_settings:
+        classes: ''
+        id: ''
+        direction: vertical
+    group_hero:
+      children:
+        - title
+        - field_ee_program_teaser
+        - field_hero_media
+      label: Hero
+      region: content
+      parent_name: group_content
+      weight: 19
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_cost_registration:
+      children:
+        - field_ee_cost
+        - field_ee_course_brochure
+      label: 'Cost & Brochure'
+      region: content
+      parent_name: group_content
+      weight: 21
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_administrative:
+      children:
+        - field_section
+        - field_ee_related_courses
+        - field_menu_rule
+        - field_ee_level
+        - field_ee_business_topic
+      label: Administrative
+      region: content
+      parent_name: group_content
+      weight: 27
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_main_content:
+      children:
+        - field_ee_catalog_link
+        - body
+        - field_force_single_column
+        - field_course_audi
+        - field_course_ben
+        - field_sidebar_content
+      label: 'Main Content'
+      region: content
+      parent_name: group_content
+      weight: 20
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_course_details:
+      children:
+        - field_course_schedule
+        - field_accordion
+        - field_ee_faculty
+      label: 'Course Details'
+      region: content
+      parent_name: group_content
+      weight: 24
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_f:
+      children:
+        - field_flexible_features
+      label: 'Flexible Features'
+      region: content
+      parent_name: group_content
+      weight: 23
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_dates:
+      children:
+        - field_ee_course_location
+        - field_ee_course_dates
+      label: Dates
+      region: content
+      parent_name: group_content
+      weight: 22
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_contact:
+      children:
+        - field_contact_info
+      label: 'Contact Info'
+      region: content
+      parent_name: group_content
+      weight: 26
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_bottom_blocks:
+      children:
+        - field_ee_bottom_first
+        - field_ee_bottom_second
+      label: 'Bottom Blocks'
+      region: content
+      parent_name: group_content
+      weight: 25
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+id: node.executive_ed_program.default
+targetEntityType: node
+bundle: executive_ed_program
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 33
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  created:
+    type: datetime_timestamp
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_accordion:
+    type: entity_reference_paragraphs
+    weight: 38
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_breadcrumb_title:
+    type: string_textfield
+    weight: 43
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_contact_info:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_course_audi:
+    type: entity_reference_paragraphs
+    weight: 35
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_course_ben:
+    type: entity_reference_paragraphs
+    weight: 36
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_course_schedule:
+    type: entity_reference_paragraphs
+    weight: 37
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_ee_bottom_first:
+    type: entity_reference_paragraphs
+    weight: 7
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_ee_bottom_second:
+    type: entity_reference_paragraphs
+    weight: 8
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_ee_business_topic:
+    type: options_buttons
+    weight: 11
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_ee_catalog_link:
+    type: link_default
+    weight: 32
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_ee_cost:
+    type: number
+    weight: 30
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_ee_course_brochure:
+    type: link_default
+    weight: 31
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_ee_course_dates:
+    type: entity_reference_paragraphs
+    weight: 41
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_ee_course_location:
+    type: options_select
+    weight: 40
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_ee_faculty:
+    type: entity_reference_paragraphs
+    weight: 40
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_ee_level:
+    type: options_buttons
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_ee_program_teaser:
+    type: text_textarea
+    weight: 13
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_ee_related_courses:
+    type: chosen_select
+    weight: 8
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_flexible_features:
+    type: entity_reference_paragraphs
+    weight: 2
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+  field_force_single_column:
+    type: boolean_checkbox
+    weight: 34
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_hero_media:
+    type: media_library_widget
+    weight: 42
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_menu_rule:
+    type: entity_reference_autocomplete
+    weight: 9
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_meta_tags:
+    type: metatag_firehose
+    weight: 9
+    region: content
+    settings:
+      sidebar: true
+      use_details: true
+    third_party_settings: {  }
+  field_section:
+    type: entity_reference_autocomplete
+    weight: 7
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_sidebar_content:
+    type: text_textarea
+    weight: 37
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+  moderation_state:
+    type: moderation_state_default
+    weight: 12
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 7
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  promote:
+    type: boolean_checkbox
+    weight: 4
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  simple_sitemap:
+    weight: 11
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: boolean_checkbox
+    weight: 8
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    weight: 5
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 12
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  uid:
+    type: entity_reference_autocomplete
+    weight: 1
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  field_ee_benefits: true
+  field_ee_business_challenge: true
+  field_ee_featured_faculty: true
+  field_ee_mili_program: true
+  field_ee_program_audience: true
+  field_ee_program_body: true
+  field_ee_program_type: true
+  field_program_finder_type: true

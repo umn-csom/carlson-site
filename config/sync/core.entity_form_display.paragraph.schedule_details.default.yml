@@ -1,0 +1,33 @@
+uuid: 5bd862ac-e35e-43a5-be62-fd07bc7b00d7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.schedule_details.field_schedule_color
+    - field.field.paragraph.schedule_details.field_schedule_details
+    - paragraphs.paragraphs_type.schedule_details
+  module:
+    - text
+id: paragraph.schedule_details.default
+targetEntityType: paragraph
+bundle: schedule_details
+mode: default
+content:
+  field_schedule_color:
+    type: options_select
+    weight: 102
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_schedule_details:
+    type: text_textarea
+    weight: 101
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

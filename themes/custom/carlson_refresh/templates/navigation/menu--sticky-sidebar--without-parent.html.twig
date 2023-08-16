@@ -1,0 +1,88 @@
+{#
+/**
+ * @file
+ * Theme override to display a menu.
+ *
+ * Available variables:
+ * - menu_name: The machine name of the menu.
+ * - items: A nested list of menu items. Each menu item contains:
+ *   - attributes: HTML attributes for the menu item.
+ *   - below: The menu item child items.
+ *   - title: The menu link title.
+ *   - url: The menu link url, instance of \Drupal\Core\Url
+ *   - localized_options: Menu link localized options.
+ *   - is_expanded: TRUE if the link has visible children within the current
+ *     menu tree.
+ *   - is_collapsed: TRUE if the link has children within the current menu tree
+ *     that are not currently visible.
+ *   - in_active_trail: TRUE if the link is in the active trail.
+ */
+#}
+
+{% import _self as menus %}
+
+{#
+We call a macro which calls itself to render the full tree.
+@see http://twig.sensiolabs.org/doc/tags/macro.html
+#}
+
+<div class="sticky-menu">
+  <button class="btn btn-block text-left px-3 py-2 sticky-menu__collapsed-trigger" aria-expanded="false">
+    <svg class="open-icon mr-1" fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><path d="M15 4H1V2h14v2Zm0 5H1V7h14v2ZM1 14h14v-2H1v2Z"></path></svg>
+    <svg class="close-icon mr-1" fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><path d="m3.5 2.086 4.5 4.5 4.5-4.5L13.914 3.5 9.414 8l4.5 4.5-1.414 1.414-4.5-4.5-4.5 4.5L2.086 12.5l4.5-4.5-4.5-4.5L3.5 2.086Z"></path></svg>
+    <span>In this section</span>
+  </button>
+  <div class="sticky-menu__collapsed-target">
+    {# {% if items %}
+      {% set first_menu_item = items|first %}
+      {% if first_menu_item.url.isrouted == true %}
+        {{ find_parent_by_node( first_menu_item.url.routeParameters.node )|raw }}
+      {% endif %}
+    {% endif %} #}
+    {{ menus.menu_links(items, attributes, 0) }}
+  </div>
+</div>
+
+{% macro menu_links(items, attributes, menu_level) %}
+  {% import _self as menus %}
+  {% if items %}
+    {% if menu_level == 0 %}
+      <ul{{ attributes.addClass('sticky-menu__nav nav flex-column') }}>
+    {% else %}
+      <ul class="sticky-menu__sub-menu nav flex-column pl-5">
+    {% endif %}
+    {% for item in items %}
+      {%
+        set classes = [
+        'nav-item',
+        item.is_expanded ? 'menu-item--expanded',
+        item.is_collapsed ? 'menu-item--collapsed',
+        item.in_active_trail ? 'menu-item--active-trail',
+        menu_level == 0 ? 'pt-lg-2 mb-0' : 'pt-lg-1 mb-0',
+        'sticky-menu__item'
+      ]
+      %}
+      <li{{ item.attributes.addClass(classes) }}>
+        {%
+          set link_classes = [
+          'nav-link',
+          item.in_active_trail ? 'active',
+          item.url.getOption('attributes').class ? item.url.getOption('attributes').class | join(''),
+          'nav-link-' ~ item.url.toString() | clean_class,
+          menu_level == 0 ? 'fs-18' : 'text-body',
+          'pl-3 py-1',
+          'text-underline-hover',
+          item.in_active_trail and menu_level == 0 ? 'font-weight-bold' : 'font-weight-normal',
+          item.in_active_trail and menu_level != 0 ? 'font-weight-semi-bold' : '',
+          'sticky-menu__link',
+        ]
+        %}
+        {{ link(item.title, item.url, {'class': link_classes}) }}
+        {% if item.below is not empty and item.in_active_trail %}
+          {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
+        {% endif %}
+      </li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endmacro %}

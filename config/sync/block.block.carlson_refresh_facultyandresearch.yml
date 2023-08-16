@@ -1,0 +1,44 @@
+uuid: d68c0deb-a8fe-46af-ab90-0eb94c2cf029
+langcode: en
+status: false
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.faculty-and-research
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_facultyandresearch
+theme: carlson_refresh
+region: sticky_sidebar
+weight: -35
+provider: null
+plugin: 'menu_block:faculty-and-research'
+settings:
+  id: 'menu_block:faculty-and-research'
+  label: 'Faculty and Research'
+  label_display: '0'
+  provider: menu_injector
+  follow: false
+  follow_parent: root
+  label_link: false
+  label_type: block
+  level: 3
+  depth: 9
+  expand_all_items: false
+  parent: 'faculty-and-research:'
+  suggestion: sticky_sidebar__with_parent
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: "/faculty-research/carlson-global-institute/education-abroad\r\n/faculty-research/carlson-global-institute/education-abroad*\r\n/conferences/hr-tomorrow\r\n/conferences/hr-tomorrow*\r\n/conferences/ignite-conference\r\n/conferences/ignite-conference*\r\n/degrees/master-business-administration/global-medical-industry-mba\r\n/degrees/master-business-administration/global-medical-industry-mba*"

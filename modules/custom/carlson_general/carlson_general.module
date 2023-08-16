@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * @file
+ * Contains carlson_general.module.
+ */
+
+use Drupal\Core\Breadcrumb\Breadcrumb;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\node\Entity\Node;
+
+/**
+ * Implements hook_system_breadcrumb_alter().
+ *
+ * @param \Drupal\Core\Breadcrumb\Breadcrumb $breadcrumb
+ * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+ * @param array $context
+ *
+ * @return void
+ */
+function carlson_general_system_breadcrumb_alter(Breadcrumb &$breadcrumb, RouteMatchInterface $route_match, array $context): void {
+  // This will work when drupal.org/i/2966004 gets added.
+  if (method_exists($breadcrumb, 'filterLinks')) {
+    // Remove "More" link in breadcrumb trail.
+    $breadcrumb->filterLinks(function ($v, $k) {
+      return !($k == 0 && $v->getText() == 'More');
+    });
+  }
+  // But until then, we have to do the following.
+  else {
+    // Saving the original links and caching.
+    $original_links = $breadcrumb->getLinks();
+    $filtered_links = [];
+    $cacheability = CacheableMetadata::createFromObject($breadcrumb);
+
+    /** @var \Drupal\Core\Link $link */
+    foreach ($original_links as $link) {
+      // Remove "More" link in breadcrumb trail.
+      if ($link->getText() == 'More') {
+        continue;
+      }
+      // Use shorter breadcrumb title from node.
+      if (
+        $link->getUrl()->isRouted() &&
+        $link->getUrl()->getRouteName() == 'entity.node.canonical'
+      ) {
+        $nid = $link->getUrl()->getRouteParameters()['node'];
+        if ($title = _carlson_get_breadcrumb_title($nid)) {
+          $link->setText($title);
+        }
+      }
+      if (
+        $link->getUrl()->getRouteName() == '<none>' &&
+        $route_match->getRouteName() == 'entity.node.canonical'
+      ) {
+        $nid = $route_match->getRawParameter('node');
+        if (
+          $link->getText() == _carlson_get_title($nid) &&
+          $title = _carlson_get_breadcrumb_title($nid)
+        ) {
+          $link->setText($title);
+        }
+      }
+      $filtered_links[] = $link;
+    }
+
+    // Recreate breadcrumbs using filtered links.
+    $breadcrumb = new Breadcrumb();
+    $breadcrumb->setLinks($filtered_links);
+    $breadcrumb->addCacheableDependency($cacheability);
+  }
+
+}
+
+function _carlson_get_title($nid) {
+  /** @var Drupal\node\Entity\Node $node */
+  $node = Node::load($nid);
+  return $node->getTitle();
+}
+
+
+function _carlson_get_breadcrumb_title($nid) {
+  /** @var Drupal\node\Entity\Node $node */
+  $node = Node::load($nid);
+  if ($node->hasField('field_breadcrumb_title')) {
+    $breadcrumb_title = $node->get('field_breadcrumb_title')->value;
+    if (!empty($breadcrumb_title)) {
+      return $breadcrumb_title;
+    }
+  }
+}

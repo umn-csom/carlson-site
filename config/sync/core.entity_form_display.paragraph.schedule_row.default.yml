@@ -1,0 +1,57 @@
+uuid: dbc4294f-9084-4b60-a031-30cf9078597a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.schedule_row.field_schedule_time
+    - field.field.paragraph.schedule_row.field_schedule_time_details
+    - paragraphs.paragraphs_type.schedule_row
+  module:
+    - field_group
+    - paragraphs
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - field_schedule_time
+        - field_schedule_details
+        - field_schedule_color
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        required_fields: true
+id: paragraph.schedule_row.default
+targetEntityType: paragraph
+bundle: schedule_row
+mode: default
+content:
+  field_schedule_time:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_schedule_time_details:
+    type: entity_reference_paragraphs
+    weight: 3
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

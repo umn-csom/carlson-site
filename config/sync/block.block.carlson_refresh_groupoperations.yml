@@ -1,0 +1,28 @@
+uuid: c33d361d-1303-4769-88a5-f28109246689
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_visibility_groups
+    - group
+  theme:
+    - carlson_refresh
+id: carlson_refresh_groupoperations
+theme: carlson_refresh
+region: content
+weight: -63
+provider: null
+plugin: group_operations
+settings:
+  id: group_operations
+  label: 'Group operations'
+  label_display: visible
+  provider: group
+  context_mapping:
+    group: '@group.group_route_context:group'
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: ''

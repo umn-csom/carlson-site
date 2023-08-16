@@ -1,0 +1,25 @@
+uuid: a0e3271c-4e0c-4ed5-9135-5ee8ca2e4a1b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.featured_link_grid.field_featured_links
+    - paragraphs.paragraphs_type.featured_link_grid
+id: paragraph.featured_link_grid.default
+targetEntityType: paragraph
+bundle: featured_link_grid
+mode: default
+content:
+  field_featured_links:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,75 @@
+uuid: 466310c3-57a8-46f6-9b7d-b193c7532292
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.statistics.field_heading
+    - field.field.paragraph.statistics.field_main_content
+    - field.field.paragraph.statistics.field_statistic
+    - paragraphs.paragraphs_type.statistics
+  module:
+    - field_group
+    - paragraphs
+    - text
+third_party_settings:
+  field_group:
+    group_statistics_content:
+      children:
+        - field_heading
+        - field_main_content
+        - field_statistic
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        id: ''
+        classes: ''
+        open: false
+        required_fields: true
+      label: 'Statistics Content'
+      region: content
+_core:
+  default_config_hash: aSxJjSnT5xVH0TgYhNY2YO3PEWvZvwrZkLH4jMWZbp4
+id: paragraph.statistics.default
+targetEntityType: paragraph
+bundle: statistics
+mode: default
+content:
+  field_heading:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_main_content:
+    weight: 3
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_statistic:
+    type: entity_reference_paragraphs
+    weight: 4
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 0
+    settings: {  }
+    region: content
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

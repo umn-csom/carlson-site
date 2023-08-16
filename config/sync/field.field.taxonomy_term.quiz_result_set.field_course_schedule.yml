@@ -1,0 +1,29 @@
+uuid: 883c34fe-cbb8-4138-9d52-2cec693f14a1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_course_schedule
+    - taxonomy.vocabulary.course_schedule
+    - taxonomy.vocabulary.quiz_result_set
+id: taxonomy_term.quiz_result_set.field_course_schedule
+field_name: field_course_schedule
+entity_type: taxonomy_term
+bundle: quiz_result_set
+label: 'Course Schedule'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      course_schedule: course_schedule
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

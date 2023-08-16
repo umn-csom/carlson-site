@@ -1,0 +1,34 @@
+uuid: 4a63386c-e64d-4771-8f34-9cd3e039025f
+langcode: en
+status: true
+dependencies:
+  config:
+    - crop.type.news_teaser
+  module:
+    - crop
+name: crop_news_teaser
+label: 'Cropped: News Teaser'
+effects:
+  35127455-2a2a-4016-9f75-913508b39eef:
+    uuid: 35127455-2a2a-4016-9f75-913508b39eef
+    id: crop_crop
+    weight: -10
+    data:
+      crop_type: news_teaser
+      automatic_crop_provider: null
+  ee8c580d-934f-4c43-82a8-115385d35b25:
+    uuid: ee8c580d-934f-4c43-82a8-115385d35b25
+    id: image_scale
+    weight: 2
+    data:
+      width: 370
+      height: 200
+      upscale: true
+  98de8b3e-88dd-4956-95dc-013287406483:
+    uuid: 98de8b3e-88dd-4956-95dc-013287406483
+    id: image_scale_and_crop
+    weight: 3
+    data:
+      width: 370
+      height: 200
+      anchor: center-center

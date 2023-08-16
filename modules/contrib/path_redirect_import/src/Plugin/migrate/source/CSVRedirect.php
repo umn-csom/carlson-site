@@ -16,7 +16,7 @@ use Drupal\migrate_source_csv\Plugin\migrate\source\CSV;
 class CSVRedirect extends CSV {
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function next() {
     $this->currentSourceIds = NULL;

@@ -1,0 +1,130 @@
+uuid: 829759ab-94e2-4de4-9dee-567ae10d3ed7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.executive_ed_landing_page.body
+    - field.field.node.executive_ed_landing_page.field_breadcrumb_title
+    - field.field.node.executive_ed_landing_page.field_contact_info
+    - field.field.node.executive_ed_landing_page.field_ee_catalog_link
+    - field.field.node.executive_ed_landing_page.field_feature_faculty_lead
+    - field.field.node.executive_ed_landing_page.field_featured_faculty
+    - field.field.node.executive_ed_landing_page.field_flexible_features
+    - field.field.node.executive_ed_landing_page.field_hero_media
+    - field.field.node.executive_ed_landing_page.field_meta_tags
+    - field.field.node.executive_ed_landing_page.field_news_channels
+    - field.field.node.executive_ed_landing_page.field_sub_heading
+    - node.type.executive_ed_landing_page
+  module:
+    - entity_reference_revisions
+    - link
+    - metatag
+    - panelizer
+    - text
+    - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+id: node.executive_ed_landing_page.default
+targetEntityType: node
+bundle: executive_ed_landing_page
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_contact_info:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_ee_catalog_link:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_feature_faculty_lead:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_featured_faculty:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_flexible_features:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_hero_media:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: 3_4_hero
+      link: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_meta_tags:
+    type: metatag_empty_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_news_channels:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_sub_heading:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  addtoany: true
+  field_breadcrumb_title: true
+  langcode: true
+  search_api_excerpt: true

@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Theme override for menu blocks within the mega menus.
+ */
+#}
+{%
+  set classes = [
+    'block',
+    'block-' ~ configuration.provider|clean_class,
+    'block-' ~ plugin_id|clean_class,
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>
+	{% if label %}
+		<h2{{ title_attributes.addClass('menu-block__title--secondary') }}>{{ label }}</h2>
+	{% endif %}
+	{% block content %}
+		<div{{ content_attributes.addClass('content') }}>
+			{{ content }}
+		</div>
+	{% endblock %}
+</div>
+

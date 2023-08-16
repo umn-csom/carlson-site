@@ -1,0 +1,35 @@
+uuid: 97ec2b1a-7fab-462c-8c2e-90af7045994c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.half_and_half.field_left_content
+    - field.field.paragraph.half_and_half.field_right_content
+    - paragraphs.paragraphs_type.half_and_half
+  module:
+    - entity_reference_revisions
+id: paragraph.half_and_half.default
+targetEntityType: paragraph
+bundle: half_and_half
+mode: default
+content:
+  field_left_content:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_right_content:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

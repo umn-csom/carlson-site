@@ -8,6 +8,16 @@ libraries:
   - carlson_refresh/global-styling
   - carlson_refresh/global-scripts
 
+libraries-override:
+  responsive_menu/responsive_menu.styling:
+    css:
+      theme:
+        css/responsive_menu.css: false
+  responsive_menu/responsive_menu.mmenu:
+    css:
+      theme:
+        /libraries/mmenu/dist/mmenu.css: css/mmenu.css
+
 ckeditor_stylesheets:
   - css/boxicons.min.css
   - //fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700;1,900&family=Montserrat:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap
@@ -17,7 +27,9 @@ ckeditor_stylesheets:
 regions:
   top_header: 'Top Header'
   header: 'Header'
-  primary_menu: 'Primary menu'
+  navbar_primary: 'Primary menu'
+  navbar_secondary: 'Secondary menu'
+  local_tasks: 'Local tasks'
   page_top: 'Page top'
   page_bottom: 'Page bottom'
   highlighted: 'Highlighted'
@@ -26,7 +38,7 @@ regions:
   page_title: 'Page Title'
   content: 'Content'
   sticky_sidebar: 'Node Sticky Sidebar'
-  inner_nav: 'Node Inner Nav'
+  inner_nav: 'Node Inner Nav (DEPRECATED, use secondary menu)'
   node_top: 'Node Content Top'
   node_content: 'Node Content'
   node_middle: 'Node Middle'

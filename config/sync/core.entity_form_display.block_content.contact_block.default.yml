@@ -1,0 +1,182 @@
+uuid: 13d5ff60-2136-47ce-b41d-4d7f8296d4b5
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.contact_block
+    - field.field.block_content.contact_block.field_block_heading
+    - field.field.block_content.contact_block.field_block_subheading
+    - field.field.block_content.contact_block.field_email
+    - field.field.block_content.contact_block.field_link_facebook
+    - field.field.block_content.contact_block.field_link_instagram
+    - field.field.block_content.contact_block.field_link_linkedin
+    - field.field.block_content.contact_block.field_link_twitter
+    - field.field.block_content.contact_block.field_link_youtube
+    - field.field.block_content.contact_block.field_phone
+    - field.field.block_content.contact_block.field_request_link
+    - field.field.block_content.contact_block.field_social_heading
+  module:
+    - field_group
+    - link
+    - telephone
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - group_contact_info
+        - group_social_info
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: tabs
+      format_settings:
+        classes: ''
+        id: ''
+        direction: vertical
+    group_contact_info:
+      children:
+        - info
+        - field_block_heading
+        - field_block_subheading
+        - field_phone
+        - field_email
+        - field_request_link
+      label: 'Contact Info'
+      region: content
+      parent_name: group_content
+      weight: 12
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+    group_social_info:
+      children:
+        - field_social_heading
+        - field_link_facebook
+        - field_link_youtube
+        - field_link_linkedin
+        - field_link_twitter
+        - field_link_instagram
+      label: 'Social Info'
+      region: content
+      parent_name: group_content
+      weight: 13
+      format_type: tab
+      format_settings:
+        classes: ''
+        id: ''
+        formatter: closed
+        description: ''
+        required_fields: true
+id: block_content.contact_block.default
+targetEntityType: block_content
+bundle: contact_block
+mode: default
+content:
+  field_block_heading:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_block_subheading:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_email:
+    type: email_default
+    weight: 4
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
+  field_link_facebook:
+    type: link_default
+    weight: 9
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_link_instagram:
+    type: link_default
+    weight: 13
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_link_linkedin:
+    type: link_default
+    weight: 11
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_link_twitter:
+    type: link_default
+    weight: 12
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_link_youtube:
+    type: link_default
+    weight: 10
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_phone:
+    type: telephone_default
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_request_link:
+    type: link_default
+    weight: 5
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_social_heading:
+    type: string_textfield
+    weight: 8
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+hidden: {  }

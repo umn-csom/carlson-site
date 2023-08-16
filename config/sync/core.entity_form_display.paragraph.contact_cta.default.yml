@@ -1,0 +1,134 @@
+uuid: 0c4d1c42-399c-48aa-a621-5153b48b895a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.contact_cta.field_email
+    - field.field.paragraph.contact_cta.field_heading
+    - field.field.paragraph.contact_cta.field_link_facebook
+    - field.field.paragraph.contact_cta.field_link_linkedin
+    - field.field.paragraph.contact_cta.field_link_twitter
+    - field.field.paragraph.contact_cta.field_link_youtube
+    - field.field.paragraph.contact_cta.field_phone
+    - field.field.paragraph.contact_cta.field_request_link
+    - field.field.paragraph.contact_cta.field_social_heading
+    - paragraphs.paragraphs_type.contact_cta
+  module:
+    - field_group
+    - link
+    - telephone
+third_party_settings:
+  field_group:
+    group_contact:
+      children:
+        - field_heading
+        - field_email
+        - field_phone
+        - field_request_link
+      label: Contact
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        required_fields: true
+    group_social:
+      children:
+        - field_social_heading
+        - field_link_twitter
+        - field_link_facebook
+        - field_link_linkedin
+        - field_link_youtube
+      label: Social
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        required_fields: true
+id: paragraph.contact_cta.default
+targetEntityType: paragraph
+bundle: contact_cta
+mode: default
+content:
+  field_email:
+    type: email_default
+    weight: 3
+    region: content
+    settings:
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
+  field_heading:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_link_facebook:
+    type: link_default
+    weight: 5
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_link_linkedin:
+    type: link_default
+    weight: 6
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_link_twitter:
+    type: link_default
+    weight: 4
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_link_youtube:
+    type: link_default
+    weight: 7
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_phone:
+    type: telephone_default
+    weight: 4
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_request_link:
+    type: link_default
+    weight: 5
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_social_heading:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

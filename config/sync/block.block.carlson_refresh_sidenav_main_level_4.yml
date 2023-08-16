@@ -1,0 +1,43 @@
+uuid: 720e965e-6693-4d9f-863f-df2f6b76462f
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.main
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_sidenav_main_level_4
+theme: carlson_refresh
+region: sticky_sidebar
+weight: -44
+provider: null
+plugin: 'menu_block:main'
+settings:
+  id: 'menu_block:main'
+  label: 'Sidenav Main - level 4'
+  label_display: visible
+  provider: menu_injector
+  follow: true
+  follow_parent: child_or_active
+  label_link: true
+  label_type: parent
+  level: 4
+  depth: 2
+  expand_all_items: false
+  parent: 'main:'
+  suggestion: sticky_sidebar__with_parent
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/centers-institutes/*/*\r\n/departments/*/*"

@@ -1,0 +1,54 @@
+uuid: c1a89be8-8e75-4bd7-9425-231f74b346b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.fluid_columns.field_column_item
+    - paragraphs.paragraphs_type.fluid_columns
+  module:
+    - field_group
+    - paragraphs
+third_party_settings:
+  field_group:
+    group_fluid_columns:
+      children:
+        - field_column_item
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        id: ''
+        classes: ''
+        open: false
+        required_fields: true
+      label: 'Fluid Columns'
+      region: content
+_core:
+  default_config_hash: hQmFt6kYKtZwBJ9LfS-3BXAfvc4rV_qXgkKWYwCcB-s
+id: paragraph.fluid_columns.default
+targetEntityType: paragraph
+bundle: fluid_columns
+mode: default
+content:
+  field_column_item:
+    type: entity_reference_paragraphs
+    weight: 2
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  moderation_state:
+    type: moderation_state_default
+    weight: 0
+    settings: {  }
+    region: content
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

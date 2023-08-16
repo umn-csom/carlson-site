@@ -1,0 +1,109 @@
+uuid: 1007ed57-045c-49df-8eea-9a3ed9ca9fc1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.ee_course_dates.field_ee_days
+    - field.field.paragraph.ee_course_dates.field_ee_program_dates
+    - field.field.paragraph.ee_course_dates.field_ee_register
+    - field.field.paragraph.ee_course_dates.field_ee_register_desc
+    - field.field.paragraph.ee_course_dates.field_ee_register_text
+    - field.field.paragraph.ee_course_dates.field_ee_request_invoice
+    - field.field.paragraph.ee_course_dates.field_ee_start_times
+    - field.field.paragraph.ee_course_dates.field_ee_times
+    - field.field.paragraph.ee_course_dates.field_pending_date
+    - paragraphs.paragraphs_type.ee_course_dates
+  module:
+    - datetime_range
+    - link
+    - text
+id: paragraph.ee_course_dates.default
+targetEntityType: paragraph
+bundle: ee_course_dates
+mode: default
+content:
+  field_ee_days:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_ee_program_dates:
+    type: daterange_default
+    label: hidden
+    settings:
+      timezone_override: ''
+      format_type: medium
+      separator: '-'
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_ee_register:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_ee_register_desc:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_ee_register_text:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_ee_request_invoice:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_ee_start_times:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_ee_times:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_pending_date:
+    type: boolean
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 8
+    region: content
+hidden:
+  search_api_excerpt: true

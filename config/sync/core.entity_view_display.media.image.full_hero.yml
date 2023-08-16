@@ -1,0 +1,41 @@
+uuid: 560209a3-6241-437b-9e87-3d655e0e33cd
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.full_hero
+    - field.field.media.image.field_media_category
+    - field.field.media.image.field_media_in_library
+    - field.field.media.image.image
+    - image.style.crop_full_hero
+    - media.type.image
+  module:
+    - image
+_core:
+  default_config_hash: 9a2JpYsfsgnzFDmiXCfDhd2eoG2TStk-uYwQ8lku-HE
+id: media.image.full_hero
+targetEntityType: media
+bundle: image
+mode: full_hero
+content:
+  image:
+    type: image
+    weight: 0
+    label: hidden
+    settings:
+      image_style: crop_full_hero
+      image_link: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    region: content
+hidden:
+  addtoany: true
+  created: true
+  field_media_category: true
+  field_media_in_library: true
+  langcode: true
+  name: true
+  search_api_excerpt: true
+  thumbnail: true
+  uid: true

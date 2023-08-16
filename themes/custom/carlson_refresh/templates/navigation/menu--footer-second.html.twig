@@ -30,7 +30,7 @@ We call a macro which calls itself to render the full tree.
   {% import _self as menus %}
   {% if items %}
     {% if menu_level == 0 %}
-<ul{{ attributes.addClass('nav navbar-nav') }}>
+<ul{{ attributes.addClass('nav navbar-nav navbar-nav--footer-second') }}>
   {% else %}
   <ul class="menu">
     {% endif %}
@@ -47,7 +47,7 @@ We call a macro which calls itself to render the full tree.
         {%
           set link_classes = [
           'nav-link',
-          item.in_active_trail ? 'active',
+          item.in_active_trail ? 'in-active-trail',
           item.url.getOption('attributes').class ? item.url.getOption('attributes').class | join(''),
           'nav-link-' ~ item.url.toString() | clean_class,
         ]

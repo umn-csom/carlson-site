@@ -1,0 +1,26 @@
+uuid: 4ba5fce9-62c3-4560-860c-3298f09b6be0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.program_promo.field_program_block
+    - paragraphs.paragraphs_type.program_promo
+id: paragraph.program_promo.default
+targetEntityType: paragraph
+bundle: program_promo
+mode: default
+content:
+  field_program_block:
+    type: entity_reference_autocomplete
+    weight: 101
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

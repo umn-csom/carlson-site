@@ -1,0 +1,29 @@
+uuid: e94ca8ef-93c1-40fe-802a-2fff10f5a1b6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_degree_type
+    - taxonomy.vocabulary.degree_type
+    - taxonomy.vocabulary.quiz_result_set
+id: taxonomy_term.quiz_result_set.field_degree_type
+field_name: field_degree_type
+entity_type: taxonomy_term
+bundle: quiz_result_set
+label: 'Degree Type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      degree_type: degree_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

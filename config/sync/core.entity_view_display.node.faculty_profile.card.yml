@@ -1,0 +1,278 @@
+uuid: a0a49bae-0010-4d47-a5ff-c88923a3a890
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card
+    - field.field.node.faculty_profile.body
+    - field.field.node.faculty_profile.field_breadcrumb_title
+    - field.field.node.faculty_profile.field_email
+    - field.field.node.faculty_profile.field_first_name
+    - field.field.node.faculty_profile.field_last_name
+    - field.field.node.faculty_profile.field_meta_tags
+    - field.field.node.faculty_profile.field_middle_initial
+    - field.field.node.faculty_profile.field_office_phone
+    - field.field.node.faculty_profile.field_profile_activities
+    - field.field.node.faculty_profile.field_profile_address
+    - field.field.node.faculty_profile.field_profile_admin_dept
+    - field.field.node.faculty_profile.field_profile_cvc
+    - field.field.node.faculty_profile.field_profile_degrees
+    - field.field.node.faculty_profile.field_profile_dept
+    - field.field.node.faculty_profile.field_profile_expertise
+    - field.field.node.faculty_profile.field_profile_image
+    - field.field.node.faculty_profile.field_profile_img
+    - field.field.node.faculty_profile.field_profile_job_candidate
+    - field.field.node.faculty_profile.field_profile_owner
+    - field.field.node.faculty_profile.field_profile_programs
+    - field.field.node.faculty_profile.field_profile_status
+    - field.field.node.faculty_profile.field_profile_title
+    - field.field.node.faculty_profile.field_profile_title_2
+    - field.field.node.faculty_profile.field_profile_title_3
+    - field.field.node.faculty_profile.field_profile_title_4
+    - field.field.node.faculty_profile.field_profile_url
+    - field.field.node.faculty_profile.field_profile_works
+    - image.style.cropped_profile_image
+    - node.type.faculty_profile
+  module:
+    - entity_reference_revisions
+    - file
+    - layout_builder
+    - link
+    - media
+    - metatag
+    - panelizer
+    - text
+    - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: node.faculty_profile.card
+targetEntityType: node
+bundle: faculty_profile
+mode: card
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_email:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_first_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_last_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_meta_tags:
+    type: metatag_empty_formatter
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 22
+    region: content
+  field_middle_initial:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_office_phone:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_profile_activities:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 18
+    region: content
+  field_profile_address:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_profile_admin_dept:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 19
+    region: content
+  field_profile_cvc:
+    type: file_default
+    label: hidden
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    weight: 23
+    region: content
+  field_profile_degrees:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 16
+    region: content
+  field_profile_dept:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_profile_expertise:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 24
+    region: content
+  field_profile_img:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: cropped_profile_image
+    third_party_settings: {  }
+    weight: 25
+    region: content
+  field_profile_job_candidate:
+    type: boolean
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 14
+    region: content
+  field_profile_owner:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 15
+    region: content
+  field_profile_programs:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 21
+    region: content
+  field_profile_status:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 20
+    region: content
+  field_profile_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_profile_title_2:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_profile_title_3:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_profile_title_4:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_profile_url:
+    type: link
+    label: hidden
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 13
+    region: content
+  field_profile_works:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 17
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  addtoany: true
+  field_breadcrumb_title: true
+  field_profile_image: true
+  langcode: true
+  search_api_excerpt: true

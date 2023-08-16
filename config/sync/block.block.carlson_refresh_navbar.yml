@@ -1,0 +1,41 @@
+uuid: 9fb0863a-cbdc-401f-bcbd-2329f667e85a
+langcode: en
+status: false
+dependencies:
+  config:
+    - system.menu.navbar
+  module:
+    - block_class
+    - block_visibility_groups
+    - menu_injector
+  theme:
+    - carlson_refresh
+third_party_settings:
+  block_class:
+    classes: 'd-sm-none  d-md-block'
+id: carlson_refresh_navbar
+theme: carlson_refresh
+region: navbar_primary
+weight: -66
+provider: null
+plugin: 'menu_block:navbar'
+settings:
+  id: 'menu_block:navbar'
+  label: 'Legacy navbar'
+  label_display: '0'
+  provider: menu_injector
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: true
+  parent: 'navbar:'
+  suggestion: top_navbar
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: ''

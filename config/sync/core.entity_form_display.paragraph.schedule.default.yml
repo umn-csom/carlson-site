@@ -1,0 +1,46 @@
+uuid: 327b0f70-401f-4854-b0e1-b0658f23243e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.schedule.field_schedule_item
+    - paragraphs.paragraphs_type.schedule
+  module:
+    - field_group
+    - paragraphs
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - field_schedule_item
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        required_fields: true
+id: paragraph.schedule.default
+targetEntityType: paragraph
+bundle: schedule
+mode: default
+content:
+  field_schedule_item:
+    type: entity_reference_paragraphs
+    weight: 2
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
+  uid: true

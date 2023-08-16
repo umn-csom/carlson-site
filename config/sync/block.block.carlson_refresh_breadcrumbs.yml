@@ -1,0 +1,33 @@
+uuid: c463d627-7882-4512-b9ff-57a8db35e3e6
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_visibility_groups
+    - system
+  theme:
+    - carlson_refresh
+_core:
+  default_config_hash: Jf9Tp4Ke1SIqhw2HON_WonzMMIu-w4n-WT-Y9-OVMdY
+id: carlson_refresh_breadcrumbs
+theme: carlson_refresh
+region: breadcrumb
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: ''
+  request_path:
+    id: request_path
+    negate: true
+    context_mapping: {  }
+    pages: "/conferences*\r\n/faculty/*"

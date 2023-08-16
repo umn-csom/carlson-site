@@ -1,0 +1,44 @@
+uuid: ecd213a5-8820-494c-a81f-d4dc4eab3b64
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.we-
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - barrio_carlson
+id: we
+theme: barrio_carlson
+region: inner_nav
+weight: 0
+provider: null
+plugin: 'menu_block:we-'
+settings:
+  id: 'menu_block:we-'
+  label: 'WE*'
+  label_display: '0'
+  provider: menu_injector
+  follow: true
+  follow_parent: active
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 0
+  expand_all_items: true
+  parent: 'we-:'
+  suggestion: executive_education
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/we-start\r\n/we-start*"

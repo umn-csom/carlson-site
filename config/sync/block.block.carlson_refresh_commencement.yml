@@ -1,0 +1,44 @@
+uuid: 238373d3-3137-41a1-be98-ad9f2de80c75
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.commencement
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_commencement
+theme: carlson_refresh
+region: navbar_secondary
+weight: 0
+provider: null
+plugin: 'menu_block:commencement'
+settings:
+  id: 'menu_block:commencement'
+  label: Commencement
+  label_display: '0'
+  provider: menu_injector
+  follow: true
+  follow_parent: root
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 9
+  expand_all_items: true
+  parent: 'commencement:'
+  suggestion: navbar_secondary
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    context_mapping: {  }
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: false
+    context_mapping: {  }
+    pages: "/commencement*\r\n/commencement\r\n/commencement-2022\r\n/commencement-2022/*\r\n"

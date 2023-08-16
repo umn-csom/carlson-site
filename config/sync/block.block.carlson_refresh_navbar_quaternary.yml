@@ -1,0 +1,41 @@
+uuid: 685d19e2-6a5b-48fe-9399-b0af2bb7388a
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_navbar_quaternary
+theme: carlson_refresh
+region: navbar_secondary
+weight: -1
+provider: null
+plugin: 'menu_block:main'
+settings:
+  id: 'menu_block:main'
+  label: 'Quaternary navbar'
+  label_display: visible
+  provider: menu_injector
+  follow: false
+  follow_parent: child
+  label_link: true
+  label_type: root
+  level: 4
+  depth: 7
+  expand_all_items: true
+  parent: 'main:'
+  suggestion: navbar_secondary
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    block_visibility_group: ''
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/graduate/masters/*\r\n/graduate/mba/*"

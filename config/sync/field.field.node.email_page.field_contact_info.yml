@@ -1,0 +1,28 @@
+uuid: 2bbf24b1-f743-403c-aa06-52e64e3283c5
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.contact_block
+    - field.storage.node.field_contact_info
+    - node.type.email_page
+id: node.email_page.field_contact_info
+field_name: field_contact_info
+entity_type: node
+bundle: email_page
+label: 'Contact Info'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:block_content'
+  handler_settings:
+    target_bundles:
+      contact_block: contact_block
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

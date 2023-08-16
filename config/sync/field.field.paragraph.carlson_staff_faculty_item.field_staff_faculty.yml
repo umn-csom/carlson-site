@@ -1,0 +1,30 @@
+uuid: 0546dca0-5ca6-4487-910f-2cdf2033fd6d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_staff_faculty
+    - node.type.faculty_profile
+    - node.type.person
+    - paragraphs.paragraphs_type.carlson_staff_faculty_item
+id: paragraph.carlson_staff_faculty_item.field_staff_faculty
+field_name: field_staff_faculty
+entity_type: paragraph
+bundle: carlson_staff_faculty_item
+label: Staff/Faculty
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      faculty_profile: faculty_profile
+      person: person
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: faculty_profile
+field_type: entity_reference

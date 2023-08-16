@@ -3,38 +3,48 @@
  * Styles for Bootstrap Barrio's breadcrumbs.
  */
 
-//.breadcrumb {
-//    background: transparent;
-//    padding: 0 15px;
-//    margin: 0;
-//    @include make-col(12);
-//    .breadcrumb-item {
-//        font-style: italic;
-//        font-weight: 400;
-//        &:before {
-//            content: '|';
-//            padding: 0 0.5rem;
-//            color: $slate;
-//        }
-//        &:first-child {
-//            &:before {
-//                display: none;
-//            }
-//        }
-//        &:last-child a {
-//            color: $slate;
-//        }
-//    }
-//    @include media-breakpoint-up(lg){
-//        &.col {
-//            padding: 0;
-//            @include make-col(10);
-//            @include make-col-offset(1);
-//        }
-//    }
-//}
+.breadcrumb {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+}
 
-//.region-breadcrumb {
-//    padding: 0 15px 0.25em;
-//    width: 100%;
-//}
+.breadcrumb-item {
+  margin: 0;
+  padding: 0;
+
+  &, a, span {
+    font-weight: normal;
+    color: $maroon;
+  }
+
+  &::after {
+    content: '>';
+    padding: 0;
+    margin: 0;
+  }
+
+  & + & {
+    padding-left: 4px;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  &:last-child {
+    span {
+      color: $black;
+    }
+
+    &::after {
+      content: '';
+      display: none;
+    }
+
+    &:first-child {
+      display: none;
+    }
+  }
+
+}

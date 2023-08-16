@@ -1,0 +1,29 @@
+uuid: 867db76e-9690-4901-96bf-9b3d2a4510c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_hub_topic
+    - node.type.video
+    - taxonomy.vocabulary.carlson_hub_topics
+id: node.video.field_hub_topic
+field_name: field_hub_topic
+entity_type: node
+bundle: video
+label: 'Hub Topic'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      carlson_hub_topics: carlson_hub_topics
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

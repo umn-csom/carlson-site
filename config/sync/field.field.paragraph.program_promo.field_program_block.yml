@@ -1,0 +1,28 @@
+uuid: acca0608-4a6d-47c8-9335-5e55f71615b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.featured_program
+    - field.storage.paragraph.field_program_block
+    - paragraphs.paragraphs_type.program_promo
+id: paragraph.program_promo.field_program_block
+field_name: field_program_block
+entity_type: paragraph
+bundle: program_promo
+label: 'Featured Program Block'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:block_content'
+  handler_settings:
+    target_bundles:
+      featured_program: featured_program
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

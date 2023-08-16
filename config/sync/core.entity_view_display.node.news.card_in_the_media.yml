@@ -1,0 +1,108 @@
+uuid: fe31e5e1-4563-47d5-ba10-2d2be3dd8f91
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.card_in_the_media
+    - field.field.node.news.body
+    - field.field.node.news.field_breadcrumb_title
+    - field.field.node.news.field_featured_media_faculty
+    - field.field.node.news.field_flexible_features
+    - field.field.node.news.field_hero_media
+    - field.field.node.news.field_hide_from_aggregation
+    - field.field.node.news.field_hub_topic
+    - field.field.node.news.field_in_the_media
+    - field.field.node.news.field_in_the_media_source
+    - field.field.node.news.field_meta_tags
+    - field.field.node.news.field_news_channel_features
+    - field.field.node.news.field_news_channels
+    - field.field.node.news.field_sidebar_content
+    - node.type.news
+  module:
+    - layout_builder
+    - link
+    - media
+    - panelizer
+    - text
+    - user
+third_party_settings:
+  panelizer:
+    enable: false
+    custom: false
+    allow: false
+    default: default
+  layout_builder:
+    enabled: false
+    allow_custom: false
+_core:
+  default_config_hash: 1cIMuuopxgKIBCLfT-5JpApl2M-CrExTa7x8FnebjQM
+id: node.news.card_in_the_media
+targetEntityType: node
+bundle: news
+mode: card_in_the_media
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_featured_media_faculty:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_hero_media:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_in_the_media:
+    type: link
+    label: hidden
+    settings:
+      trim_length: null
+      url_only: true
+      url_plain: true
+      rel: '0'
+      target: '0'
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_in_the_media_source:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_sidebar_content:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  addtoany: true
+  content_moderation_control: true
+  field_breadcrumb_title: true
+  field_flexible_features: true
+  field_hide_from_aggregation: true
+  field_hub_topic: true
+  field_meta_tags: true
+  field_news_channel_features: true
+  field_news_channels: true
+  langcode: true
+  links: true
+  search_api_excerpt: true
