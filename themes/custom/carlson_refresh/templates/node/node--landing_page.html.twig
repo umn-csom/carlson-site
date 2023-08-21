@@ -151,17 +151,18 @@
             {% endif %}
 
             <div class="row">
-              <div class="{{ (inner_nav | render) ? 'col-12 col-lg-9' : 'col-12' }}">
+              <div class="'col-12'">
                 {{ content.body }}
               </div>
-              {% if inner_nav | render %}
-              <div class="col-12 col-lg-3 sticky-sidebar">
-                <div class="sticky-sidebar__inner h-100">
-                {{ inner_nav }}
-                </div>
-              </div>
-              {% endif %}
             </div>
+
+            {% if inner_nav | render %}
+            <div class="row">
+              <div class="col-12 inner_nav body_inner_nav">
+                {{ inner_nav }}
+              </div>
+            </div>
+            {% endif %}
             
             {# Home Flexible feature paragraphs #}
             <div class="row">
