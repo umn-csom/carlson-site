@@ -447,6 +447,7 @@ display:
       tags:
         - 'config:field.storage.node.body'
         - 'config:search_api.index.acquia_search_index'
+        - 'search_api_list:acquia_search_index'
   page_1:
     id: page_1
     display_title: Page
@@ -458,15 +459,9 @@ display:
           metatags:
             title: '[current-page:title]'
             description: 'News featuring the Carlson School of Management Faculty at the University of Minnesota, Twin Cities campus.'
-        simple_sitemap_display_extender:
-          variants:
-            default:
-              index: true
-              priority: '0.8'
-              changefreq: daily
-              arguments: {  }
-              max_links: 100
-      path: news/carlson-school-in-the-media
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: news/faculty
     cache_metadata:
       max-age: -1
       contexts:
@@ -480,3 +475,4 @@ display:
       tags:
         - 'config:field.storage.node.body'
         - 'config:search_api.index.acquia_search_index'
+        - 'search_api_list:acquia_search_index'

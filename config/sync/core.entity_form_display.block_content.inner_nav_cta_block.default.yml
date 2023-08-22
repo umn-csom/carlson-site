@@ -1,0 +1,86 @@
+uuid: 8290d87d-0b0b-445c-b12a-5b7f2e2e76cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.inner_nav_cta_block
+    - field.field.block_content.inner_nav_cta_block.body
+    - field.field.block_content.inner_nav_cta_block.field_cta_link
+  module:
+    - field_group
+    - paragraphs
+    - text
+third_party_settings:
+  field_group:
+    group_content:
+      children:
+        - group_cta_links
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 3
+      format_type: tabs
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        direction: vertical
+        width_breakpoint: 640
+    group_cta_links:
+      children:
+        - field_cta_link
+      label: 'CTA Links'
+      region: content
+      parent_name: group_content
+      weight: 5
+      format_type: tab
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        formatter: open
+        description: ''
+        required_fields: true
+id: block_content.inner_nav_cta_block.default
+targetEntityType: block_content
+bundle: inner_nav_cta_block
+mode: default
+content:
+  body:
+    type: text_textarea_with_summary
+    weight: 2
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  field_cta_link:
+    type: entity_reference_paragraphs
+    weight: 4
+    region: content
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: cta_link
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 1
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+hidden: {  }
