@@ -111,16 +111,6 @@
 
     <section class="row basic-page__content">
       <div class="col-12 main-content basic-page__content--inner">
-        {# inner_nav region #}
-		    {% if inner_nav %}
-		    <div class="row inner_nav">
-		      <div class="col-12">
-            <div class="row">
-		          {{ inner_nav }}
-            </div>
-		      </div>
-		    </div>
-		  	{% endif %}
 
         {# Course brochure link #}
         {% if content.field_ee_catalog_link|field_value is not empty %}
@@ -156,6 +146,15 @@
             <div class="row component-paragraph">
               <div class="col-12">
                 {{ content.body }}
+              </div>
+            </div>
+            {% endif %}
+
+            {# inner_nav region #}
+            {% if inner_nav | render %}
+            <div class="row">
+              <div class="col-12 inner_nav body_inner_nav">
+                {{ inner_nav }}
               </div>
             </div>
             {% endif %}

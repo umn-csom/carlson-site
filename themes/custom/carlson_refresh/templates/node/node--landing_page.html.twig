@@ -107,7 +107,6 @@
             {% endif %}
 
             <div class="flex-grow-1">
-              {{ content.body }}
               {{ content.webform }}
             </div>
             {# {% if content.field_link|field_value is not empty %} #}
@@ -151,6 +150,20 @@
               {{ node_top }}
             {% endif %}
 
+            <div class="row">
+              <div class="'col-12'">
+                {{ content.body }}
+              </div>
+            </div>
+
+            {% if inner_nav | render %}
+            <div class="row">
+              <div class="col-12 inner_nav body_inner_nav">
+                {{ inner_nav }}
+              </div>
+            </div>
+            {% endif %}
+            
             {# Home Flexible feature paragraphs #}
             <div class="row">
               {{ content.field_flexible_features }}
