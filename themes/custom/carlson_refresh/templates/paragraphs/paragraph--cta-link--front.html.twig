@@ -41,7 +41,7 @@
 
 {% block paragraph %}
   {% block content %}
-  <div class="cta-link__wrapper col col-12 col-md-6 col-lg-3 d-flex">
+  <div class="cta-link__wrapper col col-6 col-lg-3 d-flex">
     {%
       set classes = [
         'btn',
@@ -55,6 +55,7 @@
         'cta-link',
         'unb-cta',
         'mx-lg-2',
+        'px-3 py-3',
         'd-lg-flex flex-lg-row align-items-lg-center'
       ]
     %}
@@ -62,12 +63,12 @@
 
     {% if content.field_link.0['#url'].toString() is not empty %}
       {% if '1' in content.field_show_in_modal[0] %}
-        <a class="{{ classes|join(' ') }} px-3 py-4 font-small unb-cta-{{ content.field_cta_icon|field_value }} use-ajax" data-dialog-type="modal" href="{{ content.field_link.0['#url'] }}" data-dialog-options="{&quot;width&quot;:600}">
+        <a class="{{ classes|join(' ') }} font-small unb-cta-{{ content.field_cta_icon|field_value }} use-ajax" data-dialog-type="modal" href="{{ content.field_link.0['#url'] }}" data-dialog-options="{&quot;width&quot;:600}">
       {% else %}
-        <a class="{{ classes|join(' ') }} px-3 py-4 unb-cta-{{ content.field_cta_icon|field_value }}" href="{{ content.field_link.0['#url'] }}">
+        <a class="{{ classes|join(' ') }} unb-cta-{{ content.field_cta_icon|field_value }}" href="{{ content.field_link.0['#url'] }}">
       {% endif %}
     {% else %}
-      <div class="{{ classes|join(' ') }} px-3 py-4 unb-cta-{{ content.field_cta_icon|field_value }}">
+      <div class="{{ classes|join(' ') }} unb-cta-{{ content.field_cta_icon|field_value }}">
     {% endif %}
 
           <div class="cta-link__icon mr-lg-1">
