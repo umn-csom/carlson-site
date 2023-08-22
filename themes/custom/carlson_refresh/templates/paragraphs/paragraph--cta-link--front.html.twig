@@ -42,20 +42,38 @@
 {% block paragraph %}
   {% block content %}
   <div class="cta-link__wrapper col col-12 col-md-6 col-lg-3 d-flex">
+    {%
+      set classes = [
+        'btn',
+        'btn-primary',
+        'mb-lg-3',
+        'w-100',
+        'rounded-0',
+        'border',
+        'border-white',
+        'letter-spacing-05',
+        'cta-link',
+        'unb-cta',
+        'mx-lg-2',
+        'd-lg-flex flex-lg-row align-items-lg-center'
+      ]
+    %}
+
+
     {% if content.field_link.0['#url'].toString() is not empty %}
       {% if '1' in content.field_show_in_modal[0] %}
-        <a class="btn btn-primary mb-lg-3 w-100 rounded-0 px-3 py-4 border border-white letter-spacing-05 font-small cta-link unb-cta unb-cta-{{ content.field_cta_icon|field_value }} use-ajax" data-dialog-type="modal" href="{{ content.field_link.0['#url'] }}" data-dialog-options="{&quot;width&quot;:600}">
+        <a class="{{ classes|join(' ') }} px-3 py-4 font-small unb-cta-{{ content.field_cta_icon|field_value }} use-ajax" data-dialog-type="modal" href="{{ content.field_link.0['#url'] }}" data-dialog-options="{&quot;width&quot;:600}">
       {% else %}
-        <a class="btn btn-primary mb-lg-3 w-100 rounded-0 px-3 py-4 border border-white letter-spacing-05 cta-link unb-cta unb-cta-{{ content.field_cta_icon|field_value }}" href="{{ content.field_link.0['#url'] }}">
+        <a class="{{ classes|join(' ') }} px-3 py-4 unb-cta-{{ content.field_cta_icon|field_value }}" href="{{ content.field_link.0['#url'] }}">
       {% endif %}
     {% else %}
-      <div class="btn btn-primary mb-lg-3 w-100 rounded-0 px-3 py-4 border border-white letter-spacing-05 cta-link unb-cta unb-cta-{{ content.field_cta_icon|field_value }}">
+      <div class="{{ classes|join(' ') }} px-3 py-4 unb-cta-{{ content.field_cta_icon|field_value }}">
     {% endif %}
 
-          <div class="cta-link__icon">
+          <div class="cta-link__icon mr-lg-1">
             <i class="icon {{ content.field_cta_icon|field_value }}"></i>
           </div>
-          <div class="cta-link__anchor">
+          <div class="cta-link__anchor flex-lg-fill">
             {{ content.field_link.0['#title'] }}
           </div>
 
