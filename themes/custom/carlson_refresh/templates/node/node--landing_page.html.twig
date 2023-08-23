@@ -107,6 +107,9 @@
             {% endif %}
 
             <div class="flex-grow-1">
+              {% if not webform %}
+                {{ content.body }}
+              {% endif %}
               {{ content.webform }}
             </div>
             {# {% if content.field_link|field_value is not empty %} #}
@@ -150,11 +153,13 @@
               {{ node_top }}
             {% endif %}
 
+            {% if webform %}
             <div class="row">
               <div class="'col-12'">
                 {{ content.body }}
               </div>
             </div>
+            {% endif %}
 
             {% if inner_nav | render %}
             <div class="row">
