@@ -120,7 +120,7 @@
                         var hash = this.hash;
                         $('html, body').animate(
                             {
-                                scrollTop: $(hash).offset().top - 200
+                                scrollTop: $(hash).offset().top + $("body").scrollTop() - 200
                             }, 800, function () {
                             }
                         );
@@ -163,7 +163,7 @@
 
             document.addEventListener(
                 'invalid', function (e) {
-                    $('html, body').animate({scrollTop: $('.quiz--question:not(.checked)', context).first().offset().top - 200 }, 0);
+                    $('html, body').animate({scrollTop: $('.quiz--question:not(.checked)', context).first().offset().top + $("body").scrollTop() - 200 }, 0);
                     $('.quiz--question:not(.checked)', context).first().find('.quiz--answer').first().find('button.quiz--answer--popover-btn').popover('show');
                 }, true
             );
@@ -204,7 +204,7 @@
                                                         event.preventDefault();
                                                         event.stopPropagation();
                                                         submitting = false;
-                                                        $('html, body').animate({scrollTop: $(this).offset().top - 200 }, 0);
+                                                        $('html, body').animate({scrollTop: $(this).offset().top  + $("body").scrollTop() - 200 }, 0);
                                                         $(this).find('.quiz--answer').first().find('button.quiz--answer--popover-btn').popover('show');
                                                         return false;
                                                 }
@@ -218,7 +218,7 @@
                                                       event.preventDefault();
                                                       event.stopPropagation();
                                                       submitting = false;
-                                                      $('html, body').animate({scrollTop: $(this).offset().top - 200 }, 0);
+                                                      $('html, body').animate({scrollTop: $(this).offset().top + $("body").scrollTop() - 200 }, 0);
                                                       $(this).find('.quiz--answer').first().find('button.quiz--answer--popover-btn').popover('show');
                                                       return false;
                                                 }
