@@ -19,6 +19,7 @@ dependencies:
     - 'taxonomy_term:event_categories:51feafdc-6460-4ed2-a191-eef37f41123e'
     - 'taxonomy_term:event_categories:6056423f-0924-4bdc-aa56-8ee1f4912479'
     - 'taxonomy_term:event_categories:67a82c45-b937-4848-b053-448e0df4b429'
+    - 'taxonomy_term:event_categories:7c018cc3-b339-4bf4-9858-2f9ea06aa3e7'
     - 'taxonomy_term:event_categories:833d5a49-02b7-491d-8dfc-f52a1c14042a'
     - 'taxonomy_term:event_categories:8873e5f4-c563-4932-957b-2319e3aa2de9'
     - 'taxonomy_term:event_categories:8b71fcee-dfe9-42ad-b4e4-3c092b4757b3'
@@ -5181,6 +5182,394 @@ display:
           empty: true
           content:
             value: "<div class=\"text-center\">\r\n<h2>MILI & Val Lab Events</h2>\r\n</div>"
+            format: rich_text
+          tokenize: false
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - url.query_args
+        - user
+        - 'user.node_grants:view'
+        - user.permissions
+      tags: {  }
+  block_22:
+    id: block_22
+    display_title: 'Block - MAcc Events'
+    display_plugin: block
+    position: 2
+    display_options:
+      title: ''
+      pager:
+        type: mini
+        options:
+          offset: 0
+          items_per_page: 15
+          total_pages: null
+          id: 0
+          tags:
+            next: ››
+            previous: ‹‹
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
+      exposed_form:
+        type: bef
+        options:
+          submit_button: Apply
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+          input_required: false
+          text_input_required: 'Select any filter and click on Apply to see results'
+          text_input_required_format: rich_text
+          bef:
+            general:
+              autosubmit: false
+              autosubmit_exclude_textfield: false
+              autosubmit_hide: false
+              input_required: false
+              allow_secondary: false
+              secondary_label: 'Advanced options'
+              text_input_required: 'Select any filter and click on Apply to see results'
+              text_input_required_format: basic_html
+            filter:
+              title:
+                plugin_id: default
+                advanced:
+                  sort_options: false
+                  placeholder_text: ''
+                  rewrite:
+                    filter_rewrite_values: ''
+                  collapsible: false
+                  is_secondary: false
+              field_event_date_value_1:
+                plugin_id: bef_datepicker
+                advanced:
+                  sort_options: false
+                  placeholder_text: ''
+                  rewrite:
+                    filter_rewrite_values: ''
+                  collapsible: false
+                  is_secondary: false
+      arguments: {  }
+      filters:
+        status:
+          id: status
+          table: node_field_data
+          field: status
+          entity_type: node
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          entity_type: node
+          entity_field: type
+          plugin_id: bundle
+          value:
+            event: event
+          group: 1
+          expose:
+            operator_limit_selection: false
+            operator_list: {  }
+        field_event_date_value:
+          id: field_event_date_value
+          table: node__field_event_date
+          field: field_event_date_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: datetime
+          operator: '>='
+          value:
+            min: ''
+            max: ''
+            value: now
+            type: offset
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            min_placeholder: ''
+            max_placeholder: ''
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+        field_event_channels_target_id:
+          id: field_event_channels_target_id
+          table: node__field_event_channels
+          field: field_event_channels_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            6696: 6696
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_event_channels_target_id_op
+            label: 'Event Type'
+            description: ''
+            use_operator: false
+            operator: field_event_channels_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_event_channels_target_id
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              media_creator: '0'
+              media_manager: '0'
+              faculty_profile_creator: '0'
+              faculty_profile_reviewer: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              executive_ed_landing_page_reviewer: '0'
+            reduce: true
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: event_categories
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+        field_event_channels_target_id_1:
+          id: field_event_channels_target_id_1
+          table: node__field_event_channels
+          field: field_event_channels_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value:
+            6031: 6031
+            5991: 5991
+            6011: 6011
+            6046: 6046
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_event_channels_target_id_1_op
+            label: 'Event Type'
+            description: ''
+            use_operator: false
+            operator: field_event_channels_target_id_1_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_event_channels_target_id_1
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              faculty_profile_creator: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              news_editor: '0'
+              ed_abroad_editor: '0'
+              editor: '0'
+              sr_editor: '0'
+              administrator: '0'
+              video_creator: '0'
+              video_reviewer: '0'
+              magazine_creator: '0'
+              magazine_reviewer: '0'
+              email_page_creator: '0'
+              email_page_reviewer: '0'
+              faces_creator: '0'
+              faces_reviewer: '0'
+              front_page_creator: '0'
+              front_page_reviewer: '0'
+              news_landing_creator: '0'
+              news_landing_reviewer: '0'
+            reduce: true
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: event_categories
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          entity_type: node
+          entity_field: title
+          plugin_id: string
+          operator: contains
+          value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: title_op
+            label: 'Search Events by Name'
+            description: ''
+            use_operator: false
+            operator: title_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: title
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              faculty_profile_creator: '0'
+              blog_entry_creator: '0'
+              executive_ed_landing_page_creator: '0'
+              news_editor: '0'
+              ed_abroad_editor: '0'
+              editor: '0'
+              sr_editor: '0'
+              administrator: '0'
+              video_creator: '0'
+              video_reviewer: '0'
+              magazine_creator: '0'
+              magazine_reviewer: '0'
+              email_page_creator: '0'
+              email_page_reviewer: '0'
+              faces_creator: '0'
+              faces_reviewer: '0'
+              front_page_creator: '0'
+              front_page_reviewer: '0'
+              news_landing_creator: '0'
+              news_landing_reviewer: '0'
+            placeholder: ''
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      style:
+        type: default
+        options: {  }
+      row:
+        type: 'entity:node'
+        options:
+          relationship: none
+          view_mode: teaser_compact
+      defaults:
+        title: false
+        css_class: false
+        use_ajax: false
+        pager: false
+        exposed_form: false
+        group_by: false
+        style: false
+        row: false
+        relationships: false
+        arguments: false
+        filters: false
+        filter_groups: false
+        header: false
+      relationships: {  }
+      css_class: department-event-block
+      use_ajax: true
+      group_by: false
+      display_description: ''
+      header:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: true
+          content:
+            value: "<div class=\"text-center\">\r\n<h2>Master of Accountancy Events</h2>\r\n</div>"
             format: rich_text
           tokenize: false
       display_extenders:
