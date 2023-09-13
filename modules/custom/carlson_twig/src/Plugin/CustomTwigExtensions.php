@@ -3,12 +3,14 @@
 namespace Drupal\carlson_twig\Plugin;
 
 use Drupal\menu_link_content\Entity\MenuLinkContent;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 
 /**
  * extend Drupal's Twig_Extension class
  */
-class CustomTwigExtensions extends \Twig_Extension
+class CustomTwigExtensions extends AbstractExtension
 {
 
     /**
@@ -28,7 +30,7 @@ class CustomTwigExtensions extends \Twig_Extension
     public function getFunctions()
     {
         return [
-        new \Twig_SimpleFunction('find_parent_by_node', [$this, 'find_parent_by_node']),
+        new TwigFunction('find_parent_by_node', [$this, 'find_parent_by_node']),
         ];
     }
 
