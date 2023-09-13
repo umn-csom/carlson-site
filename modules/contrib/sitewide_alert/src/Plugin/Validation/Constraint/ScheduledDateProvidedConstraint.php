@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Drupal\sitewide_alert\Plugin\Validation\Constraint;
 
 use Drupal\Core\Entity\Plugin\Validation\Constraint\CompositeConstraintBase;
-use Symfony\Component\Validator\Constraint;
 
 /**
  * Plugin implementation of the 'ScheduledDateProvided'.

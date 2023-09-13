@@ -2,6 +2,13 @@
 
 namespace Drupal\Tests\twig_field_value\Unit\FieldValue;
 
+use Drupal\Core\Controller\ControllerResolverInterface;
+use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityRepositoryInterface;
+use Drupal\Core\Field\FieldItemInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Tests\UnitTestCase;
 use Drupal\twig_field_value\Twig\Extension\FieldValueExtension;
 
@@ -18,14 +25,28 @@ class FieldTargetEntityTest extends UnitTestCase {
    */
   protected $extension;
 
-  protected function setUp() {
-    $this->extension = new FieldValueExtension();
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp(): void {
+
+    $languageManager = $this->createMock(LanguageManagerInterface::class);
+    $entityRepository = $this->createMock(EntityRepositoryInterface::class);
+    $entityRepository->expects($this->any())
+      ->method('getTranslationFromContext')
+      ->willReturnArgument(0);
+
+    $controllerResolver = $this->createMock(ControllerResolverInterface::class);
+    $loggerFactory = $this->createMock(LoggerChannelFactoryInterface::class);
+
+    $this->extension = new FieldValueExtension($languageManager, $entityRepository, $controllerResolver, $loggerFactory);
   }
 
   /**
    * Returns a mock Content Entity object.
    *
    * @param array $referenced_entities
+   *   The referenced entities.
    *
    * @return \Drupal\Core\Field\FieldItemBase
    *   The entity object.
@@ -41,9 +62,7 @@ class FieldTargetEntityTest extends UnitTestCase {
       $entities[] = $entity;
     }
 
-    $field_item = $this->getMockBuilder('Drupal\Core\Entity\ContentEntityBase')
-      ->disableOriginalConstructor()
-      ->getMock();
+    $field_item = $this->createMock('Drupal\Core\Entity\ContentEntityBase');
     $field_item->expects($this->any())
       ->method('get')
       ->will($this->returnValue($entities));
@@ -54,11 +73,13 @@ class FieldTargetEntityTest extends UnitTestCase {
   /**
    * Asserts the twig field_target_entity filter.
    *
+   * @param mixed $expected_result
+   *   The expected result.
+   * @param mixed $render_array
+   *   The render array.
+   *
    * @dataProvider providerTestTargetEntity
    * @covers ::getTargetEntity
-   *
-   * @param $expected_result
-   * @param $render_array
    */
   public function testTargetEntity($expected_result, $render_array) {
 
@@ -69,61 +90,170 @@ class FieldTargetEntityTest extends UnitTestCase {
   /**
    * Provides data and expected results for the test method.
    *
+   * This only tests invalid render arrays formats. Valid render arrays are
+   * covered by functional tests.
+   *
    * @return array
    *   Data and expected results.
    */
   public function providerTestTargetEntity() {
+    $fieldItemNoAccess = $this->mockEntityReferenceFieldItem($this->mockReferencedEntity(FALSE));
+    $entityNoAccess = $this->createMock(ContentEntityInterface::class);
+    $entityNoAccess->expects($this->any())
+      ->method('get')
+      ->with('reference_field')
+      ->willReturn([0 => $fieldItemNoAccess]);
+
+    $referencedEntity1 = $this->mockReferencedEntity(TRUE);
+    $fieldItem1 = $this->mockEntityReferenceFieldItem($referencedEntity1);
+    $entity = $this->createMock(ContentEntityInterface::class);
+    $entity->expects($this->any())
+      ->method('get')
+      ->with('reference_field')
+      ->willReturn([0 => $fieldItem1]);
+
+    $referencedEntity2 = $this->mockReferencedEntity(TRUE);
+    $fieldItem2 = $this->mockEntityReferenceFieldItem($referencedEntity2);
+    $entityMultiple = $this->createMock(ContentEntityInterface::class);
+    $entityMultiple->expects($this->any())
+      ->method('get')
+      ->with('reference_field')
+      ->willReturn([
+        0 => $fieldItem1,
+        1 => $fieldItem2,
+      ]);
+
     return [
       // Invalid render arrays.
       [NULL, NULL],
       [NULL, []],
+
+      // No access.
       [
         NULL,
-        ['#theme' => 'field', '#no_field_name' => []],
+        [
+          '#theme' => 'field',
+          '#access' => FALSE,
+        ],
       ],
+
+      // No children.
       [
         NULL,
-        ['#theme' => 'field', '#field_name' => ['reference_field']],
-      ],
-      [
-        'foo',
         [
           '#theme' => 'field',
-          '#field_name' => ['reference_field'],
-          '#object' => $this->mockContentEntity(['foo']),
         ],
       ],
+
+      // No #field_name.
+      [
+        NULL,
+        [
+          '#theme' => 'field',
+          '#no_field_name',
+          '0' => ['target_id' => 1],
+        ],
+      ],
+
+      // Not visible children.
+      [
+        NULL,
+        [
+          '#theme' => 'field',
+          '#field_name' => 'reference_field',
+          '0' => ['#type' => 'link', '#access' => FALSE],
+        ],
+      ],
+
+      // No parent object.
+      [
+        NULL,
+        [
+          '#theme' => 'field',
+          '#field_name' => 'reference_field',
+          '0' => ['#type' => 'details', '#title' => 'detail-0'],
+        ],
+      ],
+
+      // No access to referenced entity.
+      [
+        NULL,
+        [
+          '#theme' => 'field',
+          '#field_name' => 'reference_field',
+          '#object' => $entityNoAccess,
+          // No child because the referenced entity is not accessible.
+        ],
+      ],
+
+      // Return single referenced entity.
+      [
+        $referencedEntity1,
+        [
+          '#theme' => 'field',
+          '#field_name' => 'reference_field',
+          '#object' => $entity,
+          '0' => ['#type' => 'details', '#title' => 'detail-0'],
+        ],
+      ],
+
+      // Return multiple referenced entities.
       [
         [
-          'entity_1',
-          'entity_2',
-          'entity_3',
+          $referencedEntity1,
+          $referencedEntity2,
         ],
         [
           '#theme' => 'field',
-          '#field_name' => ['reference_field'],
-          '#object' => $this->mockContentEntity([
-            'entity_1',
-            'entity_2',
-            'entity_3',
-          ]),
-        ],
-      ],
-      [
-        [
-          'entity_1',
-          'entity_2',
-        ],
-        [
-          '#theme' => 'field',
-          '#field_name' => ['reference_field'],
-          '#field_collection_item' => $this->mockContentEntity([
-            'entity_1',
-            'entity_2',
-          ]),
+          '#field_name' => 'reference_field',
+          '#object' => $entityMultiple,
+          '0' => ['#type' => 'details', '#title' => 'detail-0'],
+          '1' => ['#type' => 'details', '#title' => 'detail-1'],
         ],
       ],
     ];
+  }
+
+  /**
+   * Mocks an entity reference field item.
+   *
+   * @param EntityInterface $referencedEntity
+   *   The referenced entity.
+   *
+   * @return \Drupal\Core\Field\FieldItemInterface
+   *   The mocked object.
+   */
+  protected function mockEntityReferenceFieldItem(EntityInterface $referencedEntity): FieldItemInterface {
+    $fieldItem = $this->createMock(FieldItemInterface::class);
+    $fieldItem->expects($this->any())
+    ->method('__isset')
+    ->with('entity')
+    ->willReturn(TRUE);
+    $fieldItem->expects($this->any())
+    ->method('__get')
+    ->with('entity')
+    ->willReturn($referencedEntity);
+
+    return $fieldItem;
+  }
+
+  /**
+   * Mocks a referenced entity.
+   *
+   * @param bool $access
+   *   Whether the entity is accessible for view.
+   *
+   * @return \Drupal\Core\Entity\EntityInterface
+   *   The mocked object.
+   */
+  protected function mockReferencedEntity(bool $access): EntityInterface {
+    $referencedEntity = $this->createMock(EntityInterface::class);
+    $referencedEntity->expects($this->any())
+      ->method('access')
+      ->with('view')
+      ->willReturn($access);
+
+    return $referencedEntity;
   }
 
 }

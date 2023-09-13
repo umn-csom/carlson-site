@@ -9,9 +9,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\field\FieldConfigInterface;
-use Drupal\paragraphs\ParagraphInterface;
 use Drupal\paragraph_view_mode\StorageManagerInterface;
-use Drupal\paragraph_view_mode\ViewModeInterface;
 
 /**
  * Implements hook_help().
@@ -36,19 +34,36 @@ function paragraph_view_mode_help($route_name, RouteMatchInterface $route_match)
 }
 
 /**
+ * Implements hook_entity_form_mode_alter().
+ */
+function paragraph_view_mode_entity_form_mode_alter(&$form_mode, EntityInterface $entity): void {
+  if (FALSE === is_string($form_mode)) {
+    return;
+  }
+
+  /** @var \Drupal\paragraph_view_mode\Matcher\DisplayModeMatcherInterface $display_matcher */
+  $display_matcher = \Drupal::service('paragraph_view_mode.matcher.display_mode');
+  $mode = $display_matcher->matchFormForModeAndEntity($form_mode, $entity);
+
+  if (is_string($mode)) {
+    $form_mode = $mode;
+  }
+}
+/**
  * Implements hook_entity_view_mode_alter().
  */
-function paragraph_view_mode_entity_view_mode_alter(&$view_mode, EntityInterface $entity, $context) {
-  if (!$entity instanceof ParagraphInterface) {
+function paragraph_view_mode_entity_view_mode_alter(&$view_mode, EntityInterface $entity): void {
+  if (FALSE === is_string($view_mode)) {
     return;
   }
 
-  $field_name = StorageManagerInterface::FIELD_NAME;
-  if (!$entity->hasField($field_name) || $view_mode === ViewModeInterface::PREVIEW) {
-    return;
-  }
+  /** @var \Drupal\paragraph_view_mode\Matcher\DisplayModeMatcherInterface $display_matcher */
+  $display_matcher = \Drupal::service('paragraph_view_mode.matcher.display_mode');
+  $mode = $display_matcher->matchViewForModeAndEntity($view_mode, $entity);
 
-  $view_mode = $entity->get($field_name)->value ?: $view_mode;
+  if (is_string($mode)) {
+    $view_mode = $mode;
+  }
 }
 
 /**
@@ -62,9 +77,8 @@ function paragraph_view_mode_form_paragraphs_type_edit_form_alter(&$form, FormSt
   $storage_manager = \Drupal::service('paragraph_view_mode.storage_manager');
 
   $config_name = StorageManagerInterface::CONFIG_NAME;
-
   $form[$config_name] = [
-    '#title' => t(StorageManagerInterface::FIELD_LABEL),
+    '#title' => t('@label', ['@label' => StorageManagerInterface::FIELD_LABEL]),
     '#type' => 'details',
     '#tree' => TRUE,
     '#open' => TRUE,

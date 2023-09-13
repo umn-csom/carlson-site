@@ -49,7 +49,7 @@ class CkeditorTemplatesUi extends CkeditorTemplates {
    */
   private function getTemplatesDefaultPath() {
     global $base_path;
-    return [$base_path . drupal_get_path('module', 'ckeditor_templates_ui') . '/js/ckeditor_templates.js'];
+    return [$base_path . \Drupal::service('extension.list.module')->getPath('ckeditor_templates_ui') . '/js/ckeditor_templates.js'];
   }
 
 }
