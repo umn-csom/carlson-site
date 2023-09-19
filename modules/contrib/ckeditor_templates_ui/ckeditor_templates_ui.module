@@ -62,8 +62,8 @@ function ckeditor_templates_ui_js_settings_alter(array &$settings, AttachedAsset
         // that cannot evaluate to false, is the same for all templates and
         // is used to create the image path. This makes it inconvenient for us.
         // For things to work out all url-s must start with "/".
-        $templates[$i]['image'] = file_create_url($value->image);
-        $templates[$i]['image'] = file_url_transform_relative($templates[$i]['image']);
+        $templates[$i]['image'] = \Drupal::service('file_url_generator')->generateAbsoluteString($value->image);
+        $templates[$i]['image'] = \Drupal::service('file_url_generator')->transformRelative($templates[$i]['image']);
         // Remove leading "/" since it will be added separately
         // by the "imagesPath" parameter.
         $templates[$i]['image'] = substr($templates[$i]['image'], 1);

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\sitewide_alert;
 
-
 /**
  * Sitewide Alert placeholder render array builder service.
  *

@@ -25,12 +25,12 @@ interface StorageManagerInterface {
   /**
    * View mode field name.
    */
-  const FIELD_NAME = SELF::CONFIG_NAME;
+  const FIELD_NAME = self::CONFIG_NAME;
 
   /**
    * View mode field type.
    */
-  const FIELD_TYPE = SELF::FIELD_NAME;
+  const FIELD_TYPE = self::FIELD_NAME;
 
   /**
    * View mode field label.

@@ -3,10 +3,10 @@
 namespace Drupal\sitewide_alert_block\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\sitewide_alert\SitewideAlertRendererInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Implements SiteAlertBlock class.

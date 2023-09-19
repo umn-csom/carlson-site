@@ -2,9 +2,9 @@
 
 namespace Drupal\sitewide_alert;
 
+use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Routing\AdminContext;
-use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Session\AccountProxyInterface;
 
 /**
@@ -58,7 +58,8 @@ class SitewideAlertRenderer implements SitewideAlertRendererInterface {
     $cacheMetadata = CacheableMetadata::createFromObject($this->config)
       ->addCacheContexts(['user.permissions']);
 
-    // Do not show alert on admin pages if we are not configured to do so or when we don't have enough permissions.
+    // Do not show alert on admin pages if we are not configured to do so
+    // or when we don't have enough permissions.
     if (!$this->currentUser->hasPermission('view published sitewide alert entities')
       || ($adminAware && !$this->config->get('show_on_admin') && $this->adminContext->isAdminRoute())) {
       // Populate an empty render array with cache-metadata to force it to
@@ -76,7 +77,7 @@ class SitewideAlertRenderer implements SitewideAlertRendererInterface {
         ],
         'drupalSettings' => [
           'sitewideAlert' => [
-            'refreshInterval' => ($this->config->get('refresh_interval') ?? 15) * 1000,
+            'refreshInterval' => (int) ($this->config->get('refresh_interval') ?? 15) * 1000,
             'automaticRefresh' => ($this->config->get('automatic_refresh') == 1),
           ],
         ],

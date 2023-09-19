@@ -113,7 +113,9 @@ class SitewideAlertForm extends ContentEntityForm {
       $form['dismissible_ignore_previous'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Ignore Previous Dismissals'),
-        '#description' => $this->t('Select this when making a major change and you want to make sure all visitors see this alert even if they have dismissed it prior.'),
+        '#description' => $this->t(
+          'Select this when making a major change and you want to ensure all visitors see this alert even if they have previously dismissed it. <em>Note: this checkbox will remain unchecked upon reload. The checked value is used during form submission to reset the site alert dismissible time.</em>'
+        ),
         '#default_value' => FALSE,
         '#return_value' => TRUE,
         '#weight' => -9,

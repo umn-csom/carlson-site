@@ -135,20 +135,22 @@
           <div class="quiz-results--body">
             {% set show_default_cond_body = false %}
             {% set break = false %}
-            {% for cond_body_item in node_cond_body|children if not break %}
-              {% set show_cond_body = false %}
-              {% set conditional_answers = cond_body_item['#paragraph'].field_quiz_question_cond_answ.getValue() %}
+            {% for cond_body_item in node_cond_body|children %}
+              {% if not break %}
+                {% set show_cond_body = false %}
+                {% set conditional_answers = cond_body_item['#paragraph'].field_quiz_question_cond_answ.getValue() %}
 
-              {% for conditional_answer in conditional_answers %}
-                {% if conditional_answer['value'] in webform_submission_data %}
-                  {% set show_cond_body = true %}
-                  {% set show_default_cond_body = true %}
-                  {% set break = true %}
+                {% for conditional_answer in conditional_answers %}
+                  {% if conditional_answer['value'] in webform_submission_data %}
+                    {% set show_cond_body = true %}
+                    {% set show_default_cond_body = true %}
+                    {% set break = true %}
+                  {% endif %}
+                {% endfor %}
+
+                {% if show_cond_body %}
+                  {{ _self.preprocess_text(cond_body_item|render, results_to_show, numbers) }}
                 {% endif %}
-              {% endfor %}
-
-              {% if show_cond_body %}
-                {{ _self.preprocess_text(cond_body_item|render, results_to_show, numbers) }}
               {% endif %}
             {% endfor %}
 

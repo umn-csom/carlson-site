@@ -8,6 +8,7 @@ use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Render\RendererInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
 use Drupal\sitewide_alert\Entity\SitewideAlertInterface;
@@ -35,16 +36,26 @@ class SitewideAlertController extends ControllerBase implements ContainerInjecti
   protected $renderer;
 
   /**
+   * The current route match.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
+
+  /**
    * Constructs a new SitewideAlertController.
    *
    * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
    *   The date formatter.
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The renderer.
+   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   *   The current route.
    */
-  public function __construct(DateFormatterInterface $date_formatter, RendererInterface $renderer) {
+  public function __construct(DateFormatterInterface $date_formatter, RendererInterface $renderer, RouteMatchInterface $route_match) {
     $this->dateFormatter = $date_formatter;
     $this->renderer = $renderer;
+    $this->routeMatch = $route_match;
   }
 
   /**
@@ -53,7 +64,8 @@ class SitewideAlertController extends ControllerBase implements ContainerInjecti
   public static function create(ContainerInterface $container): SitewideAlertController {
     return new static(
       $container->get('date.formatter'),
-      $container->get('renderer')
+      $container->get('renderer'),
+      $container->get('current_route_match')
     );
   }
 
@@ -120,7 +132,11 @@ class SitewideAlertController extends ControllerBase implements ContainerInjecti
     $langname = $sitewide_alert->language()->getName();
     $languages = $sitewide_alert->getTranslationLanguages();
     $has_translations = (count($languages) > 1);
-    $build['#title'] = $has_translations ? $this->t('@langname revisions for %title', ['@langname' => $langname, '%title' => $sitewide_alert->label()]) : $this->t('Revisions for %title', ['%title' => $sitewide_alert->label()]);
+    $build['#title'] = $has_translations
+      ? $this->t('@langname revisions for %title',
+        ['@langname' => $langname, '%title' => $sitewide_alert->label()])
+      : $this->t('Revisions for %title',
+        ['%title' => $sitewide_alert->label()]);
 
     $header = [$this->t('Revision'), $this->t('Operations')];
     $revert_permission = (($account->hasPermission("revert all sitewide alert revisions") || $account->hasPermission('administer sitewide alert entities')));
@@ -159,7 +175,7 @@ class SitewideAlertController extends ControllerBase implements ContainerInjecti
                 new Url('entity.sitewide_alert.revision', [
                   'sitewide_alert' => $sitewide_alert->id(),
                   'sitewide_alert_revision' => $vid,
-                  ])
+                ])
               )->toString(),
               'username' => $this->renderer->renderPlain($username),
               'message' => [
@@ -232,6 +248,21 @@ class SitewideAlertController extends ControllerBase implements ContainerInjecti
     ];
 
     return $build;
+  }
+
+  /**
+   * Edit route title callback.
+   *
+   * @return \Drupal\Core\StringTranslation\TranslatableMarkup|null
+   *   The title for the sitewide alert edit page, if an entity was found.
+   */
+  public function editTitle(): ?TranslatableMarkup {
+    $sitewideAlert = $this->routeMatch->getParameter('sitewide_alert');
+    if (!$sitewideAlert instanceof SitewideAlertInterface) {
+      return NULL;
+    }
+
+    return $this->t('Edit %label', ['%label' => $sitewideAlert->label()]);
   }
 
 }

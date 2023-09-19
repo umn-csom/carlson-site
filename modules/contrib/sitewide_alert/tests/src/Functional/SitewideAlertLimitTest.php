@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\sitewide_alert\Functional;
 
-use Drupal\Component\Utility\Random;
 use Drupal\Core\Url;
-use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 use Drupal\sitewide_alert\Entity\SitewideAlert;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\Tests\sitewide_alert\Traits\SitewideAlertTestTrait;

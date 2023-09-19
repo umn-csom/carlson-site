@@ -103,7 +103,7 @@
             {% if content.field_magazine_pdf | render %}
               <a href="{{ content.field_magazine_pdf|render|striptags }}" target="_blank">
             {% endif %}
-              <img src="{% spaceless %}{{ content.field_magazine_cover_image|render|striptags }}{% endspaceless %}" alt='{{ label|field_value }} {% if magazine == "alumni" %}alumni {% elseif magazine == "discovery" %}Discovery {% endif %}magazine cover' Cover" class="img-fluid magazine--cover-angle">
+              <img src="{% apply spaceless %}{{ content.field_magazine_cover_image|render|striptags }}{% endapply %}" alt='{{ label|field_value }} {% if magazine == "alumni" %}alumni {% elseif magazine == "discovery" %}Discovery {% endif %}magazine cover' Cover" class="img-fluid magazine--cover-angle">
               {% if content.field_magazine_pdf | render %}
               </a>
             {% endif %}
