@@ -71,7 +71,7 @@ class CkeditorTemplateForm extends EntityForm {
     $image = $template->get('image');
     if ($image) {
       $image_markup = '<div class="form-item image-preview" style="max-width: 200px; max-height: 200px;">';
-      $image_markup .= '<img src="' . file_create_url($image) . '" alt="' . $this->t('Preview') . '" />';
+      $image_markup .= '<img src="' . \Drupal::service('file_url_generator')->generateAbsoluteString($image) . '" alt="' . $this->t('Preview') . '" />';
       $image_markup .= '</div>';
       $form['image_preview'] = [
         '#type' => 'inline_template',

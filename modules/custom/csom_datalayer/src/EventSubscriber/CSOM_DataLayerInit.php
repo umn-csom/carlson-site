@@ -13,7 +13,8 @@ use \UpdateAnalyticsTable;
 //Service classes
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 //Defining code to be run every page load
@@ -45,11 +46,11 @@ class CSOM_DataLayerInit implements EventSubscriberInterface
     /**
      * csom_datalayer
      *
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
      *   The event to process.
      */
 
-    public function initializeMyModule(GetResponseEvent $event)
+    public function initializeMyModule(RequestEvent $event)
     {
 
         $route_name = \Drupal::routeMatch()->getRouteName();

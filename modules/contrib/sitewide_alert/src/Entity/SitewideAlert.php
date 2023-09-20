@@ -6,11 +6,11 @@ namespace Drupal\sitewide_alert\Entity;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\Entity\EditorialContentEntityBase;
-use Drupal\Core\Entity\RevisionableInterface;
+use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
+use Drupal\Core\Entity\RevisionableInterface;
+use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\user\UserInterface;
@@ -23,6 +23,7 @@ use Drupal\user\UserInterface;
  * @ContentEntityType(
  *   id = "sitewide_alert",
  *   label = @Translation("Sitewide Alert"),
+ *   label_singular = @Translation("Sitewide Alert"),
  *   label_plural = @Translation("Sitewide Alerts"),
  *   label_collection = @Translation("Sitewide Alerts"),
  *   handlers = {
@@ -77,7 +78,8 @@ use Drupal\user\UserInterface;
  *   },
  *   field_ui_base_route = "entity.sitewide_alert.config_form",
  *   constraints = {
- *     "ScheduledDateProvided" = {}
+ *     "ScheduledDateProvided" = {},
+ *     "LimitToPages" = {},
  *   }
  * )
  */
@@ -318,16 +320,12 @@ class SitewideAlert extends EditorialContentEntityBase implements SitewideAlertI
 
     $fields['limit_to_pages_negate'] = BaseFieldDefinition::create('boolean')
       ->setLabel(new TranslatableMarkup('Negate for listed pages'))
-      ->setRequired(TRUE)
+      ->setDescription(new TranslatableMarkup('If selected, this Sitewide Alert will show on all paths except the above paths.'))
+      ->setRequired(FALSE)
       ->setDefaultValue(FALSE)
       ->setDisplayOptions('form', [
-        'type' => 'options_buttons',
-        'label' => 'hidden',
+        'type' => 'boolean_checkbox',
         'weight' => -4,
-        'settings' => [
-          'on_label' => 'Hide for the listed pages',
-          'off_label' => 'Show for the listed pages',
-        ],
       ])
       ->setDisplayOptions('view', [
         'region' => 'hidden',
@@ -508,7 +506,7 @@ class SitewideAlert extends EditorialContentEntityBase implements SitewideAlertI
 
     foreach (explode("\n", strip_tags($pagesString)) as $path) {
       $path = trim($path);
-      if (!empty($path) && strpos($path, '/') === 0) {
+      if (!empty($path) && str_starts_with($path, '/')) {
         $paths[] = $path;
       }
     }

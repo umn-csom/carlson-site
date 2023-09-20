@@ -17,6 +17,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SitewideAlertConfigForm extends ConfigFormBase {
 
   /**
+   * The module handler.
+   *
    * @var \Drupal\Core\Extension\ModuleHandlerInterface
    */
   private ModuleHandlerInterface $moduleHandler;
@@ -114,7 +116,24 @@ class SitewideAlertConfigForm extends ConfigFormBase {
       ],
     ];
 
+    $form['cache_max_age'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Browser and Shared Cache Maximum Age (in seconds)'),
+      '#description' => $this->t('The maximum time that alerts should be cached by the browser and shared caches (reverse proxies, like Varnish). Increasing the maximum cache age may reduce the volume of requests to the Drupal site, but will increase the amount of time before new and changed alerts show.'),
+      '#default_value' => $config->get('cache_max_age'),
+    ];
+
     return parent::buildForm($form, $form_state);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state): void {
+    parent::validateForm($form, $form_state);
+    if ($form_state->getValue('cache_max_age') < 0) {
+      $form_state->setErrorByName('cache_max_age', $this->t('Browser and Shared Cache Maximum Age (in seconds) can not be negative'));
+    }
   }
 
   /**
@@ -128,6 +147,7 @@ class SitewideAlertConfigForm extends ConfigFormBase {
       ->set('alert_styles', $form_state->getValue('alert_styles'))
       ->set('refresh_interval', $form_state->getValue('refresh_interval'))
       ->set('automatic_refresh', $form_state->getValue('automatic_refresh'))
+      ->set('cache_max_age', $form_state->getValue('cache_max_age'))
       ->save();
   }
 
