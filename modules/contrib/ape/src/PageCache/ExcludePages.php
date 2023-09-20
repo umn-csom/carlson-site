@@ -26,7 +26,7 @@ class ExcludePages implements ResponsePolicyInterface {
   /**
    * Condition plugin manager.
    *
-   * @var \Drupal\Component\Plugin\Factory\FactoryInterface $plugin_factory
+   * @var \Drupal\Component\Plugin\Factory\FactoryInterface
    *   Factory for condition plugin manager.
    */
   protected $conditionManager;
@@ -40,13 +40,15 @@ class ExcludePages implements ResponsePolicyInterface {
    * {@inheritdoc}
    */
   public function check(Response $response, Request $request) {
-    /* @var \Drupal\system\Plugin\Condition\RequestPath $condition */
+    /** @var \Drupal\system\Plugin\Condition\RequestPath $condition */
     $condition = $this->conditionManager->createInstance('request_path');
     $condition->setConfig('pages', $this->config->get('exclusions'));
 
     if (!empty($this->config->get('exclusions')) && $condition->evaluate()) {
       return static::DENY;
     }
+
+    return NULL;
   }
 
 }

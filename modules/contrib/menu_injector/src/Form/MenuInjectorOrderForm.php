@@ -65,7 +65,7 @@ class MenuInjectorOrderForm extends FormBase {
 
     // Get all the rules.
     $query = $this->entityTypeManager->getStorage('menu_injector_rule')->getQuery();
-    $results = $query->sort('label')->execute();
+    $results = $query->sort('label')->accessCheck(TRUE)->execute();
     $rules = $this->entityTypeManager->getStorage('menu_injector_rule')->loadMultiple($results);
 
     // Menu Injector rules order (tabledrag).

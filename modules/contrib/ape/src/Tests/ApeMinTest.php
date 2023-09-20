@@ -22,25 +22,16 @@ class ApeMinTest extends BrowserTestBase {
   protected static $modules = ['ape', 'ape_test', 'system'];
 
   /**
-   * Exempt from strict schema checking.
-   *
-   * @var bool
-   * @see \Drupal\Core\Config\Testing\ConfigSchemaChecker
-   */
-  protected $strictConfigSchema = FALSE;
-
-  /**
    * {@inheritdoc}
    */
-  public function initConfig(ContainerInterface $container) {
-    parent::initConfig($container);
+  protected function setUp(): void {
+    parent::setUp();
 
-    $config = $container->get('config.factory');
-
-    $config->getEditable('system.performance')
+    $this->config('system.performance')
       ->set('cache.page.max_age', 2592000)
-      ->save();
-    $config->getEditable('ape.settings')
+      ->save(TRUE);
+
+    $this->config('ape.settings')
       ->set('alternatives', '')
       ->set('exclusions', '')
       ->set('lifetime.alternatives', 60)
@@ -56,8 +47,7 @@ class ApeMinTest extends BrowserTestBase {
   public function testApeHeaders() {
     // Check user registration page has global age.
     $this->drupalGet('user/register');
-    $this->assertEqual($this->drupalGetHeader('Cache-Control'), 'max-age=2592000, public', 'Global Cache-Control header set.');
-
+    $this->assertEquals('max-age=2592000, public', $this->getSession()->getResponseHeader('Cache-Control'), 'Global Cache-Control header set.');
   }
 
 }

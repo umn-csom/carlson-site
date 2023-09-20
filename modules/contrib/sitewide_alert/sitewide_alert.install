@@ -12,7 +12,8 @@ use Drupal\user\RoleInterface;
  * Implements hook_install().
  */
 function sitewide_alert_install() {
-  // Grant the "view published sitewide alert entities" permission to all users by default.
+  // Grant the "view published sitewide alert entities" permission to all users
+  // by default.
   if (\Drupal::moduleHandler()->moduleExists('user')) {
     user_role_grant_permissions(RoleInterface::ANONYMOUS_ID, ['view published sitewide alert entities']);
     user_role_grant_permissions(RoleInterface::AUTHENTICATED_ID, ['view published sitewide alert entities']);
@@ -28,7 +29,7 @@ function sitewide_alert_update_8001(&$sandbox) {
 }
 
 /**
- * Rename revision metadata key column from 'revision_log' to 'revision_log_message'.
+ * Rename revision column from 'revision_log' to 'revision_log_message'.
  */
 function sitewide_alert_update_9001() {
   $entity_type_id = 'sitewide_alert';
@@ -55,6 +56,8 @@ function sitewide_alert_update_9001() {
 }
 
 /**
+ * Populate the 'view published sitewide alert entities' permission.
+ *
  * Add the 'view published sitewide alert entities' permission for roles that
  * have the 'access content' permission.
  */
@@ -165,4 +168,12 @@ function _sitewide_alert_rename_field_entity_storage_schema(string $entity_type_
   $key_value->set($new_key_name, $table_storage_schema);
   // Return the field schema.
   return $field_schema;
+}
+
+/**
+ * Set default cache max age value to 15 seconds.
+ */
+function sitewide_alert_update_9003() {
+  $config_factory = \Drupal::configFactory();
+  $config_factory->getEditable('sitewide_alert.settings')->set('cache_max_age', 15)->save();
 }

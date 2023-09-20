@@ -3,9 +3,14 @@
 namespace Drupal\paragraph_view_mode;
 
 /**
- * Provides interfacie for paragraph view modes.
+ * Provides interface for paragraph view modes.
  *
  * @package Drupal\paragraph_view_mode
+ *
+ * @deprecated in paragraph_view_mode:3.1.0 and is removed from
+ * paragraph_view_mode:3.2.0.
+ * Use Drupal\paragraph_view_mode\Enum\ViewModes instead.
+ *
  */
 interface ViewModeInterface {
 

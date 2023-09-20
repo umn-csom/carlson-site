@@ -6,7 +6,10 @@ namespace Drupal\sitewide_alert;
 
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Entity\EntityRepositoryInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 
 /**
  * Manager for working with sitewide alert entities.
@@ -28,6 +31,20 @@ class SitewideAlertManager {
   protected $time;
 
   /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected LanguageManagerInterface $languageManager;
+
+  /**
+   * The entity repository.
+   *
+   * @var \Drupal\Core\Entity\EntityRepositoryInterface
+   */
+  protected EntityRepositoryInterface $entityRepository;
+
+  /**
    * Time of current request.
    *
    * @var \DateTimeInterface
@@ -41,10 +58,16 @@ class SitewideAlertManager {
    *   The entity type manager.
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   The time service.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
+   *   The language manager.
+   * @param \Drupal\Core\Entity\EntityRepositoryInterface $entityRepository
+   *   The entity repository.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager, TimeInterface $time) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, TimeInterface $time, LanguageManagerInterface $languageManager, EntityRepositoryInterface $entityRepository) {
     $this->entityTypeManager = $entityTypeManager;
     $this->time = $time;
+    $this->languageManager = $languageManager;
+    $this->entityRepository = $entityRepository;
   }
 
   /**
@@ -57,10 +80,23 @@ class SitewideAlertManager {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function activeSitewideAlerts(): array {
+    $sitewideAlertStorage = $this->entityTypeManager
+      ->getStorage('sitewide_alert');
+    $langcode = $this->languageManager->getCurrentLanguage()->getId();
+
+    $sitewideAlertIds = $sitewideAlertStorage
+      ->getQuery()
+      ->condition('status', 1)
+      ->condition('langcode', $sitewideAlertStorage->getEntityType()->isTranslatable() ? $langcode : LanguageInterface::LANGCODE_DEFAULT)
+      ->accessCheck(TRUE)
+      ->execute();
+
     /** @var \Drupal\sitewide_alert\Entity\SitewideAlertInterface[] $sitewideAlerts */
-    $sitewideAlerts = $this->entityTypeManager
-      ->getStorage('sitewide_alert')
-      ->loadByProperties(['status' => 1]);
+    $sitewideAlerts = $sitewideAlertStorage->loadMultiple($sitewideAlertIds);
+    foreach ($sitewideAlerts as $key => $alert) {
+      $sitewideAlerts[$key] = $this->entityRepository->getTranslationFromContext($alert, $langcode);
+    }
+
     return $sitewideAlerts;
   }
 
@@ -77,7 +113,7 @@ class SitewideAlertManager {
     /** @var \Drupal\sitewide_alert\Entity\SitewideAlertInterface[] $activeVisibleSitewideAlerts */
     $activeVisibleSitewideAlerts = $this->activeSitewideAlerts();
 
-    // Remove any sitewide alerts that are scheduled and it is not time to show them.
+    // Remove any alerts that are scheduled and it is not time to show them.
     foreach ($activeVisibleSitewideAlerts as $id => $sitewideAlert) {
       if ($sitewideAlert->isScheduled() &&
         !$sitewideAlert->isScheduledToShowAt($this->requestDateTime())) {
@@ -126,7 +162,7 @@ class SitewideAlertManager {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   private function soonestExpiringVisibleScheduledAlertDateTime(): ?DrupalDateTime {
-    /** @var \Drupal\Core\Datetime\DrupalDateTime||null $soonestScheduledEndDate */
+    /** @var \Drupal\Core\Datetime\DrupalDateTime|null $soonestScheduledEndDate */
     $soonestScheduledEndDate = NULL;
 
     foreach ($this->activeVisibleSitewideAlerts() as $sitewideAlert) {

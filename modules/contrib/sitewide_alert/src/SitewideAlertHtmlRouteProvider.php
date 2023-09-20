@@ -6,9 +6,9 @@ namespace Drupal\sitewide_alert;
 
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;
-use Symfony\Component\Routing\Route;
 use Drupal\sitewide_alert\Form\SitewideAlertRevisionDeleteForm;
 use Drupal\sitewide_alert\Form\SitewideAlertRevisionRevertTranslationForm;
+use Symfony\Component\Routing\Route;
 
 /**
  * Provides routes for Sitewide Alert entities.

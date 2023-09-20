@@ -46,7 +46,10 @@ class WrapperClassFormatterTest extends ElementClassFormatterTestBase {
    *
    */
   public function testTextWithSummary(bool $summary, string $expected, int $trim = NULL) {
-    $format = FilterFormat::create(['format' => $this->randomMachineName()]);
+    $format = FilterFormat::create([
+      'format' => $this->randomMachineName(),
+      'name' => $this->randomMachineName(),
+    ]);
     $format->save();
     $formatter_settings = [
       'class' => self::TEST_CLASS,

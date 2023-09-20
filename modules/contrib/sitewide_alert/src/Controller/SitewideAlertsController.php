@@ -4,6 +4,7 @@ namespace Drupal\sitewide_alert\Controller;
 
 use Drupal\Core\Cache\CacheableJsonResponse;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\sitewide_alert\SitewideAlertManager;
@@ -22,9 +23,18 @@ class SitewideAlertsController extends ControllerBase {
   protected $renderer;
 
   /**
+   * The sitewide alert manager.
+   *
    * @var \Drupal\sitewide_alert\SitewideAlertManager
    */
   private $sitewideAlertManager;
+
+  /**
+   * Configuration Factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactory
+   */
+  protected $configFactory;
 
   /**
    * Constructs a new SitewideAlertsController.
@@ -33,10 +43,13 @@ class SitewideAlertsController extends ControllerBase {
    *   The renderer.
    * @param \Drupal\sitewide_alert\SitewideAlertManager $sitewideAlertManager
    *   The sitewide alert manager.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
+   *   The config factory service.
    */
-  public function __construct(RendererInterface $renderer, SitewideAlertManager $sitewideAlertManager) {
+  public function __construct(RendererInterface $renderer, SitewideAlertManager $sitewideAlertManager, ConfigFactoryInterface $configFactory) {
     $this->renderer = $renderer;
     $this->sitewideAlertManager = $sitewideAlertManager;
+    $this->configFactory = $configFactory;
   }
 
   /**
@@ -45,7 +58,8 @@ class SitewideAlertsController extends ControllerBase {
   public static function create(ContainerInterface $container): SitewideAlertsController {
     return new static(
       $container->get('renderer'),
-      $container->get('sitewide_alert.sitewide_alert_manager')
+      $container->get('sitewide_alert.sitewide_alert_manager'),
+      $container->get('config.factory')
     );
   }
 
@@ -81,7 +95,7 @@ class SitewideAlertsController extends ControllerBase {
       ];
     }
 
-    // Set the response cache to be dependent on whenever sitewide alerts get updated.
+    // Set response cache so it is invalidated whenever alerts get updated.
     $cacheableMetadata = (new CacheableMetadata())
       ->setCacheMaxAge(30)
       ->addCacheContexts(['languages'])
@@ -100,9 +114,11 @@ class SitewideAlertsController extends ControllerBase {
       $response->setExpires($expireDate->getPhpDateTime());
     }
 
-    // Prevent the browser and downstream caches from caching for more than 15 seconds.
-    $response->setMaxAge(15);
-    $response->setSharedMaxAge(15);
+    // Prevent the browser and downstream caches from caching for more than the
+    // configured cache max age, in seconds.
+    $cacheMaxAge = $this->configFactory->get('sitewide_alert.settings')->get('cache_max_age') ?: 15;
+    $response->setMaxAge($cacheMaxAge);
+    $response->setSharedMaxAge($cacheMaxAge);
 
     return $response;
   }

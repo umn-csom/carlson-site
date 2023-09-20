@@ -36,12 +36,8 @@
       window.localStorage.getItem(`alert-dismissed-${alert.uuid}`),
     );
 
-    // If the visitor has already dismissed the alert but we are supposed to ignore dismissals before a set date.
-    if (dismissedAtTimestamp < alert.dismissalIgnoreBefore) {
-      return false;
-    }
-
-    return true;
+    // If the visitor has already dismissed the alert, but we are supposed to ignore dismissals before a set date.
+    return dismissedAtTimestamp >= alert.dismissalIgnoreBefore;
   };
 
   const dismissAlert = alert => {
@@ -123,7 +119,7 @@
     fetchAlerts().then(alerts => {
       removeStaleAlerts(alerts);
       alerts.forEach(alert => {
-        // Check if alert has been dimissed.
+        // Check if alert has been dismissed.
         const dismissed = alertWasDismissed(alert);
         // Check if current page is one of the pages the alert should be shown on or not.
         const showOnThisPage = shouldShowOnThisPage(
@@ -161,12 +157,84 @@
     });
   };
 
+
+  /**
+   * Check if window.history pushstate is available
+   * @returns {boolean}
+   */
+  const supportsHistoryPushState = () => {
+    return ('pushState' in window.history) &&  window.history['pushState'] !== null;
+  }
+
+  /**
+   * Check if window.history replaceState is available
+   * @returns {boolean}
+   */
+  const supportsHistoryReplaceState = () => {
+    return ('replaceState' in window.history) &&  window.history['replaceState'] !== null;
+  }
+
+  /**
+   * Add Proxy to standard pushState function to fire CustomEvent.
+   *
+   * Nor history.pushState either history.replaceState will trigger a popstate event.
+   * Therefor a proxy behaviour is added to trigger a CustomEvent whenever the history is changed.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/History/pushState
+   * @see https://developer.mozilla.org/en-US/docs/Web/API/Window/popstate_event
+   */
+  const proxyPushState = () => {
+    if (supportsHistoryPushState()) {
+      window.history.pushState = new Proxy(window.history.pushState, {
+        apply (target, thisArg, argArray) {
+          // triggerEvent
+          triggerHistoryEvent(thisArg, argArray)
+          // execute original
+          return target.apply(thisArg, argArray)
+        }
+      })
+    }
+    if(supportsHistoryReplaceState()) {
+      window.history.replaceState = new Proxy(window.history.replaceState, {
+        apply (target, thisArg, argArray) {
+          // triggerEvent
+          triggerHistoryEvent(thisArg, argArray)
+          // execute original
+          return target.apply(thisArg, argArray)
+        }
+      })
+    }
+  }
+
+  /**
+   * Trigger CustomEvent sitewidealerts.popstate.
+   *
+   * @param thisArg
+   * @param argArray
+   */
+  const triggerHistoryEvent = (thisArg, argArray) => {
+    const event = new CustomEvent('sitewidealerts.popstate', { detail: { state: thisArg, options: argArray } })
+    window.dispatchEvent(event)
+  }
+
+  /**
+   * Reinitialize the alters on A: CustomEvent and B: Standard popstate.
+   *
+   * @see shouldShowOnThisPage
+   * @see initAlerts
+   */
+  const historyListener = () => {
+    window.addEventListener('sitewidealerts.popstate', () => initAlerts())
+    window.addEventListener('popstate', () => initAlerts())
+  }
+
   Drupal.behaviors.sitewide_alert_init = {
     attach: (context, settings) => {
       once('sitewide_alerts_init', 'html', context).forEach(element => {
         // On load.
         initAlerts();
-
+        proxyPushState();
+        historyListener();
         if (drupalSettings.sitewideAlert.automaticRefresh === true) {
           const interval = setInterval(
             () => initAlerts(),
