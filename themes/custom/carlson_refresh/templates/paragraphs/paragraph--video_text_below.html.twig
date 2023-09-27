@@ -49,24 +49,11 @@
     {% if content.field_video_anchor_id is not empty %}
       <a id="{{ content.field_video_anchor_id|render|striptags|trim }}"></a>
     {% endif %}
-{#    {% if node.gettype =='executive_ed_program'%}#}
-{#      <div class="video-textbelow__inner">#}
-{#        <div class="video-textbelow__inner-wrapper">#}
-{#          <div class="video-textbelow__media">#}
-{#            <a class="use-ajax video-textbelow__media--link" data-dialog-type="modal" href="/media/{{ content.field_video_embed.0 }}" data-dialog-options="{&quot;width&quot;:800}">{{ content.field_video_thumb }}</a>#}
-{#          </div>#}
-{#          <div class="video-textbelow__details text-center">#}
-{#            <h3 class="text-center video-textbelow__details--heading">{{ content.field_heading }}</h3>#}
-{#            <div class="text-center video-textbelow__details--caption">{{ content.field_video_caption }}</div>#}
-{#          </div>#}
-{#        </div>#}
-{#      </div>#}
-{#    {% else %}#}
   		<div class="row no-gutters justify-content-center component-paragraph video-textbelow">
   			<div class="video-textbelow__inner">
   				<div class="col-12 video-textbelow__media position-relative border-top border-left border-right">
             <div class="embed-responsive embed-responsive-16by9 position-static">
-              <a class="use-ajax video-textbelow__media--link" data-dialog-type="modal" href="/media/{{ content.field_video_embed.0 }}" data-dialog-options="{&quot;width&quot;:800}">{{ content.field_video_thumb }}</a>
+              <a class="use-ajax video-textbelow__media--link" data-dialog-type="modal" href="/media/{{ content.field_video_embed.0 }}" data-dialog-options="{&quot;width&quot;:800}">{{ content.field_video_thumb|field_value }}</a>
             </div>
   			  </div>
           {% if content.field_heading|render|striptags|trim or content.field_video_caption|render|striptags|trim %}
