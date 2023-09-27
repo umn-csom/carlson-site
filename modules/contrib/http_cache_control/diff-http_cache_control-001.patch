@@ -1,0 +1,22 @@
+diff --git a/http_cache_control.module b/http_cache_control.module
+index 30735b8..0fd66d1 100644
+--- a/http_cache_control.module
++++ b/http_cache_control.module
+@@ -32,6 +32,16 @@ function http_cache_control_help($route_name, RouteMatchInterface $route_match)
+ function http_cache_control_form_system_performance_settings_alter(&$form, FormStateInterface $form_state, $form_id) {
+   $config = \Drupal::service('config.factory')->get('http_cache_control.settings');
+ 
++  // Add more options to the page_cache_maximum_age setting.
++  $form['caching']['page_cache_maximum_age']['#options'][1] = t("1 second");
++  $form['caching']['page_cache_maximum_age']['#options'][30] = t("30 seconds");
++  $form['caching']['page_cache_maximum_age']['#options'][604800] = t("1 week");
++  $form['caching']['page_cache_maximum_age']['#options'][1209600] = t("2 weeks");
++  $form['caching']['page_cache_maximum_age']['#options'][2628000] = t("1 month");
++  $form['caching']['page_cache_maximum_age']['#options'][7884000] = t("3 months");
++  $form['caching']['page_cache_maximum_age']['#options'][16588800] = t("6 months");
++  $form['caching']['page_cache_maximum_age']['#options'][31536000] = t("1 year");
++
+   // Regardless to whether s-maxage is used or not, this control will always
+   // dictate the cache lifetime shared by proxies and sometimes browsers.
+   $form['caching']['page_cache_maximum_age']['#title'] = t('Browser cache maximum age');
+
