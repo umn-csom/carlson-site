@@ -53,7 +53,7 @@
         <h3 class="link-list__header">{{ content.field_heading }}</h3>
 
         <ul class="link-list__collection">
-            {% for key, item in content.field_links if key|first != '#' %}
+            {% for key, item in content.field_links|filter((value, key) => key|first != '#')  %}
                 <li class="link-list__item">{{ item }}</li>
             {% endfor %}
         </ul>
