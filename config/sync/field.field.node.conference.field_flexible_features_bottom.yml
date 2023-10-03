@@ -6,7 +6,10 @@ dependencies:
     - field.storage.node.field_flexible_features_bottom
     - node.type.conference
     - paragraphs.paragraphs_type.basic_paragraph
+    - paragraphs.paragraphs_type.cta_link
     - paragraphs.paragraphs_type.fluid_columns
+    - paragraphs.paragraphs_type.link_list
+    - paragraphs.paragraphs_type.program_cta
     - paragraphs.paragraphs_type.statistic
     - paragraphs.paragraphs_type.statistics
   module:
@@ -26,9 +29,12 @@ settings:
   handler_settings:
     target_bundles:
       basic_paragraph: basic_paragraph
+      cta_link: cta_link
       fluid_columns: fluid_columns
+      program_cta: program_cta
       statistic: statistic
       statistics: statistics
+      link_list: link_list
     negate: 0
     target_bundles_drag_drop:
       accordion:
@@ -78,7 +84,7 @@ settings:
         enabled: false
       cta_link:
         weight: 48
-        enabled: false
+        enabled: true
       curriculum_plan:
         weight: 79
         enabled: false
@@ -129,7 +135,7 @@ settings:
         enabled: false
       link_list:
         weight: 95
-        enabled: false
+        enabled: true
       magazine_section:
         weight: 71
         enabled: false
@@ -147,7 +153,7 @@ settings:
         enabled: false
       program_cta:
         weight: 59
-        enabled: false
+        enabled: true
       program_promo:
         weight: 60
         enabled: false
@@ -216,5 +222,8 @@ settings:
         enabled: false
       video_text_right:
         weight: 76
+        enabled: false
+      webform:
+        weight: 126
         enabled: false
 field_type: entity_reference_revisions

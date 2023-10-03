@@ -8,10 +8,8 @@ dependencies:
     - field.field.paragraph.video_text_right.field_video_caption
     - field.field.paragraph.video_text_right.field_video_embed
     - field.field.paragraph.video_text_right.field_video_thumb
-    - image.style.crop_featured_video
     - paragraphs.paragraphs_type.video_text_right
   module:
-    - media
     - text
 id: paragraph.video_text_right.default
 targetEntityType: paragraph
@@ -49,11 +47,11 @@ content:
     weight: 1
     region: content
   field_video_thumb:
-    type: media_thumbnail
+    type: entity_reference_entity_view
     label: hidden
     settings:
-      image_link: ''
-      image_style: crop_featured_video
+      view_mode: featured_video_thumb
+      link: false
     third_party_settings: {  }
     weight: 2
     region: content
