@@ -43,11 +43,7 @@
 {% set learn_more_title = content.field_quiz_result_set_learn_more[0]['#title']|render %}
 
 
-{% if learn_more_url is not empty %}
-<a {{ attributes.setAttribute('id', 'result--' ~ term.id).setAttribute('data-name', name[0]['#context'].value|clean_class).addClass(classes) }} href="{{ learn_more_url }}" target="_blank">
-{% else %}
-<div {{ attributes.setAttribute('id', 'result--' ~ term.id).setAttribute('data-name', name[0]['#context'].value|clean_class).addClass(classes) }} ">
-{% endif %}
+<a {{ attributes.setAttribute('id', 'result--' ~ term.id).setAttribute('data-name', name[0]['#context'].value|clean_class).addClass(classes) }} {% if learn_more_url is not empty %}href="{{ learn_more_url }}"{% endif %} target="_blank">
 
   <div class="program-filter-card--content-wrapper px-3">
     <div class="program-filter-card--category">
@@ -82,9 +78,4 @@
       </div>
     </div>
   </div>
-
-{% if learn_more_url is not empty %}
 </a>
-{% else %}
-</div>
-{% endif %}
