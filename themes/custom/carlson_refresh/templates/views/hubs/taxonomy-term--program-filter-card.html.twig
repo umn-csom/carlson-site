@@ -42,7 +42,13 @@
 {% set learn_more_url = content.field_quiz_result_set_learn_more[0]['#url']|render %}
 {% set learn_more_title = content.field_quiz_result_set_learn_more[0]['#title']|render %}
 
+
+{% if learn_more_url is not empty %}
 <a {{ attributes.setAttribute('id', 'result--' ~ term.id).setAttribute('data-name', name[0]['#context'].value|clean_class).addClass(classes) }} href="{{ learn_more_url }}" target="_blank">
+{% else %}
+<div {{ attributes.setAttribute('id', 'result--' ~ term.id).setAttribute('data-name', name[0]['#context'].value|clean_class).addClass(classes) }} ">
+{% endif %}
+
   <div class="program-filter-card--content-wrapper px-3">
     <div class="program-filter-card--category">
       {{ content.field_degree_type }}
@@ -76,4 +82,9 @@
       </div>
     </div>
   </div>
+
+{% if learn_more_url is not empty %}
 </a>
+{% else %}
+</div>
+{% endif %}
