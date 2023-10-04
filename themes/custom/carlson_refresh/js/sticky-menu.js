@@ -35,7 +35,7 @@
           $menu.addClass("is-stuck");
           let
             previous_top_offset = $menu.css("top"),
-            new_top_offset = $navbar.offset().top + $navbar.outerHeight(true);
+            new_top_offset = $navbar.outerHeight(true);
           if (previous_top_offset != new_top_offset + "px") {
             $menu.css({ top: new_top_offset });
           }
