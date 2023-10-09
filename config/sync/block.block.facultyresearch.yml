@@ -1,0 +1,42 @@
+uuid: 49175d3f-41b8-4ebc-862b-cf6792ceb962
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_visibility_groups.block_visibility_group.sidebar_navs
+    - system.menu.faculty-and-research
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: facultyresearch
+theme: carlson_refresh
+region: navbar_secondary
+weight: 0
+provider: null
+plugin: 'menu_block:faculty-and-research'
+settings:
+  id: 'menu_block:faculty-and-research'
+  label: 'Behavioral Labs'
+  label_display: visible
+  provider: menu_injector
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 3
+  depth: 9
+  expand_all_items: false
+  parent: 'faculty-and-research:'
+  suggestion: navbar_secondary
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    block_visibility_group: sidebar_navs
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/faculty-research/facilities/behavioral-labs\r\n/faculty-research/facilities/behavioral-labs*"

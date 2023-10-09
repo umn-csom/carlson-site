@@ -194,7 +194,7 @@ class StorageManager implements StorageManagerInterface {
     $field = FieldConfig::create([
       'field_storage' => $this->getFieldStorage(),
       'bundle' => $bundle,
-      'label' => $this->t(StorageManagerInterface::FIELD_LABEL),
+      'label' => $this->t('@label', ['@label' => StorageManagerInterface::FIELD_LABEL]),
     ]);
 
     $field->save();

@@ -30,69 +30,63 @@
     </header>
 
     {% if magazine == "alumni" %}
-    <section class="row mb-4 magazine--section-top pl-lg-4">
-      {% if content.field_introduction_copy|render is not empty %}
-      <article class="col-12 order-1 mb-4 col-lg-5 order-lg-2 mb-lg-0 px-lg-5 magazine--intro">
-        <h2 class="magazine--section-heading bg-light-blue">From the Dean</h2>
-        <h3>{{ content.field_magazine_intro_head }}</h3>
-        <div class="collapse" id="magazine--intro-collapse">
-          <figure class="magazine--intro-profileimg">
-            {{ content. field_profile_image }}
-          </figure>
-          {{ content.field_introduction_copy }}
+      <section class="row mb-4 magazine--section-top pl-lg-4">
+        {# temp removal of from the dean section #}
+        
+        {# {% if content.field_introduction_copy|render is not empty %}
+        <article class="col-12 order-1 mb-4 col-lg-5 order-lg-2 mb-lg-0 px-lg-5 magazine--intro">
+          <h2 class="magazine--section-heading bg-light-blue">From the Dean</h2>
+          <h3>{{ content.field_magazine_intro_head }}</h3>
+          <div class="collapse" id="magazine--intro-collapse">
+            <figure class="magazine--intro-profileimg">
+              {{ content. field_profile_image }}
+            </figure>
+            {{ content.field_introduction_copy }}
+          </div>
+          <a class="magazine--intro-collapse-link collapsed" data-toggle="collapse" href="#magazine--intro-collapse" aria-expanded="false" aria-controls="magazine--intro-collapse" aria-label="Read more From the Dean"></a>
+        </article>
+        {% endif %} #}
+        <div class="col-12 col-lg-12 order-2 order-lg-1">
+          <h2 class="magazine--section-heading mb-3">Cover story</h2>
+          <div class="magazine--featured">{{ content.field_magazine_story_cover }}</div>
         </div>
-        <a class="magazine--intro-collapse-link collapsed" data-toggle="collapse" href="#magazine--intro-collapse" aria-expanded="false" aria-controls="magazine--intro-collapse" aria-label="Read more From the Dean"></a>
-      </article>
-      {% endif %}
-      <div class="col-12 col-lg-7 order-2 order-lg-1">
-        <h2 class="magazine--section-heading mb-3">Cover story</h2>
-        <div class="magazine--featured">{{ content.field_magazine_story_cover }}</div>
-      </div>
-    </section>
+      </section>
 
-
-
-    <section class="magazine--sections row justify-content-start">
-      {{ content.field_magazine_section }}
-    </section>
-
-  </div>
-  <div class="col-12 col-md-4 col-lg-3 magazine--sidebar">
-
+      <section class="magazine--sections row justify-content-start">
+        {{ content.field_magazine_section }}
+      </section>
 
     {% elseif magazine == "discovery" %}
-    <section class="row mb-4 magazine--section-top pl-lg-4">
-      {% if content.field_introduction_copy|render is not empty %}
-      <article class="col-12 order-1 mb-4 col-lg-5 order-lg-2 mb-lg-0 px-lg-5 magazine--intro">
-        <h2 class="magazine--section-heading bg-light-blue">Introduction Letter</h2>
-        <h3>{{ content.field_magazine_intro_head }}</h3>
-        <div class="collapse" id="magazine--intro-collapse">
-          <figure class="magazine--intro-profileimg">
-            {{ content. field_profile_image }}
-          </figure>
-          {{ content.field_introduction_copy }}
+      <section class="row mb-4 magazine--section-top pl-lg-4">
+        {% if content.field_introduction_copy|render is not empty %}
+        <article class="col-12 order-1 mb-4 col-lg-5 order-lg-2 mb-lg-0 px-lg-5 magazine--intro">
+          <h2 class="magazine--section-heading bg-light-blue">Introduction Letter</h2>
+          <h3>{{ content.field_magazine_intro_head }}</h3>
+          <div class="collapse" id="magazine--intro-collapse">
+            <figure class="magazine--intro-profileimg">
+              {{ content. field_profile_image }}
+            </figure>
+            {{ content.field_introduction_copy }}
+          </div>
+          <a class="magazine--intro-collapse-link collapsed" data-toggle="collapse" href="#magazine--intro-collapse" aria-expanded="false" aria-controls="magazine--intro-collapse" aria-label="Read more Introduction Letter"></a>
+        </article>
+        {% endif %}
+        <div class="col-12 col-lg-7 order-2 order-lg-1">
+          <h2 class="magazine--section-heading mb-3">Featured story</h2>
+          {% set nid = node.id %}
+          <div class="px-3 magazine--featured">{{ drupal_view('magazine_discovery_feature', 'feature', nid) }}</div>
         </div>
-        <a class="magazine--intro-collapse-link collapsed" data-toggle="collapse" href="#magazine--intro-collapse" aria-expanded="false" aria-controls="magazine--intro-collapse" aria-label="Read more Introduction Letter"></a>
-      </article>
-      {% endif %}
-      <div class="col-12 col-lg-7 order-2 order-lg-1">
-        <h2 class="magazine--section-heading mb-3">Featured story</h2>
-        {% set nid = node.id %}
-        <div class="px-3 magazine--featured">{{ drupal_view('magazine_discovery_feature', 'feature', nid) }}</div>
-      </div>
-    </section>
+      </section>
 
 
 
-    <section class="magazine--sections-discovery row justify-content-start">
-      {{ content.field_magazine_section }}
-    </section>
+      <section class="magazine--sections-discovery row justify-content-start">
+        {{ content.field_magazine_section }}
+      </section>
+    {% endif %}
 
-  </div>
-  <div class="col-12 col-md-4 col-lg-3 magazine--sidebar">
-
-{% endif %}
-
+    </div>
+    <div class="col-12 col-md-4 col-lg-3 magazine--sidebar">
 
 
     {% if content.field_magazine_pdf|render %}
@@ -103,7 +97,7 @@
             {% if content.field_magazine_pdf | render %}
               <a href="{{ content.field_magazine_pdf|render|striptags }}" target="_blank">
             {% endif %}
-              <img src="{% spaceless %}{{ content.field_magazine_cover_image|render|striptags }}{% endspaceless %}" alt='{{ label|field_value }} {% if magazine == "alumni" %}alumni {% elseif magazine == "discovery" %}Discovery {% endif %}magazine cover' Cover" class="img-fluid magazine--cover-angle">
+              <img src="{% apply spaceless %}{{ content.field_magazine_cover_image|render|striptags }}{% endapply %}" alt='{{ label|field_value }} {% if magazine == "alumni" %}alumni {% elseif magazine == "discovery" %}Discovery {% endif %}magazine cover' Cover" class="img-fluid magazine--cover-angle">
               {% if content.field_magazine_pdf | render %}
               </a>
             {% endif %}

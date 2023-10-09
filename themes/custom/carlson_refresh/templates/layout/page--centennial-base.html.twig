@@ -163,43 +163,6 @@
 {% endif %}
 
 {# Beginning of footer #}
-<footer class="footer">
-  <div class="container">
-    <div class="row footer__logo">
-      <img src="/{{ directory }}/images/footer-logo.svg" width="199px" height="28px" alt="Carlson School of Management (home)">
-    </div>
-    <div class="row footer__content">
-      <div class="col-12 col-md-10 offset-md-1 col-lg-12 offset-lg-0 pb-md-5">
-        <div class="row">
-        {% block footer %}
-          {% if page.footer_first or page.footer_second or page.footer_third or page.footer_fourth %}
-            <div class="col-md-4 col-lg-3 footer__info {{ (page.footer_first|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
-              {{ page.footer_first }}
-            </div>
-            <div class="col-md-4 col-lg-3 footer__links {{ (page.footer_second|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
-              {{ page.footer_second }}
-            </div>
-            <div class="col-md-4 col-lg-3 footer__links {{ (page.footer_third|render|striptags|trim is not empty) ? '' : 'd-none d-md-flex' }}">
-              {{ page.footer_third }}
-            </div>
-            <div class="col-lg-3 footer__connect">
-              <div class="row">
-                <div class="col-12 col-md-5 text-md-right text-lg-left col-lg-12">
-                  Connect with Carlson on:
-                </div>
-                <div class="col-12 col-md-7 text-md-left col-lg-12">
-                  <ul class="social-media list-unstyled list-inline">
-                    <li><a href="https://www.facebook.com/CarlsonSchoolUMN" title="Facebook" alt="Facebook" target="_blank"><i class="icon icon-facebook"></i></a></li>
-                    {# <li><a href="https://twitter.com/CarlsonNews" title="Twitter" alt="Twitter" target="_blank"><i class="icon icon-twitter"></i></a></li> #}
-                    <li><a href="https://www.linkedin.com/company/carlsonschoolumn" title="LinkedIn" alt="LinkedIn" target="_blank"><i class="icon icon-linkedin"></i></a></li>
-                    <li><a href="https://www.youtube.com/user/CarlsonSchoolUMN" title="YouTube" alt="YouTube" target="_blank"><i class="icon icon-youtube"></i></a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          {% endif %}
-        {% endblock %}
-      </div>
-    </div>
-  </div>
-</footer>
+{% include '@carlson_refresh/includes/footer.html.twig' %}
+
+{% include directory ~ '/templates/layout/umn-footer.html.twig' %}

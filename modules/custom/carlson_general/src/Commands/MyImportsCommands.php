@@ -237,7 +237,7 @@ class MyImportsCommands extends DrushCommands {
       ->condition('redirect_source__path', $oldUrl);
     //->condition('redirect_redirect__uri', 'internal:' . $newUrl);
 
-    $redirects = $query->execute();
+    $redirects = $query->accessCheck(TRUE)->execute();
 
     // If the query returns any results, the exact redirect already exists.
     return !empty($redirects) ? $redirectStorage->load(reset($redirects)) : null;

@@ -20,6 +20,7 @@ class FileLinkClassFormatterTest extends ElementClassFormatterTestBase {
   public function testClassFormatter() {
     $formatter_settings = [
       'class' => self::TEST_CLASS,
+      'use_description_as_link_text' => FALSE,
     ];
     $field_config = $this->createEntityField('file_link_class', 'file', $formatter_settings);
 
@@ -31,6 +32,7 @@ class FileLinkClassFormatterTest extends ElementClassFormatterTestBase {
     $file->save();
 
     $entity = EntityTest::create([
+      'name' => $this->randomMachineName(),
       $field_config->getName() => [['target_id' => $file->id()]],
     ]);
     $entity->save();
