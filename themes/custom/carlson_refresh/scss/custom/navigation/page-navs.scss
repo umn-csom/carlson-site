@@ -6,6 +6,7 @@
   &.is-stuck {
     position: sticky;
     top: 0; // overridden by inline styles from sticky-menu.js
+    padding-top: 20px;
   }
 
   &__collapsed-trigger {
@@ -80,6 +81,72 @@
       padding: 1rem 0;
       font-size: 2rem;
     }
+  }
+}
+
+.inner-menu {
+
+  &__label {
+    @extend .h3;
+    color: $maroon;
+    padding-left: 2rem;
+    font-size: 3.2rem;
+    display: block;
+    border-bottom: 2px solid $menu-line-grey;
+    margin-bottom: 2.5rem;
+    padding-bottom: 0.8rem;
+    &:hover {
+      color: $maroon;
+      text-decoration: none;
+    }
+  }
+
+  &__link {
+    border-left: 6px solid transparent;
+    transition: border-left 300ms ease-out;
+
+    &.is-active {
+      border-left-color: $gold;
+    }
+  }
+
+  margin: 0 0 3rem;
+  &__collapsed-target {
+    background: $light-light-ivory;
+    padding: 0 2rem 1.5rem;
+  }
+
+  &__collapsed-trigger {
+    display: block;
+    background-color: $light-warm-ivory;
+
+    &[aria-expanded="false"] {
+      .close-icon {
+        display: none;
+      }
+
+      + .inner-menu__collapsed-target {
+        display: none;
+      }
+    }
+
+    &[aria-expanded="true"] {
+      background: $light-light-ivory;
+
+      .open-icon {
+        display: none;
+      }
+
+      + .inner-menu__collapsed-target {
+        display: block;
+      }
+    }
+  }
+
+  &__label {
+    margin: 0 0 1.5rem;
+    padding: 1rem 0;
+    font-size: 2rem;
   }
 }
 
