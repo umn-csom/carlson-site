@@ -1,0 +1,85 @@
+// Highchart double pie chart styles
+$highcharts-double-pie-series-0-colors: (
+  0: $light-yellow, //$gold-dark,
+  1: $light-orange, //$maroon,
+  2: $light-blue, //$dark-gray,
+  3: $light-green, //$ivory,
+  4: green, //$dark-blue,
+  5: green, //$light-maroon,
+  6: green, //$gold-dark,
+  7: green, //$green,
+  8: green, //$mid-orange,
+  9: green, //$blue,
+);
+@each $i, $color in $highcharts-double-pie-series-0-colors {
+    .highcharts-double-pie-chart .highcharts-series-0 .highcharts-color-#{$i} {
+      fill: $color;
+
+      rect {
+        fill: $color;
+      }
+
+      .text-color {
+        color: $color;
+      }
+
+      .background-color {
+        background-color: $color;
+      }
+
+      .highcharts-3d-chart & {
+        stroke: darken($color, 12%);
+
+        text {
+          stroke: none;
+        }
+      }
+      &.highcharts-data-label-connector {
+        stroke: darken($color, 12%);
+        fill: none;
+      }
+    }
+  }
+
+
+$highcharts-double-pie-series-1-colors: (
+  0: $gold-light,
+  1: $blue,
+  2: $maroon-light,
+  3: $ivory,
+  4: $dark-gray,
+  5: $light-maroon,
+  6: $gold-dark,
+  7: $green,
+  8: $mid-orange,
+  9: $blue,
+);
+@each $i, $color in $highcharts-double-pie-series-1-colors {
+  .highcharts-double-pie-chart .highcharts-series-1 .highcharts-color-#{$i} {
+    fill: $color;
+
+    rect {
+      fill: $color;
+    }
+
+    .text-color {
+      color: $color;
+    }
+
+    .background-color {
+      background-color: $color;
+    }
+
+    .highcharts-3d-chart & {
+      stroke: darken($gold, 12%);
+
+      text {
+        stroke: none;
+      }
+    }
+    &.highcharts-data-label-connector {
+      stroke: darken($gold, 12%);
+      fill: none;
+    }
+  }
+}

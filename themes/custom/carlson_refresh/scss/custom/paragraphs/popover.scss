@@ -1,0 +1,67 @@
+.csom-popover {
+  position: relative;
+}
+
+abbr {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  cursor: pointer;
+  $popover-size: 80px;
+
+  + sup,
+  + sub {
+    position: absolute;
+    background: $maroon;
+    width: $popover-size;
+    height: $popover-size;
+    z-index: 3;
+    text-align: center;
+    color: $white;
+    font-size: 10px;
+    line-height: 1.2;
+    padding: 20px 15px 10px 10px;
+    display: none;
+    opacity: 0;
+    border: 0;
+
+    strong {
+      font-size: 1.2em;
+      width: 100%;
+    }
+  }
+
+  .csom-popover--gray & + sub,
+  .csom-popover--gray & + sup {
+    background: $darkmedgray;
+
+    strong {
+      color: $gold;
+    }
+  }
+
+  + sub {
+    top: initial;
+    bottom: -($popover-size - 10);
+    left: 80%;
+    border-radius: 0 100% 100% 100%;
+  }
+
+  + sup {
+    top: -($popover-size - 10);
+    bottom: 0;
+    left: 80%;
+    border-radius: 100% 100% 100% 0;
+  }
+
+  &[tabindex="0"]:hover,
+  &[tabindex="0"]:focus,
+  &:not([tabindex="0"]) {
+    text-decoration-style: solid;
+
+    + sup,
+    + sub {
+      display: block;
+      opacity: 1;
+    }
+  }
+}
