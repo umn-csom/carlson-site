@@ -1,5 +1,10 @@
+@media (min-width: 61rem) {
+    .layout-node-form {
+        grid-template-columns: 100%;
+    }
+}
+
 .layout-region--node-main, .layout-region--node-footer {
-    float: unset;
     width: 100%;
 }
 
@@ -11,4 +16,55 @@
 .layout-region--node-main .layout-region__content,
 .layout-region--node-footer .layout-region__content {
     max-width: none;
+}
+
+/* CLARO CHOSEN CSS */
+.form-element.chosen-container-single {
+    padding: 0;
+}
+
+.form-element.chosen-container-single .chosen-single {
+    min-width: 160px;
+    background: none;
+    border: none;
+    box-shadow: none;
+    width: 100%;
+    height: 100%;
+    display: block;
+    line-height: 1.5rem;
+    padding: calc(0.75rem - 1px) calc(1rem - 1px);
+}
+
+.form-element.chosen-container-single .chosen-single b {
+    background: none !important;
+}
+
+.form-element.chosen-container-multi {}
+
+.form-element.chosen-container-multi .chosen-choices {
+    min-width: 160px;
+    border: 0 none;
+    background: none;
+    box-shadow: none;
+}
+
+.chosen-container-active.chosen-with-drop .chosen-single {
+    background: none !important;
+    border: 0 none !important;
+}
+
+.chosen-container-multi.chosen-with-drop .chosen-drop {
+    left: 0;
+}
+
+
+
+/* TODO: tweaks to adjust hidden chosen fields and weird extra padding */
+
+.js .vertical-tabs .vertical-tabs__item {
+    overflow:visible !important;
+}
+
+.claro-details__wrapper--vertical-tabs-item::before {
+    display:none !important;
 }
