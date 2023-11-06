@@ -3,3 +3,19 @@ purgers:
     instance_id: 67b93d0dcf
     plugin_id: acquia_purge
     order_index: 2
+processors:
+  -
+    plugin_id: drush_purge_invalidate
+    status: true
+  -
+    plugin_id: drush_purge_queue_work
+    status: true
+  -
+    plugin_id: cron
+    status: true
+  -
+    plugin_id: lateruntime
+    status: false
+  -
+    plugin_id: purge_ui_block_processor
+    status: true
