@@ -1,0 +1,18 @@
+# Schema for the configuration files of the User expire module.
+
+user_expire.settings:
+  type: config_object
+  label: 'User expire settings'
+  mapping:
+    frequency:
+      type: integer
+      label: 'Frequency time in seconds'
+    offset:
+      type: integer
+      label: 'Warning offset time in seconds'
+    user_expire_roles:
+      type: sequence
+      label: 'Roles and expire value'
+      sequence:
+        type: integer
+        label: 'Role with expire value'

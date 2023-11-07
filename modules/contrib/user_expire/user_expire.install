@@ -1,0 +1,68 @@
+<?php
+
+/**
+ * @file
+ * Install and update functions for the User expire module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function user_expire_schema() {
+  $schema['user_expire'] = [
+    'description' => 'The tracking table for user expirations.',
+    'fields' => [
+      'uid' => [
+        'description' => 'The primary identifier for a user.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'expiration' => [
+        'description' => 'The Unix timestamp when the user will be disabled.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'foreign keys' => [
+      'uid' => [
+        'table' => 'users_field_data',
+        'columns' => ['uid' => 'uid'],
+      ],
+    ],
+    'primary key' => ['uid'],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Remove last_run from config.
+ */
+function user_expire_update_8001() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('user_expire.settings');
+  $config->clear('last_run');
+  $config->save();
+}
+
+/**
+ * Convert user_expire_roles to config.
+ */
+function user_expire_update_8002() {
+  $rules = \Drupal::database()->select('user_expire_roles', 'uer')
+    ->fields('uer', ['rid', 'inactivity_period'])
+    ->execute()->fetchAllAssoc('rid');
+
+  // Convert structure.
+  foreach ($rules as &$rule) {
+    $rule = (int) $rule->inactivity_period;
+  }
+
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('user_expire.settings');
+  $config->set('user_expire_roles', $rules);
+  $config->save();
+  \Drupal::database()->schema()->dropTable('user_expire_roles');
+}
