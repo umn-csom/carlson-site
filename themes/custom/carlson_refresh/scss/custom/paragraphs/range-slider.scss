@@ -1,25 +1,12 @@
 .csm-range-slider {
   width: max-content;
   margin: 0 auto;
-
-  h2 {
-    text-transform: uppercase;
-    text-align: center;
-    border: 0;
-    margin: 0;
-    padding: 0;
-    font-family: $font-family-sans-serif;
-    font-weight: 900;
-  }
-
-  p {
-    margin: 0 auto;
-  }
+  line-height: 1.4;
 
   .label {
-    font-size: 18px;
-    font-weight: 800;
-    font-style: italic;
+    text-transform: uppercase;
+    font-size: 1.6rem;
+    font-weight: 400;
     margin: 0 10px;
     display: flex;
     align-items: center;
@@ -27,61 +14,89 @@
   }
 
   .value {
-    font-size: 22px;
-    font-weight: normal;
-    color: $maroon;
+    font-size: 1.6rem;
+    font-weight: 700;
   }
 
-  .section-heading {
+  ul {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    list-style: none;
     justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
     text-align: center;
-  }
 
-  .section-slider,
-  .range {
-    display: flex;
-    justify-content: center;
-  }
+    li {
+      padding: 0;
+      margin: 0 0 1.6rem;
+    }
 
-  .range {
-    position: relative;
-    padding: 5px;
+    li:nth-child(1) {
+      display: flex;
+      position: relative;
 
-    &::after {
-      width: 20px;
-      height: 100%;
-      content: "";
-      margin: 0 auto;
-      left: -9px;
-      right: 0;
-      top: 0;
-      bottom: 0;
-      position: absolute;
-      background: $maroon;
+      .label {
+        font-weight: 700;
+        font-style: italic;
+        text-transform: none;
+      }
+
+      .value {
+        padding: 0.8rem 5rem 0.8rem 1.6rem;
+        border-radius: 60px 0 0 60px;
+        -moz-border-radius: 60px 0 0 60px;
+        -webkit-border-radius: 60px 0 0 60px;
+        background: $darkmedgray;
+        color: $white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        position: relative;
+
+        + .value {
+          padding: 0.8rem 1.6rem 0.8rem 5rem;
+          background: $ivory;
+          color: #000;
+          margin: 0;
+          border-radius: 0 60px 60px 0;
+          -moz-border-radius: 0 60px 60px 0;
+          -webkit-border-radius: 0 60px 60px 0;
+        }
+
+        &:last-child::after {
+          content: "";
+          width: 5px;
+          height: 150%;
+          left: -2.5px;
+          top: -25%;
+          bottom: 0;
+          margin: 0 auto;
+          position: absolute;
+          background: $maroon;
+        }
+      }
+    }
+
+    li:nth-child(2) {
+      order: -1;
     }
   }
 
-  .date {
-    padding: 5px 10px;
-    margin: 0 20px 0 0;
-    background: $ivory;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 500;
+  h2 {
+    text-transform: uppercase;
+    text-align: center;
+    border: 0;
+    margin: 0 0 .8rem;
+    padding: 0;
+    font-family: $base-font-family;
+    font-weight: 900;
+  }
 
-    p {
-      margin: 5px auto;
-      font-size: 1.3rem;
-    }
-
-    + .date {
-      background: $darkmedgray;
-      color: $white;
-      margin: 0;
-    }
+  p {
+    margin: 0 auto;
   }
 }

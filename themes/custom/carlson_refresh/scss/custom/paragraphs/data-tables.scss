@@ -1,9 +1,10 @@
 table.csm-data-table,
 table.csm-data-table--basic-1 {
-  border: 0 !important;
   margin: 20px 0 40px;
   line-height: 1.3;
   font-weight: 600;
+  width: 100%;
+  max-width: 100%;
 
   caption {
     caption-side: top;
@@ -12,27 +13,44 @@ table.csm-data-table--basic-1 {
     color: $black;
   }
 
-  tr {
-    border: none;
-  }
-
   th,
   td {
-    border: 1px solid $white;
-    position: relative;
-  }
-
-  th {
-    padding: 10px 15px;
-    background: $maroon;
-    color: $white;
-    border: none;
-    text-transform: uppercase;
-  }
-
-  td {
     padding: 5px 10px;
-    background: $ivory;
+    text-align: left;
+    font-weight: 600;
+
+    &:not(:first-child) {
+      text-align: center;
+    }
+  }
+
+  thead {
+    tr,
+    th,
+    td {
+      background: $ivory;
+      border-color: $ivory;
+      border-top: 0;
+      border-bottom: 0;
+      font-weight: 700;
+    }
+    th:not(:last-child),
+    td:not(:last-child) {
+      border-right-color: $white;
+    }
+  }
+
+  tbody {
+    th,
+    td {
+      background: none;
+      border-color: $ivory;
+    }
+  }
+
+  &,
+  tr {
+    border: 0 !important;
   }
 }
 
@@ -53,35 +71,39 @@ figure.csm-data-table__figure {
 //---------------- tables type 2 --------------//
 
 table.csm-data-table--basic-2 {
-  td:nth-child(2n - 1) {
-    background: $darkmedgray;
-    color: $white;
-    min-width: 55px;
-    text-aling: center;
+
+  thead {
+    tr,
+    th,
+    td {
+      background: $maroon;
+      color: $white;
+      border-color: $white;
+      border-top: 0;
+      border-bottom: 0;
+    }
+  }
+
+  tbody {
+    th, td {
+      background: $ivory;
+      color: $soft-black;
+      border-color: $white;
+    }
   }
 }
 
 //---------------- tables type 3 --------------//
 
 table.csm-data-table--basic-3 {
-  td {
-    text-align: center;
-  }
-
-  td:nth-child(3n - 3) {
-    background: $maroon;
-    color: $white;
-  }
-  td:nth-child(3n - 2) {
-    background: $darkmedgray;
-    color: $white;
-  }
-
-  th {
-    background: none;
-    text-align: right;
-    color: $black;
-    text-transform: initial;
+  thead,
+  tbody {
+    tr,
+    th,
+    td {
+      background: none;
+      border: none;
+    }
   }
 
   thead {
@@ -91,5 +113,36 @@ table.csm-data-table--basic-3 {
     th {
       text-align: center;
     }
+  }
+
+  tbody {
+    th {
+      background: none;
+      text-align: right;
+      color: $black;
+      text-transform: initial;
+    }
+
+    td {
+      text-align: center;
+    }
+  }
+
+  td:nth-child(3n - 1) {
+    background: $ivory;
+    color: $soft-black;
+    border: 1px solid $white;
+  }
+
+  td:nth-child(3n - 3) {
+    background: $maroon;
+    color: $white;
+    border: 1px solid $white;
+  }
+
+  td:nth-child(3n - 2) {
+    background: $darkmedgray;
+    color: $white;
+    border: 1px solid $white;
   }
 }
