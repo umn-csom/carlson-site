@@ -2,6 +2,9 @@ var myHighcharts = typeof myHighcharts === "undefined" ? [] : myHighcharts;
 (function (Drupal, myHighcharts) {
   Drupal.behaviors.highchartsDoublePieChart = {
     attach: function () {
+      if (!document.getElementById("highcharts-double-pie-chart")) {
+        return;
+      }
       myHighcharts.push({
         "highcharts-double-pie-chart": {
           exporting: {

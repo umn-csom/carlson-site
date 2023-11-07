@@ -1,6 +1,9 @@
 (function (Drupal) {
   Drupal.behaviors.highchartsMap = {
     attach: function () {
+      if (!document.getElementById("highcharts-us-regional-map")) {
+        return;
+      }
       (async () => {
         const mapData = await fetch(
           "https://code.highcharts.com/mapdata/countries/us/us-all.topo.json"
