@@ -1,0 +1,41 @@
+.csm-state-map {
+  padding: 20px;
+
+  &__label,
+  &__percent {
+    text-transform: uppercase;
+  }
+
+  &__label {
+    font-size: 30px;
+  }
+
+  &__percent {
+    font-size: 34px;
+    font-weight: bold;
+  }
+
+  &__svg {
+    max-width: 100%;
+
+    stop {
+      transition: stop-color 0.25s ease-out;
+
+      &:nth-child(1) {
+        stop-color: $maroon;
+      }
+
+      &:nth-child(2) {
+        stop-color: $gold;
+      }
+    }
+
+    &:hover {
+      stop {
+        &:nth-child(1) {
+          stop-color: $maroon-light;
+        }
+      }
+    }
+  }
+}
