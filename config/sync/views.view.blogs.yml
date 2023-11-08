@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.body
     - field.storage.node.field_hero_media
-    - group.content_type.blogs-group_node-blog_entry
     - image.style.large_teaser
   module:
     - group
@@ -17,7 +16,7 @@ label: Blogs
 module: views
 description: ''
 tag: ''
-base_table: group_content_field_data
+base_table: group_relationship_field_data
 base_field: id
 display:
   default:
@@ -149,6 +148,15 @@ display:
             date_format: published_date
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -395,7 +403,7 @@ display:
       filters:
         type:
           id: type
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: type
           entity_type: group_content
           entity_field: type
@@ -407,7 +415,7 @@ display:
             operator_list: {  }
         gid:
           id: gid
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: gid
           relationship: none
           group_type: group
@@ -543,7 +551,7 @@ display:
             'group_node:webform': '0'
         gid:
           id: gid
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: gid
           relationship: none
           group_type: group
@@ -567,11 +575,11 @@ display:
         - 'config:field.storage.node.field_hero_media'
   block_1:
     id: block_1
-    display_title: 'Block - Dean''s Blog'
+    display_title: "Block - Dean's Blog"
     display_plugin: block
     position: 1
     display_options:
-      display_description: 'Block of Dean''s Blog group content'
+      display_description: "Block of Dean's Blog group content"
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -776,6 +784,15 @@ display:
             date_format: published_date
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -969,7 +986,7 @@ display:
       filters:
         type:
           id: type
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: type
           entity_type: group_content
           entity_field: type
@@ -981,7 +998,7 @@ display:
             operator_list: {  }
         gid:
           id: gid
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: gid
           relationship: none
           group_type: group
@@ -1093,7 +1110,7 @@ display:
       filters:
         type:
           id: type
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: type
           entity_type: group_content
           entity_field: type
@@ -1106,7 +1123,7 @@ display:
             operator_list: {  }
         gid:
           id: gid
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: gid
           relationship: none
           group_type: group
@@ -1217,7 +1234,7 @@ display:
       filters:
         type:
           id: type
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: type
           entity_type: group_content
           entity_field: type
@@ -1229,7 +1246,7 @@ display:
             operator_list: {  }
         gid:
           id: gid
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: gid
           relationship: none
           group_type: group
@@ -1345,7 +1362,7 @@ display:
       filters:
         type:
           id: type
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: type
           entity_type: group_content
           entity_field: type
@@ -1357,7 +1374,7 @@ display:
             operator_list: {  }
         gid:
           id: gid
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: gid
           relationship: none
           group_type: group
@@ -1468,7 +1485,7 @@ display:
       filters:
         type:
           id: type
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: type
           entity_type: group_content
           entity_field: type
@@ -1480,7 +1497,7 @@ display:
             operator_list: {  }
         gid:
           id: gid
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: gid
           relationship: none
           group_type: group
@@ -1591,7 +1608,7 @@ display:
       filters:
         type:
           id: type
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: type
           entity_type: group_content
           entity_field: type
@@ -1604,7 +1621,7 @@ display:
             operator_list: {  }
         gid:
           id: gid
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: gid
           relationship: none
           group_type: group

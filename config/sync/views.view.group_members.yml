@@ -14,7 +14,7 @@ label: 'Group members'
 module: group
 description: ''
 tag: ''
-base_table: group_content_field_data
+base_table: group_relationship_field_data
 base_field: id
 display:
   default:
@@ -155,7 +155,7 @@ display:
           field_api_classes: false
         changed:
           id: changed
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: changed
           relationship: none
           group_type: group
@@ -210,6 +210,15 @@ display:
             date_format: short
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -222,7 +231,7 @@ display:
           field_api_classes: false
         created:
           id: created
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: created
           relationship: none
           group_type: group
@@ -277,6 +286,15 @@ display:
             date_format: short
             custom_date_format: ''
             timezone: ''
+            tooltip:
+              date_format: ''
+              custom_date_format: ''
+            time_diff:
+              enabled: false
+              future_format: '@interval hence'
+              past_format: '@interval ago'
+              granularity: 2
+              refresh: 60
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -289,7 +307,7 @@ display:
           field_api_classes: false
         view_group_content:
           id: view_group_content
-          table: group_content
+          table: group_relationship
           field: view_group_content
           relationship: none
           group_type: group
@@ -342,7 +360,7 @@ display:
           absolute: false
         edit_group_content:
           id: edit_group_content
-          table: group_content
+          table: group_relationship
           field: edit_group_content
           relationship: none
           group_type: group
@@ -393,7 +411,7 @@ display:
           text: 'Edit member'
         delete_group_content:
           id: delete_group_content
-          table: group_content
+          table: group_relationship
           field: delete_group_content
           relationship: none
           group_type: group
@@ -554,7 +572,7 @@ display:
       arguments:
         gid:
           id: gid
-          table: group_content_field_data
+          table: group_relationship_field_data
           field: gid
           relationship: none
           group_type: group

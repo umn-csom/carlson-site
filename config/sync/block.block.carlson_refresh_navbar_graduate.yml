@@ -1,0 +1,41 @@
+uuid: a9d93099-211d-4e79-ae5a-44adfbc0f15b
+langcode: en
+status: false
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_navbar_graduate
+theme: carlson_refresh
+region: navbar_secondary
+weight: -76
+provider: null
+plugin: 'menu_block:main'
+settings:
+  id: 'menu_block:main'
+  label: 'Secondary navbar (Graduate)'
+  label_display: visible
+  provider: menu_injector
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 2
+  depth: 0
+  expand_all_items: false
+  parent: 'main:menu_link_content:4c5894ad-498d-497d-a793-ea7d692ff7b9'
+  suggestion: navbar_secondary
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    block_visibility_group: ''
+  request_path:
+    id: request_path
+    negate: false
+    pages: /graduate
