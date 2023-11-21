@@ -1,0 +1,31 @@
+{#
+/**
+ * @file
+ * Naked template for testing node content accessibility.
+ */
+#}
+{% set url = url('<current>') %}
+{%
+  set body_classes = [
+    not root_path ? 'path-frontpage' : 'path-' ~ root_path|clean_class,
+    node_type ? 'page-node-type-' ~ node_type|clean_class,
+    db_offline ? 'db-offline',
+    theme.has_glyphicons ? 'has-glyphicons',
+  ]
+%}
+<!DOCTYPE html>
+<html {{ html_attributes }}>
+<head>
+<head-placeholder token="{{ placeholder_token|raw }}">
+<title>{{ head_title|safe_join(' | ') }}</title>
+<css-placeholder token="{{ placeholder_token|raw }}">
+<js-placeholder token="{{ placeholder_token|raw }}">
+</head>
+<body{{attributes.addClass(body_classes)}}>
+{{ page_top }}
+{{ page }}
+{{ page_bottom }}
+<js-bottom-placeholder token="{{ placeholder_token|raw }}">
+</body>
+</html>
+
