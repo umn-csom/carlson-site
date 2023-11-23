@@ -2,7 +2,7 @@
 (function (Drupal, $) {
   Drupal.behaviors.figureWithAccessibleDataTable = {
     attach: function () {
-      const $figure = $(".csom-figure-with-accessible-datatable");
+      const $figure = $(".csom-figure-with-datatable");
       const $button = $figure.find("button.sr-only");
       const $dataTable = $figure.find("table.sr-only");
       if ($button.length && $dataTable.length) {

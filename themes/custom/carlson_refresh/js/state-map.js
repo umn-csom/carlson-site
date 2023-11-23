@@ -1,5 +1,5 @@
 // Reset SVG animation upon first intersect.
-const svgElement = document.querySelector(".csm-state-map__svg");
+const svgElement = document.querySelector(".csom-state-map__svg");
 function restartSvgAnimation() {
   if (!svgElement.classList.contains("first-view")) {
     svgElement.setCurrentTime(0);
