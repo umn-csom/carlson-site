@@ -23,11 +23,9 @@ var myHighcharts = typeof myHighcharts === "undefined" ? [] : myHighcharts;
               align: "right",
               verticalAlign: "middle",
               layout: "vertical",
-              useHTML: true,
-              className:
-                "highcharts-legend--no-points highcharts-legend--no-background",
+              className: "highcharts-legend--no-background",
               labelFormatter: function () {
-                return `<div class="text-color ff-sans-serif h4 font-weight-bolder m-0 p-0"><strong>${this.y}%</strong></div> ${this.name}`;
+                return `<strong>${this.y}%</strong> - ${this.name}`;
               },
             },
             plotOptions: {
@@ -58,7 +56,7 @@ var myHighcharts = typeof myHighcharts === "undefined" ? [] : myHighcharts;
             },
             tooltip: {
               formatter: function () {
-                return "<b>" + this.point.name + "</b>: " + this.y + " %";
+                return "<b>" + this.point.name + "</b>: " + this.y + "%";
               },
             },
             series: [
@@ -127,6 +125,10 @@ var myHighcharts = typeof myHighcharts === "undefined" ? [] : myHighcharts;
               align: "center",
               verticalAlign: "bottom",
               layout: "vertical",
+              className: "highcharts-legend--no-background",
+              labelFormatter: function () {
+                return `<strong>${this.y}%</strong> - ${this.name}`;
+              },
             },
             plotOptions: {
               pie: {
@@ -184,99 +186,6 @@ var myHighcharts = typeof myHighcharts === "undefined" ? [] : myHighcharts;
         });
       }
 
-      if (document.getElementById("highcharts-donut-labels")) {
-        myHighcharts.push({
-          "highcharts-donut-labels": {
-            chart: {
-              type: "pie",
-            },
-            exporting: {
-              enabled: false,
-            },
-            title: {
-              text: "Source of Jobs Accepted",
-            },
-            yAxis: {
-              title: {
-                text: "Percentage of job sourcing activities",
-              },
-            },
-            plotOptions: {
-              pie: {
-                shadow: false,
-                point: {
-                  events: {
-                    mouseOver: function (e) {
-                      this.originalRadius = this.graphic.r;
-                      this.graphic.animate(
-                        {
-                          r: this.originalRadius * 1.07,
-                        },
-                        200
-                      );
-                    },
-                    mouseOut: function (e) {
-                      this.graphic.animate(
-                        {
-                          r: this.originalRadius,
-                        },
-                        200
-                      );
-                    },
-                  },
-                },
-              },
-            },
-            tooltip: {
-              formatter: function () {
-                return "<b>" + this.point.name + "</b>: " + this.y + " %";
-              },
-            },
-            series: [
-              {
-                name: "Job source",
-                data: [
-                  ["Graduate initiated job search", 60],
-                  ["School-facilitated recruiting", 33],
-                  ["Unknown", 7],
-                ],
-                size: "100%",
-                innerSize: "66%",
-                showInLegend: false,
-                dataLabels: {
-                  enabled: true,
-                },
-                states: {
-                  hover: {
-                    halo: false,
-                  },
-                },
-              },
-            ],
-            responsive: {
-              rules: [
-                {
-                  condition: {
-                    maxWidth: 500,
-                  },
-                  chartOptions: {
-                    showInLegend: true,
-                    dataLabels: {
-                      enabled: false,
-                    },
-                    legend: {
-                      align: "center",
-                      verticalAlign: "bottom",
-                      layout: "vertical",
-                    },
-                  },
-                },
-              ],
-            },
-          },
-        });
-      }
-
       if (document.getElementById("highcharts-donut-color-override")) {
         myHighcharts.push({
           "highcharts-donut-color-override": {
@@ -286,7 +195,6 @@ var myHighcharts = typeof myHighcharts === "undefined" ? [] : myHighcharts;
             exporting: {
               enabled: false,
             },
-            // Override default colors
             title: {
               text: "Donut chart title here",
             },
@@ -299,6 +207,10 @@ var myHighcharts = typeof myHighcharts === "undefined" ? [] : myHighcharts;
               align: "right",
               verticalAlign: "middle",
               layout: "vertical",
+              className: "highcharts-legend--no-background",
+              labelFormatter: function () {
+                return `<strong>${this.y}%</strong> - ${this.name}`;
+              },
             },
             plotOptions: {
               pie: {
