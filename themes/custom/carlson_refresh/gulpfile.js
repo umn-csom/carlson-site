@@ -6,6 +6,8 @@ var concat = require("gulp-concat");
 var sourcemaps = require("gulp-sourcemaps");
 var googleWebFonts = require("gulp-google-webfonts");
 var shell = require('gulp-shell');
+var postcss = require('gulp-postcss');
+var selectorReplace = require('postcss-selector-replace');
 
 // Setting pattern this way allows non gulp- plugins to be loaded as well.
 var plugins = require('gulp-load-plugins')({
@@ -127,6 +129,15 @@ gulp.task('sass-components', function() {
     .pipe(browserSync.stream());
 });
 
+gulp.task('css', function() {
+  return gulp.src('css/ckeditor-style.css')
+    .pipe(postcss([selectorReplace({
+      before: [".ck-content body", ".ck-content html"],
+      after: [".ck-content", ".ck-content"]
+    })]))
+    .pipe(gulp.dest('css/ckeditor'));
+})
+
 gulp.task('minify-css', () => {
   return gulp.src('css/*.css')
     .pipe(cleanCSS({compatibility: 'ie8'}))
@@ -178,4 +189,4 @@ gulp.task('compile:styleguide', function (cb) {
 gulp.task('refresh-sass', shell.task('npm run kss'));
 
 // Default.
-gulp.task('default', ['js','sass','sass-components','minify-css','watch']);
+gulp.task('default', ['js','sass','sass-components','css','minify-css','watch']);
