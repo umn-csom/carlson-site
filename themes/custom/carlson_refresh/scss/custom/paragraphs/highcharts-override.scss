@@ -7,8 +7,6 @@
             .highcharts-point {
                 fill: $maroon !important;
             }
-
-
         }
         &1 {
             &.highcharts-point {
@@ -77,17 +75,26 @@ $highcharts-colors: (
 }
 
 .highcharts-legend-box {
-  fill: $lightgray; // $gray-lighter;
-  stroke: $mediumgray; // $gray-light;
+  fill: #f7f6f4;
+  stroke: #e6e0d2;
+  stroke-width: 1px;
+}
 
-  &.highcharts-legend--no-background {
-    fill: none;
-    stroke: none;
+.highcharts-legend--no-background {
+  &,
+  .highcharts-legend-box {
+    fill: none !important;
+  }
+}
+
+.highcharts-legend--no-points {
+  .highcharts-point {
+    display: none;
   }
 }
 
 .highcharts-label-box.highcharts-tooltip-box {
-    stroke: $header-dark-gray; //$gray-medium;
+  stroke: $header-dark-gray;
 }
 
 .highcharts-axis-labels,
@@ -161,10 +168,3 @@ $highcharts-colors: (
 .highcharts-description { text-align:center; }
 .highcharts-credits { display:none !important; visibility:hidden !important; }
 .highcharts-a11y-proxy-button:hover { cursor:default !important; }
-
-.highcharts-legend--no-points {
-  .highcharts-point {
-    display: none;
-  }
-}
-

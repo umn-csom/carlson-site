@@ -79,3 +79,5 @@ if (in_array($environment, ['local', 'dev', 'test'])) {
   $config['stage_file_proxy.settings']['origin'] = $origin;
   $config['stage_file_proxy.settings']['origin_dir'] = $origin_dir;
 }
+
+$config['system.performance']['cache']['page']['max_age'] = 60;
