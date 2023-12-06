@@ -1,0 +1,70 @@
+uuid: 29853d92-2e41-43e2-933e-eef98b7b9f88
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.donut_chart_stat.field_dark_background
+    - field.field.paragraph.donut_chart_stat.field_description_donut_chart
+    - field.field.paragraph.donut_chart_stat.field_heading_donut
+    - field.field.paragraph.donut_chart_stat.field_position_description
+    - field.field.paragraph.donut_chart_stat.field_range
+    - field.field.paragraph.donut_chart_stat.field_range_text
+    - paragraphs.paragraphs_type.donut_chart_stat
+  module:
+    - options
+    - text
+id: paragraph.donut_chart_stat.default
+targetEntityType: paragraph
+bundle: donut_chart_stat
+mode: default
+content:
+  field_dark_background:
+    type: boolean
+    label: hidden
+    settings:
+      format: custom
+      format_custom_false: light
+      format_custom_true: dark
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_description_donut_chart:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_heading_donut:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_position_description:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
+  field_range:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_range_text:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true

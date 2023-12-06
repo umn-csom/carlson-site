@@ -1,0 +1,67 @@
+uuid: bd735c84-871c-4eca-910a-4ae42b2058c8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.donut_chart_stat.field_dark_background
+    - field.field.paragraph.donut_chart_stat.field_description_donut_chart
+    - field.field.paragraph.donut_chart_stat.field_heading_donut
+    - field.field.paragraph.donut_chart_stat.field_position_description
+    - field.field.paragraph.donut_chart_stat.field_range
+    - field.field.paragraph.donut_chart_stat.field_range_text
+    - paragraphs.paragraphs_type.donut_chart_stat
+  module:
+    - text
+id: paragraph.donut_chart_stat.default
+targetEntityType: paragraph
+bundle: donut_chart_stat
+mode: default
+content:
+  field_dark_background:
+    type: boolean_checkbox
+    weight: 4
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_description_donut_chart:
+    type: text_textarea
+    weight: 3
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  field_heading_donut:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_position_description:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_range:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_range_text:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
