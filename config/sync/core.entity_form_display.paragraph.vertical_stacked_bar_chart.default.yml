@@ -3,19 +3,21 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.vertical_stacked_bar_chart.field_heading_vertical_chart
+    - field.field.paragraph.vertical_stacked_bar_chart.field_vertical_chart
     - paragraphs.paragraphs_type.vertical_stacked_bar_chart
+  module:
+    - text
 id: paragraph.vertical_stacked_bar_chart.default
 targetEntityType: paragraph
 bundle: vertical_stacked_bar_chart
 mode: default
 content:
-  field_heading_vertical_chart:
-    type: string_textfield
-    weight: 0
+  field_vertical_chart:
+    type: text_textarea
+    weight: 1
     region: content
     settings:
-      size: 60
+      rows: 5
       placeholder: ''
     third_party_settings: {  }
 hidden:
