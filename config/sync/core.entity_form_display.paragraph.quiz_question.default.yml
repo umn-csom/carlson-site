@@ -23,33 +23,33 @@ third_party_settings:
     group_help_text:
       children:
         - field_quiz_question_help_text
+      label: 'Help Text'
+      region: content
       parent_name: group_general
       weight: 3
       format_type: details
-      region: content
       format_settings:
+        classes: ''
         show_empty_fields: false
         id: ''
-        classes: ''
+        open: false
         description: ''
         required_fields: true
-        open: false
-      label: 'Help Text'
     group_tabs:
       children:
         - group_general
         - group_conditions
+      label: Tabs
+      region: content
       parent_name: ''
       weight: 0
       format_type: tabs
-      region: content
       format_settings:
+        classes: ''
         show_empty_fields: false
         id: ''
-        classes: ''
         direction: horizontal
         width_breakpoint: 640
-      label: Tabs
     group_general:
       children:
         - field_quiz_question_type
@@ -57,51 +57,51 @@ third_party_settings:
         - group_help_text
         - field_quiz_question_answs_layout
         - field_quiz_question_answers
+      label: General
+      region: content
       parent_name: group_tabs
       weight: 9
       format_type: tab
-      region: content
       format_settings:
+        classes: ''
         show_empty_fields: false
         id: ''
-        classes: ''
-        description: ''
         formatter: closed
+        description: ''
         required_fields: true
-      label: General
     group_conditions:
       children:
         - field_quiz_question_cond_qn
         - field_quiz_question_cond_answ
         - field_quiz_question_cond_results
         - group_limit_the_number_of_select
+      label: Conditions
+      region: content
       parent_name: group_tabs
       weight: 10
       format_type: tab
-      region: content
       format_settings:
+        classes: ''
         show_empty_fields: false
         id: ''
-        classes: ''
-        description: ''
         formatter: closed
+        description: ''
         required_fields: true
-      label: Conditions
     group_limit_the_number_of_select:
       children:
         - field_quiz_question_limit_type
         - field_quiz_question_limit
+      label: 'Limit the number of selections'
+      region: content
       parent_name: group_conditions
       weight: 8
       format_type: fieldset
-      region: content
       format_settings:
-        description: ''
-        required_fields: true
-        id: ''
         classes: ''
         show_empty_fields: false
-      label: 'Limit the number of selections'
+        id: ''
+        description: ''
+        required_fields: true
 _core:
   default_config_hash: cJC-rJskuJR9d0ruyu3P2pDCHdlSctP0sT6dg5GlZi8
 id: paragraph.quiz_question.default
@@ -112,6 +112,7 @@ content:
   field_quiz_question_answers:
     type: paragraphs
     weight: 5
+    region: content
     settings:
       title: answer
       title_plural: answers
@@ -127,60 +128,59 @@ content:
         collapse_edit_all: collapse_edit_all
         duplicate: duplicate
     third_party_settings: {  }
-    region: content
   field_quiz_question_answs_layout:
+    type: options_select
     weight: 4
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   field_quiz_question_cond_answ:
+    type: chosen_select
     weight: 6
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: chosen_select
-    region: content
   field_quiz_question_cond_qn:
-    weight: 5
-    settings: {  }
-    third_party_settings: {  }
     type: chosen_select
+    weight: 5
     region: content
+    settings: {  }
+    third_party_settings: {  }
   field_quiz_question_help_text:
+    type: text_textarea
     weight: 2
+    region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
-    region: content
   field_quiz_question_limit:
+    type: number
     weight: 10
+    region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
-    type: number
-    region: content
   field_quiz_question_limit_type:
+    type: options_select
     weight: 9
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_select
-    region: content
   field_quiz_question_text:
+    type: text_textarea
     weight: 2
+    region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
-    region: content
   field_quiz_question_type:
+    type: options_buttons
     weight: 1
+    region: content
     settings: {  }
     third_party_settings: {  }
-    type: options_buttons
-    region: content
 hidden:
   created: true
   status: true
