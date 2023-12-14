@@ -4,29 +4,29 @@
 {% set median = paragraph.field_median.value %}
 
 <section class="component-paragraph narrow">
-    <div class="csom-range-slider">
-        <h2 class="h4">{{ content.field_heading_range }}</h2>
-        <ul>
-            <li>
-                <span class="label sr-only">Range</span>
-                <span class="sr-only">{{ bottom }} up to {{ top }}</span>
-                <span class="value" aria-hidden="true">{{ bottom }}</span>
-                <span class="value" aria-hidden="true">{{ top }}</span>
-            </li>
-            {% if mean|render|trim is not empty %}
-            <li>
-                <span class="label">Mean</span>
-                <span class="value">{{ mean }}</span>
-            </li>
-            {% endif %}
-            {% if median|render|trim is not empty %}
-            <li>
-                <span class="label">Median</span>
-                <span class="value">{{ median }}</span>
-            </li>
-            {% endif %}
-        </ul>
-    </div>
+  <div class="csom-range-slider">
+    <h2 class="h4">{{ content.field_heading_range }}</h2>
+    <ul>
+      <li>
+        <span class="label sr-only">Range</span>
+        <span class="sr-only">{{ bottom }} up to {{ top }}</span>
+        <span class="value" aria-hidden="true">{{ bottom }}</span>
+        <span class="value" aria-hidden="true">{{ top }}</span>
+      </li>
+      {% if mean|render|trim is not empty %}
+      <li>
+        <span class="label">Mean</span>
+        <span class="value">{{ mean }}</span>
+      </li>
+      {% endif %}
+      {% if median|render|trim is not empty %}
+      <li>
+        <span class="label">Median</span>
+        <span class="value">{{ median }}</span>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
 
-    {{ content.field_description_range }}
+  {{ content.field_description_range }}
 </section>
