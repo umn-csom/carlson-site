@@ -1,63 +1,41 @@
-<div class="narrow" data-description="Donut chart stat">
-    {# <div class="csom-stat-donut csom-stat-donut--col bg-primary text-light">
-        <h2 class="csom-stat-donut__title h4">{{ content.field_heading_donut }}</h2>
-        <div class="csom-stat-donut__circle csom-stat-donut__circle--gold animate" style="--csom-stat-donut-percentage:{{ paragraph.field_range.value }};">
-            <div class="csom-stat-donut__text-wrapper">
-                <div class="csom-stat-donut__text csom-stat-donut__text--36">{{ content.field_range }}</div>
-                <div class="csom-stat-donut__text csom-stat-donut__text--15">{{ content.field_range_text }}</div>
-            </div>
-        </div>
-        <div class="csom-stat-donut__description">{{ content.field_description_donut_chart }}</div>
+{% set position = paragraph.field_stat_donut_position.value %}
+{% set has_dark_bg = paragraph.field_stat_donut_dark_bg.value == '1' %}
+{% set section_classes = [
+  'component-paragraph',
+  'narrow',
+  has_dark_bg ? 'bg-primary text-light',
+] %}
+{% set classes = [
+  'csom-stat-donut',
+  position == 'bottom' ? 'csom-stat-donut--col',
+  position == 'right' ? 'csom-stat-donut--row',
+] %}
+{% set stat_classes = [
+  'csom-stat-donut__circle',
+  has_dark_bg ? 'csom-stat-donut__circle--gold' : 'csom-stat-donut__circle--maroon',
+] %}
+
+{% set percentage = paragraph.field_stat_donut_percentage.value %}
+{% set line_1 = paragraph.field_stat_donut_line_1.value %}
+{% set line_1_size = paragraph.field_stat_donut_line_1_size.value %}
+{% set line_2 = paragraph.field_stat_donut_line_2.value %}
+{% set line_2_size = paragraph.field_stat_donut_line_2_size.value %}
+
+<section class="{{section_classes|join(' ')}}">
+  <h2 class="csom-stat-donut__title h4">{{ content.field_stat_donut_heading }}</h2>
+  <div class="{{classes|join(' ')}}">
+    <div class="{{stat_classes|join(' ')}}" style="--csom-stat-donut-percentage:{{ percentage }};">
+    <div class="csom-stat-donut__text-wrapper">
+      {% if line_1|render|trim is not empty %}
+      <div class="csom-stat-donut__text csom-stat-donut__text--{{ line_1_size }}">{{ line_1 }}</div>
+      {% endif %}
+      {% if line_2|render|trim is not empty %}
+      <div class="csom-stat-donut__text csom-stat-donut__text--{{ line_2_size }}">{{ line_2 }}</div>
+      {% endif %}
     </div>
-    {{ content.field_dark_background }} 
-    {{ content.field_position_description }}
-     #}
-    {% if paragraph.field_dark_background.value == '1' %}
-        {% set brackground = 'bg-primary text-light' %}
-    {% else %}
-        {% set brackground = '' %}
+    </div>
+    {% if paragraph.field_stat_donut_description.value is not empty %}
+      <div class="csom-stat-donut__description">{{ content.field_stat_donut_description }}</div>
     {% endif %}
-
-        {% if paragraph.field_dark_background.value == 'bottom' %}
-            <div class="csom-stat-donut csom-stat-donut--col {{ brackground }}">
-        {% else %}
-            <div class="csom-stat-donut csom-stat-donut--row {{ brackground }}">
-        {% endif %}
-            <h2 class="csom-stat-donut__title h4">{{ content.field_heading_donut }}</h2>
-            {% if paragraph.field_dark_background.value == '1' %}
-                <div class="csom-stat-donut__circle csom-stat-donut__circle--gold animate" style="--csom-stat-donut-percentage:{{ paragraph.field_range.value }};">
-            {% else %}
-                <div class="csom-stat-donut__circle csom-stat-donut__circle--maroon animate" style="--csom-stat-donut-percentage:{{ paragraph.field_range.value }};">
-            {% endif %}
-                <div class="csom-stat-donut__text-wrapper">
-                    <div class="csom-stat-donut__text csom-stat-donut__text--36">{{ content.field_range }}</div>
-                    <div class="csom-stat-donut__text csom-stat-donut__text--15">{{ content.field_range_text }}</div>
-                </div>
-            </div>
-            <div class="csom-stat-donut__description">{{ content.field_description_donut_chart }}</div>
-        </div>
-    
-</div>
-{# 
-<h2 class="variant">Variant 4 - description right</h2>
-
-  <div class="csom-stat-donut csom-stat-donut--row">
-    <div class="csom-stat-donut__circle csom-stat-donut__circle--maroon" style="--csom-stat-donut-percentage:90;">
-      <div class="csom-stat-donut__text-wrapper">
-        <div class="csom-stat-donut__text csom-stat-donut__text--28">90%</div>
-      </div>
-    </div>
-    <div class="csom-stat-donut__description">Best undergraduate bussines programs <strong>Best undergraduate</strong> bussines programs</div>
   </div>
-  
-  
-  <h2 class="variant">Variant 5 - description below</h2>
-
-  <div class="csom-stat-donut csom-stat-donut--col">
-    <div class="csom-stat-donut__circle csom-stat-donut__circle--maroon" style="--csom-stat-donut-percentage:90;">
-      <div class="csom-stat-donut__text-wrapper">
-        <div class="csom-stat-donut__text csom-stat-donut__text--28">90%</div>
-      </div>
-    </div>
-    <div class="csom-stat-donut__description">Best undergraduate bussines programs <strong>Best undergraduate</strong> bussines programs</div>
-  </div> #}
+</div>

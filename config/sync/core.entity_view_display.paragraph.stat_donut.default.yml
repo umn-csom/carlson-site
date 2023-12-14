@@ -3,39 +3,31 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.stat_donut.field_dark_background
-    - field.field.paragraph.stat_donut.field_description_donut_chart
-    - field.field.paragraph.stat_donut.field_heading_donut
-    - field.field.paragraph.stat_donut.field_position_description
-    - field.field.paragraph.stat_donut.field_range
-    - field.field.paragraph.stat_donut.field_range_text
+    - field.field.paragraph.stat_donut.field_stat_donut_dark_bg
+    - field.field.paragraph.stat_donut.field_stat_donut_description
+    - field.field.paragraph.stat_donut.field_stat_donut_position
+    - field.field.paragraph.stat_donut.field_stat_donut_heading
+    - field.field.paragraph.stat_donut.field_stat_donut_percentage
+    - field.field.paragraph.stat_donut.field_stat_donut_line_1
+    - field.field.paragraph.stat_donut.field_stat_donut_line_1_size
+    - field.field.paragraph.stat_donut.field_stat_donut_line_2
+    - field.field.paragraph.stat_donut.field_stat_donut_line_2_size
     - paragraphs.paragraphs_type.stat_donut
   module:
-    - options
     - text
 id: paragraph.stat_donut.default
 targetEntityType: paragraph
 bundle: stat_donut
 mode: default
 content:
-  field_dark_background:
-    type: boolean
-    label: hidden
-    settings:
-      format: custom
-      format_custom_false: light
-      format_custom_true: dark
-    third_party_settings: {  }
-    weight: 4
-    region: content
-  field_description_donut_chart:
+  field_stat_donut_description:
     type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 3
+    weight: 1
     region: content
-  field_heading_donut:
+  field_stat_donut_heading:
     type: string
     label: hidden
     settings:
@@ -43,28 +35,12 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  field_position_description:
-    type: list_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 5
-    region: content
-  field_range:
-    type: string
-    label: hidden
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 1
-    region: content
-  field_range_text:
-    type: string
-    label: hidden
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    weight: 2
-    region: content
 hidden:
+  field_stat_donut_dark_bg: true
+  field_stat_donut_position: true
+  field_stat_donut_percentage: true
+  field_stat_donut_line_1: true
+  field_stat_donut_line_1_size: true
+  field_stat_donut_line_2: true
+  field_stat_donut_line_2_size: true
   search_api_excerpt: true
