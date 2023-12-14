@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph.field_tables
+    - filter.format.rich_text
     - paragraphs.paragraphs_type.data_tables
   module:
     - text
@@ -17,9 +18,10 @@ required: true
 translatable: false
 default_value:
   -
-    value: '<section class="ckeditor-template-wrapper"><div class="ckeditor-template-content"><div class="row"><div class="col col-md-6"><table class="csom-data-table csom-data-table--basic-1"><caption>A basic data table</caption><thead><tr><th scope="col">Industry</th><th scope="col">Percent</th></tr></thead><tbody><tr><th scope="row">Marketing</th><td>16%</td></tr><tr><th scope="row">Technology</th><td>21%</td></tr></tbody></table></div><div class="col col-md-6"><p>&nbsp;</p></div></div></div></section>'
+    value: '<table class="csom-data-table csom-data-table--basic-1"><caption>A basic data table</caption><thead><tr><th scope="col">Industry</th><th scope="col">Percent</th></tr></thead><tbody><tr><th scope="row">Marketing</th><td>16%</td></tr><tr><th scope="row">Technology</th><td>21%</td></tr></tbody></table>'
     format: rich_text
 default_value_callback: ''
 settings:
-  allowed_formats: {  }
+  allowed_formats:
+    - rich_text
 field_type: text_long
