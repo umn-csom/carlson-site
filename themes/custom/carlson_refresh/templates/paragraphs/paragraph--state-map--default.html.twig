@@ -1,0 +1,19 @@
+<section class="narrow" data-description="State map stat">
+    <div class="csom-state-map">
+    <div class="csom-state-map__label">{{ content.field_heading_map }}    </div>
+    <div class="csom-state-map__percent">{{ paragraph.field_percent.value }}%</div>
+    <svg class="csom-state-map__svg" xmlns="http://www.w3.org/2000/svg" width="345" height="400" viewBox="0 0 345 400">
+        <title>state map with animated fill percentage</title>
+        <defs>
+            <linearGradient id="csom-state-map__animation" x1="0%" y1="100%" x2="0%" y2="0%">
+                <stop>
+                    <animate dur=".4s" attributeName="offset" fill="freeze" from="0" to=".{{ paragraph.field_percent.value }}" />
+                </stop>
+                <stop>
+                    <animate dur=".4s" attributeName="offset" fill="freeze" from="0" to=".{{ paragraph.field_percent.value }}" />
+                </stop>
+            </linearGradient>
+        </defs>
+            {{ include('/sites/carlsonschool.umn.edu/themes/custom/carlson_refresh/images/svg/minnesota.svg') }}
+    </svg>
+</div>
