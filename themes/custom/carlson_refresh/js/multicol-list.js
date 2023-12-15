@@ -3,7 +3,7 @@ Drupal.behaviors.multiColumnTextList = {
   attach: function () {
 
     function csom_multi_column_text_list() {
-      $(".csom-multi-column-text-list").each(function () {
+      $(".csom-multicol-list").each(function () {
         var collapsed_height = 240;
         var list = $(this);
         var fullHeight = csom_multi_column_text_list_height(list);
