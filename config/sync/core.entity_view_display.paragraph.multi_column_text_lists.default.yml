@@ -3,8 +3,8 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.multi_column_text_lists.field_label
-    - field.field.paragraph.multi_column_text_lists.field_text_list
+    - field.field.paragraph.multi_column_text_lists.field_multicol_list_heading
+    - field.field.paragraph.multi_column_text_lists.field_multicol_list_text
     - paragraphs.paragraphs_type.multi_column_text_lists
   module:
     - text
@@ -13,20 +13,20 @@ targetEntityType: paragraph
 bundle: multi_column_text_lists
 mode: default
 content:
-  field_label:
+  field_multicol_list_heading:
     type: string
-    label: hidden
+    label: above
     settings:
       link_to_entity: false
     third_party_settings: {  }
-    weight: 0
+    weight: 2
     region: content
-  field_text_list:
+  field_multicol_list_text:
     type: text_default
-    label: hidden
+    label: above
     settings: {  }
     third_party_settings: {  }
-    weight: 1
+    weight: 3
     region: content
 hidden:
   search_api_excerpt: true
