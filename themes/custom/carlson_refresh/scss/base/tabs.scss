@@ -3,7 +3,7 @@
  * Theme styling for tabs.
  */
 .nav-tabs {
-  background-color: $light-warm-ivory;
+  border-color: $maroon;
 
   .nav-item > .nav-link,
   .nav-item.active > .nav-link {
@@ -11,13 +11,13 @@
   }
 
   .nav-link {
-    margin-right: 6px;
     margin-bottom: 0;
-    background: transparent;
+    background: $ivory;
     color: $black;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     border: 0;
+    padding: 2rem 4rem;
 
     @include hover-focus() {
       background: $light-ivory;
@@ -26,10 +26,9 @@
 
     &.active {
       font-weight: 600;
-      @include hover-focus() {
-        background: $gold;
-        border-bottom-color: $gold;
-      }
+      background: $maroon;
+      border-bottom-color: $maroon;
+      color: $white;
     }
   }
 }
