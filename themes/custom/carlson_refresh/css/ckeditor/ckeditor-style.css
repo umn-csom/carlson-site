@@ -17474,26 +17474,26 @@ Description: Bootstrap 4 with Sass
   .ck-content .tablesort--desc {
     background-image: url(../../../../misc/icons/ffffff/twistie-up.svg); }
   .ck-content .nav-tabs {
-    background-color: #eae7e2; }
+    border-color: #7a0019; }
     .ck-content .nav-tabs .nav-item > .nav-link,
     .ck-content .nav-tabs .nav-item.active > .nav-link {
       font-weight: 600; }
     .ck-content .nav-tabs .nav-link {
-      margin-right: 6px;
       margin-bottom: 0;
-      background: transparent;
+      background: #e6e0d2;
       color: #000;
       text-transform: uppercase;
       letter-spacing: 0.1em;
-      border: 0; }
+      border: 0;
+      padding: 2rem 4rem; }
       .ck-content .nav-tabs .nav-link:hover, .ck-content .nav-tabs .nav-link:focus {
         background: #f7f0df;
         border-bottom-color: #fc3; }
       .ck-content .nav-tabs .nav-link.active {
-        font-weight: 600; }
-        .ck-content .nav-tabs .nav-link.active:hover, .ck-content .nav-tabs .nav-link.active:focus {
-          background: #fc3;
-          border-bottom-color: #fc3; }
+        font-weight: 600;
+        background: #7a0019;
+        border-bottom-color: #7a0019;
+        color: #fff; }
   .ck-content .form-textarea-wrapper textarea {
     display: block;
     margin: 0;
@@ -18361,6 +18361,9 @@ Description: Bootstrap 4 with Sass
     z-index: 3000000000 !important; }
   .ck-content .container-paragraph > .container > .component-paragraph:last-child {
     margin-bottom: 0; }
+  @media (max-width: 991.98px) {
+    .ck-content .font-weight-bold-mobile {
+      font-weight: bold; } }
   .ck-content .btn, .ck-content .gold-outline-button, .ck-content .maroon-outline-button, .ck-content .maroon-solid-button, .ck-content .gold-underline-button, .ck-content .maroon-underline-button, .ck-content .gold-solid-button, .ck-content .form-group input[type="submit"], .ck-content .news-features__item--link a, .ck-content .program-features__btn, .ck-content .inline-contact__btn, .ck-content .take-the-next-step__column__btn {
     border-radius: 0; }
     .ck-content .btn.d-flex, .ck-content .d-flex.gold-outline-button, .ck-content .d-flex.maroon-outline-button, .ck-content .d-flex.maroon-solid-button, .ck-content .d-flex.gold-underline-button, .ck-content .d-flex.maroon-underline-button, .ck-content .d-flex.gold-solid-button, .ck-content .form-group input.d-flex[type="submit"], .ck-content .news-features__item--link a.d-flex, .ck-content .d-flex.program-features__btn, .ck-content .d-flex.inline-contact__btn, .ck-content .d-flex.take-the-next-step__column__btn {
@@ -20125,17 +20128,29 @@ Description: Bootstrap 4 with Sass
   .ck-content .accordion {
     margin-bottom: 30px; }
     .ck-content .accordion .card {
-      border: 0px none; }
+      border: none; }
+      .ck-content .accordion .card:not(.active) .card-header {
+        border-bottom: 2px solid #fff; }
+        .ck-content .accordion .card:not(.active) .card-header .btn-link.collapsed {
+          background-color: #e6e0d2; }
+      .ck-content .accordion .card.active {
+        border-bottom: 0.5rem solid #7a0019; }
+        .ck-content .accordion .card.active .card-header .btn-link:not(.collapsed) {
+          background-color: #7a0019;
+          border: none;
+          color: #fff;
+          font-weight: 700; }
+          .ck-content .accordion .card.active .card-header .btn-link:not(.collapsed)::before {
+            color: #fff; }
       .ck-content .accordion .card .card-header {
         background-color: transparent;
         padding: 0;
-        border-top: 1px solid #e6d8d6;
-        border-bottom: 0;
+        border: none;
         position: relative; }
         .ck-content .accordion .card .card-header .btn-link {
           cursor: pointer;
           word-break: break-word;
-          padding: 2rem 50px;
+          padding: 2rem;
           color: #212529;
           font-family: "Open Sans", sans-serif;
           width: 100%;
@@ -20175,15 +20190,23 @@ Description: Bootstrap 4 with Sass
             text-decoration: none;
             outline: none; }
           .ck-content .accordion .card .card-header .btn-link.collapsed {
-            background: transparent; }
+            background: #e6e0d2; }
             .ck-content .accordion .card .card-header .btn-link.collapsed::before {
               content: ""; }
             .ck-content .accordion .card .card-header .btn-link.collapsed:hover, .ck-content .accordion .card .card-header .btn-link.collapsed:focus {
-              background: #e6e0d2; }
+              background: #e6e0d2;
+              color: #7a0019; }
       .ck-content .accordion .card .inner {
         transition: all 0.26s ease-in-out; }
     .ck-content .accordion .card-body {
       padding: 3rem 3rem 5rem; }
+      @media (max-width: 991.98px) {
+        .ck-content .accordion .card-body {
+          padding: 2rem 1rem; } }
+      .ck-content .accordion .card-body .container.session {
+        padding: 0;
+        max-width: none;
+        width: 100%; }
   .ck-content .sub-accordion.accordion .card .card-header .btn-link {
     font-size: 2.5rem;
     line-height: 2.5rem;
@@ -20199,7 +20222,7 @@ Description: Bootstrap 4 with Sass
       display: block;
       opacity: 1; } }
   .ck-content .tabbed-content__nav {
-    border-bottom: 10px solid #fc3; }
+    border-bottom: 10px solid #7a0019; }
     .ck-content .tabbed-content__nav .nav-item {
       margin-bottom: 0; }
   @media (max-width: 991.98px) {
@@ -26272,3 +26295,39 @@ Description: Bootstrap 4 with Sass
         max-width: 50%; }
         .ck-content .take-the-next-step__column--first {
           margin-bottom: 0; } }
+  .ck-content .ckeditor-template-content > .session .session-card {
+    border: 1px solid #7a0019; }
+  @media (max-width: 991.98px) {
+    .ck-content .ckeditor-template-content > .session .session-title {
+      font-size: 3.2rem;
+      font-weight: 600; } }
+  .ck-content .ckeditor-template-content > .session .session-time {
+    border-right: 1px solid #D5D6D2; }
+    @media (max-width: 991.98px) {
+      .ck-content .ckeditor-template-content > .session .session-time * {
+        display: inline-block;
+        margin-inline-end: 0.3rem; } }
+    .ck-content .ckeditor-template-content > .session .session-time .session-header,
+    .ck-content .ckeditor-template-content > .session .session-time .session-footer {
+      font-size: 2.4rem; }
+    .ck-content .ckeditor-template-content > .session .session-time .session-header {
+      font-weight: 300; }
+    .ck-content .ckeditor-template-content > .session .session-time .session-body {
+      font-size: 6.4rem;
+      font-weight: 400; }
+      @media (max-width: 991.98px) {
+        .ck-content .ckeditor-template-content > .session .session-time .session-body {
+          font-size: 2.4rem; } }
+    .ck-content .ckeditor-template-content > .session .session-time .session-footer {
+      font-weight: 700; }
+    @media (max-width: 991.98px) {
+      .ck-content .ckeditor-template-content > .session .session-time {
+        border-right: 0;
+        border-bottom: 1px solid #D5D6D2; } }
+  .ck-content .ckeditor-template-content > .session .session-overview ul {
+    padding-inline-start: 1.5rem; }
+  .ck-content .ckeditor-template-content > .session [class^="col"],
+  .ck-content .ckeditor-template-content > .session .card-body {
+    padding: 0; }
+  .ck-content .ckeditor-template-content > .session .row {
+    margin: 0; }
