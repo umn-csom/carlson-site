@@ -68,14 +68,9 @@
         width: 100%;
         text-align: left;
         white-space: normal;
-        font-weight: 600;
+        font-weight: 400;
         text-transform: none;
         @include rfs(2rem);
-
-        @include media-breakpoint-up(md) {
-          //font-size: $font-small;
-          //line-height: $font-small;
-        }
 
         &::before {
           background: none;
@@ -85,6 +80,11 @@
           @include accordion-icon($icon-minus, $maroon);
           font-weight: bold;
           @include rfs(2rem);
+          margin-inline-end: 1rem;
+
+          @include media-breakpoint-down(md) {
+            margin-inline-end: .4rem;
+          }
         }
 
         &:hover,
@@ -129,7 +129,7 @@
     padding: 3rem 3rem 5rem;
 
     @include media-breakpoint-down(md) {
-      padding: 2rem 1rem;
+      padding: 2rem 1.5rem;
     }
 
     .container.session {
