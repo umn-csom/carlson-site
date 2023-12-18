@@ -247,8 +247,22 @@ $value in $theme-colors {
 @mixin accordion-icon($icon, $color) {
     @include carlson-icons($icon);
     color: $color;
-    font-size: 2.8rem;
-    margin-right: 2rem;
+    font-size: 2rem;
+    line-height: 1.5;
+    font-weight: bold;
+
+    position: absolute;
+    background: none;
+    height: auto;
+    width: auto;
+    margin: 0;
+    padding: 0;
+    left: 2.5rem;
+    top: unset;
+
+    @include media-breakpoint-down(md) {
+      left: 1.25rem;
+    }
 }
 
 /* Icon font */

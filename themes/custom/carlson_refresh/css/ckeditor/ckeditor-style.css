@@ -3450,7 +3450,7 @@ Description: Bootstrap 4 with Sass
     flex-direction: column;
     align-items: flex-start;
     justify-content: center; }
-
+    
     .ck-content .btn-group-vertical > .btn,
     .ck-content .btn-group-vertical > .gold-outline-button,
     .ck-content .btn-group-vertical > .maroon-outline-button,
@@ -20127,46 +20127,73 @@ Description: Bootstrap 4 with Sass
     width: unset !important; }
   .ck-content .accordion {
     margin-bottom: 30px; }
-    .ck-content .accordion .card {
-      border: none; }
-      .ck-content .accordion .card:not(.active) .card-header {
-        border-bottom: 2px solid #fff; }
-        .ck-content .accordion .card:not(.active) .card-header .btn-link.collapsed {
-          background-color: #e6e0d2; }
-      .ck-content .accordion .card.active {
-        border-bottom: 0.5rem solid #7a0019; }
-        .ck-content .accordion .card.active .card-header .btn-link:not(.collapsed) {
-          background-color: #7a0019;
-          border: none;
-          color: #fff;
-          font-weight: 700; }
-          .ck-content .accordion .card.active .card-header .btn-link:not(.collapsed)::before {
-            color: #fff; }
-      .ck-content .accordion .card .card-header {
+    .ck-content .accordion > .card {
+      border: 0;
+      border-radius: 0; }
+      .ck-content .accordion > .card:not(:last-of-type) {
+        margin-bottom: 1px; }
+      .ck-content .accordion > .card .card-header {
         background-color: transparent;
         padding: 0;
-        border: none;
+        border: 0;
         position: relative; }
-        .ck-content .accordion .card .card-header .btn-link {
+        .ck-content .accordion > .card .card-header .btn-link {
           cursor: pointer;
-          word-break: break-word;
-          padding: 2rem;
-          color: #212529;
-          font-family: "Open Sans", sans-serif;
+          padding: 2rem 2rem 2rem 6rem;
           width: 100%;
+          word-break: break-word;
+          font-family: "Open Sans", sans-serif;
+          font-weight: 400;
+          font-size: 2rem;
+          letter-spacing: 0.04em;
           text-align: left;
           white-space: normal;
-          font-weight: 400;
-          text-transform: none;
-          font-size: 2rem; }
-          @media (max-width: 1339px) {
-            .ck-content .accordion .card .card-header .btn-link {
-              font-size: Min(2rem, calc(1.325rem + 0.80657vw) ); } }
-          .ck-content .accordion .card .card-header .btn-link::before {
-            background: none;
-            height: auto;
-            width: auto;
-            top: unset;
+          text-transform: none; }
+          @media (max-width: 991.98px) {
+            .ck-content .accordion > .card .card-header .btn-link {
+              padding: 2rem 2rem 2rem 4rem; } }
+          .ck-content .accordion > .card .card-header .btn-link:hover, .ck-content .accordion > .card .card-header .btn-link:focus, .ck-content .accordion > .card .card-header .btn-link:active, .ck-content .accordion > .card .card-header .btn-link:visited {
+            text-decoration: none;
+            outline: none; }
+          .ck-content .accordion > .card .card-header .btn-link.collapsed {
+            background: #e6e0d2;
+            color: #212529; }
+            .ck-content .accordion > .card .card-header .btn-link.collapsed:hover, .ck-content .accordion > .card .card-header .btn-link.collapsed:focus {
+              background: #e6e0d2;
+              color: #7a0019; }
+            .ck-content .accordion > .card .card-header .btn-link.collapsed::before {
+              font-family: 'carlson-icons' !important;
+              speak: none;
+              font-style: normal;
+              font-weight: normal;
+              font-variant: normal;
+              text-transform: none;
+              line-height: 1;
+              /* Better Font Rendering =========== */
+              -webkit-font-smoothing: antialiased;
+              -moz-osx-font-smoothing: grayscale;
+              content: "";
+              color: #7a0019;
+              font-size: 2rem;
+              line-height: 1.5;
+              font-weight: bold;
+              position: absolute;
+              background: none;
+              height: auto;
+              width: auto;
+              margin: 0;
+              padding: 0;
+              left: 2.5rem;
+              top: unset; }
+              @media (max-width: 991.98px) {
+                .ck-content .accordion > .card .card-header .btn-link.collapsed::before {
+                  left: 1.25rem; } }
+          .ck-content .accordion > .card .card-header .btn-link:not(.collapsed), .ck-content .accordion > .card .card-header .btn-link:not(.collapsed):hover, .ck-content .accordion > .card .card-header .btn-link:not(.collapsed):focus {
+            background: #7a0019;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: normal; }
+          .ck-content .accordion > .card .card-header .btn-link:not(.collapsed)::before {
             font-family: 'carlson-icons' !important;
             speak: none;
             font-style: normal;
@@ -20178,32 +20205,27 @@ Description: Bootstrap 4 with Sass
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             content: "";
-            color: #7a0019;
-            font-size: 2.8rem;
-            margin-right: 2rem;
-            font-weight: bold;
+            color: #fff;
             font-size: 2rem;
-            margin-inline-end: 1rem; }
-            @media (max-width: 1339px) {
-              .ck-content .accordion .card .card-header .btn-link::before {
-                font-size: Min(2rem, calc(1.325rem + 0.80657vw) ); } }
+            line-height: 1.5;
+            font-weight: bold;
+            position: absolute;
+            background: none;
+            height: auto;
+            width: auto;
+            margin: 0;
+            padding: 0;
+            left: 2.5rem;
+            top: unset;
+            color: #fff; }
             @media (max-width: 991.98px) {
-              .ck-content .accordion .card .card-header .btn-link::before {
-                margin-inline-end: .4rem; } }
-          .ck-content .accordion .card .card-header .btn-link:hover, .ck-content .accordion .card .card-header .btn-link:focus, .ck-content .accordion .card .card-header .btn-link:active, .ck-content .accordion .card .card-header .btn-link:visited {
-            text-decoration: none;
-            outline: none; }
-          .ck-content .accordion .card .card-header .btn-link.collapsed {
-            background: #e6e0d2; }
-            .ck-content .accordion .card .card-header .btn-link.collapsed::before {
-              content: ""; }
-            .ck-content .accordion .card .card-header .btn-link.collapsed:hover, .ck-content .accordion .card .card-header .btn-link.collapsed:focus {
-              background: #e6e0d2;
-              color: #7a0019; }
-      .ck-content .accordion .card .inner {
+              .ck-content .accordion > .card .card-header .btn-link:not(.collapsed)::before {
+                left: 1.25rem; } }
+      .ck-content .accordion > .card .inner {
         transition: all 0.26s ease-in-out; }
     .ck-content .accordion .card-body {
-      padding: 3rem 3rem 5rem; }
+      padding: 3rem 3rem 5rem;
+      border-bottom: 0.5rem solid #7a0019; }
       @media (max-width: 991.98px) {
         .ck-content .accordion .card-body {
           padding: 2rem 1.5rem; } }
@@ -20211,16 +20233,10 @@ Description: Bootstrap 4 with Sass
         padding: 0;
         max-width: none;
         width: 100%; }
-  .ck-content .sub-accordion.accordion .card .card-header .btn-link {
-    font-size: 2.5rem;
-    line-height: 2.5rem;
-    padding: 2rem; }
-    @media (min-width: 768px) {
-      .ck-content .sub-accordion.accordion .card .card-header .btn-link {
-        font-size: 2rem;
-        line-height: 2rem; } }
-    .ck-content .sub-accordion.accordion .card .card-header .btn-link::before {
-      font-size: 2rem; }
+      .ck-content .accordion .card-body .sub-accordion {
+        margin-bottom: 0; }
+      .ck-content .accordion .card-body .accordion-content:not(:first-child) {
+        margin-top: 3rem; }
   @media print {
     .ck-content .accordion .card .inner.collapse {
       display: block;
