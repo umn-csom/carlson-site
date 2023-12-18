@@ -118,6 +118,58 @@
       margin-top: 3rem;
     }
   }
+
+  // Edge-to-edge support:
+  &:not(.sub-accordion) > .card {
+
+    @include media-breakpoint-down(md) {
+      overflow: visible; // edge-to-edge
+
+      .card-header {
+        &::before,
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: 100%;
+          top: 0;
+          width: 100%;
+          background-color: $maroon;
+          height: 100%;
+          transition: background-color 0.15s ease-in-out;
+        }
+
+        &:has(.collapsed) {
+          &::before,
+          &::after {
+            background: $ivory;
+          }
+        }
+
+        &::after {
+          left: 100%;
+        }
+      }
+
+      .card-body {
+        &::before,
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: 100%;
+          bottom: 0;
+          width: 100%;
+          background-color: $maroon;
+          height: 0.5rem;
+        }
+
+        &::after {
+          left: 100%;
+        }
+      }
+    }
+  }
 }
 
 @media print {

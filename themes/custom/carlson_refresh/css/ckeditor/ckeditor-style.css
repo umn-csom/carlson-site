@@ -20237,6 +20237,34 @@ Description: Bootstrap 4 with Sass
         margin-bottom: 0; }
       .ck-content .accordion .card-body .accordion-content:not(:first-child) {
         margin-top: 3rem; }
+    @media (max-width: 991.98px) {
+      .ck-content .accordion:not(.sub-accordion) > .card {
+        overflow: visible; }
+        .ck-content .accordion:not(.sub-accordion) > .card .card-header::before, .ck-content .accordion:not(.sub-accordion) > .card .card-header::after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: 100%;
+          top: 0;
+          width: 100%;
+          background-color: #7a0019;
+          height: 100%;
+          transition: background-color 0.15s ease-in-out; }
+        .ck-content .accordion:not(.sub-accordion) > .card .card-header:has(.collapsed)::before, .ck-content .accordion:not(.sub-accordion) > .card .card-header:has(.collapsed)::after {
+          background: #e6e0d2; }
+        .ck-content .accordion:not(.sub-accordion) > .card .card-header::after {
+          left: 100%; }
+        .ck-content .accordion:not(.sub-accordion) > .card .card-body::before, .ck-content .accordion:not(.sub-accordion) > .card .card-body::after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: 100%;
+          bottom: 0;
+          width: 100%;
+          background-color: #7a0019;
+          height: 0.5rem; }
+        .ck-content .accordion:not(.sub-accordion) > .card .card-body::after {
+          left: 100%; } }
   @media print {
     .ck-content .accordion .card .inner.collapse {
       display: block;
