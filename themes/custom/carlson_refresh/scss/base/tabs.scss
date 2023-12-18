@@ -5,7 +5,10 @@
 .nav-tabs {
   border-color: $maroon;
 
-  .nav-item > .nav-link,
+  .nav-item > .nav-link {
+    font-weight: 400;
+  }
+
   .nav-item.active > .nav-link {
     font-weight: 600;
   }
@@ -14,18 +17,22 @@
     margin-bottom: 0;
     background: $ivory;
     color: $black;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    text-decoration: none;
+    letter-spacing: normal;
     border: 0;
     padding: 2rem 4rem;
+    font-size: 1.8rem;
+    line-height: 1.2;
 
     @include hover-focus() {
-      background: $light-ivory;
       border-bottom-color: $gold;
+      background: $light-ivory;
+      color: $maroon;
+      text-decoration: none;
     }
 
     &.active {
-      font-weight: 600;
+      font-weight: bold;
       background: $maroon;
       border-bottom-color: $maroon;
       color: $white;
