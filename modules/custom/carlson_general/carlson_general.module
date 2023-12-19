@@ -7,6 +7,7 @@
 
 use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Entity\EntityInterface;
@@ -133,4 +134,69 @@ function carlson_general_node_presave(EntityInterface $entity) {
       }
     break;
   }
+}
+
+/**
+ * Implements hook_field_widget_single_element_form_alter().
+ *
+ * @param array $element
+ * @param FormStateInterface $form_state
+ * @param array $context
+ * @return void
+ */
+function carlson_general_field_widget_single_element_form_alter(array &$element, FormStateInterface &$form_state, $context) {
+
+  // Only process paragraphs that are fully loaded, not collapsed.
+  if (empty($element['#paragraph_type']) || empty($element['subform']['#entity_type'])) {
+    return;
+  }
+
+  switch ($element['#paragraph_type']) {
+    case 'course_schedule_info':
+      _carlson_general_course_schedule_info_alter($element, $form_state, $context);
+      break;
+  }
+}
+
+/**
+ * Implements hook_field_widget_WIDGET_TYPE_form_alter().
+ *
+ * Alters course schedule info paragraph type subform widget.
+ */
+function _carlson_general_course_schedule_info_alter(array &$element, FormStateInterface $form_state, $context) {
+  $subform = &$element['subform'];
+
+  // Hide deprecated "Schedule Part 1" field, when empty.
+  if (
+    !empty($subform['field_schedule_part_1']) &&
+    empty($subform['field_schedule_part_1']['widget'][0]['value']['#default_value'])
+  ) {
+    $subform['field_schedule_part_1']['#access'] = FALSE;
+  }
+
+  // Hide deprecated "Schedule Part 1" field title, when empty.
+  if (
+    !empty($subform['field_schedule_part_1_title']) &&
+    empty($subform['field_schedule_part_1_title']['widget'][0]['value']['#default_value'])
+  ) {
+    $subform['field_schedule_part_1_title']['#access'] = FALSE;
+  }
+
+
+  // Hide deprecated "Schedule Part 1" field, when empty.
+  if (
+    !empty($subform['field_schedule_part_2']) &&
+    empty($subform['field_schedule_part_2']['widget'][0]['value']['#default_value'])
+  ) {
+    $subform['field_schedule_part_2']['#access'] = FALSE;
+  }
+
+  // Hide deprecated "Schedule Part 1" field title, when empty.
+  if (
+    !empty($subform['field_schedule_part_2_title']) &&
+    empty($subform['field_schedule_part_2_title']['widget'][0]['value']['#default_value'])
+  ) {
+    $subform['field_schedule_part_2_title']['#access'] = FALSE;
+  }
+
 }

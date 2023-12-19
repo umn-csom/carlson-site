@@ -26,7 +26,7 @@
       margin-bottom: 1px;
     }
 
-    .card-header {
+    > .card-header {
       background-color: transparent;
       padding: 0;
       border: 0;
@@ -91,31 +91,31 @@
       }
     }
 
-    .inner {
+    > .inner {
       transition: all 0.26s ease-in-out;
-    }
-  }
+      > .card-body {
+        padding: 3rem 3rem 5rem;
+        border-bottom: .5rem solid $maroon;
 
-  .card-body {
-    padding: 3rem 3rem 5rem;
-    border-bottom: .5rem solid $maroon;
+        @include media-breakpoint-down(md) {
+          padding-left: 0;
+          padding-right: 0;
+        }
 
-    @include media-breakpoint-down(md) {
-      padding: 2rem 1.5rem;
-    }
+        .container.session {
+          padding: 0;
+          max-width: none;
+          width: 100%;
+        }
 
-    .container.session {
-      padding: 0;
-      max-width: none;
-      width: 100%;
-    }
+        .sub-accordion {
+          margin-bottom: 0;
+        }
 
-    .sub-accordion {
-      margin-bottom: 0;
-    }
-
-    .accordion-content:not(:first-child) {
-      margin-top: 3rem;
+        .accordion-content:not(:first-child) {
+          margin-top: 3rem;
+        }
+      }
     }
   }
 
@@ -125,7 +125,7 @@
     @include media-breakpoint-down(md) {
       overflow: visible; // edge-to-edge
 
-      .card-header {
+      > .card-header {
         &::before,
         &::after {
           content: '';
@@ -151,7 +151,7 @@
         }
       }
 
-      .card-body {
+      > .inner > .card-body {
         &::before,
         &::after {
           content: '';
@@ -173,7 +173,7 @@
 }
 
 @media print {
-  .accordion .card .inner.collapse {
+  .accordion > .card > .inner.collapse {
     display: block;
     opacity: 1;
   }

@@ -4462,7 +4462,7 @@ Description: Bootstrap 4 with Sass
       pointer-events: none;
       cursor: default; }
   .ck-content .nav-tabs {
-    border-bottom: 6px solid #fc3; }
+    border-bottom: 6px solid #7a0019; }
     .ck-content .nav-tabs .nav-link {
       margin-bottom: -6px;
       background-color: transparent;
@@ -4471,7 +4471,7 @@ Description: Bootstrap 4 with Sass
       border-top-right-radius: 0; }
       .ck-content .nav-tabs .nav-link:hover, .ck-content .nav-tabs .nav-link:focus {
         isolation: isolate;
-        border-color: #fc3; }
+        border-color: #7a0019; }
       .ck-content .nav-tabs .nav-link.disabled {
         color: #6c757d;
         background-color: transparent;
@@ -4479,8 +4479,8 @@ Description: Bootstrap 4 with Sass
     .ck-content .nav-tabs .nav-link.active,
     .ck-content .nav-tabs .nav-item.show .nav-link {
       color: #000;
-      background-color: #fc3;
-      border-color: #fc3; }
+      background-color: #7a0019;
+      border-color: #7a0019; }
     .ck-content .nav-tabs .dropdown-menu {
       margin-top: -6px;
       border-top-left-radius: 0;
@@ -17484,7 +17484,8 @@ Description: Bootstrap 4 with Sass
       background: #e6e0d2;
       color: #000;
       text-decoration: none;
-      letter-spacing: normal;
+      font-weight: normal;
+      letter-spacing: 0.04em;
       border: 0;
       padding: 2rem 4rem;
       font-size: 1.8rem;
@@ -17496,6 +17497,7 @@ Description: Bootstrap 4 with Sass
         text-decoration: none; }
       .ck-content .nav-tabs .nav-link.active {
         font-weight: bold;
+        letter-spacing: normal;
         background: #7a0019;
         border-bottom-color: #7a0019;
         color: #fff; }
@@ -19320,8 +19322,8 @@ Description: Bootstrap 4 with Sass
   .ck-content .dropdown-item:hover,
   .ck-content .dropdown-item:focus-visible,
   .ck-content .nav-link.is-active,
-  .ck-content .nav-item:not(.dropdown) > .nav-link:hover,
-  .ck-content .nav-item:not(.dropdown) > .nav-link:focus-visible,
+  .ck-content .nav-item:not(.dropdown) > .nav-link:not(.tab-link):hover,
+  .ck-content .nav-item:not(.dropdown) > .nav-link:not(.tab-link):focus-visible,
   .ck-content .nav-item.btn-group > .nav-link:hover,
   .ck-content .nav-item.btn-group > .nav-link:focus-visible {
     text-decoration: underline; }
@@ -20137,12 +20139,12 @@ Description: Bootstrap 4 with Sass
       border-radius: 0; }
       .ck-content .accordion > .card:not(:last-of-type) {
         margin-bottom: 1px; }
-      .ck-content .accordion > .card .card-header {
+      .ck-content .accordion > .card > .card-header {
         background-color: transparent;
         padding: 0;
         border: 0;
         position: relative; }
-        .ck-content .accordion > .card .card-header .btn-link {
+        .ck-content .accordion > .card > .card-header .btn-link {
           cursor: pointer;
           padding: 2rem 2rem 2rem 6rem;
           width: 100%;
@@ -20155,18 +20157,18 @@ Description: Bootstrap 4 with Sass
           white-space: normal;
           text-transform: none; }
           @media (max-width: 991.98px) {
-            .ck-content .accordion > .card .card-header .btn-link {
+            .ck-content .accordion > .card > .card-header .btn-link {
               padding: 2rem 2rem 2rem 4rem; } }
-          .ck-content .accordion > .card .card-header .btn-link:hover, .ck-content .accordion > .card .card-header .btn-link:focus, .ck-content .accordion > .card .card-header .btn-link:active, .ck-content .accordion > .card .card-header .btn-link:visited {
+          .ck-content .accordion > .card > .card-header .btn-link:hover, .ck-content .accordion > .card > .card-header .btn-link:focus, .ck-content .accordion > .card > .card-header .btn-link:active, .ck-content .accordion > .card > .card-header .btn-link:visited {
             text-decoration: none;
             outline: none; }
-          .ck-content .accordion > .card .card-header .btn-link.collapsed {
+          .ck-content .accordion > .card > .card-header .btn-link.collapsed {
             background: #e6e0d2;
             color: #212529; }
-            .ck-content .accordion > .card .card-header .btn-link.collapsed:hover, .ck-content .accordion > .card .card-header .btn-link.collapsed:focus {
+            .ck-content .accordion > .card > .card-header .btn-link.collapsed:hover, .ck-content .accordion > .card > .card-header .btn-link.collapsed:focus {
               background: #e6e0d2;
               color: #7a0019; }
-            .ck-content .accordion > .card .card-header .btn-link.collapsed::before {
+            .ck-content .accordion > .card > .card-header .btn-link.collapsed::before {
               font-family: 'carlson-icons' !important;
               speak: none;
               font-style: normal;
@@ -20191,14 +20193,14 @@ Description: Bootstrap 4 with Sass
               left: 2.5rem;
               top: unset; }
               @media (max-width: 991.98px) {
-                .ck-content .accordion > .card .card-header .btn-link.collapsed::before {
+                .ck-content .accordion > .card > .card-header .btn-link.collapsed::before {
                   left: 1.25rem; } }
-          .ck-content .accordion > .card .card-header .btn-link:not(.collapsed), .ck-content .accordion > .card .card-header .btn-link:not(.collapsed):hover, .ck-content .accordion > .card .card-header .btn-link:not(.collapsed):focus {
+          .ck-content .accordion > .card > .card-header .btn-link:not(.collapsed), .ck-content .accordion > .card > .card-header .btn-link:not(.collapsed):hover, .ck-content .accordion > .card > .card-header .btn-link:not(.collapsed):focus {
             background: #7a0019;
             color: #fff;
             font-weight: 700;
             letter-spacing: normal; }
-          .ck-content .accordion > .card .card-header .btn-link:not(.collapsed)::before {
+          .ck-content .accordion > .card > .card-header .btn-link:not(.collapsed)::before {
             font-family: 'carlson-icons' !important;
             speak: none;
             font-style: normal;
@@ -20224,28 +20226,29 @@ Description: Bootstrap 4 with Sass
             top: unset;
             color: #fff; }
             @media (max-width: 991.98px) {
-              .ck-content .accordion > .card .card-header .btn-link:not(.collapsed)::before {
+              .ck-content .accordion > .card > .card-header .btn-link:not(.collapsed)::before {
                 left: 1.25rem; } }
-      .ck-content .accordion > .card .inner {
+      .ck-content .accordion > .card > .inner {
         transition: all 0.26s ease-in-out; }
-    .ck-content .accordion .card-body {
-      padding: 3rem 3rem 5rem;
-      border-bottom: 0.5rem solid #7a0019; }
-      @media (max-width: 991.98px) {
-        .ck-content .accordion .card-body {
-          padding: 2rem 1.5rem; } }
-      .ck-content .accordion .card-body .container.session {
-        padding: 0;
-        max-width: none;
-        width: 100%; }
-      .ck-content .accordion .card-body .sub-accordion {
-        margin-bottom: 0; }
-      .ck-content .accordion .card-body .accordion-content:not(:first-child) {
-        margin-top: 3rem; }
+        .ck-content .accordion > .card > .inner > .card-body {
+          padding: 3rem 3rem 5rem;
+          border-bottom: 0.5rem solid #7a0019; }
+          @media (max-width: 991.98px) {
+            .ck-content .accordion > .card > .inner > .card-body {
+              padding-left: 0;
+              padding-right: 0; } }
+          .ck-content .accordion > .card > .inner > .card-body .container.session {
+            padding: 0;
+            max-width: none;
+            width: 100%; }
+          .ck-content .accordion > .card > .inner > .card-body .sub-accordion {
+            margin-bottom: 0; }
+          .ck-content .accordion > .card > .inner > .card-body .accordion-content:not(:first-child) {
+            margin-top: 3rem; }
     @media (max-width: 991.98px) {
       .ck-content .accordion:not(.sub-accordion) > .card {
         overflow: visible; }
-        .ck-content .accordion:not(.sub-accordion) > .card .card-header::before, .ck-content .accordion:not(.sub-accordion) > .card .card-header::after {
+        .ck-content .accordion:not(.sub-accordion) > .card > .card-header::before, .ck-content .accordion:not(.sub-accordion) > .card > .card-header::after {
           content: '';
           display: block;
           position: absolute;
@@ -20255,11 +20258,11 @@ Description: Bootstrap 4 with Sass
           background-color: #7a0019;
           height: 100%;
           transition: background-color 0.15s ease-in-out; }
-        .ck-content .accordion:not(.sub-accordion) > .card .card-header:has(.collapsed)::before, .ck-content .accordion:not(.sub-accordion) > .card .card-header:has(.collapsed)::after {
+        .ck-content .accordion:not(.sub-accordion) > .card > .card-header:has(.collapsed)::before, .ck-content .accordion:not(.sub-accordion) > .card > .card-header:has(.collapsed)::after {
           background: #e6e0d2; }
-        .ck-content .accordion:not(.sub-accordion) > .card .card-header::after {
+        .ck-content .accordion:not(.sub-accordion) > .card > .card-header::after {
           left: 100%; }
-        .ck-content .accordion:not(.sub-accordion) > .card .card-body::before, .ck-content .accordion:not(.sub-accordion) > .card .card-body::after {
+        .ck-content .accordion:not(.sub-accordion) > .card > .inner > .card-body::before, .ck-content .accordion:not(.sub-accordion) > .card > .inner > .card-body::after {
           content: '';
           display: block;
           position: absolute;
@@ -20268,14 +20271,14 @@ Description: Bootstrap 4 with Sass
           width: 100%;
           background-color: #7a0019;
           height: 0.5rem; }
-        .ck-content .accordion:not(.sub-accordion) > .card .card-body::after {
+        .ck-content .accordion:not(.sub-accordion) > .card > .inner > .card-body::after {
           left: 100%; } }
   @media print {
-    .ck-content .accordion .card .inner.collapse {
+    .ck-content .accordion > .card > .inner.collapse {
       display: block;
       opacity: 1; } }
   .ck-content .tabbed-content__nav {
-    border-bottom: 10px solid #7a0019; }
+    border-bottom: 6px solid #7a0019; }
     .ck-content .tabbed-content__nav .nav-item {
       margin-bottom: 0; }
   @media (max-width: 991.98px) {
@@ -22429,79 +22432,6 @@ Description: Bootstrap 4 with Sass
     box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1); }
   .ck-content .ee-program .ee-flexible_features .component-paragraph {
     margin-bottom: 0; }
-  .ck-content .ee-program .ee-field_accordion .slick-list {
-    margin: 0 40px; }
-  .ck-content .ee-program .ee-field_accordion .slick-arrow {
-    background: #fff; }
-    .ck-content .ee-program .ee-field_accordion .slick-arrow:before {
-      color: #7a0019;
-      font-size: 1.8rem;
-      font-weight: bold; }
-  .ck-content .ee-program .ee-field_accordion .slick-prev:before {
-    font-family: 'carlson-icons' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    content: ""; }
-  .ck-content .ee-program .ee-field_accordion .slick-next:before {
-    font-family: 'carlson-icons' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    content: ""; }
-  @media (min-width: 992px) {
-    .ck-content .ee-program .ee-field_accordion .slick-arrow {
-      width: 60px;
-      height: 60px; }
-      .ck-content .ee-program .ee-field_accordion .slick-arrow:before {
-        font-size: 2.6rem; }
-    .ck-content .ee-program .ee-field_accordion .slick-list {
-      margin: 0 70px; } }
-  .ck-content .ee-program .ee-field_accordion .component-paragraph.accordion-content {
-    margin-bottom: 0; }
-  .ck-content .ee-program .ee-field_accordion .accordion-content__heading {
-    display: none; }
-  .ck-content .ee-program .ee-field_accordion .nav-tabs {
-    justify-content: center;
-    margin: 0 -15px;
-    padding-top: 50px;
-    background-size: 100%;
-    border: none; }
-    .ck-content .ee-program .ee-field_accordion .nav-tabs .nav-link {
-      padding: 10px 25px 8px;
-      font-size: 13px;
-      font-weight: 900;
-      color: #363230;
-      letter-spacing: 1.39px;
-      text-align: center;
-      text-transform: uppercase;
-      border-bottom-width: 0; }
-      .ck-content .ee-program .ee-field_accordion .nav-tabs .nav-link.active {
-        border-color: rgba(230, 219, 214, 0.5);
-        border-bottom-width: 0;
-        font-weight: normal; }
-      .ck-content .ee-program .ee-field_accordion .nav-tabs .nav-link:hover, .ck-content .ee-program .ee-field_accordion .nav-tabs .nav-link:focus {
-        border-bottom-width: 0; }
-  .ck-content .ee-program .ee-field_accordion .tab-content {
-    padding: 50px 0; }
-  .ck-content .ee-program .ee-field_accordion .accordion .card .card-header {
-    display: none; }
-  .ck-content .ee-program .ee-field_accordion .accordion .card .inner {
-    background: none;
-    display: block;
-    opacity: 1; }
   .ck-content .ee-program__details-bottom {
     position: relative;
     background-color: #fc3;
@@ -22559,48 +22489,6 @@ Description: Bootstrap 4 with Sass
       background: #fff; }
       .ck-content .ee-program__details-bottom--brochure a {
         color: #fc3; }
-  .ck-content .ee-program .course_schedule {
-    margin-bottom: 5rem; }
-    .ck-content .ee-program .course_schedule .slick-track {
-      display: flex; }
-      .ck-content .ee-program .course_schedule .slick-track .slick-slide {
-        height: auto; }
-        .ck-content .ee-program .course_schedule .slick-track .slick-slide .course_schedule-day {
-          height: calc(100% - 20px); }
-    .ck-content .ee-program .course_schedule-day {
-      background-color: #fff;
-      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-      margin: 15px;
-      padding: 0 0 25px 0; }
-    .ck-content .ee-program .course_schedule-title {
-      display: block;
-      width: 100%;
-      text-align: center;
-      padding: 15px 15px;
-      background: #7a0019;
-      margin-bottom: 25px;
-      font-family: "Newsreader", serif;
-      font-size: 34px;
-      color: #fff;
-      text-align: center;
-      line-height: 31px; }
-    .ck-content .ee-program .course_schedule-part-one, .ck-content .ee-program .course_schedule-part-two {
-      text-align: center;
-      margin: 0 25px; }
-    .ck-content .ee-program .course_schedule-part-title {
-      font-size: 13px;
-      color: #363230;
-      letter-spacing: 1.39px;
-      text-align: center;
-      text-transform: uppercase;
-      font-weight: 900;
-      margin-bottom: 15px; }
-    .ck-content .ee-program .course_schedule-part-one:after {
-      content: '';
-      display: block;
-      position: relative;
-      margin: 25px;
-      border-bottom: 1px solid #D8D8D8; }
   .ck-content .node__content.ee-program .block-views ul:not([class]) li:before {
     top: 1.1em; }
   .ck-content .node--type-executive-ed-program {
@@ -22767,27 +22655,10 @@ Description: Bootstrap 4 with Sass
               padding: 2rem 1rem 2rem 6rem; }
             .ck-content .node--type-executive-ed-program .inner_nav .block .inner_nav--accordion .sidebar-menu .nav .nav-item.menu-item--expanded:after {
               content: none; }
-  .ck-content .ee-course_info {
-    background-color: #7a0019; }
-    .ck-content .ee-course_info .ee-course_container {
-      display: flex;
-      padding: 50px 0px 50px;
-      flex-wrap: wrap;
-      justify-content: center; }
-  .ck-content .ee-audience {
-    background: #fff; }
-  .ck-content .ee-benefits {
-    background: #fff; }
-  .ck-content .ee-audience, .ck-content .ee-benefits {
-    position: relative;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    clip-path: polygon(0 0, calc(100% - 96.66666px) 0, 100% 55.81052px, 100% 100%, 0 100%); }
-    .ck-content .ee-audience .content, .ck-content .ee-benefits .content {
-      padding: 30px; }
+  .ck-content .ee-course_info .ee-course_container {
+    padding: 50px 0; }
+  .ck-content .ee-audience .content, .ck-content .ee-benefits .content {
+    padding: 30px; }
   .ck-content .ee-audience, .ck-content .ee-benefits {
     margin: 20px; }
     .ck-content .ee-audience h2, .ck-content .ee-benefits h2 {
@@ -22796,51 +22667,24 @@ Description: Bootstrap 4 with Sass
       text-align: center; }
     .ck-content .ee-audience ul:not([class]) li, .ck-content .ee-benefits ul:not([class]) li {
       margin-bottom: 10px; }
-  .ck-content .ee-audience, .ck-content .ee-benefits {
-    max-width: 100%;
-    flex: 0 1 100%; }
-    @media (min-width: 1200px) {
-      .ck-content .ee-audience, .ck-content .ee-benefits {
-        max-width: calc(50% - 10px);
-        flex: 1 0 45%; }
-        .ck-content .ee-audience.force-single-column, .ck-content .ee-benefits.force-single-column {
-          max-width: 700px;
-          flex: 0 1 100%; } }
   @media (max-width: 993px) {
     .ck-content .ee-program__details {
       position: relative;
       width: 100%; }
     .ck-content .ee-program__content {
-      margin-bottom: 40px; }
-    .ck-content .ee-audience .content, .ck-content .ee-benefits .content {
-      justify-content: center; } }
-  @media (min-width: 992px) {
-    .ck-content .ee-audience .paragraph, .ck-content .ee-benefits .paragraph {
-      height: 100%; } }
+      margin-bottom: 40px; } }
   @media (max-width: 992px) {
     .ck-content .ee-program__top .hero-program__content .hero-program__title {
       font-size: 48px;
       line-height: 48px; }
-    .ck-content .ee-program .course_schedule {
-      padding: 0 1rem; }
     .ck-content .faculty-wrapper .staff-faculty__wrapper {
       padding: 0 1rem; }
     .ck-content .ee-program__details-bottom {
-      padding: 15px; }
-    .ck-content .ee-audience, .ck-content .ee-benefits {
-      padding: 0; }
-      .ck-content .ee-audience .paragraph, .ck-content .ee-benefits .paragraph {
-        width: 100%; }
-      .ck-content .ee-audience .background-image, .ck-content .ee-benefits .background-image {
-        overflow: hidden; }
-        .ck-content .ee-audience .background-image .img-fluid, .ck-content .ee-benefits .background-image .img-fluid {
-          max-width: none; } }
+      padding: 15px; } }
   @media (max-width: 500px) {
     .ck-content .ee-program__top .hero-program__content .hero-program__title {
       font-size: 36px;
-      line-height: 36px; }
-    .ck-content .ee-audience .content, .ck-content .ee-benefits .content {
-      padding: 25px; } }
+      line-height: 36px; } }
   .ck-content .view-id-ee_program_faculty .staff-faculty__item--name {
     padding: 0px 15px 15px 30px; }
     .ck-content .view-id-ee_program_faculty .staff-faculty__item--name:after {
@@ -26348,39 +26192,43 @@ Description: Bootstrap 4 with Sass
         max-width: 50%; }
         .ck-content .take-the-next-step__column--first {
           margin-bottom: 0; } }
-  .ck-content .ckeditor-template-content > .session .session-card {
+  .ck-content .session .session-card {
     border: 1px solid #7a0019; }
   @media (max-width: 991.98px) {
-    .ck-content .ckeditor-template-content > .session .session-title {
+    .ck-content .session .session-title {
       font-size: 3.2rem;
       font-weight: 600; } }
-  .ck-content .ckeditor-template-content > .session .session-time {
+  .ck-content .session .session-time {
     border-right: 1px solid #D5D6D2; }
     @media (max-width: 991.98px) {
-      .ck-content .ckeditor-template-content > .session .session-time * {
+      .ck-content .session .session-time * {
         display: inline-block;
         margin-inline-end: 0.3rem; } }
-    .ck-content .ckeditor-template-content > .session .session-time .session-header,
-    .ck-content .ckeditor-template-content > .session .session-time .session-footer {
+    .ck-content .session .session-time .session-header,
+    .ck-content .session .session-time .session-footer {
       font-size: 2.4rem; }
-    .ck-content .ckeditor-template-content > .session .session-time .session-header {
+    .ck-content .session .session-time .session-header {
       font-weight: 300; }
-    .ck-content .ckeditor-template-content > .session .session-time .session-body {
+    .ck-content .session .session-time .session-body {
       font-size: 6.4rem;
       font-weight: 400; }
       @media (max-width: 991.98px) {
-        .ck-content .ckeditor-template-content > .session .session-time .session-body {
+        .ck-content .session .session-time .session-body {
           font-size: 2.4rem; } }
-    .ck-content .ckeditor-template-content > .session .session-time .session-footer {
+    .ck-content .session .session-time .session-footer {
       font-weight: 700; }
     @media (max-width: 991.98px) {
-      .ck-content .ckeditor-template-content > .session .session-time {
+      .ck-content .session .session-time {
         border-right: 0;
         border-bottom: 1px solid #D5D6D2; } }
-  .ck-content .ckeditor-template-content > .session .session-overview ul {
+  .ck-content .session .session-overview ul {
     padding-inline-start: 1.5rem; }
-  .ck-content .ckeditor-template-content > .session [class^="col"],
-  .ck-content .ckeditor-template-content > .session .card-body {
+  .ck-content .session [class^="col"],
+  .ck-content .session .card-body {
     padding: 0; }
-  .ck-content .ckeditor-template-content > .session .row {
+  .ck-content .session .row {
     margin: 0; }
+  .ck-content .session + .session {
+    margin-top: 4rem; }
+  .ck-content .ckeditor-template-content + .ckeditor-template-content {
+    margin-top: 4rem; }
