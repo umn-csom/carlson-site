@@ -39,77 +39,218 @@
  */
 #}
 
-{%
-  set classes = [
-    'paragraph',
-    'paragraph--type--' ~ paragraph.bundle|clean_class,
-    view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
-    not paragraph.isPublished() ? 'paragraph--unpublished'
-  ]
-%}
+{% set classes = [
+  'paragraph',
+  'paragraph--type--' ~ (paragraph.bundle|clean_class),
+  view_mode ? 'paragraph--view-mode--' ~ (view_mode|clean_class),
+  not paragraph.isPublished() ? 'paragraph--unpublished'
+] %}
 {% block paragraph %}
-    {% block content %}
+  {% block content %}
+    <!-- Accordion for Mobile -->
+    <div class="accordion d-block d-md-none">
+      <div class="row component-paragraph accordion-content">
+        {% if content.field_tab_accordion_item is not empty %}
+          {% set items = content.field_tab_accordion_item|field_value %}
+          {% set paragraphId = paragraph.id() %}
 
-    <div class="row component-paragraph tabbed-content">
-      {% if content.field_tab_accordion_item   is not empty %}
-        {% set items = content.field_tab_accordion_item|field_value %}
+          {% if
+            content.field_heading|field_value is not empty
+              or content.field_main_content|field_value is not empty %}
+            <div class="col-12 accordion-content__heading">
+              <h3 class="label-border yellow">
+                {{ content.field_heading }}
+              </h3>
+              {{ content.field_main_content }}
+            </div>
+          {% endif %}
 
-        {% if (content.field_heading is not empty) or (content.field_main_content is not empty) %}
-        <div class="col-12 col-md-10 offset-md-1 tabbed-content__heading text-center">
-          <h3 class="label-border yellow">{{ content.field_heading }}</h3>
-          {{ content.field_main_content }}
-        </div>
+          <div class="accordion col-12" id="accordion-list-{{ paragraphId }}">
+            {% set inc = 0 %}
+            {% for item in items %}
+              {% set paragraph = item['#paragraph'] %}
+              <div class="card">
+                <div class="card-header">
+                  <h5 class="mb-0">
+                    {% set collapsed = 'collapsed' %}
+                    {% set expanded = 'false' %}
+                    {% set show = '' %}
+
+                    <button id="heading{{ paragraphId }}-{{ inc }}"
+                      class="btn btn-link {{ collapsed }}"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#collapse{{ paragraphId }}-{{ inc }}"
+                      aria-expanded="{{ expanded }}"
+                      aria-controls="collapse{{ paragraphId }}-{{ inc }}">
+                      {{ paragraph.field_heading[0].value }}
+                    </button>
+                  </h5>
+                </div>
+                <div id="collapse{{ paragraphId }}-{{ inc }}"
+                  class="collapse {{ show }} inner"
+                  aria-labelledby="heading{{ paragraphId }}-{{ inc }}"
+                  data-parent="#accordion-list-{{ paragraphId }}">
+                  <div class="card-body">
+                    {% set body = {
+                      '#type': 'processed_text',
+                      '#text': paragraph.field_main_content[0].value,
+                      '#format': paragraph.field_main_content[0].format
+                    } %}
+                    {{ body }}
+
+                    {# subaccordion #}
+                    {% if paragraph.field_tab_accordion_subitem is not empty %}
+                      <div class="row component-paragraph accordion-content">
+                        {% set subitems =
+                          paragraph.field_tab_accordion_subitem
+                        %}
+
+                        <div class="accordion sub-accordion col-12"
+                          id="accordion-list-{{ paragraphId }}-{{ inc }}">
+                          {% set subinc = 0 %}
+                          {% for subitem in subitems %}
+                            {% set subparagraph = subitem.entity %}
+                            <div class="card">
+                              <div class="card-header">
+                                <h5 class="mb-0">
+                                  {% set collapsed = 'collapsed' %}
+                                  {% set expanded = 'false' %}
+                                  {% set show = '' %}
+
+                                  <button id="heading{{ paragraphId }}-{{
+                                    inc
+                                    }}-{{ subinc }}"
+                                    class="btn btn-link {{ collapsed }}"
+                                    type="button"
+                                    data-toggle="collapse"
+                                    data-target="#collapse{{ paragraphId }}-{{
+                                    inc
+                                    }}-{{ subinc }}"
+                                    aria-expanded="{{ expanded }}"
+                                    aria-controls="collapse{{ paragraphId }}-{{
+                                    inc
+                                    }}-{{ subinc }}">
+                                    {{ subparagraph.field_heading[0].value }}
+                                  </button>
+                                </h5>
+                              </div>
+                              <div id="collapse{{ paragraphId }}-{{ inc }}-{{
+                                subinc
+                                }}"
+                                class="collapse {{ show }} inner"
+                                aria-labelledby="heading{{ paragraphId }}-{{
+                                inc
+                                }}-{{ subinc }}"
+                                data-parent="#accordion-list-{{
+                                paragraphId
+                                }}-{{ inc }}">
+                                <div class="card-body">
+                                  {% set body = {
+                                    '#type': 'processed_text',
+                                    '#text': subparagraph.field_main_content[0].value,
+                                    '#format': subparagraph.field_main_content[0].format
+                                  } %}
+                                  {{ body }}
+                                </div>
+                              </div>
+                            </div>
+                            {% set subinc = subinc + 1 %}
+                          {% endfor %}
+                        </div>
+                      </div>
+                    {% endif %}
+                    {# end subaccordion #}
+                  </div>
+                </div>
+              </div>
+              {% set inc = inc + 1 %}
+            {% endfor %}
+          </div>
         {% endif %}
+      </div>
+    </div>
 
-        <div class="col-12">
-          {# Create the tabs #}
-          <div class="tabbed-content__nav--container">
-            <div class="tabbed-content__nav--positioner">
-              <ul class="tabbed-content__nav nav nav-tabs" role="tablist">
-                {% set inc = 0 %}
-                {% for item in items  %}
-                  {% set paragraph = item['#paragraph'] %}
-                  {% if inc == 0 %}
+    <!-- Tabs for Desktop -->
+    <div class="tabbed-content d-none d-md-block">
+      <div class="row component-paragraph tabbed-content">
+        {% if content.field_tab_accordion_item is not empty %}
+          {% set items = content.field_tab_accordion_item|field_value %}
+
+          {% if
+            content.field_heading is not empty
+              or content.field_main_content is not empty %}
+            <div class="col-12 col-md-10 offset-md-1 tabbed-content__heading text-center">
+              <h3 class="label-border yellow">
+                {{ content.field_heading }}
+              </h3>
+              {{ content.field_main_content }}
+            </div>
+          {% endif %}
+
+          <div class="col-12">
+            {# Create the tabs #}
+            <div class="tabbed-content__nav--container">
+              <div class="tabbed-content__nav--positioner">
+                <ul class="tabbed-content__nav nav nav-tabs" role="tablist">
+                  {% set inc = 0 %}
+                  {% for item in items %}
+                    {% set paragraph = item['#paragraph'] %}
+                    {% if inc == 0 %}
                       {% set selected = 'true' %}
                       {% set active = 'active show' %}
-                  {% else %}
+                    {% else %}
                       {% set selected = 'false' %}
                       {% set active = '' %}
-                  {% endif %}
+                    {% endif %}
 
-                  <li class="nav-item">
-                    <a class="nav-link {{ active }}" id="tab-{{ inc }}" data-toggle="tab" href="#content-{{ inc }}" role="tab" aria-controls="content-{{ inc }}" aria-selected="{{ selected }}">{{ paragraph.field_heading.0.value }}</a>
-                  </li>
-                  {% set inc = inc+1 %}
-
-                {% endfor %}
-              </ul>
+                    <li class="nav-item">
+                      <a class="nav-link tab-link {{ active }}"
+                        id="tab-{{ inc }}"
+                        data-toggle="tab"
+                        href="#content-{{ inc }}"
+                        role="tab"
+                        aria-controls="content-{{ inc }}"
+                        aria-selected="{{ selected }}">
+                        {{ paragraph.field_heading[0].value }}
+                      </a>
+                    </li>
+                    {% set inc = inc + 1 %}
+                  {% endfor %}
+                </ul>
+              </div>
             </div>
-          </div>
 
-          {# Create the tab content #}
-          <div class="tab-content tabbed-content__content pt-10">
-            {% set cont = 0 %}
+            {# Create the tab content #}
+            <div class="tab-content tabbed-content__content pt-8">
+              {% set cont = 0 %}
 
-            {% for item in items %}
+              {% for item in items %}
                 {% set paragraph = item['#paragraph'] %}
                 {% set body = {
                   '#type': 'processed_text',
-                  '#text': paragraph.field_main_content.0.value,
-                  '#format': paragraph.field_main_content.0.format
+                  '#text': paragraph.field_main_content[0].value,
+                  '#format': paragraph.field_main_content[0].format
                 } %}
                 {% if cont == 0 %}
                   {% set active = 'show active' %}
                 {% else %}
-                    {% set active = '' %}
+                  {% set active = '' %}
                 {% endif %}
-                <div class="tab-pane tabbed-content__content--itemtab-pane {{ active }}" id="content-{{ cont }}" role="tabpanel" aria-labelledby="content-{{ cont }}">{{ body }}</div>
-            {% set cont = cont+1 %}
-
-            {% endfor %}
+                <div class="tab-pane tabbed-content__content--itemtab-pane {{
+                  active
+                  }}"
+                  id="content-{{ cont }}"
+                  role="tabpanel"
+                  aria-labelledby="content-{{ cont }}">
+                  {{ body }}
+                </div>
+                {% set cont = cont + 1 %}
+              {% endfor %}
+            </div>
           </div>
-        </div>
-      {% endif %}
+        {% endif %}
+      </div>
     </div>
-    {% endblock %}
-{% endblock paragraph %}
+  {% endblock %}
+{% endblock %}

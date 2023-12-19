@@ -162,11 +162,11 @@
       <section class="ee-course_info row">
         {# Course Info paragraphs #}
         <div class="ee-course_container container">
-          <div class="ee-audience {{ node.field_force_single_column.value ? 'force-single-column' }}">
-            {{ content.field_course_audi }}
-          </div>
-          <div class="ee-benefits {{ node.field_force_single_column.value ? 'force-single-column' }}">
-            {{ content.field_course_ben }}
+          <div class="row component-paragraph accordion-content">
+            <div class="accordion col-12" id="accordion-list-ee-course-info">
+              {{ content.field_course_audi }}
+              {{ content.field_course_ben }}
+            </div>
           </div>
         </div>
       </section>
@@ -179,7 +179,7 @@
           </div>
         </div>
       </section>
-      <section class="ee-field_accordion ee-tabs bg-ivory mx-n3 py-12">
+      <section class="ee-field_course_schedule ee-tabs mx-n3 py-12">
         <div class="container-fluid container-xl">
           <div class="row">
             <div class="col-12">
@@ -190,6 +190,12 @@
                 </div>
               {% endif %}
             </div>
+          </div>
+        </div>
+      </section>
+      <section class="ee-field_accordion ee-tabs mx-n3 py-12">
+        <div class="container-fluid container-xl">
+          <div class="row">
             {% if content.field_accordion|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
               <div class="col-12 accordion-content">
                 {{ content.field_accordion }}

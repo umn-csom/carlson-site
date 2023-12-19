@@ -453,102 +453,6 @@
       margin-bottom: 0;
     }
 	}
-	.ee-field_accordion{
-
-    .slick-list {
-      margin: 0 40px;
-    }
-
-    .slick-arrow {
-      background: $white;
-      &:before {
-        color: $maroon;
-        font-size: 1.8rem;
-        font-weight: bold;
-      }
-    }
-    .slick-prev {
-      &:before {
-        @include carlson-icons($icon-arrow-left2);
-      }
-    }
-    .slick-next {
-      &:before {
-        @include carlson-icons($icon-arrow-right2);
-      }
-    }
-    @include media-breakpoint-up(lg) {
-      .slick-arrow {
-        width: 60px;
-        height: 60px;
-        &:before {
-          font-size: 2.6rem;
-        }
-      }
-      .slick-list {
-        margin: 0 70px;
-      }
-    }
-
-    .component-paragraph.accordion-content {
-      margin-bottom: 0;
-    }
-		//padding-top: 50px;
-		h3{
-			//font-size: 3.4rem;
-    	//	line-height: 110%;
-			//text-align: center;
-			//padding-bottom: 3rem;
-		}
-		.accordion-content__heading{
-			display:none;
-		}
-
-		.nav-tabs{
-			justify-content: center;
-    		margin: 0 -15px;
-			padding-top: 50px;
-			//background-image: linear-gradient(180deg, rgba(251,251,251,0.00) 0%, rgba(230,219,214,0.50) 100%);
-			background-size: 100%;
-			border:none;
-
-			.nav-link{
-				padding: 10px 25px 8px;
-				font-size: 13px;
-				font-weight: 900;
-				color: #363230;
-				letter-spacing: 1.39px;
-				text-align: center;
-				text-transform: uppercase;
-				border-bottom-width: 0;
-
-				&.active{
-					border-color: rgba(230,219,214,.5);
-					border-bottom-width: 0;
-					font-weight: normal;
-				}
-				&:hover, &:focus{
-					border-bottom-width: 0;
-				}
-
-			}
-		}
-		.tab-content{
-			padding: 50px 0;
-		}
-		.accordion{
-			.card{
-				.card-header{
-					display:none;
-				}
-				.inner{
-					background:none;
-					display: block;
-					opacity: 1;
-				}
-			}
-		}
-	}
 
 	&__details-bottom {
 		position: relative;
@@ -632,62 +536,6 @@
 		}
 	}
 
-	.course_schedule{
-    .slick-track {
-      display: flex;
-      .slick-slide {
-        height: auto;
-        .course_schedule-day {
-          height: calc(100% - 20px);
-        }
-      }
-    }
-		//padding: 0 10rem;
-		margin-bottom: 5rem;
-		&-day{
-			//border: 1px solid $gray;
-      background-color: $white;
-      box-shadow: 0 4px 4px rgba($black, 0.25);
-			margin: 15px;
-			padding: 0 0 25px 0;
-		}
-		&-title{
-			display: block;
-			width: 100%;
-			text-align: center;
-			padding: 15px 15px;
-			background: $primary;
-			margin-bottom: 25px;
-			@include font-newsreader-base();
-			font-size: 34px;
-			color: $white;
-			text-align: center;
-			line-height: 31px;
-		}
-		&-part-one,
-		&-part-two{
-			text-align:center;
-			margin: 0 25px;
-		}
-		&-part-title{
-			font-size: 13px;
-			color: #363230;
-			letter-spacing: 1.39px;
-			text-align: center;
-			text-transform: uppercase;
-			font-weight:900;
-			margin-bottom: 15px;
-		}
-		&-part-one{
-			&:after{
-				content:'';
-				display:block;
-				position: relative;
-				margin: 25px;
-				border-bottom: 1px solid #D8D8D8;
-			}
-		}
-	}
 }
 .node__content.ee-program .block-views ul:not([class]) li:before {
 	top: 1.1em;
@@ -947,85 +795,30 @@
 	}
 }
 
-//.node__content {
-//	ul{
-//		padding-left:0;
-//		&:not([class]){
-//			li {
-//	    	position: relative;
-//				&:before{
-//					left: 1rem;
-//				}
-//			}
-//		}
-//	}
-//}
-
 .ee{
 	&-course_info {
-		//background-image: url('../images/bg/contact_bg.png');
-		//background-size: contain;
-		//background-position: top left;
-		//background-repeat: no-repeat;
-		background-color: $primary;
 		.ee-course_container {
-			display: flex;
-			padding: 50px 0px 50px;
-			flex-wrap: wrap;
-			justify-content: center;
+			padding: 50px 0;
 		}
-	}
-	&-audience {
-		background: $white;
-	}
-
-	&-benefits {
-		background: $white;
 	}
 
 	&-audience, &-benefits{
-		position: relative;
-		display: flex;
-		flex: 1;
-		flex-direction: column;
-		justify-content: flex-start;
-		align-items: center;
-    clip-path: polygon(0 0, calc(100% - 96.66666px) 0, 100% 55.81052px, 100% 100%, 0 100%);
-
-		.content{
+		.content {
 			padding: 30px;
 		}
 	}
 	&-audience, &-benefits{
 		margin: 20px;
-		h2{
+		h2 {
 			display: block;
 			color: $primary;
 			text-align: center;
-			// width: 100%;
 		}
 		ul:not([class]){
 			 li{
-				 //color: $primary;
 				 margin-bottom: 10px;
-				 &:before{
-					 //background: $primary;
-				 }
 			 }
 		 }
-	}
-}
-
-.ee-audience, .ee-benefits {
-	max-width: 100%;
-	flex: 0 1 100%;
-	@media (min-width: 1200px){
-		max-width: calc(50% - 10px);
-		flex: 1 0 45%;
-		&.force-single-column {
-			max-width: 700px;
-			flex: 0 1 100%;
-		}
 	}
 }
 
@@ -1036,11 +829,6 @@
 	}
 	.ee-program__content{
 		margin-bottom: 40px;
-	}
-	.ee-audience, .ee-benefits {
-		.content{
-			justify-content: center;
-		}
 	}
 
 	.ee-program__top{
@@ -1059,23 +847,10 @@
 
 
 }
-@media (min-width: 992px){
-
-	.ee-audience, .ee-benefits {
-		.paragraph{
-			height: 100%;
-		}
-	}
-}
 @media (max-width:992px){
 	.ee-program__top .hero-program__content .hero-program__title {
 		font-size: 48px;
 		line-height: 48px;
-	}
-	.ee-program {
-		.course_schedule {
-			padding: 0 1rem;
-		}
 	}
 	.faculty-wrapper{
 		.staff-faculty__wrapper{
@@ -1086,18 +861,6 @@
 		padding: 15px;
 	}
 
-	.ee-audience, .ee-benefits{
-		padding: 0;
-		.paragraph{
-			width: 100%;
-		}
-		.background-image{
-			overflow:hidden;
-			.img-fluid{
-				max-width: none;
-			}
-		}
-	}
 }
 
 
@@ -1105,13 +868,6 @@
 	.ee-program__top .hero-program__content .hero-program__title {
 		font-size: 36px;
 		line-height: 36px;
-	}
-
-
-	.ee-audience, .ee-benefits{
-		.content{
-			padding: 25px;
-		}
 	}
 }
 

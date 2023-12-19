@@ -166,3 +166,75 @@
     }
   }
 }
+
+.session {
+  .session-card {
+    border: 1px solid $maroon;
+  }
+
+  .session-title {
+    @include media-breakpoint-down(md) {
+      font-size: 3.2rem;
+      font-weight: 600;
+    }
+  }
+
+  .session-time {
+    border-right: 1px solid $border-gray;
+
+    * {
+      @include media-breakpoint-down(md) {
+        display: inline-block;
+        margin-inline-end: 0.3rem;
+      }
+    }
+
+    .session-header,
+    .session-footer {
+      font-size: 2.4rem;
+    }
+
+    .session-header {
+      font-weight: 300;
+    }
+
+    .session-body {
+      font-size: 6.4rem;
+      font-weight: 400;
+
+      @include media-breakpoint-down(md) {
+        font-size: 2.4rem;
+      }
+    }
+
+    .session-footer {
+      font-weight: 700;
+    }
+
+    @include media-breakpoint-down(md) {
+      border-right: 0;
+      border-bottom: 1px solid $border-gray;
+    }
+  }
+
+  .session-overview ul {
+    padding-inline-start: 1.5rem;
+  }
+
+  [class^="col"],
+  .card-body {
+    padding: 0;
+  }
+
+  .row {
+    margin: 0;
+  }
+
+  + .session {
+    margin-top: 4rem;
+  }
+}
+
+.ckeditor-template-content + .ckeditor-template-content {
+  margin-top: 4rem;
+}
