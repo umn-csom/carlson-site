@@ -1,0 +1,54 @@
+uuid: c645c596-525b-4a48-82c6-6e906e52d512
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.simplified_static_regional_map.field_static_map
+    - field.field.paragraph.simplified_static_regional_map.field_static_map_description
+    - field.field.paragraph.simplified_static_regional_map.field_static_map_table
+    - field.field.paragraph.simplified_static_regional_map.field_static_map_title
+    - paragraphs.paragraphs_type.simplified_static_regional_map
+  module:
+    - image
+    - text
+id: paragraph.simplified_static_regional_map.default
+targetEntityType: paragraph
+bundle: simplified_static_regional_map
+mode: default
+content:
+  field_static_map:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_static_map_description:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_static_map_table:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_static_map_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true
