@@ -1,0 +1,57 @@
+uuid: 081a2119-9c0d-4347-b66f-f27a950934e2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.stats_with_icon.field_stats_with_icon_logo
+    - field.field.paragraph.stats_with_icon.field_stats_with_icon_position
+    - field.field.paragraph.stats_with_icon.field_stats_with_icon_title
+    - field.field.paragraph.stats_with_icon.field_stats_with_icon_value
+    - paragraphs.paragraphs_type.stats_with_icon
+  module:
+    - image
+    - options
+id: paragraph.stats_with_icon.default
+targetEntityType: paragraph
+bundle: stats_with_icon
+mode: default
+content:
+  field_stats_with_icon_logo:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_stats_with_icon_position:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_stats_with_icon_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_stats_with_icon_value:
+    type: number_decimal
+    label: hidden
+    settings:
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true
