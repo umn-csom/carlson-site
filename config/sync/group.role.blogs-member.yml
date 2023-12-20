@@ -4,27 +4,49 @@ status: true
 dependencies:
   config:
     - group.type.blogs
+    - user.role.authenticated
 id: blogs-member
 label: Member
 weight: -100
-group_type: blogs
-permissions:
-  - 'access group_node overview'
-  - 'create group_node:blog_entry content'
-  - 'create group_node:blog_entry entity'
-  - 'delete any group_node:blog_entry entity'
-  - 'delete own group_node:blog_entry content'
-  - 'delete own group_node:blog_entry entity'
-  - 'revert group_node:blog_entry revisions'
-  - 'update any group_node:blog_entry entity'
-  - 'update own group_node:blog_entry content'
-  - 'update own group_node:blog_entry entity'
-  - 'view group'
-  - 'view group_membership content'
-  - 'view group_node:blog_entry entity'
-  - 'view group_node:blog_entry revision'
-  - 'view group_node:blog_entry revisions'
-  - 'view unpublished group_node:blog_entry entity'
 admin: false
 scope: insider
 global_role: authenticated
+group_type: blogs
+permissions:
+  - 'access content overview'
+  - 'access group_node overview'
+  - 'administer members'
+  - 'create group_node:blog_entry content'
+  - 'create group_node:blog_entry entity'
+  - 'create group_node:blog_entry relationship'
+  - 'delete any group_node:blog_entry entity'
+  - 'delete any group_node:blog_entry relationship'
+  - 'delete group'
+  - 'delete group revisions'
+  - 'delete own group_node:blog_entry content'
+  - 'delete own group_node:blog_entry entity'
+  - 'delete own group_node:blog_entry relationship'
+  - 'edit group'
+  - 'leave group'
+  - 'revert group revisions'
+  - 'revert group_node:blog_entry revisions'
+  - 'update any group_node:blog_entry entity'
+  - 'update any group_node:blog_entry relationship'
+  - 'update own group_membership relationship'
+  - 'update own group_node:blog_entry content'
+  - 'update own group_node:blog_entry entity'
+  - 'update own group_node:blog_entry relationship'
+  - 'view all group revisions'
+  - 'view any unpublished group'
+  - 'view group'
+  - 'view group revisions'
+  - 'view group_membership content'
+  - 'view group_membership relationship'
+  - 'view group_node:blog_entry entity'
+  - 'view group_node:blog_entry relationship'
+  - 'view group_node:blog_entry revision'
+  - 'view group_node:blog_entry revisions'
+  - 'view latest group version'
+  - 'view own unpublished group'
+  - 'view own unpublished group_node:blog_entry entity'
+  - 'view unpublished group_node:blog_entry entity'
