@@ -1,0 +1,41 @@
+uuid: 9b311499-9475-44e1-980a-2d05c9a9e914
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.conferences
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_conferences_2
+theme: carlson_refresh
+region: inner_nav
+weight: 0
+provider: null
+plugin: 'menu_block:conferences'
+settings:
+  id: 'menu_block:conferences'
+  label: Conferences
+  label_display: visible
+  provider: menu_injector
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 3
+  depth: 1
+  expand_all_items: false
+  parent: 'conferences:'
+  suggestion: conferences
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    block_visibility_group: ''
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/conferences\r\n/conferences/*\r\n/node/96936\r\n/node/116971\r\n/node/116996\r\n/node/116991\r\n/node/117001"

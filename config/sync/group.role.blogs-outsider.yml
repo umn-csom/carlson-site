@@ -4,15 +4,16 @@ status: true
 dependencies:
   config:
     - group.type.blogs
+    - user.role.authenticated
 id: blogs-outsider
 label: Outsider
 weight: -101
+admin: false
+scope: outsider
+global_role: authenticated
 group_type: blogs
 permissions:
   - 'view group_node:blog_entry entity'
   - 'view group_node:blog_entry revision'
   - 'view group_node:blog_entry revisions'
   - 'view unpublished group_node:blog_entry entity'
-admin: false
-scope: outsider
-global_role: authenticated
