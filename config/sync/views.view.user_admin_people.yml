@@ -7,6 +7,7 @@ dependencies:
   module:
     - options
     - user
+    - user_expire
 _core:
   default_config_hash: wTJRNzsLVTenCALONNlVfgm_pBOlqucSPuVFLOD56ck
 id: user_admin_people
@@ -523,6 +524,58 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+        expiration:
+          id: expiration
+          table: user_expire
+          field: expiration
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: date
+          label: 'Expiration date'
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: true
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          date_format: ampm
+          custom_date_format: ''
+          timezone: ''
       pager:
         type: full
         options:
@@ -867,11 +920,13 @@ display:
             user_bulk_form: user_bulk_form
             name: name
             status: status
-            rid: rid
+            roles_target_id: roles_target_id
             created: created
             access: access
-            edit_node: edit_node
-            dropbutton: dropbutton
+            field_user_type: field_user_type
+            operations: operations
+            mail: mail
+            expiration: expiration
           default: created
           info:
             user_bulk_form:
@@ -893,13 +948,13 @@ display:
               separator: ''
               empty_column: false
               responsive: priority-low
-            rid:
+            roles_target_id:
               sortable: false
               default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
-              responsive: priority-low
+              responsive: ''
             created:
               sortable: true
               default_sort_order: desc
@@ -914,13 +969,27 @@ display:
               separator: ''
               empty_column: false
               responsive: priority-low
-            edit_node:
+            field_user_type:
+              sortable: false
+              default_sort_order: asc
               align: ''
               separator: ''
               empty_column: false
-              responsive: priority-low
-            dropbutton:
+              responsive: ''
+            operations:
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            mail:
               sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            expiration:
+              sortable: true
               default_sort_order: asc
               align: ''
               separator: ''
@@ -930,6 +999,8 @@ display:
           sticky: false
           summary: ''
           empty_table: true
+          caption: ''
+          description: ''
       row:
         type: fields
       query:
@@ -971,7 +1042,11 @@ display:
       defaults:
         show_admin_links: false
       show_admin_links: false
-      display_extenders: {  }
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
       path: admin/people/list
       menu:
         type: 'default tab'
