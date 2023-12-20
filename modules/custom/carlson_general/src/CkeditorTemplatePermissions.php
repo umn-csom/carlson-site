@@ -47,11 +47,11 @@ class CkeditorTemplatePermissions implements ContainerInjectionInterface {
     $templates = $this->ckeditorTemplateManager->getTemplates();
 
     foreach ($templates as $template_id => $template) {
-        $permissions['use_ckeditor_template_' . $template_id] = [
-          'title' => $this->t('Use CKEditor Template: <strong>@name</strong>', ['@name' => $template->label()]),
-          'description' => $this->t('Allows using the <strong>@name</strong> template in CKEditor.', ['@name' => $template->label()]),
-        ];
-      }      
+      $permissions['use_ckeditor_template_' . $template_id] = [
+        'title' => $this->t('Use CKEditor Template: <strong>@name</strong>', ['@name' => $template->label()]),
+        'description' => $this->t('Allows using the <strong>@name</strong> template in CKEditor.', ['@name' => $template->label()]),
+      ];
+    }
 
     return $permissions;
   }
