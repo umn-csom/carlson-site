@@ -4,34 +4,44 @@ status: true
 dependencies:
   config:
     - group.type.blogs
+    - user.role.blog_entry_creator
   enforced:
     config:
       - user.role.blog_entry_creator
 id: blogs-446cfb320
 label: 'Blog Editor'
 weight: 15
+admin: false
+scope: outsider
+global_role: blog_entry_creator
 group_type: blogs
 permissions:
   - 'access content overview'
   - 'access group_node overview'
   - 'create group_node:blog_entry content'
   - 'create group_node:blog_entry entity'
+  - 'create group_node:blog_entry relationship'
   - 'delete any group_node:blog_entry content'
   - 'delete any group_node:blog_entry entity'
+  - 'delete any group_node:blog_entry relationship'
   - 'delete group_node:blog_entry revisions'
   - 'delete own group_node:blog_entry content'
   - 'delete own group_node:blog_entry entity'
+  - 'delete own group_node:blog_entry relationship'
+  - 'join group'
   - 'revert group_node:blog_entry revisions'
   - 'update any group_node:blog_entry content'
   - 'update any group_node:blog_entry entity'
+  - 'update any group_node:blog_entry relationship'
   - 'update own group_node:blog_entry content'
   - 'update own group_node:blog_entry entity'
+  - 'update own group_node:blog_entry relationship'
   - 'view group_membership content'
+  - 'view group_membership relationship'
   - 'view group_node:blog_entry content'
   - 'view group_node:blog_entry entity'
+  - 'view group_node:blog_entry relationship'
   - 'view group_node:blog_entry revision'
   - 'view group_node:blog_entry revisions'
+  - 'view own unpublished group_node:blog_entry entity'
   - 'view unpublished group_node:blog_entry entity'
-admin: false
-scope: outsider
-global_role: blog_entry_creator

@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.storage.node.body
     - field.storage.node.field_hero_media
+    - group.content_type.blogs-group_node-blog_entry
     - image.style.large_teaser
   module:
     - group
@@ -401,64 +402,6 @@ display:
           granularity: second
       arguments: {  }
       filters:
-        type:
-          id: type
-          table: group_relationship_field_data
-          field: type
-          entity_type: group_content
-          entity_field: type
-          plugin_id: bundle
-          value:
-            blogs-group_node-blog_entry: blogs-group_node-blog_entry
-          expose:
-            operator_limit_selection: false
-            operator_list: {  }
-        gid:
-          id: gid
-          table: group_relationship_field_data
-          field: gid
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: group_content
-          entity_field: gid
-          plugin_id: numeric
-          operator: '='
-          value:
-            min: ''
-            max: ''
-            value: '11'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
         status:
           id: status
           table: node_field_data
@@ -522,33 +465,6 @@ display:
           replica: false
           query_tags: {  }
       relationships:
-        gc__node:
-          id: gc__node
-          table: group_content__entity_id
-          field: gc__node
-          relationship: none
-          group_type: group
-          admin_label: 'Group content Content'
-          entity_type: group_content
-          plugin_id: group_content_to_entity
-          required: true
-          group_content_plugins:
-            'group_node:blog_entry': 'group_node:blog_entry'
-            'group_node:conference': '0'
-            'group_node:education_abroad_program': '0'
-            'group_node:event': '0'
-            'group_node:executive_ed_landing_page': '0'
-            'group_node:executive_ed_program': '0'
-            'group_node:faculty_profile': '0'
-            'group_node:homepage': '0'
-            'group_node:landing_page': '0'
-            'group_node:news': '0'
-            'group_node:page': '0'
-            'group_node:paid_media': '0'
-            'group_node:person': '0'
-            'group_node:session': '0'
-            'group_node:student': '0'
-            'group_node:webform': '0'
         gid:
           id: gid
           table: group_relationship_field_data
@@ -560,6 +476,41 @@ display:
           entity_field: gid
           plugin_id: standard
           required: false
+        gc__node:
+          id: gc__node
+          table: group_relationship_field_data
+          field: gc__node
+          relationship: none
+          group_type: group
+          admin_label: 'Group relationship Content'
+          entity_type: group_content
+          plugin_id: group_content_to_entity
+          required: false
+          group_content_plugins:
+            'group_node:alumni_default_page': '0'
+            'group_node:alumni_landing_page': '0'
+            'group_node:blog_entry': '0'
+            'group_node:conference': '0'
+            'group_node:curriculum_plan': '0'
+            'group_node:education_abroad_program': '0'
+            'group_node:email_page': '0'
+            'group_node:event': '0'
+            'group_node:executive_ed_landing_page': '0'
+            'group_node:executive_ed_program': '0'
+            'group_node:faces': '0'
+            'group_node:faculty_profile': '0'
+            'group_node:front_page': '0'
+            'group_node:landing_page': '0'
+            'group_node:magazine': '0'
+            'group_node:news': '0'
+            'group_node:news_landing': '0'
+            'group_node:page': '0'
+            'group_node:person': '0'
+            'group_node:quiz': '0'
+            'group_node:session': '0'
+            'group_node:student': '0'
+            'group_node:video': '0'
+            'group_node:webform': '0'
       css_class: blog-roll
       header: {  }
       footer: {  }
@@ -1232,18 +1183,6 @@ display:
     position: 1
     display_options:
       filters:
-        type:
-          id: type
-          table: group_relationship_field_data
-          field: type
-          entity_type: group_content
-          entity_field: type
-          plugin_id: bundle
-          value:
-            blogs-group_node-blog_entry: blogs-group_node-blog_entry
-          expose:
-            operator_limit_selection: false
-            operator_list: {  }
         gid:
           id: gid
           table: group_relationship_field_data
@@ -1258,7 +1197,7 @@ display:
           value:
             min: ''
             max: ''
-            value: '16'
+            value: '86'
           group: 1
           exposed: false
           expose:
@@ -1386,7 +1325,7 @@ display:
           value:
             min: ''
             max: ''
-            value: '16'
+            value: '86'
           group: 1
           exposed: false
           expose:

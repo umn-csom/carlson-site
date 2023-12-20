@@ -1,0 +1,41 @@
+uuid: 63cae5d8-15d0-4b94-8f5f-40aa87dc9ba9
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.main
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_2023mainnav
+theme: carlson_refresh
+region: navbar_secondary
+weight: -76
+provider: null
+plugin: 'menu_block:main'
+settings:
+  id: 'menu_block:main'
+  label: Resources
+  label_display: '0'
+  provider: menu_injector
+  follow: false
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 6
+  expand_all_items: true
+  parent: 'main:menu_link_content:4c5894ad-498d-497d-a793-ea7d692ff7b9'
+  suggestion: main
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    block_visibility_group: ''
+  request_path:
+    id: request_path
+    negate: false
+    pages: /graduate
