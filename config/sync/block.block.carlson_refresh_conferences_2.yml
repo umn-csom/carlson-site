@@ -1,35 +1,35 @@
-uuid: a9d93099-211d-4e79-ae5a-44adfbc0f15b
+uuid: 9b311499-9475-44e1-980a-2d05c9a9e914
 langcode: en
-status: false
+status: true
 dependencies:
   config:
-    - system.menu.main
+    - system.menu.conferences
   module:
     - block_visibility_groups
     - menu_injector
     - system
   theme:
     - carlson_refresh
-id: carlson_refresh_navbar_graduate
+id: carlson_refresh_conferences_2
 theme: carlson_refresh
-region: navbar_secondary
-weight: -66
+region: inner_nav
+weight: 0
 provider: null
-plugin: 'menu_block:main'
+plugin: 'menu_block:conferences'
 settings:
-  id: 'menu_block:main'
-  label: 'Secondary navbar (Graduate)'
+  id: 'menu_block:conferences'
+  label: Conferences
   label_display: visible
   provider: menu_injector
   follow: false
   follow_parent: child
   label_link: false
   label_type: block
-  level: 2
-  depth: 0
+  level: 3
+  depth: 1
   expand_all_items: false
-  parent: 'main:menu_link_content:4c5894ad-498d-497d-a793-ea7d692ff7b9'
-  suggestion: navbar_secondary
+  parent: 'conferences:'
+  suggestion: conferences
 visibility:
   condition_group:
     id: condition_group
@@ -38,4 +38,4 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: /graduate
+    pages: "/conferences\r\n/conferences/*\r\n/node/96936\r\n/node/116971\r\n/node/116996\r\n/node/116991\r\n/node/117001"
