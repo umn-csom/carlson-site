@@ -7,7 +7,6 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\charts\Services\ChartsSettingsService;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Component\Uuid\Php;
 
@@ -24,19 +23,11 @@ use Drupal\Component\Uuid\Php;
  */
 class ChartsFieldFormatter extends FormatterBase implements ContainerFactoryPluginInterface {
 
-  protected $chartSettings;
   protected $messenger;
   protected $uuidService;
 
-  /**
-   * Construct.
-   *
-   * @param \Drupal\charts\Services\ChartsSettingsService $chartSettings
-   *   Service ChartsSettingsService.
-   */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, ChartsSettingsService $chartSettings, MessengerInterface $messenger, Php $uuidService) {
+  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings,  MessengerInterface $messenger, Php $uuidService) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
-    $this->chartSettings = $chartSettings->getChartsSettings();
     $this->messenger = $messenger;
     $this->uuidService = $uuidService;
   }
@@ -65,7 +56,6 @@ class ChartsFieldFormatter extends FormatterBase implements ContainerFactoryPlug
       $configuration['label'],
       $configuration['view_mode'],
       $configuration['third_party_settings'],
-      $container->get('charts.settings'),
       $container->get('messenger'),
       $container->get('uuid')
     );
@@ -78,8 +68,9 @@ class ChartsFieldFormatter extends FormatterBase implements ContainerFactoryPlug
     $element = [];
     $categories = [];
 
-    $library = $this->chartSettings['library'];
-    $colors = $this->chartSettings['colors'];
+    $charts_settings = $this->config('charts.settings');
+    $library = $charts_settings->get('charts_default_settings.library');
+    $colors = $charts_settings->get('charts_default_settings.display.colors');
     $highchartsConfig = \Drupal::config('charts_highcharts.settings')->get();
     if (empty($library)) {
       $this->messenger->addError($this->t('You need to first configure Charts default settings'));
@@ -96,7 +87,7 @@ class ChartsFieldFormatter extends FormatterBase implements ContainerFactoryPlug
         $chart_type = $entity->get('field_chart_type')->value;
       }
       else {
-        $chart_type = $this->chartSettings['type'];        
+        $chart_type = $charts_settings->get('charts_default_settings.type');
       }
 
       if (!empty($item->value)) {
@@ -163,29 +154,28 @@ class ChartsFieldFormatter extends FormatterBase implements ContainerFactoryPlug
         'title' => $title,
         'xaxis_title' => $xaxis_title,
         'yaxis_title' => '',
-        'data_labels'=> $this->chartSettings['data_labels'],
+        'data_labels'=> $charts_settings->get('charts_default_settings.display.data_labels'),
         'yaxis_min' => '',
         'yaxis_max' => '',
         'three_dimensional' => FALSE,
-        'title_position' => $this->chartSettings['title_position'],
-        'legend_position' => $this->chartSettings['legend_position'],
+        'title_position' => $charts_settings->get('charts_default_settings.display.title_position'),
+        'legend_position' => $charts_settings->get('charts_default_settings.display.legend_position'),
         'legend_layout' => $highchartsConfig['legend_layout'],
         'legend_background_color' => $highchartsConfig['legend_background_color'],
         'legend_border_width' => $highchartsConfig['legend_border_width'],
         'legend_shadow' => $highchartsConfig['legend_shadow'],
         'grouping'   => FALSE,
-        'data_markers'   => $this->chartSettings['data_markers'],
-        'colors'   => $this->chartSettings['colors'],
-        'yaxis_prefix'   => $this->chartSettings['yaxis_prefix'],
-        'yaxis_suffix'   => $this->chartSettings['yaxis_suffix'],
-        'data_markers'   => $this->chartSettings['data_markers'],
-        'red_from'   => $this->chartSettings['red_from'],
-        'red_to'   => $this->chartSettings['red_to'],
-        'yellow_from'   => $this->chartSettings['yellow_from'],
-        'yellow_to'   => $this->chartSettings['yellow_to'],
-        'green_from'   => $this->chartSettings['green_from'],
-        'green_to'   => $this->chartSettings['green_to'],
-        'tooltips' => $this->chartSettings['tooltips']
+        'data_markers'   => $charts_settings->get('charts_default_settings.display.data_markers'),
+        'colors'   => $colors,
+        'yaxis_prefix'   => $charts_settings->get('charts_default_settings.yaxis.prefix'),
+        'yaxis_suffix'   => $charts_settings->get('charts_default_settings.yaxis.suffix'),
+        'red_from'   => $charts_settings->get('charts_default_settings.display.gauge.red_from'),
+        'red_to'   => $charts_settings->get('charts_default_settings.display.gauge.red_to'),
+        'yellow_from'   => $charts_settings->get('charts_default_settings.display.gauge.yellow_from'),
+        'yellow_to'   => $charts_settings->get('charts_default_settings.display.gauge.yellow_to'),
+        'green_from'   => $charts_settings->get('charts_default_settings.display.gauge.green_from'),
+        'green_to'   => $charts_settings->get('charts_default_settings.display.gauge.green_to'),
+        'tooltips' => $charts_settings->get('charts_default_settings.display.tooltips')
       ];
 
       $chart_id = 'chart-' . $this->uuidService->generate();
