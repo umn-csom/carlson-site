@@ -18,9 +18,10 @@
           <div class="card">
             <div class="card-header">
               <h5 class="mb-0">
-                {% set collapsed = 'collapsed' %}
-                {% set expanded = 'false' %}
-                {% set show = '' %}
+                {% set is_active = inc == 0 %}
+                {% set collapsed = is_active ? '' : 'collapsed' %}
+                {% set expanded = is_active ? 'true' : 'false' %}
+                {% set show = is_active ? 'show' : '' %}
                 <button id="heading-{{ paragraphId }}-{{ inc }}"
                   class="btn btn-link {{ collapsed }}"
                   type="button"
