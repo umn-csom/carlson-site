@@ -6,7 +6,7 @@
 #}
 
 <!-- Accordion for Mobile -->
-<div class="accordion d-block d-md-none">
+<div class="accordion d-block d-lg-none mb-0">
   <div class="row component-paragraph accordion-content">
     {% if items is not empty %}
 
@@ -18,9 +18,10 @@
           <div class="card">
             <div class="card-header">
               <h5 class="mb-0">
-                {% set collapsed = 'collapsed' %}
-                {% set expanded = 'false' %}
-                {% set show = '' %}
+                {% set is_active = inc == 0 %}
+                {% set collapsed = is_active ? '' : 'collapsed' %}
+                {% set expanded = is_active ? 'true' : 'false' %}
+                {% set show = is_active ? 'show' : '' %}
                 <button id="heading-{{ paragraphId }}-{{ inc }}"
                   class="btn btn-link {{ collapsed }}"
                   type="button"
@@ -49,7 +50,8 @@
 </div>
 
 <!-- Tabs for Desktop -->
-<div class="tabbed-content d-none d-md-block">
+<div class="tabbed-content d-none d-lg-block mb-0">
+
   <div class="tabbed-content__nav--container">
     <div class="tabbed-content__nav--positioner">
       <ul class="tabbed-content__nav nav nav-tabs" role="tablist">
