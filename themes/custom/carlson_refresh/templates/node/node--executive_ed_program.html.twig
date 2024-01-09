@@ -134,7 +134,7 @@
       </div>
 
     </section>
-    <section class="container ee-program__content">
+    <section class="container ee-program__content mb-12">
       <div class="row">
         <div class="col-12 col-sm-12 col-xl-8">
           <div class="component-paragraph">
@@ -158,103 +158,103 @@
           {{ content.field_sidebar_content }}
         </div>
       </div>
-      </section>
-      <section class="ee-course_info row">
-        {# Course Info paragraphs #}
-        <div class="ee-course_container container">
-          <div class="row component-paragraph accordion-content">
-            <div class="accordion col-12" id="accordion-list-ee-course-info">
-              {{ content.field_course_audi }}
-              {{ content.field_course_ben }}
-            </div>
+    </section>
+    <section class="ee-course_info my-12 row">
+      {# Course Info paragraphs #}
+      <div class="ee-course_container container">
+        <div class="row component-paragraph accordion-content">
+          <div class="accordion col-12" id="accordion-list-ee-course-info">
+            {{ content.field_course_audi }}
+            {{ content.field_course_ben }}
           </div>
-        </div>
-      </section>
-      <section class="ee-flexible_features pt-12 pb-6 bg-white mx-n3">
-        {# Home Flexible feature paragraphs #}
-        <div class="container-fluid container-xl">
-          <div class="row justify-content-center align-items-center">
-            {# Home Flexible feature paragraphs #}
-            {{ content.field_flexible_features }}
-          </div>
-        </div>
-      </section>
-      <section class="ee-field_course_schedule ee-tabs mx-n3 py-12">
-        <div class="container-fluid container-xl">
-          <div class="row">
-            <div class="col-12">
-              {% if content.field_course_schedule|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
-                <h2 class="text-center mb-12">Schedule</h2>
-                <div class="course_schedule">
-                  {{ content.field_course_schedule }}
-                </div>
-              {% endif %}
-            </div>
-          </div>
-        </div>
-      </section>
-      {% if content.field_accordion|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
-      <section class="ee-field_accordion ee-tabs mx-n3 py-12">
-        <div class="container-fluid container-xl">
-          <div class="row">
-            <div class="col-12 accordion-content">
-              {{ content.field_accordion }}
-            </div>
-          </div>
-        </div>
-      </section>
-      {% endif %}
-      {% if content.field_ee_faculty|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
-      <section class="ee-field_accordion ee-tabs mx-n3 py-12">
-        <div class="container-fluid container-xl">
-          <div class="row justify-content-center align-items-center">
-              <div class="col-12">
-                <h2 class="text-center mb-12">Faculty</h2>
-                {{ content.field_ee_faculty|field_value }}
-              </div>
-          </div>
-        </div>
-      </section>
-      {% endif %}
-      <section class="ee-program__details-bottom mx-n3 my-0">
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-12 col-md-6 ee-program__content mt-0 mb-6 mb-md-0">
-              <h3 class="details-title">Register Today!</h3>
-              {{ content.field_ee_course_dates }}
-              <div class="ee-program__details--location course_details">
-                <label>Location:</label>
-                {{ content.field_ee_course_location }}
-              </div>
-              <div class="ee-program__details--cost course_details">
-                <label>Cost:</label>
-                {{ content.field_ee_cost }}
-              </div>
-            </div>
-            <div class="col-12 col-md-6 ee-program__actions mt-0">
-              {{ content.field_ee_course_dates }}
-            </div>
-          </div>
-        </div>
-      </section>
-      {#
-      <div class="row ee-program__bottom">
-        {% if content.field_ee_bottom_first|field_value is not empty %}
-        <div class="col-12 col-lg ee-program__bottom--item">
-          {{ content.field_ee_bottom_first|field_value }}
-        </div>
-        {% endif %}
-
-        {% if content.field_ee_bottom_second|field_value is not empty %}
-        <div class="col-12 col-lg ee-program__bottom--item">
-          {{ content.field_ee_bottom_second|field_value }}
-        </div>
-        {% endif %}
-
-        <div class="col-12 col-lg ee-program__bottom--item">
-          {{ node_bottom_right }}
         </div>
       </div>
-      #}
+    </section>
+    <section class="ee-flexible_features mx-n3 my-12 bg-white">
+      {# Home Flexible feature paragraphs #}
+      <div class="container-fluid container-xl">
+        <div class="row justify-content-center align-items-center">
+          {# Home Flexible feature paragraphs #}
+          {{ content.field_flexible_features }}
+        </div>
+      </div>
+    </section>
+    <section class="ee-field_course_schedule ee-tabs mx-n3 my-12">
+      <div class="container-fluid container-xl">
+        <div class="row">
+          <div class="col-12">
+            {% if content.field_course_schedule|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
+              <h2 class="text-center mb-12">Schedule</h2>
+              <div class="course_schedule">
+                {{ content.field_course_schedule }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+    {% if content.field_accordion|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
+    <section class="ee-field_accordion ee-tabs mx-n3 my-12">
+      <div class="container-fluid container-xl">
+        <div class="row">
+          <div class="col-12 accordion-content">
+            {{ content.field_accordion }}
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+    {% if content.field_ee_faculty|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
+    <section class="ee-field_accordion ee-tabs mx-n3 py-12">
+      <div class="container-fluid container-xl">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12">
+              <h2 class="text-center mb-12">Faculty</h2>
+              {{ content.field_ee_faculty|field_value }}
+            </div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+    <section class="ee-program__details-bottom mx-n3 my-0">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-6 ee-program__content mt-0 mb-6 mb-md-0">
+            <h3 class="details-title">Register Today!</h3>
+            {{ content.field_ee_course_dates }}
+            <div class="ee-program__details--location course_details">
+              <label>Location:</label>
+              {{ content.field_ee_course_location }}
+            </div>
+            <div class="ee-program__details--cost course_details">
+              <label>Cost:</label>
+              {{ content.field_ee_cost }}
+            </div>
+          </div>
+          <div class="col-12 col-md-6 ee-program__actions mt-0">
+            {{ content.field_ee_course_dates }}
+          </div>
+        </div>
+      </div>
+    </section>
+    {#
+    <div class="row ee-program__bottom">
+      {% if content.field_ee_bottom_first|field_value is not empty %}
+      <div class="col-12 col-lg ee-program__bottom--item">
+        {{ content.field_ee_bottom_first|field_value }}
+      </div>
+      {% endif %}
+
+      {% if content.field_ee_bottom_second|field_value is not empty %}
+      <div class="col-12 col-lg ee-program__bottom--item">
+        {{ content.field_ee_bottom_second|field_value }}
+      </div>
+      {% endif %}
+
+      <div class="col-12 col-lg ee-program__bottom--item">
+        {{ node_bottom_right }}
+      </div>
+    </div>
+    #}
   </div>
 </article>
