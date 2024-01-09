@@ -193,29 +193,29 @@
           </div>
         </div>
       </section>
+      {% if content.field_accordion|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
       <section class="ee-field_accordion ee-tabs mx-n3 py-12">
         <div class="container-fluid container-xl">
           <div class="row">
-            {% if content.field_accordion|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
-              <div class="col-12 accordion-content">
-                {{ content.field_accordion }}
-              </div>
-            {% endif %}
+            <div class="col-12 accordion-content">
+              {{ content.field_accordion }}
+            </div>
           </div>
         </div>
       </section>
+      {% endif %}
+      {% if content.field_ee_faculty|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
       <section class="ee-field_accordion ee-tabs mx-n3 py-12">
         <div class="container-fluid container-xl">
           <div class="row justify-content-center align-items-center">
-            {% if content.field_ee_faculty|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
               <div class="col-12">
                 <h2 class="text-center mb-12">Faculty</h2>
                 {{ content.field_ee_faculty|field_value }}
               </div>
-            {% endif %}
           </div>
         </div>
       </section>
+      {% endif %}
       <section class="ee-program__details-bottom mx-n3 my-0">
         <div class="container">
           <div class="row align-items-center">
