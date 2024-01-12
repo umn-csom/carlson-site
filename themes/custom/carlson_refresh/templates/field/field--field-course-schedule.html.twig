@@ -17,7 +17,7 @@
           {% set paragraphId = paragraph.id() %}
           <div class="card">
             <div class="card-header">
-              <h5 class="mb-0">
+              <span class="mb-0">
                 {% set is_active = inc == 0 %}
                 {% set collapsed = is_active ? '' : 'collapsed' %}
                 {% set expanded = is_active ? 'true' : 'false' %}
@@ -31,7 +31,7 @@
                   aria-controls="collapse-{{ paragraphId }}-{{ inc }}">
                   {{ paragraph.field_day_title.value }}
                 </button>
-              </h5>
+              </span>
             </div>
             <div id="collapse-{{ paragraphId }}-{{ inc }}"
               class="collapse {{ show }} inner"
