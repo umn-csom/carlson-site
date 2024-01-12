@@ -67,7 +67,7 @@
               {% set paragraph = item['#paragraph'] %}
               <div class="card">
                   <div class="card-header">
-                      <h5 class="mb-0">
+                      <span class="mb-0">
 
                           {% set collapsed = 'collapsed' %}
                           {% set expanded = 'false' %}
@@ -76,7 +76,7 @@
                           <button id="heading{{paragraphId}}-{{ inc }}" class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{paragraphId}}-{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{paragraphId}}-{{ inc }}">
                               {{ paragraph.field_heading.0.value }}
                           </button>
-                      </h5>
+                      </span>
                   </div>
                   <div id="collapse{{paragraphId}}-{{ inc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{paragraphId}}-{{ inc }}" data-parent="#accordion-list-{{paragraphId}}">
                       <div class="card-body">
@@ -98,7 +98,7 @@
                                   {% set subparagraph = subitem.entity %}
                                   <div class="card">
                                       <div class="card-header">
-                                          <h5 class="mb-0">
+                                          <span class="mb-0">
 
                                               {% set collapsed = 'collapsed' %}
                                               {% set expanded = 'false' %}
@@ -107,7 +107,7 @@
                                               <button id="heading{{paragraphId}}-{{ inc }}-{{ subinc }}" class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{paragraphId}}-{{ inc }}-{{ subinc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{paragraphId}}-{{ inc }}-{{ subinc }}">
                                                   {{ subparagraph.field_heading.0.value }}
                                               </button>
-                                          </h5>
+                                          </span>
                                       </div>
                                       <div id="collapse{{paragraphId}}-{{ inc }}-{{ subinc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{paragraphId}}-{{ inc }}-{{ subinc }}" data-parent="#accordion-list-{{paragraphId}}-{{ inc }}">
                                           <div class="card-body">
