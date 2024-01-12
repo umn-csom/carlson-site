@@ -26201,44 +26201,83 @@ Description: Bootstrap 4 with Sass
         max-width: 50%; }
         .ck-content .take-the-next-step__column--first {
           margin-bottom: 0; } }
-  .ck-content .session .session-card {
-    border: 1px solid #7a0019; }
-  @media (max-width: 991.98px) {
-    .ck-content .session .session-title {
-      font-size: 3.2rem;
-      font-weight: 600; } }
-  .ck-content .session .session-time {
-    border-right: 1px solid #D5D6D2; }
-    @media (max-width: 991.98px) {
-      .ck-content .session .session-time * {
-        display: inline-block;
-        margin-inline-end: 0.6rem; } }
-    .ck-content .session .session-time .session-header,
-    .ck-content .session .session-time .session-footer {
-      font-size: 2.4rem; }
-    .ck-content .session .session-time .session-header {
-      font-weight: 300; }
-    .ck-content .session .session-time .session-body {
-      font-size: 6.4rem;
-      font-weight: 400; }
-    .ck-content .session .session-time .session-footer {
+  .ck-content .session {
+    border: 1px solid #7a0019;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column; }
+    @media (min-width: 992px) {
+      .ck-content .session {
+        padding: 2.5rem;
+        flex-direction: row; } }
+    .ck-content .session__eyebrow {
+      font-size: 1.4rem; }
+    .ck-content .session__title {
+      font-size: 2.4rem;
+      font-weight: 600;
+      margin-bottom: 0; }
+      @media (min-width: 992px) {
+        .ck-content .session__title {
+          font-weight: 500;
+          font-size: 2.8rem; } }
+    .ck-content .session__subtitle {
+      font-size: 1.8rem; }
+    .ck-content .session__time {
+      border-bottom: 1px solid #D5D6D2;
+      flex: 0 0 100%;
+      max-width: 100%;
+      margin-bottom: 1.5rem;
+      text-align: left;
+      padding-right: 2.5rem; }
+      @media (min-width: 992px) {
+        .ck-content .session__time {
+          border-bottom: 0;
+          border-right: 1px solid #D5D6D2;
+          flex: 0 0 20%;
+          max-width: 20%;
+          text-align: center; } }
+    .ck-content .session__overview {
+      flex: 0 0 100%;
+      max-width: 100%; }
+      @media (min-width: 992px) {
+        .ck-content .session__overview {
+          padding-left: 5rem;
+          flex: 0 0 80%;
+          max-width: 80%; } }
+      .ck-content .session__overview ul {
+        padding-inline-start: 1.5rem; }
+    .ck-content .session__title + ul,
+    .ck-content .session__title + p {
+      margin-top: 1rem; }
+    .ck-content .session--legacy .ck-content .session__title {
+      margin-bottom: 1rem; }
+    .ck-content .session__title + .ck-content .session__subtitle + ul,
+    .ck-content .session__title + .ck-content .session__subtitle + p {
+      margin-top: 2rem; }
+    .ck-content .session__header, .ck-content .session__body, .ck-content .session__footer {
+      font-size: 2.4rem;
+      font-weight: 400;
+      display: inline-block;
+      margin-inline-end: 0.6rem; }
+      @media (min-width: 992px) {
+        .ck-content .session__header, .ck-content .session__body, .ck-content .session__footer {
+          display: block; } }
+    .ck-content .session__footer {
       font-weight: 700; }
-    @media (max-width: 991.98px) {
-      .ck-content .session .session-time {
-        border-right: 0;
-        border-bottom: 1px solid #D5D6D2; }
-        .ck-content .session .session-time .session-header,
-        .ck-content .session .session-time .session-body {
-          font-size: 2.4rem;
-          font-weight: 400; } }
-  .ck-content .session .session-overview ul {
-    padding-inline-start: 1.5rem; }
-  .ck-content .session [class^="col"],
-  .ck-content .session .card-body {
-    padding: 0; }
-  .ck-content .session .row {
-    margin: 0; }
-  .ck-content .session + .session {
-    margin-top: 4rem; }
+    @media (min-width: 992px) {
+      .ck-content .session__header {
+        font-size: 2.4rem;
+        font-weight: 300;
+        font-family: "Open Sans", sans-serif; }
+      .ck-content .session__body {
+        font-size: 6.4rem;
+        font-weight: 400;
+        font-family: "Newsreader", serif; }
+      .ck-content .session__footer {
+        font-size: 2.4rem;
+        font-weight: 700;
+        font-family: "Open Sans", sans-serif; } }
+    .ck-content .session + .session {
+      margin-top: 4rem; }
   .ck-content .ckeditor-template-wrapper + .ckeditor-template-wrapper {
     margin-top: 4rem; }
