@@ -168,68 +168,110 @@
 }
 
 .session {
-  .session-card {
-    border: 1px solid $maroon;
+  border: 1px solid $maroon;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-up(lg) {
+    padding: 2.5rem;
+    flex-direction: row;
   }
 
-  .session-title {
-    @include media-breakpoint-down(md) {
-      font-size: 3.2rem;
-      font-weight: 600;
+  &__eyebrow {
+    font-size: 1.4rem;
+  }
+
+  &__title {
+    font-size: 2.4rem;
+    font-weight: 600;
+    margin-bottom: 0;
+
+    @include media-breakpoint-up(lg) {
+      font-weight: 500;
+      font-size: 2.8rem;
     }
   }
 
-  .session-time {
-    border-right: 1px solid $border-gray;
+  &__subtitle {
+    font-size: 1.8rem;
+  }
 
-    * {
-      @include media-breakpoint-down(md) {
-        display: inline-block;
-        margin-inline-end: 0.6rem;
-      }
+  &__time {
+    border-bottom: 1px solid $border-gray;
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+    text-align: left;
+    padding-right: 2.5rem;
+
+    @include media-breakpoint-up(lg) {
+      border-bottom: 0;
+      border-right: 1px solid $border-gray;
+      flex: 0 0 20%;
+      max-width: 20%;
+      text-align: center;
+    }
+  }
+
+  &__overview {
+    flex: 0 0 100%;
+    max-width: 100%;
+
+    @include media-breakpoint-up(lg) {
+      padding-left: 5rem;
+      flex: 0 0 80%;
+      max-width: 80%;
     }
 
-    .session-header,
-    .session-footer {
+    ul {
+      padding-inline-start: 1.5rem;
+    }
+  }
+
+  &__title + ul {
+    margin-top: 1rem;
+  }
+
+  &__title + &__subtitle + ul {
+    margin-top: 2rem;
+  }
+
+  &__header,
+  &__body,
+  &__footer {
+    font-size: 2.4rem;
+    font-weight: 400;
+    display: inline-block;
+    margin-inline-end: 0.6rem;
+
+    @include media-breakpoint-up(lg) {
+      display: block;
+    }
+  }
+
+  &__footer {
+    font-weight: 700;
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__header {
       font-size: 2.4rem;
-    }
-
-    .session-header {
       font-weight: 300;
+      font-family: $font-family-sans-serif;
     }
 
-    .session-body {
+    &__body {
       font-size: 6.4rem;
       font-weight: 400;
+      font-family: $font-family-serif;
     }
 
-    .session-footer {
+    &__footer {
+      font-size: 2.4rem;
       font-weight: 700;
+      font-family: $font-family-sans-serif;
     }
-
-    @include media-breakpoint-down(md) {
-      border-right: 0;
-      border-bottom: 1px solid $border-gray;
-
-      .session-header,
-      .session-body {
-        font-size: 2.4rem;
-        font-weight: 400;
-      }
-    }
-  }
-
-  .session-overview ul {
-    padding-inline-start: 1.5rem;
-  }
-
-  [class^="col"],
-  .card-body {
-    padding: 0;
-  }
-
-  .row {
-    margin: 0;
   }
 
   + .session {
