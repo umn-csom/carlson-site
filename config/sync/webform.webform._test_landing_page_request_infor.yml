@@ -1,16 +1,16 @@
-uuid: 0841961c-872f-4685-aa20-06bcbb2d8807
+uuid: 087516ca-03c7-473f-ac91-9dc57ae503ec
 langcode: en
 status: open
 dependencies: {  }
 weight: 0
 open: null
 close: null
-uid: 54846
+uid: 51021
 template: false
 archive: false
-id: landing_page_rfi_emba
-title: 'Landing Page Request Information: Executive MBA'
-description: ''
+id: _test_landing_page_request_infor
+title: '[TEST] Landing Page Request Information: Full-Time'
+description: '<p>Testing for Deferred MBA program.</p>'
 categories: {  }
 elements: |-
   markup:
@@ -22,6 +22,42 @@ elements: |-
       <p>Complete this form to receive information about coursework, admissions, tuition, and more.</p>
 
       <p style="font-size: 1.2rem">*Required information</p>
+  program:
+    '#type': radios
+    '#title': Program
+    '#options':
+      ftmba: |
+        Full-Time MBA -- The Carlson MBA
+        Program provides a blend of coursework and hands-on experiences to give students the tools they need to build bright careers in their chosen fields.
+      stemba: "Management Science MBA (STEM) -- The Management Science MBA (STEM-designated) is a Full-time MBA degree that covers traditional management topics across business disciplines while developing a specific set of skills, including statistical modeling, analytics, programming, forecasting, and operations research.\_"
+    '#options_display': side_by_side
+    '#options_description_display': help
+    '#required': true
+    '#attributes':
+      class:
+        - form-full-width
+  college_senior:
+    '#type': select
+    '#title': 'Are you a domestic college senior interested in the Deferred MBA program?'
+    '#options':
+      'Yes': 'Yes'
+      'No': 'No'
+    '#required': true
+  graduation_year:
+    '#type': select
+    '#title': 'Graduation Year'
+    '#options':
+      2024: '2024'
+      2025: '2025'
+      2026: '2026'
+      2027: '2027'
+      2028: '2028'
+      2029: '2029'
+      2030: '2030'
+    '#states':
+      visible:
+        ':input[name="college_senior"]':
+          value: 'Yes'
   firstname:
     '#type': textfield
     '#title': 'First Name'
@@ -56,10 +92,6 @@ elements: |-
     '#title': 'Postal Code'
     '#placeholder': 'Postal Code'
     '#required': true
-  program:
-    '#type': hidden
-    '#title': Program
-    '#default_value': emba
   visitorid:
     '#type': hidden
     '#title': visitorid
@@ -87,6 +119,12 @@ elements: |-
     '#description': '<p>&nbsp;I authorize the Carlson School of Management and its representatives to contact me via SMS text message.</p>'
     '#title_display': invisible
     '#description_display': after
+  graduation_date_test:
+    '#type': datelist
+    '#title': 'Graduation date test'
+    '#date_part_order':
+      - year
+      - month
 css: ''
 javascript: ''
 settings:
@@ -192,7 +230,7 @@ settings:
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
   confirmation_type: url
-  confirmation_url: /graduate/mba/executive/request-information/rfi-confirm
+  confirmation_url: /graduate/mba/full-time/request-information/rfi-confirm
   confirmation_title: ''
   confirmation_message: ''
   confirmation_attributes: {  }
@@ -343,7 +381,7 @@ handlers:
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: 'Webform submission from Request Information: Online MBA QC program landing page'
+      subject: 'Webform submission from Request Information: FTMBA QC program landing page (NEW FORM TESTING)'
       body: _default
       excluded_elements: {  }
       ignore_access: false
