@@ -11,27 +11,30 @@
 <div{{ attributes.addClass(classes) }}>
   {% if has_desc_1 %}
     {{ content.field_schedule_part_1_desc }}
-  {% elseif has_legacy_1 %}
-  <div class="container">
-    <div class="session session--legacy">
-      <div class="session__overview">
-        <h3 class="session__title">{{ content.field_schedule_part_1_title }}</h3>
-        {{ content.field_schedule_part_1 }}
-      </div>
-    </div>
-  </div>
   {% endif %}
 
   {% if has_desc_2 %}
     {{ content.field_schedule_part_2_desc }}
-  {% elseif has_legacy_2 %}
-  <div class="container">
-    <div class="session session--legacy">
-      <div class="session__overview">
-        <h3 class="session__title">{{ content.field_schedule_part_2_title }}</h3>
-        {{ content.field_schedule_part_2 }}
+  {% endif %}
+
+  {% if not has_desc_1 and has_legacy_1 or not has_desc_2 and has_legacy_2 %}
+    <div class="container">
+    {% if has_legacy_1 %}
+      <div class="session session--legacy">
+        <div class="session__overview">
+          <h3 class="session__title">{{ content.field_schedule_part_1_title }}</h3>
+          {{ content.field_schedule_part_1 }}
+        </div>
       </div>
+    {% endif %}
+    {% if has_legacy_2 %}
+      <div class="session session--legacy">
+        <div class="session__overview">
+          <h3 class="session__title">{{ content.field_schedule_part_2_title }}</h3>
+          {{ content.field_schedule_part_2 }}
+        </div>
+      </div>
+    {% endif %}
     </div>
-  </div>
   {% endif %}
 </div>
