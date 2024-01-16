@@ -7,7 +7,25 @@ dependencies:
     - field.field.paragraph.banner_3col.field_banner_3col_layout
     - paragraphs.paragraphs_type.banner_3col
   module:
+    - field_group
     - paragraphs
+third_party_settings:
+  field_group:
+    group_banner_content:
+      children:
+        - field_banner_3col
+      label: 'Banner content'
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
 id: paragraph.banner_3col.default
 targetEntityType: paragraph
 bundle: banner_3col
@@ -15,7 +33,7 @@ mode: default
 content:
   field_banner_3col:
     type: paragraphs
-    weight: 0
+    weight: 2
     region: content
     settings:
       title: Paragraph
@@ -33,7 +51,7 @@ content:
     third_party_settings: {  }
   field_banner_3col_layout:
     type: options_select
-    weight: 1
+    weight: 0
     region: content
     settings: {  }
     third_party_settings: {  }
