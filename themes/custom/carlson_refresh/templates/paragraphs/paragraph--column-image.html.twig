@@ -47,25 +47,10 @@
   ]
 %}
 
-{% set bannerClasses = [
-  'csom-banner',
-  paragraph.field_banner_two_column_distribu.value == '0' ? 'csom-banner--33-33' : '',
-  paragraph.field_banner_two_column_distribu.value == '1' ? 'csom-banner--33-66' : '',
-  paragraph.field_banner_two_column_distribu.value == '2' ? 'csom-banner--60-40' : '',
-  paragraph.field_banner_two_column_distribu.value == '3' ? 'csom-banner--50-50' : '',
-] %}
-
 {% block paragraph %}
-<div{{ attributes.addClass(classes) }}>
     {% block content %}
-    <div class="{{ bannerClasses|join(' ') }}">
-        <div class="section">
-            {{ content.field_banner_two_column_[0] }}
-        </div>
-        <div class="section">
-            {{ content.field_banner_two_column_[1] }}
-        </div>
+    <div class="embedded-entity">
+         {{ content.field_column_image }}
     </div>
     {% endblock %}
-</div>
 {% endblock paragraph %}

@@ -1,19 +1,19 @@
-uuid: 35dceaf3-37a7-44eb-966f-bdda4aa647ee
+uuid: 6458c154-e425-4ac9-8a17-472d58305c6c
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_banner_three_column
-    - paragraphs.paragraphs_type.multi_column_banners_image
-    - paragraphs.paragraphs_type.multi_column_banners_three_colum
+    - field.storage.paragraph.field_banner_3col
+    - paragraphs.paragraphs_type.column_image
+    - paragraphs.paragraphs_type.banner_3col
     - paragraphs.paragraphs_type.stat_donut
     - paragraphs.paragraphs_type.statistic
   module:
     - entity_reference_revisions
-id: paragraph.multi_column_banners_three_colum.field_banner_three_column
-field_name: field_banner_three_column
+id: paragraph.banner_3col.field_banner_3col
+field_name: field_banner_3col
 entity_type: paragraph
-bundle: multi_column_banners_three_colum
+bundle: banner_3col
 label: 'Banner Three column'
 description: ''
 required: true
@@ -24,7 +24,7 @@ settings:
   handler: 'default:paragraph'
   handler_settings:
     target_bundles:
-      multi_column_banners_image: multi_column_banners_image
+      column_image: column_image
       statistic: statistic
       stat_donut: stat_donut
     negate: 0
@@ -37,6 +37,12 @@ settings:
         enabled: false
       accordion_tab_subitem:
         weight: 73
+        enabled: false
+      banner_2col:
+        weight: 108
+        enabled: false
+      banner_3col:
+        weight: 107
         enabled: false
       basic_paragraph:
         weight: 74
@@ -59,6 +65,9 @@ settings:
       column:
         weight: 80
         enabled: false
+      column_image:
+        weight: 108
+        enabled: true
       compound_link:
         weight: 81
         enabled: false
@@ -133,15 +142,6 @@ settings:
         enabled: false
       magazine_section:
         weight: 105
-        enabled: false
-      multi_column_banners_image:
-        weight: 108
-        enabled: true
-      multi_column_banners_three_colum:
-        weight: 107
-        enabled: false
-      multi_column_banners_two_column_:
-        weight: 108
         enabled: false
       multicol_list:
         weight: 106

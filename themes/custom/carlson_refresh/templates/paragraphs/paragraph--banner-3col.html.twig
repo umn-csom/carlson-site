@@ -49,8 +49,8 @@
 
 {% set bannerClasses = [
   'csom-banner',
-  paragraph.field_banner_three_column_distri.value == '0' ? 'csom-banner--33-33-33' : '',
-  paragraph.field_banner_three_column_distri.value == '1' ? 'csom-banner--25-25-50' : '',
+  paragraph.field_banner_3col_layout.value == '0' ? 'csom-banner--33-33-33' : '',
+  paragraph.field_banner_3col_layout.value == '1' ? 'csom-banner--25-25-50' : '',
 ] %}
 
 {% block paragraph %}
@@ -58,13 +58,13 @@
     {% block content %}
     <div class="{{ bannerClasses|join(' ') }}">
         <div class="section">
-            {{ content.field_banner_three_column[0] }}
+            {{ content.field_banner_3col[0] }}
         </div>
         <div class="section">
-            {{ content.field_banner_three_column[1] }}
+            {{ content.field_banner_3col[1] }}
         </div>
         <div class="section">
-            {{ content.field_banner_three_column[2] }}
+            {{ content.field_banner_3col[2] }}
         </div>
     </div>
     {% endblock %}
