@@ -47,10 +47,12 @@
   ]
 %}
 
+{% set layout = paragraph.field_banner_3col_layout.value ?: '33-33-33' %}
+
 {% set bannerClasses = [
   'csom-banner',
-  paragraph.field_banner_3col_layout.value == '0' ? 'csom-banner--33-33-33' : '',
-  paragraph.field_banner_3col_layout.value == '1' ? 'csom-banner--25-25-50' : '',
+  'csom-banner--3col',
+  'csom-banner--' ~ layout,
 ] %}
 
 {% block paragraph %}
