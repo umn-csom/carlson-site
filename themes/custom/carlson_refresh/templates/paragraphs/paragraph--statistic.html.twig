@@ -49,14 +49,12 @@
 %}
 {% block paragraph %}
     {% block content %}
-      <div class="stats__item__wrapper flex-grow-1 d-flex flex-column">
-        <div class="stats__item__inner-wrapper flex-grow-1 d-flex flex-column">
-          <div class="stats__item p-6 pt-xl-10 text-center text-primary flex-grow-1">
-            <p class="stats__item__number mb-6">
-              {{ content.field_statistic_data }}
-            </p>
-            <p class="text-center my-0">{{ content.field_statistic_desc }}</p>
+      <div class="stats__item flex-grow-1 d-flex flex-column">
+        <div class="stats__item__inner flex-grow-1 d-flex flex-column">
+          <div class="stats__item__number">
+            {{ content.field_statistic_data }}
           </div>
+          <p class="stats__item__description">{{ content.field_statistic_desc }}</p>
         </div>
       </div>
     {% endblock %}
