@@ -1,27 +1,34 @@
-uuid: bef264bb-fcd9-4dc2-84b2-e93d91acc4c6
+uuid: 4e13bd17-1b36-4834-ad35-928df03640eb
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.media.stat_icon
     - field.field.media.image.field_media_category
     - field.field.media.image.field_media_in_library
     - field.field.media.image.image
+    - image.style.stat_icon
     - media.type.image
   module:
     - image
+    - layout_builder
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
 _core:
   default_config_hash: VLDxfMVPTkd2xvOjFMCh3kWmaOYnd03zggFXuUXQVEY
-id: media.image.default
+id: media.image.stat_icon
 targetEntityType: media
 bundle: image
-mode: default
+mode: stat_icon
 content:
   image:
     type: image
     label: hidden
     settings:
       image_link: ''
-      image_style: ''
+      image_style: stat_icon
       image_loading:
         attribute: lazy
     third_party_settings: {  }

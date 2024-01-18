@@ -1,0 +1,45 @@
+uuid: 081a2119-9c0d-4347-b66f-f27a950934e2
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.stat_icon.field_stat_icon_desc
+    - field.field.paragraph.stat_icon.field_stat_icon_image
+    - field.field.paragraph.stat_icon.field_stat_icon_position
+    - field.field.paragraph.stat_icon.field_stat_icon_style
+    - field.field.paragraph.stat_icon.field_stat_icon_value
+    - paragraphs.paragraphs_type.stat_icon
+id: paragraph.stat_icon.default
+targetEntityType: paragraph
+bundle: stat_icon
+mode: default
+content:
+  field_stat_icon_desc:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_stat_icon_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: stat_icon
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_stat_icon_value:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  field_stat_icon_position: true
+  field_stat_icon_style: true
+  search_api_excerpt: true
