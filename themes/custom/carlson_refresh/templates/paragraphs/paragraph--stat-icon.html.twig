@@ -1,0 +1,32 @@
+{% set position = paragraph.field_stat_icon_position.value ?: 'above' %}
+{% set style = paragraph.field_stat_icon_style.value ?: '' %}
+{% set has_image = paragraph.field_stat_icon_image.value is not empty %}
+{% set has_value = paragraph.field_stat_icon_value.value is not empty %}
+{% set has_desc = paragraph.field_stat_icon_desc.value is not empty %}
+{% set has_text = has_value or has_text %}
+
+{% set classes = [
+  'csom-stat-icon',
+  position ? 'csom-stat-icon--position-' ~ position,
+  style ? 'csom-stat-icon--style-' ~ style,
+] %}
+
+<section class="narrow centered">
+  <div {{ create_attribute({class: classes|join(' ')}) }}>
+  {% if has_image %}
+    <div class="csom-stat-icon__image">
+      {{ content.field_stat_icon_image }}
+    </div>
+  {% endif %}
+  {% if has_text %}
+    <div class="csom-stat-icon__text">
+    {% if has_value %}
+      <div class="csom-stat-icon__value">{{ content.field_stat_icon_value }}</div>
+    {% endif %}
+    {% if has_desc %}
+      <div class="csom-stat-icon__description">{{ content.field_stat_icon_desc }}</div>
+    {% endif %}
+    </div>
+  {% endif %}
+  </div>
+</section>

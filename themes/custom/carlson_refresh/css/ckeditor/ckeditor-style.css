@@ -21135,15 +21135,17 @@ Description: Bootstrap 4 with Sass
     max-width: 1065px;
     margin: 40px auto;
     min-height: 182px; }
-    .ck-content .csom-banner p {
-      margin: 15px 0; }
     .ck-content .csom-banner .section {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding: 40px 20px;
       text-align: center;
       position: relative; }
+      .ck-content .csom-banner .section > .component-paragraph {
+        margin-bottom: 0; }
+      .ck-content .csom-banner .section > .stats__item {
+        height: 100%; }
     .ck-content .csom-banner .field-number {
       font-size: 5rem; }
     .ck-content .csom-banner .description,
@@ -21152,13 +21154,14 @@ Description: Bootstrap 4 with Sass
     .ck-content .csom-banner .field-school {
       font-size: 1.2rem; }
     .ck-content .csom-banner .embedded-entity {
-      overflow: hidden; }
+      overflow: hidden;
+      min-height: 130px; }
       .ck-content .csom-banner .embedded-entity img {
         position: absolute;
         top: 0;
         left: 0;
         object-fit: cover;
-        object-position: top;
+        object-position: center;
         width: 100%;
         height: 100%; }
     .ck-content .csom-banner img {
@@ -21173,7 +21176,7 @@ Description: Bootstrap 4 with Sass
       height: 100%; }
     .ck-content .csom-banner--33-33-33 .section {
       width: 33.33%; }
-      @media (max-width: 550px) {
+      @media (max-width: 767px) {
         .ck-content .csom-banner--33-33-33 .section {
           width: 100%; } }
     .ck-content .csom-banner--33-66 .section:nth-child(1) {
@@ -21691,6 +21694,10 @@ Description: Bootstrap 4 with Sass
       max-width: 96rem; }
     .ck-content section.wide {
       max-width: 130rem; }
+    .ck-content section.centered {
+      display: flex;
+      flex-direction: row;
+      justify-content: center; }
     .ck-content section .variant {
       font-size: 1.2em;
       font-weight: 400;
@@ -21735,6 +21742,11 @@ Description: Bootstrap 4 with Sass
       flex-direction: row; }
       @media (max-width: 550px) {
         .ck-content .csom-stat-donut--row {
+          flex-direction: column; } }
+      @media (max-width: 768px) {
+        .csom-banner--33-33 .section .ck-content .csom-stat-donut--row,
+        .csom-banner--33-66 .section .ck-content .csom-stat-donut--row,
+        .csom-banner--33-33-33 .section .ck-content .csom-stat-donut--row {
           flex-direction: column; } }
     .ck-content .csom-stat-donut__circle {
       width: var(--csom-stat-donut-width);
@@ -21853,44 +21865,50 @@ Description: Bootstrap 4 with Sass
           stop-color: #fc3; }
       .ck-content .csom-state-map__svg:hover stop:nth-child(1) {
         stop-color: #900021; }
-  .ck-content .csom-stats,
-  .ck-content .csom-stats-type-1 {
-    max-width: 180px;
-    margin: 0 auto 40px;
+  .ck-content .csom-stat-icon {
+    margin: 2rem 1.5rem;
     padding: 15px;
-    text-align: center; }
-    .ck-content .csom-stats p,
-    .ck-content .csom-stats-type-1 p {
-      margin: 5px 0; }
-    .ck-content .csom-stats img,
-    .ck-content .csom-stats-type-1 img {
-      max-width: 100%;
-      height: auto; }
-    .ck-content .csom-stats .field-title,
-    .ck-content .csom-stats-type-1 .field-title {
-      font-size: 1.2em; }
-    .ck-content .csom-stats .field-price,
-    .ck-content .csom-stats-type-1 .field-price {
-      font-size: 1.7em; }
-  .ck-content .csom-stats-type-2 {
-    max-width: 247px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center; }
+  .ck-content .csom-stat-icon__image img,
+  .ck-content .csom-stat-icon__image svg {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    overflow: visible; }
+  .ck-content .csom-stat-icon__value {
+    font-size: 5.5rem;
+    line-height: 1;
+    margin: 0; }
+  .ck-content .csom-stat-icon__description {
+    font-size: 2rem; }
+  .ck-content .csom-stat-icon--position-above {
+    max-width: 18rem; }
+    .ck-content .csom-stat-icon--position-above .csom-stat-icon__image + .csom-stat-icon__text {
+      margin-top: 1.5rem; }
+  .ck-content .csom-stat-icon--position-left {
+    max-width: 29rem;
+    flex-direction: row;
     text-align: left; }
-    .ck-content .csom-stats-type-2 .info {
-      padding: 15px; }
-    .ck-content .csom-stats-type-2 .field-logo {
-      min-width: 50px;
-      width: 50px; }
-    .ck-content .csom-stats-type-2 .field-title {
-      font-size: 0.8em; }
-    .ck-content .csom-stats-type-2 .field-price {
-      font-size: 1.7em; }
-  .ck-content .csom-stats-type-3 {
+    .ck-content .csom-stat-icon--position-left .csom-stat-icon__image {
+      min-width: 5rem;
+      width: 5rem; }
+    .ck-content .csom-stat-icon--position-left .csom-stat-icon__text {
+      flex-grow: 1; }
+    .ck-content .csom-stat-icon--position-left .csom-stat-icon__image + .csom-stat-icon__text {
+      margin-left: 1.5rem; }
+    .ck-content .csom-stat-icon--position-left .csom-stat-icon__value {
+      font-size: 2.6rem; }
+    .ck-content .csom-stat-icon--position-left .csom-stat-icon__description {
+      font-size: 1.5rem; }
+  .ck-content .csom-stat-icon--style-bold .csom-stat-icon__description {
     font-weight: bold; }
-    .ck-content .csom-stats-type-3 .field-price {
-      color: #7a0019; }
+  .ck-content .csom-stat-icon--style-bold .csom-stat-icon__value {
+    color: #7a0019;
+    font-weight: bold; }
   .ck-content .csom-vertical-stacked-bar-chart {
     border: 0;
     margin: 50px auto;
