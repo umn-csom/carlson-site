@@ -4,22 +4,20 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.column_image.field_column_image
-    - image.style.thumbnail
     - paragraphs.paragraphs_type.column_image
   module:
-    - image
+    - media_library
 id: paragraph.column_image.default
 targetEntityType: paragraph
 bundle: column_image
 mode: default
 content:
   field_column_image:
-    type: image_image
+    type: media_library_widget
     weight: 0
     region: content
     settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
+      media_types: {  }
     third_party_settings: {  }
 hidden:
   created: true
