@@ -1,14 +1,31 @@
 <article class="row justify-content-center front--featured-news">
-  <figure class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-    <a href="{{ url }}">{{ content.field_hero_media }}</a>
-  </figure>
-  <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
-    <h4 class="featured-news-header">Featured News</h4>
-    <hr class="featured-news-line">
-    <a href="{{ url }}">
-      <h3><em>{{ label }}</em></h3>
-    </a>
-    <section class="front--featured-news--copy">{{ content.body }}</section>
-    <a href="{{ url }}"><p class="mt-4 mb-0"><span class="btn btn-sm btn-primary--yellow btn-primary--yellow-solid">Read more</span></p></a>
+  <div class="col-7">
+    <figure class="col-12">
+      <a href="{{ url }}">{{ content.field_hero_media }}</a>
+    </figure>
+    <div class="col-12">
+      <h4 class="featured-news-header">Featured News</h4>
+      <hr class="featured-news-line">
+      <a href="{{ url }}">
+        <h3><em>{{ label }}</em></h3>
+      </a>
+      <section class="front--featured-news--copy">{{ content.body }}</section>
+      <a href="{{ url }}"><p class="mt-4 mb-0"><span class="btn btn-sm btn-primary--yellow btn-primary--yellow-solid">Read more</span></p></a>
+    </div>
   </div>
+  <div class="col-5">
+    <div class="row justify-content-center">
+      <div class="col-12 d-block d-md-none pt-3 pb-1 pt-md-0 pb-md-0">
+        <figure aria-hidden="true" role="none">
+          <img src="/{{ directory }}/images/magazine-discovery-mobile.png" class="img-fluid d-block d-md-none mx-auto my-0 magazine--discovery-header-mobile" alt="Discovery at Carlson logo banner" aria-hidden="true">
+        </figure>
+      </div>
+      <div class="col-12 col-md-10 col-lg-6 col-xl-7 d-none d-md-block mb-md-4 mb-lg-0 pt-md-3 pt-lg-3 pt-xl-3">
+        <img src="/{{ directory }}/images/magazine-discovery-desktop.png" alt='{{ label|field_value }} {% if magazine == "alumni" %}alumni {% elseif magazine == "discovery" %}Discovery {% endif %}magazine cover' class="img-fluid mt-1">
+      </div>
+      <div class="col-12 col-md-12 col-lg-6 col-xl-5 pb-4 pb-lg-0">
+        <h1 class="text-center text-lg-right p-0 m-0">{{ label }}</h1>
+      </div>
+    </div>
+  </div>  
 </article>
