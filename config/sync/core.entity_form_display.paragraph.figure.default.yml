@@ -9,8 +9,29 @@ dependencies:
     - field.field.paragraph.figure.field_figure_table
     - paragraphs.paragraphs_type.figure
   module:
+    - field_group
     - media_library
     - text
+third_party_settings:
+  field_group:
+    group_figure_content:
+      children:
+        - field_figure_heading
+        - field_figure_description
+        - field_figure_table
+        - field_figure_image
+      label: 'Figure content'
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
 id: paragraph.figure.default
 targetEntityType: paragraph
 bundle: figure
@@ -18,7 +39,7 @@ mode: default
 content:
   field_figure_description:
     type: string_textfield
-    weight: 7
+    weight: 2
     region: content
     settings:
       size: 60
@@ -26,7 +47,7 @@ content:
     third_party_settings: {  }
   field_figure_heading:
     type: string_textfield
-    weight: 0
+    weight: 1
     region: content
     settings:
       size: 60
@@ -34,14 +55,14 @@ content:
     third_party_settings: {  }
   field_figure_image:
     type: media_library_widget
-    weight: 10
+    weight: 4
     region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
   field_figure_table:
     type: text_textarea
-    weight: 9
+    weight: 3
     region: content
     settings:
       rows: 5
