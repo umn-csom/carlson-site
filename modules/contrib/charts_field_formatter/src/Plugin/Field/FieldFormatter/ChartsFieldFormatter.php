@@ -34,9 +34,20 @@ class ChartsFieldFormatter extends FormatterBase implements ContainerFactoryPlug
    * @param \Drupal\charts\Services\ChartsSettingsService $chartSettings
    *   Service ChartsSettingsService.
    */
-  public function __construct($plugin_id, $plugin_definition, FieldDefinitionInterface $field_definition, array $settings, $label, $view_mode, array $third_party_settings, ChartsSettingsService $chartSettings, MessengerInterface $messenger, Php $uuidService) {
+  public function __construct(
+    $plugin_id,
+    $plugin_definition,
+    FieldDefinitionInterface $field_definition,
+    array $settings,
+    $label,
+    $view_mode,
+    array $third_party_settings,
+    //ChartsSettingsService $chartSettings,
+    MessengerInterface $messenger,
+    Php $uuidService
+  ) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
-    $this->chartSettings = $chartSettings->getChartsSettings();
+    //$this->chartSettings = $chartSettings->getChartsSettings();
     $this->messenger = $messenger;
     $this->uuidService = $uuidService;
   }
@@ -65,7 +76,7 @@ class ChartsFieldFormatter extends FormatterBase implements ContainerFactoryPlug
       $configuration['label'],
       $configuration['view_mode'],
       $configuration['third_party_settings'],
-      $container->get('charts.settings'),
+      //$container->get('charts.settings'),
       $container->get('messenger'),
       $container->get('uuid')
     );
@@ -78,8 +89,8 @@ class ChartsFieldFormatter extends FormatterBase implements ContainerFactoryPlug
     $element = [];
     $categories = [];
 
-    $library = $this->chartSettings['library'];
-    $colors = $this->chartSettings['colors'];
+    //$library = $this->chartSettings['library'];
+    //$colors = $this->chartSettings['colors'];
     $highchartsConfig = \Drupal::config('charts_highcharts.settings')->get();
     if (empty($library)) {
       $this->messenger->addError($this->t('You need to first configure Charts default settings'));
