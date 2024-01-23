@@ -1,9 +1,9 @@
 charts_default_settings:
   library: highcharts
-  type: bar
+  type: donut
   display:
     title: ''
-    title_position: out
+    title_position: top
     subtitle: ''
     data_labels: true
     data_markers: true
@@ -11,37 +11,22 @@ charts_default_settings:
     background: ''
     three_dimensional: 0
     colors:
-      - '#7a0019'
-      - '#ffcc33'
-      - '#8bbc21'
-      - '#910000'
-      - '#1aadce'
-      - '#492970'
-      - '#f28f43'
-      - '#77a1e5'
-      - '#c42525'
-      - '#a6c96a'
-      - '#ed56b4'
-      - '#d8d981'
-      - '#004695'
-      - '#736000'
-      - '#a5a5ff'
-      - '#833a00'
-      - '#ff9ee9'
-      - '#684507'
-      - '#fe4f85'
-      - '#5d0011'
-      - '#ffa67b'
-      - '#88005c'
-      - '#ff9b8f'
-      - '#85000f'
-      - '#ff7581'
+      - '#900021'
+      - '#ffb71e'
+      - '#00759a'
+      - '#d5d6d2'
+      - '#5b0013'
+      - '#58a618'
+      - '#5a5a5a'
+      - '#e37222'
+      - '#ffde7a'
+      - '#333333'
     polar: 0
     tooltips: true
     dimensions:
-      width: ''
+      width: '100'
       width_units: '%'
-      height: ''
+      height: '320'
       height_units: px
     gauge:
       max: '100'
@@ -87,12 +72,17 @@ charts_default_settings:
         hide_data: 'Hide data table'
         loading: Loading...
         main_breadcrumb: Main
+        thousands_sep: ' '
+        decimal_point: .
         no_data: 'No data to display'
         print_chart: 'Print chart'
         reset_zoom: 'Reset zoom'
         reset_zoom_title: 'Reset zoom level 1:1'
         view_data: 'View data table'
         view_fullscreen: 'View in full screen'
+        context_button_title: 'Chart context menu'
+        drill_up_text: 'Back to {series.name}'
+        invalid_date: 'Invalid date'
         months:
           - January
           - February
@@ -135,8 +125,19 @@ charts_default_settings:
           - Thurs
           - Frid
           - Sat
+        export_data:
+          annotation_header: Annotations
+          category_datetime_header: DateTime
+          category_header: Category
+        numeric_symbols:
+          - k
+          - M
+          - G
+          - T
+          - P
+          - E
 advanced:
-  debug: false
+  debug: true
   requirements:
     cdn: true
 dependencies:
