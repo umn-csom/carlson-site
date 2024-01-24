@@ -57,27 +57,6 @@
                 data.tooltip.formatter =
                   Drupal.carlson_charts.highchartsTooltipFormatter;
                 data.plotOptions.pie.shadow = false;
-                data.plotOptions.pie.point = {
-                  events: {
-                    mouseOver: function (e) {
-                      this.originalRadius = this.graphic.r;
-                      this.graphic.animate(
-                        {
-                          r: this.originalRadius * 1.03,
-                        },
-                        200
-                      );
-                    },
-                    mouseOut: function (e) {
-                      this.graphic.animate(
-                        {
-                          r: this.originalRadius,
-                        },
-                        200
-                      );
-                    },
-                  },
-                };
                 console.log("innerSize", data.series[0].innerSize);
                 // Adjust the donut size to our preference. The default
                 // innerSize value is 40% when using the 'Donut' preset.
