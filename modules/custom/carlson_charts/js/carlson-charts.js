@@ -49,15 +49,12 @@
             function (e) {
               let data = e.detail;
               const id = data.drupalChartDivId;
-              console.log(data.title.text, data.chart.type);
-              console.log(data);
               if (data.chart.type == "pie") {
                 data.legend.labelFormatter =
                   Drupal.carlson_charts.highchartsLegendLabelFormatter;
                 data.tooltip.formatter =
                   Drupal.carlson_charts.highchartsTooltipFormatter;
                 data.plotOptions.pie.shadow = false;
-                console.log("innerSize", data.series[0].innerSize);
                 // Adjust the donut size to our preference. The default
                 // innerSize value is 40% when using the 'Donut' preset.
                 // Otherwise, this is undefined when using the 'Pie' preset.
