@@ -7,32 +7,35 @@
   Drupal.carlson_charts = Drupal.carlson_charts || {};
   Drupal.carlson_charts.highchartsTooltipFormatter = function () {
     const y = this.y || "";
-    const total = this.total || 0;
-    const percentage = this.percentage ? Math.round(this.percentage) : 0;
-    const name = this.point.name || this.series.name || "";
-    const has_accurate_y_value = (total == 100);
-    const value = has_accurate_y_value ? y : percentage;
-    if (has_accurate_y_value) {
-      return `<span class="highcharts-tooltip__name">${name}</span><br> <span class="highcharts-tooltip__value">${value}%</span>`;
-    }
-    return `<span class="highcharts-tooltip__name">${name}</span><br> <span class="highcharts-tooltip__value">${value}%</span> <span class="highcharts-tooltip__description">(${y} of ${total})</span>`;
-  };
-  Drupal.carlson_charts.highchartsLegendLabelFormatter = function () {
-    const y = this.y || false;
     const total = this.total || false;
-    const percentage = this.percentage || false;
-    const name = this.name || false;
-    const has_accurate_y_value = y && total && total < 99.0 && total < 101.0;
-    const value = has_accurate_y_value ? y : percentage ? Math.round(percentage) : false;
-
-    if (!name || !value) {
-      console.log("legend label has missing name or value");
-      console.log(Object.keys(this));
-      console.log(this);
-      console.log("---------------------");
+    const percentage = this.percentage ? Math.round(this.percentage) : false;
+    const category = this.point.category ? `${this.point.category}: ` : "";
+    const name = this.point.name || this.series.name || "";
+    const y_is_a_percentage = y && (total == 100);
+    const value = percentage
+      ? `${percentage}%`
+      : y_is_a_percentage
+      ? `${y}%`
+      : y;
+    if (percentage && y && total && total !== 100) {
+      return `<span class="highcharts-tooltip__bullet" style="color:${this.color}">●</span> <span class="highcharts-tooltip__name">${name}</span><br> <span class="highcharts-tooltip__value">${category}${value}</span> <span class="highcharts-tooltip__description">(${y} of ${total})</span>`;
     }
+    return `<span class="highcharts-tooltip__bullet" style="color:${this.color}">●</span> <span class="highcharts-tooltip__name">${name}</span><br> <span class="highcharts-tooltip__value">${category}${value}</span>`;
+  };
+
+  Drupal.carlson_charts.highchartsLegendLabelFormatter = function () {
+    const y = this.y || "";
+    const total = this.total || false;
+    const percentage = this.percentage ? Math.round(this.percentage) : false;
+    const name = this.name || false;
+    const y_is_a_percentage = y && total == 100;
+    const value = percentage
+      ? `${percentage}%`
+      : y_is_a_percentage
+      ? `${y}%`
+      : y;
     if (value) {
-      return `<strong>${value}%</strong> - ${name}`;
+      return `<strong>${value}</strong> - ${name}`;
     }
     return name;
   }
@@ -48,11 +51,11 @@
               const id = data.drupalChartDivId;
               console.log(data.title.text, data.chart.type);
               console.log(data);
-              data.tooltip.formatter =
-                Drupal.carlson_charts.highchartsTooltipFormatter;
-              data.legend.labelFormatter =
-                Drupal.carlson_charts.highchartsLegendLabelFormatter;
               if (data.chart.type == "pie") {
+                data.legend.labelFormatter =
+                  Drupal.carlson_charts.highchartsLegendLabelFormatter;
+                data.tooltip.formatter =
+                  Drupal.carlson_charts.highchartsTooltipFormatter;
                 data.plotOptions.pie.shadow = false;
                 data.plotOptions.pie.point = {
                   events: {
