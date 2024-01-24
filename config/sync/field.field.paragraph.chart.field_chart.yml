@@ -1,4 +1,4 @@
-uuid: 25eef538-2bd1-49b8-a242-bdbf4629eefd
+uuid: fda43f2e-7b3e-4b33-86b8-4a26cb715240
 langcode: en
 status: true
 dependencies:
@@ -6,7 +6,7 @@ dependencies:
     - field.storage.paragraph.field_chart
     - paragraphs.paragraphs_type.chart
   module:
-    - tablefield
+    - charts
 id: paragraph.chart.field_chart
 field_name: field_chart
 entity_type: paragraph
@@ -17,30 +17,91 @@ required: false
 translatable: false
 default_value:
   -
-    rebuild:
-      cols: '2'
-      rows: '3'
-    value:
-      0:
-        - Item
-        - Value
-      1:
-        - ''
-        - ''
-      2:
-        - ''
-        - ''
-      caption: ''
-    format: null
-    caption: ''
+    config:
+      type: donut
+      series:
+        table_categories_identifier: first_row
+        data_collector_table:
+          -
+            -
+              data: Items
+            -
+              data: Values
+          -
+            -
+              data: 'Item 1 label'
+              color: '#900021'
+            -
+              data: '10'
+          -
+            -
+              data: 'Item 2 label'
+              color: '#ffb71e'
+            -
+              data: '20'
+          -
+            -
+              data: 'Item 3 label'
+              color: '#00759a'
+            -
+              data: '30'
+          -
+            -
+              data: 'Item 4 label'
+              color: '#d5d6d2'
+            -
+              data: '50'
+      display:
+        title: 'This is a test chart title'
+        subtitle: 'This is a test chart subtitle'
+        title_position: top
+        tooltips: '1'
+        data_labels: '1'
+        data_markers: '1'
+        legend_position: right
+        background: ''
+        dimensions:
+          width: '100'
+          width_units: '%'
+          height: '400'
+          height_units: px
+        stacking: '1'
+        gauge:
+          max: '100'
+          min: '0'
+          green_from: '85'
+          green_to: '100'
+          yellow_from: '50'
+          yellow_to: '85'
+          red_from: '0'
+          red_to: '50'
+        three_dimensional: 0
+        polar: 0
+        color_changer: 0
+      xaxis:
+        title: ''
+        labels_rotation: '0'
+      yaxis:
+        title: ''
+        min: ''
+        max: ''
+        prefix: ''
+        suffix: ''
+        decimal_count: ''
+        labels_rotation: '0'
+        secondary:
+          title: ''
+          min: ''
+          max: ''
+          prefix: ''
+          suffix: ''
+          decimal_count: ''
+          labels_rotation: '0'
+        inherit: 0
+      library: highcharts
+      preview: {  }
+    library: highcharts
+    type: donut
 default_value_callback: ''
-settings:
-  export: false
-  restrict_rebuild: true
-  restrict_import: true
-  lock_values: false
-  cell_processing: 0
-  empty_rules:
-    ignore_table_structure: false
-    ignore_table_header: false
-field_type: tablefield
+settings: {  }
+field_type: chart_config

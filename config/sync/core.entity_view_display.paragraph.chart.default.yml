@@ -4,22 +4,20 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.chart.field_chart
-    - field.field.paragraph.chart.field_chart_type
     - paragraphs.paragraphs_type.chart
   module:
-    - charts_field_formatter
+    - charts
 id: paragraph.chart.default
 targetEntityType: paragraph
 bundle: chart
 mode: default
 content:
   field_chart:
-    type: charts_field_formatter
+    type: chart_config_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
     weight: 0
     region: content
 hidden:
-  field_chart_type: true
   search_api_excerpt: true
