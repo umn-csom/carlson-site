@@ -1,0 +1,32 @@
+uuid: 69d65e1f-4b65-485d-869d-9164621b99e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.state_stat.field_state_stat_heading
+    - field.field.paragraph.state_stat.field_state_stat_percent
+    - paragraphs.paragraphs_type.state_stat
+id: paragraph.state_stat.default
+targetEntityType: paragraph
+bundle: state_stat
+mode: default
+content:
+  field_state_stat_heading:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_state_stat_percent:
+    type: number_integer
+    label: hidden
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  search_api_excerpt: true

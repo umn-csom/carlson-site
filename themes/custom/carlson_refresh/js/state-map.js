@@ -16,4 +16,7 @@ const svgObserver = new IntersectionObserver(
   },
   { threshold: [0.0, 0.85] }
 );
-svgObserver.observe(svgElement);
+
+if (svgElement) {
+  svgObserver.observe(svgElement);
+}
