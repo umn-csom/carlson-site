@@ -5,9 +5,14 @@ dependencies:
   config:
     - system.menu.footer
   module:
+    - block_class
+    - block_visibility_groups
     - system
   theme:
     - carlson_refresh
+third_party_settings:
+  block_class:
+    replaced_id: block-carlson-refresh-footer-links
 _core:
   default_config_hash: 2qkRhWP8Uh3WJxYhc6_5ZH0nEXd6XbldVx60qffp7UY
 id: carlson_refresh_footer
@@ -24,4 +29,8 @@ settings:
   level: 1
   depth: 0
   expand_all_items: false
-visibility: {  }
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    block_visibility_group: ''
