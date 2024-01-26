@@ -11,6 +11,11 @@
  * file is picked up across local and remote environments.
  */
 
+/*
+ * Increase site memory
+*/
+ini_set('memory_limit', '768M');
+
 /**
  * Sync directory for configurations.
  */
