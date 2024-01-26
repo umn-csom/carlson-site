@@ -13,6 +13,8 @@ dependencies:
     - taxonomy.vocabulary.executive_ed_program_times
     - workflows.workflow.editorial
   module:
+    - carlson_general
+    - ckeditor_templates
     - content_moderation
     - contextual
     - entity_browser
@@ -36,7 +38,7 @@ third_party_settings:
     description: 'A role for Executive Ed editors that allows them to Create, Edit, Delete Executive Education Program and landing pages'
 id: executive_ed_landing_page_creator
 label: 'Executive Ed Editor'
-weight: -10
+weight: -11
 is_admin: false
 permissions:
   - 'access ckeditor_media_browser entity browser pages'
@@ -99,9 +101,11 @@ permissions:
   - 'schedule editorial transition create_new_draft'
   - 'schedule editorial transition publish'
   - 'schedule editorial transition ready_to_publish'
+  - 'use ckeditor_template session'
   - 'use editorial transition create_new_draft'
   - 'use editorial transition review'
   - 'use moderation sidebar'
+  - 'use text format advanced'
   - 'use text format rich_text'
   - 'view any unpublished content'
   - 'view executive_ed_landing_page revisions'

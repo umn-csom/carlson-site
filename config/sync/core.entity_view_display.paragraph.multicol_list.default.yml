@@ -1,0 +1,32 @@
+uuid: 1fb2d558-8b87-41cb-b9ee-007a6fd1dcd4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.multicol_list.field_multicol_list_heading
+    - field.field.paragraph.multicol_list.field_multicol_list_text
+    - paragraphs.paragraphs_type.multicol_list
+  module:
+    - text
+id: paragraph.multicol_list.default
+targetEntityType: paragraph
+bundle: multicol_list
+mode: default
+content:
+  field_multicol_list_heading:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_multicol_list_text:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 3
+    region: content
+hidden:
+  search_api_excerpt: true

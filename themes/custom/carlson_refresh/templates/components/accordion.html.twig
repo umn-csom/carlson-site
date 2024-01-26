@@ -22,8 +22,8 @@
     {% for item in accordion_data %}
         <div class="card">
             <div class="card-header">
-                <h5 class="mb-0">
-                    
+                <span class="mb-0">
+
                     {% set collapsed = 'collapsed' %}
                     {% set expanded = 'false' %}
                     {% set show = '' %}
@@ -31,7 +31,7 @@
                     <button class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{ inc }}">
                         {{ item.label }}
                     </button>
-                </h5>
+                </span>
             </div>
             <div id="collapse{{ inc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{ inc }}" data-parent="#accordion-list">
                 <div class="card-body">

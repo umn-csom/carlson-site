@@ -25,45 +25,4 @@
     }
     eeMenu.init();
 
-    var eeSliders = {
-      init:function(){
-        eeSliders.build('.course_schedule', '.paragraph--type--course-schedule-info');
-      },
-      build:function(slider, slide){
-        var show = $(slider+' '+slide).length  >= 3 ? 3 : $(slider+' '+slide).length ;
-        $(slider).slick({
-          slide: slide,
-          slidesToShow: show,
-          slidesToScroll: 1,
-          autoplay: false,
-          infinite: true,
-          dots: true,
-          responsive: [
-           {
-             breakpoint: 993,
-             settings: {
-               slidesToShow: 2,
-               slidesToScroll: 1,
-             }
-           },
-           {
-             breakpoint: 768,
-             settings: {
-               slidesToShow: 1,
-               slidesToScroll: 1,
-             }
-           },
-         ]
-        });
-      },
-      tabs:function(tab){
-        $('.nav-tabs .nav-link').removeClass('active');
-        tab.addClass('active');
-        var id = tab.attr('href');
-        $('.tab-pane').removeClass('active').addClass('fade');
-        $(id).removeClass('fade').addClass('active');
-      }
-    }
-    eeSliders.init();
-
 })(jQuery, Drupal);

@@ -1,0 +1,78 @@
+.csom-multicol-list {
+  overflow: hidden;
+  position: relative;
+  border-radius: 4px;
+  margin: 0 auto;
+  width: 100%;
+  background: #fff;
+
+  ul {
+    list-style: none;
+    padding: 2rem 0;
+    margin: 0;
+    column-width: 16rem;
+    column-gap: 2.5rem;
+  }
+
+  li {
+    margin: 0 0 1rem;
+    line-height: 1.25;
+  }
+
+  .more-less {
+    position: absolute;
+    border: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.4rem;
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 80%, #fff 100%);
+    background-position: 0 0;
+    transition: background-position .2s ease-out;
+    height: 65%;
+    cursor: pointer;
+    justify-content: center;
+    align-items: end;
+
+    display: none;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+
+    &:focus-visible {
+      outline: none;
+
+      span {
+        outline: auto 5px -webkit-focus-ring-color
+      }
+    }
+
+    span {
+      display: inline-block;
+      padding: .8rem 1.6rem;
+    }
+
+    &::after {
+      padding-right: 1rem;
+    }
+  }
+
+  &.expand {
+    .more-less {
+      display: flex;
+    }
+
+    &.open .more-less {
+      background-position: 100% 0;
+      height: 3rem;
+    }
+
+    &.closed .collapse-text,
+    &.open .expand-text {
+      display: none;
+    }
+  }
+}

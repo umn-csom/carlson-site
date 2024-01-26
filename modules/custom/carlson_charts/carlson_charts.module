@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Carlson Charts module.
+ */
+
+/**
+ * Implements hook_chart_alter().
+ */
+function carlson_charts_chart_alter(array &$element, $chart_id) {
+  $element['#attached']['library'][] = 'carlson_charts/charts';
+}

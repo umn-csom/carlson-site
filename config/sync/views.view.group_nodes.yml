@@ -618,7 +618,7 @@ display:
         type: full
         options:
           offset: 0
-          items_per_page: 50
+          items_per_page: 100
           total_pages: null
           id: 0
           tags:
@@ -883,15 +883,13 @@ display:
     cache_metadata:
       max-age: -1
       contexts:
-        1: 'languages:language_content'
-        2: 'languages:language_interface'
-        3: url
-        4: url.query_args
-        5: 'user.node_grants:view'
-        6: route.group
-        7: user.group_permissions
-        8: route.group
-        9: user.group_permissions
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - route.group
+        - url
+        - url.query_args
+        - user.group_permissions
+        - 'user.node_grants:view'
       tags: {  }
   page_1:
     id: page_1
@@ -899,7 +897,11 @@ display:
     display_plugin: page
     position: 1
     display_options:
-      display_extenders: {  }
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
       path: group/%group/nodes
       menu:
         type: tab
@@ -914,13 +916,11 @@ display:
     cache_metadata:
       max-age: -1
       contexts:
-        1: 'languages:language_content'
-        2: 'languages:language_interface'
-        3: url
-        4: url.query_args
-        5: 'user.node_grants:view'
-        6: route.group
-        7: user.group_permissions
-        8: route.group
-        9: user.group_permissions
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - route.group
+        - url
+        - url.query_args
+        - user.group_permissions
+        - 'user.node_grants:view'
       tags: {  }

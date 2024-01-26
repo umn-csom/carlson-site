@@ -4462,16 +4462,16 @@ Description: Bootstrap 4 with Sass
       pointer-events: none;
       cursor: default; }
   .ck-content .nav-tabs {
-    border-bottom: 10px solid #fc3; }
+    border-bottom: 6px solid #7a0019; }
     .ck-content .nav-tabs .nav-link {
-      margin-bottom: -10px;
+      margin-bottom: -6px;
       background-color: transparent;
-      border: 10px solid transparent;
+      border: 6px solid transparent;
       border-top-left-radius: 0;
       border-top-right-radius: 0; }
       .ck-content .nav-tabs .nav-link:hover, .ck-content .nav-tabs .nav-link:focus {
         isolation: isolate;
-        border-color: #fc3; }
+        border-color: #7a0019; }
       .ck-content .nav-tabs .nav-link.disabled {
         color: #6c757d;
         background-color: transparent;
@@ -4479,10 +4479,10 @@ Description: Bootstrap 4 with Sass
     .ck-content .nav-tabs .nav-link.active,
     .ck-content .nav-tabs .nav-item.show .nav-link {
       color: #000;
-      background-color: #fc3;
-      border-color: #fc3; }
+      background-color: #7a0019;
+      border-color: #7a0019; }
     .ck-content .nav-tabs .dropdown-menu {
-      margin-top: -10px;
+      margin-top: -6px;
       border-top-left-radius: 0;
       border-top-right-radius: 0; }
   .ck-content .nav-pills .nav-link {
@@ -17329,6 +17329,8 @@ Description: Bootstrap 4 with Sass
     display: inline-block; }
   .ck-content #main {
     margin-top: 1rem; }
+  .ck-content .layout-main-wrapper {
+    overflow: hidden; }
   .ck-content input[type="search"] {
     box-sizing: border-box; }
   .ck-content header #search-block-form {
@@ -17474,26 +17476,33 @@ Description: Bootstrap 4 with Sass
   .ck-content .tablesort--desc {
     background-image: url(../../../../misc/icons/ffffff/twistie-up.svg); }
   .ck-content .nav-tabs {
-    background-color: #eae7e2; }
-    .ck-content .nav-tabs .nav-item > .nav-link,
+    border-color: #7a0019; }
+    .ck-content .nav-tabs .nav-item > .nav-link {
+      font-weight: 400; }
     .ck-content .nav-tabs .nav-item.active > .nav-link {
       font-weight: 600; }
     .ck-content .nav-tabs .nav-link {
-      margin-right: 6px;
       margin-bottom: 0;
-      background: transparent;
+      background: #e6e0d2;
       color: #000;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      border: 0; }
+      text-decoration: none;
+      font-weight: normal;
+      letter-spacing: 0.04em;
+      border: 0;
+      padding: 2rem 4rem;
+      font-size: 1.8rem;
+      line-height: 1.2; }
       .ck-content .nav-tabs .nav-link:hover, .ck-content .nav-tabs .nav-link:focus {
+        border-bottom-color: #fc3;
         background: #f7f0df;
-        border-bottom-color: #fc3; }
+        color: #7a0019;
+        text-decoration: none; }
       .ck-content .nav-tabs .nav-link.active {
-        font-weight: 600; }
-        .ck-content .nav-tabs .nav-link.active:hover, .ck-content .nav-tabs .nav-link.active:focus {
-          background: #fc3;
-          border-bottom-color: #fc3; }
+        font-weight: bold;
+        letter-spacing: normal;
+        background: #7a0019;
+        border-bottom-color: #7a0019;
+        color: #fff; }
   .ck-content .form-textarea-wrapper textarea {
     display: block;
     margin: 0;
@@ -18361,6 +18370,9 @@ Description: Bootstrap 4 with Sass
     z-index: 3000000000 !important; }
   .ck-content .container-paragraph > .container > .component-paragraph:last-child {
     margin-bottom: 0; }
+  @media (max-width: 991.98px) {
+    .ck-content .font-weight-bold-mobile {
+      font-weight: bold; } }
   .ck-content .btn, .ck-content .gold-outline-button, .ck-content .maroon-outline-button, .ck-content .maroon-solid-button, .ck-content .gold-underline-button, .ck-content .maroon-underline-button, .ck-content .gold-solid-button, .ck-content .form-group input[type="submit"], .ck-content .news-features__item--link a, .ck-content .program-features__btn, .ck-content .inline-contact__btn, .ck-content .take-the-next-step__column__btn {
     border-radius: 0; }
     .ck-content .btn.d-flex, .ck-content .d-flex.gold-outline-button, .ck-content .d-flex.maroon-outline-button, .ck-content .d-flex.maroon-solid-button, .ck-content .d-flex.gold-underline-button, .ck-content .d-flex.maroon-underline-button, .ck-content .d-flex.gold-solid-button, .ck-content .form-group input.d-flex[type="submit"], .ck-content .news-features__item--link a.d-flex, .ck-content .d-flex.program-features__btn, .ck-content .d-flex.inline-contact__btn, .ck-content .d-flex.take-the-next-step__column__btn {
@@ -19312,8 +19324,8 @@ Description: Bootstrap 4 with Sass
   .ck-content .dropdown-item:hover,
   .ck-content .dropdown-item:focus-visible,
   .ck-content .nav-link.is-active,
-  .ck-content .nav-item:not(.dropdown) > .nav-link:hover,
-  .ck-content .nav-item:not(.dropdown) > .nav-link:focus-visible,
+  .ck-content .nav-item:not(.dropdown) > .nav-link:not(.tab-link):hover,
+  .ck-content .nav-item:not(.dropdown) > .nav-link:not(.tab-link):focus-visible,
   .ck-content .nav-item.btn-group > .nav-link:hover,
   .ck-content .nav-item.btn-group > .nav-link:focus-visible {
     text-decoration: underline; }
@@ -20124,34 +20136,77 @@ Description: Bootstrap 4 with Sass
     width: unset !important; }
   .ck-content .accordion {
     margin-bottom: 30px; }
-    .ck-content .accordion .card {
-      border: 0px none; }
-      .ck-content .accordion .card .card-header {
+    .ck-content .accordion > .card {
+      border: 0;
+      border-radius: 0; }
+      .ck-content .accordion > .card:not(:last-of-type) {
+        margin-bottom: 1px; }
+      .ck-content .accordion > .card > .card-header {
         background-color: transparent;
         padding: 0;
-        border-top: 1px solid #e6d8d6;
-        border-bottom: 0;
+        border: 0;
         position: relative; }
-        .ck-content .accordion .card .card-header .btn-link {
+        .ck-content .accordion > .card > .card-header .btn-link {
           cursor: pointer;
-          word-break: break-word;
-          padding: 2rem 50px;
-          color: #212529;
-          font-family: "Open Sans", sans-serif;
+          padding: 2rem 2rem 2rem 6rem;
           width: 100%;
+          word-break: break-word;
+          font-family: "Open Sans", sans-serif;
+          font-weight: 400;
+          font-size: 2rem;
+          letter-spacing: 0.04em;
           text-align: left;
           white-space: normal;
-          font-weight: 600;
-          text-transform: none;
-          font-size: 2rem; }
-          @media (max-width: 1339px) {
-            .ck-content .accordion .card .card-header .btn-link {
-              font-size: Min(2rem, calc(1.325rem + 0.80657vw) ); } }
-          .ck-content .accordion .card .card-header .btn-link::before {
-            background: none;
-            height: auto;
-            width: auto;
-            top: unset;
+          text-transform: none; }
+          @media (max-width: 991.98px) {
+            .ck-content .accordion > .card > .card-header .btn-link {
+              padding: 2rem 2rem 2rem 4rem; } }
+          .ck-content .accordion > .card > .card-header .btn-link:hover, .ck-content .accordion > .card > .card-header .btn-link:focus, .ck-content .accordion > .card > .card-header .btn-link:active, .ck-content .accordion > .card > .card-header .btn-link:visited {
+            text-decoration: none;
+            outline: none; }
+          .ck-content .accordion > .card > .card-header .btn-link.collapsed {
+            background: #e6e0d2;
+            color: #212529; }
+            .ck-content .accordion > .card > .card-header .btn-link.collapsed:hover, .ck-content .accordion > .card > .card-header .btn-link.collapsed:focus {
+              background: #e6e0d2;
+              color: #7a0019; }
+            .ck-content .accordion > .card > .card-header .btn-link.collapsed:focus-visible {
+              background: #d8cfb9; }
+            .ck-content .accordion > .card > .card-header .btn-link.collapsed::before {
+              font-family: 'carlson-icons' !important;
+              speak: none;
+              font-style: normal;
+              font-weight: normal;
+              font-variant: normal;
+              text-transform: none;
+              line-height: 1;
+              /* Better Font Rendering =========== */
+              -webkit-font-smoothing: antialiased;
+              -moz-osx-font-smoothing: grayscale;
+              content: "";
+              color: #7a0019;
+              font-size: 2rem;
+              line-height: 1.5;
+              font-weight: bold;
+              position: absolute;
+              background: none;
+              height: auto;
+              width: auto;
+              margin: 0;
+              padding: 0;
+              left: 2.5rem;
+              top: unset; }
+              @media (max-width: 991.98px) {
+                .ck-content .accordion > .card > .card-header .btn-link.collapsed::before {
+                  left: 1.25rem; } }
+          .ck-content .accordion > .card > .card-header .btn-link:not(.collapsed), .ck-content .accordion > .card > .card-header .btn-link:not(.collapsed):hover, .ck-content .accordion > .card > .card-header .btn-link:not(.collapsed):focus {
+            background: #7a0019;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: normal; }
+          .ck-content .accordion > .card > .card-header .btn-link:not(.collapsed):focus-visible {
+            background: #540011; }
+          .ck-content .accordion > .card > .card-header .btn-link:not(.collapsed)::before {
             font-family: 'carlson-icons' !important;
             speak: none;
             font-style: normal;
@@ -20163,43 +20218,73 @@ Description: Bootstrap 4 with Sass
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             content: "";
-            color: #7a0019;
-            font-size: 2.8rem;
-            margin-right: 2rem;
+            color: #fff;
+            font-size: 2rem;
+            line-height: 1.5;
             font-weight: bold;
-            font-size: 2rem; }
-            @media (max-width: 1339px) {
-              .ck-content .accordion .card .card-header .btn-link::before {
-                font-size: Min(2rem, calc(1.325rem + 0.80657vw) ); } }
-          .ck-content .accordion .card .card-header .btn-link:hover, .ck-content .accordion .card .card-header .btn-link:focus, .ck-content .accordion .card .card-header .btn-link:active, .ck-content .accordion .card .card-header .btn-link:visited {
-            text-decoration: none;
-            outline: none; }
-          .ck-content .accordion .card .card-header .btn-link.collapsed {
-            background: transparent; }
-            .ck-content .accordion .card .card-header .btn-link.collapsed::before {
-              content: ""; }
-            .ck-content .accordion .card .card-header .btn-link.collapsed:hover, .ck-content .accordion .card .card-header .btn-link.collapsed:focus {
-              background: #e6e0d2; }
-      .ck-content .accordion .card .inner {
+            position: absolute;
+            background: none;
+            height: auto;
+            width: auto;
+            margin: 0;
+            padding: 0;
+            left: 2.5rem;
+            top: unset;
+            color: #fff; }
+            @media (max-width: 991.98px) {
+              .ck-content .accordion > .card > .card-header .btn-link:not(.collapsed)::before {
+                left: 1.25rem; } }
+      .ck-content .accordion > .card > .inner {
         transition: all 0.26s ease-in-out; }
-    .ck-content .accordion .card-body {
-      padding: 3rem 3rem 5rem; }
-  .ck-content .sub-accordion.accordion .card .card-header .btn-link {
-    font-size: 2.5rem;
-    line-height: 2.5rem;
-    padding: 2rem; }
-    @media (min-width: 768px) {
-      .ck-content .sub-accordion.accordion .card .card-header .btn-link {
-        font-size: 2rem;
-        line-height: 2rem; } }
-    .ck-content .sub-accordion.accordion .card .card-header .btn-link::before {
-      font-size: 2rem; }
+        .ck-content .accordion > .card > .inner > .card-body {
+          padding: 3rem 3rem 5rem;
+          border-bottom: 0.5rem solid #7a0019; }
+          @media (max-width: 991.98px) {
+            .ck-content .accordion > .card > .inner > .card-body {
+              padding-left: 0;
+              padding-right: 0; } }
+          .ck-content .accordion > .card > .inner > .card-body .container.session {
+            padding: 0;
+            max-width: none;
+            width: 100%; }
+          .ck-content .accordion > .card > .inner > .card-body .sub-accordion {
+            margin-bottom: 0; }
+          .ck-content .accordion > .card > .inner > .card-body .accordion-content:not(:first-child) {
+            margin-top: 3rem; }
+    @media (max-width: 991.98px) {
+      .ck-content .accordion:not(.sub-accordion) > .card {
+        overflow: visible; }
+        .ck-content .accordion:not(.sub-accordion) > .card > .card-header::before, .ck-content .accordion:not(.sub-accordion) > .card > .card-header::after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: 100%;
+          top: 0;
+          width: 100%;
+          background-color: #7a0019;
+          height: 100%;
+          transition: background-color 0.15s ease-in-out; }
+        .ck-content .accordion:not(.sub-accordion) > .card > .card-header:has(.collapsed)::before, .ck-content .accordion:not(.sub-accordion) > .card > .card-header:has(.collapsed)::after {
+          background: #e6e0d2; }
+        .ck-content .accordion:not(.sub-accordion) > .card > .card-header::after {
+          left: 100%; }
+        .ck-content .accordion:not(.sub-accordion) > .card > .inner > .card-body::before, .ck-content .accordion:not(.sub-accordion) > .card > .inner > .card-body::after {
+          content: '';
+          display: block;
+          position: absolute;
+          right: 100%;
+          bottom: 0;
+          width: 100%;
+          background-color: #7a0019;
+          height: 0.5rem; }
+        .ck-content .accordion:not(.sub-accordion) > .card > .inner > .card-body::after {
+          left: 100%; } }
   @media print {
-    .ck-content .accordion .card .inner.collapse {
+    .ck-content .accordion > .card > .inner.collapse {
       display: block;
       opacity: 1; } }
   .ck-content .tabbed-content__nav {
-    border-bottom: 10px solid #fc3; }
+    border-bottom: 6px solid #7a0019; }
     .ck-content .tabbed-content__nav .nav-item {
       margin-bottom: 0; }
   @media (max-width: 991.98px) {
@@ -20760,181 +20845,17 @@ Description: Bootstrap 4 with Sass
       .ck-content .link-list__item a:hover, .ck-content .link-list__item a:focus {
         color: #7a0019;
         background: #ccc; }
-  .ck-content .field--name-field-my-chart .highcharts-color-0.highcharts-point {
-    fill: #7a0019 !important; }
-  .ck-content .field--name-field-my-chart .highcharts-color-0 .highcharts-point {
-    fill: #7a0019 !important; }
-  .ck-content .field--name-field-my-chart .highcharts-color-1.highcharts-point {
-    fill: #fc3 !important; }
-  .ck-content .field--name-field-my-chart .highcharts-color-1 .highcharts-point {
-    fill: #fc3 !important; }
-  .ck-content .field--name-field-my-chart .highcharts-color-2.highcharts-point {
-    fill: #303030 !important; }
-  .ck-content .field--name-field-my-chart .highcharts-color-2 .highcharts-point {
-    fill: #303030 !important; }
-  .ck-content .field--name-field-my-chart .highcharts-color- text {
-    fill: #000 !important; }
-  .ck-content .highcharts-color-0 {
-    fill: #900021; }
-    .ck-content .highcharts-color-0 rect {
-      fill: #900021; }
-    .ck-content .highcharts-color-0 .text-color {
-      color: #900021; }
-    .ck-content .highcharts-color-0 .background-color {
-      background-color: #900021; }
-    .highcharts-3d-chart .ck-content .highcharts-color-0 {
-      stroke: #530013; }
-      .highcharts-3d-chart .ck-content .highcharts-color-0 text {
-        stroke: none; }
-    .ck-content .highcharts-color-0.highcharts-data-label-connector {
-      stroke: #530013;
-      fill: none; }
-  .ck-content .highcharts-color-1 {
-    fill: #fc3; }
-    .ck-content .highcharts-color-1 rect {
-      fill: #fc3; }
-    .ck-content .highcharts-color-1 .text-color {
-      color: #fc3; }
-    .ck-content .highcharts-color-1 .background-color {
-      background-color: #fc3; }
-    .highcharts-3d-chart .ck-content .highcharts-color-1 {
-      stroke: #f5b800; }
-      .highcharts-3d-chart .ck-content .highcharts-color-1 text {
-        stroke: none; }
-    .ck-content .highcharts-color-1.highcharts-data-label-connector {
-      stroke: #f5b800;
-      fill: none; }
-  .ck-content .highcharts-color-2 {
-    fill: #303030; }
-    .ck-content .highcharts-color-2 rect {
-      fill: #303030; }
-    .ck-content .highcharts-color-2 .text-color {
-      color: #303030; }
-    .ck-content .highcharts-color-2 .background-color {
-      background-color: #303030; }
-    .highcharts-3d-chart .ck-content .highcharts-color-2 {
-      stroke: #111111; }
-      .highcharts-3d-chart .ck-content .highcharts-color-2 text {
-        stroke: none; }
-    .ck-content .highcharts-color-2.highcharts-data-label-connector {
-      stroke: #111111;
-      fill: none; }
-  .ck-content .highcharts-color-3 {
-    fill: #e6e0d2; }
-    .ck-content .highcharts-color-3 rect {
-      fill: #e6e0d2; }
-    .ck-content .highcharts-color-3 .text-color {
-      color: #e6e0d2; }
-    .ck-content .highcharts-color-3 .background-color {
-      background-color: #e6e0d2; }
-    .highcharts-3d-chart .ck-content .highcharts-color-3 {
-      stroke: #d0c5ab; }
-      .highcharts-3d-chart .ck-content .highcharts-color-3 text {
-        stroke: none; }
-    .ck-content .highcharts-color-3.highcharts-data-label-connector {
-      stroke: #d0c5ab;
-      fill: none; }
-  .ck-content .highcharts-color-4 {
-    fill: #1798af; }
-    .ck-content .highcharts-color-4 rect {
-      fill: #1798af; }
-    .ck-content .highcharts-color-4 .text-color {
-      color: #1798af; }
-    .ck-content .highcharts-color-4 .background-color {
-      background-color: #1798af; }
-    .highcharts-3d-chart .ck-content .highcharts-color-4 {
-      stroke: #106979; }
-      .highcharts-3d-chart .ck-content .highcharts-color-4 text {
-        stroke: none; }
-    .ck-content .highcharts-color-4.highcharts-data-label-connector {
-      stroke: #106979;
-      fill: none; }
-  .ck-content .highcharts-color-5 {
-    fill: #973c49; }
-    .ck-content .highcharts-color-5 rect {
-      fill: #973c49; }
-    .ck-content .highcharts-color-5 .text-color {
-      color: #973c49; }
-    .ck-content .highcharts-color-5 .background-color {
-      background-color: #973c49; }
-    .highcharts-3d-chart .ck-content .highcharts-color-5 {
-      stroke: #6b2b34; }
-      .highcharts-3d-chart .ck-content .highcharts-color-5 text {
-        stroke: none; }
-    .ck-content .highcharts-color-5.highcharts-data-label-connector {
-      stroke: #6b2b34;
-      fill: none; }
-  .ck-content .highcharts-color-6 {
-    fill: #ffb71e; }
-    .ck-content .highcharts-color-6 rect {
-      fill: #ffb71e; }
-    .ck-content .highcharts-color-6 .text-color {
-      color: #ffb71e; }
-    .ck-content .highcharts-color-6 .background-color {
-      background-color: #ffb71e; }
-    .highcharts-3d-chart .ck-content .highcharts-color-6 {
-      stroke: #e09800; }
-      .highcharts-3d-chart .ck-content .highcharts-color-6 text {
-        stroke: none; }
-    .ck-content .highcharts-color-6.highcharts-data-label-connector {
-      stroke: #e09800;
-      fill: none; }
-  .ck-content .highcharts-color-7 {
-    fill: #28a745; }
-    .ck-content .highcharts-color-7 rect {
-      fill: #28a745; }
-    .ck-content .highcharts-color-7 .text-color {
-      color: #28a745; }
-    .ck-content .highcharts-color-7 .background-color {
-      background-color: #28a745; }
-    .highcharts-3d-chart .ck-content .highcharts-color-7 {
-      stroke: #1c7631; }
-      .highcharts-3d-chart .ck-content .highcharts-color-7 text {
-        stroke: none; }
-    .ck-content .highcharts-color-7.highcharts-data-label-connector {
-      stroke: #1c7631;
-      fill: none; }
-  .ck-content .highcharts-color-8 {
-    fill: #ef8b44; }
-    .ck-content .highcharts-color-8 rect {
-      fill: #ef8b44; }
-    .ck-content .highcharts-color-8 .text-color {
-      color: #ef8b44; }
-    .ck-content .highcharts-color-8 .background-color {
-      background-color: #ef8b44; }
-    .highcharts-3d-chart .ck-content .highcharts-color-8 {
-      stroke: #e26913; }
-      .highcharts-3d-chart .ck-content .highcharts-color-8 text {
-        stroke: none; }
-    .ck-content .highcharts-color-8.highcharts-data-label-connector {
-      stroke: #e26913;
-      fill: none; }
-  .ck-content .highcharts-color-9 {
-    fill: #2bc; }
-    .ck-content .highcharts-color-9 rect {
-      fill: #2bc; }
-    .ck-content .highcharts-color-9 .text-color {
-      color: #2bc; }
-    .ck-content .highcharts-color-9 .background-color {
-      background-color: #2bc; }
-    .highcharts-3d-chart .ck-content .highcharts-color-9 {
-      stroke: #198b98; }
-      .highcharts-3d-chart .ck-content .highcharts-color-9 text {
-        stroke: none; }
-    .ck-content .highcharts-color-9.highcharts-data-label-connector {
-      stroke: #198b98;
-      fill: none; }
-  .ck-content .highcharts-legend-box {
-    fill: #f7f6f4;
-    stroke: #e6e0d2;
-    stroke-width: 1px; }
-  .ck-content .highcharts-legend--no-background,
-  .ck-content .highcharts-legend--no-background .highcharts-legend-box {
-    fill: none !important; }
-  .ck-content .highcharts-legend--no-points .highcharts-point {
-    display: none; }
+  .ck-content .charts-highchart {
+    max-width: 768px;
+    margin: 3rem auto; }
+  .ck-content .highcharts-donut {
+    min-width: 300px;
+    height: 400px;
+    margin: 0 auto; }
   .ck-content .highcharts-label-box.highcharts-tooltip-box {
     stroke: #8a8a8a; }
+  .ck-content .highcharts-legend-box {
+    stroke: #e6e0d2; }
   .ck-content .highcharts-axis-labels,
   .ck-content .highcharts-legend-item,
   .ck-content .highcharts-root {
@@ -20955,7 +20876,32 @@ Description: Bootstrap 4 with Sass
   .ck-content .highcharts-description {
     font-family: "Open Sans", sans-serif !important;
     line-height: 1.5 !important;
-    font-size: 1.2em !important; }
+    font-size: 1.8rem !important; }
+  .ck-content .highcharts-title {
+    font-size: 2.2rem !important; }
+  .ck-content .highcharts-tooltip {
+    font-family: "Open Sans", sans-serif !important; }
+  .ck-content .highcharts-tooltip__bullet {
+    font-size: 1.6rem !important; }
+  .ck-content .highcharts-tooltip__name {
+    font-size: 1.2rem !important;
+    font-weight: 500; }
+  .ck-content .highcharts-tooltip__value {
+    font-size: 1.4rem !important;
+    font-weight: 700; }
+  .ck-content .highcharts-tooltip__description {
+    font-size: 1.4rem !important;
+    font-weight: 300; }
+  .ck-content .highcharts-plot-band[fill="red"] {
+    fill: rgba(220, 53, 69, 0.4); }
+  .ck-content .highcharts-plot-band[fill="yellow"] {
+    fill: rgba(255, 193, 7, 0.4); }
+  .ck-content .highcharts-plot-band[fill="green"] {
+    fill: rgba(40, 167, 69, 0.4); }
+  .ck-content .highcharts-minor-tick {
+    stroke: rgba(255, 255, 255, 0.6); }
+  .ck-content .highcharts-tick {
+    stroke: #1a1a1a; }
   .ck-content .highcharts-figure,
   .ck-content .highcharts-data-table table {
     min-width: 320px;
@@ -21050,15 +20996,17 @@ Description: Bootstrap 4 with Sass
     max-width: 1065px;
     margin: 40px auto;
     min-height: 182px; }
-    .ck-content .csom-banner p {
-      margin: 15px 0; }
     .ck-content .csom-banner .section {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding: 40px 20px;
       text-align: center;
       position: relative; }
+      .ck-content .csom-banner .section > .component-paragraph {
+        margin-bottom: 0; }
+      .ck-content .csom-banner .section > .stats__item {
+        height: 100%; }
     .ck-content .csom-banner .field-number {
       font-size: 5rem; }
     .ck-content .csom-banner .description,
@@ -21067,13 +21015,14 @@ Description: Bootstrap 4 with Sass
     .ck-content .csom-banner .field-school {
       font-size: 1.2rem; }
     .ck-content .csom-banner .embedded-entity {
-      overflow: hidden; }
+      overflow: hidden;
+      min-height: 130px; }
       .ck-content .csom-banner .embedded-entity img {
         position: absolute;
         top: 0;
         left: 0;
         object-fit: cover;
-        object-position: top;
+        object-position: center;
         width: 100%;
         height: 100%; }
     .ck-content .csom-banner img {
@@ -21088,7 +21037,7 @@ Description: Bootstrap 4 with Sass
       height: 100%; }
     .ck-content .csom-banner--33-33-33 .section {
       width: 33.33%; }
-      @media (max-width: 550px) {
+      @media (max-width: 767px) {
         .ck-content .csom-banner--33-33-33 .section {
           width: 100%; } }
     .ck-content .csom-banner--33-66 .section:nth-child(1) {
@@ -21364,20 +21313,6 @@ Description: Bootstrap 4 with Sass
       .ck-content .csom-figure-with-datatable table thead th:not(:last-child),
       .ck-content .csom-figure-with-datatable table thead td:not(:last-child) {
         border-right-color: #fff; }
-  .ck-content .highcharts-donut {
-    min-width: 300px;
-    height: 400px;
-    margin: 0 auto; }
-  .ck-content #highcharts-donut-color-override .highcharts-color-0, .ck-content #highcharts-donut-color-override .highcharts-color-0 rect {
-    fill: #fc3; }
-  .ck-content #highcharts-donut-color-override .highcharts-color-1, .ck-content #highcharts-donut-color-override .highcharts-color-1 rect {
-    fill: #7a0019; }
-  .ck-content #highcharts-donut-color-override .highcharts-color-2, .ck-content #highcharts-donut-color-override .highcharts-color-2 rect {
-    fill: #1798af; }
-  .ck-content #highcharts-donut-color-override .highcharts-color-3, .ck-content #highcharts-donut-color-override .highcharts-color-3 rect {
-    fill: #e6e0d2; }
-  .ck-content #highcharts-donut-color-override .highcharts-color-4, .ck-content #highcharts-donut-color-override .highcharts-color-4 rect {
-    fill: #303030; }
   .ck-content .list-legend {
     margin: 20px auto;
     width: max-content; }
@@ -21397,23 +21332,23 @@ Description: Bootstrap 4 with Sass
       font-weight: normal;
       font-size: 1em;
       margin: 0 0 0 10px; }
-  .ck-content .csom-multi-column-text-list {
+  .ck-content .csom-multicol-list {
     overflow: hidden;
     position: relative;
     border-radius: 4px;
     margin: 0 auto;
     width: 100%;
     background: #fff; }
-    .ck-content .csom-multi-column-text-list ul {
+    .ck-content .csom-multicol-list ul {
       list-style: none;
       padding: 2rem 0;
       margin: 0;
       column-width: 16rem;
       column-gap: 2.5rem; }
-    .ck-content .csom-multi-column-text-list li {
+    .ck-content .csom-multicol-list li {
       margin: 0 0 1rem;
       line-height: 1.25; }
-    .ck-content .csom-multi-column-text-list .more-less {
+    .ck-content .csom-multicol-list .more-less {
       position: absolute;
       border: 0;
       bottom: 0;
@@ -21429,24 +21364,24 @@ Description: Bootstrap 4 with Sass
       justify-content: center;
       align-items: end;
       display: none; }
-      .ck-content .csom-multi-column-text-list .more-less:hover, .ck-content .csom-multi-column-text-list .more-less:focus {
+      .ck-content .csom-multicol-list .more-less:hover, .ck-content .csom-multicol-list .more-less:focus {
         text-decoration: underline; }
-      .ck-content .csom-multi-column-text-list .more-less:focus-visible {
+      .ck-content .csom-multicol-list .more-less:focus-visible {
         outline: none; }
-        .ck-content .csom-multi-column-text-list .more-less:focus-visible span {
+        .ck-content .csom-multicol-list .more-less:focus-visible span {
           outline: auto 5px -webkit-focus-ring-color; }
-      .ck-content .csom-multi-column-text-list .more-less span {
+      .ck-content .csom-multicol-list .more-less span {
         display: inline-block;
         padding: .8rem 1.6rem; }
-      .ck-content .csom-multi-column-text-list .more-less::after {
+      .ck-content .csom-multicol-list .more-less::after {
         padding-right: 1rem; }
-    .ck-content .csom-multi-column-text-list.expand .more-less {
+    .ck-content .csom-multicol-list.expand .more-less {
       display: flex; }
-    .ck-content .csom-multi-column-text-list.expand.open .more-less {
+    .ck-content .csom-multicol-list.expand.open .more-less {
       background-position: 100% 0;
       height: 3rem; }
-    .ck-content .csom-multi-column-text-list.expand.closed .collapse-text,
-    .ck-content .csom-multi-column-text-list.expand.open .expand-text {
+    .ck-content .csom-multicol-list.expand.closed .collapse-text,
+    .ck-content .csom-multicol-list.expand.open .expand-text {
       display: none; }
   .ck-content .csom-popover {
     position: relative;
@@ -21606,6 +21541,10 @@ Description: Bootstrap 4 with Sass
       max-width: 96rem; }
     .ck-content section.wide {
       max-width: 130rem; }
+    .ck-content section.centered {
+      display: flex;
+      flex-direction: row;
+      justify-content: center; }
     .ck-content section .variant {
       font-size: 1.2em;
       font-weight: 400;
@@ -21650,6 +21589,11 @@ Description: Bootstrap 4 with Sass
       flex-direction: row; }
       @media (max-width: 550px) {
         .ck-content .csom-stat-donut--row {
+          flex-direction: column; } }
+      @media (max-width: 768px) {
+        .csom-banner--33-33 .section .ck-content .csom-stat-donut--row,
+        .csom-banner--33-66 .section .ck-content .csom-stat-donut--row,
+        .csom-banner--33-33-33 .section .ck-content .csom-stat-donut--row {
           flex-direction: column; } }
     .ck-content .csom-stat-donut__circle {
       width: var(--csom-stat-donut-width);
@@ -21768,44 +21712,50 @@ Description: Bootstrap 4 with Sass
           stop-color: #fc3; }
       .ck-content .csom-state-map__svg:hover stop:nth-child(1) {
         stop-color: #900021; }
-  .ck-content .csom-stats,
-  .ck-content .csom-stats-type-1 {
-    max-width: 180px;
-    margin: 0 auto 40px;
-    padding: 15px;
-    text-align: center; }
-    .ck-content .csom-stats p,
-    .ck-content .csom-stats-type-1 p {
-      margin: 5px 0; }
-    .ck-content .csom-stats img,
-    .ck-content .csom-stats-type-1 img {
-      max-width: 100%;
-      height: auto; }
-    .ck-content .csom-stats .field-title,
-    .ck-content .csom-stats-type-1 .field-title {
-      font-size: 1.2em; }
-    .ck-content .csom-stats .field-price,
-    .ck-content .csom-stats-type-1 .field-price {
-      font-size: 1.7em; }
-  .ck-content .csom-stats-type-2 {
-    max-width: 247px;
+  .ck-content .csom-stat-icon {
+    margin: 2rem 1.5rem;
+    padding: 1.5rem;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center; }
+  .ck-content .csom-stat-icon__image img,
+  .ck-content .csom-stat-icon__image svg {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    overflow: visible; }
+  .ck-content .csom-stat-icon__value {
+    font-size: 5.5rem;
+    line-height: 1;
+    margin: 0; }
+  .ck-content .csom-stat-icon__description {
+    font-size: 2rem; }
+  .ck-content .csom-stat-icon--position-above {
+    max-width: 18rem; }
+    .ck-content .csom-stat-icon--position-above .csom-stat-icon__image + .csom-stat-icon__text {
+      margin-top: 1.5rem; }
+  .ck-content .csom-stat-icon--position-left {
+    max-width: 29rem;
+    flex-direction: row;
     text-align: left; }
-    .ck-content .csom-stats-type-2 .info {
-      padding: 15px; }
-    .ck-content .csom-stats-type-2 .field-logo {
-      min-width: 50px;
-      width: 50px; }
-    .ck-content .csom-stats-type-2 .field-title {
-      font-size: 0.8em; }
-    .ck-content .csom-stats-type-2 .field-price {
-      font-size: 1.7em; }
-  .ck-content .csom-stats-type-3 {
+    .ck-content .csom-stat-icon--position-left .csom-stat-icon__image {
+      min-width: 5rem;
+      width: 5rem; }
+    .ck-content .csom-stat-icon--position-left .csom-stat-icon__text {
+      flex-grow: 1; }
+    .ck-content .csom-stat-icon--position-left .csom-stat-icon__image + .csom-stat-icon__text {
+      margin-left: 1.5rem; }
+    .ck-content .csom-stat-icon--position-left .csom-stat-icon__value {
+      font-size: 2.6rem; }
+    .ck-content .csom-stat-icon--position-left .csom-stat-icon__description {
+      font-size: 1.5rem; }
+  .ck-content .csom-stat-icon--style-bold .csom-stat-icon__description {
     font-weight: bold; }
-    .ck-content .csom-stats-type-3 .field-price {
-      color: #7a0019; }
+  .ck-content .csom-stat-icon--style-bold .csom-stat-icon__value {
+    color: #7a0019;
+    font-weight: bold; }
   .ck-content .csom-vertical-stacked-bar-chart {
     border: 0;
     margin: 50px auto;
@@ -22312,7 +22262,8 @@ Description: Bootstrap 4 with Sass
   .ck-content .ee-program__content {
     margin-top: 40px; }
     .ck-content .ee-program__content .component-paragraph {
-      padding: 0 15px; }
+      padding: 0 15px;
+      margin: 0; }
       .ck-content .ee-program__content .component-paragraph h2 {
         text-align: left;
         margin-bottom: 25px; }
@@ -22353,79 +22304,6 @@ Description: Bootstrap 4 with Sass
     box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1); }
   .ck-content .ee-program .ee-flexible_features .component-paragraph {
     margin-bottom: 0; }
-  .ck-content .ee-program .ee-field_accordion .slick-list {
-    margin: 0 40px; }
-  .ck-content .ee-program .ee-field_accordion .slick-arrow {
-    background: #fff; }
-    .ck-content .ee-program .ee-field_accordion .slick-arrow:before {
-      color: #7a0019;
-      font-size: 1.8rem;
-      font-weight: bold; }
-  .ck-content .ee-program .ee-field_accordion .slick-prev:before {
-    font-family: 'carlson-icons' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    content: ""; }
-  .ck-content .ee-program .ee-field_accordion .slick-next:before {
-    font-family: 'carlson-icons' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    /* Better Font Rendering =========== */
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    content: ""; }
-  @media (min-width: 992px) {
-    .ck-content .ee-program .ee-field_accordion .slick-arrow {
-      width: 60px;
-      height: 60px; }
-      .ck-content .ee-program .ee-field_accordion .slick-arrow:before {
-        font-size: 2.6rem; }
-    .ck-content .ee-program .ee-field_accordion .slick-list {
-      margin: 0 70px; } }
-  .ck-content .ee-program .ee-field_accordion .component-paragraph.accordion-content {
-    margin-bottom: 0; }
-  .ck-content .ee-program .ee-field_accordion .accordion-content__heading {
-    display: none; }
-  .ck-content .ee-program .ee-field_accordion .nav-tabs {
-    justify-content: center;
-    margin: 0 -15px;
-    padding-top: 50px;
-    background-size: 100%;
-    border: none; }
-    .ck-content .ee-program .ee-field_accordion .nav-tabs .nav-link {
-      padding: 10px 25px 8px;
-      font-size: 13px;
-      font-weight: 900;
-      color: #363230;
-      letter-spacing: 1.39px;
-      text-align: center;
-      text-transform: uppercase;
-      border-bottom-width: 0; }
-      .ck-content .ee-program .ee-field_accordion .nav-tabs .nav-link.active {
-        border-color: rgba(230, 219, 214, 0.5);
-        border-bottom-width: 0;
-        font-weight: normal; }
-      .ck-content .ee-program .ee-field_accordion .nav-tabs .nav-link:hover, .ck-content .ee-program .ee-field_accordion .nav-tabs .nav-link:focus {
-        border-bottom-width: 0; }
-  .ck-content .ee-program .ee-field_accordion .tab-content {
-    padding: 50px 0; }
-  .ck-content .ee-program .ee-field_accordion .accordion .card .card-header {
-    display: none; }
-  .ck-content .ee-program .ee-field_accordion .accordion .card .inner {
-    background: none;
-    display: block;
-    opacity: 1; }
   .ck-content .ee-program__details-bottom {
     position: relative;
     background-color: #fc3;
@@ -22483,48 +22361,6 @@ Description: Bootstrap 4 with Sass
       background: #fff; }
       .ck-content .ee-program__details-bottom--brochure a {
         color: #fc3; }
-  .ck-content .ee-program .course_schedule {
-    margin-bottom: 5rem; }
-    .ck-content .ee-program .course_schedule .slick-track {
-      display: flex; }
-      .ck-content .ee-program .course_schedule .slick-track .slick-slide {
-        height: auto; }
-        .ck-content .ee-program .course_schedule .slick-track .slick-slide .course_schedule-day {
-          height: calc(100% - 20px); }
-    .ck-content .ee-program .course_schedule-day {
-      background-color: #fff;
-      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-      margin: 15px;
-      padding: 0 0 25px 0; }
-    .ck-content .ee-program .course_schedule-title {
-      display: block;
-      width: 100%;
-      text-align: center;
-      padding: 15px 15px;
-      background: #7a0019;
-      margin-bottom: 25px;
-      font-family: "Newsreader", serif;
-      font-size: 34px;
-      color: #fff;
-      text-align: center;
-      line-height: 31px; }
-    .ck-content .ee-program .course_schedule-part-one, .ck-content .ee-program .course_schedule-part-two {
-      text-align: center;
-      margin: 0 25px; }
-    .ck-content .ee-program .course_schedule-part-title {
-      font-size: 13px;
-      color: #363230;
-      letter-spacing: 1.39px;
-      text-align: center;
-      text-transform: uppercase;
-      font-weight: 900;
-      margin-bottom: 15px; }
-    .ck-content .ee-program .course_schedule-part-one:after {
-      content: '';
-      display: block;
-      position: relative;
-      margin: 25px;
-      border-bottom: 1px solid #D8D8D8; }
   .ck-content .node__content.ee-program .block-views ul:not([class]) li:before {
     top: 1.1em; }
   .ck-content .node--type-executive-ed-program {
@@ -22535,7 +22371,7 @@ Description: Bootstrap 4 with Sass
       flex-grow: 1;
       justify-content: center; }
       .ck-content .node--type-executive-ed-program .faculty-wrapper .staff-faculty__wrapper {
-        padding: 1rem 1rem;
+        padding: 0 1rem 2rem;
         width: 100%;
         max-width: 400px; }
         .ck-content .node--type-executive-ed-program .faculty-wrapper .staff-faculty__wrapper:nth-child(1):nth-last-child(1) {
@@ -22569,7 +22405,7 @@ Description: Bootstrap 4 with Sass
             @media (min-width: 768px) {
               .ck-content .node--type-executive-ed-program .faculty-wrapper .staff-faculty__wrapper .staff-faculty__item > .row [class*='col-'].staff-faculty__item--image {
                 max-width: 100%;
-                padding: 25px; } }
+                padding: 0 2.5rem 2.5rem; } }
             .ck-content .node--type-executive-ed-program .faculty-wrapper .staff-faculty__wrapper .staff-faculty__item > .row [class*='col-'].staff-faculty__item--image img {
               -webkit-box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.3);
               -moz-box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.3);
@@ -22691,27 +22527,12 @@ Description: Bootstrap 4 with Sass
               padding: 2rem 1rem 2rem 6rem; }
             .ck-content .node--type-executive-ed-program .inner_nav .block .inner_nav--accordion .sidebar-menu .nav .nav-item.menu-item--expanded:after {
               content: none; }
-  .ck-content .ee-course_info {
-    background-color: #7a0019; }
-    .ck-content .ee-course_info .ee-course_container {
-      display: flex;
-      padding: 50px 0px 50px;
-      flex-wrap: wrap;
-      justify-content: center; }
-  .ck-content .ee-audience {
-    background: #fff; }
-  .ck-content .ee-benefits {
-    background: #fff; }
-  .ck-content .ee-audience, .ck-content .ee-benefits {
-    position: relative;
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    clip-path: polygon(0 0, calc(100% - 96.66666px) 0, 100% 55.81052px, 100% 100%, 0 100%); }
-    .ck-content .ee-audience .content, .ck-content .ee-benefits .content {
-      padding: 30px; }
+  .ck-content .ee-program__content .component-paragraph,
+  .ck-content .ee-program__content .accordion, .ck-content .ee-course_info .component-paragraph,
+  .ck-content .ee-course_info .accordion {
+    margin-bottom: 0; }
+  .ck-content .ee-audience .content, .ck-content .ee-benefits .content {
+    padding: 30px; }
   .ck-content .ee-audience, .ck-content .ee-benefits {
     margin: 20px; }
     .ck-content .ee-audience h2, .ck-content .ee-benefits h2 {
@@ -22720,51 +22541,24 @@ Description: Bootstrap 4 with Sass
       text-align: center; }
     .ck-content .ee-audience ul:not([class]) li, .ck-content .ee-benefits ul:not([class]) li {
       margin-bottom: 10px; }
-  .ck-content .ee-audience, .ck-content .ee-benefits {
-    max-width: 100%;
-    flex: 0 1 100%; }
-    @media (min-width: 1200px) {
-      .ck-content .ee-audience, .ck-content .ee-benefits {
-        max-width: calc(50% - 10px);
-        flex: 1 0 45%; }
-        .ck-content .ee-audience.force-single-column, .ck-content .ee-benefits.force-single-column {
-          max-width: 700px;
-          flex: 0 1 100%; } }
   @media (max-width: 993px) {
     .ck-content .ee-program__details {
       position: relative;
       width: 100%; }
     .ck-content .ee-program__content {
-      margin-bottom: 40px; }
-    .ck-content .ee-audience .content, .ck-content .ee-benefits .content {
-      justify-content: center; } }
-  @media (min-width: 992px) {
-    .ck-content .ee-audience .paragraph, .ck-content .ee-benefits .paragraph {
-      height: 100%; } }
+      margin-bottom: 40px; } }
   @media (max-width: 992px) {
     .ck-content .ee-program__top .hero-program__content .hero-program__title {
       font-size: 48px;
       line-height: 48px; }
-    .ck-content .ee-program .course_schedule {
-      padding: 0 1rem; }
     .ck-content .faculty-wrapper .staff-faculty__wrapper {
       padding: 0 1rem; }
     .ck-content .ee-program__details-bottom {
-      padding: 15px; }
-    .ck-content .ee-audience, .ck-content .ee-benefits {
-      padding: 0; }
-      .ck-content .ee-audience .paragraph, .ck-content .ee-benefits .paragraph {
-        width: 100%; }
-      .ck-content .ee-audience .background-image, .ck-content .ee-benefits .background-image {
-        overflow: hidden; }
-        .ck-content .ee-audience .background-image .img-fluid, .ck-content .ee-benefits .background-image .img-fluid {
-          max-width: none; } }
+      padding: 15px; } }
   @media (max-width: 500px) {
     .ck-content .ee-program__top .hero-program__content .hero-program__title {
       font-size: 36px;
-      line-height: 36px; }
-    .ck-content .ee-audience .content, .ck-content .ee-benefits .content {
-      padding: 25px; } }
+      line-height: 36px; } }
   .ck-content .view-id-ee_program_faculty .staff-faculty__item--name {
     padding: 0px 15px 15px 30px; }
     .ck-content .view-id-ee_program_faculty .staff-faculty__item--name:after {
@@ -26272,3 +26066,83 @@ Description: Bootstrap 4 with Sass
         max-width: 50%; }
         .ck-content .take-the-next-step__column--first {
           margin-bottom: 0; } }
+  .ck-content .session {
+    border: 1px solid #7a0019;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column; }
+    @media (min-width: 992px) {
+      .ck-content .session {
+        padding: 2.5rem;
+        flex-direction: row; } }
+    .ck-content .session__eyebrow {
+      font-size: 1.4rem; }
+    .ck-content .session__title {
+      font-size: 2.4rem;
+      font-weight: 600;
+      margin-bottom: 0; }
+      @media (min-width: 992px) {
+        .ck-content .session__title {
+          font-weight: 500;
+          font-size: 2.8rem; } }
+    .ck-content .session__subtitle {
+      font-size: 1.8rem; }
+    .ck-content .session__time {
+      border-bottom: 1px solid #D5D6D2;
+      flex: 0 0 100%;
+      max-width: 100%;
+      margin-bottom: 1.5rem;
+      text-align: left;
+      padding-right: 2.5rem; }
+      @media (min-width: 992px) {
+        .ck-content .session__time {
+          border-bottom: 0;
+          border-right: 1px solid #D5D6D2;
+          flex: 0 0 20%;
+          max-width: 20%;
+          text-align: center; } }
+    .ck-content .session__overview {
+      flex: 0 0 100%;
+      max-width: 100%; }
+      @media (min-width: 992px) {
+        .ck-content .session__overview {
+          padding-left: 5rem;
+          flex: 0 0 80%;
+          max-width: 80%; } }
+      .ck-content .session__overview ul {
+        padding-inline-start: 1.5rem; }
+    .ck-content .session__title + ul,
+    .ck-content .session__title + p {
+      margin-top: 1rem; }
+    .ck-content .session--legacy .ck-content .session__title {
+      margin-bottom: 1rem; }
+    .ck-content .session__title + .ck-content .session__subtitle + ul,
+    .ck-content .session__title + .ck-content .session__subtitle + p {
+      margin-top: 2rem; }
+    .ck-content .session__header, .ck-content .session__body, .ck-content .session__footer {
+      font-size: 2.4rem;
+      font-weight: 400;
+      display: inline-block;
+      margin-inline-end: 0.6rem; }
+      @media (min-width: 992px) {
+        .ck-content .session__header, .ck-content .session__body, .ck-content .session__footer {
+          display: block; } }
+    .ck-content .session__footer {
+      font-weight: 700; }
+    @media (min-width: 992px) {
+      .ck-content .session__header {
+        font-size: 2.4rem;
+        font-weight: 300;
+        font-family: "Open Sans", sans-serif; }
+      .ck-content .session__body {
+        font-size: 6.4rem;
+        font-weight: 400;
+        font-family: "Newsreader", serif; }
+      .ck-content .session__footer {
+        font-size: 2.4rem;
+        font-weight: 700;
+        font-family: "Open Sans", sans-serif; } }
+    .ck-content .session + .session {
+      margin-top: 4rem; }
+  .ck-content .ckeditor-template-wrapper + .ckeditor-template-wrapper {
+    margin-top: 4rem; }

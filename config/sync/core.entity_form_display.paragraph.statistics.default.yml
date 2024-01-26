@@ -18,16 +18,16 @@ third_party_settings:
         - field_heading
         - field_main_content
         - field_statistic
+      label: 'Statistics Content'
+      region: content
       parent_name: ''
       weight: 1
       format_type: details
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         open: false
         required_fields: true
-      label: 'Statistics Content'
-      region: content
 _core:
   default_config_hash: aSxJjSnT5xVH0TgYhNY2YO3PEWvZvwrZkLH4jMWZbp4
 id: paragraph.statistics.default
@@ -36,38 +36,45 @@ bundle: statistics
 mode: default
 content:
   field_heading:
+    type: string_textfield
     weight: 2
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
-    region: content
   field_main_content:
+    type: text_textarea
     weight: 3
+    region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
-    region: content
   field_statistic:
-    type: entity_reference_paragraphs
+    type: paragraphs
     weight: 4
-    settings:
-      title: Paragraph
-      title_plural: Paragraphs
-      edit_mode: open
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: ''
-    third_party_settings: {  }
     region: content
+    settings:
+      title: statistic
+      title_plural: statistics
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: dropbutton
+      form_display_mode: default
+      default_paragraph_type: statistic
+      features:
+        add_above: '0'
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
     weight: 0
-    settings: {  }
     region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   created: true

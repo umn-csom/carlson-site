@@ -1,0 +1,27 @@
+uuid: a03d5bc1-2886-4165-ab89-7a512b0f1fe1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_stat_donut_description
+    - filter.format.basic
+    - paragraphs.paragraphs_type.stat_donut
+  module:
+    - text
+id: paragraph.stat_donut.field_stat_donut_description
+field_name: field_stat_donut_description
+entity_type: paragraph
+bundle: stat_donut
+label: Description
+description: 'A brief help text blurb that may include some bolded words.'
+required: false
+translatable: false
+default_value:
+  -
+    value: '<p>9 out of 10 students placed in <strong>employment within first year</strong></p>'
+    format: basic
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic
+field_type: text_long

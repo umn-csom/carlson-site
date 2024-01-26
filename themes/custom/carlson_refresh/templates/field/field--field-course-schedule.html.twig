@@ -1,0 +1,96 @@
+{#
+/**
+ * @file
+ * Theme override for the Executive Ed Course Schedule.
+ */
+#}
+
+<!-- Accordion for Mobile -->
+<div class="accordion d-block d-lg-none mb-0">
+  <div class="row component-paragraph accordion-content">
+    {% if items is not empty %}
+
+      <div class="accordion col-12" id="accordion-list-course-schedule">
+        {% set inc = 0 %}
+        {% for item in items %}
+          {% set paragraph = item.content['#paragraph'] %}
+          {% set paragraphId = paragraph.id() %}
+          <div class="card">
+            <div class="card-header">
+              <span class="mb-0">
+                {% set is_active = inc == 0 %}
+                {% set collapsed = is_active ? '' : 'collapsed' %}
+                {% set expanded = is_active ? 'true' : 'false' %}
+                {% set show = is_active ? 'show' : '' %}
+                <button id="heading-{{ paragraphId }}-{{ inc }}"
+                  class="btn btn-link {{ collapsed }}"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#collapse-{{ paragraphId }}-{{ inc }}"
+                  aria-expanded="{{ expanded }}"
+                  aria-controls="collapse-{{ paragraphId }}-{{ inc }}">
+                  {{ paragraph.field_day_title.value }}
+                </button>
+              </span>
+            </div>
+            <div id="collapse-{{ paragraphId }}-{{ inc }}"
+              class="collapse {{ show }} inner"
+              aria-labelledby="heading-{{ paragraphId }}-{{ inc }}"
+              data-parent="#accordion-list-course-schedule">
+              <div class="card-body">
+                {{ item.content }}
+              </div>
+            </div>
+          </div>
+          {% set inc = inc + 1 %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Tabs for Desktop -->
+<div class="tabbed-content d-none d-lg-block mb-0">
+
+  <div class="tabbed-content__nav--container">
+    <div class="tabbed-content__nav--positioner">
+      <ul class="tabbed-content__nav nav nav-tabs" role="tablist">
+        {% set inc = 0 %}
+        {% for item in items %}
+          {% set paragraph = item.content['#paragraph'] %}
+          {% set paragraphId = paragraph.id() %}
+          {% if inc == 0 %}
+            {% set selected = 'true' %}
+            {% set active = 'active show' %}
+          {% else %}
+            {% set selected = 'false' %}
+            {% set active = '' %}
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link tab-link {{ active }}" id="tab-{{ paragraphId }}-{{ inc }}" data-toggle="tab" href="#content-{{ paragraphId }}-{{ inc }}" role="tab" aria-controls="content-{{ paragraphId }}-{{ inc }}" aria-selected="{{ selected }}">
+              {{ paragraph.field_day_title.value }}
+            </a>
+          </li>
+          {% set inc = inc + 1 %}
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="tab-content tabbed-content__content pt-8">
+    {% set cont = 0 %}
+    {% for item in items %}
+      {% set paragraph = item.content['#paragraph'] %}
+      {% set paragraphId = paragraph.id() %}
+      {% if cont == 0 %}
+        {% set active = 'show active' %}
+      {% else %}
+        {% set active = '' %}
+      {% endif %}
+      <div class="tab-pane tabbed-content__content--itemtab-pane {{ active }}" id="content-{{ paragraphId }}-{{ cont }}" role="tabpanel" aria-labelledby="tab-{{ paragraphId }}-{{ cont }}">
+        {{ item.content }}
+      </div>
+      {% set cont = cont + 1 %}
+    {% endfor %}
+  </div>
+</div>

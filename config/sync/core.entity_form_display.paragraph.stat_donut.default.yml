@@ -1,0 +1,110 @@
+uuid: 362bc12c-0879-4c53-bb21-f443a18fcc3f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.stat_donut.field_stat_donut_dark_bg
+    - field.field.paragraph.stat_donut.field_stat_donut_description
+    - field.field.paragraph.stat_donut.field_stat_donut_position
+    - field.field.paragraph.stat_donut.field_stat_donut_heading
+    - field.field.paragraph.stat_donut.field_stat_donut_percentage
+    - field.field.paragraph.stat_donut.field_stat_donut_line_1
+    - field.field.paragraph.stat_donut.field_stat_donut_line_1_size
+    - field.field.paragraph.stat_donut.field_stat_donut_line_2
+    - field.field.paragraph.stat_donut.field_stat_donut_line_2_size
+    - paragraphs.paragraphs_type.stat_donut
+  module:
+    - field_group
+    - text
+third_party_settings:
+  field_group:
+    group_stat_graphic:
+      children:
+        - field_stat_donut_percentage
+        - field_stat_donut_line_1
+        - field_stat_donut_line_1_size
+        - field_stat_donut_line_2
+        - field_stat_donut_line_2_size
+      label: 'Stat graphic'
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: fieldset
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        description: ''
+        required_fields: true
+id: paragraph.stat_donut.default
+targetEntityType: paragraph
+bundle: stat_donut
+mode: default
+content:
+  field_stat_donut_dark_bg:
+    type: boolean_checkbox
+    weight: 7
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_stat_donut_description:
+    type: text_textarea
+    weight: 5
+    region: content
+    settings:
+      rows: 2
+      placeholder: ''
+    third_party_settings: {  }
+  field_stat_donut_heading:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: 'E.g., Graduate employment'
+    third_party_settings: {  }
+  field_stat_donut_line_1:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 20
+      placeholder: 'E.g., 90%'
+    third_party_settings: {  }
+  field_stat_donut_line_1_size:
+    type: options_select
+    weight: 3
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_stat_donut_line_2:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: 'E.g., PLACEMENT'
+    third_party_settings: {  }
+  field_stat_donut_line_2_size:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_stat_donut_percentage:
+    type: number
+    weight: 1
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+  field_stat_donut_position:
+    type: options_select
+    weight: 6
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,41 @@
+{% set position = paragraph.field_stat_donut_position.value %}
+{% set has_dark_bg = paragraph.field_stat_donut_dark_bg.value == '1' %}
+{% set section_classes = [
+  'component-paragraph',
+  'narrow',
+  has_dark_bg ? 'bg-primary text-light',
+] %}
+{% set classes = [
+  'csom-stat-donut',
+  position == 'bottom' ? 'csom-stat-donut--col',
+  position == 'right' ? 'csom-stat-donut--row',
+] %}
+{% set stat_classes = [
+  'csom-stat-donut__circle',
+  has_dark_bg ? 'csom-stat-donut__circle--gold' : 'csom-stat-donut__circle--maroon',
+] %}
+
+{% set percentage = paragraph.field_stat_donut_percentage.value %}
+{% set line_1 = paragraph.field_stat_donut_line_1.value %}
+{% set line_1_size = paragraph.field_stat_donut_line_1_size.value %}
+{% set line_2 = paragraph.field_stat_donut_line_2.value %}
+{% set line_2_size = paragraph.field_stat_donut_line_2_size.value %}
+
+<section class="{{section_classes|join(' ')}}">
+  <h2 class="csom-stat-donut__title h4">{{ content.field_stat_donut_heading }}</h2>
+  <div class="{{classes|join(' ')}}">
+    <div class="{{stat_classes|join(' ')}}" style="--csom-stat-donut-percentage:{{ percentage }};">
+    <div class="csom-stat-donut__text-wrapper">
+      {% if line_1|render|trim is not empty %}
+      <div class="csom-stat-donut__text csom-stat-donut__text--{{ line_1_size }}">{{ line_1 }}</div>
+      {% endif %}
+      {% if line_2|render|trim is not empty %}
+      <div class="csom-stat-donut__text csom-stat-donut__text--{{ line_2_size }}">{{ line_2 }}</div>
+      {% endif %}
+    </div>
+    </div>
+    {% if paragraph.field_stat_donut_description.value is not empty %}
+      <div class="csom-stat-donut__description">{{ content.field_stat_donut_description }}</div>
+    {% endif %}
+  </div>
+</section>
