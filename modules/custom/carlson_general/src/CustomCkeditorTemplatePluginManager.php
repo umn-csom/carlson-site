@@ -26,7 +26,7 @@ class CustomCkeditorTemplatePluginManager extends CkeditorTemplatePluginManager 
     foreach ($templates as $id => $template) {
       $actual_id = strpos($id, 'config_template:') === 0 ? explode(':', $id)[1] : $id;
       if ($this->currentUser->hasPermission('use ckeditor_template ' . $actual_id)) {
-        $filtered_templates[$actual_id] = $template;
+        $filtered_templates[$id] = $template;
       }
     }
 

@@ -1,22 +1,41 @@
-uuid: b686f6cf-86da-4aa6-ade1-296c17de6151
+uuid: 6d5f32d3-3811-4d0d-88da-04deb834ba38
 langcode: en
 status: open
 dependencies: {  }
 weight: 0
 open: null
 close: null
-uid: 54846
+uid: 51021
 template: false
 archive: false
-id: landing_page_rfi_omba
-title: 'Landing Page Request Information: Online MBA'
-description: ''
+id: landing_page_rfi_ftmba_deferred
+title: '[TEST w/DEFERRED MBA] Landing Page Request Information: Full-Time'
+description: '<p>Test form with Deferred MBA options added.</p>'
 categories: {  }
 elements: |-
   markup:
     '#type': webform_markup
     '#admin_title': Title
-    '#markup': '<h2 style="font-size:2.4rem;" id="form"><strong>Request information</strong></h2><p>Complete this form to receive information about coursework, admissions, tuition, and more.</p><p style="font-size:1.2rem;">*Required information</p>'
+    '#markup': |-
+      <h2 style="font-size: 2.4rem; font-weight: bold">Request information</h2>
+
+      <p>Complete this form to receive information about coursework, admissions, tuition, and more.</p>
+
+      <p style="font-size: 1.2rem">*Required information</p>
+  program:
+    '#type': radios
+    '#title': Program
+    '#options':
+      ftmba: |
+        Full-Time MBA -- The Carlson MBA
+        Program provides a blend of coursework and hands-on experiences to give students the tools they need to build bright careers in their chosen fields.
+      stemba: "Management Science MBA (STEM) -- The Management Science MBA (STEM-designated) is a Full-time MBA degree that covers traditional management topics across business disciplines while developing a specific set of skills, including statistical modeling, analytics, programming, forecasting, and operations research.\_"
+    '#options_display': side_by_side
+    '#options_description_display': help
+    '#required': true
+    '#attributes':
+      class:
+        - form-full-width
   firstname:
     '#type': textfield
     '#title': 'First Name'
@@ -51,10 +70,51 @@ elements: |-
     '#title': 'Postal Code'
     '#placeholder': 'Postal Code'
     '#required': true
-  program:
-    '#type': hidden
-    '#title': Program
-    '#default_value': omba
+  citizenship:
+    '#type': select
+    '#title': Citizenship
+    '#options':
+      'US Citizen': 'US Citizen'
+      'US Permanent Resident': 'US Permanent Resident'
+      'International Student': 'International Student'
+    '#required': true
+    '#required_error': 'Please enter your citizenship status'
+  undergraduate_graduation_month:
+    '#type': select
+    '#title': 'Undergraduate Graduation Month'
+    '#options': months
+    '#required': true
+    '#required_error': 'Please enter the month of your undergraduate graduation'
+  undergraduate_graduation_year:
+    '#type': select
+    '#title': 'Undergraduate Graduation Year'
+    '#options':
+      2028: '2028'
+      2027: '2027'
+      2026: '2026'
+      2025: '2025'
+      2024: '2024'
+      2023: '2023'
+      2022: '2022'
+      2021: '2021'
+      2020: '2020'
+      2019: '2019'
+      2018: '2018'
+      2017: '2017'
+      2016: '2016'
+      2015: '2015'
+      2014: '2014'
+      2013: '2013'
+      2012: '2012'
+      2011: '2011'
+      2010: '2010'
+      2009: '2009'
+      2008: '2008'
+      2007: '2007'
+      2006: '2006'
+      2005: '2005'
+    '#required': true
+    '#required_error': 'Please enter the year of your undergraduate graduation'
   visitorid:
     '#type': hidden
     '#title': visitorid
@@ -79,17 +139,13 @@ elements: |-
   allow_sms_content:
     '#type': checkbox
     '#title': 'Allow SMS Content'
-    '#description': '<p>&nbsp;I authorize the Carlson School of Management and its representatives to contact me via SMS. <a href="https://policies.edusites.net/terms">Terms</a>.</p>'
+    '#description': '<p>&nbsp;I authorize the Carlson School of Management and its representatives to contact me via SMS text message.</p>'
     '#title_display': invisible
     '#description_display': after
-  disclosure:
-    '#type': webform_markup
-    '#wrapper_attributes':
-      class:
-        - small
-      style: 'order:1'
-    '#admin_title': 'Wiley Disclosure'
-    '#markup': 'The Carlson School partners with Wiley University Services to help support your education journey. Wiley will contact you shortly in response to your request for information. <a href="https://carlsonschool.umn.edu/wiley-partnership" target="_blank">Learn more about Wiley and their privacy policy</a>.'
+  undergraduate_institution:
+    '#type': hidden
+    '#title': 'Undergraduate Institution'
+    '#default_value': 'UPDATE NEEDED Undergraduate Institution'
 css: ''
 javascript: ''
 settings:
@@ -195,7 +251,7 @@ settings:
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
   confirmation_type: url
-  confirmation_url: /graduate/mba/online/request-information/rfi-confirm
+  confirmation_url: /graduate/mba/full-time/request-information/rfi-confirm
   confirmation_title: ''
   confirmation_message: ''
   confirmation_attributes: {  }
@@ -279,7 +335,7 @@ handlers:
     handler_id: quick_capture
     label: 'Quick Capture'
     notes: ''
-    status: true
+    status: false
     conditions: {  }
     weight: 0
     settings:
@@ -307,7 +363,7 @@ handlers:
       file_data: true
       cast: false
       debug: false
-      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/3om3541/'
+      completed_url: 'https://work.csom.umn.edu/carlsoninquirydataserviced8/qc'
       completed_custom_data: ''
       updated_url: ''
       updated_custom_data: ''
@@ -346,7 +402,7 @@ handlers:
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: 'Webform submission from Request Information: Online MBA QC program landing page'
+      subject: 'Webform submission from Request Information: FTMBA QC program landing page (NEW FORM TESTING)'
       body: _default
       excluded_elements: {  }
       ignore_access: false
@@ -359,4 +415,55 @@ handlers:
       theme_name: ''
       parameters: {  }
       debug: false
+  remote_post:
+    id: remote_post
+    handler_id: remote_post
+    label: 'Remote post'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      method: POST
+      type: x-www-form-urlencoded
+      excluded_data:
+        serial: serial
+        sid: sid
+        uuid: uuid
+        token: token
+        uri: uri
+        created: created
+        completed: completed
+        changed: changed
+        in_draft: in_draft
+        current_page: current_page
+        remote_addr: remote_addr
+        uid: uid
+        langcode: langcode
+        webform_id: webform_id
+        entity_type: entity_type
+        entity_id: entity_id
+        locked: locked
+        sticky: sticky
+        notes: notes
+      custom_data: ''
+      custom_options: ''
+      file_data: true
+      cast: false
+      debug: false
+      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/3grhwow/'
+      completed_custom_data: ''
+      updated_url: ''
+      updated_custom_data: ''
+      deleted_url: ''
+      deleted_custom_data: ''
+      draft_created_url: ''
+      draft_created_custom_data: ''
+      draft_updated_url: ''
+      draft_updated_custom_data: ''
+      converted_url: ''
+      converted_custom_data: ''
+      message: ''
+      messages: {  }
+      error_url: ''
 variants: {  }
