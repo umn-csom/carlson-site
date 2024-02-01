@@ -8,6 +8,7 @@ var googleWebFonts = require("gulp-google-webfonts");
 var shell = require('gulp-shell');
 var postcss = require('gulp-postcss');
 var selectorReplace = require('postcss-selector-replace');
+var remToPx = require("postcss-rem-to-pixel");
 
 // Setting pattern this way allows non gulp- plugins to be loaded as well.
 var plugins = require('gulp-load-plugins')({
@@ -36,74 +37,76 @@ var paths = {
 
 // These are passed to each task.
 var options = {
-
   // ----- CSS ----- //
 
   css: {
-    files: paths.styles.destination + '**/*.css',
-    file: paths.styles.destination + '/style.css',
-    destination: paths.styles.destination
+    files: paths.styles.destination + "**/*.css",
+    file: paths.styles.destination + "/style.css",
+    destination: paths.styles.destination,
   },
 
   // ----- Sass ----- //
 
   sass: {
-    files: paths.styles.source + '**/*.scss',
-    file: paths.styles.source + 'style.scss',
-    destination: paths.styles.destination
+    files: paths.styles.source + "**/*.scss",
+    file: paths.styles.source + "style.scss",
+    destination: paths.styles.destination,
   },
 
   // ----- JS ----- //
   js: {
-    files: paths.scripts + '**/*.js',
-    destination: paths.scripts
-
+    files: paths.scripts + "**/*.js",
+    destination: paths.scripts,
   },
 
   // ----- Images ----- //
   images: {
-    files: paths.images + '**/*.{png,gif,jpg,svg}',
-    destination: paths.images
+    files: paths.images + "**/*.{png,gif,jpg,svg}",
+    destination: paths.images,
   },
 
   // ----- eslint ----- //
   jsLinting: {
     files: {
-      theme: [
-        paths.scripts + '**/*.js',
-        '!' + paths.scripts + '**/*.min.js'
-      ],
-      gulp: [
-        'gulpfile.js',
-        'gulp-tasks/**/*'
-      ]
-    }
-
+      theme: [paths.scripts + "**/*.js", "!" + paths.scripts + "**/*.min.js"],
+      gulp: ["gulpfile.js", "gulp-tasks/**/*"],
+    },
   },
 
   // ----- KSS Node ----- //
   styleGuide: {
-    source: [
-      paths.styles.source
-    ],
-    destination: 'styleguide/',
+    source: [paths.styles.source],
+    destination: "styleguide/",
     css: [
-      path.relative(paths.styleGuide, paths.styles.destination + 'style.css'),
-      path.relative(paths.styleGuide, paths.styles.destination + 'kss-only.css'),
-      "https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700|Lato:300,400,700"
+      path.relative(paths.styleGuide, paths.styles.destination + "style.css"),
+      path.relative(
+        paths.styleGuide,
+        paths.styles.destination + "kss-only.css"
+      ),
+      "https://fonts.googleapis.com/css?family=Crimson+Text:400,600,700|Lato:300,400,700",
     ],
     js: [],
-    homepage: 'styleguide-dev/homepage.md',
-    title: 'Living Style Guide'
+    homepage: "styleguide-dev/homepage.md",
+    title: "Living Style Guide",
   },
 
   googleFontsOptions: {
-    fontsDir: './fonts',
-    cssDir: './',
-    cssFilename: 'google-fonts.css',
-    fontDisplayType: 'auto'
-  }
+    fontsDir: "./fonts",
+    cssDir: "./",
+    cssFilename: "google-fonts.css",
+    fontDisplayType: "auto",
+  },
 
+  selectorReplace: {
+    before: [".ck-content body", ".ck-content html"],
+    after: [".ck-content", ".ck-content"],
+  },
+
+  remToPx: {
+    rootValue: 10,
+    propList: ['*'],
+    mediaQuery: true,
+  },
 };
 
 // Compile sass into CSS & auto-inject into browsers
@@ -130,11 +133,12 @@ gulp.task('sass-components', function() {
 });
 
 gulp.task('css', function() {
+  var processors = [
+    selectorReplace(options.selectorReplace),
+    remToPx(options.remToPx)
+  ];
   return gulp.src('css/ckeditor-style.css')
-    .pipe(postcss([selectorReplace({
-      before: [".ck-content body", ".ck-content html"],
-      after: [".ck-content", ".ck-content"]
-    })]))
+    .pipe(postcss(processors))
     .pipe(gulp.dest('css/ckeditor'));
 })
 
