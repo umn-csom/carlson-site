@@ -1,4 +1,4 @@
-.csom-column-chart {
+.csom-datatable--column-chart {
   border: 0;
   margin: 50px auto;
   min-height: 500px;
@@ -15,12 +15,7 @@
   }
 
   caption {
-    caption-side: top;
-    text-align: center;
-    color: $soft-black;
-    font-size: 1.2em;
-    font-weight: 800;
-    margin-bottom: 16px;
+    font-size: 1.9rem;
   }
 
   tbody {
@@ -38,28 +33,28 @@
       }
 
       &:nth-child(4n + 1) {
-        &, * {
+        &, > * {
           background: $maroon-light-2;
           color: $white;
         }
       }
 
       &:nth-child(4n + 2) {
-        &, * {
+        &, > * {
           background: $gold-alt;
           color: $soft-black;
         }
       }
 
       &:nth-child(4n + 3) {
-        &, * {
+        &, > * {
           background: $mid-gray;
           color: $white;
         }
       }
 
       &:nth-child(4n + 4) {
-        &, * {
+        &, > * {
           background: $mid-blue-3;
           color: $soft-black;
         }
@@ -84,5 +79,17 @@
         width: calc(100% - 3rem - 40px);
       }
     }
+  }
+}
+
+.table.ck-widget .csom-datatable--column-chart {
+  + figcaption.ck-editor__editable {
+    font-size: 1.9rem;
+  }
+}
+
+.table.ck-widget:has(.csom-datatable--column-chart) {
+  + figcaption {
+    max-width: 500px;
   }
 }
