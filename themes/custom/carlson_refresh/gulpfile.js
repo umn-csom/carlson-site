@@ -98,13 +98,13 @@ var options = {
   },
 
   selectorReplace: {
-    before: [".ck-content body", ".ck-content html"],
-    after: [".ck-content", ".ck-content"],
+    before: [".ck-content body", ".ck-content html", ".ck-content .ck-content"],
+    after: [".ck-content", ".ck-content", ".ck-content"],
   },
 
   remToPx: {
     rootValue: 10,
-    propList: ['*'],
+    propList: ["*"],
     mediaQuery: true,
   },
 };

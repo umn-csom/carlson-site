@@ -17419,27 +17419,43 @@ Description: Bootstrap 4 with Sass
   .ck-content .sr-only * {
     padding: 0 !important;
     margin: 0 !important; }
-  .ck-content .ck-content .sr-only {
-    position: initial !important;
+  .ck-content .sr-only {
+    position: relative !important;
     width: initial !important;
-    height: inital !important;
-    padding: 0 !important;
+    height: initial !important;
+    padding: 3px !important;
     margin: 0 !important;
     overflow: hidden !important;
-    clip: none !important;
+    clip: initial !important;
     white-space: normal !important;
     border: 0 !important;
-    font-style: italic;
-    border-radius: 4px;
+    font-style: italic !important;
+    font-weight: normal !important;
+    color: #dc0477 !important;
+    border-radius: 3px !important;
     background: repeating-linear-gradient(-55deg, #dfdfdf, #dfdfdf 10px, #eaeaea 10px, #eaeaea 20px) !important; }
-    .ck-content .ck-content .sr-only,
-    .ck-content .ck-content .sr-only * {
+    .ck-content .sr-only * {
       border: 0 !important;
       background: transparent !important;
-      color: #dc0477 !important;
-      border-radius: 4px !important;
-      padding: 0.1em 0.3em !important;
-      margin: 0 !important; }
+      border-radius: 0 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      font-size: 16px !important;
+      font-style: italic !important;
+      font-weight: normal !important;
+      color: #dc0477 !important; }
+    .ck-content .sr-only::before {
+      display: flex;
+      content: 'screenreader only';
+      font-size: 10px;
+      color: #000;
+      width: auto;
+      height: auto;
+      padding-left: 16px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-universal-access-circle' viewBox='0 0 16 16'%3E%3Cpath d='M8 4.143A1.071 1.071 0 1 0 8 2a1.071 1.071 0 0 0 0 2.143m-4.668 1.47 3.24.316v2.5l-.323 4.585A.383.383 0 0 0 7 13.14l.826-4.017c.045-.18.301-.18.346 0L9 13.139a.383.383 0 0 0 .752-.125L9.43 8.43v-2.5l3.239-.316a.38.38 0 0 0-.047-.756H3.379a.38.38 0 0 0-.047.756Z'/%3E%3Cpath d='M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0M1 8a7 7 0 1 1 14 0A7 7 0 0 1 1 8'/%3E%3C/svg%3E") !important;
+      background-repeat: no-repeat;
+      background-position: center left;
+      background-size: 12px 12px; }
   .ck-content .sticky-header thead th {
     vertical-align: bottom;
     border-bottom: 2px solid #dee2e6; }
@@ -17447,8 +17463,14 @@ Description: Bootstrap 4 with Sass
     padding: 7.5px;
     vertical-align: top;
     border-top: 1px solid #dee2e6; }
-  .ck-content table {
+  .ck-content table,
+  .ck-content .table {
     font-size: 16px; }
+    .ck-content table th,
+    .ck-content table td,
+    .ck-content .table th,
+    .ck-content .table td {
+      height: auto; }
   .ck-content tr.drag {
     background-color: #fffff0; }
   .ck-content tr.drag-previous {
@@ -21288,109 +21310,107 @@ Description: Bootstrap 4 with Sass
       @media (max-width: 550px) {
         .ck-content .csom-banner--33-33 .section:nth-child(1), .ck-content .csom-banner--33-33 .section:nth-child(2) {
           width: 50%; } }
-  .ck-content table.csom-datatable,
-  .ck-content table.csom-datatable--basic-1 {
+  .ck-content .csom-datatable caption, .ck-content .table.ck-widget .csom-datatable + figcaption.ck-editor__editable {
+    text-align: center;
+    color: #1a1a1a;
+    font-size: 16px;
+    font-weight: 800;
+    font-style: normal;
+    margin: 0;
+    padding-top: 6px;
+    padding-bottom: 16px;
+    background-color: none; }
+  .ck-content .csom-datatable {
     margin: 20px auto 40px;
     line-height: 1.3;
     font-weight: 600;
     min-width: 240px;
     max-width: 100%; }
-    .ck-content table.csom-datatable caption,
-    .ck-content table.csom-datatable--basic-1 caption {
-      caption-side: top;
-      text-align: center;
-      font-weight: 700;
-      color: #000; }
-    .ck-content table.csom-datatable th,
-    .ck-content table.csom-datatable td,
-    .ck-content table.csom-datatable--basic-1 th,
-    .ck-content table.csom-datatable--basic-1 td {
+    .ck-content .csom-datatable caption {
+      caption-side: top; }
+    .ck-content .csom-datatable th,
+    .ck-content .csom-datatable td {
       padding: 5px 10px;
       text-align: left;
       font-weight: 600; }
-      .ck-content table.csom-datatable th:not(:first-child),
-      .ck-content table.csom-datatable td:not(:first-child),
-      .ck-content table.csom-datatable--basic-1 th:not(:first-child),
-      .ck-content table.csom-datatable--basic-1 td:not(:first-child) {
+      .ck-content .csom-datatable th:not(:first-child),
+      .ck-content .csom-datatable td:not(:first-child) {
         text-align: center; }
-    .ck-content table.csom-datatable thead tr,
-    .ck-content table.csom-datatable thead th,
-    .ck-content table.csom-datatable thead td,
-    .ck-content table.csom-datatable--basic-1 thead tr,
-    .ck-content table.csom-datatable--basic-1 thead th,
-    .ck-content table.csom-datatable--basic-1 thead td {
+    .ck-content .csom-datatable thead tr,
+    .ck-content .csom-datatable thead th,
+    .ck-content .csom-datatable thead td {
       background: #e6e0d2;
       border-color: #e6e0d2;
       border-top: 0;
       border-bottom: 0;
       font-weight: 700; }
-    .ck-content table.csom-datatable thead th:not(:last-child),
-    .ck-content table.csom-datatable thead td:not(:last-child),
-    .ck-content table.csom-datatable--basic-1 thead th:not(:last-child),
-    .ck-content table.csom-datatable--basic-1 thead td:not(:last-child) {
+    .ck-content .csom-datatable thead th:not(:last-child),
+    .ck-content .csom-datatable thead td:not(:last-child) {
       border-right-color: #fff; }
-    .ck-content table.csom-datatable tbody th,
-    .ck-content table.csom-datatable--basic-1 tbody th {
+    .ck-content .csom-datatable tbody th {
       background: #f7f6f4;
       border-color: #e6e0d2; }
-    .ck-content table.csom-datatable tbody td,
-    .ck-content table.csom-datatable--basic-1 tbody td {
+    .ck-content .csom-datatable tbody td {
       background: none;
       border-color: #e6e0d2; }
-    .ck-content table.csom-datatable,
-    .ck-content table.csom-datatable tr,
-    .ck-content table.csom-datatable--basic-1,
-    .ck-content table.csom-datatable--basic-1 tr {
+    .ck-content .csom-datatable,
+    .ck-content .csom-datatable tr {
       border: 0 !important; }
-  .ck-content figure.csom-datatable__figure {
+    .ck-content .csom-datatable + figcaption {
+      margin: 15px auto 50px; }
+  .ck-content .table.ck-widget .csom-datatable {
+    margin: 0; }
+  .ck-content .table.ck-widget:has(> .csom-datatable) + figcaption {
+    margin: 15px auto 50px; }
+  .ck-content .csom-datatable__figure {
     margin: 20px 0 40px; }
-    .ck-content figure.csom-datatable__figure .csom-datatable {
+    .ck-content .csom-datatable__figure .csom-datatable {
       margin: 0; }
-    .ck-content figure.csom-datatable__figure figcaption {
+    .ck-content .csom-datatable__figure figcaption {
       margin: 15px 0;
       text-align: left;
       font-size: 14px; }
-  .ck-content table.csom-datatable--basic-2 thead tr,
-  .ck-content table.csom-datatable--basic-2 thead th,
-  .ck-content table.csom-datatable--basic-2 thead td {
+  .ck-content .csom-datatable--basic-2 thead tr,
+  .ck-content .csom-datatable--basic-2 thead th,
+  .ck-content .csom-datatable--basic-2 thead td {
     background: #7a0019;
     color: #fff;
     border-color: #fff;
     border-top: 0;
     border-bottom: 0; }
-  .ck-content table.csom-datatable--basic-2 tbody th, .ck-content table.csom-datatable--basic-2 tbody td {
+  .ck-content .csom-datatable--basic-2 tbody th, .ck-content .csom-datatable--basic-2 tbody td {
     background: #e6e0d2;
     color: #1a1a1a;
     border-color: #fff; }
-  .ck-content table.csom-datatable--basic-3 thead tr,
-  .ck-content table.csom-datatable--basic-3 thead th,
-  .ck-content table.csom-datatable--basic-3 thead td,
-  .ck-content table.csom-datatable--basic-3 tbody tr,
-  .ck-content table.csom-datatable--basic-3 tbody th,
-  .ck-content table.csom-datatable--basic-3 tbody td {
+  .ck-content .csom-datatable--basic-3 thead tr,
+  .ck-content .csom-datatable--basic-3 thead th,
+  .ck-content .csom-datatable--basic-3 thead td,
+  .ck-content .csom-datatable--basic-3 tbody tr,
+  .ck-content .csom-datatable--basic-3 tbody th,
+  .ck-content .csom-datatable--basic-3 tbody td {
     background: none;
     border: none; }
-  .ck-content table.csom-datatable--basic-3 thead {
+  .ck-content .csom-datatable--basic-3 thead {
     background: none;
     color: #000; }
-    .ck-content table.csom-datatable--basic-3 thead th {
+    .ck-content .csom-datatable--basic-3 thead th {
       text-align: center; }
-  .ck-content table.csom-datatable--basic-3 tbody th {
+  .ck-content .csom-datatable--basic-3 tbody th {
     background: none;
     text-align: right;
     color: #000;
     text-transform: initial; }
-  .ck-content table.csom-datatable--basic-3 tbody td {
+  .ck-content .csom-datatable--basic-3 tbody td {
     text-align: center; }
-  .ck-content table.csom-datatable--basic-3 td:nth-child(3n - 1) {
+  .ck-content .csom-datatable--basic-3 td:nth-child(3n - 1) {
     background: #e6e0d2;
     color: #1a1a1a;
     border: 1px solid #fff; }
-  .ck-content table.csom-datatable--basic-3 td:nth-child(3n - 3) {
+  .ck-content .csom-datatable--basic-3 td:nth-child(3n - 3) {
     background: #7a0019;
     color: #fff;
     border: 1px solid #fff; }
-  .ck-content table.csom-datatable--basic-3 td:nth-child(3n - 2) {
+  .ck-content .csom-datatable--basic-3 td:nth-child(3n - 2) {
     background: #535353;
     color: #fff;
     border: 1px solid #fff; }
@@ -21918,12 +21938,7 @@ Description: Bootstrap 4 with Sass
         max-width: 500px;
         margin: 15px auto 50px; }
     .ck-content .csom-datatable--column-chart caption {
-      caption-side: top;
-      text-align: center;
-      color: #1a1a1a;
-      font-size: 1.2em;
-      font-weight: 800;
-      margin-bottom: 16px; }
+      font-size: 19px; }
     .ck-content .csom-datatable--column-chart tbody tr {
       line-height: 1.2; }
       .ck-content .csom-datatable--column-chart tbody tr th,
@@ -21961,20 +21976,10 @@ Description: Bootstrap 4 with Sass
         padding: 3px 8%;
         text-align: left;
         width: calc(100% - 30px - 40px); }
-  .ck-content .table.ck-widget .csom-datatable--column-chart {
-    margin: 0; }
-    .ck-content .table.ck-widget .csom-datatable--column-chart + figcaption.ck-editor__editable {
-      text-align: center;
-      color: #1a1a1a;
-      font-size: 1.2em;
-      font-weight: 800;
-      margin-bottom: 16px;
-      padding-top: 7.5px;
-      padding-bottom: 7.5px;
-      background: none; }
+  .ck-content .table.ck-widget .csom-datatable--column-chart + figcaption.ck-editor__editable {
+    font-size: 19px; }
   .ck-content .table.ck-widget:has(.csom-datatable--column-chart) + figcaption {
-    max-width: 500px;
-    margin: 15px auto 50px; }
+    max-width: 500px; }
   .ck-content .event .basic-hero__title {
     border-bottom: 0; }
   .ck-content .event__body {
