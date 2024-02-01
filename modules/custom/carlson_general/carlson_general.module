@@ -11,6 +11,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\user\Entity\Role;
 
 /**
  * Implements hook_system_breadcrumb_alter().
@@ -101,6 +102,33 @@ function _carlson_get_breadcrumb_title($nid) {
     }
   }
 }
+
+/**
+ * Implements hook_entity_delete().
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *
+ * @throws \Drupal\Core\Entity\EntityStorageException
+ */
+function carlson_general_entity_delete(EntityInterface $entity) {
+  $entity_type = $entity->getEntityTypeId();
+  if ($entity_type == 'ckeditor_templates') {
+    $permission_name = 'use ckeditor_template ' . $entity->getOriginalId();
+    carlson_general_remove_permission_from_all_roles($permission_name);
+  }
+}
+
+function carlson_general_remove_permission_from_all_roles($permission_to_remove) {
+  // Load all roles.
+  $roles = Role::loadMultiple();
+  foreach ($roles as $role) {
+    // Check if the role has the permission and remove it.
+    if ($role->hasPermission($permission_to_remove)) {
+      $role->revokePermission($permission_to_remove)->save();
+    }
+  }
+}
+
 
 /**
  * Implements hook_entity_presave().

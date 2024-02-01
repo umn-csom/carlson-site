@@ -1,7 +1,7 @@
 (function (Drupal, $) {
   Drupal.behaviors.verticalStackedBarChart = {
     attach: function () {
-      var table = $(".csom-vertical-stacked-bar-chart");
+      var table = $(".csom-column-chart");
       table.find("tbody tr > :last-child").each(function (index) {
         var data = $(this).text();
         $(this).parents("tr").css("height", data);
