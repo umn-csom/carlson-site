@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph.field_datatable
-    - filter.format.rich_text
+    - filter.format.datatable
     - paragraphs.paragraphs_type.datatable
   module:
     - text
@@ -12,16 +12,16 @@ id: paragraph.datatable.field_datatable
 field_name: field_datatable
 entity_type: paragraph
 bundle: datatable
-label: Tables
+label: 'Data Table'
 description: ''
 required: true
 translatable: false
 default_value:
   -
-    value: '<table class="csom-datatable csom-datatable--basic-1"><caption>A basic data table</caption><thead><tr><th scope="col">Industry</th><th scope="col">Percent</th></tr></thead><tbody><tr><th scope="row">Marketing</th><td>16%</td></tr><tr><th scope="row">Technology</th><td>21%</td></tr></tbody></table>'
-    format: rich_text
+    value: '<section class="ckeditor-template-wrapper"><div class="ckeditor-template-content"><figure class="csom-datatable__figure"><table class="csom-datatable csom-datatable--basic-1 csom-datatable--medium"><caption>Table caption</caption><thead><tr><th scope="col">Industry</th><th scope="col">Percent</th></tr></thead><tbody><tr><th scope="row">Finance</th><td>18%</td></tr><tr><th scope="row">Technology</th><td>17%</td></tr><tr><th>Marketing</th><td>16%</td></tr></tbody></table><figcaption>Caption text to describe the information in the data table.</figcaption></figure></div></section>'
+    format: datatable
 default_value_callback: ''
 settings:
   allowed_formats:
-    - rich_text
+    - datatable
 field_type: text_long
