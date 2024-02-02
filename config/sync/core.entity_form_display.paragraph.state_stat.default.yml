@@ -6,6 +6,26 @@ dependencies:
     - field.field.paragraph.state_stat.field_state_stat_heading
     - field.field.paragraph.state_stat.field_state_stat_percent
     - paragraphs.paragraphs_type.state_stat
+  module:
+    - field_group
+third_party_settings:
+  field_group:
+    group_statistic:
+      children:
+        - field_state_stat_heading
+        - field_state_stat_percent
+      label: Statistic
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
 id: paragraph.state_stat.default
 targetEntityType: paragraph
 bundle: state_stat
@@ -13,7 +33,7 @@ mode: default
 content:
   field_state_stat_heading:
     type: string_textfield
-    weight: 0
+    weight: 1
     region: content
     settings:
       size: 60
@@ -21,7 +41,7 @@ content:
     third_party_settings: {  }
   field_state_stat_percent:
     type: number
-    weight: 1
+    weight: 2
     region: content
     settings:
       placeholder: ''

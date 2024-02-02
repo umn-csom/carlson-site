@@ -5,13 +5,13 @@ dependencies:
   config:
     - field.field.paragraph.stat_donut.field_stat_donut_dark_bg
     - field.field.paragraph.stat_donut.field_stat_donut_description
-    - field.field.paragraph.stat_donut.field_stat_donut_position
     - field.field.paragraph.stat_donut.field_stat_donut_heading
-    - field.field.paragraph.stat_donut.field_stat_donut_percentage
     - field.field.paragraph.stat_donut.field_stat_donut_line_1
     - field.field.paragraph.stat_donut.field_stat_donut_line_1_size
     - field.field.paragraph.stat_donut.field_stat_donut_line_2
     - field.field.paragraph.stat_donut.field_stat_donut_line_2_size
+    - field.field.paragraph.stat_donut.field_stat_donut_percentage
+    - field.field.paragraph.stat_donut.field_stat_donut_position
     - paragraphs.paragraphs_type.stat_donut
   module:
     - field_group
@@ -27,13 +27,46 @@ third_party_settings:
         - field_stat_donut_line_2_size
       label: 'Stat graphic'
       region: content
-      parent_name: ''
-      weight: 2
+      parent_name: group_statistic
+      weight: 3
       format_type: fieldset
       format_settings:
         classes: ''
         show_empty_fields: false
         id: ''
+        description: ''
+        required_fields: true
+    group_settings:
+      children:
+        - field_stat_donut_position
+        - field_stat_donut_dark_bg
+      label: Settings
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+    group_statistic:
+      children:
+        - field_stat_donut_heading
+        - group_stat_graphic
+        - field_stat_donut_description
+      label: Statistic
+      region: content
+      parent_name: ''
+      weight: 1
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
         description: ''
         required_fields: true
 id: paragraph.stat_donut.default
@@ -43,14 +76,14 @@ mode: default
 content:
   field_stat_donut_dark_bg:
     type: boolean_checkbox
-    weight: 7
+    weight: 4
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_stat_donut_description:
     type: text_textarea
-    weight: 5
+    weight: 4
     region: content
     settings:
       rows: 2
@@ -58,7 +91,7 @@ content:
     third_party_settings: {  }
   field_stat_donut_heading:
     type: string_textfield
-    weight: 0
+    weight: 2
     region: content
     settings:
       size: 60
@@ -101,7 +134,7 @@ content:
     third_party_settings: {  }
   field_stat_donut_position:
     type: options_select
-    weight: 6
+    weight: 3
     region: content
     settings: {  }
     third_party_settings: {  }
