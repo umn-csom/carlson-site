@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph.field_column_chart
+    - filter.format.datatable
     - paragraphs.paragraphs_type.column_chart
   module:
     - text
@@ -11,15 +12,16 @@ id: paragraph.column_chart.field_column_chart
 field_name: field_column_chart
 entity_type: paragraph
 bundle: column_chart
-label: 'Vertical chart'
+label: 'Data Table'
 description: ''
 required: false
 translatable: false
 default_value:
   -
-    value: '<section class="ckeditor-template-wrapper"><div class="ckeditor-template-content"><section class="narrow"><figure><table class="csom-datatable--column-chart" cellpadding="0" cellspacing="0"><caption>Employment by Industry</caption><thead class="sr-only"><tr><th scope="col">Industry or sector</th><th scope="col">Percentage of employment</th></tr></thead><tbody><tr><th scope="row">Financial Services</th><td>44%</td></tr><tr><th scope="row">Consulting</th><td>14%</td></tr><tr><th scope="row">Real Estate</th><td>10%</td></tr><tr><th scope="row">Healthcare</th><td>7%</td></tr><tr><th scope="row">Accounting services</th><td>3%</td></tr><tr><th scope="row">Consumer products</th><td>3%</td></tr><tr><th scope="row">Non-profit</th><td>3%</td></tr></tbody></table><figcaption>This is caption text to describe the table.</figcaption></figure></section></div></section>'
-    format: rich_text
+    value: '<section class="ckeditor-template-wrapper"><div class="ckeditor-template-content"><section class="narrow"><figure><table class="csom-datatable--column-chart csom-datatable--medium" cellpadding="0" cellspacing="0"><caption>Employment by Industry</caption><thead class="sr-only"><tr><th scope="col">Industry or sector</th><th scope="col">Percentage of employment</th></tr></thead><tbody><tr><th scope="row">Financial Services</th><td>44%</td></tr><tr><th scope="row">Consulting</th><td>14%</td></tr><tr><th scope="row">Real Estate</th><td>10%</td></tr><tr><th scope="row">Healthcare</th><td>7%</td></tr><tr><th scope="row">Accounting services</th><td>3%</td></tr><tr><th scope="row">Consumer products</th><td>3%</td></tr><tr><th scope="row">Non-profit</th><td>3%</td></tr></tbody></table><figcaption>This is caption text to describe the table.</figcaption></figure></section></div></section>'
+    format: datatable
 default_value_callback: ''
 settings:
-  allowed_formats: {  }
+  allowed_formats:
+    - datatable
 field_type: text_long
