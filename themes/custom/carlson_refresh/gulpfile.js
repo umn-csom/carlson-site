@@ -98,8 +98,18 @@ var options = {
   },
 
   selectorReplace: {
-    before: [".ck-content body", ".ck-content html", ".ck-content .ck-content"],
-    after: [".ck-content", ".ck-content", ".ck-content"],
+    before: [
+      ".ck-content body",
+      ".ck-content html",
+      ".ck-content .ck-content",
+      ".ck-content .ck.ck-content",
+    ],
+    after: [
+      ".ck-content",
+      ".ck-content",
+      ".ck-content",
+      ".ck.ck-content"
+    ],
   },
 
   remToPx: {
