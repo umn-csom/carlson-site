@@ -1,0 +1,117 @@
+.session {
+  border: 1px solid $maroon;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-up(lg) {
+    padding: 2.5rem;
+    flex-direction: row;
+  }
+
+  &__eyebrow {
+    font-size: 1.4rem;
+  }
+
+  &__title {
+    font-size: 2.4rem;
+    font-weight: 600;
+    margin-bottom: 0;
+
+    @include media-breakpoint-up(lg) {
+      font-weight: 500;
+      font-size: 2.8rem;
+    }
+  }
+
+  &__subtitle {
+    font-size: 1.8rem;
+  }
+
+  &__time {
+    border-bottom: 1px solid $border-gray;
+    flex: 0 0 100%;
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+    text-align: left;
+    padding-right: 2.5rem;
+
+    @include media-breakpoint-up(lg) {
+      border-bottom: 0;
+      border-right: 1px solid $border-gray;
+      flex: 0 0 20%;
+      max-width: 20%;
+      text-align: center;
+    }
+  }
+
+  &__overview {
+    flex: 0 0 100%;
+    max-width: 100%;
+
+    @include media-breakpoint-up(lg) {
+      padding-left: 5rem;
+      flex: 0 0 80%;
+      max-width: 80%;
+    }
+
+    ul {
+      padding-inline-start: 1.5rem;
+    }
+  }
+
+  &__title + ul,
+  &__title + p {
+    margin-top: 1rem;
+  }
+
+  &--legacy &__title {
+    margin-bottom: 1rem;
+  }
+
+  &__title + &__subtitle + ul,
+  &__title + &__subtitle + p {
+    margin-top: 2rem;
+  }
+
+  &__header,
+  &__body,
+  &__footer {
+    font-size: 2.4rem;
+    font-weight: 400;
+    display: inline-block;
+    margin-inline-end: 0.6rem;
+
+    @include media-breakpoint-up(lg) {
+      display: block;
+    }
+  }
+
+  &__footer {
+    font-weight: 700;
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__header {
+      font-size: 2.4rem;
+      font-weight: 300;
+      font-family: $font-family-sans-serif;
+    }
+
+    &__body {
+      font-size: 6.4rem;
+      font-weight: 400;
+      font-family: $font-family-serif;
+    }
+
+    &__footer {
+      font-size: 2.4rem;
+      font-weight: 700;
+      font-family: $font-family-sans-serif;
+    }
+  }
+
+  + .session {
+    margin-top: 4rem;
+  }
+}
