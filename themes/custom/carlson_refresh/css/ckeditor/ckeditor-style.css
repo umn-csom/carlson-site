@@ -21313,13 +21313,13 @@ Description: Bootstrap 4 with Sass
   .ck-content .csom-datatable caption, .ck-content .table.ck-widget .csom-datatable + figcaption.ck-editor__editable {
     text-align: center;
     color: #1a1a1a;
-    font-size: 16px;
+    font-size: 19px;
     font-weight: 800;
     font-style: normal;
     margin: 0;
     padding-top: 6px;
     padding-bottom: 16px;
-    background-color: none; }
+    background-color: transparent; }
   .ck-content .csom-datatable {
     margin: 20px auto 40px;
     line-height: 1.3;
@@ -21414,6 +21414,63 @@ Description: Bootstrap 4 with Sass
     background: #535353;
     color: #fff;
     border: 1px solid #fff; }
+  .ck-content .csom-datatable--map-data {
+    max-width: 500px;
+    width: max-content; }
+  .ck-content .csom-datatable--column-chart {
+    border: 0;
+    margin: 50px auto;
+    min-height: 500px;
+    max-width: 500px;
+    width: 100%; }
+    figure .ck-content .csom-datatable--column-chart {
+      margin-bottom: 0; }
+      figure .ck-content .csom-datatable--column-chart + figcaption {
+        max-width: 500px;
+        margin: 15px auto 50px; }
+    .ck-content .csom-datatable--column-chart caption {
+      font-size: 19px; }
+    .ck-content .csom-datatable--column-chart tbody tr {
+      line-height: 1.2; }
+      .ck-content .csom-datatable--column-chart tbody tr th,
+      .ck-content .csom-datatable--column-chart tbody tr td {
+        font-size: 1em;
+        font-weight: 600;
+        text-transform: uppercase;
+        border-bottom: 3px solid #fff;
+        border-right: 3px solid #fff;
+        vertical-align: middle; }
+      .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 1), .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 1) > * {
+        background: #98002e;
+        color: #fff; }
+      .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 2), .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 2) > * {
+        background: #fec057;
+        color: #1a1a1a; }
+      .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 3), .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 3) > * {
+        background: #575757;
+        color: #fff; }
+      .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 4), .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 4) > * {
+        background: #6cf;
+        color: #1a1a1a; }
+      .ck-content .csom-datatable--column-chart tbody tr > :last-child {
+        background-color: transparent;
+        padding: 3px 20px;
+        text-align: center;
+        width: calc(30px + 40px);
+        border-right: 0;
+        font-weight: 700;
+        font-size: 1.1em; }
+      .ck-content .csom-datatable--column-chart tbody tr > :not(:last-child) {
+        background-color: rgba(255, 255, 255, 0.75);
+        background-image: linear-gradient(to right bottom, rgba(255, 255, 255, 0.75), 35%, rgba(255, 255, 255, 0));
+        color: #1a1a1a;
+        padding: 3px 8%;
+        text-align: left;
+        width: calc(100% - 30px - 40px); }
+  .ck-content .table.ck-widget .csom-datatable--column-chart + figcaption.ck-editor__editable {
+    font-size: 19px; }
+  .ck-content .table.ck-widget:has(.csom-datatable--column-chart) + figcaption {
+    max-width: 500px; }
   .ck-content .demo-component-container {
     margin: 50px 0;
     max-width: 100%; }
@@ -21484,22 +21541,25 @@ Description: Bootstrap 4 with Sass
         border-right-color: #fff; }
   .ck-content .list-legend {
     margin: 20px auto;
-    width: max-content; }
+    width: max-content;
+    max-width: 600px; }
     .ck-content .list-legend p {
       margin: 5px auto; }
     .ck-content .list-legend__row {
       display: flex;
       flex-direction: row;
-      font-size: 1.2em;
+      font-size: 19px;
       border-left: 5px solid #7a0019;
       padding: 0 15px; }
+      .ck-content .list-legend__row + .ck-content .list-legend__row {
+        padding-top: 5px; }
     .ck-content .list-legend__label {
       font-weight: bold;
       color: #7a0019;
-      font-size: 1em; }
+      font-size: 19px; }
     .ck-content .list-legend__value {
       font-weight: normal;
-      font-size: 1em;
+      font-size: 19px;
       margin: 0 0 0 10px; }
   .ck-content .csom-multicol-list {
     overflow: hidden;
@@ -21552,56 +21612,6 @@ Description: Bootstrap 4 with Sass
     .ck-content .csom-multicol-list.expand.closed .collapse-text,
     .ck-content .csom-multicol-list.expand.open .expand-text {
       display: none; }
-  .ck-content .csom-popover {
-    position: relative;
-    display: inline; }
-  .ck-content abbr {
-    text-decoration: underline;
-    text-decoration-style: dotted;
-    cursor: pointer; }
-    .ck-content abbr + sup,
-    .ck-content abbr + sub {
-      position: absolute;
-      background: #7a0019;
-      width: 80px;
-      height: 80px;
-      z-index: 3;
-      text-align: center;
-      color: #fff;
-      font-size: 12px;
-      line-height: 1.2;
-      padding: 20px 15px 10px 10px;
-      display: none;
-      opacity: 0;
-      border: 0; }
-      .ck-content abbr + sup strong,
-      .ck-content abbr + sub strong {
-        font-size: 1.2em;
-        width: 100%; }
-    .csom-popover--gray .ck-content abbr + sub,
-    .csom-popover--gray .ck-content abbr + sup {
-      background: #535353; }
-      .csom-popover--gray .ck-content abbr + sub strong,
-      .csom-popover--gray .ck-content abbr + sup strong {
-        color: #fc3; }
-    .ck-content abbr + sub {
-      top: initial;
-      bottom: -70px;
-      left: 80%;
-      border-radius: 0 100% 100% 100%; }
-    .ck-content abbr + sup {
-      top: -70px;
-      bottom: 0;
-      left: 80%;
-      border-radius: 100% 100% 100% 0; }
-    .ck-content abbr[tabindex="0"]:hover, .ck-content abbr[tabindex="0"]:focus, .ck-content abbr:not([tabindex="0"]) {
-      text-decoration-style: solid; }
-      .ck-content abbr[tabindex="0"]:hover + sup,
-      .ck-content abbr[tabindex="0"]:hover + sub, .ck-content abbr[tabindex="0"]:focus + sup,
-      .ck-content abbr[tabindex="0"]:focus + sub, .ck-content abbr:not([tabindex="0"]) + sup,
-      .ck-content abbr:not([tabindex="0"]) + sub {
-        display: block;
-        opacity: 1; }
   .ck-content .csom-range-slider {
     width: max-content;
     margin: 0 auto;
@@ -21863,25 +21873,6 @@ Description: Bootstrap 4 with Sass
   from {
     --csom-stat-donut-percentage: 0;
     --csom-stat-donut-percentage-100: 0; } }
-  .ck-content .csom-state-map {
-    padding: 20px; }
-    .ck-content .csom-state-map__label, .ck-content .csom-state-map__percent {
-      text-transform: uppercase; }
-    .ck-content .csom-state-map__label {
-      font-size: 30px; }
-    .ck-content .csom-state-map__percent {
-      font-size: 34px;
-      font-weight: bold; }
-    .ck-content .csom-state-map__svg {
-      max-width: 100%; }
-      .ck-content .csom-state-map__svg stop {
-        transition: stop-color 0.25s ease-out; }
-        .ck-content .csom-state-map__svg stop:nth-child(1) {
-          stop-color: #7a0019; }
-        .ck-content .csom-state-map__svg stop:nth-child(2) {
-          stop-color: #fc3; }
-      .ck-content .csom-state-map__svg:hover stop:nth-child(1) {
-        stop-color: #900021; }
   .ck-content .csom-stat-icon {
     margin: 20px 15px;
     padding: 15px;
@@ -21926,60 +21917,25 @@ Description: Bootstrap 4 with Sass
   .ck-content .csom-stat-icon--style-bold .csom-stat-icon__value {
     color: #7a0019;
     font-weight: bold; }
-  .ck-content .csom-datatable--column-chart {
-    border: 0;
-    margin: 50px auto;
-    min-height: 500px;
-    max-width: 500px;
-    width: 100%; }
-    figure .ck-content .csom-datatable--column-chart {
-      margin-bottom: 0; }
-      figure .ck-content .csom-datatable--column-chart + figcaption {
-        max-width: 500px;
-        margin: 15px auto 50px; }
-    .ck-content .csom-datatable--column-chart caption {
-      font-size: 19px; }
-    .ck-content .csom-datatable--column-chart tbody tr {
-      line-height: 1.2; }
-      .ck-content .csom-datatable--column-chart tbody tr th,
-      .ck-content .csom-datatable--column-chart tbody tr td {
-        font-size: 1em;
-        font-weight: 600;
-        text-transform: uppercase;
-        border-bottom: 3px solid #fff;
-        border-right: 3px solid #fff;
-        vertical-align: middle; }
-      .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 1), .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 1) > * {
-        background: #98002e;
-        color: #fff; }
-      .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 2), .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 2) > * {
-        background: #fec057;
-        color: #1a1a1a; }
-      .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 3), .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 3) > * {
-        background: #575757;
-        color: #fff; }
-      .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 4), .ck-content .csom-datatable--column-chart tbody tr:nth-child(4n + 4) > * {
-        background: #6cf;
-        color: #1a1a1a; }
-      .ck-content .csom-datatable--column-chart tbody tr > :last-child {
-        background-color: transparent;
-        padding: 3px 20px;
-        text-align: center;
-        width: calc(30px + 40px);
-        border-right: 0;
-        font-weight: 700;
-        font-size: 1.1em; }
-      .ck-content .csom-datatable--column-chart tbody tr > :not(:last-child) {
-        background-color: rgba(255, 255, 255, 0.75);
-        background-image: linear-gradient(to right bottom, rgba(255, 255, 255, 0.75), 35%, rgba(255, 255, 255, 0));
-        color: #1a1a1a;
-        padding: 3px 8%;
-        text-align: left;
-        width: calc(100% - 30px - 40px); }
-  .ck-content .table.ck-widget .csom-datatable--column-chart + figcaption.ck-editor__editable {
-    font-size: 19px; }
-  .ck-content .table.ck-widget:has(.csom-datatable--column-chart) + figcaption {
-    max-width: 500px; }
+  .ck-content .csom-state-map {
+    padding: 20px; }
+    .ck-content .csom-state-map__label, .ck-content .csom-state-map__percent {
+      text-transform: uppercase; }
+    .ck-content .csom-state-map__label {
+      font-size: 30px; }
+    .ck-content .csom-state-map__percent {
+      font-size: 34px;
+      font-weight: bold; }
+    .ck-content .csom-state-map__svg {
+      max-width: 100%; }
+      .ck-content .csom-state-map__svg stop {
+        transition: stop-color 0.25s ease-out; }
+        .ck-content .csom-state-map__svg stop:nth-child(1) {
+          stop-color: #7a0019; }
+        .ck-content .csom-state-map__svg stop:nth-child(2) {
+          stop-color: #fc3; }
+      .ck-content .csom-state-map__svg:hover stop:nth-child(1) {
+        stop-color: #900021; }
   .ck-content .event .basic-hero__title {
     border-bottom: 0; }
   .ck-content .event__body {
