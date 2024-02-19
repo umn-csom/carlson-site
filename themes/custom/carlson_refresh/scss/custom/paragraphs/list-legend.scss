@@ -1,19 +1,34 @@
 // List legend
 .list-legend {
   margin: 2rem auto;
-  width: max-content;
-  max-width: 60rem;
+  width: 100%;
+  display: table;
+
+  @media (min-width: 60rem) {
+    width: max-content;
+    max-width: 60rem;
+  }
 
   p {
     margin: .5rem auto;
   }
 
   &__row {
-    display: flex;
-    flex-direction: row;
-    font-size: 1.9rem;
+    display: block;
+
+    > div {
+      display: inline;
+    }
+
+    font-size: 1.5rem;
     border-left: .5rem solid $maroon;
     padding: 0 1.5rem;
+
+    @media (min-width: 60rem) {
+      font-size: 1.9rem;
+      display: flex;
+      flex-direction: row;
+    }
 
     & + & {
       padding-top: .5rem;
@@ -23,12 +38,12 @@
   &__label {
     font-weight: bold;
     color: $maroon;
-    font-size: 1.9rem;
+    font-size: 1em;
   }
 
   &__value {
     font-weight: normal;
-    font-size: 1.9rem;
+    font-size: 1em;
     margin: 0 0 0 1rem;
   }
 }
