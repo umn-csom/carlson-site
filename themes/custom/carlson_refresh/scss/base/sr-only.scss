@@ -69,26 +69,4 @@
     }
   }
 
-  // Special case for table header display to move
-  // %ckeditor-sr-only-label into th/td pseudo-class.
-  thead.sr-only {
-    &::before {
-      display: none;
-    }
-
-    > tr {
-      &,
-      > th,
-      > td {
-        background: none !important;
-        color: $black !important;
-      }
-    }
-    > tr > th,
-    > tr > td {
-      &::before {
-        @include ckeditor-sr-only-label;
-      }
-    }
-  }
 }
