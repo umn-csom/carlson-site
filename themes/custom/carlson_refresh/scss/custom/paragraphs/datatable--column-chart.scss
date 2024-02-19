@@ -2,14 +2,22 @@
   border: 0;
   margin: 50px auto;
   min-height: 500px;
-  width: 500px;
+  width: 100%;
+  max-width: 100%;
+  @media (min-width: 768px) {
+    width: 50rem;
+    max-width: 50rem;
+  }
 
   figure & {
     margin-bottom: 0;
 
     + figcaption {
-      width: 500px;
       margin: 15px auto 50px;
+      @media (min-width: 768px) {
+        width: 50rem;
+        max-width: 50rem;
+      }
     }
   }
 
@@ -89,6 +97,9 @@
 
 .table.ck-widget:has(.csom-datatable--column-chart) {
   + figcaption {
-    max-width: 500px;
+    @media (min-width: 768px) {
+      width: 50rem;
+      max-width: 50rem;
+    }
   }
 }

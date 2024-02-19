@@ -21481,12 +21481,20 @@ Description: Bootstrap 4 with Sass
     border: 0;
     margin: 50px auto;
     min-height: 500px;
-    width: 500px; }
+    width: 100%;
+    max-width: 100%; }
+    @media (min-width: 768px) {
+      .ck-content .csom-datatable--column-chart {
+        width: 500px;
+        max-width: 500px; } }
     figure .ck-content .csom-datatable--column-chart {
       margin-bottom: 0; }
       figure .ck-content .csom-datatable--column-chart + figcaption {
-        width: 500px;
         margin: 15px auto 50px; }
+        @media (min-width: 768px) {
+          figure .ck-content .csom-datatable--column-chart + figcaption {
+            width: 500px;
+            max-width: 500px; } }
     .ck-content .csom-datatable--column-chart caption {
       font-size: 19px; }
     .ck-content .csom-datatable--column-chart tbody tr {
@@ -21528,8 +21536,9 @@ Description: Bootstrap 4 with Sass
         width: calc(100% - 30px - 40px); }
   .ck-content .table.ck-widget .csom-datatable--column-chart + figcaption.ck-editor__editable {
     font-size: 19px; }
-  .ck-content .table.ck-widget:has(.csom-datatable--column-chart) + figcaption {
-    max-width: 500px; }
+  @media (min-width: 768px) {
+    .ck-content .table.ck-widget:has(.csom-datatable--column-chart) + figcaption {
+      width: 500px; } }
   .ck-content .demo-component-container {
     margin: 50px 0;
     max-width: 100%; }
@@ -21600,7 +21609,8 @@ Description: Bootstrap 4 with Sass
         border-right-color: #fff; }
   .ck-content .list-legend {
     margin: 20px auto;
-    width: 100%; }
+    width: 100%;
+    display: table; }
     @media (min-width: 600px) {
       .ck-content .list-legend {
         width: max-content;
@@ -21608,20 +21618,26 @@ Description: Bootstrap 4 with Sass
     .ck-content .list-legend p {
       margin: 5px auto; }
     .ck-content .list-legend__row {
-      display: flex;
-      flex-direction: row;
-      font-size: 19px;
+      display: block;
+      font-size: 15px;
       border-left: 5px solid #7a0019;
       padding: 0 15px; }
+      .ck-content .list-legend__row > div {
+        display: inline; }
+      @media (min-width: 600px) {
+        .ck-content .list-legend__row {
+          font-size: 19px;
+          display: flex;
+          flex-direction: row; } }
       .ck-content .list-legend__row + .ck-content .list-legend__row {
         padding-top: 5px; }
     .ck-content .list-legend__label {
       font-weight: bold;
       color: #7a0019;
-      font-size: 19px; }
+      font-size: 1em; }
     .ck-content .list-legend__value {
       font-weight: normal;
-      font-size: 19px;
+      font-size: 1em;
       margin: 0 0 0 10px; }
   .ck-content .csom-multicol-list {
     overflow: hidden;
