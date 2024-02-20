@@ -18361,10 +18361,6 @@ Description: Bootstrap 4 with Sass
         margin-top: 15px;
         margin-bottom: 15px;
         border: 1px solid #e6e0d2 !important; }
-        .ck-content .table tr td,
-        .ck-content .table-striped tr td,
-        .ck-content table tr td {
-          border: 0; }
         .ck-content .table tr:nth-of-type(odd) td,
         .ck-content .table-striped tr:nth-of-type(odd) td,
         .ck-content table tr:nth-of-type(odd) td {
@@ -21391,31 +21387,52 @@ Description: Bootstrap 4 with Sass
       margin-bottom: 0 !important; }
   .ck-content figure:has(.csom-datatable),
   .ck-content .csom-datatable {
-    width: max-content;
-    min-width: 240px;
-    max-width: 100%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto; }
+    @media (min-width: 480px) {
+      .ck-content figure:has(.csom-datatable),
+      .ck-content .csom-datatable {
+        width: max-content;
+        min-width: 240px;
+        max-width: 100%; } }
   .ck-content figure:has(.csom-datatable--tiny),
   .ck-content .csom-datatable--tiny {
-    width: 240px;
-    min-width: 240px;
-    max-width: 240px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto; }
+    @media (min-width: 480px) {
+      .ck-content figure:has(.csom-datatable--tiny),
+      .ck-content .csom-datatable--tiny {
+        width: 240px;
+        min-width: 240px;
+        max-width: 240px; } }
   .ck-content figure:has(.csom-datatable--small),
   .ck-content .csom-datatable--small {
-    width: 360px;
-    min-width: 360px;
-    max-width: 360px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto; }
+    @media (min-width: 480px) {
+      .ck-content figure:has(.csom-datatable--small),
+      .ck-content .csom-datatable--small {
+        width: 360px;
+        min-width: 360px;
+        max-width: 360px; } }
   .ck-content figure:has(.csom-datatable--medium),
   .ck-content .csom-datatable--medium {
-    width: 500px;
-    max-width: 500px;
+    width: 100%;
     margin-left: auto;
     margin-right: auto; }
+    @media (min-width: 480px) {
+      .ck-content figure:has(.csom-datatable--medium),
+      .ck-content .csom-datatable--medium {
+        width: 100%;
+        max-width: 100%; } }
+    @media (min-width: 768px) {
+      .ck-content figure:has(.csom-datatable--medium),
+      .ck-content .csom-datatable--medium {
+        width: 500px;
+        max-width: 500px; } }
   .ck-content figure:has(.csom-datatable--wide),
   .ck-content .csom-datatable--wide {
     width: 860px;
@@ -21538,7 +21555,8 @@ Description: Bootstrap 4 with Sass
     font-size: 19px; }
   @media (min-width: 768px) {
     .ck-content .table.ck-widget:has(.csom-datatable--column-chart) + figcaption {
-      width: 500px; } }
+      width: 500px;
+      max-width: 500px; } }
   .ck-content .demo-component-container {
     margin: 50px 0;
     max-width: 100%; }
@@ -21609,36 +21627,37 @@ Description: Bootstrap 4 with Sass
         border-right-color: #fff; }
   .ck-content .list-legend {
     margin: 20px auto;
+    padding: 0;
     width: 100%;
-    display: table; }
+    display: table;
+    list-style: none; }
     @media (min-width: 600px) {
       .ck-content .list-legend {
         width: max-content;
         max-width: 600px; } }
-    .ck-content .list-legend p {
-      margin: 5px auto; }
-    .ck-content .list-legend__row {
+    .ck-content .list-legend > li {
       display: block;
+      list-style: none;
       font-size: 15px;
       border-left: 5px solid #7a0019;
-      padding: 0 15px; }
-      .ck-content .list-legend__row > div {
-        display: inline; }
+      padding: 0 0 0 15px;
+      margin: 0; }
       @media (min-width: 600px) {
-        .ck-content .list-legend__row {
+        .ck-content .list-legend > li {
           font-size: 19px;
           display: flex;
           flex-direction: row; } }
-      .ck-content .list-legend__row + .ck-content .list-legend__row {
+      .ck-content .list-legend > li + li {
         padding-top: 5px; }
-    .ck-content .list-legend__label {
+    .ck-content .list-legend li * {
+      font-weight: normal;
+      font-size: 1em; }
+    .ck-content .list-legend li strong {
+      font-weight: bold; }
+    .ck-content .list-legend li strong:first-child {
       font-weight: bold;
       color: #7a0019;
-      font-size: 1em; }
-    .ck-content .list-legend__value {
-      font-weight: normal;
-      font-size: 1em;
-      margin: 0 0 0 10px; }
+      margin-right: 10px; }
   .ck-content .csom-multicol-list {
     overflow: hidden;
     position: relative;
