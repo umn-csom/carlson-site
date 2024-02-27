@@ -1,11 +1,11 @@
 <?php
 
-use Drupal\Component\Utility\Html;
-
 /**
  * @file
  * Preprocessors for DataTable theming.
  */
+
+use Drupal\Component\Utility\Html;
 
 /**
  * Prepares variables for DataTable templates.
@@ -21,14 +21,14 @@ use Drupal\Component\Utility\Html;
  * $variables['attributes']['datatable_options'] as an associative array.
  * For example:
  * @code
- *   $variables['attributes']['datatables_options'] = array(
+ *   $variables['attributes']['datatables_options'] = [
  *     'bFilter'   => FALSE,  // Disable filtering of data.
  *     'bInfo'     => TRUE,   // Show the table information display.
- *     'aaSorting' => array(  // Sort by 3rd column first, and then 4th column.
- *        array(2, 'asc'),
- *        array(3, 'desc'),
- *      ),
- *   );
+ *     'aaSorting' => [  // Sort by 3rd column first, and then 4th column.
+ *        [2, 'asc'],
+ *        [3, 'desc'],
+ *      ],
+ *   ];
  * @endcode
  * See http://datatables.net/usage/features and
  * http://datatables.net/usage/options for a full list of features and options.
@@ -37,20 +37,20 @@ use Drupal\Component\Utility\Html;
  * columns in the $header parameter.
  * For example:
  * @code
- *   $header = array(
- *     array(
+ *   $header = [
+ *     [
  *       'data' => t('Column 1'),
- *       'datatable_options' => array(
+ *       'datatable_options' => [
  *         'bSortable' => TRUE,  // Enable sorting on this column.
- *       ),
- *     ),
- *     array(
+ *       ],
+ *     ],
+ *     [
  *       'data' => t('Column 2'),
- *       'datatable_options' => array(
+ *       'datatable_options' => [
  *         'bSearchable' => FALSE, // Disable filtering on this column.
- *       ),
- *     ),
- *   );
+ *       ],
+ *     ],
+ *   ];
  * @endcode
  * Note: if the aaColumns option is enabled in $parameters['datatable_options'],
  * then all datatable_options in the $header parameter will be ignored, since
@@ -91,17 +91,18 @@ use Drupal\Component\Utility\Html;
  *     - header: Indicates this cell is a header.
  *     - Any HTML attributes, such as "colspan", to apply to the table cell.
  *     Here's an example for $rows:
+ *
  * @code
- *     $rows = array(
+ *     $rows = [
  *       // Simple row
- *       array(
+ *       [
  *         'Cell 1', 'Cell 2', 'Cell 3'
- *       ),
+ *       ],
  *       // Row with attributes on the row and some of its cells.
- *       array(
- *         'data' => array('Cell 1', array('data' => 'Cell 2', 'colspan' => 2)), 'class' => array('funky')
- *       ),
- *     );
+ *       [
+ *         'data' => ['Cell 1', ['data' => 'Cell 2', 'colspan' => 2)), 'class' => ['funky')
+ *       ],
+ *     ];
  * @endcode
  *   - footer: An array of table rows which will be printed within a <tfoot>
  *     tag, in the same format as the rows element (see above).
@@ -117,23 +118,23 @@ use Drupal\Component\Utility\Html;
  *       associative array of HTML attributes.
  *     Here's an example for $colgroup:
  * @code
- *     $colgroup = array(
+ *     $colgroup = [
  *       // COLGROUP with one COL element.
- *       array(
- *         array(
- *           'class' => array('funky'), // Attribute for the COL element.
- *         ),
- *       ),
+ *       [
+ *         [
+ *           'class' => ['funky'), // Attribute for the COL element.
+ *         ],
+ *       ],
  *       // Colgroup with attributes and inner COL elements.
- *       array(
- *         'data' => array(
- *           array(
- *             'class' => array('funky'), // Attribute for the COL element.
- *           ),
- *         ),
- *         'class' => array('jazzy'), // Attribute for the COLGROUP element.
- *       ),
- *     );
+ *       [
+ *         'data' => [
+ *           [
+ *             'class' => ['funky'), // Attribute for the COL element.
+ *           ],
+ *         ],
+ *         'class' => ['jazzy'), // Attribute for the COLGROUP element.
+ *       ],
+ *     ];
  * @endcode
  *     These optional tags are used to group and set properties on columns
  *     within a table. For example, one may easily group three columns and
@@ -144,7 +145,7 @@ use Drupal\Component\Utility\Html;
  *
  * @see template_preprocess_table()
  */
-function template_preprocess_datatable(&$variables) {
+function template_preprocess_datatable(array &$variables) {
   $header = &$variables['header'];
   $attributes = &$variables['attributes'];
 
