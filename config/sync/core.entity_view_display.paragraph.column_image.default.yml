@@ -5,21 +5,17 @@ dependencies:
   config:
     - field.field.paragraph.column_image.field_column_image
     - paragraphs.paragraphs_type.column_image
-  module:
-    - image
 id: paragraph.column_image.default
 targetEntityType: paragraph
 bundle: column_image
 mode: default
 content:
   field_column_image:
-    type: image
+    type: entity_reference_entity_view
     label: hidden
     settings:
-      image_link: ''
-      image_style: ''
-      image_loading:
-        attribute: lazy
+      view_mode: column_image
+      link: false
     third_party_settings: {  }
     weight: 0
     region: content

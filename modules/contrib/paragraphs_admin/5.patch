@@ -1,0 +1,198 @@
+From 7ab3aa39cf075b7b01b929b74981f04c91dac98a Mon Sep 17 00:00:00 2001
+From: James Wilson <jrwilson3@gmail.com>
+Date: Wed, 6 Dec 2023 13:06:12 -0500
+Subject: [PATCH] Issue #3406566 by marthinal, jwilson3: Show a link to the
+ Paragraphs' Host Entity
+
+---
+ config/install/views.view.paragraphs.yml      | 51 ++++++++++++
+ paragraphs_admin.module                       | 17 ++++
+ .../views/field/ParagraphsHostEntity.php      | 83 +++++++++++++++++++
+ 3 files changed, 151 insertions(+)
+ create mode 100644 paragraphs_admin.module
+ create mode 100644 src/Plugin/views/field/ParagraphsHostEntity.php
+
+diff --git a/config/install/views.view.paragraphs.yml b/config/install/views.view.paragraphs.yml
+index b921144..50ef981 100644
+--- a/config/install/views.view.paragraphs.yml
++++ b/config/install/views.view.paragraphs.yml
+@@ -2,6 +2,7 @@ langcode: en
+ status: true
+ dependencies:
+   module:
++    - paragraphs_admin
+     - paragraphs
+     - user
+ id: paragraphs
+@@ -149,6 +150,56 @@ display:
+           multi_type: separator
+           separator: ', '
+           field_api_classes: false
++        paragraphs_host_entity:
++          id: paragraphs_host_entity
++          table: paragraphs_item_field_data
++          field: paragraphs_host_entity
++          relationship: none
++          group_type: group
++          admin_label: ''
++          entity_type: paragraph
++          plugin_id: paragraphs_host_entity
++          label: 'Host Entity'
++          exclude: false
++          alter:
++            alter_text: false
++            text: ''
++            make_link: false
++            path: ''
++            absolute: false
++            external: false
++            replace_spaces: false
++            path_case: none
++            trim_whitespace: false
++            alt: ''
++            rel: ''
++            link_class: ''
++            prefix: ''
++            suffix: ''
++            target: ''
++            nl2br: false
++            max_length: 0
++            word_boundary: true
++            ellipsis: true
++            more_link: false
++            more_link_text: ''
++            more_link_path: ''
++            strip_tags: false
++            trim: false
++            preserve_tags: ''
++            html: false
++          element_type: ''
++          element_class: ''
++          element_label_type: ''
++          element_label_class: ''
++          element_label_colon: true
++          element_wrapper_type: ''
++          element_wrapper_class: ''
++          element_default_classes: true
++          empty: ''
++          hide_empty: false
++          empty_zero: false
++          hide_alter_empty: true
+         parent_id:
+           id: parent_id
+           table: paragraphs_item_field_data
+diff --git a/paragraphs_admin.module b/paragraphs_admin.module
+new file mode 100644
+index 0000000..d34fdc1
+--- /dev/null
++++ b/paragraphs_admin.module
+@@ -0,0 +1,17 @@
++<?php
++
++/**
++ * @file
++ * Primary module hooks for Paragraphs Admin module.
++ */
++
++/**
++ * Implements hook_views_data_alter().
++ */
++function paragraphs_admin_views_data_alter(array &$data) {
++  $data['paragraphs_item_field_data']['paragraphs_host_entity']['field'] = [
++    'title' => t('Host Entity'),
++    'help' => t('Displays a link to the top-level host entity for a paragraph.'),
++    'id' => 'paragraphs_host_entity',
++  ];
++}
+diff --git a/src/Plugin/views/field/ParagraphsHostEntity.php b/src/Plugin/views/field/ParagraphsHostEntity.php
+new file mode 100644
+index 0000000..e5be32e
+--- /dev/null
++++ b/src/Plugin/views/field/ParagraphsHostEntity.php
+@@ -0,0 +1,83 @@
++<?php
++
++namespace Drupal\paragraphs_admin\Plugin\views\field;
++
++use Drupal\views\Plugin\views\field\FieldPluginBase;
++use Drupal\views\ResultRow;
++use Drupal\Core\Link;
++use Drupal\paragraphs\Entity\Paragraph;
++
++/**
++ * Defines a field handler for displaying the host entity of a given paragraph.
++ *
++ * A host entity is defined as the top-level parent entity.
++ *
++ * @ingroup views_field_handlers
++ *
++ * @ViewsField("paragraphs_host_entity")
++ */
++class ParagraphsHostEntity extends FieldPluginBase {
++
++  /**
++   * @{inheritdoc}
++   */
++  public function query() {
++    // Leave empty to avoid altering the query.
++  }
++
++  /**
++   * @{inheritdoc}
++   */
++  public function render(ResultRow $values) {
++    // Logic to determine the host entity ID.
++    $renderedHostEntity = $this->getRenderedHostEntity($values);
++
++    return $renderedHostEntity;
++  }
++
++  /**
++   * Retrieves the top-level host entity of a paragraph entity.
++   *
++   * Recursively traverses up the paragraph entity hierarchy to find the host
++   * entity. If found, returns a link to the host entity. If the top-level
++   * parent is of type "Paragraph" then we assume the entity is orphaned and
++   * the link has been lost to a content entity.
++   *
++   * @param ResultRow $values
++   *   The result row object containing the entity.
++   *
++   * @return string|null
++   *   The rendered link to the host entity. If the host entity has no canonical
++   *   URI, as is the case for Paragraphs, then the entity title is returned
++   *   without a link.  If no parent can be found, NULL is returned.
++   */
++  protected function getRenderedHostEntity(ResultRow $values) {
++    $entity = $values->_entity;
++
++    // Traverse up the hierarchy to find the host entity.
++    while ($entity instanceof Paragraph) {
++      $parent = $entity->getParentEntity();
++      if ($parent) {
++        $entity = $parent;
++      }
++      else {
++        break; // No more parents, break the loop.
++      }
++    }
++
++    // Check if the entity has a canonical URL.
++    if ($entity && $entity->hasLinkTemplate('canonical')) {
++      $url = $entity->toUrl();
++      return Link::fromTextAndUrl($entity->label(), $url)->toString();
++    }
++    // Paragraph entities have no canonical URL. This often indicates
++    // the Paragraph may be orphaned which will be apparent from the
++    // unlinked Parent/Host entity title.
++    elseif ( $entity && $entity->label()) {
++      return $entity->label();
++    }
++
++    // Return NULL if no suitable entity is found.
++    return NULL;
++  }
++}
+-- 
+GitLab
+

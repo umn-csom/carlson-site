@@ -1,100 +1,21 @@
-.field--name-field-my-chart {
-    .highcharts-color- {
-        &0 {
-            &.highcharts-point {
-                fill: $maroon !important;
-            }
-            .highcharts-point {
-                fill: $maroon !important;
-            }
-        }
-        &1 {
-            &.highcharts-point {
-                fill: $gold !important;
-            }
-            .highcharts-point {
-                fill: $gold !important;
-            }
-        }
-        &2 {
-            &.highcharts-point {
-                fill: $dark-gray!important;
-            }
-            .highcharts-point {
-                fill: $dark-gray !important;
-            }
-        }
-        text {
-            fill: $black !important;
-        }
-    }
+
+.charts-highchart {
+  max-width: 768px;
+  margin: 3rem auto;
 }
 
-
-// Highcharts styles
-$highcharts-colors: (
-  0: $maroon-light,
-  1: $gold,
-  2: $dark-gray,
-  3: $ivory,
-  4: $dark-blue,
-  5: $light-maroon,
-  6: $gold-dark,
-  7: $green,
-  8: $mid-orange,
-  9: $blue,
-);
-@each $i, $color in $highcharts-colors {
-  .highcharts-color-#{$i} {
-    fill: $color;
-
-    rect {
-      fill: $color;
-    }
-
-    .text-color {
-      color: $color;
-    }
-
-    .background-color {
-      background-color: $color;
-    }
-
-    .highcharts-3d-chart & {
-      stroke: darken($color, 12%);
-
-      text {
-        stroke: none;
-      }
-    }
-    &.highcharts-data-label-connector {
-      stroke: darken($color, 12%);
-      fill: none;
-    }
-  }
-}
-
-.highcharts-legend-box {
-  fill: #f7f6f4;
-  stroke: #e6e0d2;
-  stroke-width: 1px;
-}
-
-.highcharts-legend--no-background {
-  &,
-  .highcharts-legend-box {
-    fill: none !important;
-  }
-}
-
-.highcharts-legend--no-points {
-  .highcharts-point {
-    display: none;
-  }
+.highcharts-donut {
+  min-width: 300px;
+  height: 400px;
+  margin: 0 auto
 }
 
 .highcharts-label-box.highcharts-tooltip-box {
   stroke: $header-dark-gray;
+}
+
+.highcharts-legend-box {
+  stroke: $ivory;
 }
 
 .highcharts-axis-labels,
@@ -119,7 +40,55 @@ $highcharts-colors: (
 .highcharts-description {
   font-family: $font-family-sans-serif !important;
   line-height: $base-line-height !important;
-  font-size: 1.2em !important;
+  font-size: 1.8rem !important;
+}
+
+text.highcharts-subtitle {
+  color: #575757 !important;
+  fill: #575757 !important;
+  font-style: italic !important;
+  font-size: 1.5rem !important;
+}
+
+.highcharts-tooltip {
+  font-family: $font-family-sans-serif !important;
+}
+
+.highcharts-tooltip__bullet {
+  font-size: 1.6rem !important;
+}
+
+.highcharts-tooltip__name {
+  font-size: 1.2rem !important;
+  font-weight: 500;
+}
+.highcharts-tooltip__value {
+  font-size: 1.4rem !important;
+  font-weight: 700;
+}
+.highcharts-tooltip__description {
+  font-size: 1.4rem !important;
+  font-weight: 300;
+}
+
+.highcharts-plot-band {
+  &[fill="red"] {
+    fill: rgba($red, .4);
+  }
+  &[fill="yellow"] {
+    fill: rgba($yellow, .4);
+  }
+  &[fill="green"] {
+    fill: rgba($green, .4);
+  }
+}
+
+.highcharts-minor-tick {
+  stroke: rgba($white, .6);
+}
+
+.highcharts-tick {
+  stroke: $soft-black;
 }
 
 .highcharts-figure,

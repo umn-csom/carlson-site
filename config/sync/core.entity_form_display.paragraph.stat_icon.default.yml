@@ -1,0 +1,92 @@
+uuid: 8b94778c-6b2e-49c0-b85d-8b5f032ca157
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.stat_icon.field_stat_icon_desc
+    - field.field.paragraph.stat_icon.field_stat_icon_image
+    - field.field.paragraph.stat_icon.field_stat_icon_position
+    - field.field.paragraph.stat_icon.field_stat_icon_style
+    - field.field.paragraph.stat_icon.field_stat_icon_value
+    - paragraphs.paragraphs_type.stat_icon
+  module:
+    - field_group
+    - media_library
+third_party_settings:
+  field_group:
+    group_statistic_content:
+      children:
+        - field_stat_icon_image
+        - field_stat_icon_value
+        - field_stat_icon_desc
+      label: 'Statistic content'
+      region: content
+      parent_name: ''
+      weight: 2
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+    group_settings:
+      children:
+        - field_stat_icon_position
+        - field_stat_icon_style
+      label: Settings
+      region: content
+      parent_name: ''
+      weight: 0
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        open: false
+        description: ''
+        required_fields: true
+id: paragraph.stat_icon.default
+targetEntityType: paragraph
+bundle: stat_icon
+mode: default
+content:
+  field_stat_icon_desc:
+    type: string_textfield
+    weight: 5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_stat_icon_image:
+    type: media_library_widget
+    weight: 3
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+  field_stat_icon_position:
+    type: options_select
+    weight: 4
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_stat_icon_style:
+    type: options_select
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_stat_icon_value:
+    type: string_textfield
+    weight: 4
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

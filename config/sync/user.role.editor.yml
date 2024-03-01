@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - filter.format.datatable
     - filter.format.rich_text
     - media.type.document
     - media.type.image
@@ -14,7 +15,10 @@ dependencies:
     - node.type.curriculum_plan
     - node.type.education_abroad_program
     - node.type.email_page
+    - node.type.event
+    - node.type.executive_ed_landing_page
     - node.type.executive_ed_program
+    - node.type.faces
     - node.type.landing_page
     - node.type.page
     - node.type.person
@@ -22,6 +26,8 @@ dependencies:
     - node.type.student
     - workflows.workflow.editorial
   module:
+    - carlson_general
+    - ckeditor_templates
     - content_moderation
     - contextual
     - entity_browser
@@ -82,11 +88,23 @@ permissions:
   - 'schedule editorial transition ready_to_publish'
   - 'update any media'
   - 'update media'
+  - 'use ckeditor_template datatable_basic1'
+  - 'use ckeditor_template datatable_basic2'
+  - 'use ckeditor_template datatable_basic3'
+  - 'use ckeditor_template datatable_column_chart'
+  - 'use ckeditor_template datatable_map_data'
+  - 'use ckeditor_template list_legend'
+  - 'use ckeditor_template multicol_list'
+  - 'use ckeditor_template session'
+  - 'use ckeditor_template stat'
   - 'use editorial transition create_new_draft'
   - 'use editorial transition publish'
   - 'use editorial transition ready_to_publish'
   - 'use editorial transition review'
+  - 'use text format advanced'
+  - 'use text format datatable'
   - 'use text format rich_text'
+  - 'view all revisions'
   - 'view alumni_default_page revisions'
   - 'view alumni_landing_page revisions'
   - 'view any unpublished content'
@@ -95,7 +113,10 @@ permissions:
   - 'view curriculum_plan revisions'
   - 'view education_abroad_program revisions'
   - 'view email_page revisions'
+  - 'view event revisions'
+  - 'view executive_ed_landing_page revisions'
   - 'view executive_ed_program revisions'
+  - 'view faces revisions'
   - 'view landing_page revisions'
   - 'view latest version'
   - 'view own unpublished content'

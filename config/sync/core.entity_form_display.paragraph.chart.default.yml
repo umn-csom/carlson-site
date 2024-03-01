@@ -4,27 +4,20 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.chart.field_chart
-    - field.field.paragraph.chart.field_chart_type
     - paragraphs.paragraphs_type.chart
   module:
-    - tablefield
+    - charts
 id: paragraph.chart.default
 targetEntityType: paragraph
 bundle: chart
 mode: default
 content:
   field_chart:
-    type: tablefield
+    type: chart_config_default
     weight: 0
     region: content
     settings:
-      input_type: textfield
-    third_party_settings: {  }
-  field_chart_type:
-    type: options_select
-    weight: 1
-    region: content
-    settings: {  }
+      change_default_library: 0
     third_party_settings: {  }
 hidden:
   created: true

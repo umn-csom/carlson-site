@@ -1,0 +1,51 @@
+uuid: c645c596-525b-4a48-82c6-6e906e52d512
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.figure.field_figure_description
+    - field.field.paragraph.figure.field_figure_heading
+    - field.field.paragraph.figure.field_figure_image
+    - field.field.paragraph.figure.field_figure_table
+    - paragraphs.paragraphs_type.figure
+  module:
+    - text
+id: paragraph.figure.default
+targetEntityType: paragraph
+bundle: figure
+mode: default
+content:
+  field_figure_description:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_figure_heading:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_figure_image:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: figure
+      link: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
+  field_figure_table:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  search_api_excerpt: true
