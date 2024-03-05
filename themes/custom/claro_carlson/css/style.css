@@ -73,3 +73,50 @@
     -ms-grid-columns: auto auto 1fr auto;
     grid-template-columns: auto auto 1fr auto;
 }
+
+
+/* Add transparency layer behind images in Media Library */
+.media-library-item__attributes {
+  width: 100%;
+  min-height: 1.75rem;
+}
+.media-library-item--grid .field--name-thumbnail,
+.media-library-item__preview {
+  background-image:
+    linear-gradient(-45deg, var(--color-pattern) 25%, transparent 26%),
+    linear-gradient(-45deg, var(--color-pattern) 25%, transparent 26%),
+    linear-gradient(135deg, var(--color-pattern) 25%, transparent 26%),
+    linear-gradient(135deg, var(--color-pattern) 25%, transparent 26%);
+  background-position:
+    0 0,
+    var(--size-pattern-square) var(--size-pattern-square),
+    var(--size-pattern-square) var(--size-pattern-square),
+    0 0;
+  background-size: calc(var(--size-pattern-square) * 2) calc(var(--size-pattern-square) * 2);
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: calc(100% - 2.125rem);
+}
+
+.media-library-item__preview-wrapper {
+  height: 100%;
+}
+
+.media-library-item__preview img,
+.media-library-item__preview .blazy .media__element {
+  margin: auto;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  min-height: 100px;
+}
+
+.media-library-item__preview div {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
