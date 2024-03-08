@@ -44,11 +44,15 @@ function carlson_charts_field_element_after_build(array $element, FormStateInter
     !empty($element['config']['type']['#options'])
   ) {
     $valid_chart_types = ['donut', 'pie'];
+    // Ensure the configured default value is also available, if it happens
+    // to differ from the ones we're designating as "valid" here.
     if ($default_type = $element['config']['#default_value']['type']) {
       $valid_chart_types = array_unique(array_merge($valid_chart_types, [$default_type]));
     }
-    if($current_type = $element['config']['type']['#value']) {
-      $valid_chart_types = array_unique(array_merge($valid_chart_types, [$current_type] ));
+    // Ensure existing content that uses any "undesired" chart types
+    // do not all of a sudden break on the website.
+    if ($current_type = $element['config']['type']['#value']) {
+      $valid_chart_types = array_unique(array_merge($valid_chart_types, [$current_type]));
     }
 
     foreach ($element['config']['type']['#options'] as $key => $value) {
