@@ -39,7 +39,7 @@ function carlson_charts_field_widget_single_element_chart_config_default_form_al
  *
  * @throws \Drupal\Component\Plugin\Exception\PluginException
  */
-function carlson_charts_field_element_after_build(array $element, FormStateInterface $form_state) {
+function carlson_charts_field_element_after_build(array $element, FormStateInterface &$form_state) {
   if (
     !empty($element['config']['type']['#options'])
   ) {
@@ -56,8 +56,7 @@ function carlson_charts_field_element_after_build(array $element, FormStateInter
         unset($element['config']['type']['#options'][$key]);
       }
     }
-    $element['#processed'] = FALSE;
-    $element['config']['#processed'] = FALSE;
+    $form_state->setRebuild(TRUE);
   }
   return $element;
 }
