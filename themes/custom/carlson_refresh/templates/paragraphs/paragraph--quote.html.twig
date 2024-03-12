@@ -1,63 +1,68 @@
 {{ attach_library('carlson_refresh/quote') }}
 
-{% set bg_color = content.field_background_color|render ? content.field_background_color[0]['#markup'] : 'bg-gold bg-default' %}
-{% set color =  bg_color == 'bg-primary' ? 'text-white' : 'text-body' %}
+{% set has_mark = paragraph.field_quote_mark.value %}
+{% set has_image = paragraph.field_quote_image.value is not empty %}
+{% set has_author = paragraph.field_quote_source is not empty %}
+{% set has_org = paragraph.field_quote_source2 is not empty %}
+{% set has_citation = has_author or has_org %}
+{# {% set is_quote_group = paragraph.getParentEntity().type.target_id == 'quote_group' %} #}
+{% set bg_color = paragraph.field_background_color.value ?: 'bg-gold bg-default' %}
+{# {% set color = bg_color == 'bg-primary' ? 'text-white' : 'text-body' %} #}
+{% set text_align = paragraph.field_quote_align_text.value ?: 'left' %}
+{% set style = paragraph.field_quote_style.value ?: 'notch-left' %}
+{% set classes = [
+    'colorblock' not in style ? 'blockquote',
+    bg_color,
+    'blockquote--text-' ~ text_align,
+    'blockquote--' ~ style,
+    has_mark ? 'blockquote--has-quote-mark',
+  ]
+%}
 
-{% block paragraph %}
-  {% block content %}
-
-{#    {% if node.gettype =='alumni_landing_page' or node.gettype =='alumni_default_page' %}#}
-{#    <div class="container-fluid no-lr-margins">#}
-{#      <div class="row">#}
-{#        <div class="col-lg-6 col-xs-12 d-flex quote-flex order-2 order-lg-1">#}
-{#          <div class="quote__text__quotation d-none d-lg-block">#}
-{#          &#8220;#}
-{#          </div>#}
-{#          <div class="quote__text">#}
-{#              <p>{{ content.field_quote_text|render|striptags }}</p>#}
-{#          </div>#}
-{#          {% if content.field_quote_source|field_value is not empty %}#}
-{#          <div class="quote__source">#}
-{#            &ndash; {{ content.field_quote_source|field_value }}#}
-{#          </div>#}
-{#          {% endif %}#}
-{#        </div>#}
-{#        <div class="col-lg-6 col-xs-12 order-1 order-lg-2">#}
-{#            {% if content.field_quote_image|field_value is not empty %}#}
-{#            <div class="quote__image-bg" style="background-image: url('{{ file_url(content.field_quote_image|field_target_entity.image.entity.uri.value  ?: '') }}')">#}
-{#            </div>#}
-{#            {% endif %}#}
-{#            <!--span class="quote__img--icon icon icon-quote"></span-->#}
-{#        </div>#}
-{#      </div>#}
-{#    </div>#}
-
-{#    {% else %}#}
-    <div class="row no-gutters quote flex-grow-1 {{ paragraph.getParentEntity().type.target_id != 'quote_group' ? 'component-paragraph' }}">
-      {% if content.field_quote_image|render %}
-      <div class="col-12 col-lg-5 position-relative">
-        <div class="quote__img embed-responsive embed-responsive-4by3 position-static">
-          {% if content.field_quote_image|field_value is not empty %}
-            {{ content.field_quote_image }}
-          {% endif %}
-        </div>
-      </div>
-      {% endif %}
-      <div class="quote__content col-12 col-lg d-flex align-items-center {{ bg_color }} {{ color }} pr-lg-24 pt-10 pb-20 {{ content.field_quote_image|render ? 'ml-lg-n12 px-12' : 'px-lg-24 px-12' }}">
-        <div>
-          <div class="quote__text font-weight-light ff-serif fs-30 mb-5">
-            <em>{{ content.field_quote_text|render|striptags }}</em>
-          </div>
-          {% if content.field_quote_source|field_value is not empty %}
-            <div class="quote__source text-uppercase font-weight-semi-bold fs-base">
-              &ndash; {{ content.field_quote_source|field_value }}
-            </div>
-          {% endif %}
-        </div>
+{#
+<section class="{{ has_image ? 'medium' : 'narrow' }}">
+  <div class="row no-gutters quote w-100 flex-grow-1 {{ not is_quote_group ? 'component-paragraph' }}">
+    {% if has_image %}
+    <div class="col-12 col-lg-5 position-relative">
+      <div class="quote__img embed-responsive embed-responsive-4by3 position-static">
+        {{ content.field_quote_image }}
       </div>
     </div>
-{#    {% endif %}#}
-
-
-  {% endblock %}
-{% endblock paragraph %}
+    {% endif %}
+    <div class="quote__content col-12 col-lg d-flex align-items-center {{ bg_color }} {{ color }} pr-lg-24 pt-10 pb-20 {{ content.field_quote_image|render ? 'ml-lg-n12 px-12' : 'px-lg-24 px-12' }}">
+      <div>
+        <div class="quote__text font-weight-light ff-serif fs-30 mb-5">
+          <em>{{ content.field_quote_text|render|striptags }}</em>
+        </div>
+        {% if has_author %}
+          <div class="quote__source text-uppercase font-weight-semi-bold fs-base">
+            &ndash; {{ content.field_quote_source|field_value }}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+#}
+<section class="component-paragraph component-paragraph--{{ has_image ? 'medium' : 'narrow' }}">
+  <blockquote class="{{ classes|join(' ') }}">
+    {% if has_image %}
+      {{ content.field_quote_image }}
+    {% endif %}
+    <p>{{ content.field_quote_text|render|striptags('<a><strong><em>')|raw }}</p>
+    {% if has_citation %}
+    <footer>
+      {% if has_author %}
+      <div class="blockquote__author">
+        {{ content.field_quote_source }}
+      </div>
+      {% endif %}
+      {% if has_org %}
+      <div class="blockquote__organization">
+        {{ content.field_quote_source2 }}
+      </div>
+      {% endif %}
+    </footer>
+    {% endif %}
+  </blockquote>
+</section>

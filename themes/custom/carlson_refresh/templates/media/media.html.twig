@@ -1,0 +1,21 @@
+{#
+/**
+  * @file
+  * Override the media item default display.
+  *
+  * Remove the <article> tag and Drupal Contextual module integration.
+  */
+#}
+{%
+  set classes = [
+    'media',
+    'media--' ~ media.bundle()|clean_class,
+    view_mode ? 'media--' ~ media.bundle()|clean_class ~ '--' ~ view_mode|clean_class,
+    not media.isPublished() ? 'media--unpublished',
+  ]
+%}
+{% if content %}
+<div {{ attributes.addClass(classes).removeClass('contextual-region') }}>
+  {{ content }}
+</div>
+{% endif %}

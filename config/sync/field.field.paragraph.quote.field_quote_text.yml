@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph.field_quote_text
+    - filter.format.basic
     - paragraphs.paragraphs_type.quote
   module:
     - text
@@ -13,11 +14,13 @@ id: paragraph.quote.field_quote_text
 field_name: field_quote_text
 entity_type: paragraph
 bundle: quote
-label: Quote
-description: 'Enter the quote text. '
+label: 'Quote Text'
+description: 'A single paragraph of no more than one or two sentences is ideal.'
 required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
-settings: {  }
+settings:
+  allowed_formats:
+    - basic
 field_type: text_long

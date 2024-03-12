@@ -1,4 +1,11 @@
-<div class="component-paragraph wide">
-  <h2 class="variant">{{ content.field_label }}</h2>
-  {{ content.field_text_list }}
-</div>
+{% set has_heading = paragraph.field_multicol_list_heading.value|trim is not empty %}
+{% set has_list = paragraph.field_multicol_list_text.value|trim is not empty %}
+
+{% if has_heading or has_list %}
+<section class="csom-multicol-list__wrapper component-paragraph component-paragraph--wide">
+{% if has_heading %}
+<h2 class="csom-multicol-list__heading">{{ content.field_multicol_list_heading }}</h2>
+{% endif %}
+{{ content.field_multicol_list_text }}
+</section>
+{% endif %}
