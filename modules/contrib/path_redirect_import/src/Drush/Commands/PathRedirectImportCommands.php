@@ -1,17 +1,20 @@
 <?php
 
-namespace Drupal\path_redirect_import\Commands;
+namespace Drupal\path_redirect_import\Drush\Commands;
 
 use Drupal\Core\Batch\BatchBuilder;
 use Drupal\Core\Datetime\DateFormatter;
+use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\migrate\Plugin\MigrationPluginManager;
-use Drupal\migrate_tools\Drush\MigrateToolsCommands;
+use Drupal\migrate_tools\Drush\Commands\MigrateToolsCommands;
 use Drupal\path_redirect_import\Form\MigrateRedirectForm;
 use Drupal\path_redirect_import\RedirectExport;
+use Drush\Attributes as CLI;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * A Drush commandfile.
@@ -26,6 +29,7 @@ use Drupal\path_redirect_import\RedirectExport;
  */
 class PathRedirectImportCommands extends MigrateToolsCommands {
 
+  use DependencySerializationTrait;
   use StringTranslationTrait;
 
   /**
@@ -65,6 +69,20 @@ class PathRedirectImportCommands extends MigrateToolsCommands {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container): MigrateToolsCommands {
+    return new static(
+      $container->get('plugin.manager.migration'),
+      $container->get('date.formatter'),
+      $container->get('entity_type.manager'),
+      $container->get('keyvalue'),
+      $container->get('file_system'),
+      $container->get('path_redirect_import.redirect_export'),
+    );
+  }
+
+  /**
    * Imports the redirects defined in the CSV file passed as argument.
    *
    * @param string $file
@@ -73,12 +91,18 @@ class PathRedirectImportCommands extends MigrateToolsCommands {
    * @command path_redirect_import:import
    * @aliases prii
    */
+  #[CLI\Command(name: 'path_redirect_import:import', aliases: ['prii'])]
+  #[CLI\Argument(name: 'file', description: 'The CSV file to import.')]
+  #[CLI\Topics(topics: ['path_redirect_import'])]
+  #[CLI\ValidateModulesEnabled(modules: ['migrate_tools'])]
   public function importRedirects($file) {
     if (!file_exists($file)) {
       $this->logger()->error("File $file doesn't exist \n");
       exit;
     }
 
+    $directory = dirname(MigrateRedirectForm::MIGRATE_FILE_PATH);
+    $this->fileSystem->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
     $this->fileSystem->copy($file, MigrateRedirectForm::MIGRATE_FILE_PATH, FileSystemInterface::EXISTS_REPLACE);
 
     $this->resetStatus('path_redirect_import');
@@ -87,6 +111,14 @@ class PathRedirectImportCommands extends MigrateToolsCommands {
       'limit' => 0,
       'update' => TRUE,
       'force' => FALSE,
+      'all' => FALSE,
+      'group' => NULL,
+      'tag' => NULL,
+      'execute-dependencies' => FALSE,
+      'sync' => FALSE,
+      'skip-progress-bar' => FALSE,
+      'continue-on-failure' => FALSE,
+      'idlist' => NULL,
     ]);
 
     $this->logger()->success($this->t('Redirects imported.'));
@@ -98,6 +130,9 @@ class PathRedirectImportCommands extends MigrateToolsCommands {
    * @command path_redirect_import:export
    * @aliases prie
    */
+  #[CLI\Command(name: 'path_redirect_import:export', aliases: ['prie'])]
+  #[CLI\Topics(topics: ['path_redirect_import'])]
+  #[CLI\ValidateModulesEnabled(modules: ['migrate_tools'])]
   public function exportRedirects() {
     $operations = $this->redirectExport->getBatchOperations();
 
