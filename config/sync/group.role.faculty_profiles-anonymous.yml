@@ -4,12 +4,13 @@ status: true
 dependencies:
   config:
     - group.type.faculty_profiles
+    - user.role.anonymous
 id: faculty_profiles-anonymous
 label: Anonymous
-weight: -102
-group_type: faculty_profiles
-permissions:
-  - 'view group_node:faculty_profile entity'
+weight: -10
 admin: false
 scope: outsider
 global_role: anonymous
+group_type: faculty_profiles
+permissions:
+  - 'view group_node:faculty_profile entity'
