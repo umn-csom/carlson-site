@@ -4,13 +4,14 @@ status: true
 dependencies:
   config:
     - group.type.private_drafts
+    - user.role.authenticated
 id: private_drafts-outsider
 label: Outsider
-weight: -101
+weight: -9
+admin: false
+scope: outsider
+global_role: authenticated
 group_type: private_drafts
 permissions:
   - 'view group_node:landing_page entity'
   - 'view group_node:page entity'
-admin: false
-scope: outsider
-global_role: authenticated
