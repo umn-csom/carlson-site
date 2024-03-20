@@ -68,3 +68,74 @@
 .claro-details__wrapper--vertical-tabs-item::before {
     display:none !important;
 }
+
+.js .paragraph-top {
+    -ms-grid-columns: auto auto 1fr auto;
+    grid-template-columns: auto auto 1fr auto;
+}
+
+
+/* Add transparency layer behind images in Media Library */
+.media-library-item__attributes {
+  width: 100%;
+  min-height: 1.75rem;
+}
+
+.media-library-item__preview .field--name-thumbnail img,
+.media-library-item__preview .field--name-field-media-file img {
+  height: 11.25rem;
+  object-fit: contain;
+  object-position: center center;
+  width: 100%;
+}
+
+.media-library-item--grid .media-library-item__preview .field--name-thumbnail,
+.media-library-item--grid .media-library-item__preview .field--name-field-media-file {
+  overflow: hidden;
+  text-align: center;
+  background-color: transparent;
+}
+
+.media-library-item__preview {
+  background-color: transparent;
+  background-image:
+    linear-gradient(-45deg, var(--color-pattern) 25%, transparent 26%),
+    linear-gradient(-45deg, var(--color-pattern) 25%, transparent 26%),
+    linear-gradient(135deg, var(--color-pattern) 25%, transparent 26%),
+    linear-gradient(135deg, var(--color-pattern) 25%, transparent 26%);
+  background-position:
+    0 0,
+    var(--size-pattern-square) var(--size-pattern-square),
+    var(--size-pattern-square) var(--size-pattern-square),
+    0 0;
+  background-size: calc(var(--size-pattern-square) * 2) calc(var(--size-pattern-square) * 2);
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.media-library-item__preview-wrapper {
+  height: 100%;
+  position: relative;
+  border-radius: 2px;
+  box-shadow: var(--details-box-shadow);
+  border: 1px solid #dbdbdb;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  max-width: 225px;
+}
+
+.media-library-item .media-library-item__preview-wrapper {
+  max-width: 100%;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0;
+}
+
+.media-library-item__preview div {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}

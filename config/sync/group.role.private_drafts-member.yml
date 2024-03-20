@@ -4,9 +4,13 @@ status: true
 dependencies:
   config:
     - group.type.private_drafts
+    - user.role.authenticated
 id: private_drafts-member
 label: Member
-weight: -100
+weight: -8
+admin: false
+scope: insider
+global_role: authenticated
 group_type: private_drafts
 permissions:
   - 'revert group_node:landing_page revisions'
@@ -20,6 +24,3 @@ permissions:
   - 'view group_node:page revisions'
   - 'view unpublished group_node:landing_page entity'
   - 'view unpublished group_node:page entity'
-admin: false
-scope: insider
-global_role: authenticated

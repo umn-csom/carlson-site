@@ -4,13 +4,14 @@ status: true
 dependencies:
   config:
     - group.type.private_drafts
+    - user.role.anonymous
 id: private_drafts-anonymous
 label: Anonymous
-weight: -102
+weight: -10
+admin: false
+scope: outsider
+global_role: anonymous
 group_type: private_drafts
 permissions:
   - 'view group_node:landing_page entity'
   - 'view group_node:page entity'
-admin: false
-scope: outsider
-global_role: anonymous

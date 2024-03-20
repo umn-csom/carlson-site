@@ -4,17 +4,29 @@ status: true
 dependencies:
   config:
     - group.type.faculty_profiles
+    - user.role.authenticated
 id: faculty_profiles-member
 label: Member
-weight: -100
-group_type: faculty_profiles
-permissions:
-  - 'access group_node overview'
-  - 'create group_node:faculty_profile content'
-  - 'create group_node:faculty_profile entity'
-  - 'update own group_node:faculty_profile content'
-  - 'update own group_node:faculty_profile entity'
-  - 'view group_node:faculty_profile entity'
+weight: -8
 admin: false
 scope: insider
 global_role: authenticated
+group_type: faculty_profiles
+permissions:
+  - 'access content overview'
+  - 'access group_node overview'
+  - 'administer members'
+  - 'create group_node:faculty_profile content'
+  - 'create group_node:faculty_profile entity'
+  - 'edit group'
+  - 'update own group_membership relationship'
+  - 'update own group_node:faculty_profile content'
+  - 'update own group_node:faculty_profile entity'
+  - 'view all group revisions'
+  - 'view any unpublished group'
+  - 'view group'
+  - 'view group revisions'
+  - 'view group_node:faculty_profile entity'
+  - 'view latest group version'
+  - 'view own unpublished group'
+  - 'view unpublished group_node:faculty_profile entity'

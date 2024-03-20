@@ -13,6 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class ExportRedirectForm extends FormBase {
   use MigratePluginTrait;
+  use SampleCsvFormTrait;
 
   /**
    * The redirect export service.
@@ -51,18 +52,7 @@ class ExportRedirectForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['markup'] = [
-      '#markup' => 'A CSV will be exported with this structure:',
-    ];
-
-    $form['pre'] = [
-      '#type' => 'html_tag',
-      '#tag' => 'pre',
-      '#value' => 'source,destination,language,status_code
-source-path,&lt;front&gt;,und,301
-source-path-other?param=value,/my-path,en,302
-my-source-path,https://example.com,und',
-    ];
+    $form['table'] = $this->getSampleCsvTable($this->t('A CSV will be exported with this structure:'));
 
     $form['actions'] = [
       '#type' => 'actions',
@@ -110,7 +100,7 @@ my-source-path,https://example.com,und',
       batch_set($batch);
     }
     else {
-      $this->messenger()->addError(t('There are no redirections to export.'));
+      $this->messenger()->addError($this->t('There are no redirects to export.'));
     }
   }
 

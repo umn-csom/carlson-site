@@ -2,6 +2,80 @@ blockquote {
   font-size: 1.8rem;
   line-height: 1.5;
   quotes: "“" "”";
+  width: 100%;
+
+  &:has(.media) {
+    @media (max-width: 991px) {
+      .media {
+        margin: -6rem -6rem 6rem;
+      }
+    }
+  }
+
+  &,
+  a {
+    color: $soft-black;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  img {
+    background: $white;
+  }
+
+  &.bg-primary {
+    color: $white;
+
+    &,
+    .media::after {
+      background-color: $maroon;
+    }
+
+    a {
+      color: $white;
+    }
+  }
+
+  &.bg-gold {
+    color: $soft-black;
+
+    &,
+    .media::after {
+      background-color: $gold;
+    }
+
+    a {
+      color: $soft-black;
+    }
+  }
+
+  &.bg-ivory {
+    color: $soft-black;
+
+    &,
+    .media::after {
+      background-color: $ivory;
+    }
+
+    a {
+      color: $soft-black;
+    }
+  }
+
+  &.bg-light-blue {
+    color: $soft-black;
+
+    &,
+    .media::after {
+      background-color: $light-blue;
+    }
+
+    a {
+      color: $soft-black;
+    }
+  }
 
   &,
   &.blockquote--text-left,
@@ -14,36 +88,91 @@ blockquote {
     text-align: center;
   }
 
-  &.blockquote--no-quote-mark > :first-child {
-    &::before {
-      content: '';
-      display: none;
+  &:not(.blockquote).blockquote--has-quote-mark {
+    > p:first-of-type {
+      position: relative;
+
+      &::before {
+        position: absolute;
+        background: none;
+        content: open-quote;
+        font-family: $font-family-serif;
+        font-size: 4rem;
+        font-weight: 400;
+        line-height: 1.2;
+        right: calc(100% + 0.25rem);
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    &.blockquote--text-center {
+      > p:first-of-type {
+        &::before {
+          position: initial;
+          line-height: 1rem;
+          vertical-align: bottom;
+        }
+      }
+    }
+  }
+
+  &.blockquote.blockquote--has-quote-mark {
+    > p:first-of-type {
+      &::before {
+        position: initial;
+        background: none;
+        display: block;
+        content: open-quote;
+        font-family: $font-family-serif;
+        font-size: 5rem;
+        font-weight: 700;
+        line-height: .5;
+        margin: 0 auto;
+        text-align: center;
+      }
+    }
+  }
+
+  &.blockquote--no-quote-mark {
+    > p:first-of-type {
+      &::before {
+        content: '';
+        display: none !important;
+      }
     }
   }
 
   footer {
     font-weight: 400;
     font-size: 1.8rem;
+  }
 
-    .blockquote__author {
-      font-style: italic;
-      font-family: $font-family-serif;
-      margin: 20px auto 0;
-      font-size: 2.6rem;
+  .blockquote__author {
+    font-style: italic;
+    font-family: $font-family-serif;
+    margin: 2rem auto 0;
+    font-size: 2.2rem;
+
+    &::before {
+      content: '–';
     }
 
-    .blockquote__organization {
-      font-size: 1.4rem;
-      font-family: $font-family-sans-serif;
-      text-transform: uppercase;
+    &:has(+ .blockquote__organization)::before {
+      content: '';
     }
+  }
+
+  .blockquote__organization {
+    font-size: 1.4rem;
+    font-family: $font-family-sans-serif;
+    text-transform: uppercase;
   }
 
   &:not(.blockquote) {
     margin: 4rem 0;
-    padding: 3rem 4rem 3rem 12rem;
+    padding: 4rem 4rem 4rem 10rem;
     background-color: $ivory;
-    color: $body-color;
     position: relative;
 
     &::before,
@@ -65,27 +194,49 @@ blockquote {
       clip-path: polygon(0 25%, 100% calc(25% + 30px), 100% 100%, 0 100%);
     }
 
-    &.blockquote--has-quote-mark > :first-child {
-      position: relative;
+    &:has(.media) {
+      @media (min-width: 992px) {
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 41.66667%;
+        padding-right: 6rem;
+        position: relative;
+        overflow: hidden;
 
-      &::before {
-        background: none;
-        content: open-quote;
-        font-family: $font-family-serif;
-        font-size: 4rem;
-        font-weight: 400;
-        line-height: 1.2;
-        position: absolute;
-        right: calc(100% + 0.25rem);
-        margin: 0;
-        padding: 0;
+        > .drupal-media,
+        > .media {
+          position: absolute;
+          top: 0;
+          left: 6rem;
+          height: 100%;
+          width: calc(41.66667% - 10rem);
+          margin: 0;
+
+          div:has(img) {
+            width: 100%;
+            height: 100%;
+          }
+
+          img {
+            height: 100%;
+            width: 100%;;
+            object-fit: cover;
+            object-position: center;
+          }
+        }
+      }
+      > .drupal-media,
+      > .media {
+        @media (max-width: 991px) {
+          margin: -4rem -4rem 6rem;
+        }
       }
     }
   }
 
   &.blockquote {
     margin: 4rem 0;
-    padding: 6rem 4rem;
+    padding: 6rem;
 
     &::before,
     &::after {
@@ -93,51 +244,107 @@ blockquote {
       display: none !important;
     }
 
-    &.blockquote--has-quote-mark {
-      > :first-child {
-        position: initial;
-      }
-
-      &::before {
-        background: none;
-        display: block !important;
-        content: open-quote !important;
-        font-family: $font-family-serif;
-        font-size: 5rem;
-        font-weight: 700;
-        line-height: .5;
-        margin: 0 auto;
-        text-align: center;
-      }
-    }
-
-    &,
-    &.blockquote--maroon {
-      background-color: $maroon;
-      color: $white;
-
-      a {
-        color: $white;
-      }
-    }
-
-
-    &.blockquote--gold {
-      background-color: $gold;
-      color: $soft-black;
-
-      a {
-        color: $maroon;
-      }
-    }
-
     &,
     &.blockquote--notch-left {
       clip-path: polygon(0 60px, 60px 0, 100% 0, 100% 100%, 0 100%);
+      padding: 6rem;
+
+      &:has(.media) {
+        clip-path: none;
+
+        @media (min-width: 992px) {
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: 41.66667%;
+          padding-right: 6rem;
+          position: relative;
+          overflow: hidden;
+
+          > .drupal-media,
+          > .media {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: initial;
+            height: 100%;
+            width: 41.66667%;
+
+            div:has(img) {
+              width: 100%;
+              height: 100%;
+            }
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              object-position: center;
+            }
+
+            &::after {
+              content: '';
+              position: absolute;
+              right: -0.5px;
+              top: 0;
+              height: 100%;
+              width: 6rem;
+              z-index: 1;
+              clip-path: polygon(0 60px, 100% 0, 100% 60px, 100% 100%, 0 100%);
+            }
+          }
+        }
+      }
     }
 
     &.blockquote--notch-right {
       clip-path: polygon(0 0, calc(100% - 60px) 0, 100% 60px, 100% 100%, 0 100%);
+      padding: 6rem;
+
+      &:has(.media) {
+        clip-path: none;
+
+        @media (min-width: 992px) {
+          margin-left: auto;
+          margin-right: auto;
+          padding-left: 6rem;
+          padding-right: 41.66667%;
+          position: relative;
+          overflow: hidden;
+
+          > .drupal-media,
+          > .media {
+            position: absolute;
+            top: 0;
+            left: initial;
+            right: 0;
+            height: 100%;
+            width: 41.66667%;
+
+            div:has(img) {
+              width: 100%;
+              height: 100%;
+            }
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              object-position: center;
+            }
+
+            &::after {
+              content: '';
+              position: absolute;
+              left: -0.5px;
+              top: 0;
+              height: 100%;
+              width: 6rem;
+              z-index: 1;
+              clip-path: polygon(0 0, calc(100% - 60px) 0, 100% 60px, 100% 100%, 0 100%);
+            }
+          }
+        }
+      }
     }
 
     &.blockquote--notch-none {
@@ -153,7 +360,7 @@ blockquote {
       .blockquote__author {
         font-style: normal;
         font-family: $font-family-sans-serif;
-        font-size: 2.5rem;
+        font-size: 2.2rem;
       }
 
       .blockquote__organization {

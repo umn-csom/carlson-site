@@ -13,20 +13,26 @@
   ],
   "support": {
     "issues": "https://www.drupal.org/project/issues/path_redirect_import",
-    "source": "https://cgit.drupalcode.org/path_redirect_import"
+    "source": "https://git.drupalcode.org/path_redirect_import"
   },
-  "minimum-stability": "stable",
-  "prefer-stable": true,
-    "require": {
-        "php": ">=7.1",
-        "drupal/core": ">=9.1",
-        "drupal/migrate_source_csv": "^3.5",
-        "drupal/migrate_tools": "^5.0 || ^6.0"
-    },
-    "require-dev": {
-        "drupal/migrate_plus": ">=5.0"
-    },
-    "config": {
+  "require": {
+    "php": ">=7.1",
+    "drupal/core": ">=9.1",
+    "drupal/migrate_source_csv": "^3.5",
+    "drupal/migrate_tools": "^6.0.2",
+    "drupal/redirect": ">=1.7"
+  },
+  "require-dev": {
+    "drupal/migrate_plus": ">=5.0"
+  },
+  "extra": {
+    "drush": {
+      "services": {
+        "drush.services.yml": ">=9"
+      }
+    }
+  },
+  "config": {
     "preferred-install": "dist"
   }
 }

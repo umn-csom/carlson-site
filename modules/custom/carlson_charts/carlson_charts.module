@@ -11,3 +11,88 @@
 function carlson_charts_chart_alter(array &$element, $chart_id) {
   $element['#attached']['library'][] = 'carlson_charts/charts';
 }
+
+/**
+ * Implements hook_library_info_alter().
+ *
+ * @param array $libraries
+ * @param string $module
+ * @return void
+ */
+function carlson_refresh_library_info_alter(array &$libraries, $module) {
+  if ($module === 'charts_highcharts') {
+
+    // Extract the version number from the library file.
+    $app_root = \Drupal::getContainer()->getParameter('app.root');
+    $site_path = \Drupal::getContainer()->getParameter('site.path');
+    $file_path = "{$app_root}/{$site_path}/libraries/highcharts/highcharts.js";
+
+    if (!is_readable($file_path)) {
+      return;
+    }
+
+    $file_content = file_get_contents($file_path);
+    $version = NULL;
+    $pattern = '/Highcharts JS v(\d+\.\d+\.\d+)/';
+    if (preg_match($pattern, $file_content, $matches)) {
+      // The version number will be in the second element of $matches array.
+      $version = $matches[1];
+    }
+
+    // Replace highcharts libraries from upstream composer.json with latest
+    // version added to this project's repository via a local composer.json
+    $base_url = "/";
+    $site_uri = $base_url . $site_path;
+    if (isset($libraries['highcharts']) && is_readable($file_path)) {
+      // Remove the old library path.
+      unset($libraries['highcharts']['js']);
+
+      // Add a version string based on library version, not Drupal core version.
+      if ($version) {
+        $libraries['highcharts']['version'] = $version;
+      }
+
+      // Update to the new library path.
+      $libraries['highcharts']['js'] = [
+        $site_uri . '/libraries/highcharts/highcharts.js' => [
+          'preprocess' => FALSE,
+          'minified' => FALSE,
+        ],
+        $site_uri . '/libraries/highcharts_more/highcharts-more.js' => [
+          'preprocess' => FALSE,
+          'minified' => FALSE,
+        ],
+        $site_uri . '/libraries/highcharts_accessibility/accessibility.js' => [
+          'preprocess' => FALSE,
+          'minified' => FALSE,
+        ],
+        $site_uri . '/libraries/highcharts_3d/highcharts-3d.js' => [
+          'preprocess' => FALSE,
+          'minified' => FALSE,
+        ],
+      ];
+    }
+    if (isset($libraries['highcharts_exporting'])) {
+
+      // Remove the old library path.
+      unset($libraries['highcharts_exporting']['js']);
+
+      // Add a version string based on library version, not Drupal core version.
+      if ($version) {
+        $libraries['highcharts_exporting']['version'] = $version;
+      }
+
+      // Update path to library files.
+      $libraries['highcharts_exporting']['js'] = [
+        $site_uri . '/libraries/highcharts_exporting/exporting.js' => [
+          'preprocess' => FALSE,
+          'minified' => FALSE,
+        ],
+        $site_uri . '/libraries/highcharts_export-data/export-data.js' => [
+          'preprocess' => FALSE,
+          'minified' => FALSE,
+        ],
+      ];
+    }
+  }
+}

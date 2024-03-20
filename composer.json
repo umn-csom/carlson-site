@@ -1,0 +1,142 @@
+{
+  "name": "carlsonschool-web/drupal-8",
+  "type": "project",
+  "description": "Override package versions from upstream https://github.umn.edu/drupalplatform/d8-composer",
+  "repositories": {
+    "highcharts_3d": {
+      "type": "package",
+      "package": {
+        "name": "highcharts/3d",
+        "version": "11.3.0",
+        "type": "drupal-library",
+        "extra": {
+          "installer-name": "highcharts_3d"
+        },
+        "dist": {
+          "url": "https://code.highcharts.com/11.3.0/highcharts-3d.js",
+          "type": "file"
+        },
+        "require": {
+          "composer/installers": "~2.0"
+        }
+      }
+    },
+    "highcharts_accessibility": {
+      "type": "package",
+      "package": {
+        "name": "highcharts/accessibility",
+        "version": "11.3.0",
+        "type": "drupal-library",
+        "extra": {
+          "installer-name": "highcharts_accessibility"
+        },
+        "dist": {
+          "url": "https://code.highcharts.com/11.3.0/modules/accessibility.js",
+          "type": "file"
+        },
+        "require": {
+          "composer/installers": "~2.0"
+        }
+      }
+    },
+    "highcharts_export-data": {
+      "type": "package",
+      "package": {
+        "name": "highcharts/export-data",
+        "version": "11.3.0",
+        "type": "drupal-library",
+        "extra": {
+          "installer-name": "highcharts_export-data"
+        },
+        "dist": {
+          "url": "https://code.highcharts.com/11.3.0/modules/export-data.js",
+          "type": "file"
+        },
+        "require": {
+          "composer/installers": "~2.0"
+        }
+      }
+    },
+    "highcharts_exporting": {
+      "type": "package",
+      "package": {
+        "name": "highcharts/exporting",
+        "version": "11.3.0",
+        "type": "drupal-library",
+        "extra": {
+          "installer-name": "highcharts_exporting"
+        },
+        "dist": {
+          "url": "https://code.highcharts.com/11.3.0/modules/exporting.js",
+          "type": "file"
+        },
+        "require": {
+          "composer/installers": "~2.0"
+        }
+      }
+    },
+    "highcharts_highcharts": {
+      "type": "package",
+      "package": {
+        "name": "highcharts/highcharts",
+        "version": "11.3.0",
+        "type": "drupal-library",
+        "extra": {
+          "installer-name": "highcharts"
+        },
+        "dist": {
+          "url": "https://code.highcharts.com/11.3.0/highcharts.js",
+          "type": "file"
+        },
+        "require": {
+          "composer/installers": "~2.0"
+        }
+      }
+    },
+    "highcharts_more": {
+      "type": "package",
+      "package": {
+        "name": "highcharts/more",
+        "version": "11.3.0",
+        "type": "drupal-library",
+        "extra": {
+          "installer-name": "highcharts_more"
+        },
+        "dist": {
+          "url": "https://code.highcharts.com/11.3.0/highcharts-more.js",
+          "type": "file"
+        },
+        "require": {
+          "composer/installers": "~2.0"
+        }
+      }
+    }
+  },
+  "require": {
+    "highcharts/3d": "^11.3",
+    "highcharts/accessibility": "^11.3",
+    "highcharts/export-data": "^11.3",
+    "highcharts/exporting": "^11.3",
+    "highcharts/highcharts": "^11.3",
+    "highcharts/more": "^11.3"
+  },
+  "extra": {
+    "installer-types": [
+      "bower-asset",
+      "npm-asset"
+    ],
+    "installer-paths": {
+      "libraries/{$name}": [
+        "type:drupal-library",
+        "type:bower-asset",
+        "type:npm-asset"
+      ]
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/installers": true
+    }
+  }
+}

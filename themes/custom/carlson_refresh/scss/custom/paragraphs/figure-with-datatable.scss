@@ -10,56 +10,27 @@
     font-weight: 600;
   }
 
+  figure {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+  }
+
   figcaption {
     margin: 2.4rem auto;
   }
 
-  img,
-  svg {
-    width: 100%;
-    height: auto;
-  }
-
-  button.sr-only {
-    &:focus {
-      width: auto;
+  &__media {
+    .media,
+    img,
+    svg {
+      width: 100%;
       height: auto;
-      clip: none;
-      position: relative;
-      padding: 1.5rem 2rem;
-      margin: 2.4rem;
     }
   }
 
-  table {
-    margin: 2.4rem auto;
-
-    &.sr-only:focus {
-      width: auto;
-      height: auto;
-      clip: none;
-      position: relative;
-    }
-
-    th,
-    td {
-      padding: 5px 10px;
-      text-align: left;
-      font-weight: 600;
-    }
-    thead {
-      tr,
-      th,
-      td {
-        background: $ivory;
-        border-color: $ivory;
-        border-bottom: 0;
-        font-weight: 700;
-      }
-      th:not(:last-child),
-      td:not(:last-child) {
-        border-right-color: $white;
-      }
-    }
+  &__media + &__table {
+    margin-top: 2.4rem;
   }
+
 }
