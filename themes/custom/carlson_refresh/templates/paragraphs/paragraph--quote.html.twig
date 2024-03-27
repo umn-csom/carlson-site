@@ -44,12 +44,12 @@
   </div>
 </section>
 #}
-<section class="{{ has_image ? 'medium' : 'narrow' }}">
+<section class="component-paragraph component-paragraph--{{ has_image ? 'medium' : 'narrow' }}">
   <blockquote class="{{ classes|join(' ') }}">
     {% if has_image %}
       {{ content.field_quote_image }}
     {% endif %}
-    <p>{{ content.field_quote_text|render|striptags }}</p>
+    <p>{{ content.field_quote_text|render|striptags('<a><strong><em>')|raw }}</p>
     {% if has_citation %}
     <footer>
       {% if has_author %}

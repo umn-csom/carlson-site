@@ -85,7 +85,7 @@ class RedirectExport {
     $filename = 'export_' . time() . '.csv';
     $uri = self::MIGRATE_FOLDER . $filename;
     $directory = self::MIGRATE_FOLDER;
-    $result = $this->fileSystem->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
+    $this->fileSystem->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
     return $this->fileRepository->writeData('', $uri, FileSystemInterface::EXISTS_REPLACE);
   }
 
@@ -248,7 +248,7 @@ class RedirectExport {
   public static function batchFinishedExport($success, array $results, array $operations) {
     /** @var \Drupal\file\Entity\File $file */
     $file = !empty($results['file']) ? $results['file'] : NULL;
-    if ($success && !empty($file)) {
+    if ($success && $file) {
       $uri = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
       $url = Url::fromUri($uri);
       $download = Link::fromTextAndUrl(t('link'), $url);
@@ -268,7 +268,7 @@ class RedirectExport {
       \Drupal::messenger()->addError(t('Export process failed. Please review existing redirections or contact an administrator.'));
     }
     // In any other case, set file as temporary so that cron deletes it.
-    if (!empty($file)) {
+    if ($file) {
       $file->setTemporary();
       $file->save();
     }

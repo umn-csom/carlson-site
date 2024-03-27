@@ -31,6 +31,8 @@ function datatables_theme($existing, $type, $theme, $path) {
  * @see template_preprocess_views_view_table()
  */
 function template_preprocess_views_view_datatables(&$variables) {
+  // Ensure views.theme.inc is loaded:
+  \Drupal::moduleHandler()->loadInclude('views', 'inc', 'views.theme');
   template_preprocess_views_view_table($variables);
 
   $view = $variables['view'];
@@ -41,15 +43,23 @@ function template_preprocess_views_view_datatables(&$variables) {
   $fields = &$view->field;
   $columns = $handler->sanitizeColumns($options['columns'], $fields);
 
+  $datatable_options['aaSorting'] = [];
   $position = 0;
+
   foreach ($columns as $field => $column) {
     $column_options = NULL;
+
+    // Create a second variable so we can easily find what fields we have and
+    // what the CSS classes should be.
+    // This is handle by template_preprocess_views_view_table but it is being
+    // skipped for empty rows and the template still require the variable.
+    $vars['fields'][$field] = Html::cleanCssIdentifier($field);
 
     if (isset($options['hidden_columns'][$field])) {
       switch ($options['hidden_columns'][$field]) {
         case 'expandable':
           $datatable_options['bExpandable'] = TRUE;
-        // ... and fall through, since expandable columns are also hidden.
+          // ... and fall through, since expandable columns are also hidden.
         case 'hidden':
           // Hidden or expandable columns get the bVisible init option set to
           // false.
@@ -59,16 +69,23 @@ function template_preprocess_views_view_datatables(&$variables) {
 
     // Render the header labels.
     if ($field == $column && empty($fields[$field]->options['exclude'])) {
+      // Respect the "empty_column" option:
+      if (!empty($options['info'][$field]) && $options['info'][$field]['empty_column'] && empty($variables['header'][$column])) {
+        // This column is empty and was already removed. Don't do anything here.
+        continue;
+      }
+
       // Overrides clicksort head defined in
       // template_preprocess_views_view_table().
-      $variables['header'][$field]['content'] = Html::escape(!empty($fields[$field]) ? $fields[$field]->label() : '');
+      $variables['header'][$field]['content'] = !empty($fields[$field]) ? $fields[$field]->label() : '';
       unset($variables['header'][$field]['url']);
       unset($variables['header'][$field]['sort_indicator']);
 
       if (empty($options['info'][$field]['sortable']) || !$fields[$field]->clickSortable()) {
         $column_options['bSortable'] = FALSE;
       }
-      else {
+      // Only try to autodetect if there are rows.
+      elseif (!empty($vars['rows'])) {
         $info = FieldStorageConfig::loadByName($fields[$field]->getEntityType(), $field);
 
         // Attempt to autodetect the type of field in order to handle sorting
@@ -84,17 +101,21 @@ function template_preprocess_views_view_datatables(&$variables) {
             $column_options['sType'] = 'date';
           }
         }
-
         $column_options['bSortable'] = TRUE;
       }
+
+      // Add filter column setting:
+      $column_options['sFilterColumnType'] = $options['filter_columns'][$field] ?? FALSE;
+      // Boolean value. FALSE only if value is set to 'thead_unsearchable'. TRUE otherwise.
+      $column_options['bSearchable'] = 'thead_unsearchable' !== ($options['filter_columns'][$field] ?? '');
+
       $datatable_options['aoColumns'][] = $column_options;
       $datatable_options['aoColumnHeaders'][] = $variables['header'][$field];
     }
 
     // Set default sort order.
-    $datatable_options['aaSorting'] = [];
     if ($options['default'] == $field) {
-      $datatable_options['aaSorting'] = [[$position, $options['order']]];
+      $datatable_options['aaSorting'][] = [$position, $options['order']];
     }
 
     $position++;
@@ -104,7 +125,8 @@ function template_preprocess_views_view_datatables(&$variables) {
   $datatable_options['bInfo'] = $options['elements']['table_info'];
   $datatable_options['bFilter'] = $options['elements']['search_box'];
   $datatable_options['bStateSave'] = $options['elements']['save_state'];
-
+  $datatable_options['sFilterColumnsPlaceholder'] = $options['filter_columns_placeholder'];
+  $datatable_options['bFilterColumns'] = !empty($options['filter_columns']);
   $datatable_options['bLengthChange'] = $options['pages']['length_change'];
   $datatable_options['iDisplayLength'] = (int) $options['pages']['display_length'];
 
@@ -153,12 +175,12 @@ function template_preprocess_views_view_datatables(&$variables) {
 
   $datatable_options['oLanguage'] = [
     'sEmptyTable' => t('No data available in table'),
-    'sInfo' => t('Start @START to @END of @TOTAL entries', [
-      '@START' => '_START_',
-      '@END' => '_END_',
-      '@TOTAL' => '_TOTAL_'
+    'sInfo' => t('Displaying @start - @end of @total', [
+      '@start' => '_START_',
+      '@end' => '_END_',
+      '@total' => '_TOTAL_',
     ]),
-    'sInfoEmpty' => t('Showing 0 to 0 of 0 entries'),
+    'sInfoEmpty' => t('Displaying 0 - 0 of 0'),
     'sInfoFiltered' => t('(filtered from @MAX total entries)', ['@MAX' => '_MAX_']),
     'sInfoPostFix' => '',
     'sProcessing' => t('Processing...'),

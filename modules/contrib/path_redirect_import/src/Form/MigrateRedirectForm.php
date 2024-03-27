@@ -9,7 +9,6 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
-use Drupal\file\FileInterface;
 use Drupal\file\FileRepositoryInterface;
 use Drupal\migrate\MigrateMessage;
 use Drupal\migrate\Plugin\MigrationInterface;
@@ -27,6 +26,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class MigrateRedirectForm extends FormBase {
   use MigratePluginTrait;
+  use SampleCsvFormTrait;
 
   const MIGRATE_FILE_PATH = 'temporary://path_redirect_import/migrate.csv';
 
@@ -110,18 +110,7 @@ class MigrateRedirectForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['markup'] = [
-      '#markup' => 'Please upload a CSV file following this pattern to migrate the redirect data:',
-    ];
-
-    $form['pre'] = [
-      '#type' => 'html_tag',
-      '#tag' => 'pre',
-      '#value' => 'source,destination,language,status_code
-source-path,&lt;front&gt;,und,301
-source-path-other?param=value,/my-path,en,302
-my-source-path,https://example.com,und,302',
-    ];
+    $form['table'] = $this->getSampleCsvTable($this->t('Please upload a CSV file following this pattern to migrate the redirect data:'));
 
     $form['spreadsheet'] = [
       '#type' => 'managed_file',
@@ -186,7 +175,7 @@ my-source-path,https://example.com,und,302',
           $removeFile = TRUE;
           $csvHtml = $this->t('Line @line in @label contains wrong character(s)', [
             '@line' => $csvLine,
-            '@name' => $file->label(),
+            '@label' => $file->label(),
           ]);
           $csvHtml .= '<br/>' . print_r($record, TRUE);
           $form_state->setErrorByName($key, $csvHtml);
@@ -196,7 +185,7 @@ my-source-path,https://example.com,und,302',
           $removeFile = TRUE;
           $csvHtml = $this->t('Line @line in @label contains empty/null value(s)', [
             '@line' => $csvLine,
-            '@name' => $file->label(),
+            '@label' => $file->label(),
           ]);
           $csvHtml .= '<br/>' . print_r($record, TRUE);
           $form_state->setErrorByName($key, $csvHtml);
@@ -207,7 +196,7 @@ my-source-path,https://example.com,und,302',
           $removeFile = TRUE;
           $csvHtml = $this->t('Line @line in @label contains the same URL destination as source', [
             '@line' => $csvLine,
-            '@name' => $file->label(),
+            '@label' => $file->label(),
           ]);
           $csvHtml .= '<br/>' . print_r($record, TRUE);
           $form_state->setErrorByName($key, $csvHtml);
@@ -227,7 +216,7 @@ my-source-path,https://example.com,und,302',
     $file = $this->processSpreadsheet($fid);
     if ($file) {
       if ($form_state->getValue('delete') === 1) {
-        $this->deleteRedirectData($form_state, $file);
+        $this->deleteRedirectData($form_state);
       }
       else {
         $this->migrateRedirectData();
@@ -264,8 +253,6 @@ my-source-path,https://example.com,und,302',
    *
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
-   * @param \Drupal\file\FileInterface $file
-   *   The file to fetch the redirects to delete from.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
@@ -273,8 +260,8 @@ my-source-path,https://example.com,und,302',
    * @throws \Drupal\migrate\MigrateException
    * @throws \League\Csv\Exception
    */
-  protected function deleteRedirectData(FormStateInterface $form_state, FileInterface $file) {
-    $redirects = $this->redirectsToDelete($file);
+  protected function deleteRedirectData(FormStateInterface $form_state) {
+    $redirects = $this->redirectsToDelete();
     $this->privateTempStore->set($this->currentUser->id(), $redirects);
     $options = [
       'query' => $this->getDestinationArray(),
