@@ -72,9 +72,9 @@
 <div class="row border no-gutters events__item mb-6 flex-grow-1">
   <div class="col-12 col-md-3 m-md-3 m-lg-5 order-md-last embed-responsive embed-responsive-16by9">
     {% if node.field_event_image|file_url is not empty %}
-      <img class="{{ node.isSticky() ? 'event-items__item--image' : '' }}" src="{{ node.field_event_image|file_url }}">
+      <img class="{{ node.isSticky() ? 'event-items__item--image' : '' }}" src="{{ node.field_event_image|file_url }}" alt="{{ node.field_event_image.alt }}">
     {% else %}
-      <img class="{{ node.isSticky() ? 'event-items__item--image' : '' }}" src="/{{ base_path ~ directory }}/images/events-default.png">
+      <img class="{{ node.isSticky() ? 'event-items__item--image' : '' }}" src="/{{ base_path ~ directory }}/images/events-default.png" alt="default image">
     {% endif %}
   </div>
 
