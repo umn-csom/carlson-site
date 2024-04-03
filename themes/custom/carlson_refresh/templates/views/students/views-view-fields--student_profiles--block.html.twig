@@ -32,9 +32,17 @@
  */
 #}
 <a class="use-ajax bg-white border box-shadow w-100 h-100 d-flex flex-column font-weight-semi-bold text-primary" data-dialog-type="modal" href="/node/{{ fields.nid.content }}" data-dialog-options="{&quot;width&quot;:800}">
+  {% if "Organization" in fields.field_profile_type.content|render|render %}
+  <div class="embed-responsive embed-responsive-50by31 testing">
+  {% else %}
   <div class="embed-responsive embed-responsive-5by7">
-    {% if fields.field_profile_img.content is not empty%}
-      {{ fields.field_profile_img.content }}
+  {% endif %}
+    {% if fields.field_profile_img.content is not empty %}
+      {% if "Organization" in fields.field_profile_type.content|render|render %}
+        {{ fields.field_profile_img_1.content }} 
+      {% else %}
+        {{ fields.field_profile_img.content }}
+      {% endif %}
     {% else %}
       <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
     {% endif %}
