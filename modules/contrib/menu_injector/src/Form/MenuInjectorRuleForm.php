@@ -29,6 +29,11 @@ class MenuInjectorRuleForm extends EntityForm {
    * @var \Drupal\Core\Menu\MenuLinkManagerInterface.
    */
   protected $menu_link_manager;
+  protected $entity_type_manager;
+  protected $menu_parent_form_selector;
+  protected $condition_plugin_manager;
+  protected $context_repository;
+  protected $route_builder;
 
   /**
    * @param \Drupal\Core\Entity\Query\QueryFactory $entity_query
@@ -254,7 +259,7 @@ class MenuInjectorRuleForm extends EntityForm {
       ),
     );
 
-    $default_terms = explode(',', $rule->getTaxonomyTerm());
+    $default_terms = explode(',', $rule->getTaxonomyTerm() ?? '');
     $form['wrapper']['taxonomy_term'] = array(
       '#type' => 'select',
       '#required' => false,

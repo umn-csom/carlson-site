@@ -32,6 +32,14 @@ class MenuInjectorOrderForm extends FormBase {
    */
   protected $menu_link_manager;
 
+
+  /**
+   * The route builder
+   *
+   */
+
+  protected $route_builder;
+
   public function __construct(
     MenuLinkManagerInterface $menu_link_manager,
     EntityTypeManagerInterface $entity_type_manager,
