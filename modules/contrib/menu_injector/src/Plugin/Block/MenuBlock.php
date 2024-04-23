@@ -30,6 +30,7 @@ class MenuBlock extends SuperMenuBlock {
    * @var string
    */
   protected $menuRoot;
+  public $tree;
 
   /**
    * {@inheritdoc}
