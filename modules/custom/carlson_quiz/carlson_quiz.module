@@ -215,6 +215,76 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
       '#title' => 'Results Analyze',
     ];
 
+    // contact fields
+
+    $elements['markup'] = [
+      '#type'=> 'webform_markup',
+      '#admin_title' => 'Title',
+      '#wrapper_attributes' => [
+        'class' => ['w-100'],
+      ],
+      '#markup' => '
+        <h3 style="font-size: 2.4rem; font-weight: bold">Receive results via email</h3>
+
+        <p>In addition to seeing your results on the next page, we will also send them and additional program information to you via email.</p>
+
+        <p style="font-size: 1.2rem">*Required information</p>
+      '
+    ];
+
+    $elements['firstname'] = [
+      '#type' => 'textfield',
+      '#title' => 'First Name',
+      '#placeholder' => 'First Name',
+      '#required' => true,
+      '#required_error' => 'Please enter your first name'
+    ];
+
+    $elements['lastname'] = [
+      '#type' => 'textfield',
+      '#title' =>'Last Name',
+      '#placeholder' => 'Last Name',
+      '#required' => true,
+      '#required_error' => 'Please enter your last name'
+    ];
+
+    $elements['email'] = [
+      '#type' => 'email',
+      '#title' => 'Email',
+      '#placeholder' => 'Email',
+      '#required' => true,
+      '#required_error' => 'Please enter your email address'
+    ];
+
+    $elements['phone'] = [
+      '#type' =>'tel',
+      '#title' => 'Phone',
+      '#placeholder' => 'Mobile Phone',
+      '#required' => 'true',
+      '#required_error' => 'Please enter a valid phone number'
+    ];
+    $elements['country'] = [
+      '#type' => 'select',
+      '#title' => 'Country',
+      '#options' => 'country_codes_us_first_',
+      '#required' => true
+    ];
+
+    $elements['zip'] = [
+      '#type' => 'textfield',
+      '#title' => 'Postal Code',
+      '#placeholder' => 'Postal Code',
+      '#required' => true
+    ];
+
+    $elements['allow_sms_content'] = [
+      '#type' => 'checkbox',
+      '#title' => 'Allow SMS Content',
+      '#description' => '<p>&nbsp;I authorize the Carlson School of Management and its representatives to contact me via SMS text message.</p>',
+      '#title_display' => 'invisible',
+      '#description_display' => 'after'
+    ];
+
     // utm fields
 
     $elements['utm_source'] = [
