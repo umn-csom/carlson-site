@@ -1,10 +1,26 @@
 .csom-multicol-list {
-  overflow: hidden;
-  position: relative;
-  border-radius: 4px;
-  margin: 0 auto;
-  width: 100%;
+  height: 240px;
   background: #fff;
+  display: flex;
+  flex-direction: column;
+
+  // Disable scrollability when the height lies within a specific threshold.
+  // @see multicol-list.js
+  &.is-fully-visible {
+    height: auto;
+  }
+
+  &__wrapper {
+    margin: 5rem auto;
+  }
+
+  &__heading {
+    text-align: center;
+    font-family: $font-family-sans-serif;
+    font-weight: 800;
+    font-size: 2.1rem;
+    margin-bottom: 1.6rem;
+  }
 
   ul {
     list-style: none;
@@ -12,6 +28,28 @@
     margin: 0;
     column-width: 16rem;
     column-gap: 2.5rem;
+
+    overflow-y: auto;
+    position: relative;
+    border-radius: 4px;
+    margin: 0 auto;
+    width: 100%;
+    background: #fff;
+
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, black var(--top-mask-size, 5rem), black calc(100% - var(--bottom-mask-size, 5rem)), transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, black var(--top-mask-size, 5rem), black calc(100% - var(--bottom-mask-size, 5rem)), transparent 100%);
+    --top-mask-size: 5rem;
+    --bottom-mask-size: 5rem;
+
+    &.is-scrolled-to-top {
+      // Note: rem units are required here for this to work.
+      --top-mask-size: 0rem;
+    }
+
+    &.is-scrolled-to-bottom {
+      // Note: rem units are required here for this to work.
+      --bottom-mask-size: 0rem;
+    }
   }
 
   li {
@@ -19,60 +57,17 @@
     line-height: 1.25;
   }
 
+  // Hide legacy collapse/expand approach.
+  ul + *,
   .more-less {
-    position: absolute;
-    border: 0;
-    bottom: 0;
-    width: 100%;
-    text-align: right;
-    font-weight: bold;
-    font-size: 1.4rem;
-    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, #fff 80%, #fff 100%);
-    background-position: 0 0;
-    transition: background-position .2s ease-out;
-    height: 65%;
-    cursor: pointer;
-    justify-content: center;
-    align-items: end;
-
     display: none;
-
-    &:hover,
-    &:focus {
-      text-decoration: underline;
-    }
-
-    &:focus-visible {
-      outline: none;
-
-      span {
-        outline: auto 5px -webkit-focus-ring-color
-      }
-    }
-
-    span {
-      display: inline-block;
-      padding: .8rem 1.6rem;
-    }
-
-    &::after {
-      padding-right: 1rem;
-    }
   }
 
-  &.expand {
+  .ck-widget {
+    display: block;
     .more-less {
+      position: relative;
       display: flex;
-    }
-
-    &.open .more-less {
-      background-position: 100% 0;
-      height: 3rem;
-    }
-
-    &.closed .collapse-text,
-    &.open .expand-text {
-      display: none;
     }
   }
 }

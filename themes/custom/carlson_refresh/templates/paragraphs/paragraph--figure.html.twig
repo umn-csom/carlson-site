@@ -1,9 +1,17 @@
-<section class="narrow">
+{% set has_media = paragraph.field_figure_image.value is not empty %}
+<section class="component-paragraph component-paragraph--narrow">
   <div class="csom-figure-with-datatable">
     <h3>{{ content.field_figure_heading }}</h3>
     <figure>
-      {{ content.field_figure_image }}
-      {{ content.field_figure_table }}
+      {% if has_media %}
+      <div class="csom-figure-with-datatable__media">
+        {{ content.field_figure_image }}
+      </div>
+      {% endif %}
+
+      <div class="csom-figure-with-datatable__table">
+        {{ content.field_figure_table }}
+      </div>
       <figcaption>{{ content.field_figure_description }}</figcaption>
     </figure>
   </div>

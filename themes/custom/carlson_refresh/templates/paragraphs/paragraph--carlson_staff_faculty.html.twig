@@ -8,22 +8,21 @@
 {% block paragraph %}
   {% block content %}
     <div class="row component-paragraph accordion-content staff-faculty">
-      {% if content.field_staff_faculty_item is not empty %}
-        {% set items = content.field_staff_faculty_item|field_value %}
+      {% if paragraph.field_main_content.value is not empty %}
+        <div class="col-12 col-md-10 offset-md-1 staff-faculty__heading text-center">
+          <h2 class="h3 label-border yellow">{{ content.field_heading }}</h2>
+          {{ content.field_main_content }}
+        </div>
+      {% endif %}
 
-        {% if content.field_main_content|field_value is not empty %}
-          <div class="col-12 col-md-10 offset-md-1 staff-faculty__heading text-center">
-            <h2 class="h3 label-border yellow">{{ content.field_heading }}</h2>
-            {{ content.field_main_content }}
-          </div>
-        {% endif %}
-
-        {% if items.length > 1 %}
+      {% if paragraph.field_staff_faculty_item.value is not empty %}
+        {% set items = content.field_staff_faculty_item|filter((item, key) => key|first != '#') %}
+        {% if items|length > 1 %}
           <div class="accordion col-12" id="staff-faculty-list">
-            {% set inc = 0 %}
-            {% for item in items %}
-              {% set paragraph = item['#paragraph'] %}
-              {% if paragraph.field_heading.value is not empty %}
+            {% for key, item in items %}
+              {% set inc = loop.index0 %}
+              {% set accordion_item = item['#paragraph'] %}
+              {% if accordion_item.field_heading.value is not empty %}
                 {% set is_active = inc == 0 %}
                 {% set collapsed = is_active ? '' : 'collapsed' %}
                 {% set expanded = is_active ? 'true' : 'false' %}
@@ -31,8 +30,8 @@
                 <div class="card">
                   <div class="card-header">
                     <span class="mb-0">
-                      <button class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{ inc }}">
-                        {{ paragraph.field_heading.value }}
+                      <button class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{ inc }}" id="heading{{ inc }}">
+                        {{ accordion_item.field_heading.value }}
                       </button>
                     </span>
                   </div>
@@ -53,7 +52,6 @@
                   </div>
                 </div>
               {% endif %}
-              {% set inc = inc+1 %}
             {% endfor %}
           </div>
         {% else %}

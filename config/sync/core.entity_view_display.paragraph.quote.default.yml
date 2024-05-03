@@ -4,8 +4,12 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.quote.field_background_color
+    - field.field.paragraph.quote.field_quote_style
+    - field.field.paragraph.quote.field_quote_align_text
     - field.field.paragraph.quote.field_quote_image
+    - field.field.paragraph.quote.field_quote_mark
     - field.field.paragraph.quote.field_quote_source
+    - field.field.paragraph.quote.field_quote_source2
     - field.field.paragraph.quote.field_quote_text
     - paragraphs.paragraphs_type.quote
   module:
@@ -25,6 +29,13 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
+  field_quote_align_text:
+    type: list_default
+    label: visually_hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
   field_quote_image:
     type: entity_reference_entity_view
     label: hidden
@@ -34,6 +45,16 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
+  field_quote_mark:
+    type: boolean
+    label: hidden
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 5
+    region: content
   field_quote_source:
     type: string
     label: hidden
@@ -41,6 +62,21 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 2
+    region: content
+  field_quote_source2:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
+  field_quote_style:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 7
     region: content
   field_quote_text:
     type: text_default

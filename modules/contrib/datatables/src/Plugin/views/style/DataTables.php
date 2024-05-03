@@ -2,7 +2,6 @@
 
 namespace Drupal\datatables\Plugin\views\style;
 
-use Drupal\Component\Utility\Html;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\Plugin\views\style\Table;
 
@@ -71,6 +70,13 @@ class DataTables extends Table {
 
     $options['hidden_columns'] = [
       'default' => [],
+    ];
+
+    $options['filter_columns'] = [
+      'default' => [],
+    ];
+    $options['filter_columns_placeholder'] = [
+      'default' => '- Filter -',
     ];
 
     return $options;
@@ -144,7 +150,7 @@ class DataTables extends Table {
     $form['layout']['sdom'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Set sDOM Initialization Parameter'),
-      '#description' => $this->t("Use the sDOM parameter to rearrange the interface elements. See the <a href='@sdom_documentation_url'>Datatables sDOM documentation</a> for details on how to use this feature", ['@sdom_documentation_url' => 'http://www.datatables.net/examples/basic_init/dom.html']),
+      '#description' => $this->t("Use the sDOM parameter to rearrange the interface elements. See the <a href='@sdom_documentation_url'>Datatables sDOM documentation</a> for details on how to use this feature. Default: 'T&lt;\"clear\"&gt;lfrtip'", ['@sdom_documentation_url' => 'http://www.datatables.net/examples/basic_init/dom.html']),
       '#default_value' => $this->options['layout']['sdom'],
     ];
 
@@ -181,6 +187,54 @@ class DataTables extends Table {
       '#default_value' => $this->options['pages']['display_length'],
     ];
 
+    $form['filter_columns'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Searchable / Filterable Columns'),
+      '#open' => FALSE,
+      '#description' => $this->t('Enable search on specific columns values by <a href="@inputExampleHref" target="_blank">input</a> or <a href="@selectExampleHref" target="_blank">select</a> in the table header or footer of the selected columns. <span class="marker">Requires enabled "Search Filter Box"! To visually hide the search filter box, remove "f" from the sDOM parameter.</span>', [
+        '@inputExampleHref' => 'https://datatables.net/examples/api/multi_filter.html',
+        '@selectExampleHref' => 'https://datatables.net/examples/api/multi_filter_select.html',
+      ]),
+    ];
+
+    $form['filter_columns']['filter_columns_placeholder'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Empty filter placeholder'),
+      // '#group' => 'fulltext_search',
+      '#description' => $this->t('Placeholder text for unselected filters'),
+      '#size' => '30',
+      '#default_value' => $this->options['filter_columns_placeholder'],
+      '#states' => [
+        'disabled' => [
+          ':input[name="style_options[elements][search_box]"]' => ['checked' => FALSE],
+        ],
+      ],
+    ];
+
+    foreach ($this->displayHandler->getFieldLabels() as $name => $label) {
+      $form['filter_columns'][$name] = [
+        '#type' => 'select',
+        '#title' => $label,
+        '#options' => [
+          '' => $this->t('Disabled'),
+          'thead_select' => $this->t('Table Header: Select'),
+          'thead_input' => $this->t('Table Header: Input'),
+          // Explicitly exclude the column from the global search.
+          'thead_unsearchable' => $this->t('Table Column: Unsearchable'),
+          // @todo Drupal tables typically don't have a
+          // tfoot, so this doesn't work yet:
+          // 'tfoot_select' => $this->t('Table Footer: Select'),
+          // 'tfoot_input' => $this->t('Table Footer: Input'),
+        ],
+        '#states' => [
+          'disabled' => [
+            ':input[name="style_options[elements][search_box]"]' => ['checked' => FALSE],
+          ],
+        ],
+        '#default_value' => $this->options['filter_columns'][$name] ?? 0,
+      ];
+    }
+
     $form['hidden_columns'] = [
       '#type' => 'details',
       '#title' => $this->t('Hidden and Expandable Columns'),
@@ -190,14 +244,31 @@ class DataTables extends Table {
     foreach ($this->displayHandler->getFieldLabels() as $name => $label) {
       $form['hidden_columns'][$name] = [
         '#type' => 'select',
-        '#title' => Html::escape($label),
+        '#title' => $label,
         '#options' => [
           0 => $this->t('Visible'),
           'hidden' => $this->t('Hidden'),
           'expandable' => $this->t('Hidden and Expandable'),
         ],
-        '#default_value' => isset($this->options['hidden_columns'][$name]) ? $this->options['hidden_columns'][$name] : 0,
+        '#default_value' => $this->options['hidden_columns'][$name] ?? 0,
       ];
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateOptionsForm(&$form, FormStateInterface $form_state) {
+    parent::validateOptionsForm($form, $form_state);
+
+    // Remove disabled filter columns:
+    if ($form_state->hasValue(['filter_columns'])) {
+      $filterColumns = $form_state->getValue(['filter_columns']);
+      foreach ($filterColumns as $index => $column) {
+        if (empty($column)) {
+          $form_state->unsetValue(['plugins', $index]);
+        }
+      }
     }
   }
 

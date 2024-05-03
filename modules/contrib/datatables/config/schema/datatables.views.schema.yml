@@ -1,0 +1,116 @@
+views.style.datatables:
+  type: views_style
+  label: 'DataTables'
+  mapping:
+    columns:
+      type: sequence
+      label: 'Columns'
+      sequence:
+        type: string
+        label: 'Columns name'
+    default:
+      type: string
+      label: 'Default sort'
+    info:
+      type: sequence
+      label: 'Columns info'
+      sequence:
+        type: mapping
+        label:  'Column info'
+        mapping:
+          sortable:
+            type: boolean
+            label: 'Sortable'
+          default_sort_order:
+            type: string
+            label: 'Default order'
+          align:
+            type: string
+            label: 'Align'
+          separator:
+            type: string
+            label: 'Separator'
+          empty_column:
+            type: boolean
+            label: 'Hide empty columns'
+          responsive:
+            type: string
+            label: 'Responsive'
+    summary:
+      type: label
+      label: 'Summary title'
+    order:
+      type: string
+      label: 'Default order'
+    empty_table:
+      type: boolean
+      label: 'Show the empty text in the table'
+    caption:
+      type: label
+      label: 'Caption for the table'
+    description:
+      type: text
+      label: 'Table description'
+    elements:
+      type: sequence
+      label: 'Widgets and elements'
+      sequence:
+        type: mapping
+        label:  'Settings'
+        mapping:
+          search_box:
+            type: boolean
+            label: 'Search Box'
+          table_info:
+            type: boolean
+            label: 'Show table info'
+          save_state:
+            type: boolean
+            label: 'Save state'
+    layout:
+      type: sequence
+      label: 'Layout and display'
+      sequence:
+        type: mapping
+        label:  'Settings'
+        mapping:
+          autowidth:
+            type: boolean
+            label: 'Enable auto-width calculation.'
+          themeroller:
+            type: boolean
+            label: 'Enable jQuery UI ThemeRoller Support'
+          sdom:
+            type: string
+            label: 'sDOM Initialization Parameter'
+    pages:
+      type: sequence
+      label: 'Pagination and page length'
+      sequence:
+        type: mapping
+        label:  'Settings'
+        mapping:
+          pagination_style:
+            type: string
+            label: 'Enable auto-width calculation.'
+          length_change:
+            type: boolean
+            label: 'Enable Length Change Selection Box'
+          display_length:
+            type: integer
+            label: 'sDOM Initialization Parameter'
+    hidden_columns:
+      type: sequence
+      label: 'Hidden columns'
+      sequence:
+        type: string
+        label: 'Visibility'
+    filter_columns:
+      type: sequence
+      label: 'Searchable / filterable columns'
+      sequence:
+        type: string
+        label: 'Filter type'
+    filter_columns_placeholder:
+      type: label
+      label: 'Empty filter placeholder'

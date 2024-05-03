@@ -1,0 +1,41 @@
+uuid: 87fc5928-aacc-4efe-923c-b13579943e9e
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.mn-cup
+  module:
+    - block_visibility_groups
+    - menu_injector
+    - system
+  theme:
+    - carlson_refresh
+id: carlson_refresh_mncup_2
+theme: carlson_refresh
+region: inner_nav
+weight: -83
+provider: null
+plugin: 'menu_block:mn-cup'
+settings:
+  id: 'menu_block:mn-cup'
+  label: 'MN-Cup Inner Menu'
+  label_display: '0'
+  provider: menu_injector
+  follow: true
+  follow_parent: child
+  label_link: false
+  label_type: block
+  level: 1
+  depth: 1
+  expand_all_items: false
+  parent: 'mn-cup:'
+  suggestion: mn_cup
+visibility:
+  condition_group:
+    id: condition_group
+    negate: false
+    block_visibility_group: ''
+  request_path:
+    id: request_path
+    negate: false
+    pages: "/mn-cup\r\n/mn-cup/*"

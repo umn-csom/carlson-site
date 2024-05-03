@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - filter.format.datatable
     - filter.format.full_html
     - filter.format.rich_text
     - media.type.document
@@ -28,6 +29,8 @@ dependencies:
     - node.type.student
     - workflows.workflow.editorial
   module:
+    - carlson_general
+    - ckeditor_templates
     - content_moderation
     - contextual
     - entity_browser
@@ -74,7 +77,6 @@ permissions:
   - 'create landing_page content'
   - 'create media'
   - 'create page content'
-  - 'create person content'
   - 'create session content'
   - 'create student content'
   - 'create url aliases'
@@ -84,7 +86,6 @@ permissions:
   - 'delete any image media'
   - 'delete any landing_page content'
   - 'delete any page content'
-  - 'delete any person content'
   - 'delete any session content'
   - 'delete any student content'
   - 'delete any video media'
@@ -130,12 +131,23 @@ permissions:
   - 'switch shortcut sets'
   - 'update any media'
   - 'update media'
+  - 'use ckeditor_template datatable_basic1'
+  - 'use ckeditor_template datatable_basic2'
+  - 'use ckeditor_template datatable_basic3'
+  - 'use ckeditor_template datatable_column_chart'
+  - 'use ckeditor_template datatable_map_data'
+  - 'use ckeditor_template list_legend'
+  - 'use ckeditor_template multicol_list'
+  - 'use ckeditor_template session'
+  - 'use ckeditor_template stat'
   - 'use editorial transition archive'
   - 'use editorial transition archived_published'
   - 'use editorial transition create_new_draft'
   - 'use editorial transition publish'
   - 'use editorial transition ready_to_publish'
   - 'use editorial transition review'
+  - 'use text format advanced'
+  - 'use text format datatable'
   - 'use text format full_html'
   - 'use text format rich_text'
   - 'view all revisions'

@@ -41,7 +41,7 @@
 
 {%
   set classes = [
-    'paragraph',
+    'component-paragraph',
     'paragraph--type--' ~ paragraph.bundle|clean_class,
     view_mode ? 'paragraph--view-mode--' ~ view_mode|clean_class,
     not paragraph.isPublished() ? 'paragraph--unpublished'
@@ -65,10 +65,10 @@
               {% if (content.field_link_linkedin | field_value is not empty) or (content.field_link_facebook | field_value is not empty) or (content.field_link_twitter | field_value is not empty) %}
                 <ul class="social-media list-unstyled list-inline text-center text-lg-left">
                   {% if content.field_link_linkedin | field_value is not empty %}
-                    <li><a href="{{ content.field_link_linkedin.0['#url'] }}"><i class="icon icon-linkedin" title="LinkedIn" alt="LinkedIn"></i></a></li>
+                    <li><a href="{{ content.field_link_linkedin.0['#url'] }}"><i class="icon icon-linkedin" title="LinkedIn" alt="LinkedIn"></i><span class="sr-only">LinkedIn</span></a></li>
                   {% endif %}
                   {% if content.field_link_facebook | field_value is not empty %}
-                  <li><a href="{{ content.field_link_facebook.0['#url'] }}"><i class="icon icon-facebook" title="Facebook" alt="Facebook"></i></a></li>
+                  <li><a href="{{ content.field_link_facebook.0['#url'] }}"><i class="icon icon-facebook" title="Facebook" alt="Facebook"></i><span class="sr-only">Facebook</span></a></li>
                   {% endif %}
                   {# {% if content.field_link_twitter | field_value is not empty %}
                   <li><a href="{{ content.field_link_twitter.0['#url'] }}"><i class="icon icon-twitter" title="Twitter" alt="Twitter"></i></a></li>

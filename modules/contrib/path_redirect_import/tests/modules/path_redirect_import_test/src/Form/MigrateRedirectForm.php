@@ -17,7 +17,7 @@ class MigrateRedirectForm extends MigrateRedirectFormBase {
    *
    * @var string
    */
-  protected $readerPath;
+  protected string $path;
 
   /**
    * Sets the reader path value.
