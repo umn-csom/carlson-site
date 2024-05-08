@@ -71,10 +71,11 @@
     </h3>
     {% if faculty_member %}
     <hr class="card__bar">
-    {% if faculty_published %}
-    <a href="{{ faculty_member_link }}" class="card__text">{{ faculty_member }}</a>
-    {% else %}
-    <span class="card__text">{{ faculty_member }}</span>
+      {% if faculty_published %}
+      <a href="{{ faculty_member_link }}" class="card__text">{{ faculty_member }}</a>
+      {% else %}
+      <span class="card__text">{{ faculty_member }}</span>
+      {% endif %}
     {% endif %}
   </div>
 </div>
