@@ -24,4 +24,8 @@
  */
 #}
 
+{% if not page %}
 <a class="card__tag" href="?topic[]={{ term.id }}">{{ name }}</a>
+{% else %}
+<a class="card__tag" href="/news?topic[]={{ term.id }}">{{ name }}</a>
+{% endif %}
