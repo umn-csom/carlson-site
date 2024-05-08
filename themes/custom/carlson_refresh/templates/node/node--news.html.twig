@@ -153,15 +153,13 @@
     <div class="row justify-content-center page-links mb-10">
       <div class="col-12">
         <div class="row">
-          {% if content.field_news_channels|field_value is not empty %}
+          {% if (content.field_news_channels|field_value is not empty) or (content.field_hub_topic|field_value is not empty)%}
           <div class="col-lg page-links__tags">
             <span class="page-links__tags-label">Tags</span>
             {{ content.field_news_channels }}
+            {{ content.field_hub_topic }}
           </div>
           {% endif %}
-{#          <div class="col-lg">#}
-{#            <p class="share-this">Share This {{ content.addtoany }}</p>#}
-{#          </div>#}
         </div>
       </div>
     </div>
