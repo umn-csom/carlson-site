@@ -6574,6 +6574,8 @@ Description: Bootstrap 4 with Sass
     padding-top: 63.63636%; }
   .ck-content .embed-responsive-5by7::before {
     padding-top: 140%; }
+  .ck-content .embed-responsive-50by31::before {
+    padding-top: 62%; }
   .ck-content .embed-responsive-3by2::before {
     padding-top: 66.66667%; }
   .ck-content .flex-row {
@@ -21659,12 +21661,12 @@ Description: Bootstrap 4 with Sass
       color: #7a0019;
       margin-right: 10px; }
   .ck-content .csom-multicol-list {
-    overflow: hidden;
-    position: relative;
-    border-radius: 4px;
-    margin: 0 auto;
-    width: 100%;
-    background: #fff; }
+    height: 240px;
+    background: #fff;
+    display: flex;
+    flex-direction: column; }
+    .ck-content .csom-multicol-list.is-fully-visible {
+      height: auto; }
     .ck-content .csom-multicol-list__wrapper {
       margin: 50px auto; }
     .ck-content .csom-multicol-list__heading {
@@ -21678,44 +21680,26 @@ Description: Bootstrap 4 with Sass
       padding: 20px 0;
       margin: 0;
       column-width: 160px;
-      column-gap: 25px; }
+      column-gap: 25px;
+      overflow-y: auto;
+      position: relative;
+      border-radius: 4px;
+      margin: 0 auto;
+      width: 100%;
+      background: #fff;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0, black var(--top-mask-size, 50px), black calc(100% - var(--bottom-mask-size, 50px)), transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0, black var(--top-mask-size, 50px), black calc(100% - var(--bottom-mask-size, 50px)), transparent 100%);
+      --top-mask-size: 50px;
+      --bottom-mask-size: 50px; }
+      .ck-content .csom-multicol-list ul.is-scrolled-to-top {
+        --top-mask-size: 0; }
+      .ck-content .csom-multicol-list ul.is-scrolled-to-bottom {
+        --bottom-mask-size: 0; }
     .ck-content .csom-multicol-list li {
       margin: 0 0 10px;
       line-height: 1.25; }
+    .ck-content .csom-multicol-list ul + *,
     .ck-content .csom-multicol-list .more-less {
-      position: absolute;
-      border: 0;
-      bottom: 0;
-      width: 100%;
-      text-align: right;
-      font-weight: bold;
-      font-size: 14px;
-      background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 80%, #fff 100%);
-      background-position: 0 0;
-      transition: background-position .2s ease-out;
-      height: 65%;
-      cursor: pointer;
-      justify-content: center;
-      align-items: end;
-      display: none; }
-      .ck-content .csom-multicol-list .more-less:hover, .ck-content .csom-multicol-list .more-less:focus {
-        text-decoration: underline; }
-      .ck-content .csom-multicol-list .more-less:focus-visible {
-        outline: none; }
-        .ck-content .csom-multicol-list .more-less:focus-visible span {
-          outline: auto 5px -webkit-focus-ring-color; }
-      .ck-content .csom-multicol-list .more-less span {
-        display: inline-block;
-        padding: 8px 16px; }
-      .ck-content .csom-multicol-list .more-less::after {
-        padding-right: 10px; }
-    .ck-content .csom-multicol-list.expand .more-less {
-      display: flex; }
-    .ck-content .csom-multicol-list.expand.open .more-less {
-      background-position: 100% 0;
-      height: 30px; }
-    .ck-content .csom-multicol-list.expand.closed .collapse-text,
-    .ck-content .csom-multicol-list.expand.open .expand-text {
       display: none; }
     .ck-content .csom-multicol-list .ck-widget {
       display: block; }

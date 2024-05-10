@@ -242,6 +242,7 @@ function carlson_refresh_preprocess_node(&$variables) {
           $referencedEntity = $entityAdapter->getValue();
           $variables['faculty_member'] = $referencedEntity->getTitle();
           $variables['faculty_member_link'] = $referencedEntity->toUrl();
+          $variables['faculty_published'] = $referencedEntity->isPublished();
         }
       }
     break;
@@ -542,7 +543,7 @@ function carlson_refresh_preprocess_page(&$variables) {
 
   // Embed the SVG logo in the mandatory header.
   $logo_color = str_replace('umnhf-background-', '', $header_color);
-  $variables['svg_logo'] = "${campus_select}-${dtd_select}-${logo_color}.svg";
+  $variables['svg_logo'] = "{$campus_select}-{$dtd_select}-{$logo_color}.svg";
 
   $block_manager = \Drupal::service('plugin.manager.block');
   $search_block_instance = $block_manager->createInstance('umn_search_block', array());
