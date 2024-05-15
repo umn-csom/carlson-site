@@ -242,6 +242,7 @@ function carlson_refresh_preprocess_node(&$variables) {
           $referencedEntity = $entityAdapter->getValue();
           $variables['faculty_member'] = $referencedEntity->getTitle();
           $variables['faculty_member_link'] = $referencedEntity->toUrl();
+          $variables['faculty_published'] = $referencedEntity->isPublished();
         }
       }
     break;
