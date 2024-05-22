@@ -27,11 +27,14 @@
 			flex-grow: 0;
 			.card__tags {
 				.card__tag {
-					padding: 10px;
-					background-color: lightgray;
+					display: inline-block;
+					width: min-content;
+					font-size: 14px;
+					padding: 3px 6px;
+					margin-bottom: 5px;
+					background-color: $ivory;
 					color: black;
 					white-space: nowrap;
-					line-height: 45px;
 				}
 			}
 		}
@@ -147,6 +150,12 @@
 		padding: 0px 10px;
 		.form-row {
 			flex-wrap: nowrap;
+			@include media-breakpoint-down(md) {
+				flex-wrap: wrap;
+				> fieldset, > div {
+					width: 100%;
+				}
+			}
 		}
 
 		.form-group input[type="submit"] {
