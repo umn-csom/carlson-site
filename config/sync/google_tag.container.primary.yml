@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   module:
+    - block_visibility_groups
     - system
     - user
 id: primary
@@ -11,33 +12,22 @@ weight: 0
 tag_container_ids:
   - GTM-T9G6L7L
 advanced_settings:
+  consent_mode: false
   gtm:
-    data_layer: dataLayer
-    include_classes: false
-    allowlist_classes: |-
-      google
-      nonGooglePixels
-      nonGoogleScripts
-      nonGoogleIframes
-    blocklist_classes: |-
-      customScripts
-      customPixels
-    include_environment: false
-    environment_id: ''
-    environment_token: ''
+    GTM-T9G6L7L:
+      data_layer: dataLayer
+      include_classes: false
+      allowlist_classes: ''
+      blocklist_classes: ''
+      include_environment: false
+      environment_id: ''
+      environment_token: ''
 dimensions_metrics: {  }
 conditions:
   request_path:
     id: request_path
     negate: true
-    pages: |-
-      /admin*
-      /batch*
-      /node/add*
-      /node/*/edit
-      /node/*/delete
-      /user/*/edit*
-      /user/*/cancel*
+    pages: "/admin*\r\n/batch*\r\n/node/add*\r\n/node/*/edit\r\n/node/*/delete\r\n/user/*/edit*\r\n/user/*/cancel*"
   response_code:
     id: response_code
     negate: true
@@ -49,17 +39,11 @@ conditions:
     negate: true
     context_mapping:
       user: '@user.current_user_context:current_user'
-    roles:
-      anonymous: '0'
-      authenticated: '0'
-      faculty_profile_creator: '0'
-      blog_entry_creator: '0'
-      executive_ed_landing_page_creator: '0'
-      news_editor: '0'
-      ed_abroad_editor: '0'
-      editor: '0'
-      sr_editor: '0'
-      administrator: '0'
+    roles: {  }
+  condition_group:
+    id: condition_group
+    negate: false
+    block_visibility_group: ''
 events:
   custom: {  }
   generate_lead:

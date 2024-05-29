@@ -184,7 +184,7 @@ display:
         type: none
         options: {  }
       cache:
-        type: none
+        type: search_api_none
         options: {  }
       empty:
         area:
@@ -213,7 +213,7 @@ display:
           expose:
             label: 'Authored on'
             field_identifier: created
-          exposed: true
+          exposed: false
         search_api_relevance:
           id: search_api_relevance
           table: search_api_index_acquia_search_index
@@ -551,6 +551,7 @@ display:
       tags:
         - 'config:field.storage.node.body'
         - 'config:search_api.index.acquia_search_index'
+        - 'search_api_list:acquia_search_index'
   block_1:
     id: block_1
     display_title: Block
@@ -558,6 +559,33 @@ display:
     position: 1
     display_options:
       title: 'Carlson Hub Search'
+      sorts:
+        created:
+          id: created
+          table: search_api_index_acquia_search_index
+          field: created
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api
+          order: DESC
+          expose:
+            label: 'Authored on'
+            field_identifier: created
+          exposed: false
+        search_api_relevance:
+          id: search_api_relevance
+          table: search_api_index_acquia_search_index
+          field: search_api_relevance
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: search_api
+          order: DESC
+          expose:
+            label: Relevance
+            field_identifier: search_api_relevance
+          exposed: true
       filters:
         status:
           id: status
@@ -1003,6 +1031,7 @@ display:
           1: AND
       defaults:
         title: false
+        sorts: false
         filters: false
         filter_groups: false
       display_description: ''
@@ -1025,6 +1054,7 @@ display:
       tags:
         - 'config:field.storage.node.body'
         - 'config:search_api.index.acquia_search_index'
+        - 'search_api_list:acquia_search_index'
   page_1:
     id: page_1
     display_title: 'Page - Carlson Hub Search'
@@ -1051,6 +1081,7 @@ display:
       tags:
         - 'config:field.storage.node.body'
         - 'config:search_api.index.acquia_search_index'
+        - 'search_api_list:acquia_search_index'
   page_2:
     id: page_2
     display_title: 'Page - Centennial Hub Search'
@@ -1244,3 +1275,4 @@ display:
       tags:
         - 'config:field.storage.node.body'
         - 'config:search_api.index.acquia_search_index'
+        - 'search_api_list:acquia_search_index'
