@@ -25811,11 +25811,14 @@ Description: Bootstrap 4 with Sass
         flex-basis: 100%;
         flex-grow: 0; }
         .ck-content .news-hub-search .card-columns .card .card__tags .card__tag {
-          padding: 10px;
-          background-color: lightgray;
+          display: inline-block;
+          width: min-content;
+          font-size: 14px;
+          padding: 3px 6px;
+          margin-bottom: 5px;
+          background-color: #e6e0d2;
           color: black;
-          white-space: nowrap;
-          line-height: 45px; }
+          white-space: nowrap; }
       @media (min-width: 992px) {
         .ck-content .news-hub-search .card-columns .card {
           flex-basis: calc(50% - 12px); } }
@@ -25886,6 +25889,11 @@ Description: Bootstrap 4 with Sass
       padding: 0px 10px; }
       .ck-content .news-hub-search__filter .form-row {
         flex-wrap: nowrap; }
+        @media (max-width: 991.98px) {
+          .ck-content .news-hub-search__filter .form-row {
+            flex-wrap: wrap; }
+            .ck-content .news-hub-search__filter .form-row > fieldset, .ck-content .news-hub-search__filter .form-row > div {
+              width: 100%; } }
       .ck-content .news-hub-search__filter .form-group input[type="submit"] {
         transition: none; }
         .ck-content .news-hub-search__filter .form-group input[type="submit"]:hover, .ck-content .news-hub-search__filter .form-group input[type="submit"]:focus {

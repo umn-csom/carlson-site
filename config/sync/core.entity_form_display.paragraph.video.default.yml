@@ -3,15 +3,14 @@ langcode: en
 status: true
 dependencies:
   config:
-    - entity_browser.browser.media_browser
     - field.field.paragraph.video.field_video_anchor_id
     - field.field.paragraph.video.field_video_caption
     - field.field.paragraph.video.field_video_embed
     - field.field.paragraph.video.field_video_thumb
     - paragraphs.paragraphs_type.video
   module:
-    - entity_browser
     - field_group
+    - media_library
     - text
 third_party_settings:
   field_group:
@@ -20,16 +19,16 @@ third_party_settings:
         - field_video_thumb
         - field_video_embed
         - field_video_caption
+      label: Video
+      region: content
       parent_name: ''
       weight: 1
       format_type: details
       format_settings:
-        id: ''
         classes: ''
+        id: ''
         open: false
         required_fields: true
-      label: Video
-      region: content
 _core:
   default_config_hash: KctC3jnzJkgtcwxQzGFdy2lqWXZUW_OT4DDQ7mUqpQM
 id: paragraph.video.default
@@ -38,46 +37,32 @@ bundle: video
 mode: default
 content:
   field_video_caption:
+    type: text_textarea
     weight: 4
+    region: content
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
-    type: text_textarea
-    region: content
   field_video_embed:
-    type: entity_browser_entity_reference
+    type: media_library_widget
     weight: 3
-    settings:
-      entity_browser: media_browser
-      field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      open: true
-      selection_mode: selection_append
-      field_widget_display_settings:
-        view_mode: thumbnail
     region: content
+    settings:
+      media_types: {  }
     third_party_settings: {  }
   field_video_thumb:
+    type: media_library_widget
     weight: 2
-    settings:
-      entity_browser: media_browser
-      field_widget_display: rendered_entity
-      field_widget_edit: true
-      field_widget_remove: true
-      selection_mode: selection_append
-      field_widget_display_settings:
-        view_mode: full_hero
-      open: false
-    third_party_settings: {  }
-    type: entity_browser_entity_reference
     region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
   moderation_state:
     type: moderation_state_default
     weight: 0
-    settings: {  }
     region: content
+    settings: {  }
     third_party_settings: {  }
 hidden:
   created: true

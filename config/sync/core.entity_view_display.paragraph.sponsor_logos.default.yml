@@ -5,10 +5,8 @@ dependencies:
   config:
     - field.field.paragraph.sponsor_logos.field_logo
     - field.field.paragraph.sponsor_logos.field_main_content
-    - image.style.sponsor_logo
     - paragraphs.paragraphs_type.sponsor_logos
   module:
-    - media
     - text
 id: paragraph.sponsor_logos.default
 targetEntityType: paragraph
@@ -16,11 +14,11 @@ bundle: sponsor_logos
 mode: default
 content:
   field_logo:
-    type: media_thumbnail
+    type: entity_reference_entity_view
     label: hidden
     settings:
-      image_link: ''
-      image_style: sponsor_logo
+      view_mode: sponsor_logos
+      link: false
     third_party_settings: {  }
     weight: 1
     region: content
