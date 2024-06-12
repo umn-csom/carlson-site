@@ -1,0 +1,32 @@
+{{ attach_library('carlson_refresh/magazine') }}
+
+    <section class="magazine--pdf pb-5 mb-4">
+      {% if content.field_magazine_cover_image|render %}
+        <div class="row justify-content-center">
+          <figure class="col-6 col-sm-4 col-md-5">
+            {% if content.field_magazine_pdf | render %}
+              <a href="{{ content.field_magazine_pdf|render|striptags }}" target="_blank">
+            {% endif %}
+              <img src="{% apply spaceless %}{{ content.field_magazine_cover_image|render|striptags }}{% endapply %}" alt='{{ label|field_value }} {% if magazine == "alumni" %}alumni {% elseif magazine == "discovery" %}Discovery {% endif %}magazine cover' Cover" class="img-fluid magazine--cover-angle">
+              {% if content.field_magazine_pdf | render %}
+              </a>
+            {% endif %}
+          </figure>
+          <div class="col-12 col-md-7">
+          {% endif %}
+          {% if content.field_magazine_pdf | render %}
+            <h2>Download&nbsp;the
+              <span class="text-nowrap">{{ label|render|striptags }}
+                issue</span></h2>
+          {% endif %}
+          {{ content.field_teaser }}
+          {% if content.field_magazine_pdf|render %}
+            <p class="mb-0 pb-0">
+              <a href="{{ content.field_magazine_pdf|render|striptags }}" target="_blank" class="btn btn-primary--yellow btn-sm btn-block py-2 px-3">Download this issue
+                <i class="fas fa-file-download text-body"></i>
+              </a>
+            </p>
+          {% endif %}
+          </div>
+        </div>
+    </section>
