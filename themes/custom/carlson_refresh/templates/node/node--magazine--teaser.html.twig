@@ -5,7 +5,7 @@
 <section class="magazine--pdf pb-5 mb-4">
   {% if content.field_magazine_cover_image|render %}
     <div class="row justify-content-center">
-      <figure class="col-12 col-md-4">
+      <figure class="col-4">
         {% if content.field_magazine_pdf | render %}
           <a href="{{ content.field_magazine_pdf|render|striptags }}" target="_blank">
         {% endif %}
@@ -15,7 +15,7 @@
         {% endif %}
       </figure>
   {% endif %}
-    <div class="col-12 col-md-8">
+    <div class="col-8">
       <a href="{{ url }}" target="_blank">
         {% if magazine == "alumni" %}Alumni Magazine {% elseif magazine == "discovery" %}Discovery at Carlson {% endif %} <span class="ml-3 icon icon-carrot">
       </a>

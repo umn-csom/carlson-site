@@ -62,9 +62,11 @@
 #}
 <div class="card hub-card--video">
   <div class="card__body">
-    <div class="card__img">
-      {{ content.field_video_thumb|field_value }}
-    </div>
+    <a class="use-ajax card__title--link" data-dialog-type="modal" href="/media/{{ content.field_video.0 }}" data-dialog-options="{&quot;width&quot;:800}">
+      <div class="card__img">
+        {{ content.field_video_thumb|field_value }}
+      </div>
+    </a>
     <h3 class="card__title">
       <a class="use-ajax card__title--link" data-dialog-type="modal" href="/media/{{ content.field_video.0 }}" data-dialog-options="{&quot;width&quot;:800}">{{ label }}</a>
     </h3>
