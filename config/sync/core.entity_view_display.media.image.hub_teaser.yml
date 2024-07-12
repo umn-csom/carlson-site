@@ -1,8 +1,9 @@
-uuid: bef264bb-fcd9-4dc2-84b2-e93d91acc4c6
+uuid: e8b93982-7af6-4be6-896c-746472de00ed
 langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.media.hub_teaser
     - field.field.media.image.field_media_category
     - field.field.media.image.field_media_in_library
     - field.field.media.image.image
@@ -10,12 +11,17 @@ dependencies:
     - media.type.image
   module:
     - image
+    - layout_builder
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
 _core:
   default_config_hash: VLDxfMVPTkd2xvOjFMCh3kWmaOYnd03zggFXuUXQVEY
-id: media.image.default
+id: media.image.hub_teaser
 targetEntityType: media
 bundle: image
-mode: default
+mode: hub_teaser
 content:
   image:
     type: image

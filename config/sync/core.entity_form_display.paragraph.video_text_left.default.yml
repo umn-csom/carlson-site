@@ -11,6 +11,7 @@ dependencies:
     - paragraphs.paragraphs_type.video_text_left
   module:
     - field_group
+    - media_library
     - text
 third_party_settings:
   field_group:
@@ -25,13 +26,14 @@ third_party_settings:
       region: content
       parent_name: ''
       weight: 0
-      format_type: tab
+      format_type: details
       format_settings:
         classes: ''
         id: ''
-        formatter: closed
+        open: false
         description: ''
         required_fields: true
+        formatter: closed
 id: paragraph.video_text_left.default
 targetEntityType: paragraph
 bundle: video_text_left
@@ -62,24 +64,18 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_video_embed:
-    type: entity_reference_autocomplete
+    type: media_library_widget
     weight: 4
     region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      media_types: {  }
     third_party_settings: {  }
   field_video_thumb:
-    type: entity_reference_autocomplete
+    type: media_library_widget
     weight: 5
     region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      media_types: {  }
     third_party_settings: {  }
 hidden:
   created: true

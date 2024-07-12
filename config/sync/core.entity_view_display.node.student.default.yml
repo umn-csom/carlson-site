@@ -32,10 +32,8 @@ dependencies:
     - field.field.node.student.field_profile_undergrad
     - field.field.node.student.field_section
     - field.field.node.student.field_teaser
-    - image.style.cropped_profile_image
     - node.type.student
   module:
-    - media
     - metatag
     - options
     - panelizer
@@ -167,13 +165,11 @@ content:
     weight: 7
     region: content
   field_profile_img:
-    type: media_thumbnail
+    type: entity_reference_entity_view
     label: hidden
     settings:
-      image_link: ''
-      image_style: cropped_profile_image
-      image_loading:
-        attribute: lazy
+      view_mode: thumbnail_profile
+      link: false
     third_party_settings: {  }
     weight: 5
     region: content
