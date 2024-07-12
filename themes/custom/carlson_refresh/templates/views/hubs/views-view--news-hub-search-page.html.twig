@@ -40,27 +40,22 @@
 %}
 <div{{ attributes.addClass(classes) }}>
 
-  <div class="col-12">
-    {% if header %}
-      <header class="col-12">
-        <div class="row">
-          <div class="col-12">
-            {{ header }}
-          </div>
-        </div>
-      </header>
-    {% endif %}
-    <div class="row news-hub-search__filter my-3">
-      <div class="col-12">
-        {{ exposed }}
-      </div>
-    </div>
-  </div>
+  {% if header %}
+    <header class="col-12 mb-5">
+      {{ header }}
+    </header>
+  {% endif %}
 
   {{ drupal_view('news_hub_featured', 'news_hub_featured') }}
 
+  <div class="col-12">
+    <div class="news-hub-search__filter my-3">
+      {{ exposed }}
+    </div>
+  </div>
+
   {{ attachment_before }}
-  <div class="news-hub-search__results col-12 pl-md-0">
+  <div class="news-hub-search__results col-12 px-md-0">
   {{ rows }}
   {{ empty }}
   {{ pager }}
