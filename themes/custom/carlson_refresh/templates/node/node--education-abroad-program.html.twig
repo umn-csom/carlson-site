@@ -292,13 +292,16 @@
               </div>
             </div>
             {% if content.field_ea_cost_summary|field_value is not empty %}
-              <h3>Cost Estimate (Summary)</h3>
+              <h3>Cost Estimate</h3>
               {{ content.field_ea_cost_summary }}
             {% endif %}
 
             {% if content.field_ea_cost_table|field_value is not empty %}
               <div class="component-paragraph">{{ content.field_ea_cost_table }}</div>
             {% endif %}
+
+            {# Home Flexible feature paragraphs #}
+            {{ content.field_cost_paragrphs }}
           </div>
           <div class="col-12 col-lg-4 ed-abroad__sidebar">
             <div class="border p-6">
