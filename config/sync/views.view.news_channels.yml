@@ -14,10 +14,8 @@ dependencies:
     - taxonomy.vocabulary.news_categories
   content:
     - 'taxonomy_term:news_categories:09238ec3-ea72-4739-9269-45655f3e370d'
-    - 'taxonomy_term:news_categories:64e47593-c1ef-4101-89c1-5fff0753bc61'
     - 'taxonomy_term:news_categories:b31bebd7-09e3-4d99-be09-38ad2678e137'
     - 'taxonomy_term:news_categories:dd915d2b-334e-47bb-baf8-3f1f3072f548'
-    - 'taxonomy_term:news_categories:f59169bd-1590-4dd6-a10a-6ee4942af64e'
   module:
     - link
     - media
@@ -2925,8 +2923,12 @@ display:
       use_more_always: true
       use_more_text: 'View More Discovery at Carlson News'
       link_display: custom_url
-      link_url: news-categories/discovery-at-carlson
-      display_extenders: {  }
+      link_url: discovery
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
       contexts:
