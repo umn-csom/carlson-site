@@ -585,7 +585,7 @@ display:
           expose:
             label: Relevance
             field_identifier: search_api_relevance
-          exposed: true
+          exposed: false
       filters:
         status:
           id: status
@@ -738,7 +738,7 @@ display:
             news: news
             video: video
           group: 1
-          exposed: true
+          exposed: false
           expose:
             operator_id: type_1_op
             label: 'Content type'
@@ -866,20 +866,35 @@ display:
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
+              wiley_partnership: '0'
               faculty_profile_creator: '0'
               blog_entry_creator: '0'
               executive_ed_landing_page_creator: '0'
               news_editor: '0'
               ed_abroad_editor: '0'
+              viewer: '0'
               editor: '0'
               sr_editor: '0'
               administrator: '0'
-              hub_post_creator: '0'
-              hub_post_reviewer: '0'
-              hub_landing_page_creator: '0'
-              hub_landing_page_reviewer: '0'
+              moderator: '0'
               video_creator: '0'
               video_reviewer: '0'
+              magazine_creator: '0'
+              magazine_reviewer: '0'
+              email_page_creator: '0'
+              email_page_reviewer: '0'
+              faces_creator: '0'
+              faces_reviewer: '0'
+              front_page_creator: '0'
+              front_page_reviewer: '0'
+              news_landing_creator: '0'
+              news_landing_reviewer: '0'
+              alumni_default_page_creator: '0'
+              alumni_default_page_reviewer: '0'
+              alumni_landing_page_creator: '0'
+              alumni_landing_page_reviewer: '0'
+              curriculum_plan_creator: '0'
+              curriculum_plan_reviewer: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -1047,8 +1062,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - 'url.query_args:sort_by'
-        - 'url.query_args:sort_order'
         - user
         - 'user.node_grants:view'
       tags:

@@ -17,7 +17,8 @@
 	.card-columns {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-between;
+		justify-content: flex-start;
+		gap: 1.5rem;
 
 		.card {
 			box-sizing: border-box;
@@ -25,11 +26,23 @@
 			flex: 100%;
 			flex-basis: 100%;
 			flex-grow: 0;
+			.card__tags {
+				.card__tag {
+					display: inline-block;
+					width: min-content;
+					font-size: 14px;
+					padding: 3px 6px;
+					margin-bottom: 5px;
+					background-color: $ivory;
+					color: black;
+					white-space: nowrap;
+				}
+			}
 		}
 
 		@include media-breakpoint-up(lg) {
 			.card {
-				flex-basis: calc(50% - 1.2rem);
+				flex-basis: calc(50% - 1.5rem);
 			}
 		}
 		@include media-breakpoint-up(xl) {
@@ -120,24 +133,21 @@
 		padding: 1.5rem 1rem;
 		text-transform: uppercase;
 	}
-	&.centennial-hub, &.in-the-media {
-		header {
-			h1 {
-				@include font-sans-serif-base();
-				text-align: center;
-				color: $maroon;
-				text-transform: uppercase;
-				font-weight: normal;
-				font-size: 2rem;
-				letter-spacing: 1.17px;
-			}
-		}
-	}
 	/* Filters */
 	&__filter {
 		padding: 0px 10px;
+		.form-row {
+			flex-wrap: nowrap;
+			@include media-breakpoint-down(md) {
+				flex-wrap: wrap;
+				> fieldset, > div {
+					width: 100%;
+				}
+			}
+		}
 
 		.form-group input[type="submit"] {
+			margin-bottom: 10px;
 			transition: none;
 			&:hover, &:focus {
 				transition: all 0.3s ease-in-out;
@@ -162,7 +172,7 @@
 		}
 		.form-item-search-api-fulltext,
 		.form-item-keyword {
-			width: 100%;
+			// width: 100%;
 		}
 		#edit-search-api-fulltext,
 		#edit-keyword {
@@ -172,16 +182,16 @@
 			background-position: 10px;
 		}
 		fieldset.form-type-select {
-			width: 100%;
+			// width: 100%;
 		}
 		.chosen-container {
 			width: 100% !important;
-			height: auto;
 			//border-color: #e6d8d6;
 			border: 1px solid #e6d8d6;
 			margin-top: 0;
 			min-height: 3.8rem;
 			line-height: 3.8rem;
+			height: fit-content;
 			font-size: 1.6rem;
 			color: #5A5450;
 			border-radius: 0.25rem;
@@ -197,12 +207,12 @@
       }
     }
 		@include media-breakpoint-up(md) {
-			fieldset.form-type-select {
+			fieldset.form-type-textfield, fieldset.form-type-select {
 				width: 100%;
 			}
 		}
 		@include media-breakpoint-up(lg) {
-			fieldset.form-type-select {
+			fieldset.form-type-textfield, fieldset.form-type-select {
 				width: 100%;
 			}
 		}
@@ -211,10 +221,13 @@
 			// font-weight: normal;
 		}
 		#edit-actions {
-			border-bottom: 1px solid $light-gray;
-    		padding-bottom: 20px;
 			@include media-breakpoint-up(lg) {
-				width: 100%;
+				// width: 100%;
+				width: min-content;
+				display: flex;
+				gap: 10px;
+				align-self: flex-start;
+				margin-top: 3rem;
 			}
 		}
 		#edit-submit-hub-search-page {
@@ -229,9 +242,6 @@
 			font-family: $font-lato;
 		}
 
-		#edit-topic {
-			display: none;
-		}
 
 		.chosen-container-multi .chosen-choices {
 			border-color: $light-gray;
@@ -275,4 +285,14 @@
     margin-top: .5rem;
     margin-bottom: 1rem;
     width: 20rem;
+}
+
+.featured-news-links {
+	background: $ivory;
+	.magazine--pdf {
+		background: $ivory;
+	}
+	a {
+		font-size: 24px;
+	}
 }

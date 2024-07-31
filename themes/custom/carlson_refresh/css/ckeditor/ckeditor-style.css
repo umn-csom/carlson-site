@@ -17335,8 +17335,6 @@ Description: Bootstrap 4 with Sass
     display: inline-block; }
   .ck-content #main {
     margin-top: 10px; }
-  .ck-content .layout-main-wrapper {
-    overflow: hidden; }
   .ck-content input[type="search"] {
     box-sizing: border-box; }
   .ck-content header #search-block-form {
@@ -19008,6 +19006,14 @@ Description: Bootstrap 4 with Sass
       color: white !important; }
       .ck-content .hero-program-webform form .form-check .text-muted .webform-element-description {
         color: white; }
+  .ck-content .hero-program-webform .webform-element-help {
+    background: #fff;
+    border-color: #fff; }
+    .ck-content .hero-program-webform .webform-element-help span {
+      color: #7a0019; }
+    .ck-content .hero-program-webform .webform-element-help:hover, .ck-content .hero-program-webform .webform-element-help:active {
+      border-color: #fc3;
+      background: #fc3; }
   .ck-content .chosen-container-multi .chosen-choices li.search-field input[type=text] {
     color: #303030; }
   .ck-content .chosen-container-active .chosen-choices li.search-field input[type=text] {
@@ -22156,6 +22162,13 @@ Description: Bootstrap 4 with Sass
   @media (min-width: 992px) {
     .ck-content .news__body--sidebar > div {
       padding: 30px 35px; } }
+  .ck-content .news .card__tag {
+    padding: 10px;
+    background-color: lightgray;
+    color: black;
+    margin: 10px;
+    white-space: nowrap;
+    line-height: 45px; }
   .ck-content .news__teaser {
     padding: 30px 0;
     border-top: 1px solid #e6d8d6; }
@@ -23463,9 +23476,6 @@ Description: Bootstrap 4 with Sass
           color: #fff; }
     .ck-content .ui-dialog .ui-widget-content {
       border: none; }
-  .ck-content .webform-element-help {
-    background: #222;
-    border-color: #222; }
   .ck-content #centennial #main,
   .ck-content #centennial .node__content {
     margin-top: 0; }
@@ -24331,17 +24341,6 @@ Description: Bootstrap 4 with Sass
             transition: color 0.3s ease-in-out;
             text-decoration: none;
             color: #7a0019; }
-          .ck-content .hub-card--news .card__title--link::after,
-          .ck-content .hub-card--event .card__title--link::after,
-          .ck-content .hub-card--video .card__title--link::after,
-          .ck-content .hub-card--post .card__title--link::after,
-          .ck-content .hub-card--blog .card__title--link::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            right: 0;
-            bottom: 0; }
       .ck-content .hub-card--news .card__text,
       .ck-content .hub-card--event .card__text,
       .ck-content .hub-card--video .card__text,
@@ -25807,16 +25806,26 @@ Description: Bootstrap 4 with Sass
     .ck-content .news-hub-search .card-columns {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-between; }
+      justify-content: flex-start;
+      gap: 15px; }
       .ck-content .news-hub-search .card-columns .card {
         box-sizing: border-box;
         margin: 0 2.5px 20px;
         flex: 100%;
         flex-basis: 100%;
         flex-grow: 0; }
+        .ck-content .news-hub-search .card-columns .card .card__tags .card__tag {
+          display: inline-block;
+          width: min-content;
+          font-size: 14px;
+          padding: 3px 6px;
+          margin-bottom: 5px;
+          background-color: #e6e0d2;
+          color: black;
+          white-space: nowrap; }
       @media (min-width: 992px) {
         .ck-content .news-hub-search .card-columns .card {
-          flex-basis: calc(50% - 12px); } }
+          flex-basis: calc(50% - 15px); } }
       @media (min-width: 1340px) {
         .ck-content .news-hub-search .card-columns .card {
           flex-basis: calc(33.3333% - 15px); } }
@@ -25872,17 +25881,17 @@ Description: Bootstrap 4 with Sass
       font-size: 15px;
       padding: 15px 10px;
       text-transform: uppercase; }
-    .ck-content .news-hub-search.centennial-hub header h1, .ck-content .news-hub-search.in-the-media header h1 {
-      font-family: "Open Sans", sans-serif;
-      text-align: center;
-      color: #7a0019;
-      text-transform: uppercase;
-      font-weight: normal;
-      font-size: 20px;
-      letter-spacing: 1.17px; }
     .ck-content .news-hub-search__filter {
       padding: 0px 10px; }
+      .ck-content .news-hub-search__filter .form-row {
+        flex-wrap: nowrap; }
+        @media (max-width: 991.98px) {
+          .ck-content .news-hub-search__filter .form-row {
+            flex-wrap: wrap; }
+            .ck-content .news-hub-search__filter .form-row > fieldset, .ck-content .news-hub-search__filter .form-row > div {
+              width: 100%; } }
       .ck-content .news-hub-search__filter .form-group input[type="submit"] {
+        margin-bottom: 10px;
         transition: none; }
         .ck-content .news-hub-search__filter .form-group input[type="submit"]:hover, .ck-content .news-hub-search__filter .form-group input[type="submit"]:focus {
           transition: all 0.3s ease-in-out; }
@@ -25897,24 +25906,19 @@ Description: Bootstrap 4 with Sass
           box-shadow: none; }
           .ck-content .news-hub-search__filter .form-group input[type="submit"]#edit-reset:hover, .ck-content .news-hub-search__filter .form-group input[type="submit"]#edit-reset:focus {
             text-decoration: underline; }
-      .ck-content .news-hub-search__filter .form-item-search-api-fulltext,
-      .ck-content .news-hub-search__filter .form-item-keyword {
-        width: 100%; }
       .ck-content .news-hub-search__filter #edit-search-api-fulltext,
       .ck-content .news-hub-search__filter #edit-keyword {
         background-image: url(../images/svg/spy-glass-maroon.svg);
         background-repeat: no-repeat;
         padding-left: 40px;
         background-position: 10px; }
-      .ck-content .news-hub-search__filter fieldset.form-type-select {
-        width: 100%; }
       .ck-content .news-hub-search__filter .chosen-container {
         width: 100% !important;
-        height: auto;
         border: 1px solid #e6d8d6;
         margin-top: 0;
         min-height: 38px;
         line-height: 38px;
+        height: fit-content;
         font-size: 16px;
         color: #5A5450;
         border-radius: 2.5px; }
@@ -25925,17 +25929,18 @@ Description: Bootstrap 4 with Sass
           border: 0;
           padding: 0 40px; }
       @media (min-width: 768px) {
-        .ck-content .news-hub-search__filter fieldset.form-type-select {
+        .ck-content .news-hub-search__filter fieldset.form-type-textfield, .ck-content .news-hub-search__filter fieldset.form-type-select {
           width: 100%; } }
       @media (min-width: 992px) {
-        .ck-content .news-hub-search__filter fieldset.form-type-select {
+        .ck-content .news-hub-search__filter fieldset.form-type-textfield, .ck-content .news-hub-search__filter fieldset.form-type-select {
           width: 100%; } }
-      .ck-content .news-hub-search__filter #edit-actions {
-        border-bottom: 1px solid #e6d8d6;
-        padding-bottom: 20px; }
-        @media (min-width: 992px) {
-          .ck-content .news-hub-search__filter #edit-actions {
-            width: 100%; } }
+      @media (min-width: 992px) {
+        .ck-content .news-hub-search__filter #edit-actions {
+          width: min-content;
+          display: flex;
+          gap: 10px;
+          align-self: flex-start;
+          margin-top: 30px; } }
       .ck-content .news-hub-search__filter #edit-submit-hub-search-page {
         padding: 15px 30px;
         font-size: 16px;
@@ -25958,8 +25963,6 @@ Description: Bootstrap 4 with Sass
       .ck-content .news-hub-search__filter select.form-control {
         color: #303030;
         font-family: "Lato", Arial, Verdana, sans-serif; }
-      .ck-content .news-hub-search__filter #edit-topic {
-        display: none; }
       .ck-content .news-hub-search__filter .chosen-container-multi .chosen-choices {
         border-color: #e6d8d6; }
         .ck-content .news-hub-search__filter .chosen-container-multi .chosen-choices li.search-choice {
@@ -25990,6 +25993,12 @@ Description: Bootstrap 4 with Sass
     margin-top: 5px;
     margin-bottom: 10px;
     width: 200px; }
+  .ck-content .featured-news-links {
+    background: #e6e0d2; }
+    .ck-content .featured-news-links .magazine--pdf {
+      background: #e6e0d2; }
+    .ck-content .featured-news-links a {
+      font-size: 24px; }
   .ck-content .program-filter {
     margin-top: 10px;
     /* Header */

@@ -60,18 +60,29 @@
  * @see template_preprocess_node()
  */
 #}
-<div class="card hub-card--news border box-shadow bg-white">
+<div class="card hub-card--news box-shadow bg-white">
   <div class="card__body">
-    <div class="card__img">
-      {% if content.field_hero_media|render %}
-        {{ content.field_hero_media }}
-      {% else %}
-        <img src="/{{ directory }}/images/placeholders/news-hero-image-card-placeholder_715x400px12.jpg" width="715" height="400" alt="Default News Card Image" class="image-style-hub-teaser img-fluid">
-      {% endif %}
-    </div>
+    <a href="{{ url }}" class="card__title--link">
+      <div class="card__img">
+        {% if content.field_hero_media|render %}
+          {{ content.field_hero_media }}
+        {% else %}
+          <img src="/{{ directory }}/images/placeholders/news-hero-image-card-placeholder_715x400px12.jpg" width="715" height="400" alt="Default News Card Image" class="image-style-hub-teaser img-fluid">
+        {% endif %}
+      </div>
+    </a>
     <h3 class="card__title mx-6 mt-6">
       <a href="{{ url }}" class="card__title--link">{{ label }}</a>
     </h3>
     <div class="card__text mx-6 mb-6">{{ content.body }}</div>
+
+    {% if content.field_hub_topic is not null %}
+    <hr>
+
+    {# iterate through hub topic #}
+    <div class="card__tags mx-6 mb-6">
+      {{ content.field_hub_topic }}
+    </div>
+    {% endif %}
   </div>
 </div>
