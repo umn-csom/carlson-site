@@ -9,9 +9,11 @@ dependencies:
     - field.field.paragraph.featured_person.field_person_name
     - field.field.paragraph.featured_person.field_person_phone
     - field.field.paragraph.featured_person.field_person_title
+    - image.style.cropped_profile_image
     - paragraphs.paragraphs_type.featured_person
   module:
     - link
+    - media
 id: paragraph.featured_person.default
 targetEntityType: paragraph
 bundle: featured_person
@@ -38,11 +40,13 @@ content:
     weight: 4
     region: content
   field_person_headshot:
-    type: entity_reference_entity_view
+    type: media_thumbnail
     label: hidden
     settings:
-      view_mode: thumbnail_profile
-      link: false
+      image_link: ''
+      image_style: cropped_profile_image
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 1
     region: content
