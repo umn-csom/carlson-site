@@ -3,8 +3,8 @@
 {% set magazine = content.field_magazine_publication['#items'].getString() %}
 
 <section class="magazine--pdf pb-5 mb-4">
+  <div class="row justify-content-center">
   {% if content.field_magazine_cover_image|render %}
-    <div class="row justify-content-center">
       <figure class="col-4">
         {% if content.field_magazine_pdf | render %}
           <a href="{{ content.field_magazine_pdf|render|striptags }}" target="_blank">
