@@ -160,8 +160,10 @@ display:
                   placeholder_text: 'Search By Keyword'
                   rewrite:
                     filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
                   collapsible: false
                   is_secondary: false
+                  collapsible_disable_automatic_open: false
               type_1:
                 plugin_id: default
                 advanced:
@@ -169,8 +171,10 @@ display:
                   placeholder_text: ''
                   rewrite:
                     filter_rewrite_values: '- Any -|Select Type'
+                    filter_rewrite_values_key: false
                   collapsible: false
                   is_secondary: false
+                  collapsible_disable_automatic_open: false
               field_hub_topic:
                 plugin_id: default
                 advanced:
@@ -178,8 +182,10 @@ display:
                   placeholder_text: ''
                   rewrite:
                     filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
                   collapsible: false
                   is_secondary: false
+                  collapsible_disable_automatic_open: false
       access:
         type: none
         options: {  }
@@ -532,7 +538,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: "<h1>Search & Filter</h1>\r\n<p>Search for Carlson School events, stories, and more using keywords, or find what you’re looking for by selecting categories.</p>"
+            value: '<h1>News</h1>'
             format: rich_text
           tokenize: false
       footer: {  }
@@ -546,7 +552,6 @@ display:
         - url.query_args
         - 'url.query_args:sort_by'
         - 'url.query_args:sort_order'
-        - user
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.body'
@@ -1062,7 +1067,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - user
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.body'
@@ -1089,7 +1093,6 @@ display:
         - url.query_args
         - 'url.query_args:sort_by'
         - 'url.query_args:sort_order'
-        - user
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.body'

@@ -19,6 +19,7 @@ dependencies:
     - node.type.magazine
   module:
     - file
+    - options
     - panelizer
     - text
     - user
@@ -34,12 +35,18 @@ bundle: magazine
 mode: teaser
 content:
   field_magazine_cover_image:
-    type: file_default
+    type: file_url_plain
     label: hidden
-    settings:
-      use_description_as_link_text: true
+    settings: {  }
     third_party_settings: {  }
     weight: 1
+    region: content
+  field_magazine_publication:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
     region: content
   field_teaser:
     type: text_default
@@ -60,7 +67,6 @@ hidden:
   field_introduction_copy: true
   field_magazine_intro_head: true
   field_magazine_pdf: true
-  field_magazine_publication: true
   field_magazine_section: true
   field_magazine_story_cover: true
   field_magazine_story_intro: true
