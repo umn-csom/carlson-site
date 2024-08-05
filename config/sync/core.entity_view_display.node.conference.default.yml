@@ -10,9 +10,11 @@ dependencies:
     - field.field.node.conference.field_hero_media
     - field.field.node.conference.field_meta_tags
     - field.field.node.conference.field_sponsor_grid
+    - image.style.crop_full_hero
     - node.type.conference
   module:
     - entity_reference_revisions
+    - media
     - metatag
     - panelizer
     - text
@@ -56,11 +58,13 @@ content:
     weight: 5
     region: content
   field_hero_media:
-    type: entity_reference_entity_view
+    type: media_thumbnail
     label: hidden
     settings:
-      view_mode: full_hero
-      link: false
+      image_link: ''
+      image_style: crop_full_hero
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 2
     region: content
