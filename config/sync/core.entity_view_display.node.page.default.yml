@@ -20,12 +20,14 @@ dependencies:
     - field.field.node.page.field_section
     - field.field.node.page.layout_selection
     - field.field.node.page.panelizer
+    - image.style.basic_hero
     - node.type.page
   module:
     - entity_reference_revisions
     - layout_builder
     - layout_library
     - link
+    - media
     - metatag
     - panelizer
     - text
@@ -128,11 +130,13 @@ content:
     weight: 5
     region: content
   field_hero_media:
-    type: entity_reference_entity_view
+    type: media_thumbnail
     label: hidden
     settings:
-      view_mode: basic_hero
-      link: false
+      image_link: ''
+      image_style: basic_hero
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 4
     region: content
