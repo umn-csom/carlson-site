@@ -40,30 +40,22 @@
 %}
 <div{{ attributes.addClass(classes) }}>
 
-  <div class="col-12 col-md-4 col-lg-3">
-    {% if header %}
-      <header class="col-12">
-        <div class="row">
-          <div class="col-12">
-            {{ header }}
-          </div>
-        </div>
-      </header>
-    {% endif %}
-    <div class="row news-hub-search__filter my-3">
-      <div class="col-12">
-        {{ exposed }}
-      </div>
-      <div class="col-12">
-        <a href="/news/faculty" class="news-hub-search__link">Faculty in the News →</a><br />
-        <a href="/discovery" class="news-hub-search__link">Discovery at Carlson →</a><br />
-        <a href="/magazine" class="news-hub-search__link">Alumni Magazine →</a><br />
-        <a href="/news/media" class="news-hub-search__link">Media Inquiries →</a>
-      </div>
+  {% if header %}
+    <header class="col-12 mb-5">
+      {{ header }}
+    </header>
+  {% endif %}
+
+  {{ drupal_view('news_hub_featured', 'news_hub_featured') }}
+
+  <div class="col-12">
+    <div class="news-hub-search__filter my-3">
+      {{ exposed }}
     </div>
   </div>
+
   {{ attachment_before }}
-  <div class="news-hub-search__results col-12 col-md-8 col-lg-9 pl-md-0">
+  <div class="news-hub-search__results col-12 px-md-0">
   {{ rows }}
   {{ empty }}
   {{ pager }}

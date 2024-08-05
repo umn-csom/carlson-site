@@ -15,16 +15,19 @@ dependencies:
     - field.field.node.page.field_hero_media
     - field.field.node.page.field_menu_rule
     - field.field.node.page.field_meta_tags
+    - field.field.node.page.field_news_channels
     - field.field.node.page.field_program_finder_type
     - field.field.node.page.field_section
     - field.field.node.page.layout_selection
     - field.field.node.page.panelizer
+    - image.style.basic_hero
     - node.type.page
   module:
     - entity_reference_revisions
     - layout_builder
     - layout_library
     - link
+    - media
     - metatag
     - panelizer
     - text
@@ -127,11 +130,13 @@ content:
     weight: 5
     region: content
   field_hero_media:
-    type: entity_reference_entity_view
+    type: media_thumbnail
     label: hidden
     settings:
-      view_mode: basic_hero
-      link: false
+      image_link: ''
+      image_style: basic_hero
+      image_loading:
+        attribute: lazy
     third_party_settings: {  }
     weight: 4
     region: content
@@ -149,6 +154,14 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 3
+    region: content
+  field_news_channels:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 10
     region: content
   field_program_finder_type:
     type: entity_reference_label

@@ -160,8 +160,10 @@ display:
                   placeholder_text: 'Search By Keyword'
                   rewrite:
                     filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
                   collapsible: false
                   is_secondary: false
+                  collapsible_disable_automatic_open: false
               type_1:
                 plugin_id: default
                 advanced:
@@ -169,8 +171,10 @@ display:
                   placeholder_text: ''
                   rewrite:
                     filter_rewrite_values: '- Any -|Select Type'
+                    filter_rewrite_values_key: false
                   collapsible: false
                   is_secondary: false
+                  collapsible_disable_automatic_open: false
               field_hub_topic:
                 plugin_id: default
                 advanced:
@@ -178,8 +182,10 @@ display:
                   placeholder_text: ''
                   rewrite:
                     filter_rewrite_values: ''
+                    filter_rewrite_values_key: false
                   collapsible: false
                   is_secondary: false
+                  collapsible_disable_automatic_open: false
       access:
         type: none
         options: {  }
@@ -532,7 +538,7 @@ display:
           plugin_id: text
           empty: true
           content:
-            value: "<h1>Search & Filter</h1>\r\n<p>Search for Carlson School events, stories, and more using keywords, or find what you’re looking for by selecting categories.</p>"
+            value: '<h1>News</h1>'
             format: rich_text
           tokenize: false
       footer: {  }
@@ -546,7 +552,6 @@ display:
         - url.query_args
         - 'url.query_args:sort_by'
         - 'url.query_args:sort_order'
-        - user
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.body'
@@ -585,7 +590,7 @@ display:
           expose:
             label: Relevance
             field_identifier: search_api_relevance
-          exposed: true
+          exposed: false
       filters:
         status:
           id: status
@@ -738,7 +743,7 @@ display:
             news: news
             video: video
           group: 1
-          exposed: true
+          exposed: false
           expose:
             operator_id: type_1_op
             label: 'Content type'
@@ -866,20 +871,35 @@ display:
             remember_roles:
               authenticated: authenticated
               anonymous: '0'
+              wiley_partnership: '0'
               faculty_profile_creator: '0'
               blog_entry_creator: '0'
               executive_ed_landing_page_creator: '0'
               news_editor: '0'
               ed_abroad_editor: '0'
+              viewer: '0'
               editor: '0'
               sr_editor: '0'
               administrator: '0'
-              hub_post_creator: '0'
-              hub_post_reviewer: '0'
-              hub_landing_page_creator: '0'
-              hub_landing_page_reviewer: '0'
+              moderator: '0'
               video_creator: '0'
               video_reviewer: '0'
+              magazine_creator: '0'
+              magazine_reviewer: '0'
+              email_page_creator: '0'
+              email_page_reviewer: '0'
+              faces_creator: '0'
+              faces_reviewer: '0'
+              front_page_creator: '0'
+              front_page_reviewer: '0'
+              news_landing_creator: '0'
+              news_landing_reviewer: '0'
+              alumni_default_page_creator: '0'
+              alumni_default_page_reviewer: '0'
+              alumni_landing_page_creator: '0'
+              alumni_landing_page_reviewer: '0'
+              curriculum_plan_creator: '0'
+              curriculum_plan_reviewer: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -1047,9 +1067,6 @@ display:
         - 'languages:language_interface'
         - url
         - url.query_args
-        - 'url.query_args:sort_by'
-        - 'url.query_args:sort_order'
-        - user
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.body'
@@ -1076,7 +1093,6 @@ display:
         - url.query_args
         - 'url.query_args:sort_by'
         - 'url.query_args:sort_order'
-        - user
         - 'user.node_grants:view'
       tags:
         - 'config:field.storage.node.body'

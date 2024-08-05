@@ -17,9 +17,11 @@ dependencies:
     - field.field.node.news.field_news_channel_features
     - field.field.node.news.field_news_channels
     - field.field.node.news.field_sidebar_content
+    - image.style.hub_teaser
     - node.type.news
   module:
     - link
+    - media
     - panelizer
     - text
     - user
@@ -45,13 +47,24 @@ content:
     weight: 1
     region: content
   field_hero_media:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: hub_teaser
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_hub_topic:
     type: entity_reference_entity_view
     label: hidden
     settings:
-      view_mode: hub_teaser
+      view_mode: news_tags
       link: false
     third_party_settings: {  }
-    weight: 2
+    weight: 5
     region: content
   field_in_the_media:
     type: link
@@ -85,7 +98,6 @@ hidden:
   field_featured_media_faculty: true
   field_flexible_features: true
   field_hide_from_aggregation: true
-  field_hub_topic: true
   field_meta_tags: true
   field_news_channel_features: true
   field_news_channels: true
