@@ -227,8 +227,6 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
         <h3 style="font-size: 2.4rem; font-weight: bold">Receive results via email</h3>
 
         <p>In addition to seeing your results on the next page, we will also send them and additional program information to you via email.</p>
-
-        <p style="font-size: 1.2rem">*Required information</p>
       '
     ];
 
@@ -236,7 +234,7 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
       '#type' => 'textfield',
       '#title' => 'First Name',
       '#placeholder' => 'First Name',
-      '#required' => true,
+      '#required' => false,
       '#required_error' => 'Please enter your first name'
     ];
 
@@ -244,7 +242,7 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
       '#type' => 'textfield',
       '#title' =>'Last Name',
       '#placeholder' => 'Last Name',
-      '#required' => true,
+      '#required' => false,
       '#required_error' => 'Please enter your last name'
     ];
 
@@ -252,7 +250,7 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
       '#type' => 'email',
       '#title' => 'Email',
       '#placeholder' => 'Email',
-      '#required' => true,
+      '#required' => false,
       '#required_error' => 'Please enter your email address'
     ];
 
@@ -260,27 +258,27 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
       '#type' =>'tel',
       '#title' => 'Phone',
       '#placeholder' => 'Mobile Phone',
-      '#required' => 'true',
+      '#required' => false,
       '#required_error' => 'Please enter a valid phone number'
     ];
     $elements['country'] = [
       '#type' => 'select',
       '#title' => 'Country',
       '#options' => 'country_codes_us_first_',
-      '#required' => true
+      '#required' => false
     ];
 
     $elements['zip'] = [
       '#type' => 'textfield',
       '#title' => 'Postal Code',
       '#placeholder' => 'Postal Code',
-      '#required' => true
+      '#required' => false
     ];
 
     $elements['allow_sms_content'] = [
       '#type' => 'checkbox',
       '#title' => 'Allow SMS Content',
-      '#description' => '<p>&nbsp;I authorize the Carlson School of Management and its representatives to contact me via SMS text message.</p>',
+      '#description' => '<p>Learn more about the Carlson School<br>In addition to seeing your results on the next page, you can also receive information about our master’s degrees via email. Enter your contact details below to receive more information.</p>',
       '#title_display' => 'invisible',
       '#description_display' => 'after'
     ];
