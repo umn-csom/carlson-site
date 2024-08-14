@@ -171,7 +171,7 @@
     {% set has_contact_info = content.field_full_name|field_value is not empty and content.field_email|field_value is not empty and content.field_phone|field_value is not empty %}
     {% if has_contact_info %}
       <div class="col-lg-6 contact-cta__contact">
-        <h5 class="contact-cta__contact--heading">Contact Information</h5>
+        <h2 class="contact-cta__contact--heading h5">Contact Information</h2>
         {% if content.field_full_name|field_value is not empty %}
         <div class="contact-cta__contact--fullname">Event Contact: {{ content.field_full_name }}</div>
         {% endif %}
@@ -187,7 +187,7 @@
       </div>
       {% endif %}
       <div class="col-12 {{ has_contact_info ? 'col-lg-6' : '' }} text-center contact-cta__social">
-        <h5 class="contact-cta__social--heading">Share This Event</h5>
+        <h2 class="contact-cta__social--heading h5">Share This Event</h2>
         <div>{{ content.addtoany }}</div>
       </div>
     </div>
