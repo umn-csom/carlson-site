@@ -398,7 +398,7 @@ display:
         options:
           perm: 'administer contact forms'
       cache:
-        type: none
+        type: tag
         options: {  }
       empty:
         area_text_custom:
@@ -517,7 +517,11 @@ display:
     display_plugin: page
     position: 1
     display_options:
-      display_extenders: {  }
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
       path: admin/structure/contact/messages
       menu:
         type: tab

@@ -20,6 +20,7 @@ dependencies:
     - field.field.node.page.field_section
     - field.field.node.page.layout_selection
     - field.field.node.page.panelizer
+    - field.field.node.page.webform
     - node.type.page
     - workflows.workflow.editorial
   module:
@@ -32,6 +33,7 @@ dependencies:
     - paragraphs
     - path
     - text
+    - webform
 third_party_settings:
   field_group:
     group_content:
@@ -73,6 +75,7 @@ third_party_settings:
       children:
         - title
         - field_hero_media
+        - webform
       label: 'Hero Media'
       region: content
       parent_name: group_content
@@ -203,7 +206,7 @@ content:
     third_party_settings: {  }
   field_hero_media:
     type: media_library_widget
-    weight: 51
+    weight: 2
     region: content
     settings:
       media_types: {  }
@@ -301,6 +304,14 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  webform:
+    type: webform_entity_reference_select
+    weight: 3
+    region: content
+    settings:
+      default_data: true
+      webforms: {  }
     third_party_settings: {  }
 hidden:
   field_program_finder_type: true

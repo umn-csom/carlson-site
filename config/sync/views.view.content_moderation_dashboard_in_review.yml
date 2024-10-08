@@ -12,7 +12,7 @@ dependencies:
     module:
       - moderation_dashboard
 _core:
-  default_config_hash: YZeq8A0OVc6AgvaPrs7e75Y1O354oa6MG0UM1msheAo
+  default_config_hash: bwZl1Yn3GPfzzOjRYagMSGB8m0R0SAPwht8z_bQ9s1o
 id: content_moderation_dashboard_in_review
 label: 'Moderation Dashboard In Review'
 module: views
@@ -22,12 +22,68 @@ base_table: node_field_revision
 base_field: vid
 display:
   default:
+    display_plugin: default
     id: default
     display_title: Master
-    display_plugin: default
     position: 0
     display_options:
-      title: 'Moderation Dashboard in Review'
+      access:
+        type: perm
+        options:
+          perm: 'view all revisions'
+      cache:
+        type: tag
+        options: {  }
+      query:
+        type: views_query
+        options:
+          disable_sql_rewrite: false
+          distinct: false
+          replica: false
+          query_comment: ''
+          query_tags: {  }
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Apply
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        type: mini
+        options:
+          items_per_page: 5
+          offset: 0
+          id: 0
+          total_pages: null
+          tags:
+            previous: ‹‹
+            next: ››
+          expose:
+            items_per_page: false
+            items_per_page_label: 'Items per page'
+            items_per_page_options: '5, 10, 25, 50'
+            items_per_page_options_all: false
+            items_per_page_options_all_label: '- All -'
+            offset: false
+            offset_label: Offset
+      style:
+        type: default
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
+          uses_fields: false
+      row:
+        type: fields
+        options:
+          inline: {  }
+          separator: ''
+          hide_empty: false
+          default_field_elements: true
       fields:
         title:
           id: title
@@ -36,9 +92,6 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          entity_field: title
-          plugin_id: field
           label: ''
           exclude: false
           alter:
@@ -94,71 +147,9 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-      pager:
-        type: mini
-        options:
-          offset: 0
-          items_per_page: 5
-          total_pages: null
-          id: 0
-          tags:
-            next: ››
-            previous: ‹‹
-          expose:
-            items_per_page: false
-            items_per_page_label: 'Items per page'
-            items_per_page_options: '5, 10, 25, 50'
-            items_per_page_options_all: false
-            items_per_page_options_all_label: '- All -'
-            offset: false
-            offset_label: Offset
-      exposed_form:
-        type: basic
-        options:
-          submit_button: Apply
-          reset_button: false
-          reset_button_label: Reset
-          exposed_sorts_label: 'Sort by'
-          expose_sort_order: true
-          sort_asc_label: Asc
-          sort_desc_label: Desc
-      access:
-        type: perm
-        options:
-          perm: 'view all revisions'
-      cache:
-        type: tag
-        options: {  }
-      empty:
-        area_text_custom:
-          id: area_text_custom
-          table: views
-          field: area_text_custom
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text_custom
-          empty: true
-          content: 'There is no content available for review.'
-          tokenize: false
-      sorts:
-        changed:
-          id: changed
-          table: node_field_revision
-          field: changed
-          relationship: none
-          group_type: group
-          admin_label: ''
           entity_type: node
-          entity_field: changed
-          plugin_id: date
-          order: ASC
-          expose:
-            label: ''
-            field_identifier: changed
-          exposed: false
-          granularity: second
-      arguments: {  }
+          entity_field: title
+          plugin_id: field
       filters:
         latest_revision:
           id: latest_revision
@@ -167,8 +158,6 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          plugin_id: latest_revision
           operator: '='
           value: ''
           group: 1
@@ -179,14 +168,14 @@ display:
             description: ''
             use_operator: false
             operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
             identifier: ''
             required: false
             remember: false
             multiple: false
             remember_roles:
               authenticated: authenticated
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -199,33 +188,43 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-      style:
-        type: default
-        options:
-          grouping: {  }
-          row_class: ''
-          default_row_class: true
-          uses_fields: false
-      row:
-        type: fields
-        options:
-          default_field_elements: true
-          inline: {  }
-          separator: ''
-          hide_empty: false
-      query:
-        type: views_query
-        options:
-          query_comment: ''
-          disable_sql_rewrite: false
-          distinct: false
-          replica: false
-          query_tags: {  }
-      relationships: {  }
-      use_ajax: true
+          entity_type: node
+          plugin_id: latest_revision
+      sorts:
+        changed:
+          id: changed
+          table: node_field_revision
+          field: changed
+          relationship: none
+          group_type: group
+          admin_label: ''
+          order: ASC
+          exposed: false
+          expose:
+            label: ''
+          granularity: second
+          entity_type: node
+          entity_field: changed
+          plugin_id: date
       header: {  }
       footer: {  }
+      empty:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: true
+          tokenize: false
+          content: 'There is no content available for review.'
+          plugin_id: text_custom
+      relationships: {  }
+      arguments: {  }
       display_extenders: {  }
+      use_ajax: true
+      title: 'Moderation Dashboard in Review'
     cache_metadata:
       max-age: -1
       contexts:
@@ -236,11 +235,12 @@ display:
         - user.permissions
       tags: {  }
   block_1:
+    display_plugin: block
     id: block_1
     display_title: 'In review'
-    display_plugin: block
     position: 1
     display_options:
+      display_extenders: {  }
       filters:
         latest_revision:
           id: latest_revision
@@ -249,8 +249,6 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          plugin_id: latest_revision
           operator: '='
           value: ''
           group: 1
@@ -261,14 +259,14 @@ display:
             description: ''
             use_operator: false
             operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
             identifier: ''
             required: false
             remember: false
             multiple: false
             remember_roles:
               authenticated: authenticated
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -281,6 +279,8 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          entity_type: node
+          plugin_id: latest_revision
         moderation_state:
           id: moderation_state
           table: node_field_revision
@@ -288,8 +288,6 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          plugin_id: moderation_state_filter
           operator: in
           value:
             editorial-review: editorial-review
@@ -322,15 +320,16 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          entity_type: node
+          plugin_id: moderation_state_filter
+      defaults:
+        filters: false
+        filter_groups: false
       filter_groups:
         operator: AND
         groups:
           1: AND
-      defaults:
-        filters: false
-        filter_groups: false
       display_description: ''
-      display_extenders: {  }
     cache_metadata:
       max-age: -1
       contexts:
@@ -339,26 +338,15 @@ display:
         - url.query_args
         - 'user.node_grants:view'
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:workflow_list'
   block_2:
+    display_plugin: block
     id: block_2
     display_title: 'In draft'
-    display_plugin: block
     position: 1
     display_options:
-      title: 'In draft'
-      empty:
-        area_text_custom:
-          id: area_text_custom
-          table: views
-          field: area_text_custom
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text_custom
-          empty: true
-          content: 'There is no draft content.'
-          tokenize: false
+      display_extenders: {  }
       filters:
         latest_revision:
           id: latest_revision
@@ -367,8 +355,6 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          plugin_id: latest_revision
           operator: '='
           value: ''
           group: 1
@@ -379,14 +365,14 @@ display:
             description: ''
             use_operator: false
             operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
             identifier: ''
             required: false
             remember: false
             multiple: false
             remember_roles:
               authenticated: authenticated
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -399,6 +385,8 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          entity_type: node
+          plugin_id: latest_revision
         moderation_state:
           id: moderation_state
           table: node_field_revision
@@ -406,8 +394,6 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          plugin_id: moderation_state_filter
           operator: in
           value:
             editorial-draft: editorial-draft
@@ -440,33 +426,18 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
+          entity_type: node
+          plugin_id: moderation_state_filter
+      defaults:
+        filters: false
+        filter_groups: false
+        empty: false
+        title: false
       filter_groups:
         operator: AND
         groups:
           1: AND
-      defaults:
-        empty: false
-        title: false
-        filters: false
-        filter_groups: false
       display_description: ''
-      display_extenders: {  }
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - url.query_args
-        - 'user.node_grants:view'
-        - user.permissions
-      tags: {  }
-  block_3:
-    id: block_3
-    display_title: 'Your drafts'
-    display_plugin: block
-    position: 1
-    display_options:
-      title: 'Your drafts'
       empty:
         area_text_custom:
           id: area_text_custom
@@ -475,10 +446,133 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: text_custom
           empty: true
-          content: 'No draft content was found.'
           tokenize: false
+          content: 'There is no draft content.'
+          plugin_id: text_custom
+      title: 'In draft'
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url.query_args
+        - 'user.node_grants:view'
+        - user.permissions
+      tags:
+        - 'config:workflow_list'
+  block_3:
+    display_plugin: block
+    id: block_3
+    display_title: 'Your drafts'
+    position: 1
+    display_options:
+      display_extenders: {  }
+      filters:
+        latest_revision:
+          id: latest_revision
+          table: node_revision
+          field: latest_revision
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: '='
+          value: ''
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            operator_limit_selection: false
+            operator_list: {  }
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: node
+          plugin_id: latest_revision
+        moderation_state:
+          id: moderation_state
+          table: node_field_revision
+          field: moderation_state
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: in
+          value:
+            editorial-draft: editorial-draft
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          entity_type: node
+          plugin_id: moderation_state_filter
+      defaults:
+        filters: false
+        filter_groups: false
+        empty: false
+        title: false
+        arguments: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      display_description: ''
+      empty:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: true
+          tokenize: false
+          content: 'No draft content was found.'
+          plugin_id: text_custom
+      title: 'Your drafts'
       arguments:
         uid:
           id: uid
@@ -487,9 +581,6 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          entity_type: node
-          entity_field: uid
-          plugin_id: numeric
           default_action: default
           exception:
             value: all
@@ -497,14 +588,15 @@ display:
             title: All
           title_enable: false
           title: ''
-          default_argument_type: user
+          default_argument_type: raw
           default_argument_options:
-            user: false
+            index: 1
+            use_alias: false
           summary_options:
             base_path: ''
             count: true
-            override: false
             items_per_page: 25
+            override: false
           summary:
             sort_order: asc
             number_of_records: 0
@@ -516,131 +608,9 @@ display:
           validate_options: {  }
           break_phrase: false
           not: false
-        'null':
-          id: 'null'
-          table: views
-          field: 'null'
-          relationship: none
-          group_type: group
-          admin_label: 'Logged-in user'
-          plugin_id: 'null'
-          default_action: default
-          exception:
-            value: all
-            title_enable: false
-            title: All
-          title_enable: true
-          title: '{%if raw_arguments.uid == raw_arguments.null %}{{"Your drafts"|t}}{%else%} {{"User''s drafts"|t}}{% endif %}'
-          default_argument_type: current_user
-          default_argument_options: {  }
-          summary_options:
-            base_path: ''
-            count: true
-            override: false
-            items_per_page: 25
-          summary:
-            sort_order: asc
-            number_of_records: 0
-            format: default_summary
-          specify_validation: false
-          validate:
-            type: none
-            fail: 'not found'
-          validate_options: {  }
-          must_not_be: false
-      filters:
-        latest_revision:
-          id: latest_revision
-          table: node_revision
-          field: latest_revision
-          relationship: none
-          group_type: group
-          admin_label: ''
           entity_type: node
-          plugin_id: latest_revision
-          operator: '='
-          value: ''
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        moderation_state:
-          id: moderation_state
-          table: node_field_revision
-          field: moderation_state
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          plugin_id: moderation_state_filter
-          operator: in
-          value:
-            editorial-draft: editorial-draft
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-      filter_groups:
-        operator: AND
-        groups:
-          1: AND
-      defaults:
-        empty: false
-        title: false
-        arguments: false
-        filters: false
-        filter_groups: false
-      display_description: ''
-      display_extenders: {  }
+          entity_field: uid
+          plugin_id: numeric
     cache_metadata:
       max-age: -1
       contexts:
@@ -651,4 +621,5 @@ display:
         - user
         - 'user.node_grants:view'
         - user.permissions
-      tags: {  }
+      tags:
+        - 'config:workflow_list'
