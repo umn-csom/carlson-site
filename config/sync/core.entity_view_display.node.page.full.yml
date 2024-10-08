@@ -1,9 +1,9 @@
-uuid: a73d38fa-37dd-4544-8f5c-434ec0420d33
+uuid: c2518f28-e4bd-4440-a685-58e3f9f6fd4f
 langcode: en
-status: true
+status: false
 dependencies:
   config:
-    - core.entity_view_mode.node.teaser
+    - core.entity_view_mode.node.full
     - field.field.node.page.body
     - field.field.node.page.field_breadcrumb_title
     - field.field.node.page.field_contact_info
@@ -24,33 +24,31 @@ dependencies:
     - field.field.node.page.webform
     - node.type.page
   module:
-    - text
     - user
-id: node.page.teaser
+    - webform
+id: node.page.full
 targetEntityType: node
 bundle: page
-mode: teaser
+mode: full
 content:
-  addtoany:
+  links:
     settings: {  }
-    third_party_settings: {  }
-    weight: 101
-    region: content
-  body:
-    type: text_summary_or_trimmed
-    label: hidden
-    settings:
-      trim_length: 600
     third_party_settings: {  }
     weight: 100
     region: content
-  content_moderation_control:
-    weight: -20
-    region: content
-  links:
-    weight: 101
+  webform:
+    type: webform_entity_reference_entity_view
+    label: hidden
+    settings:
+      source_entity: true
+      lazy: false
+    third_party_settings: {  }
+    weight: 11
     region: content
 hidden:
+  addtoany: true
+  body: true
+  content_moderation_control: true
   field_breadcrumb_title: true
   field_contact_info: true
   field_ee_catalog_link: true
@@ -69,4 +67,3 @@ hidden:
   layout_selection: true
   panelizer: true
   search_api_excerpt: true
-  webform: true

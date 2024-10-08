@@ -4,7 +4,7 @@ status: true
 dependencies:
   config:
     - search_api.index.acquia_search_index
-    - system.menu.account
+    - system.menu.tools
   module:
     - search_api
     - user
@@ -116,7 +116,7 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: search_api_none
+        type: search_api_tag
         options: {  }
       empty:
         area:
@@ -229,15 +229,10 @@ display:
       display_description: ''
       exposed_block: true
       display_extenders:
-        metatag_display_extender: {  }
-        simple_sitemap_display_extender:
-          variants:
-            default:
-              index: true
-              priority: '0.8'
-              changefreq: daily
-              arguments: {  }
-              max_links: 100
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
       path: search
       menu:
         type: normal

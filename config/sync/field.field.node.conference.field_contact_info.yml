@@ -1,0 +1,29 @@
+uuid: 8468c401-069b-40d8-9498-ed472e52193b
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.contact_block
+    - field.storage.node.field_contact_info
+    - node.type.conference
+id: node.conference.field_contact_info
+field_name: field_contact_info
+entity_type: node
+bundle: conference
+label: 'Contact Info'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:block_content'
+  handler_settings:
+    target_bundles:
+      contact_block: contact_block
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

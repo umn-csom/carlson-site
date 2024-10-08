@@ -20,6 +20,7 @@ dependencies:
     - field.field.node.page.field_section
     - field.field.node.page.layout_selection
     - field.field.node.page.panelizer
+    - field.field.node.page.webform
     - image.style.basic_hero
     - node.type.page
   module:
@@ -32,6 +33,7 @@ dependencies:
     - panelizer
     - text
     - user
+    - webform
 third_party_settings:
   panelizer:
     enable: false
@@ -183,6 +185,15 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 2
+    region: content
+  webform:
+    type: webform_entity_reference_entity_view
+    label: hidden
+    settings:
+      source_entity: true
+      lazy: false
+    third_party_settings: {  }
+    weight: 11
     region: content
 hidden:
   field_breadcrumb_title: true
