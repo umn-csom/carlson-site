@@ -31,7 +31,7 @@ class CourseComparisonTableBlock extends BlockBase
         $renderable = [
         '#theme' => 'course_comparison_table',
         '#title' => 'Compare Programs',
-        '$description' => 'Compare Programs'
+        '#description' => 'Compare Programs'
         ];
 
         return $renderable;
