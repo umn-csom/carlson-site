@@ -53,7 +53,7 @@ class MenuBlock extends SuperMenuBlock {
       '#type' => 'details',
       '#title' => $this->t('Advanced options'),
       '#open' => FALSE,
-      '#process' => [[get_class(), 'processMenuBlockFieldSets']],
+      '#process' => [[get_class($this), 'processMenuBlockFieldSets']],
     ];
 
     $menu_name = $this->getDerivativeId();
@@ -108,7 +108,7 @@ class MenuBlock extends SuperMenuBlock {
       '#type' => 'details',
       '#title' => $this->t('HTML and style options'),
       '#open' => FALSE,
-      '#process' => [[get_class(), 'processMenuBlockFieldSets']],
+      '#process' => [[get_class($this), 'processMenuBlockFieldSets']],
     ];
 
     $form['advanced']['follow'] = [
