@@ -1,28 +1,58 @@
--- SUMMARY --
+## SUMMARY
 
-  Chosen uses the Chosen jQuery plugin to make your <select> elements
+  Chosen uses the Chosen js plugin to make your \<select\> elements
   more user-friendly.
 
 
--- INSTALLATION --
+## INSTALLATION
 
-  1. Download the Chosen jQuery plugin
-     (https://github.com/JJJ/chosen)
+  1. Download the Chosen js plugin
+     (https://github.com/noli42/chosen)
      and extract the file under "libraries".
   2. Download and enable the module.
   3. Configure at Administer > Configuration > User interface > Chosen
      (requires administer site configuration permission)
 
--- INSTALLATION VIA COMPOSER --
+## INSTALLATION VIA COMPOSER
   It is assumed you are installing Drupal through Composer using the Drupal
   Composer facade. See https://www.drupal.org/docs/develop/using-composer/using-composer-to-manage-drupal-site-dependencies#drupal-packagist
 
+### Installation with repository entry:
+
+  Add the following entry in the "repositories" section of your main composer.json file.
+
+```
+{
+    "type": "package",
+    "package": {
+        "name": "noli42/chosen",
+        "version": "3.0.0",
+        "type": "drupal-library",
+        "dist": {
+            "url": "https://github.com/noli42/chosen/releases/download/3.0.0/chosen-assets-v3.0.0.zip",
+            "type": "zip"
+        }
+    }
+},
+```
+
+  Now you can run the following command to install chosen in the right folder:
+
+```
+composer require noli42/chosen:3.0.0
+```
+
+### Installation with merge plugin:
+
   The Chosen Drupal module is shipped with a "composer.libraries.json" file
-  contains information about the chosen library, required by the module itself.
+  which contains information about the chosen library, required by the module itself.
 
   This file should be merged with the project's main composer.json by the aid
-  of the Composer Merge Plugin plugin available on GitHub. To make use of
-  from the project directory, open a terminal and run:
+  of the Composer Merge Plugin available on GitHub. The advantage of this approach is
+  that the version of the library is defined by the module, and so if the module
+  updates the version, it will be automatically pulled by composer.
+
+  Inside the project directory, open a terminal and run:
 
 ```
 composer require wikimedia/composer-merge-plugin
@@ -62,7 +92,7 @@ composer require drupal/chosen
   This command will add the Chosen Drupal module and JavaScript library to your
   project.
 
--- INSTALLATION VIA DRUSH --
+## INSTALLATION WITH DRUSH
 
   A Drush command is provided for easy installation of the Chosen plugin.
 
@@ -75,10 +105,10 @@ composer require drupal/chosen
   If you are using Composer to manage your site's dependencies,
   then the Chosen plugin will automatically be downloaded to `libraries/chosen`.
 
--- TROUBLE SHOOTING --
+## TROUBLE SHOOTING
 
   How to exclude a select field from becoming a chosen select.
-    - go to the configuration page and add your field using the jquery "not"
-      operator to the textarea with the comma separated values.
-      For date fields this could look like:
-      select:not([name*='day'],[name*='year'],[name*='month'])
+  - go to the configuration page and add your field using the "not"
+    operator to the textarea with the comma separated values.
+    For date fields this could look like:
+    select:not([name*='day'],[name*='year'],[name*='month'])
