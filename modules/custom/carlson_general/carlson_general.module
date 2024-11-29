@@ -228,3 +228,17 @@ function _carlson_general_course_schedule_info_alter(array &$element, FormStateI
   }
 
 }
+
+/**
+ * Implements hook_preprocess_container().
+ */
+function carlson_general_preprocess_container(array &$variables) {
+  // Check if the container is part of the 'event_channels' view.
+  if (
+    !empty($variables['element']['#context']['#view_id']) &&
+    $variables['element']['#context']['#view_id'] === 'event_channels'
+  ) {
+    // Remove the 'aria-describedby' attribute from the container's attributes.
+    unset($variables['attributes']['aria-describedby']);
+  }
+}
