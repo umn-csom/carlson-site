@@ -38,7 +38,7 @@
   <div class="embed-responsive embed-responsive-5by7">
   {% endif %}
     {% if fields.field_profile_img.content is not empty %}
-      {% if "Organization" in fields.field_profile_type.content|render|render %}
+      {% if (("Organization" in fields.field_profile_type.content|render|render) or ("Connecting" in fields.field_profile_type.content|render|render)) %}
         {{ fields.field_profile_img_1.content }} 
       {% else %}
         {{ fields.field_profile_img.content }}
