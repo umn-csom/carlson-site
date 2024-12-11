@@ -2,6 +2,7 @@
 
 namespace Drupal\chosen_lib\Commands;
 
+use Drupal\Core\File\FileSystemInterface;
 use Drush\Commands\DrushCommands;
 use Drush\Drush;
 use Psr\Log\LogLevel;
@@ -9,7 +10,7 @@ use Psr\Log\LogLevel;
 /**
  * The Chosen plugin URI.
  */
-define('CHOSEN_DOWNLOAD_URI', 'https://github.com/JJJ/chosen/archive/refs/tags/2.2.1.zip');
+define('CHOSEN_DOWNLOAD_URI', 'https://github.com/noli42/chosen/releases/download/3.0.0/chosen-assets-v3.0.0.zip');
 
 /**
  * A Drush commandfile.
@@ -23,6 +24,13 @@ define('CHOSEN_DOWNLOAD_URI', 'https://github.com/JJJ/chosen/archive/refs/tags/2
  *   - http://cgit.drupalcode.org/devel/tree/drush.services.yml
  */
 class ChosenLibCommands extends DrushCommands {
+
+  /**
+   * {@inheritdoc}
+   */
+  public function __construct(private FileSystemInterface $fileSystem) {
+    parent::__construct();
+  }
 
   /**
    * Download and install the Chosen plugin.
@@ -58,7 +66,7 @@ class ChosenLibCommands extends DrushCommands {
 
       // Remove any existing Chosen plugin directory.
       if (is_dir('chosen')) {
-        $fileservice = \Drupal::service('file_system');
+        $fileservice = $this->fileSystem;
         $fileservice->deleteRecursive('chosen');
 
         $this->drush_log(dt('A existing Chosen plugin was deleted from @path', ['@path' => $path]), 'notice');
@@ -72,7 +80,7 @@ class ChosenLibCommands extends DrushCommands {
         $subdirname = $dirname . '/chosen-' . $dirname;
         if (is_dir($subdirname)) {
           $this->drush_move_dir($subdirname, 'chosen');
-          $fileservice = \Drupal::service('file_system');
+          $fileservice = $this->fileSystem;
           $fileservice->deleteRecursive($dirname);
         } else {
           $this->drush_move_dir($dirname, 'chosen');
@@ -148,7 +156,7 @@ class ChosenLibCommands extends DrushCommands {
       throw new \Exception(dt("The URL !url could not be downloaded.", ['!url' => $url]));
     }
     if ($destination) {
-      $fileservice = \Drupal::service('file_system');
+      $fileservice = $this->fileSystem;
       $fileservice->move($destination_tmp, $destination, TRUE);
       return $destination;
     }
@@ -163,7 +171,7 @@ class ChosenLibCommands extends DrushCommands {
    * @return bool
    */
   public function drush_move_dir($src, $dest) {
-    $fileservice = \Drupal::service('file_system');
+    $fileservice = $this->fileSystem;
     $fileservice->move($src, $dest, TRUE);
     return TRUE;
   }
@@ -174,7 +182,7 @@ class ChosenLibCommands extends DrushCommands {
    * @return bool
    */
   public function drush_mkdir($path) {
-    $fileservice = \Drupal::service('file_system');
+    $fileservice = $this->fileSystem;
     $fileservice->mkdir($path);
     return TRUE;
   }
