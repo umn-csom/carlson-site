@@ -21,7 +21,8 @@ select.form-control {
     background:#fff url('../images/dd-arrows.png') no-repeat right 1rem center;
     line-height: normal;
 }
-label {
+label,
+.radios--wrapper .fieldset-legend {
     margin-bottom: 1rem;
     font-family: $font-lato;
     text-transform: uppercase;
@@ -237,7 +238,6 @@ table tr th a:focus {
 
     .form-check {
       width: 100%;
-      padding-bottom: 1.25rem;
     }
 
     .form-control {
@@ -277,8 +277,13 @@ table tr th a:focus {
 
     color: $white;
 
-    label, a {
+    label, a, .radios--wrapper .fieldset-legend {
       color: $white;
+    }
+
+    .form-control:focus {
+      border-color: $gray-800;
+      box-shadow: 0 0 0 .4rem rgba($white, 0.3);
     }
 
     .form-group input[type="submit"] {
@@ -297,14 +302,16 @@ table tr th a:focus {
     .form-checkbox:checked,
     .form-radio:checked,
     .form-check .form-check-input:checked {
-      border-color: #ffc20d;
-      background: #ffbf00;
+      border-color: #17a2b8;
+      background: #fff;
     }
 
     .form-radio,
     input[type='radio'] {
       &::before {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%237a0019'/%3e%3c/svg%3e");
+        width: 16px;
+        height: 16px;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%2317a2b8'/%3e%3c/svg%3e");
       }
     }
 
