@@ -12,7 +12,7 @@
   ]
 %}
 
-{% if (('MBA' in content.field_profile_type.0['#markup']) or ('Finch' in content.field_profile_type.0['#markup'])) or ('Organization' in content.field_profile_type.0['#markup']) or ('Connecting' in content.field_profile_type.0['#markup']) %}
+{% if (('MBA' in content.field_profile_type.0['#markup']) or ('Finch' in content.field_profile_type.0['#markup'])) or ('Organization' in content.field_profile_type.0['#markup']) or ('onnecting' in content.field_profile_type.0['#markup']) %}
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'student-profile') }}>
     <div class="row justify-content-center mt-6">
@@ -37,7 +37,9 @@
                     </div>
                     <div class="flex-grow-1"></div>
                   </div>
-                  {% if content.field_profile_img|field_value is not empty %}
+                  {% if ((content.field_profile_img|field_value is not empty) and (('Organization' in content.field_profile_type.0['#markup']) or ('Horizontal' in content.field_profile_type.0['#markup']))) %}
+                    <img src="{{ content.field_profile_img|field_target_entity.image.entity.uri.value | image_style('crop_profile_image_crop_organization') }}" alt="Profile Image" class="img-fluid">
+                  {% elseif content.field_profile_img|field_value is not empty %}
                     {{ content.field_profile_img|field_value }}
                   {% else %}
                     <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
