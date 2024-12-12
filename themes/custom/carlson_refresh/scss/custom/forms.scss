@@ -49,6 +49,7 @@ label,
 }
 
 .form-check-label {
+  cursor: pointer;
   font-family: $font-family-sans-serif;
   letter-spacing: normal;
   text-transform: none;
@@ -60,7 +61,7 @@ input[type='checkbox'],
 input[type='radio'],
 .form-checkbox,
 .form-radio,
-.form-check .form-check-input {
+.form-checkbox {
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
@@ -124,6 +125,28 @@ input[type='radio'] {
     background-image: escape-svg($custom-radio-indicator-icon-checked);
     transform: scale(0);
   }
+}
+
+.form-check-input:has(+.form-check-label:hover),
+.form-check-input:hover,
+.form-control:hover {
+  border-color: $mid-slate-2;
+}
+
+.form-check-input:focus,
+.form-control:focus {
+  outline: 0;
+  border-color: $cyan;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 .35rem rgba($cyan, 0.4);
+}
+
+.form-check-input:focus-visible {
+  outline: 0;
+  border-color: $cyan;
+  box-shadow: 0 0 0 .35rem rgba($cyan, 0.4);
 }
 
 .form-group {
@@ -281,6 +304,7 @@ table tr th a:focus {
       color: $white;
     }
 
+    .form-check-input:focus,
     .form-control:focus {
       border-color: $gray-800;
       box-shadow: 0 0 0 .4rem rgba($white, 0.3);

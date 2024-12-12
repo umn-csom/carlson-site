@@ -18401,6 +18401,10 @@ Description: Bootstrap 4 with Sass
       flex-wrap: nowrap; }
       .ck-content .btn.d-flex > * + *, .ck-content .d-flex.gold-outline-button > * + *, .ck-content .d-flex.maroon-outline-button > * + *, .ck-content .d-flex.maroon-solid-button > * + *, .ck-content .d-flex.gold-underline-button > * + *, .ck-content .d-flex.maroon-underline-button > * + *, .ck-content .d-flex.gold-solid-button > * + *, .ck-content .form-group input.d-flex[type="submit"] > * + *, .ck-content .news-features__item--link a.d-flex > * + *, .ck-content .d-flex.inline-contact__btn > * + *, .ck-content .d-flex.program-features__btn > * + *, .ck-content .d-flex.take-the-next-step__column__btn > * + * {
         margin-left: 4px; }
+  .ck-content .form-group .btn:focus, .ck-content .form-group .gold-outline-button:focus, .ck-content .form-group .maroon-outline-button:focus, .ck-content .form-group .maroon-solid-button:focus, .ck-content .form-group .gold-underline-button:focus, .ck-content .form-group .maroon-underline-button:focus, .ck-content .form-group .gold-solid-button:focus, .ck-content .form-group input:focus[type="submit"], .ck-content .form-group .news-features__item--link a:focus, .ck-content .news-features__item--link .form-group a:focus, .ck-content .form-group .inline-contact__btn:focus, .ck-content .form-group .program-features__btn:focus, .ck-content .form-group .take-the-next-step__column__btn:focus {
+    outline: 0;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 2px #17a2b8, 0 0 0 calc(2px + 3.5px) rgba(23, 162, 184, 0.4); }
   .ck-content .gold-outline-button {
     padding: 15px 30px;
     font-size: 16px;
@@ -18911,6 +18915,7 @@ Description: Bootstrap 4 with Sass
     .ck-content .form-check .webform-element-description {
       margin-left: calc((20px + 10px) * -1); }
   .ck-content .form-check-label {
+    cursor: pointer;
     font-family: "Open Sans", sans-serif;
     letter-spacing: normal;
     text-transform: none;
@@ -18920,7 +18925,7 @@ Description: Bootstrap 4 with Sass
   .ck-content input[type='radio'],
   .ck-content .form-checkbox,
   .ck-content .form-radio,
-  .ck-content .form-check .form-check-input {
+  .ck-content .form-checkbox {
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
@@ -18935,13 +18940,13 @@ Description: Bootstrap 4 with Sass
     .ck-content input[type='radio']:checked::before,
     .ck-content .form-checkbox:checked::before,
     .ck-content .form-radio:checked::before,
-    .ck-content .form-check .form-check-input:checked::before {
+    .ck-content .form-checkbox:checked::before {
       transform: scale(1); }
     .ck-content input[type='checkbox']:checked,
     .ck-content input[type='radio']:checked,
     .ck-content .form-checkbox:checked,
     .ck-content .form-radio:checked,
-    .ck-content .form-check .form-check-input:checked {
+    .ck-content .form-checkbox:checked {
       border-color: #7a0019;
       background: #7a0019; }
   .ck-content .form-checkbox,
@@ -18977,6 +18982,20 @@ Description: Bootstrap 4 with Sass
       height: 12px;
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
       transform: scale(0); }
+  .ck-content .form-check-input:has(+ .form-check-label:hover),
+  .ck-content .form-check-input:hover,
+  .ck-content .form-control:hover {
+    border-color: #878b92; }
+  .ck-content .form-check-input:focus,
+  .ck-content .form-control:focus {
+    outline: 0;
+    border-color: #17a2b8; }
+  .ck-content .form-control:focus {
+    box-shadow: 0 0 0 3.5px rgba(23, 162, 184, 0.4); }
+  .ck-content .form-check-input:focus-visible {
+    outline: 0;
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 3.5px rgba(23, 162, 184, 0.4); }
   .ck-content .form-group.half-width {
     display: inline-block;
     padding: 0;
@@ -19068,6 +19087,7 @@ Description: Bootstrap 4 with Sass
       font-family: "Open Sans",sans-serif; }
     .ck-content .hero-program-webform form label, .ck-content .hero-program-webform form a, .ck-content .hero-program-webform form .radios--wrapper .fieldset-legend {
       color: #fff; }
+    .ck-content .hero-program-webform form .form-check-input:focus,
     .ck-content .hero-program-webform form .form-control:focus {
       border-color: #343a40;
       box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3); }
