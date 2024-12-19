@@ -656,7 +656,7 @@ Description: Bootstrap 4 with Sass
   .ck-content caption {
     padding-top: 7.5px;
     padding-bottom: 7.5px;
-    color: #6c757d;
+    color: #363230;
     text-align: left;
     caption-side: bottom; }
   .ck-content th {
@@ -1980,7 +1980,7 @@ Description: Bootstrap 4 with Sass
     color: #495057;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #ced4da;
+    border: 1px solid #D5D6D2;
     border-radius: 2.5px;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out; }
     @media (max-width: 1339px) {
@@ -2104,7 +2104,7 @@ Description: Bootstrap 4 with Sass
     margin-left: -12.5px; }
     .ck-content .form-check-input[disabled] ~ .form-check-label,
     .ck-content .form-check-input:disabled ~ .form-check-label {
-      color: #6c757d; }
+      color: #363230; }
   .ck-content .form-check-label {
     margin-bottom: 0; }
   .ck-content .form-check-inline {
@@ -3920,7 +3920,7 @@ Description: Bootstrap 4 with Sass
     text-align: center;
     white-space: nowrap;
     background-color: #e9ecef;
-    border: 1px solid #ced4da;
+    border: 1px solid #D5D6D2;
     border-radius: 2.5px; }
     @media (max-width: 1339px) {
       .ck-content .input-group-text {
@@ -4244,7 +4244,7 @@ Description: Bootstrap 4 with Sass
     color: #495057;
     vertical-align: middle;
     background: #fff url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='5' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") right 40px center/8px 10px no-repeat;
-    border: 1px solid #ced4da;
+    border: 1px solid #D5D6D2;
     border-radius: 2.5px;
     appearance: none; }
     @media (max-width: 1339px) {
@@ -4324,7 +4324,7 @@ Description: Bootstrap 4 with Sass
     line-height: 1.5;
     color: #495057;
     background-color: #fff;
-    border: 1px solid #ced4da;
+    border: 1px solid #D5D6D2;
     border-radius: 2.5px; }
     .ck-content .custom-file-label::after {
       position: absolute;
@@ -11305,7 +11305,7 @@ Description: Bootstrap 4 with Sass
   .ck-content .text-body {
     color: #212529 !important; }
   .ck-content .text-muted {
-    color: #6c757d !important; }
+    color: #363230 !important; }
   .ck-content .text-black-50 {
     color: rgba(0, 0, 0, 0.5) !important; }
   .ck-content .text-white-50 {
@@ -18401,6 +18401,10 @@ Description: Bootstrap 4 with Sass
       flex-wrap: nowrap; }
       .ck-content .btn.d-flex > * + *, .ck-content .d-flex.gold-outline-button > * + *, .ck-content .d-flex.maroon-outline-button > * + *, .ck-content .d-flex.maroon-solid-button > * + *, .ck-content .d-flex.gold-underline-button > * + *, .ck-content .d-flex.maroon-underline-button > * + *, .ck-content .d-flex.gold-solid-button > * + *, .ck-content .form-group input.d-flex[type="submit"] > * + *, .ck-content .news-features__item--link a.d-flex > * + *, .ck-content .d-flex.inline-contact__btn > * + *, .ck-content .d-flex.program-features__btn > * + *, .ck-content .d-flex.take-the-next-step__column__btn > * + * {
         margin-left: 4px; }
+  .ck-content .form-group .btn:focus, .ck-content .form-group .gold-outline-button:focus, .ck-content .form-group .maroon-outline-button:focus, .ck-content .form-group .maroon-solid-button:focus, .ck-content .form-group .gold-underline-button:focus, .ck-content .form-group .maroon-underline-button:focus, .ck-content .form-group .gold-solid-button:focus, .ck-content .form-group input:focus[type="submit"], .ck-content .form-group .news-features__item--link a:focus, .ck-content .news-features__item--link .form-group a:focus, .ck-content .form-group .inline-contact__btn:focus, .ck-content .form-group .program-features__btn:focus, .ck-content .form-group .take-the-next-step__column__btn:focus {
+    outline: 0;
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 2px #17a2b8, 0 0 0 calc(2px + 3.5px) rgba(23, 162, 184, 0.4); }
   .ck-content .gold-outline-button {
     padding: 15px 30px;
     font-size: 16px;
@@ -18890,7 +18894,8 @@ Description: Bootstrap 4 with Sass
     -webkit-border-radius: 2.5px;
     background: #fff url("../images/dd-arrows.png") no-repeat right 10px center;
     line-height: normal; }
-  .ck-content label {
+  .ck-content label,
+  .ck-content .radios--wrapper .fieldset-legend {
     margin-bottom: 10px;
     font-family: "Lato", Arial, Verdana, sans-serif;
     text-transform: uppercase;
@@ -18898,6 +18903,99 @@ Description: Bootstrap 4 with Sass
     color: #363230;
     font-size: 13px;
     line-height: 16px; }
+  .ck-content .form-check {
+    margin-bottom: 10px;
+    padding-left: calc(20px + 10px); }
+    .ck-content .form-check .form-check-input {
+      margin-left: calc((20px + 10px) * -1);
+      background: #fff;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #D5D6D2; }
+    .ck-content .form-check .webform-element-description {
+      margin-left: calc((20px + 10px) * -1); }
+  .ck-content .form-check-label {
+    cursor: pointer;
+    font-family: "Open Sans", sans-serif;
+    letter-spacing: normal;
+    text-transform: none;
+    font-size: 16px;
+    line-height: 1.4; }
+  .ck-content input[type='checkbox'],
+  .ck-content input[type='radio'],
+  .ck-content .form-checkbox,
+  .ck-content .form-radio,
+  .ck-content .form-checkbox {
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    margin-left: calc((20px + 10px) * -1);
+    background: #fff;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #D5D6D2;
+    display: grid;
+    place-content: center; }
+    .ck-content input[type='checkbox']:checked::before,
+    .ck-content input[type='radio']:checked::before,
+    .ck-content .form-checkbox:checked::before,
+    .ck-content .form-radio:checked::before,
+    .ck-content .form-checkbox:checked::before {
+      transform: scale(1); }
+    .ck-content input[type='checkbox']:checked,
+    .ck-content input[type='radio']:checked,
+    .ck-content .form-checkbox:checked,
+    .ck-content .form-radio:checked,
+    .ck-content .form-checkbox:checked {
+      border-color: #7a0019;
+      background: #7a0019; }
+  .ck-content .form-checkbox,
+  .ck-content input[type='checkbox'] {
+    border-radius: 2.5px; }
+    .ck-content .form-checkbox::before,
+    .ck-content input[type='checkbox']::before {
+      content: "";
+      width: 13px;
+      height: 10px;
+      background: url("../images/svg/checkmark.svg");
+      transform: scale(0); }
+    .ck-content .form-checkbox:indeterminate,
+    .ck-content input[type='checkbox']:indeterminate {
+      border-color: #7a0019;
+      background-color: #7a0019; }
+      .ck-content .form-checkbox:indeterminate::before,
+      .ck-content input[type='checkbox']:indeterminate::before {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3e%3cpath stroke='%23fff' d='M0 2h4'/%3e%3c/svg%3e"); }
+    .ck-content .form-checkbox:disabled:checked,
+    .ck-content input[type='checkbox']:disabled:checked {
+      background-color: rgba(122, 0, 25, 0.5); }
+    .ck-content .form-checkbox:disabled:indeterminate,
+    .ck-content input[type='checkbox']:disabled:indeterminate {
+      background-color: rgba(122, 0, 25, 0.5); }
+  .ck-content .form-radio,
+  .ck-content input[type='radio'] {
+    border-radius: 50%; }
+    .ck-content .form-radio::before,
+    .ck-content input[type='radio']::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+      transform: scale(0); }
+  .ck-content .form-check-input:has(+ .form-check-label:hover),
+  .ck-content .form-check-input:hover,
+  .ck-content .form-control:hover {
+    border-color: #878b92; }
+  .ck-content .form-check-input:focus,
+  .ck-content .form-control:focus {
+    outline: 0;
+    border-color: #17a2b8; }
+  .ck-content .form-control:focus {
+    box-shadow: 0 0 0 3.5px rgba(23, 162, 184, 0.4); }
+  .ck-content .form-check-input:focus-visible {
+    outline: 0;
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 3.5px rgba(23, 162, 184, 0.4); }
   .ck-content .form-group.half-width {
     display: inline-block;
     padding: 0;
@@ -18966,10 +19064,7 @@ Description: Bootstrap 4 with Sass
     .ck-content .paragraph--type--webform form .text-muted .webform-element-description, .ck-content .hero-program-webform form .text-muted .webform-element-description {
       color: #363230; }
     .ck-content .paragraph--type--webform form .form-check, .ck-content .hero-program-webform form .form-check {
-      width: 100%;
-      padding-bottom: 12.5px; }
-      .ck-content .paragraph--type--webform form .form-check .form-check-label, .ck-content .paragraph--type--webform form .form-check .webform-element-description, .ck-content .hero-program-webform form .form-check .form-check-label, .ck-content .hero-program-webform form .form-check .webform-element-description {
-        padding-left: 15px; }
+      width: 100%; }
     .ck-content .paragraph--type--webform form .form-control, .ck-content .hero-program-webform form .form-control {
       padding: 10px; }
   .ck-content .paragraph--type--webform {
@@ -18990,8 +19085,12 @@ Description: Bootstrap 4 with Sass
     .ck-content .hero-program-webform form h1, .ck-content .hero-program-webform form h2, .ck-content .hero-program-webform form h3 {
       color: #fff;
       font-family: "Open Sans",sans-serif; }
-    .ck-content .hero-program-webform form label, .ck-content .hero-program-webform form a {
+    .ck-content .hero-program-webform form label, .ck-content .hero-program-webform form a, .ck-content .hero-program-webform form .radios--wrapper .fieldset-legend {
       color: #fff; }
+    .ck-content .hero-program-webform form .form-check-input:focus,
+    .ck-content .hero-program-webform form .form-control:focus {
+      border-color: #343a40;
+      box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3); }
     .ck-content .hero-program-webform form .form-group input[type="submit"] {
       color: #212529;
       background-color: #fc3;
@@ -19000,20 +19099,24 @@ Description: Bootstrap 4 with Sass
         color: #212529;
         background-color: #ffc20d;
         border-color: #ffbf00; }
+    .ck-content .hero-program-webform form input[type='checkbox']:checked,
+    .ck-content .hero-program-webform form input[type='radio']:checked,
+    .ck-content .hero-program-webform form .form-checkbox:checked,
+    .ck-content .hero-program-webform form .form-radio:checked,
+    .ck-content .hero-program-webform form .form-check .form-check-input:checked {
+      border-color: #17a2b8;
+      background: #fff; }
+    .ck-content .hero-program-webform form .form-radio::before,
+    .ck-content .hero-program-webform form input[type='radio']::before {
+      width: 16px;
+      height: 16px;
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%2317a2b8'/%3e%3c/svg%3e"); }
     .ck-content .hero-program-webform form .form-required::after {
       background-image: url(../images/required-white.svg); }
     .ck-content .hero-program-webform form .form-check .text-muted {
       color: white !important; }
       .ck-content .hero-program-webform form .form-check .text-muted .webform-element-description {
         color: white; }
-  .ck-content .hero-program-webform .webform-element-help {
-    background: #fff;
-    border-color: #fff; }
-    .ck-content .hero-program-webform .webform-element-help span {
-      color: #7a0019; }
-    .ck-content .hero-program-webform .webform-element-help:hover, .ck-content .hero-program-webform .webform-element-help:active {
-      border-color: #fc3;
-      background: #fc3; }
   .ck-content .chosen-container-multi .chosen-choices li.search-field input[type=text] {
     color: #303030; }
   .ck-content .chosen-container-active .chosen-choices li.search-field input[type=text] {
@@ -20086,11 +20189,18 @@ Description: Bootstrap 4 with Sass
         border-radius: 40px;
         height: 65px;
         width: 65px; }
+        .ck-content .pagination .page-item--go-to-previous .page-link,
+        .ck-content .pagination .page-item--go-to-previous .page-link span, .ck-content .pagination .page-item--go-to-next .page-link,
+        .ck-content .pagination .page-item--go-to-next .page-link span {
+          display: flex;
+          justify-content: center;
+          align-items: center; }
       .ck-content .pagination .page-item--go-to-previous.disabled, .ck-content .pagination .page-item--go-to-next.disabled {
         cursor: not-allowed; }
         .ck-content .pagination .page-item--go-to-previous.disabled .page-link, .ck-content .pagination .page-item--go-to-next.disabled .page-link {
-          border-color: rgba(230, 219, 214, 0.5);
-          color: rgba(230, 219, 214, 0.5); }
+          opacity: .2;
+          border-color: #212529;
+          color: #212529; }
     .ck-content .pagination .page-item--ellipses {
       font-weight: bold; }
     .ck-content .pagination.full-pagination {
@@ -20768,7 +20878,7 @@ Description: Bootstrap 4 with Sass
     .ck-content .fullwidth-video__caption,
     .ck-content .fullwidth-image__caption {
       margin-top: 15px;
-      color: rgba(90, 84, 80, 0.6);
+      color: #5F5753;
       line-height: 25px;
       font-family: "Newsreader", serif;
       text-align: center;
@@ -23435,6 +23545,21 @@ Description: Bootstrap 4 with Sass
       .ck-content .webform__body h4 {
         font-size: 34px;
         line-height: 34px; } }
+  .ck-content .webform-element-help {
+    background: transparent;
+    border: 1px solid #D5D6D2;
+    color: currentColor;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center; }
+    .ck-content .webform-element-help:hover, .ck-content .webform-element-help:active, .ck-content .webform-element-help:focus {
+      border-color: #fc3;
+      background: #fc3;
+      border-width: 1px;
+      color: #7a0019; }
+    .ck-content .webform-element-help:focus {
+      outline: none;
+      box-shadow: 0 0 0 1px #fff, 0 0 0 2px #005fcc; }
   .ck-content #drupal-modal .webform {
     font-family: "Lato", Arial, Verdana, sans-serif; }
     .ck-content #drupal-modal .webform__body {
@@ -25139,6 +25264,8 @@ Description: Bootstrap 4 with Sass
       background: transparent; }
     .ck-content .comparison-table__header .column-header {
       background: white; }
+      .ck-content .comparison-table__header .column-header.certificate-degree {
+        background: #fc3; }
       .ck-content .comparison-table__header .column-header-text {
         width: 100%;
         font-size: 15px;

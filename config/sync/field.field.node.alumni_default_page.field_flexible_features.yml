@@ -5,6 +5,24 @@ dependencies:
   config:
     - field.storage.node.field_flexible_features
     - node.type.alumni_default_page
+    - paragraphs.paragraphs_type.accordion
+    - paragraphs.paragraphs_type.basic_paragraph
+    - paragraphs.paragraphs_type.carlson_staff_faculty
+    - paragraphs.paragraphs_type.feature_block
+    - paragraphs.paragraphs_type.featured_people
+    - paragraphs.paragraphs_type.featured_person
+    - paragraphs.paragraphs_type.fluid_columns
+    - paragraphs.paragraphs_type.gray_background
+    - paragraphs.paragraphs_type.half_and_half
+    - paragraphs.paragraphs_type.link_list
+    - paragraphs.paragraphs_type.program_cta
+    - paragraphs.paragraphs_type.quote_group
+    - paragraphs.paragraphs_type.schedule
+    - paragraphs.paragraphs_type.slideshow
+    - paragraphs.paragraphs_type.speaker
+    - paragraphs.paragraphs_type.speakers
+    - paragraphs.paragraphs_type.sponsor_logos
+    - paragraphs.paragraphs_type.webform
   module:
     - entity_reference_revisions
 id: node.alumni_default_page.field_flexible_features
@@ -20,21 +38,45 @@ default_value_callback: ''
 settings:
   handler: 'default:paragraph'
   handler_settings:
-    target_bundles: null
-    negate: 1
+    target_bundles:
+      accordion: accordion
+      basic_paragraph: basic_paragraph
+      carlson_staff_faculty: carlson_staff_faculty
+      featured_people: featured_people
+      featured_person: featured_person
+      feature_block: feature_block
+      fluid_columns: fluid_columns
+      link_list: link_list
+      program_cta: program_cta
+      quote_group: quote_group
+      schedule: schedule
+      slideshow: slideshow
+      speaker: speaker
+      speakers: speakers
+      sponsor_logos: sponsor_logos
+      gray_background: gray_background
+      half_and_half: half_and_half
+      webform: webform
+    negate: 0
     target_bundles_drag_drop:
       accordion:
         weight: 51
-        enabled: false
+        enabled: true
       accordion_tab_item:
         weight: 52
         enabled: false
       accordion_tab_subitem:
         weight: 53
         enabled: false
+      banner_2col:
+        weight: 78
+        enabled: false
+      banner_3col:
+        weight: 79
+        enabled: false
       basic_paragraph:
         weight: 54
-        enabled: false
+        enabled: true
       block_paragraph:
         weight: 55
         enabled: false
@@ -43,7 +85,7 @@ settings:
         enabled: false
       carlson_staff_faculty:
         weight: 57
-        enabled: false
+        enabled: true
       carlson_staff_faculty_item:
         weight: 58
         enabled: false
@@ -52,6 +94,12 @@ settings:
         enabled: false
       column:
         weight: 60
+        enabled: false
+      column_chart:
+        weight: 87
+        enabled: false
+      column_image:
+        weight: 88
         enabled: false
       compound_link:
         weight: 61
@@ -71,6 +119,12 @@ settings:
       cta_link:
         weight: 66
         enabled: false
+      curriculum_plan:
+        weight: 95
+        enabled: false
+      datatable:
+        weight: 96
+        enabled: false
       deadline:
         weight: 67
         enabled: false
@@ -79,18 +133,39 @@ settings:
         enabled: false
       feature_block:
         weight: 71
+        enabled: true
+      featured_link_grid:
+        weight: 99
         enabled: false
       featured_people:
         weight: 69
-        enabled: false
+        enabled: true
       featured_person:
         weight: 70
+        enabled: true
+      figure:
+        weight: 103
         enabled: false
       fluid_columns:
         weight: 72
+        enabled: true
+      gray_background:
+        weight: 105
+        enabled: true
+      half_and_half:
+        weight: 106
+        enabled: true
+      hero:
+        weight: 107
         enabled: false
       iframe:
         weight: 73
+        enabled: false
+      image_contained:
+        weight: 109
+        enabled: false
+      image_with_offset_back:
+        weight: 110
         enabled: false
       information_paragraph:
         weight: 74
@@ -100,9 +175,12 @@ settings:
         enabled: false
       link_list:
         weight: 76
-        enabled: false
+        enabled: true
       magazine_section:
         weight: 77
+        enabled: false
+      multicol_list:
+        weight: 115
         enabled: false
       profile_activity:
         weight: 78
@@ -118,19 +196,34 @@ settings:
         enabled: false
       program_cta:
         weight: 82
-        enabled: false
+        enabled: true
       program_promo:
         weight: 83
+        enabled: false
+      quiz_answer:
+        weight: 122
+        enabled: false
+      quiz_conditional_paragraph:
+        weight: 123
+        enabled: false
+      quiz_question:
+        weight: 124
         enabled: false
       quote:
         weight: 84
         enabled: false
       quote_group:
         weight: 85
+        enabled: true
+      range_slider:
+        weight: 127
+        enabled: false
+      requirement_section:
+        weight: 128
         enabled: false
       schedule:
         weight: 86
-        enabled: false
+        enabled: true
       schedule_details:
         weight: 87
         enabled: false
@@ -142,15 +235,24 @@ settings:
         enabled: false
       slideshow:
         weight: 90
-        enabled: false
+        enabled: true
       speaker:
         weight: 91
-        enabled: false
+        enabled: true
       speakers:
         weight: 92
-        enabled: false
+        enabled: true
       sponsor_logos:
         weight: 93
+        enabled: true
+      stat_donut:
+        weight: 140
+        enabled: false
+      stat_icon:
+        weight: 141
+        enabled: false
+      state_stat:
+        weight: 137
         enabled: false
       statistic:
         weight: 94
@@ -170,7 +272,13 @@ settings:
       video_text_below:
         weight: 99
         enabled: false
+      video_text_left:
+        weight: 146
+        enabled: false
       video_text_right:
         weight: 100
         enabled: false
+      webform:
+        weight: 148
+        enabled: true
 field_type: entity_reference_revisions

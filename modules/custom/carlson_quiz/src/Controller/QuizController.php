@@ -6,6 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\webform\WebformSubmissionInterface;
+use Drupal\taxonomy\Entity\Term;
 
 class QuizController extends ControllerBase
 {
@@ -96,6 +97,13 @@ class QuizController extends ControllerBase
                 return $max_result_ids[$k] >= $default_result_ids[$k];
             }, ARRAY_FILTER_USE_BOTH
         );
+
+        foreach ($result_ids as $tid => $value) {
+            $result = Term::load($tid);
+            $offset = ($result->hasField('field_sort_weight') && $result->get('field_sort_weight')->getValue()) ? $result->get('field_sort_weight')->getValue()['0']['value'] : 0;
+            $result_ids[$tid] = $value - $offset;
+        }
+
         arsort($result_ids);
 
         $tags_from_node = metatag_get_tags_from_route($node);

@@ -21,7 +21,8 @@ select.form-control {
     background:#fff url('../images/dd-arrows.png') no-repeat right 1rem center;
     line-height: normal;
 }
-label {
+label,
+.radios--wrapper .fieldset-legend {
     margin-bottom: 1rem;
     font-family: $font-lato;
     text-transform: uppercase;
@@ -30,6 +31,125 @@ label {
     font-size: 1.3rem;
     line-height: 1.6rem;
 }
+
+.form-check {
+  margin-bottom: 1rem;
+  padding-left: calc(20px + 1rem);
+
+  .form-check-input {
+    margin-left: calc((20px + 1rem) * -1);
+    background: $input-bg;
+    width: 20px;
+    height: 20px;
+    border: 1px solid $input-border-color;
+  }
+}
+
+.form-check-label + .form-check-input {
+  top: 0;
+}
+
+.form-check-label {
+  cursor: pointer;
+  font-family: $font-family-sans-serif;
+  letter-spacing: normal;
+  text-transform: none;
+  font-size: 1.6rem;
+  line-height: 1.4;
+}
+
+input[type='checkbox'],
+input[type='radio'],
+.form-checkbox,
+.form-radio,
+.form-checkbox {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  margin-left: calc((20px + 1rem) * -1);
+  background: $input-bg;
+  width: 20px;
+  height: 20px;
+  border: 1px solid $input-border-color;
+  display: grid;
+  place-content: center;
+
+  &:checked::before {
+    transform: scale(1);
+  }
+
+  &:checked {
+    border-color: $maroon;
+    background: $maroon;
+  }
+}
+
+.form-checkbox,
+input[type='checkbox'] {
+  @include border-radius($custom-checkbox-indicator-border-radius);
+
+  &::before {
+    content: "";
+    width: 13px;
+    height: 10px;
+    background: url('../images/svg/checkmark.svg');
+    transform: scale(0);
+  }
+
+  &:indeterminate {
+    border-color: $custom-checkbox-indicator-indeterminate-border-color;
+    @include gradient-bg($custom-checkbox-indicator-indeterminate-bg);
+
+    &::before {
+      background-image: escape-svg($custom-checkbox-indicator-icon-indeterminate);
+    }
+  }
+
+  &:disabled {
+    &:checked {
+      @include gradient-bg($custom-control-indicator-checked-disabled-bg);
+    }
+    &:indeterminate {
+      @include gradient-bg($custom-control-indicator-checked-disabled-bg);
+    }
+  }
+}
+
+.form-radio,
+input[type='radio'] {
+  @include border-radius($custom-radio-indicator-border-radius);
+
+  &::before {
+    content: "";
+    width: 12px;
+    height: 12px;
+    background-image: escape-svg($custom-radio-indicator-icon-checked);
+    transform: scale(0);
+  }
+}
+
+.form-check-input:has(+.form-check-label:hover),
+.form-check-input:hover,
+.form-control:hover {
+  border-color: $mid-slate-2;
+}
+
+.form-check-input:focus,
+.form-control:focus {
+  outline: 0;
+  border-color: $cyan;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 .35rem rgba($cyan, 0.4);
+}
+
+.form-check-input:focus-visible {
+  outline: 0;
+  border-color: $cyan;
+  box-shadow: 0 0 0 .35rem rgba($cyan, 0.4);
+}
+
 .form-group {
     &.half-width {
         display: inline-block;
@@ -142,10 +262,6 @@ table tr th a:focus {
 
     .form-check {
       width: 100%;
-      padding-bottom: 1.25rem;
-      .form-check-label, .webform-element-description {
-        padding-left: 1.5rem;
-      }
     }
 
     .form-control {
@@ -185,8 +301,14 @@ table tr th a:focus {
 
     color: $white;
 
-    label, a {
+    label, a, .radios--wrapper .fieldset-legend {
       color: $white;
+    }
+
+    .form-check-input:focus,
+    .form-control:focus {
+      border-color: $gray-800;
+      box-shadow: 0 0 0 .4rem rgba($white, 0.3);
     }
 
     .form-group input[type="submit"] {
@@ -197,6 +319,24 @@ table tr th a:focus {
         color: #212529;
         background-color: #ffc20d;
         border-color: #ffbf00;
+      }
+    }
+
+    input[type='checkbox']:checked,
+    input[type='radio']:checked,
+    .form-checkbox:checked,
+    .form-radio:checked,
+    .form-check .form-check-input:checked {
+      border-color: #17a2b8;
+      background: #fff;
+    }
+
+    .form-radio,
+    input[type='radio'] {
+      &::before {
+        width: 16px;
+        height: 16px;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%2317a2b8'/%3e%3c/svg%3e");
       }
     }
 
@@ -213,18 +353,6 @@ table tr th a:focus {
       }
     }
   }
-
-  .webform-element-help  {
-    background: $white;
-    border-color: $white;
-    span {
-      color: $maroon;
-    }
-    &:hover, &:active {
-      border-color: $gold;
-      background: $gold;
-    }
-  }  
 }
 
 .chosen-container-multi .chosen-choices li.search-field input[type=text] {

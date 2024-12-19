@@ -596,6 +596,11 @@ function carlson_quiz_webform_submission_presave(WebformSubmissionInterface &$we
     $result_ids = array_filter($result_ids, function($v, $k) use ($default_result_ids, $max_result_ids) {
       return $max_result_ids[$k] >= $default_result_ids[$k];
     }, ARRAY_FILTER_USE_BOTH);
+    foreach ($result_ids as $tid => $value) {
+      $result = Term::load($tid);
+      $offset = $result->get('field_sort_weight')->getValue() ? $result->get('field_sort_weight')->getValue()['0']['value'] : 0;
+      $result_ids[$tid] = $value - $offset;
+    }
     arsort($result_ids);
     $result_ids_to_save = count($result_ids) > 3 ? array_slice($result_ids, 0, 3, true) : $result_ids;
 
