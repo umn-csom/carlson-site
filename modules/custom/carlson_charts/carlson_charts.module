@@ -1,5 +1,7 @@
 <?php
 
+use \Drupal\Core\Form\FormStateInterface;
+
 /**
  * @file
  * Primary module hooks for Carlson Charts module.
@@ -10,6 +12,57 @@
  */
 function carlson_charts_chart_alter(array &$element, $chart_id) {
   $element['#attached']['library'][] = 'carlson_charts/charts';
+}
+
+/**
+ * Implements hook_field_widget_single_element_WIDGET_TYPE_form_alter
+ *
+ * @param array $element
+ * @param FormStateInterface $form_state
+ * @param array $context
+ * @return void
+ */
+function carlson_charts_field_widget_single_element_chart_config_default_form_alter(array &$element, FormStateInterface $form_state, array $context) {
+  $element['#after_build'][] = 'carlson_charts_field_element_after_build';
+}
+
+/**
+ * Processes the settings element.
+ *
+ * @param array $element
+ *   The form element.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state.
+ *
+ * @return array
+ *   The element.
+ *
+ * @throws \Drupal\Component\Plugin\Exception\PluginException
+ */
+function carlson_charts_field_element_after_build(array $element, FormStateInterface &$form_state) {
+  if (
+    !empty($element['config']['type']['#options'])
+  ) {
+    $valid_chart_types = ['donut', 'pie'];
+    // Ensure the configured default value is also available, if it happens
+    // to differ from the ones we're designating as "valid" here.
+    if ($default_type = $element['config']['#default_value']['type']) {
+      $valid_chart_types = array_unique(array_merge($valid_chart_types, [$default_type]));
+    }
+    // Ensure existing content that uses any "undesired" chart types
+    // do not all of a sudden break on the website.
+    if ($current_type = $element['config']['type']['#value']) {
+      $valid_chart_types = array_unique(array_merge($valid_chart_types, [$current_type]));
+    }
+
+    foreach ($element['config']['type']['#options'] as $key => $value) {
+      if (!in_array($key, $valid_chart_types)) {
+        unset($element['config']['type']['#options'][$key]);
+      }
+    }
+    $form_state->setRebuild(TRUE);
+  }
+  return $element;
 }
 
 /**
