@@ -247,7 +247,6 @@ function carlson_general_preprocess_container(array &$variables) {
  * Implements hook_ENTITY_TYPE_presave().
  */
 function carlson_general_media_presave(EntityInterface $entity): void {
-  $stop = null;
   /** @var \Drupal\media\Entity\Media $entity */
   if ($entity->bundle() === 'image'
     && $entity->hasField('thumbnail')
