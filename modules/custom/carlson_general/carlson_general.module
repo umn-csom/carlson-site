@@ -242,3 +242,16 @@ function carlson_general_preprocess_container(array &$variables) {
     unset($variables['attributes']['aria-describedby']);
   }
 }
+
+/**
+ * Implements hook_ENTITY_TYPE_presave().
+ */
+function carlson_general_media_presave(EntityInterface $entity): void {
+  /** @var \Drupal\media\Entity\Media $entity */
+  if ($entity->bundle() === 'image'
+    && $entity->hasField('thumbnail')
+    && $entity->hasField('image')
+  ) {
+    $entity->thumbnail->alt = $entity->image->alt;
+  }
+}
