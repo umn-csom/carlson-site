@@ -242,3 +242,14 @@ function carlson_general_preprocess_container(array &$variables) {
     unset($variables['attributes']['aria-describedby']);
   }
 }
+
+/**
+ * Display a view as a DataTables style.
+ *
+ * @see template_preprocess_views_view_table()
+ */
+function carlson_general_preprocess_views_view_datatables(&$variables) {
+  foreach ($variables['rows'] as &$row) {
+    $row['attributes']['role'] = 'row';
+  }
+}
