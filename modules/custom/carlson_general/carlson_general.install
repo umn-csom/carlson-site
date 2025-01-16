@@ -1,0 +1,57 @@
+<?php
+
+/**
+ * Update hook to synchronize alt text between images and thumbnails, with detailed logging.
+ * Only updates thumbnails if the alt text is different.
+ */
+function carlson_general_update_100101() {
+  $database = \Drupal::database();
+  $log_file = \Drupal::service('file_system')->getTempDirectory() . '/alt_text_sync.log';
+
+  // Step 1: Select all mismatched alt texts.
+  $query = $database->select('media__image', 'main')
+    ->fields('main', ['entity_id', 'image_alt'])
+    ->condition('main.image_alt', NULL, 'IS NOT NULL'); // Ensure main image alt text is not empty.
+  $query->join('media_field_data', 'field', 'main.entity_id = field.mid');
+  $query->fields('field', ['thumbnail__target_id', 'thumbnail__alt'])
+    ->condition('field.thumbnail__alt', NULL, 'IS NOT NULL') // Ensure thumbnail alt text is not empty.
+    ->condition('main.image_alt', 'field.thumbnail__alt', '!=');
+
+  $results = $query->execute();
+
+  $log_entries = [];
+  foreach ($results as $record) {
+    $main_image_id = $record->entity_id;
+    $main_image_alt = $record->image_alt;
+    $thumbnail_id = $record->thumbnail__target_id;
+    $current_thumbnail_alt = $record->thumbnail__alt;
+
+    // Update only if alt text differs.
+    if ($main_image_alt !== $current_thumbnail_alt) {
+      // Update the thumbnail alt text with the image alt text.
+      $database->update('media_field_data')
+        ->fields(['thumbnail__alt' => $main_image_alt])
+        ->condition('thumbnail__target_id', $thumbnail_id)
+        ->execute();
+
+      // Add to log entries with 'from' and 'to'.
+      $log_entries[] = sprintf(
+        'Updated thumbnail (ID: %d) alt text from "%s" to "%s" based on main image (ID: %d).',
+        $thumbnail_id,
+        $current_thumbnail_alt,
+        $main_image_alt,
+        $main_image_id
+      );
+    }
+  }
+
+  // Step 3: Write log entries to the log file.
+  if (!empty($log_entries)) {
+    file_put_contents($log_file, implode("\n", $log_entries), FILE_APPEND);
+  }
+
+  // Log the completion of the update in Drupal's logger.
+  \Drupal::logger('carlson_general')->info('Alt text synchronization completed. Log file: @log_file', [
+    '@log_file' => $log_file,
+  ]);
+}
