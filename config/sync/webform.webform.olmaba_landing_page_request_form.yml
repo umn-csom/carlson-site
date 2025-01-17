@@ -1,57 +1,84 @@
-uuid: 717aacb3-c083-49da-abf4-9f866e1f141f
+uuid: bc95bac4-b34a-4b9c-9cc4-3a7f9a0576b6
 langcode: en
-status: closed
+status: open
 dependencies: {  }
 open: null
 close: null
 weight: 0
-uid: 51021
+uid: 49146
 template: false
 archive: false
-id: request_information_full_time_mb
-title: 'Request Information: Full-Time MBA & STEM-Designated MBA'
-description: ''
+id: olmaba_landing_page_request_form
+title: 'Landing Page Request Information: Online MABA'
+description: '<p>New form for the MABA program relaunched in 2024</p>'
 categories: {  }
 elements: |-
-  first_name:
+  markup:
+    '#type': webform_markup
+    '#admin_title': Title
+    '#markup': '<h2 style="font-size:2.4rem;" id="form"><strong>Request information</strong></h2><p>Complete this form to receive information about coursework, admissions, tuition, and more.</p><p style="font-size:1.2rem;">*Required information</p>'
+  firstname:
     '#type': textfield
     '#title': 'First Name'
+    '#placeholder': 'First Name'
     '#required': true
-  last_name:
+    '#required_error': 'Please enter your first name'
+  lastname:
     '#type': textfield
     '#title': 'Last Name'
+    '#placeholder': 'Last Name'
     '#required': true
+    '#required_error': 'Please enter your last name'
   email:
     '#type': email
     '#title': Email
+    '#placeholder': Email
     '#required': true
-  program:
-    '#type': radios
-    '#title': Program
-    '#description_display': tooltip
-    '#options':
-      FTMBA: |
-        Full-Time MBA -- The Carlson MBA
-        Program provides a blend of coursework and hands-on experiences to give students the tools they need to build bright careers in their chosen fields.
-      STEMBA: "Management Science MBA (STEM) -- The Management Science MBA (STEM-designated) is a Full-time MBA degree that covers traditional management topics across business disciplines while developing a specific set of skills, including statistical modeling, analytics, programming, forecasting, and operations research.\_"
-    '#options_display': two_columns
-    '#options_description_display': help
-    '#required': true
+    '#required_error': 'Please enter your email address'
   phone:
     '#type': tel
-    '#title': 'Mobile Phone'
-  zip_code:
+    '#title': Phone
+    '#placeholder': 'Mobile Phone'
+    '#required': true
+    '#required_error': 'Please enter a valid phone number'
+  zip:
     '#type': textfield
-    '#title': 'Zip Code'
-  clientid:
+    '#title': 'Postal Code'
+    '#placeholder': 'Postal Code'
+    '#required': true
+  program:
     '#type': hidden
-    '#title': clientId
+    '#title': Program
+    '#default_value': MABA
   visitorid:
     '#type': hidden
-    '#title': visitorId
-  markup:
+    '#title': visitorid
+  clientid:
+    '#type': hidden
+    '#title': clientid
+  quickcapturejs:
+    '#type': processed_text
+    '#text': |-
+      <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+      <script>
+      	jQuery.getScript( "//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", function() {
+      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).length > 0) {
+      			document.getElementsByName('clientid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).split('.')[2];
+      		}
+      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).length > 0) {
+      			document.getElementsByName('visitorid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).split('.')[0];
+      		}
+      	});
+      </script>
+    '#format': full_html
+  disclosure:
     '#type': webform_markup
-    '#markup': '<em>If you provide a mobile phone number, we may send occasional text messages. You can opt-out at any time.</em>'
+    '#wrapper_attributes':
+      class:
+        - small
+      style: 'order:1'
+    '#admin_title': 'Wiley Disclosure'
+    '#markup': '<hr><p><sup>By submitting this form, I am agreeing that the Carlson School and its agent, </sup><a href="https://carlsonschool.umn.edu/risepoint-partnership"><sup>Risepoint</sup></a><sup>, may email me or contact me regarding educational services by telephone and/or text message utilizing automated technology or a pre-recorded message at the telephone number provided above. I understand this consent is not a condition to attend the Carlson School. </sup><a href="https://privacy.umn.edu/"><sup>University of Minnesota privacy statement</sup></a><sup>. </sup><a href="https://policies.risepoint.com/privacy-main/"><sup>Risepoint privacy policy.</sup></a><sup> </sup><a href="/node/129371"><sup>Carlson School Privacy notice.</sup></a></p>'
 css: ''
 javascript: ''
 settings:
@@ -64,7 +91,7 @@ settings:
   page_submit_path: ''
   page_confirm_path: ''
   page_theme_name: ''
-  form_title: source_entity_webform
+  form_title: both
   form_submit_once: false
   form_open_message: ''
   form_close_message: ''
@@ -157,9 +184,9 @@ settings:
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
   confirmation_type: url
-  confirmation_url: node/113316
+  confirmation_url: /node/105376
   confirmation_title: ''
-  confirmation_message: 'uh it worked i guess'
+  confirmation_message: ''
   confirmation_attributes: {  }
   confirmation_back: true
   confirmation_back_label: ''
@@ -236,10 +263,10 @@ access:
     users: {  }
     permissions: {  }
 handlers:
-  remote_post:
+  quick_capture:
     id: remote_post
-    handler_id: remote_post
-    label: 'Quick capture '
+    handler_id: quick_capture
+    label: 'Quick Capture'
     notes: ''
     status: true
     conditions: {  }
@@ -269,7 +296,7 @@ handlers:
       file_data: true
       cast: false
       debug: false
-      completed_url: 'http://134.84.138.117/carlsoninquirydataserviced8/qc'
+      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/3om3541/'
       completed_custom_data: ''
       updated_url: ''
       updated_custom_data: ''
@@ -284,28 +311,10 @@ handlers:
       message: ''
       messages: {  }
       error_url: ''
-  settings:
-    id: settings
-    handler_id: settings
-    label: 'Settings STEM Thank You'
-    notes: 'Directs users to a thank you page with the STEM program brochure after form submission.'
-    status: true
-    conditions:
-      enabled:
-        ':input[name="program"]':
-          value: STEMBA
-    weight: 0
-    settings:
-      debug: false
-      preview_title: ''
-      preview_message: ''
-      confirmation_url: node/113316
-      confirmation_title: ''
-      confirmation_message: ''
-  notify_keri:
+  email:
     id: email
-    handler_id: notify_keri
-    label: 'Notify Keri'
+    handler_id: email
+    label: Email
     notes: ''
     status: false
     conditions: {  }
@@ -326,7 +335,7 @@ handlers:
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: _default
+      subject: 'Webform submission from Request Information: Online MBA QC program landing page'
       body: _default
       excluded_elements: {  }
       ignore_access: false

@@ -2,9 +2,9 @@ uuid: c5cbedc4-cb4e-4f4a-91b8-4ec26b96578d
 langcode: en
 status: open
 dependencies: {  }
-weight: 0
 open: null
 close: null
+weight: 0
 uid: 63246
 template: false
 archive: false
@@ -468,17 +468,14 @@ elements: |-
   question_136726_title:
     '#type': processed_text
     '#format': rich_text
-    '#text': |-
-      <legend class="d-none">Question Title</legend><div class="quiz--question--title-prefix text-uppercase mb-2">Question 7</div><div class="quiz--question--title column__heading"><h3 class="d-inline">Which of the following best describe what you want to do in your career?*
-      </h3></div><div class="quiz--question--multiple-label">Select exactly three.</div>
+    '#text': '<legend class="d-none">Question Title</legend><div class="quiz--question--title-prefix text-uppercase mb-2">Question 7</div><div class="quiz--question--title column__heading"><h3 class="d-inline">Which of the following best describe what you want to do in your career?*</h3></div><div class="quiz--question--multiple-label">Select exactly three.</div>'
     '#wrapper_attributes':
       class:
         - quiz--question--title-wrapper
     '#states': {  }
   question_136726:
     '#type': checkboxes
-    '#title': |
-      Which of the following best describe what you want to do in your career?*
+    '#title': 'Which of the following best describe what you want to do in your career?*'
     '#default_value': ''
     '#wrapper_attributes':
       class:
@@ -561,6 +558,58 @@ elements: |-
   results_analyze:
     '#type': hidden
     '#title': 'Results Analyze'
+  markup:
+    '#type': webform_markup
+    '#admin_title': Title
+    '#wrapper_attributes':
+      class:
+        - w-100
+    '#markup': |2-
+
+              <h3 style='font-size: 2.4rem; font-weight: bold'>Receive results via email</h3>
+
+              <p>In addition to seeing your results on the next page, you can also receive information about our master's degrees via email. Enter your contact details below to receive more information.</p>
+            
+  firstname:
+    '#type': textfield
+    '#title': 'First Name'
+    '#placeholder': 'First Name'
+    '#required': false
+    '#required_error': 'Please enter your first name'
+  lastname:
+    '#type': textfield
+    '#title': 'Last Name'
+    '#placeholder': 'Last Name'
+    '#required': false
+    '#required_error': 'Please enter your last name'
+  email:
+    '#type': email
+    '#title': Email
+    '#placeholder': Email
+    '#required': false
+    '#required_error': 'Please enter your email address'
+  phone:
+    '#type': tel
+    '#title': Phone
+    '#placeholder': 'Mobile Phone'
+    '#required': false
+    '#required_error': 'Please enter a valid phone number'
+  country:
+    '#type': select
+    '#title': Country
+    '#options': country_codes_us_first_
+    '#required': false
+  zip:
+    '#type': textfield
+    '#title': 'Postal Code'
+    '#placeholder': 'Postal Code'
+    '#required': false
+  allow_sms_content:
+    '#type': checkbox
+    '#title': 'Allow SMS Content'
+    '#description': '<p>&nbsp;I authorize the Carlson School of Management and its representatives to contact me via SMS text message.</p>'
+    '#title_display': invisible
+    '#description_display': after
   utm_source:
     '#type': hidden
     '#title': 'UTM Source'
@@ -766,5 +815,50 @@ access:
     roles: {  }
     users: {  }
     permissions: {  }
-handlers: {  }
+handlers:
+  remote_post:
+    id: remote_post
+    handler_id: remote_post
+    label: 'Remote post to Zap Program Finder'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      method: POST
+      type: x-www-form-urlencoded
+      excluded_data:
+        serial: serial
+        sid: sid
+        token: token
+        changed: changed
+        in_draft: in_draft
+        uid: uid
+        langcode: langcode
+        webform_id: webform_id
+        entity_type: entity_type
+        entity_id: entity_id
+        locked: locked
+        sticky: sticky
+        notes: notes
+      custom_data: ''
+      custom_options: ''
+      file_data: true
+      cast: false
+      debug: false
+      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/3v67fv0/'
+      completed_custom_data: ''
+      updated_url: ''
+      updated_custom_data: ''
+      deleted_url: ''
+      deleted_custom_data: ''
+      draft_created_url: ''
+      draft_created_custom_data: ''
+      draft_updated_url: ''
+      draft_updated_custom_data: ''
+      converted_url: ''
+      converted_custom_data: ''
+      message: ''
+      messages: {  }
+      error_url: ''
 variants: {  }
