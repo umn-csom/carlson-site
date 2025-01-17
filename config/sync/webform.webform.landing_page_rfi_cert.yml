@@ -2,9 +2,9 @@ uuid: c80df51b-f7fe-4d94-adc6-49234e444574
 langcode: en
 status: open
 dependencies: {  }
-weight: 0
 open: null
 close: null
+weight: 0
 uid: 54846
 template: false
 archive: false
@@ -16,28 +16,26 @@ elements: |-
   markup:
     '#type': webform_markup
     '#admin_title': Title
-    '#markup': |-
-      <h2 style="font-size: 2.4rem; font-weight: bold">Request information</h2>
-
-      <p>Complete this form to receive information about coursework, admissions, tuition, and more.</p>
-
-      <p style="font-size: 1.2rem">*Required information</p>
+    '#markup': '<h2 style="font-size:2.4rem;" id="form"><strong>Request information</strong></h2><p>Complete this form to receive information about coursework, admissions, tuition, and more.</p><p style="font-size:1.2rem;">*Required information</p>'
   program:
     '#type': select
     '#title': "I'm Interested In a Certificate in"
     '#options':
-      'Corporate Financial Management': 'Corporate Financial Management'
-      'Entrepreneurship & Innovation': 'Entrepreneurship & Innovation'
-      'Leadership for Managers': 'Leadership for Managers'
-      'Medical Industry': 'Medical Industry'
-      'Strategic Management': 'Strategic Management'
-      'Strategic Marketing': 'Strategic Marketing'
-      'Supply Chain Management for the Medical and Health Sector': 'Supply Chain Management for the Medical and Health Sector'
-      Taxation: Taxation
-      'International Taxation': 'International Taxation'
-      'Closely-Held Business Taxation': 'Closely-Held Business Taxation'
-      'Tax Executives': 'Tax Executives'
-      'High-Net Worth Individual Taxation': 'High-Net Worth Individual Taxation'
+      'Graduate Business Certificates':
+        'Corporate Financial Management': 'Corporate Financial Management'
+        'Entrepreneurship &amp; Innovation': 'Entrepreneurship and Innovation'
+        'Leadership for Managers': 'Leadership for Managers'
+        'Medical Industry': 'Medical Industry'
+        'Strategic Management': 'Strategic Management'
+        'Strategic Marketing': 'Strategic Marketing'
+        'Supply Chain Management for the Medical and Health Sector': 'Supply Chain Management for the Medical and Health Sector'
+        'Sustainable Environmental, Social and Governance Leadership': 'Sustainable Environmental, Social and Governance Leadership'
+      'Graduate Taxation Certificates':
+        'Closely-Held Business Taxation': 'Closely-Held Business Taxation'
+        'International Taxation': 'International Taxation'
+        'High-Net Worth Individual Taxation': 'High-Net Worth Individual Taxation'
+        'Tax Executives': 'Tax Executives'
+        Taxation: Taxation
     '#empty_option': '- Select Certificate -'
     '#required': true
     '#wrapper_attributes':
@@ -67,11 +65,6 @@ elements: |-
     '#placeholder': 'Mobile Phone'
     '#required': true
     '#required_error': 'Please enter a valid phone number'
-  country:
-    '#type': select
-    '#title': Country
-    '#options': country_codes_us_first_
-    '#required': true
   zip:
     '#type': textfield
     '#title': 'Postal Code'
@@ -98,12 +91,6 @@ elements: |-
       	});
       </script>
     '#format': full_html
-  allow_sms_content:
-    '#type': checkbox
-    '#title': 'Allow SMS Content'
-    '#description': '<p>I authorize the Carlson School of Management and its representatives to contact me via SMS. <a href="https://policies.edusites.net/terms">Terms</a>.</p>'
-    '#title_display': invisible
-    '#description_display': after
   disclosure:
     '#type': webform_markup
     '#wrapper_attributes':
@@ -111,7 +98,7 @@ elements: |-
         - small
       style: 'order: 1'
     '#admin_title': 'Wiley Disclosure'
-    '#markup': '<p>The Carlson School partners with Wiley University Services to help support your education journey. Wiley will contact you shortly in response to your request for information. <a href="https://carlsonschool.umn.edu/wiley-partnership" target="_blank">Learn more about Wiley and their privacy policy</a>.</p>'
+    '#markup': '<hr><p>By submitting this form, I am providing my digital signature agreeing that the Carlson School and its agent, Risepoint, may email me or contact me regarding educational services by telephone utilizing automated technology or a pre-recorded message at the telephone number(s) provided above. I understand this consent is not a condition to attend the Carlson School or to purchase any other goods or services. <a href="https://carlsonschool.umn.edu/risepoint-partnership" target="_blank">Learn more about Risepoint and their Privacy Policy.</a></p>'
 css: ''
 javascript: ''
 settings:

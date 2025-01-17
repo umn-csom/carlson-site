@@ -2,9 +2,9 @@ uuid: 6d5f32d3-3811-4d0d-88da-04deb834ba38
 langcode: en
 status: open
 dependencies: {  }
-weight: 0
 open: null
 close: null
+weight: 0
 uid: 51021
 template: false
 archive: false
@@ -16,12 +16,7 @@ elements: |-
   markup:
     '#type': webform_markup
     '#admin_title': Title
-    '#markup': |-
-      <h2 style="font-size: 2.4rem; font-weight: bold">Request information</h2>
-
-      <p>Complete this form to receive information about coursework, admissions, tuition, and more.</p>
-
-      <p style="font-size: 1.2rem">*Required information</p>
+    '#markup': '<h2 style="font-size:2.4rem;"><strong>Request information</strong></h2><p>Complete this form to receive information about the Full-Time or Management Science MBA program''s coursework, admissions, tuition, deferred entry, and more.</p><p style="font-size:1.2rem;">*Required information</p>'
   program:
     '#type': radios
     '#title': Program
@@ -136,16 +131,13 @@ elements: |-
       	});
       </script>
     '#format': full_html
-  allow_sms_content:
-    '#type': checkbox
-    '#title': 'Allow SMS Content'
-    '#description': '<p>&nbsp;I authorize the Carlson School of Management and its representatives to contact me via SMS text message.</p>'
-    '#title_display': invisible
-    '#description_display': after
   undergraduate_institution:
     '#type': hidden
     '#title': 'Undergraduate Institution'
     '#default_value': 'UPDATE NEEDED Undergraduate Institution'
+  disclosure:
+    '#type': webform_markup
+    '#markup': '<p><sub>By submitting this form, I am agreeing that the Carlson School may contact me by phone and SMS text at the telephone number provided. I understand this consent is not a condition to attend the Carlson School. </sub><a href="https://privacy.umn.edu/"><sub>Privacy statement.</sub></a> <a href="/node/129371"><sub>Privacy Notice</sub></a><sub>.</sub></p>'
 css: ''
 javascript: ''
 settings:

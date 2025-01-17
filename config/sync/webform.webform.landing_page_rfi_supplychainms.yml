@@ -2,9 +2,9 @@ uuid: 378b04a9-7977-4772-9196-82070b93f6c6
 langcode: en
 status: open
 dependencies: {  }
-weight: 0
 open: null
 close: null
+weight: 0
 uid: 54846
 template: false
 archive: false
@@ -46,11 +46,6 @@ elements: |-
     '#placeholder': 'Mobile Phone'
     '#required': true
     '#required_error': 'Please enter a valid phone number'
-  country:
-    '#type': select
-    '#title': Country
-    '#options': country_codes_us_first_
-    '#required': true
   zip:
     '#type': textfield
     '#title': 'Postal Code'
@@ -81,12 +76,9 @@ elements: |-
       	});
       </script>
     '#format': full_html
-  allow_sms_content:
-    '#type': checkbox
-    '#title': 'Allow SMS Content'
-    '#description': '<p>&nbsp;I authorize the Carlson School of Management and its representatives to contact me via SMS text message.</p>'
-    '#title_display': invisible
-    '#description_display': after
+  disclosure:
+    '#type': webform_markup
+    '#markup': '<p><sub>By submitting this form, I am agreeing that the Carlson School may contact me by phone and SMS text at the telephone number provided. I understand this consent is not a condition to attend the Carlson School. </sub><a href="https://privacy.umn.edu/"><sub>Privacy statement.</sub></a> <a href="/node/129371"><sub>Privacy Notice</sub></a><sub>.</sub></p>'
 css: ''
 javascript: ''
 settings:
