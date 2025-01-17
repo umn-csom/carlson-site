@@ -1,57 +1,18 @@
-uuid: 717aacb3-c083-49da-abf4-9f866e1f141f
+uuid: 20ec572a-8c11-4701-9b04-d0485b028a6f
 langcode: en
-status: closed
+status: open
 dependencies: {  }
+weight: 0
 open: null
 close: null
-weight: 0
-uid: 51021
+uid: 54846
 template: false
 archive: false
-id: request_information_full_time_mb
-title: 'Request Information: Full-Time MBA & STEM-Designated MBA'
+id: testing_unique_id
+title: 'Testing Unique ID'
 description: ''
 categories: {  }
-elements: |-
-  first_name:
-    '#type': textfield
-    '#title': 'First Name'
-    '#required': true
-  last_name:
-    '#type': textfield
-    '#title': 'Last Name'
-    '#required': true
-  email:
-    '#type': email
-    '#title': Email
-    '#required': true
-  program:
-    '#type': radios
-    '#title': Program
-    '#description_display': tooltip
-    '#options':
-      FTMBA: |
-        Full-Time MBA -- The Carlson MBA
-        Program provides a blend of coursework and hands-on experiences to give students the tools they need to build bright careers in their chosen fields.
-      STEMBA: "Management Science MBA (STEM) -- The Management Science MBA (STEM-designated) is a Full-time MBA degree that covers traditional management topics across business disciplines while developing a specific set of skills, including statistical modeling, analytics, programming, forecasting, and operations research.\_"
-    '#options_display': two_columns
-    '#options_description_display': help
-    '#required': true
-  phone:
-    '#type': tel
-    '#title': 'Mobile Phone'
-  zip_code:
-    '#type': textfield
-    '#title': 'Zip Code'
-  clientid:
-    '#type': hidden
-    '#title': clientId
-  visitorid:
-    '#type': hidden
-    '#title': visitorId
-  markup:
-    '#type': webform_markup
-    '#markup': '<em>If you provide a mobile phone number, we may send occasional text messages. You can opt-out at any time.</em>'
+elements: null
 css: ''
 javascript: ''
 settings:
@@ -64,7 +25,7 @@ settings:
   page_submit_path: ''
   page_confirm_path: ''
   page_theme_name: ''
-  form_title: source_entity_webform
+  form_title: both
   form_submit_once: false
   form_open_message: ''
   form_close_message: ''
@@ -156,10 +117,10 @@ settings:
   draft_loaded_message: ''
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
-  confirmation_type: url
-  confirmation_url: node/113316
+  confirmation_type: page
+  confirmation_url: ''
   confirmation_title: ''
-  confirmation_message: 'uh it worked i guess'
+  confirmation_message: ''
   confirmation_attributes: {  }
   confirmation_back: true
   confirmation_back_label: ''
@@ -235,108 +196,5 @@ access:
     roles: {  }
     users: {  }
     permissions: {  }
-handlers:
-  remote_post:
-    id: remote_post
-    handler_id: remote_post
-    label: 'Quick capture '
-    notes: ''
-    status: true
-    conditions: {  }
-    weight: 0
-    settings:
-      method: POST
-      type: x-www-form-urlencoded
-      excluded_data:
-        serial: serial
-        sid: sid
-        token: token
-        created: created
-        completed: completed
-        changed: changed
-        in_draft: in_draft
-        current_page: current_page
-        uid: uid
-        langcode: langcode
-        webform_id: webform_id
-        entity_type: entity_type
-        entity_id: entity_id
-        locked: locked
-        sticky: sticky
-        notes: notes
-      custom_data: ''
-      custom_options: ''
-      file_data: true
-      cast: false
-      debug: false
-      completed_url: 'http://134.84.138.117/carlsoninquirydataserviced8/qc'
-      completed_custom_data: ''
-      updated_url: ''
-      updated_custom_data: ''
-      deleted_url: ''
-      deleted_custom_data: ''
-      draft_created_url: ''
-      draft_created_custom_data: ''
-      draft_updated_url: ''
-      draft_updated_custom_data: ''
-      converted_url: ''
-      converted_custom_data: ''
-      message: ''
-      messages: {  }
-      error_url: ''
-  settings:
-    id: settings
-    handler_id: settings
-    label: 'Settings STEM Thank You'
-    notes: 'Directs users to a thank you page with the STEM program brochure after form submission.'
-    status: true
-    conditions:
-      enabled:
-        ':input[name="program"]':
-          value: STEMBA
-    weight: 0
-    settings:
-      debug: false
-      preview_title: ''
-      preview_message: ''
-      confirmation_url: node/113316
-      confirmation_title: ''
-      confirmation_message: ''
-  notify_keri:
-    id: email
-    handler_id: notify_keri
-    label: 'Notify Keri'
-    notes: ''
-    status: false
-    conditions: {  }
-    weight: 0
-    settings:
-      states:
-        - completed
-      to_mail: kpoeppe@umn.edu
-      to_options: {  }
-      bcc_mail: ''
-      bcc_options: {  }
-      cc_mail: ''
-      cc_options: {  }
-      from_mail: _default
-      from_options: {  }
-      from_name: _default
-      reply_to: ''
-      return_path: ''
-      sender_mail: ''
-      sender_name: ''
-      subject: _default
-      body: _default
-      excluded_elements: {  }
-      ignore_access: false
-      exclude_empty: true
-      exclude_empty_checkbox: false
-      exclude_attachments: false
-      html: true
-      attachments: false
-      twig: false
-      theme_name: ''
-      parameters: {  }
-      debug: false
+handlers: {  }
 variants: {  }

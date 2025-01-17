@@ -2,9 +2,9 @@ uuid: cc07616e-34e2-44c8-b93d-5a56082257b9
 langcode: en
 status: open
 dependencies: {  }
-weight: 0
 open: null
 close: null
+weight: 0
 uid: 54846
 template: false
 archive: false
@@ -16,12 +16,7 @@ elements: |-
   markup:
     '#type': webform_markup
     '#admin_title': Title
-    '#markup': |-
-      <h2 style="font-size: 2.4rem; font-weight: bold">Request information</h2>
-
-      <p>Complete this form to receive information about coursework, admissions, tuition, and more.</p>
-
-      <p style="font-size: 1.2rem">*Required information</p>
+    '#markup': '<h2 style="font-size:2.4rem;"><strong>Request information</strong></h2><p>Complete this form to receive information about the Masters of Marketing program''s coursework, admissions, tuition, and more.</p><p style="font-size:1.2rem;">*Required information</p>'
   firstname:
     '#type': textfield
     '#title': 'First Name'
@@ -46,11 +41,6 @@ elements: |-
     '#placeholder': 'Mobile Phone'
     '#required': true
     '#required_error': 'Please enter a valid phone number'
-  country:
-    '#type': select
-    '#title': Country
-    '#options': country_codes_us_first_
-    '#required': true
   zip:
     '#type': textfield
     '#title': 'Postal Code'
@@ -81,12 +71,9 @@ elements: |-
       	});
       </script>
     '#format': full_html
-  allow_sms_content:
-    '#type': checkbox
-    '#title': 'Allow SMS Content'
-    '#description': '<p>&nbsp;I authorize the Carlson School of Management and its representatives to contact me via SMS text message.</p>'
-    '#title_display': invisible
-    '#description_display': after
+  policy:
+    '#type': webform_markup
+    '#markup': '<p><sub>By submitting this form, I am agreeing that the Carlson School may contact me by phone and SMS text at the telephone number provided. I understand this consent is not a condition to attend the Carlson School. </sub><a href="https://privacy.umn.edu/"><sub>Privacy statement.</sub></a> <a href="/node/129371"><sub>Privacy Notice</sub></a><sub>.</sub></p>'
 css: ''
 javascript: ''
 settings:
