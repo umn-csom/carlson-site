@@ -6,7 +6,10 @@
         .querySelectorAll('a[target="_blank"]', context)
         .forEach((link, index) => {
           // Skip if already processed.
-          if (link.querySelector("svg") || link.querySelector(".sr-only")) {
+          if (
+            link.querySelector(".external-link-icon") ||
+            link.querySelector(".external-link-text")
+          ) {
             return;
           }
           link.insertAdjacentHTML(
