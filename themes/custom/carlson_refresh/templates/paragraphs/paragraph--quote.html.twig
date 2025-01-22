@@ -7,7 +7,7 @@
 {% set has_citation = has_author or has_org %}
 {# {% set is_quote_group = paragraph.getParentEntity().type.target_id == 'quote_group' %} #}
 {% set bg_color = paragraph.field_background_color.value ?: 'bg-gold bg-default' %}
-{# {% set color = bg_color == 'bg-primary' ? 'text-white' : 'text-body' %} #}
+{# {% set color = bg_color == 'bg-primary' ? 'text-white' : bg_color == 'bg-light-blue' ? 'text-black' : 'text-body' %} #}
 {% set text_align = paragraph.field_quote_align_text.value ?: 'left' %}
 {% set style = paragraph.field_quote_style.value ?: 'notch-left' %}
 {% set classes = [
