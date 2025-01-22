@@ -7,6 +7,9 @@
         .forEach((link, index) => {
           // Skip if already processed.
           if (
+            link.querySelector(".icon") ||
+            link.querySelector("img") ||
+            link.querySelector("svg") ||
             link.querySelector(".external-link-icon") ||
             link.querySelector(".external-link-text")
           ) {
