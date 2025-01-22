@@ -7,7 +7,7 @@
 %}
 
 {% set bg_color = content.field_background_color|render ? content.field_background_color[0]['#markup'] : 'bg-primary' %}
-{% set color =  bg_color == 'bg-primary' ? 'text-white' : 'text-body' %}
+{% set color = bg_color == 'bg-primary' ? 'text-white' : bg_color == 'bg-light-blue' ? 'text-black' : 'text-body' %}
 
 {% set element = content.field_link|render ? 'a' : 'div' %}
 
