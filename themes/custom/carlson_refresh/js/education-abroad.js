@@ -3,6 +3,5 @@
     'use strict';
 
     $(document).foundation();
- 
+
 })(jQuery, Drupal);
- 
