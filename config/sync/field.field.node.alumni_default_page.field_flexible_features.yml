@@ -7,6 +7,7 @@ dependencies:
     - node.type.alumni_default_page
     - paragraphs.paragraphs_type.accordion
     - paragraphs.paragraphs_type.basic_paragraph
+    - paragraphs.paragraphs_type.block_paragraph
     - paragraphs.paragraphs_type.carlson_staff_faculty
     - paragraphs.paragraphs_type.feature_block
     - paragraphs.paragraphs_type.featured_people
@@ -14,6 +15,7 @@ dependencies:
     - paragraphs.paragraphs_type.fluid_columns
     - paragraphs.paragraphs_type.gray_background
     - paragraphs.paragraphs_type.half_and_half
+    - paragraphs.paragraphs_type.hero
     - paragraphs.paragraphs_type.link_list
     - paragraphs.paragraphs_type.program_cta
     - paragraphs.paragraphs_type.quote_group
@@ -22,6 +24,10 @@ dependencies:
     - paragraphs.paragraphs_type.speaker
     - paragraphs.paragraphs_type.speakers
     - paragraphs.paragraphs_type.sponsor_logos
+    - paragraphs.paragraphs_type.video
+    - paragraphs.paragraphs_type.video_text_below
+    - paragraphs.paragraphs_type.video_text_left
+    - paragraphs.paragraphs_type.video_text_right
     - paragraphs.paragraphs_type.webform
   module:
     - entity_reference_revisions
@@ -41,6 +47,7 @@ settings:
     target_bundles:
       accordion: accordion
       basic_paragraph: basic_paragraph
+      block_paragraph: block_paragraph
       carlson_staff_faculty: carlson_staff_faculty
       featured_people: featured_people
       featured_person: featured_person
@@ -54,8 +61,13 @@ settings:
       speaker: speaker
       speakers: speakers
       sponsor_logos: sponsor_logos
+      video: video
+      video_text_below: video_text_below
+      video_text_right: video_text_right
       gray_background: gray_background
       half_and_half: half_and_half
+      hero: hero
+      video_text_left: video_text_left
       webform: webform
     negate: 0
     target_bundles_drag_drop:
@@ -79,7 +91,7 @@ settings:
         enabled: true
       block_paragraph:
         weight: 55
-        enabled: false
+        enabled: true
       carlson_advantage:
         weight: 56
         enabled: false
@@ -157,7 +169,7 @@ settings:
         enabled: true
       hero:
         weight: 107
-        enabled: false
+        enabled: true
       iframe:
         weight: 73
         enabled: false
@@ -268,16 +280,16 @@ settings:
         enabled: false
       video:
         weight: 98
-        enabled: false
+        enabled: true
       video_text_below:
         weight: 99
-        enabled: false
+        enabled: true
       video_text_left:
         weight: 146
-        enabled: false
+        enabled: true
       video_text_right:
         weight: 100
-        enabled: false
+        enabled: true
       webform:
         weight: 148
         enabled: true
