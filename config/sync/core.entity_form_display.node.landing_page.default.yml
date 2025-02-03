@@ -16,9 +16,7 @@ dependencies:
     - field.field.node.landing_page.panelizer
     - field.field.node.landing_page.webform
     - node.type.landing_page
-    - workflows.workflow.editorial
   module:
-    - chosen_field
     - content_moderation
     - field_group
     - link
@@ -143,10 +141,14 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_event_channels:
-    type: chosen_select
-    weight: 103
+    type: entity_reference_autocomplete
+    weight: 106
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_flexible_features:
     type: paragraphs
@@ -197,10 +199,14 @@ content:
       use_details: true
     third_party_settings: {  }
   field_news_channels:
-    type: chosen_select
-    weight: 102
+    type: entity_reference_autocomplete
+    weight: 107
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   langcode:
     type: language_select

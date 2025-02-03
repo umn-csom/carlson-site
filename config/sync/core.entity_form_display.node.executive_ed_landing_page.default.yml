@@ -16,7 +16,6 @@ dependencies:
     - field.field.node.executive_ed_landing_page.field_sub_heading
     - node.type.executive_ed_landing_page
   module:
-    - chosen_field
     - content_moderation
     - field_group
     - link
@@ -182,10 +181,14 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_news_channels:
-    type: chosen_select
-    weight: 27
+    type: entity_reference_autocomplete
+    weight: 102
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_sub_heading:
     type: text_textarea

@@ -22,9 +22,7 @@ dependencies:
     - field.field.node.page.panelizer
     - field.field.node.page.webform
     - node.type.page
-    - workflows.workflow.editorial
   module:
-    - chosen_field
     - content_moderation
     - field_group
     - link
@@ -162,22 +160,34 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
   field_event_channels:
-    type: chosen_select
-    weight: 29
+    type: entity_reference_autocomplete
+    weight: 53
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_faculty_departments:
-    type: chosen_select
-    weight: 31
+    type: entity_reference_autocomplete
+    weight: 54
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_faculty_programs:
-    type: chosen_select
-    weight: 32
+    type: entity_reference_autocomplete
+    weight: 55
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_faculty_statuses:
     type: options_buttons
@@ -226,10 +236,14 @@ content:
       use_details: true
     third_party_settings: {  }
   field_news_channels:
-    type: chosen_select
-    weight: 27
+    type: entity_reference_autocomplete
+    weight: 56
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   langcode:
     type: language_select

@@ -39,7 +39,6 @@ dependencies:
     - field.field.node.executive_ed_program.field_sidebar_content
     - node.type.executive_ed_program
   module:
-    - chosen_field
     - content_moderation
     - field_group
     - link
@@ -449,10 +448,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_ee_related_courses:
-    type: chosen_select
-    weight: 8
+    type: entity_reference_autocomplete
+    weight: 43
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_flexible_features:
     type: paragraphs

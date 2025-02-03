@@ -9,7 +9,6 @@ dependencies:
     - field.field.paragraph.quiz_answer.field_quiz_answer_text
     - paragraphs.paragraphs_type.quiz_answer
   module:
-    - chosen_field
     - field_group
     - media_library
     - text
@@ -18,18 +17,18 @@ third_party_settings:
     group_icon:
       children:
         - field_quiz_answer_icon
+      label: Icon
+      region: content
       parent_name: ''
       weight: 1
       format_type: details
-      region: content
       format_settings:
+        classes: ''
         show_empty_fields: false
         id: ''
-        classes: ''
-        description: ''
         open: false
+        description: ''
         required_fields: true
-      label: Icon
 _core:
   default_config_hash: _SHtWgk-W8aok00HCIUPf8gwPB1WSagkXAt3gFb0eh4
 id: paragraph.quiz_answer.default
@@ -38,33 +37,37 @@ bundle: quiz_answer
 mode: default
 content:
   field_quiz_answer_cond_results:
+    type: boolean_checkbox
     weight: 4
+    region: content
     settings:
       display_label: true
     third_party_settings: {  }
-    type: boolean_checkbox
-    region: content
   field_quiz_answer_icon:
     type: media_library_widget
     weight: 2
+    region: content
     settings:
       media_types: {  }
     third_party_settings: {  }
-    region: content
   field_quiz_answer_result:
-    weight: 3
-    settings: {  }
-    third_party_settings: {  }
-    type: chosen_select
+    type: entity_reference_autocomplete
+    weight: 5
     region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_quiz_answer_text:
+    type: text_textfield
     weight: 0
+    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: text_textfield
-    region: content
 hidden:
   created: true
   status: true

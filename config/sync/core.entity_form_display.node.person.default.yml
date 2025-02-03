@@ -22,7 +22,6 @@ dependencies:
     - field.field.node.person.field_teaser
     - node.type.person
   module:
-    - chosen_field
     - content_moderation
     - field_group
     - media_library
@@ -191,10 +190,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_profile_admin_dept:
-    type: chosen_select
-    weight: 5
+    type: entity_reference_autocomplete
+    weight: 102
     region: content
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_profile_group:
     type: options_select
