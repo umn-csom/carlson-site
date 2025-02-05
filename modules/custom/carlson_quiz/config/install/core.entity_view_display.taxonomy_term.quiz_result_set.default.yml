@@ -2,16 +2,38 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.taxonomy_term.quiz_result_set.field__gmat_gre_required
+    - field.field.taxonomy_term.quiz_result_set.field_application_deadlines
+    - field.field.taxonomy_term.quiz_result_set.field_average_work_experience
+    - field.field.taxonomy_term.quiz_result_set.field_career_services
+    - field.field.taxonomy_term.quiz_result_set.field_course_modality_delivery
+    - field.field.taxonomy_term.quiz_result_set.field_course_schedule
+    - field.field.taxonomy_term.quiz_result_set.field_degree_type
+    - field.field.taxonomy_term.quiz_result_set.field_full_time_or_part_time
+    - field.field.taxonomy_term.quiz_result_set.field_international_applicants
+    - field.field.taxonomy_term.quiz_result_set.field_minimum_work_experience_re
+    - field.field.taxonomy_term.quiz_result_set.field_program_experiences
+    - field.field.taxonomy_term.quiz_result_set.field_program_length
     - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_code
     - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_image
     - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_learn_more
+    - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_req_alt
     - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_req_info
     - field.field.taxonomy_term.quiz_result_set.field_quiz_result_set_title
+    - field.field.taxonomy_term.quiz_result_set.field_scholarships
+    - field.field.taxonomy_term.quiz_result_set.field_skills_knowledge_gained
+    - field.field.taxonomy_term.quiz_result_set.field_sort_weight
+    - field.field.taxonomy_term.quiz_result_set.field_start_terms
+    - field.field.taxonomy_term.quiz_result_set.field_stem_designated
+    - field.field.taxonomy_term.quiz_result_set.field_tuition
+    - field.field.taxonomy_term.quiz_result_set.field_undergrad_major
+    - field.field.taxonomy_term.quiz_result_set.field_work_experience
     - image.style.quiz_results_item
     - taxonomy.vocabulary.quiz_result_set
   module:
     - blazy
     - link
+    - options
     - text
 id: taxonomy_term.quiz_result_set.default
 targetEntityType: taxonomy_term
@@ -19,66 +41,140 @@ bundle: quiz_result_set
 mode: default
 content:
   description:
-    label: hidden
     type: text_default
-    weight: 3
-    region: content
+    label: hidden
     settings: {  }
     third_party_settings: {  }
-  field_quiz_result_set_code:
-    weight: 1
+    weight: 3
+    region: content
+  field_application_deadlines:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 20
+    region: content
+  field_average_work_experience:
+    type: string
     label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
+    weight: 7
+    region: content
+  field_career_services:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 16
+    region: content
+  field_course_modality_delivery:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_course_schedule:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_degree_type:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 11
+    region: content
+  field_full_time_or_part_time:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 10
+    region: content
+  field_international_applicants:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 21
+    region: content
+  field_minimum_work_experience_re:
     type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 9
+    region: content
+  field_program_experiences:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 14
+    region: content
+  field_quiz_result_set_code:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
     region: content
   field_quiz_result_set_image:
     type: blazy_media
-    weight: 2
     label: hidden
     settings:
-      image_style: quiz_results_item
-      responsive_image_style: ''
-      media_switch: ''
-      thumbnail_style: ''
-      ratio: ''
-      view_mode: default
-      current_view_mode: default
-      background: false
       caption:
         field_media_category: '0'
         image: '0'
         title: '0'
         alt: '0'
       class: ''
-      id: ''
       image: ''
       link: ''
       overlay: ''
       title: ''
       vanilla: false
-      icon: ''
       layout: ''
+      view_mode: default
       cache: 0
-      skin: ''
-      fx: ''
-      style: ''
+      background: false
       box_caption: ''
       box_caption_custom: ''
       box_media_style: ''
+      loading: lazy
+      preload: false
+      responsive_image_style: ''
+      use_theme_field: false
       box_style: ''
-      _uri: ''
-      breakpoints: {  }
-      sizes: ''
-      grid_header: ''
+      image_style: quiz_results_item
+      media_switch: ''
+      ratio: ''
+      thumbnail_style: ''
       grid: ''
       grid_medium: ''
       grid_small: ''
+      style: ''
+      svg_inline: false
+      svg_fill: false
+      svg_sanitize: true
+      svg_sanitize_remote: false
+      svg_hide_caption: false
+      svg_attributes: ''
     third_party_settings: {  }
+    weight: 2
     region: content
   field_quiz_result_set_learn_more:
-    weight: 5
+    type: link_separate
     label: hidden
     settings:
       trim_length: 80
@@ -87,10 +183,10 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link_separate
+    weight: 5
     region: content
   field_quiz_result_set_req_info:
-    weight: 4
+    type: link_separate
     label: hidden
     settings:
       trim_length: 80
@@ -99,14 +195,71 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    type: link_separate
+    weight: 4
     region: content
   field_quiz_result_set_title:
-    weight: 0
+    type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }
+    weight: 0
+    region: content
+  field_skills_knowledge_gained:
     type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 15
+    region: content
+  field_sort_weight:
+    type: number_integer
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    weight: 22
+    region: content
+  field_start_terms:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 19
+    region: content
+  field_stem_designated:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 6
+    region: content
+  field_tuition:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 18
+    region: content
+  field_undergrad_major:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 17
+    region: content
+  field_work_experience:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 13
     region: content
 hidden:
+  field__gmat_gre_required: true
+  field_program_length: true
+  field_quiz_result_set_req_alt: true
+  field_scholarships: true
+  langcode: true
   search_api_excerpt: true

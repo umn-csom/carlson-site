@@ -3,14 +3,13 @@ status: open
 dependencies: {  }
 open: null
 close: null
-weight: 0
 uid: 62592
 template: false
 archive: false
 id: quiz_send_results
 title: 'Quiz: Send Results'
 description: ''
-category: ''
+categories: {  }
 elements: |-
   container:
     '#type': container
@@ -90,9 +89,9 @@ settings:
   page_theme_name: ''
   form_title: both
   form_submit_once: false
-  form_exception_message: ''
   form_open_message: ''
   form_close_message: ''
+  form_exception_message: ''
   form_previous_submissions: true
   form_confidential: false
   form_confidential_message: ''
@@ -102,31 +101,36 @@ settings:
   form_prepopulate_source_entity: false
   form_prepopulate_source_entity_required: false
   form_prepopulate_source_entity_type: ''
-  form_reset: false
+  form_unsaved: false
+  form_disable_back: false
+  form_submit_back: false
   form_disable_autocomplete: false
   form_novalidate: false
   form_disable_inline_errors: false
   form_required: false
-  form_unsaved: false
-  form_disable_back: false
-  form_submit_back: false
   form_autofocus: false
   form_details_toggle: false
+  form_reset: false
   form_access_denied: default
   form_access_denied_title: ''
   form_access_denied_message: ''
   form_access_denied_attributes: {  }
   form_file_limit: ''
+  form_attributes: {  }
   form_method: ''
   form_action: ''
-  form_attributes: {  }
   share: false
   share_node: false
   share_theme_name: ''
   share_title: true
   share_page_body_attributes: {  }
   submission_label: ''
+  submission_exception_message: ''
+  submission_locked_message: ''
   submission_log: false
+  submission_excluded_elements: {  }
+  submission_exclude_empty: false
+  submission_exclude_empty_checkbox: false
   submission_views: {  }
   submission_views_replace: {  }
   submission_user_columns: {  }
@@ -135,11 +139,6 @@ settings:
   submission_access_denied_title: ''
   submission_access_denied_message: ''
   submission_access_denied_attributes: {  }
-  submission_exception_message: ''
-  submission_locked_message: ''
-  submission_excluded_elements: {  }
-  submission_exclude_empty: false
-  submission_exclude_empty_checkbox: false
   previous_submission_message: ''
   previous_submissions_message: ''
   autofill: false
@@ -150,19 +149,21 @@ settings:
   wizard_progress_percentage: false
   wizard_progress_link: false
   wizard_progress_states: false
-  wizard_auto_forward: true
-  wizard_auto_forward_hide_next_button: false
-  wizard_keyboard: true
   wizard_start_label: ''
   wizard_preview_link: false
   wizard_confirmation: true
   wizard_confirmation_label: ''
+  wizard_auto_forward: true
+  wizard_auto_forward_hide_next_button: false
+  wizard_keyboard: true
   wizard_track: ''
   wizard_prev_button_label: ''
   wizard_next_button_label: ''
   wizard_toggle: false
   wizard_toggle_show_label: ''
   wizard_toggle_hide_label: ''
+  wizard_page_type: container
+  wizard_page_title_tag: h2
   preview: 0
   preview_label: ''
   preview_title: ''
@@ -179,9 +180,9 @@ settings:
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
   confirmation_type: inline
+  confirmation_url: node/104731
   confirmation_title: ''
   confirmation_message: "<div class=\"webform__body\">\r\n<h2 class=\"text-align-center\">Your results have been sent to your email!</h2>\r\n</div>"
-  confirmation_url: node/104731
   confirmation_attributes: {  }
   confirmation_back: false
   confirmation_back_label: ''
@@ -260,9 +261,9 @@ access:
 handlers:
   quick_capture:
     id: remote_post
+    handler_id: quick_capture
     label: 'Quick Capture'
     notes: ''
-    handler_id: quick_capture
     status: true
     conditions: {  }
     weight: 0
@@ -315,9 +316,9 @@ handlers:
       error_url: ''
   email:
     id: email
+    handler_id: email
     label: Email
     notes: ''
-    handler_id: email
     status: true
     conditions: {  }
     weight: 0
@@ -326,14 +327,18 @@ handlers:
         - completed
       to_mail: '[webform_submission:values:email:raw]'
       to_options: {  }
-      cc_mail: ''
-      cc_options: {  }
       bcc_mail: ''
       bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
       from_mail: _default
       from_options: {  }
       from_name: _default
-      subject: 'Find My Master''s Degree'
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: "Find My Master's Degree"
       body: "{% set tids = [data.program_1_id] %}\r\n{% set tids = data.program_2_id is not empty ? tids|merge([data.program_2_id]) : tids %}\r\n{% set tids = data.program_3_id is not empty ? tids|merge([data.program_3_id]) : tids %}\r\n{% set numbers = [\r\n    'zero',\r\n    'one',\r\n    'two',\r\n    'three',\r\n    'four',\r\n    'five'\r\n  ]\r\n%}\r\n\r\n<h3>Results</h1>\r\n\r\n<h2>{{ tids|length }} Graduate programs that are right for you</h2>\r\n\r\n<p>Here’s {{ numbers[tids|length] }} programs that can help you <strong><em>excelerate your career</em></strong>.\r\n\r\n{% for tid in tids %}\r\n  <hr>\r\n\r\n  {% set title = drupal_field('field_quiz_result_set_title', 'taxonomy_term', tid) %}\r\n  <h3>{{ title[0]['#text'] }}</h3>\r\n  \r\n  {% set description = drupal_field('description', 'taxonomy_term', tid) %}\r\n  {{ description[0]['#text']|raw }}\r\n  \r\n  {% set req_info = drupal_field('field_quiz_result_set_req_info', 'taxonomy_term', tid) %}\r\n  {% set learn_more = drupal_field('field_quiz_result_set_learn_more', 'taxonomy_term', tid) %}\r\n  {% set req_info_url = req_info[0]['#url']|render %}\r\n  {% set learn_more_url = learn_more[0]['#url']|render %}\r\n  {% set req_info_title = req_info[0]['#title']|render %}\r\n  {% set learn_more_title = learn_more[0]['#title']|render %}\r\n  \r\n  <a href=\"{{ req_info_url }}\" target=\"_blank\">{{ req_info_title ? req_info_title : 'Request Info' }}</a>\r\n  <a href=\"{{ learn_more_url }}\" target=\"_blank\">{{ learn_more_title ? learn_more_title : 'Learn More' }}</a>\r\n  \r\n{% endfor %}"
       excluded_elements: {  }
       ignore_access: false
@@ -343,11 +348,7 @@ handlers:
       html: true
       attachments: false
       twig: true
-      debug: false
-      reply_to: ''
-      return_path: ''
-      sender_mail: ''
-      sender_name: ''
       theme_name: ''
       parameters: {  }
+      debug: false
 variants: {  }
