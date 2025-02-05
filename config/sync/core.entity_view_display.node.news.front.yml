@@ -17,13 +17,11 @@ dependencies:
     - field.field.node.news.field_news_channel_features
     - field.field.node.news.field_news_channels
     - field.field.node.news.field_sidebar_content
-    - image.style.crop_feature_two
     - node.type.news
   module:
     - entity_reference_revisions
     - layout_builder
     - link
-    - media
     - metatag
     - panelizer
     - text
@@ -67,13 +65,11 @@ content:
     weight: 4
     region: content
   field_hero_media:
-    type: media_thumbnail
+    type: entity_reference_entity_view
     label: hidden
     settings:
-      image_link: ''
-      image_style: crop_feature_two
-      image_loading:
-        attribute: lazy
+      view_mode: feature_two
+      link: false
     third_party_settings: {  }
     weight: 2
     region: content
