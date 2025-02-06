@@ -2,9 +2,9 @@ uuid: 18c0f22c-6623-4ba7-9450-8aaaa6cba269
 langcode: en
 status: open
 dependencies: {  }
-weight: 0
 open: null
 close: null
+weight: 0
 uid: 51021
 template: false
 archive: false
@@ -29,9 +29,10 @@ elements: |-
       'Part-Time MBA': 'Part-Time MBA'
       'Online MBA': 'Online MBA'
       'Executive MBA': 'Executive MBA'
-      'Supply Chain Management': 'Supply Chain Management'
-      'Human Resources & Industrial Relations': 'Human Resources & Industrial Relations'
+      'Applied Business Analytics': 'Applied Business Analytics'
       'Business Taxation': 'Business Taxation'
+      'Human Resources & Industrial Relations': 'Human Resources & Industrial Relations'
+      'Supply Chain Management': 'Supply Chain Management'
       'Corporate Financial Management Certificate': 'Corporate Financial Management Certificate'
       'Entrepreneurship & Innovation Certificate': 'Entrepreneurship & Innovation Certificate'
       'Leadership for Managers Certificate': 'Leadership for Managers Certificate'
@@ -39,6 +40,7 @@ elements: |-
       'Strategic Management Certificate': 'Strategic Management Certificate'
       'Strategic Marketing Certificate': 'Strategic Marketing Certificate'
       'Supply Chain Management for the Medical & Health Sector Certificate': 'Supply Chain Management for the Medical & Health Sector Certificate'
+      'Sustainable Environmental': 'Sustainable Environmental, Social and Governance Leadership Certificate'
       'Taxation Certificate': 'Taxation Certificate'
       'International Taxation Certificate': 'International Taxation Certificate'
       'Closely-Held Business Taxation Certificate': 'Closely-Held Business Taxation Certificate'
@@ -79,6 +81,8 @@ elements: |-
     '#title': Employer
     '#options':
       'Agiliti Health, Inc.': 'Agiliti Health, Inc.'
+      'Altru Health System': 'Altru Health System'
+      'Avera Health': 'Avera Health'
       'Best Buy Company, Inc.': 'Best Buy Company, Inc.'
       'Boston Scientific Corporation': 'Boston Scientific Corporation'
       'Cargill, Inc.': 'Cargill, Inc.'
@@ -87,16 +91,17 @@ elements: |-
       'H.B. Fuller Company': 'H.B. Fuller Company'
       'Huntington Bank': 'Huntington Bank'
       "Land O'Lakes, Inc.": "Land O'Lakes, Inc."
+      'Life Time, Inc.': 'Life Time, Inc.'
+      'M.A. Mortenson Company': 'M.A. Mortenson Company'
       'Medtronic, Inc.': 'Medtronic, Inc.'
+      'Noridian Healthcare Solutions, LLC.': 'Noridian Healthcare Solutions'
+      'nVent Management Company': 'nVent Management Company'
       'Post Consumer Brands': 'Post Consumer Brands'
       'Target Corporation': 'Target Corporation'
+      'The Tile Shop': 'The Tile Shop'
+      'Toro Company': 'The Toro Company'
       'Winnebago Industries': 'Winnebago Industries'
       'Wipfli LLP': 'Wipfli LLP'
-    '#required': true
-  country:
-    '#type': select
-    '#title': Country
-    '#options': country_codes_us_first_
     '#required': true
   visitorid:
     '#type': hidden
@@ -120,12 +125,6 @@ elements: |-
       </script>
 
     '#format': full_html
-  allow_sms_content:
-    '#type': checkbox
-    '#title': 'Allow SMS Content'
-    '#description': '<p>&nbsp;I authorize the Carlson School of Management and its representatives to contact me via SMS text message.</p>'
-    '#title_display': invisible
-    '#description_display': after
   interest:
     '#type': hidden
     '#title': Interest
@@ -150,6 +149,14 @@ elements: |-
     '#type': hidden
     '#title': utm_content
     '#prepopulate': true
+  disclosure:
+    '#type': webform_markup
+    '#wrapper_attributes':
+      class:
+        - small
+      style: 'order: 1'
+    '#admin_title': 'Wiley Disclosure'
+    '#markup': '<hr><p><sup>By submitting this form, I am agreeing that the Carlson School and its agent, </sup><a href="https://carlsonschool.umn.edu/risepoint-partnership"><sup>Risepoint</sup></a><sup>, may email me or contact me regarding educational services by telephone and/or text message utilizing automated technology or a pre-recorded message at the telephone number provided above. I understand this consent is not a condition to attend the Carlson School. </sup><a href="https://privacy.umn.edu/"><sup>University of Minnesota privacy statement</sup></a><sup>. </sup><a href="https://policies.risepoint.com/privacy-main/"><sup>Risepoint privacy policy.</sup></a><sup> </sup><a href="/node/129371"><sup>Carlson School Privacy notice.</sup></a></p>'
 css: ''
 javascript: ''
 settings:
@@ -162,7 +169,7 @@ settings:
   page_submit_path: ''
   page_confirm_path: ''
   page_theme_name: ''
-  form_title: both
+  form_title: source_entity_webform
   form_submit_once: false
   form_open_message: ''
   form_close_message: ''
@@ -172,7 +179,7 @@ settings:
   form_confidential_message: ''
   form_disable_remote_addr: false
   form_convert_anonymous: false
-  form_prepopulate: false
+  form_prepopulate: true
   form_prepopulate_source_entity: false
   form_prepopulate_source_entity_required: false
   form_prepopulate_source_entity_type: ''

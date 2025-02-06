@@ -2,9 +2,9 @@ uuid: 8efa14a1-6f2a-4263-a552-9ea966c3ab0e
 langcode: en
 status: open
 dependencies: {  }
-weight: 0
 open: null
 close: null
+weight: 0
 uid: 10741
 template: false
 archive: false
@@ -41,26 +41,17 @@ elements: |-
     '#description': 'Are you an entrepreneur? Please share your company name.'
     '#title_display': invisible
     '#placeholder': 'Company (Optional)'
-  are_you_a_current_umn_student_:
-    '#type': radios
-    '#title': 'Are you a current UMN student?'
-    '#options':
-      'Yes': 'Yes'
-      'No': 'No'
-    '#required': true
-    '#required_error': 'Please indicate if you are currently enrolled at the University of Minnesota.'
-  student_id_number:
-    '#type': textfield
-    '#title': 'Student ID Number'
-    '#description': 'Please enter your UMN student ID number'
-    '#size': 15
-    '#states':
-      required:
-        ':input[name="are_you_a_current_umn_student_"]':
-          value: 'Yes'
-      visible:
-        ':input[name="are_you_a_current_umn_student_"]':
-          value: 'Yes'
+  which_newsletters_would_you_like_to_receive:
+    '#type': label
+    '#title': 'Which newsletters would you like to receive?'
+  hce_student_newsletter:
+    '#type': checkbox
+    '#title': 'Holmes Center Student Newsletter'
+    '#title_display': inline
+  hce_general_newsletter:
+    '#type': checkbox
+    '#title': 'Holmes Center General Updates Newsletter'
+    '#title_display': inline
   captcha:
     '#type': captcha
 css: ''
@@ -334,4 +325,3 @@ handlers:
       messages: {  }
       error_url: ''
 variants: {  }
-category: null

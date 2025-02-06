@@ -64,7 +64,8 @@
           {% set link_markup %}
             {% if is_search_and_more %}
               <span class="btn btn--menu-toggle btn-sm btn-outline-primary d-flex flex-nowrap text-uppercase">
-                <span aria-label="Menu and Search">{{ 'Menu'|t }}</span>
+                <span aria-hidden="true">{{ 'Menu'|t }}</span>
+                <span class="sr-only">{{ 'Menu and search'|t }}</span>
                 {{ source(context.theme_directory ~ '/images/svg/icon-menu-search.svg') }}
               </span>
             {% elseif is_apply_button %}

@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * Update hook to synchronize alt text between images and thumbnails, with detailed logging.
+ * Always copies the alt text from the main image to the thumbnail unless the main image's alt text is empty.
+ */
+function carlson_general_update_100101() {
+  $database = \Drupal::database();
+  $log_file = \Drupal::service('file_system')->getTempDirectory() . '/alt_text_sync.log';
+
+  // Step 1: Select all main images with a non-empty alt text.
+  $query = $database->select('media__image', 'main')
+    ->fields('main', ['entity_id', 'image_alt'])
+    ->condition('main.image_alt', NULL, 'IS NOT NULL');
+  $query->join('media_field_data', 'field', 'main.entity_id = field.mid');
+  $query->fields('field', ['thumbnail__target_id', 'thumbnail__alt']);
+
+  $results = $query->execute();
+
+  $log_entries = [];
+  foreach ($results as $record) {
+    $main_image_id = $record->entity_id;
+    $main_image_alt = $record->image_alt;
+    $thumbnail_id = $record->thumbnail__target_id;
+    $current_thumbnail_alt = $record->thumbnail__alt;
+
+    // Update the thumbnail alt text with the main image alt text if the main image alt is not empty.
+    if (!empty($main_image_alt)) {
+      $database->update('media_field_data')
+        ->fields(['thumbnail__alt' => $main_image_alt])
+        ->condition('thumbnail__target_id', $thumbnail_id)
+        ->execute();
+
+      // Add to log entries with 'from' and 'to' (handle NULL gracefully).
+      $log_entries[] = sprintf(
+        'Updated thumbnail (ID: %d) alt text from "%s" to "%s" based on main image (ID: %d).',
+        $thumbnail_id,
+        $current_thumbnail_alt ?? 'NULL',
+        $main_image_alt,
+        $main_image_id
+      );
+    }
+  }
+
+  // Step 3: Write log entries to the log file.
+  if (!empty($log_entries)) {
+    file_put_contents($log_file, implode("\n", $log_entries), FILE_APPEND);
+  }
+
+  // Log the completion of the update in Drupal's logger.
+  \Drupal::logger('carlson_general')->info('Alt text synchronization completed. Log file: @log_file', [
+    '@log_file' => $log_file,
+  ]);
+}
+

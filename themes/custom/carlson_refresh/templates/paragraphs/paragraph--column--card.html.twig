@@ -1,7 +1,7 @@
 {{ attach_library('carlson_refresh/card') }}
 
 {% set bg_color = content.field_background_color|render ? content.field_background_color[0]['#markup'] : 'bg-ivory' %}
-{% set color =  bg_color == 'bg-primary' ? 'text-white' : 'text-body' %}
+{% set color = bg_color == 'bg-primary' ? 'text-white' : bg_color == 'bg-light-blue' ? 'text-black' : 'text-body' %}
 {% set arrow_color =  bg_color == 'bg-ivory' ? 'text-primary'  %}
 {% set element = content.field_link|render ? 'a' : 'div' %}
 

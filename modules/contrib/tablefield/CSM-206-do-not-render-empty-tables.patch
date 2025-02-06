@@ -1,0 +1,64 @@
+diff --git a/src/Plugin/Field/FieldFormatter/TablefieldFormatter.php b/src/Plugin/Field/FieldFormatter/TablefieldFormatter.php
+index c23149f..272ca3f 100644
+--- a/src/Plugin/Field/FieldFormatter/TablefieldFormatter.php
++++ b/src/Plugin/Field/FieldFormatter/TablefieldFormatter.php
+@@ -144,13 +144,14 @@ class TablefieldFormatter extends FormatterBase implements ContainerFactoryPlugi
+     $header = [];
+ 
+     foreach ($items as $delta => $table) {
+-
+-      if (!empty($table->value)) {
+-        // Tablefield::rationalizeTable($table->value);.
++      // Check if the table value exists and is not empty.
++      if (!empty($table->value) && !$this->isTableDataEmpty($table->value)) {
+         $tabledata = $table->value;
+-        $caption = $tabledata['caption'];
+-        unset($tabledata['caption']);
+-
++        $caption = !empty($tabledata['caption']) ? $tabledata['caption'] : '';
++        if (isset($tabledata['caption'])) {
++          unset($tabledata['caption']);
++        }
++  
+         // Run the table through input filters.
+         foreach ($tabledata as $row_key => $row) {
+           foreach ($row as $col_key => $cell) {
+@@ -250,9 +251,37 @@ class TablefieldFormatter extends FormatterBase implements ContainerFactoryPlugi
+ 
+         $elements[$delta] = $render_array;
+       }
+-
+     }
++  
+     return $elements;
+   }
++  
++  /**
++   * Checks if the table data is empty, ignoring specific fields like 'weight'.
++   *
++   * @param array $data
++   *   The table data to check.
++   *
++   * @return bool
++   *   TRUE if the table data is empty, FALSE otherwise.
++   */
++  protected function isTableDataEmpty($data) {
++    foreach ($data as $key => $value) {
++      // Ignore specific keys like 'weight'.
++      if ($key === 'weight') {
++        continue;
++      }
++  
++      if (is_array($value)) {
++        // Recursively check nested arrays.
++        if (!$this->isTableDataEmpty($value)) {
++          return FALSE; // If any nested value is not empty, return FALSE.
++        }
++      } elseif (!empty($value)) {
++        return FALSE; // If any value is not empty, return FALSE.
++      }
++    }
++    return TRUE; // All values are empty (except ignored fields).
++  }
+ 
+ }
