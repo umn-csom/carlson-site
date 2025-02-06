@@ -82,15 +82,11 @@
         <div class="event-items__details">
 
             <span class="event-items__item--featured {{ node.isSticky() ? '' : 'd-none' }}">Featured</span>
-            <h3 class="{{ node.isSticky() ? 'event-items__item--title' : '' }}">{{ label }}</h3>
+            <a class="events__item__title mb-3 flex-grow-1 ff-serif font-weight-light" href="{{ url }}">{{ label }}</a>
             {% if node.field_location_type is not empty %}
                 {% set list_value = node.field_location_type.value %}
                 <span class="event-items__item--location d-none d-lg-block"><i class='bx bxs-map'></i>{{ node.field_location_type.getSetting('allowed_values')[list_value] }}</span>
             {% endif %}
-            <div class="event-items__item--desc {{ node.isSticky() ? 'd-block' : 'd-none d-lg-block' }}">
-                {% set text = node.body.summary|render|striptags|trim %}
-                {{ (text|length > 150 ? text|slice(0, 151)|split(' ')|slice(0, -1)|join(' ') ~ '&hellip;' : text)|raw }}
-            </div>
 
         </div>
     </div>
