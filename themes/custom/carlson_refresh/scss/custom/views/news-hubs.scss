@@ -138,9 +138,17 @@
 		padding: 0px 10px;
 		.form-row {
 			flex-wrap: nowrap;
+			gap: 1.6rem;
+
+			> * {
+				margin: 0;
+			}
+
 			@include media-breakpoint-down(md) {
 				flex-wrap: wrap;
-				> fieldset, > div {
+				> fieldset,
+				> details,
+				> div {
 					width: 100%;
 				}
 			}
@@ -234,6 +242,15 @@
 			@include button-outline($maroon);
 			background: $white;
 			width: 100%;
+		}
+
+		details.form-item {
+			margin-bottom: 0;
+
+			@include media-breakpoint-up(lg) {
+				margin-top: 3rem;
+				min-width: 270px;
+			}
 		}
 
 		#edit-keyword,
