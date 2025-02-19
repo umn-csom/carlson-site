@@ -19,38 +19,38 @@
       "@type": "BreadcrumbList",
       "itemListElement": [
         {% for item in breadcrumb %}
-            {% if item.text%}
+          {% if item.text %}
             {
               "@type": "ListItem",
               "position": {{ loop.index }},
-              "item":
-                {
-                  "@id": "{{ url('<front>')|render|split('/', -1)|join('/') ~ item.url }}",
-                  "name": "{{ item.text }}"
-                }
+              "item": {
+                "@id": "{{ url('<front>')|render|split('/', -1)|join('/') ~ item.url }}",
+                "name": "{{ item.text }}"
+              }
             {% if loop.last %}
             }
             {% else %}
             },
-            {% endif%}
+            {% endif %}
           {% endif %}
         {% endfor %}
       ]
-    }}
+    }
   </script>
 
-
-  <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-    {% for item in breadcrumb %}
-      <li class="breadcrumb-item">
-        {% if item.url %}
-          <a href="{{ item.url }}">{{ item.text|raw }}</a>
-        {% else %}
-          <span>{{ item.text|raw }}</span>
-        {% endif %}
-      </li>
-    {% endfor %}
-    </ol>
-  </nav>
+  {% if breadcrumb|length > 0 %}
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        {% for item in breadcrumb %}
+          <li class="breadcrumb-item">
+            {% if item.url %}
+              <a href="{{ item.url }}">{{ item.text|raw }}</a>
+            {% else %}
+              <span>{{ item.text|raw }}</span>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ol>
+    </nav>
+  {% endif %}
 {% endif %}
