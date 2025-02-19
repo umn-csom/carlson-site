@@ -1,0 +1,218 @@
+// bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "../node_modules/bootstrap/scss/_functions";
+@import "../node_modules/bootstrap/scss/_variables";
+@import "../node_modules/bootstrap/scss/mixins/_breakpoints";
+@import "../node_modules/bootstrap/scss/mixins/_grid";
+@import "../node_modules/bootstrap/scss/utilities/_spacing";
+@import "abstracts/variables";
+
+table.dataTable {
+  // Replicate Bootstrap's table-striped class.
+  tbody tr:nth-of-type(#{$table-striped-order}) {
+    background-color: $table-accent-bg;
+  }
+
+  td.center,
+  td.dataTables_empty {
+    text-align: center;
+  }
+
+  thead {
+    .sorting,
+    .sorting_asc,
+    .sorting_desc,
+    .sorting_asc_disabled,
+    .sorting_desc_disabled {
+      background-size: 16px;
+      background-repeat: no-repeat;
+      background-position: right 5px top 52%;
+    }
+
+    .sorting {
+      background-image: url('../images/sort.svg');
+    }
+
+    .sorting_asc_disabled,
+    .sorting_asc {
+      background-image: url('../images/sort-asc.svg');
+    }
+
+    .sorting_desc_disabled,
+    .sorting_desc {
+      background-image: url('../images/sort-desc.svg');
+    }
+  }
+
+  th:active {
+    outline: none;
+  }
+}
+
+.dataTables_wrapper {
+  position: relative;
+  clear: both;
+  *zoom: 1;
+  overflow: hidden;
+  margin-bottom: 1.6rem;
+}
+
+.dataTables_length {
+  float: right;
+  > label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    gap: 5px;
+  }
+}
+
+.dataTables_filter {
+  float: left;
+  text-align: left;
+
+  input[type="text"] {
+    // Bootstrap form-control styles.
+    height: calc(1.5em + 2rem + 2px);
+    width: 100%;
+    padding: 1rem 1.6rem;
+    margin-top: 10px;
+    font-size: 1.6rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #D5D6D2;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+}
+
+.dataTables_info {
+  clear: both;
+  float: left;
+}
+
+.dataTables_paginate {
+  float: right;
+  text-align: right;
+}
+
+// Two button pagination - previous / next
+.paginate_disabled_previous,
+.paginate_enabled_previous,
+.paginate_disabled_next,
+.paginate_enabled_next {
+  float: left;
+  cursor: pointer;
+  *cursor: hand;
+  color: $maroon;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.paginate_disabled_previous:hover,
+.paginate_enabled_previous:hover,
+.paginate_disabled_next:hover,
+.paginate_enabled_next:hover {
+  text-decoration: none;
+}
+
+.paginate_disabled_previous:active,
+.paginate_enabled_previous:active,
+.paginate_disabled_next:active,
+.paginate_enabled_next:active {
+  outline: none;
+}
+
+.paginate_disabled_previous,
+.paginate_disabled_next {
+  opacity: 0.5;
+}
+
+.paginate_disabled_previous,
+.paginate_enabled_previous {
+  padding-left: 23px;
+  background-image: url('../images/nav-prev.svg');
+  background-position: left center;
+  margin-right: 10px;
+}
+
+.paginate_disabled_next,
+.paginate_enabled_next {
+  padding-right: 23px;
+  background-image: url('../images/nav-next.svg');
+  background-position: right center;
+  margin-left: 10px;
+}
+
+/* Full number pagination */
+.paging_full_numbers {
+  height: 22px;
+  line-height: 22px;
+}
+.paging_full_numbers a:active {
+  outline: none;
+}
+.paging_full_numbers a:hover {
+  text-decoration: none;
+}
+
+.paging_full_numbers a.paginate_button,
+.paging_full_numbers a.paginate_active {
+  border: 1px solid #aaa;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding: 2px 5px;
+  margin: 0 3px;
+  cursor: pointer;
+  *cursor: hand;
+  color: #333 !important;
+}
+
+.paging_full_numbers a.paginate_button {
+  background-color: #ddd;
+}
+
+.paging_full_numbers a.paginate_button:hover {
+  background-color: #ccc;
+  text-decoration: none !important;
+}
+
+.paging_full_numbers a.paginate_active {
+  background-color: #99b3ff;
+}
+
+/*
+ * Processing indicator
+ */
+.dataTables_processing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 250px;
+  height: 30px;
+  margin-left: -125px;
+  margin-top: -15px;
+  padding: 14px 0 2px 0;
+  border: 1px solid #ddd;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+  background-color: white;
+}
+
+
+/*
+ * Scrolling
+ */
+.dataTables_scroll {
+  clear: both;
+}
+
+.dataTables_scrollBody {
+  *margin-top: -1px;
+  -webkit-overflow-scrolling: touch;
+}
