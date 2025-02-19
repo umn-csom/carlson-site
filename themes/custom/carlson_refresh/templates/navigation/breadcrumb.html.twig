@@ -38,7 +38,14 @@
     }
   </script>
 
-  {% if breadcrumb|length > 0 %}
+  {% set has_url = false %}
+  {% for item in breadcrumb %}
+    {% if item.url %}
+      {% set has_url = true %}
+    {% endif %}
+  {% endfor %}
+
+  {% if has_url %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb">
         {% for item in breadcrumb %}
