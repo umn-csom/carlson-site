@@ -22,20 +22,6 @@ class SitewideAlertRenderer implements SitewideAlertRendererInterface {
   protected $config;
 
   /**
-   * The admin context service.
-   *
-   * @var \Drupal\Core\Routing\AdminContext
-   */
-  protected $adminContext;
-
-  /**
-   * The current active user.
-   *
-   * @var \Drupal\Core\Session\AccountProxyInterface
-   */
-  private AccountProxyInterface $currentUser;
-
-  /**
    * Constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
@@ -44,11 +30,16 @@ class SitewideAlertRenderer implements SitewideAlertRendererInterface {
    *   Admin context service.
    * @param \Drupal\Core\Session\AccountProxyInterface $currentUser
    *   The current user.
+   * @param \Drupal\sitewide_alert\SitewideAlertManager $sitewideAlertManager
+   *   The sitewide alert manager service.
    */
-  public function __construct(ConfigFactoryInterface $configFactory, AdminContext $adminContext, AccountProxyInterface $currentUser) {
+  public function __construct(
+    ConfigFactoryInterface $configFactory,
+    protected AdminContext $adminContext,
+    protected AccountProxyInterface $currentUser,
+    protected SitewideAlertManager $sitewideAlertManager,
+  ) {
     $this->config = $configFactory->get('sitewide_alert.settings');
-    $this->adminContext = $adminContext;
-    $this->currentUser = $currentUser;
   }
 
   /**
@@ -69,8 +60,13 @@ class SitewideAlertRenderer implements SitewideAlertRendererInterface {
       return $build;
     }
 
+    // Check if an active sitewide_alert exists.
+    if (!$this->sitewideAlertManager->activeSitewideAlerts()) {
+      return [];
+    }
+
     $build = [
-      '#markup' => '<div data-sitewide-alert></div>',
+      '#markup' => '<div data-sitewide-alert role="banner"></div>',
       '#attached' => [
         'library' => [
           'sitewide_alert/init',

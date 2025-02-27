@@ -23,7 +23,7 @@ class AlertStyleProvider {
     $config = \Drupal::config('sitewide_alert.settings');
     if ($alertStylesString = $config->get('alert_styles')) {
       foreach (explode("\n", strip_tags($alertStylesString)) as $value) {
-        if (strpos($value, '|') !== FALSE) {
+        if (str_contains($value, '|')) {
           [$key, $title] = array_pad(
             array_map('trim', explode('|', $value, 2)),
             2,
@@ -46,13 +46,13 @@ class AlertStyleProvider {
    * @param string $class
    *   Class name to look up.
    *
-   * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+   * @return \Drupal\Core\StringTranslation\TranslatableMarkup|string
    *   Renderable label for class.
    */
-  public static function alertStyleName(string $class): TranslatableMarkup {
+  public static function alertStyleName(string $class): TranslatableMarkup|string {
     $alertStyle = self::alertStyles();
     if (isset($alertStyle[$class])) {
-      return new TranslatableMarkup($alertStyle[$class]);
+      return $alertStyle[$class];
     }
 
     return new TranslatableMarkup('N/A');

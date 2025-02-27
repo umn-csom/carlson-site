@@ -16,23 +16,9 @@ use Drupal\sitewide_alert\SitewideAlertManager;
 class SitewideAlertDomainManager extends SitewideAlertManager {
 
   /**
-   * SitewideAlertManager original service object.
-   *
-   * @var \Drupal\sitewide_alert\SitewideAlertManager
-   */
-  protected $siteAlertManagerOriginalService;
-
-  /**
-   * The domain negotiator service.
-   *
-   * @var \Drupal\domain\DomainNegotiatorInterface
-   */
-  protected $domainNegotiator;
-
-  /**
    * Constructs a new SitewideAlertDomainManager.
    *
-   * @param \Drupal\sitewide_alert\SitewideAlertManager $sitewideAlertManager
+   * @param \Drupal\sitewide_alert\SitewideAlertManager $siteAlertManagerOriginalService
    *   The original service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager.
@@ -45,15 +31,15 @@ class SitewideAlertDomainManager extends SitewideAlertManager {
    * @param \Drupal\domain\DomainNegotiatorInterface $domainNegotiator
    *   The domain negotiator service.
    */
-  public function __construct(SitewideAlertManager $sitewideAlertManager,
-                              EntityTypeManagerInterface $entityTypeManager,
-                              TimeInterface $time,
-                              LanguageManagerInterface $languageManager,
-                              EntityRepositoryInterface $entityRepository,
-                              DomainNegotiatorInterface $domainNegotiator) {
+  public function __construct(
+    protected SitewideAlertManager $siteAlertManagerOriginalService,
+    EntityTypeManagerInterface $entityTypeManager,
+    TimeInterface $time,
+    LanguageManagerInterface $languageManager,
+    EntityRepositoryInterface $entityRepository,
+    protected DomainNegotiatorInterface $domainNegotiator,
+  ) {
     parent::__construct($entityTypeManager, $time, $languageManager, $entityRepository);
-    $this->siteAlertManagerOriginalService = $sitewideAlertManager;
-    $this->domainNegotiator = $domainNegotiator;
   }
 
   /**

@@ -6,7 +6,7 @@ namespace Drupal\sitewide_alert\Form;
 
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
-use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\RevisionableStorageInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
@@ -26,49 +26,29 @@ class SitewideAlertRevisionRevertForm extends ConfirmFormBase {
    *
    * @var \Drupal\sitewide_alert\Entity\SitewideAlertInterface
    */
-  protected $revision;
-
-  /**
-   * The Sitewide Alert storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $sitewideAlertStorage;
-
-  /**
-   * The date formatter service.
-   *
-   * @var \Drupal\Core\Datetime\DateFormatterInterface
-   */
-  protected $dateFormatter;
-
-  /**
-   * The time service.
-   *
-   * @var \Drupal\Component\Datetime\TimeInterface
-   */
-  protected $time;
+  protected SitewideAlertInterface $revision;
 
   /**
    * Constructs a new SitewideAlertRevisionRevertForm.
    *
-   * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
+   * @param \Drupal\Core\Entity\RevisionableStorageInterface $sitewideAlertStorage
    *   The Sitewide Alert storage.
-   * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
+   * @param \Drupal\Core\Datetime\DateFormatterInterface $dateFormatter
    *   The date formatter service.
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   The time service.
    */
-  public function __construct(EntityStorageInterface $entity_storage, DateFormatterInterface $date_formatter, TimeInterface $time) {
-    $this->sitewideAlertStorage = $entity_storage;
-    $this->dateFormatter = $date_formatter;
-    $this->time = $time;
+  public function __construct(
+    protected RevisionableStorageInterface $sitewideAlertStorage,
+    protected DateFormatterInterface $dateFormatter,
+    protected TimeInterface $time,
+  ) {
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container): static {
     return new static(
       $container->get('entity_type.manager')->getStorage('sitewide_alert'),
       $container->get('date.formatter'),
@@ -109,7 +89,7 @@ class SitewideAlertRevisionRevertForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getDescription() {
+  public function getDescription(): string|TranslatableMarkup {
     return '';
   }
 

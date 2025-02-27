@@ -2,17 +2,17 @@
 
 namespace Drupal\sitewide_alert\Plugin\Validation\Constraint;
 
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * Plugin implementation of the 'LimitToPages'.
- *
- * @Constraint(
- *   id = "LimitToPages",
- *   label = @Translation("Limit to pages constraint", context = "Validation"),
- *   type = "entity:sitewide_alert"
- * )
  */
+#[\Drupal\Core\Validation\Attribute\Constraint(
+  id: 'LimitToPages',
+  label: new TranslatableMarkup('Limit to pages constraint', [], ['context' => 'Validation']),
+  type: ['entity', 'sitewide_alert']
+)]
 class LimitToPagesConstraint extends Constraint {
 
   /**
