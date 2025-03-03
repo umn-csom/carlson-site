@@ -11,17 +11,10 @@ use Symfony\Component\Validator\ConstraintValidator;
 class LimitToPagesConstraintValidator extends ConstraintValidator {
 
   /**
-   * Validator 2.5 and upwards compatible execution context.
-   *
-   * @var \Symfony\Component\Validator\Context\ExecutionContextInterface
-   */
-  protected $context;
-
-  /**
    * {@inheritdoc}
    */
-  public function validate($entity, Constraint $constraint): void {
-    $value = $entity->get('limit_to_pages')->value;
+  public function validate($value, Constraint $constraint): void {
+    $value = $value->get('limit_to_pages')->value;
 
     if (!empty($value) && $this->validPathsValue($value) === FALSE) {
       $this->context->buildViolation($constraint->messageInvalidPaths)

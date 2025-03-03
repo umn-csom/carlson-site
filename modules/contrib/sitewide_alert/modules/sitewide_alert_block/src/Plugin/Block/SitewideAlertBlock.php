@@ -2,28 +2,22 @@
 
 namespace Drupal\sitewide_alert_block\Plugin\Block;
 
+use Drupal\Core\Block\Attribute\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\sitewide_alert\SitewideAlertRendererInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Implements SiteAlertBlock class.
- *
- * @Block(
- *   id = "sitewide_alert_block",
- *   admin_label = @Translation("Sitewide Alert"),
- * )
  */
+#[Block(
+  id: "sitewide_alert_block",
+  admin_label: new TranslatableMarkup("Sitewide Alert")
+)]
 class SitewideAlertBlock extends BlockBase implements ContainerFactoryPluginInterface {
-
-  /**
-   * The alert placeholder rendering service.
-   *
-   * @var \Drupal\sitewide_alert\SitewideAlertRendererInterface
-   */
-  protected $renderer;
 
   /**
    * Constructor.
@@ -37,15 +31,19 @@ class SitewideAlertBlock extends BlockBase implements ContainerFactoryPluginInte
    * @param \Drupal\sitewide_alert\SitewideAlertRendererInterface $renderer
    *   Alert placeholder rendering service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, SitewideAlertRendererInterface $renderer) {
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    protected SitewideAlertRendererInterface $renderer,
+  ) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->renderer = $renderer;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): static {
     return new static(
       $configuration,
       $plugin_id,
@@ -57,7 +55,7 @@ class SitewideAlertBlock extends BlockBase implements ContainerFactoryPluginInte
   /**
    * {@inheritdoc}
    */
-  public function blockForm($form, FormStateInterface $form_state) {
+  public function blockForm($form, FormStateInterface $form_state): array {
     $form = parent::blockForm($form, $form_state);
     $form['visibility_message'] = [
       '#type' => 'item',
@@ -72,7 +70,7 @@ class SitewideAlertBlock extends BlockBase implements ContainerFactoryPluginInte
   /**
    * {@inheritdoc}
    */
-  public function build() {
+  public function build(): array {
     // In block context, ignore admin vs. non-admin distinction.
     return $this->renderer->build(FALSE);
   }

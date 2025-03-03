@@ -6,11 +6,12 @@ namespace Drupal\sitewide_alert\Form;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Datetime\DateFormatterInterface;
-use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\RevisionableStorageInterface;
 use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\Core\Url;
+use Drupal\sitewide_alert\Entity\SitewideAlertInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -20,55 +21,34 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class SitewideAlertRevisionDeleteForm extends ConfirmFormBase {
 
-
   /**
    * The Sitewide Alert revision.
    *
    * @var \Drupal\sitewide_alert\Entity\SitewideAlertInterface
    */
-  protected $revision;
-
-  /**
-   * The Sitewide Alert storage.
-   *
-   * @var \Drupal\Core\Entity\EntityStorageInterface
-   */
-  protected $sitewideAlertStorage;
-
-  /**
-   * The database connection.
-   *
-   * @var \Drupal\Core\Database\Connection
-   */
-  protected $connection;
-
-  /**
-   * The date formatter service.
-   *
-   * @var \Drupal\Core\Datetime\DateFormatterInterface
-   */
-  protected $dateFormatter;
+  protected SitewideAlertInterface $revision;
 
   /**
    * Constructs a new SitewideAlertRevisionDeleteForm.
    *
-   * @param \Drupal\Core\Entity\EntityStorageInterface $entity_storage
+   * @param \Drupal\Core\Entity\RevisionableStorageInterface $sitewideAlertStorage
    *   The entity storage.
    * @param \Drupal\Core\Database\Connection $connection
    *   The database connection.
-   * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
+   * @param \Drupal\Core\Datetime\DateFormatterInterface $dateFormatter
    *   Drupal's date formatter.
    */
-  public function __construct(EntityStorageInterface $entity_storage, Connection $connection, DateFormatterInterface $date_formatter) {
-    $this->sitewideAlertStorage = $entity_storage;
-    $this->connection = $connection;
-    $this->dateFormatter = $date_formatter;
+  public function __construct(
+    protected RevisionableStorageInterface $sitewideAlertStorage,
+    protected Connection $connection,
+    protected DateFormatterInterface $dateFormatter,
+  ) {
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container): static {
     $entity_type_manager = $container->get('entity_type.manager');
     return new static(
       $entity_type_manager->getStorage('sitewide_alert'),
@@ -142,6 +122,7 @@ class SitewideAlertRevisionDeleteForm extends ConfirmFormBase {
       'entity.sitewide_alert.canonical',
        ['sitewide_alert' => $this->revision->id()]
     );
+    // @todo change to dynamic query.
     if ($this->connection->query('SELECT COUNT(DISTINCT vid) FROM {sitewide_alert_field_revision} WHERE id = :id', [':id' => $this->revision->id()])->fetchField() > 1) {
       $form_state->setRedirect(
         'entity.sitewide_alert.version_history',

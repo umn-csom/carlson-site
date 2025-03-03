@@ -22,40 +22,20 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SitewideAlertController extends ControllerBase implements ContainerInjectionInterface {
 
   /**
-   * The date formatter.
-   *
-   * @var \Drupal\Core\Datetime\DateFormatterInterface
-   */
-  protected $dateFormatter;
-
-  /**
-   * The renderer.
-   *
-   * @var \Drupal\Core\Render\Renderer
-   */
-  protected $renderer;
-
-  /**
-   * The current route match.
-   *
-   * @var \Drupal\Core\Routing\RouteMatchInterface
-   */
-  protected $routeMatch;
-
-  /**
    * Constructs a new SitewideAlertController.
    *
-   * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
+   * @param \Drupal\Core\Datetime\DateFormatterInterface $dateFormatter
    *   The date formatter.
    * @param \Drupal\Core\Render\RendererInterface $renderer
    *   The renderer.
-   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   * @param \Drupal\Core\Routing\RouteMatchInterface $routeMatch
    *   The current route.
    */
-  public function __construct(DateFormatterInterface $date_formatter, RendererInterface $renderer, RouteMatchInterface $route_match) {
-    $this->dateFormatter = $date_formatter;
-    $this->renderer = $renderer;
-    $this->routeMatch = $route_match;
+  public function __construct(
+    protected DateFormatterInterface $dateFormatter,
+    protected RendererInterface $renderer,
+    protected RouteMatchInterface $routeMatch,
+  ) {
   }
 
   /**
@@ -82,12 +62,12 @@ class SitewideAlertController extends ControllerBase implements ContainerInjecti
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function revisionShow(int $sitewide_alert_revision): array {
-    $sitewide_alert = $this->entityTypeManager()->getStorage('sitewide_alert')
-      ->loadRevision($sitewide_alert_revision);
+    /** @var \Drupal\Core\Entity\RevisionableStorageInterface $sitewide_alert_storage */
+    $sitewide_alert_storage = $this->entityTypeManager()->getStorage('sitewide_alert');
     return $this
       ->entityTypeManager()
       ->getViewBuilder('sitewide_alert')
-      ->view($sitewide_alert);
+      ->view($sitewide_alert_storage);
   }
 
   /**
@@ -103,8 +83,9 @@ class SitewideAlertController extends ControllerBase implements ContainerInjecti
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function revisionPageTitle(int $sitewide_alert_revision): TranslatableMarkup {
-    $sitewide_alert = $this->entityTypeManager()->getStorage('sitewide_alert')
-      ->loadRevision($sitewide_alert_revision);
+    /** @var \Drupal\Core\Entity\RevisionableStorageInterface $sitewide_alert_storage */
+    $sitewide_alert_storage = $this->entityTypeManager()->getStorage('sitewide_alert');
+    $sitewide_alert = $sitewide_alert_storage->loadRevision($sitewide_alert_revision);
     return $this->t('Revision of %title from %date', [
       '%title' => $sitewide_alert->label(),
       '%date' => $this->dateFormatter->format($sitewide_alert->getRevisionCreationTime()),
@@ -129,12 +110,12 @@ class SitewideAlertController extends ControllerBase implements ContainerInjecti
     $sitewide_alert_storage = $this->entityTypeManager()->getStorage('sitewide_alert');
 
     $langcode = $sitewide_alert->language()->getId();
-    $langname = $sitewide_alert->language()->getName();
+    $langName = $sitewide_alert->language()->getName();
     $languages = $sitewide_alert->getTranslationLanguages();
     $has_translations = (count($languages) > 1);
     $build['#title'] = $has_translations
-      ? $this->t('@langname revisions for %title',
-        ['@langname' => $langname, '%title' => $sitewide_alert->label()])
+      ? $this->t('@$langName revisions for %title',
+        ['@$langName' => $langName, '%title' => $sitewide_alert->label()])
       : $this->t('Revisions for %title',
         ['%title' => $sitewide_alert->label()]);
 
@@ -148,14 +129,16 @@ class SitewideAlertController extends ControllerBase implements ContainerInjecti
       ->allRevisions()
       ->condition('id', $sitewide_alert->id())
       ->groupBy('vid')
-      ->accessCheck(TRUE)
+      ->accessCheck()
       ->execute(), 'vid');
 
     $latest_revision = TRUE;
 
+    /** @var \Drupal\Core\Entity\RevisionableStorageInterface $entity_storage */
+    $entity_storage = $this->entityTypeManager()->getStorage('sitewide_alert');
     foreach (array_reverse($vids) as $vid) {
       /** @var \Drupal\sitewide_alert\Entity\SitewideAlertInterface $revision */
-      $revision = $sitewide_alert_storage->loadRevision($vid);
+      $revision = $entity_storage->loadRevision($vid);
       // Only show revisions that are affected by the language that is being
       // displayed.
       if ($revision->hasTranslation($langcode) && $revision->getTranslation($langcode)->isRevisionTranslationAffected()) {
@@ -177,7 +160,7 @@ class SitewideAlertController extends ControllerBase implements ContainerInjecti
                   'sitewide_alert_revision' => $vid,
                 ])
               )->toString(),
-              'username' => $this->renderer->renderPlain($username),
+              'username' => $this->renderer->renderInIsolation($username),
               'message' => [
                 '#markup' => $revision->getRevisionLogMessage(),
                 '#allowed_tags' => Xss::getHtmlTagList(),

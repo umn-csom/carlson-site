@@ -22,7 +22,7 @@ class LoadTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['sitewide_alert'];
+  protected static $modules = ['sitewide_alert'];
 
   /**
    * A user with permission to administer site configuration.
@@ -42,6 +42,8 @@ class LoadTest extends BrowserTestBase {
 
   /**
    * Tests that the home page loads with a 200 response.
+   *
+   * @throws \Behat\Mink\Exception\ExpectationException
    */
   public function testLoad(): void {
     $this->drupalGet(Url::fromRoute('<front>'));

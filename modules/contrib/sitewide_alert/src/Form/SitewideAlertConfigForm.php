@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Drupal\sitewide_alert\Form;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\TypedConfigManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -17,31 +18,30 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SitewideAlertConfigForm extends ConfigFormBase {
 
   /**
-   * The module handler.
-   *
-   * @var \Drupal\Core\Extension\ModuleHandlerInterface
-   */
-  private ModuleHandlerInterface $moduleHandler;
-
-  /**
    * SitewideAlertConfigForm constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The factory for configuration objects.
+   * @param \Drupal\Core\Config\TypedConfigManagerInterface $typedConfigManager
+   *   The typed config manager.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $moduleHandler
    *   The module handler for determining which modules are installed.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $moduleHandler) {
-    parent::__construct($config_factory);
-    $this->moduleHandler = $moduleHandler;
+  public function __construct(
+    ConfigFactoryInterface $config_factory,
+    TypedConfigManagerInterface $typedConfigManager,
+    protected ModuleHandlerInterface $moduleHandler,
+  ) {
+    parent::__construct($config_factory, $typedConfigManager);
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container): static {
     return new static(
       $container->get('config.factory'),
+      $container->get('config.typed'),
       $container->get('module_handler')
     );
   }
@@ -97,6 +97,17 @@ class SitewideAlertConfigForm extends ConfigFormBase {
       ) . '<br><br></p>',
     ];
 
+    $form['display_order'] = [
+      '#type' => 'select',
+      '#options' => [
+        'ascending' => $this->t('Display newer alerts last'),
+        'descending' => $this->t('Display newer alerts first'),
+      ],
+      '#title' => $this->t('Display Order'),
+      '#default_value' => $config->get('display_order'),
+      '#description' => $this->t('The order that the alerts display on the page when there are multiple active alerts.'),
+    ];
+
     $form['automatic_refresh'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Automatically Update (Refresh) Alerts'),
@@ -145,6 +156,7 @@ class SitewideAlertConfigForm extends ConfigFormBase {
     $this->config('sitewide_alert.settings')
       ->set('show_on_admin', $form_state->getValue('show_on_admin'))
       ->set('alert_styles', $form_state->getValue('alert_styles'))
+      ->set('display_order', $form_state->getValue('display_order'))
       ->set('refresh_interval', $form_state->getValue('refresh_interval'))
       ->set('automatic_refresh', $form_state->getValue('automatic_refresh'))
       ->set('cache_max_age', $form_state->getValue('cache_max_age'))

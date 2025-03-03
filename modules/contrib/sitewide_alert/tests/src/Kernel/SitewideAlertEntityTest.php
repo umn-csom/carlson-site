@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace Drupal\Tests\sitewide_alert\Kernel;
 
+use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\sitewide_alert\SitewideAlertManager;
+
+// cspell:ignore d'essai
 
 /**
  * Defines a class for testing the sitewide alert entity.
@@ -132,6 +136,56 @@ final class SitewideAlertEntityTest extends SitewideAlertKernelTestBase {
       $this->assertNotEquals(1, $alert->id());
       $this->assertEquals("message d'essai", $alert->get('message')->value);
     }
+  }
+
+  /**
+   * Tests getScheduledEndDateTime().
+   *
+   * @covers ::getScheduledEndDateTime
+   *
+   * @throws \Exception
+   */
+  public function testGetScheduledEndTime(): void {
+    $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+    $alert = $this->createSiteWideAlert([
+      'scheduled_alert' => TRUE,
+      'scheduled_date' => [
+        'value' => $now->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT),
+        'end_value' => $now->modify('+7 days')->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT),
+      ],
+    ]);
+    $end_date = $alert->getScheduledEndDateTime();
+    $this->assertInstanceOf(DrupalDateTime::class, $end_date);
+    $this->assertEquals($now->modify('+7 days')->getTimestamp(), $end_date->getTimestamp());
+
+    // Test for NULL date.
+    $alert = $this->createSiteWideAlert();
+    $this->assertNull($alert->getScheduledEndDateTime());
+  }
+
+  /**
+   * Tests getScheduledStartDateTime().
+   *
+   * @covers ::getScheduledStartDateTime
+   *
+   * @throws \Exception
+   */
+  public function testGetScheduledStartTime(): void {
+    $now = new \DateTimeImmutable('now', new \DateTimeZone('UTC'));
+    $alert = $this->createSiteWideAlert([
+      'scheduled_alert' => TRUE,
+      'scheduled_date' => [
+        'value' => $now->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT),
+        'end_value' => $now->modify('+7 days')->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT),
+      ],
+    ]);
+    $start_date = $alert->getScheduledStartDateTime();
+    $this->assertInstanceOf(DrupalDateTime::class, $start_date);
+    $this->assertEquals($now->getTimestamp(), $start_date->getTimestamp());
+
+    // Test for NULL date.
+    $alert = $this->createSiteWideAlert();
+    $this->assertNull($alert->getScheduledStartDateTime());
   }
 
 }

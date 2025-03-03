@@ -19,7 +19,7 @@ final class SitewideAlertTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['sitewide_alert'];
+  protected static $modules = ['sitewide_alert'];
 
   /**
    * {@inheritdoc}
@@ -28,8 +28,20 @@ final class SitewideAlertTest extends BrowserTestBase {
 
   /**
    * Tests visibility on admin pages.
+   *
+   * @throws \Behat\Mink\Exception\ElementNotFoundException
+   * @throws \Behat\Mink\Exception\ExpectationException
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function testAlertsNotShownOnAdminPages(): void {
+    $random = $this->getRandomGenerator();
+    $sentences = $random->sentences(10);
+    $this->createSiteWideAlert([
+      'message' => [
+        'value' => $sentences,
+      ],
+    ]);
+
     $this->drupalLogin($this->createUser([], NULL, TRUE));
     $this->drupalGet('/admin/config');
     $assert = $this->assertSession();

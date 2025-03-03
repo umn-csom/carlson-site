@@ -31,6 +31,9 @@ final class SitewideAlertControllerTest extends BrowserTestBase {
 
   /**
    * Tests revision overview.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
+   * @throws \Behat\Mink\Exception\ResponseTextException
    */
   public function testAlertRevisions(): void {
     $random = $this->getRandomGenerator();
@@ -44,7 +47,7 @@ final class SitewideAlertControllerTest extends BrowserTestBase {
 
     $alert->setRevisionLogMessage($message2);
     $alert->message->value = $random->sentences(10);
-    $alert->setNewRevision(TRUE);
+    $alert->setNewRevision();
     $alert->save();
 
     $this->drupalLogin($this->createUser([
