@@ -7,6 +7,7 @@
 @import "../node_modules/bootstrap/scss/utilities/_spacing";
 @import "abstracts/variables";
 
+#datatable,
 table.dataTable {
   // Replicate Bootstrap's table-striped class.
   tbody tr:nth-of-type(#{$table-striped-order}) {
@@ -100,51 +101,55 @@ table.dataTable {
 }
 
 // Two button pagination - previous / next
-.paginate_disabled_previous,
-.paginate_enabled_previous,
-.paginate_disabled_next,
-.paginate_enabled_next {
+.paginate_button {
   float: left;
   cursor: pointer;
-  *cursor: hand;
-  color: $maroon;
-  background-repeat: no-repeat;
-  background-size: contain;
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0.5rem;
 }
 
-.paginate_disabled_previous:hover,
-.paginate_enabled_previous:hover,
-.paginate_disabled_next:hover,
-.paginate_enabled_next:hover {
-  text-decoration: none;
+.paginate_button.current {
+  color: #363230;
 }
 
-.paginate_disabled_previous:active,
-.paginate_enabled_previous:active,
-.paginate_disabled_next:active,
-.paginate_enabled_next:active {
+.paginate_button.current,
+.paginate_button.disabled {
+  &,
+  &:hover,
+  &:active,
+  &:focus {
+    cursor: default;
+    text-decoration: none;
+  }
+}
+
+.paginate_button:not(.current, .disabled) {
+  text-decoration: underline;
+}
+
+.paginate_button:active {
   outline: none;
 }
 
-.paginate_disabled_previous,
-.paginate_disabled_next {
+.paginate_button.disabled {
   opacity: 0.5;
 }
 
-.paginate_disabled_previous,
-.paginate_enabled_previous {
+.paginate_button.previous {
   padding-left: 23px;
   background-image: url('../images/nav-prev.svg');
-  background-position: left center;
-  margin-right: 10px;
+  background-position: 6px center;
+  background-repeat: no-repeat;
 }
 
-.paginate_disabled_next,
-.paginate_enabled_next {
+.paginate_button.next {
   padding-right: 23px;
   background-image: url('../images/nav-next.svg');
-  background-position: right center;
-  margin-left: 10px;
+  background-position: calc(100% - 6px) center;
+  background-repeat: no-repeat;
 }
 
 /* Full number pagination */
