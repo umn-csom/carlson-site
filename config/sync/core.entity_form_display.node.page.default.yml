@@ -24,7 +24,6 @@ dependencies:
     - node.type.page
     - workflows.workflow.editorial
   module:
-    - chosen_field
     - content_moderation
     - field_group
     - link
@@ -53,13 +52,13 @@ third_party_settings:
         direction: vertical
     group_administrative:
       children:
-        - field_news_channels
         - field_contact_info
-        - field_event_channels
         - field_menu_rule
+        - field_faculty_statuses
+        - field_event_channels
         - field_faculty_departments
         - field_faculty_programs
-        - field_faculty_statuses
+        - field_news_channels
       label: Administrative
       region: content
       parent_name: group_content
@@ -162,20 +161,20 @@ content:
       placeholder_title: ''
     third_party_settings: {  }
   field_event_channels:
-    type: chosen_select
-    weight: 29
+    type: options_select
+    weight: 53
     region: content
     settings: {  }
     third_party_settings: {  }
   field_faculty_departments:
-    type: chosen_select
-    weight: 31
+    type: options_select
+    weight: 54
     region: content
     settings: {  }
     third_party_settings: {  }
   field_faculty_programs:
-    type: chosen_select
-    weight: 32
+    type: options_select
+    weight: 55
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -226,8 +225,8 @@ content:
       use_details: true
     third_party_settings: {  }
   field_news_channels:
-    type: chosen_select
-    weight: 27
+    type: options_select
+    weight: 56
     region: content
     settings: {  }
     third_party_settings: {  }
