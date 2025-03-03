@@ -177,7 +177,7 @@
                     if($(this).data('limit') !== 'undefined' && $(this).data('limit-type') === 'exactly') {
                         requiredError = 'Please select ' + numbers[$(this).data('limit')] + ' answers before proceeding';
                     }
-                    $(this).find('.quiz--answer').first().append('<button type="button" class="quiz--answer--popover-btn border-0 p-0 order-last" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="'+ requiredError +'"><span class="d-none">Required</span></button>');
+                    $(this).find('.quiz--answer').first().append('<button type="button" class="quiz--answer--popover-btn border-0 p-0 order-last" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="'+ requiredError +'"><span class="sr-only">Required</span></button>');
                 }
             );
 
