@@ -18518,6 +18518,14 @@ Description: Bootstrap 4 with Sass
       .ck-content .node__content:not(.ee-program) .hero-program__img--alumni img {
         box-shadow: none;
         padding-left: -15px; }
+  .ck-content .node__content:not(.ee-program) .hero-program__image-overlay::after {
+    content: '';
+    background: url("../images/pattern.png") left top/contain no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; }
   .ck-content .node__content:not(.ee-program) .hero-program__content--wrapper {
     min-height: 100%;
     flex-direction: column;
@@ -19011,6 +19019,62 @@ Description: Bootstrap 4 with Sass
     outline: 0;
     border-color: #17a2b8;
     box-shadow: 0 0 0 3.5px rgba(23, 162, 184, 0.4); }
+  .ck-content .form-checkboxes > ul,
+  .ck-content .form-radios > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+  .ck-content details.form-item {
+    position: relative;
+    align-self: flex-start;
+    border: 1px solid #D5D6D2;
+    border-radius: 2.5px;
+    margin-bottom: 16px;
+    margin-top: 0;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    min-height: calc(1.5em + 20px + 2px); }
+    .ck-content details.form-item:hover, .ck-content details.form-item:focus-within {
+      border-color: #878b92; }
+    .ck-content details.form-item > summary {
+      padding: 10px;
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 1.5; }
+      .ck-content details.form-item > summary:focus-visible {
+        outline: 0; }
+    .ck-content details.form-item:has(> summary:focus-visible) {
+      outline: 0;
+      border-color: #17a2b8;
+      box-shadow: 0 0 0 3.5px rgba(23, 162, 184, 0.4); }
+    .ck-content details.form-item[open] {
+      align-self: stretch; }
+      .ck-content details.form-item[open] > summary {
+        min-height: calc(1.5em + 20px);
+        border-bottom: 1px solid #D5D6D2;
+        transition: border-color 0.15s ease-in-out; }
+      .ck-content details.form-item[open]:hover > summary, .ck-content details.form-item[open]:focus-within > summary {
+        border-color: #878b92; }
+    .ck-content details.form-item > .details-wrapper {
+      background: #fff;
+      width: 100%;
+      max-height: 230px;
+      overflow-y: scroll;
+      scroll-behavior: smooth;
+      padding: 0.5em;
+      transition: all 0.2s ease-out; }
+      .ck-content details.form-item > .details-wrapper::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 13px;
+        transition: all 0.2s ease-out; }
+      .ck-content details.form-item > .details-wrapper::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.25);
+        border-radius: 8px;
+        border: 2.75px solid #fafafa;
+        -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+        transition: all 0.2s ease-out; }
+      .ck-content details.form-item > .details-wrapper:hover::-webkit-scrollbar-thumb {
+        background: rgba(0, 0, 0, 0.5);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05); }
   .ck-content .form-group.half-width {
     display: inline-block;
     padding: 0;
@@ -19431,6 +19495,41 @@ Description: Bootstrap 4 with Sass
         height: 108.5px; }
       .ck-content .slider-nav .slide.slick-slide.slick-current img {
         border-bottom: 9px solid #fc3; }
+  .ck-content .ub-emb-bar .ub-emb-iframe-wrapper .ub-emb-close,
+  .ck-content .ub-emb-overlay .ub-emb-iframe-wrapper .ub-emb-close {
+    width: 44px;
+    height: 44px;
+    text-indent: -9999px; }
+  .ck-content .ub-emb-bar .ub-emb-iframe-wrapper .ub-emb-close,
+  .ck-content .ub-emb-bar .ub-emb-iframe-wrapper .ub-emb-close:hover,
+  .ck-content .ub-emb-bar .ub-emb-iframe-wrapper .ub-emb-close:active,
+  .ck-content .ub-emb-bar .ub-emb-iframe-wrapper .ub-emb-close:focus,
+  .ck-content .ub-emb-overlay .ub-emb-iframe-wrapper .ub-emb-close,
+  .ck-content .ub-emb-overlay .ub-emb-iframe-wrapper .ub-emb-close:hover,
+  .ck-content .ub-emb-overlay .ub-emb-iframe-wrapper .ub-emb-close:active,
+  .ck-content .ub-emb-overlay .ub-emb-iframe-wrapper .ub-emb-close:focus {
+    background-color: rgba(255, 255, 255, 0);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='none' stroke='%23525151' stroke-width='1.25' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='9.5'/%3E%3Cpath d='M6 6L14 14M6 14L14 6'/%3E%3C/svg%3E");
+    background-size: 26px;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: scale(1);
+    border-radius: 2px;
+    transition: background-color .2s ease-in-out; }
+  .ck-content .ub-emb-overlay .ub-emb-iframe-wrapper .ub-emb-close:hover,
+  .ck-content .ub-emb-overlay .ub-emb-iframe-wrapper .ub-emb-close:active,
+  .ck-content .ub-emb-overlay .ub-emb-iframe-wrapper .ub-emb-close:focus {
+    background-color: rgba(255, 255, 255, 0.9); }
+  .ck-content .ub-emb-bar .ub-emb-iframe-wrapper .ub-emb-close,
+  .ck-content .ub-emb-bar .ub-emb-iframe-wrapper .ub-emb-close:hover,
+  .ck-content .ub-emb-bar .ub-emb-iframe-wrapper .ub-emb-close:active,
+  .ck-content .ub-emb-bar .ub-emb-iframe-wrapper .ub-emb-close:focus {
+    background-color: rgba(0, 0, 0, 0);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' fill='none' stroke='white' stroke-width='1.25' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='10' cy='10' r='9.5'/%3E%3Cpath d='M6 6L14 14M6 14L14 6'/%3E%3C/svg%3E"); }
+  .ck-content .ub-emb-bar .ub-emb-iframe-wrapper .ub-emb-close:hover,
+  .ck-content .ub-emb-bar .ub-emb-iframe-wrapper .ub-emb-close:active,
+  .ck-content .ub-emb-bar .ub-emb-iframe-wrapper .ub-emb-close:focus {
+    background-color: rgba(0, 0, 0, 0.6); }
   .ck-content ._admithub_embed-container .webchat-iframe {
     z-index: 3000000000 !important; }
   @supports (position: sticky) {
@@ -25297,9 +25396,9 @@ Description: Bootstrap 4 with Sass
     .ck-content .comparison-table__header .no-data {
       background: transparent; }
     .ck-content .comparison-table__header .column-header {
-      background: white; }
-      .ck-content .comparison-table__header .column-header.certificate-degree {
-        background: #fc3; }
+      background: #fc3; }
+      .ck-content .comparison-table__header .column-header.certificate-degree, .ck-content .comparison-table__header .column-header.column-no-content {
+        background: #fff; }
       .ck-content .comparison-table__header .column-header-text {
         width: 100%;
         font-size: 15px;
@@ -25573,20 +25672,33 @@ Description: Bootstrap 4 with Sass
     padding: 30px; }
   .ck-content .view-ed-abroad-program-finder .view-filters {
     padding: 0 30px 40px 30px; }
-    .ck-content .view-ed-abroad-program-finder .view-filters .form-row > fieldset,
-    .ck-content .view-ed-abroad-program-finder .view-filters .form-row .form-actions {
-      flex: 0 0 100%;
-      max-width: 100%; }
-      @media (min-width: 768px) {
-        .ck-content .view-ed-abroad-program-finder .view-filters .form-row > fieldset,
-        .ck-content .view-ed-abroad-program-finder .view-filters .form-row .form-actions {
-          flex: 0 0 50%;
-          max-width: 50%; } }
-      @media (min-width: 992px) {
-        .ck-content .view-ed-abroad-program-finder .view-filters .form-row > fieldset,
-        .ck-content .view-ed-abroad-program-finder .view-filters .form-row .form-actions {
-          flex: 0 0 33.33333%;
-          max-width: 33.33333%; } }
+    .ck-content .view-ed-abroad-program-finder .view-filters .form-row {
+      margin-left: 0;
+      margin-right: 0;
+      --row-gap: 16px;
+      gap: var(--row-gap); }
+      .ck-content .view-ed-abroad-program-finder .view-filters .form-row > details,
+      .ck-content .view-ed-abroad-program-finder .view-filters .form-row > fieldset,
+      .ck-content .view-ed-abroad-program-finder .view-filters .form-row .form-actions {
+        flex: 0 0 100%;
+        max-width: 100%;
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: 0; }
+        @media (min-width: 768px) {
+          .ck-content .view-ed-abroad-program-finder .view-filters .form-row > details,
+          .ck-content .view-ed-abroad-program-finder .view-filters .form-row > fieldset,
+          .ck-content .view-ed-abroad-program-finder .view-filters .form-row .form-actions {
+            flex: 0 0 50%;
+            max-width: 50%;
+            flex: 0 0 calc(50% - var(--row-gap));
+            max-width: calc(50% - var(--row-gap)); } }
+        @media (min-width: 992px) {
+          .ck-content .view-ed-abroad-program-finder .view-filters .form-row > details,
+          .ck-content .view-ed-abroad-program-finder .view-filters .form-row > fieldset,
+          .ck-content .view-ed-abroad-program-finder .view-filters .form-row .form-actions {
+            flex: 0 0 calc(33.33333% - var(--row-gap));
+            max-width: calc(33.33333% - var(--row-gap)); } }
     .ck-content .view-ed-abroad-program-finder .view-filters .chosen-container {
       padding: 0; }
       .ck-content .view-ed-abroad-program-finder .view-filters .chosen-container .chosen-choices {
@@ -25711,9 +25823,6 @@ Description: Bootstrap 4 with Sass
     .ck-content .view-executive-ed-program-finder .view-filters .form-row div[id^='edit-actions'] {
       flex: 0 0 33.33333%;
       max-width: 33.33333%; } }
-  .ck-content .view-executive-ed-program-finder .view-filters select.form-control {
-    background-color: #dbdbdb;
-    height: 70px; }
   .ck-content .view-executive-ed-program-finder .view-filters label {
     clip: rect(0 0 0 0);
     clip-path: inset(50%);
@@ -26035,11 +26144,16 @@ Description: Bootstrap 4 with Sass
     .ck-content .news-hub-search__filter {
       padding: 0px 10px; }
       .ck-content .news-hub-search__filter .form-row {
-        flex-wrap: nowrap; }
+        flex-wrap: nowrap;
+        gap: 16px; }
+        .ck-content .news-hub-search__filter .form-row > * {
+          margin: 0; }
         @media (max-width: 991.98px) {
           .ck-content .news-hub-search__filter .form-row {
             flex-wrap: wrap; }
-            .ck-content .news-hub-search__filter .form-row > fieldset, .ck-content .news-hub-search__filter .form-row > div {
+            .ck-content .news-hub-search__filter .form-row > fieldset,
+            .ck-content .news-hub-search__filter .form-row > details,
+            .ck-content .news-hub-search__filter .form-row > div {
               width: 100%; } }
       .ck-content .news-hub-search__filter .form-group input[type="submit"] {
         margin-bottom: 10px;
@@ -26110,6 +26224,12 @@ Description: Bootstrap 4 with Sass
           background: #7a0019;
           box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.2);
           color: #fff; }
+      .ck-content .news-hub-search__filter details.form-item {
+        margin-bottom: 0; }
+        @media (min-width: 992px) {
+          .ck-content .news-hub-search__filter details.form-item {
+            margin-top: 30px;
+            min-width: 270px; } }
       .ck-content .news-hub-search__filter #edit-keyword,
       .ck-content .news-hub-search__filter select.form-control {
         color: #303030;
@@ -26275,7 +26395,9 @@ Description: Bootstrap 4 with Sass
         width: 100%; }
         .ck-content .program-filter__filter details.form-item summary {
           text-transform: uppercase;
-          font-weight: bold; }
+          font-weight: bold;
+          min-height: 44px;
+          min-width: 44px; }
     .ck-content .program-filter__results {
       margin-top: 0; }
       @media (min-width: 768px) {
@@ -26305,7 +26427,6 @@ Description: Bootstrap 4 with Sass
       vertical-align: middle;
       padding-bottom: 5px; }
     .ck-content .program-filter .form-check-label {
-      padding-left: 10px;
       font-size: 15px;
       text-transform: none; }
   .ck-content .ckeditor-template-wrapper + .ckeditor-template-wrapper {

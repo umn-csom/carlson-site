@@ -1,13 +1,11 @@
-Sitewide Alert
----------------
+# Sitewide Alert
 
 The Sitewide Alert module adds the ability to show alerts at the top of your site.
 
 This module can be used for showing alerts to your visitors to inform them of planned maintenance periods, shipping
 delays, flash sales, and more. How you use it is up to you.
 
-Features / Design Decisions
----------------------------
+## Features / Design Decisions
 
 - Alerts are rendered at the top of the site regardless of the theme used, without any block configuration.
   - A sub module that can be optionally enabled to allow placement of all alerts within a block.
@@ -23,13 +21,11 @@ important alert that is red and a subtle one that is white.
 - Alerts can be scheduled to show and hide at specific times.
 - Alerts are fieldable.
 
-Installation
----------------------------
+## Installation
 
 Install the Sitewide Alert module with [Composer](https://www.drupal.org/docs/develop/using-composer/manage-dependencies).
 
-Configuration
----------------------------
+## Configuration
 
 Once installed Sitewide Alert is ready to use. However, some customization is likely necessary.
 
@@ -40,8 +36,7 @@ different styles.
 To show Sitewide Alerts on administrative pages navigate to /admin/config/sitewide_alerts and select the
 "Show on Administrative Pages" checkbox.
 
-Creating a Sitewide Alert
----------------------------
+## Creating a Sitewide Alert
 
 Navigate to /admin/content/sitewide_alert and click the "Add New Sitewide Alert" button and complete the following fields:
 
@@ -59,8 +54,7 @@ Navigate to /admin/content/sitewide_alert and click the "Add New Sitewide Alert"
   * Select this checkbox if alert should only appear on specific pages. Use the "Pages" input field to specify pages by
   * using their paths.
 
-Theming/Styling Sidewide Alerts
----------------------------
+## Theming/Styling Sitewide Alerts
 
 ### Using CSS classes
 Sitewide Alerts receive a wrapping class that can be used to apply specific styles. For each entry added to the Alert
@@ -80,8 +74,7 @@ of the Alert Style types and if the alert is or is not dismissible.
 - `sitewide-alert--STYLETYPE--notdismissible.html.twig`
 
 
-Troubleshooting
----------------------------
+## Troubleshooting
 
 ### Scheduled alerts not showing/disappearing when they should.
 

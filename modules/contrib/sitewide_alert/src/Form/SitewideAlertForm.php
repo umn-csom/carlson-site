@@ -20,13 +20,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class SitewideAlertForm extends ContentEntityForm {
 
   /**
-   * The current user account.
-   *
-   * @var \Drupal\Core\Session\AccountProxyInterface
-   */
-  protected $account;
-
-  /**
    * Constructs a new SitewideAlertForm.
    *
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entity_repository
@@ -38,15 +31,19 @@ class SitewideAlertForm extends ContentEntityForm {
    * @param \Drupal\Core\Session\AccountProxyInterface $account
    *   The current user account.
    */
-  public function __construct(EntityRepositoryInterface $entity_repository, EntityTypeBundleInfoInterface $entity_type_bundle_info, TimeInterface $time, AccountProxyInterface $account) {
+  public function __construct(
+    EntityRepositoryInterface $entity_repository,
+    EntityTypeBundleInfoInterface $entity_type_bundle_info,
+    TimeInterface $time,
+    protected AccountProxyInterface $account,
+  ) {
     parent::__construct($entity_repository, $entity_type_bundle_info, $time);
-    $this->account = $account;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container): static {
     return new static(
       $container->get('entity.repository'),
       $container->get('entity_type.bundle.info'),
@@ -58,20 +55,27 @@ class SitewideAlertForm extends ContentEntityForm {
   /**
    * Order form elements.
    *
-   * @param array $formKeys
    *   Form keys to set the order of.
+   *
    * @param array $form
    *   The form array.
-   * @param int $offsetWeight
    *   The amount to offset each weight.
    *
    * @return array
    *   The modified form.
    */
-  private static function orderFormElements(array $formKeys, array $form, int $offsetWeight = 0): array {
+  private static function orderFormElements(array $form): array {
+    $formKeys = [
+      'dismissible_options',
+      'scheduling_options',
+      'page_visibility_options',
+      'page_visibility_options',
+      'revision_information',
+      'author',
+    ];
     foreach ($formKeys as $i => $formKey) {
       if (isset($form[$formKey])) {
-        $form[$formKey]['#weight'] = $i + $offsetWeight;
+        $form[$formKey]['#weight'] = $i + 0;
       }
     }
     return $form;
@@ -84,6 +88,16 @@ class SitewideAlertForm extends ContentEntityForm {
     /** @var \Drupal\sitewide_alert\Entity\SitewideAlertInterface $entity */
     $entity = $this->entity;
     $form = parent::buildForm($form, $form_state);
+
+    // Only show the style if there are multiple options.
+    if (!empty($form['style']['widget']['#options'])) {
+      $options = array_keys($form['style']['widget']['#options']);
+      $options = array_diff($options, ['_none']);
+      if (count($options) === 1) {
+        $form['style']['widget']['#type'] = 'hidden';
+        $form['style']['widget']['#value'] = reset($options);
+      }
+    }
 
     // Make the scheduled alert dates conditional on the checkbox.
     $form['scheduled_date']['#states'] = [
@@ -114,7 +128,7 @@ class SitewideAlertForm extends ContentEntityForm {
         '#type' => 'checkbox',
         '#title' => $this->t('Ignore Previous Dismissals'),
         '#description' => $this->t(
-          'Select this when making a major change and you want to ensure all visitors see this alert even if they have previously dismissed it. <em>Note: this checkbox will remain unchecked upon reload. The checked value is used during form submission to reset the site alert dismissible time.</em>'
+          'Select this when making a major change, and you want to ensure all visitors see this alert even if they have previously dismissed it. <em>Note: this checkbox will remain unchecked upon reload. The checked value is used during form submission to reset the site alert dismissible time.</em>'
         ),
         '#default_value' => FALSE,
         '#return_value' => TRUE,
@@ -188,14 +202,7 @@ class SitewideAlertForm extends ContentEntityForm {
     ];
 
     // Order the advanced form elements.
-    $form = self::orderFormElements([
-      'dismissible_options',
-      'scheduling_options',
-      'page_visibility_options',
-      'page_visibility_options',
-      'revision_information',
-      'author',
-    ], $form);
+    $form = self::orderFormElements($form);
 
     // Set the active element to the end.
     $form['status']['#group'] = 'footer';
@@ -208,9 +215,12 @@ class SitewideAlertForm extends ContentEntityForm {
   /**
    * {@inheritdoc}
    */
-  public function save(array $form, FormStateInterface $form_state) {
+  public function save(array $form, FormStateInterface $form_state): void {
     /** @var \Drupal\sitewide_alert\Entity\SitewideAlertInterface $entity */
     $entity = $this->entity;
+
+    // Set status.
+    $entity->set('status', $form_state->getValue('status'));
 
     // Set the dismissal timestamp.
     if (!$form_state->isValueEmpty('dismissible_ignore_previous') && $form_state->getValue('dismissible_ignore_previous')) {
@@ -223,7 +233,7 @@ class SitewideAlertForm extends ContentEntityForm {
     }
 
     // Save as a new revision if requested to do so.
-    if (!$form_state->isValueEmpty('revision') && $form_state->getValue('revision') != FALSE) {
+    if (!$form_state->isValueEmpty('revision') && $form_state->getValue('revision')) {
       $entity->setNewRevision();
 
       // If a new revision is created, save the current user as revision author.
