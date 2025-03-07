@@ -148,8 +148,9 @@ display:
         options:
           perm: "access content"
       cache:
-        type: tag
-        options: {}
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       empty:
         area:
           id: area
@@ -346,6 +347,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: true
         title: false
         css_class: false
         use_more: false
@@ -890,6 +892,11 @@ display:
                   is_secondary: false
                   hide_label: false
       arguments: {}
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:events'
+      arguments: {  }
       filters:
         status:
           id: status
@@ -1182,6 +1189,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -1584,6 +1592,10 @@ display:
                   is_secondary: false
                   hide_label: false
       arguments: {}
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       filters:
         status:
           id: status
@@ -1881,6 +1893,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -2004,6 +2017,10 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       sorts:
         sticky:
           id: sticky
@@ -2283,6 +2300,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -2833,6 +2851,10 @@ display:
                   is_secondary: false
                   hide_label: false
       arguments: {}
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       filters:
         status:
           id: status
@@ -3167,6 +3189,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         use_ajax: false
         pager: false
@@ -3198,8 +3221,10 @@ display:
             format: rich_text
           tokenize: false
       display_extenders:
-        metatag_display_extender: {}
-        simple_sitemap_display_extender: {}
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
       contexts:
@@ -3286,6 +3311,10 @@ display:
                   is_secondary: false
                   hide_label: false
       arguments: {}
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       filters:
         status:
           id: status
@@ -3469,6 +3498,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -3599,6 +3629,10 @@ display:
                   is_secondary: false
                   hide_label: false
       arguments: {}
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       filters:
         status:
           id: status
@@ -3739,6 +3773,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -3772,8 +3807,10 @@ display:
             format: rich_text
           tokenize: false
       display_extenders:
-        metatag_display_extender: {}
-        simple_sitemap_display_extender: {}
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
       contexts:
