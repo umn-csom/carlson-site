@@ -12,6 +12,7 @@ dependencies:
     - media
     - node
     - text
+    - views_custom_cache_tag
 id: blogs
 label: Blogs
 module: views
@@ -352,6 +353,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 10
           total_pages: null
           id: 0
@@ -366,7 +368,6 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          pagination_heading_level: h4
       exposed_form:
         type: basic
         options:
@@ -1184,6 +1185,10 @@ display:
     position: 1
     display_options:
       enabled: true
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: "node_list:blog_entry\r\nnode_list:page\r\nnode_list:landing_page"
       filters:
         gid:
           id: gid
@@ -1276,10 +1281,15 @@ display:
         groups:
           1: AND
       defaults:
+        cache: false
         filters: false
         filter_groups: false
       display_description: 'Block of Holmes Center EntreEd Blog group content'
-      display_extenders: {  }
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
       contexts:
