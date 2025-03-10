@@ -382,8 +382,9 @@ display:
         type: none
         options: {  }
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:blog_entry'
       empty: {  }
       sorts:
         created:
@@ -533,7 +534,11 @@ display:
     position: 1
     display_options:
       display_description: "Block of Dean's Blog group content"
-      display_extenders: {  }
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
       contexts:
@@ -1188,7 +1193,7 @@ display:
       cache:
         type: custom_tag
         options:
-          custom_tag: "node_list:blog_entry\r\nnode_list:page\r\nnode_list:landing_page"
+          custom_tag: 'node_list:blog_entry'
       filters:
         gid:
           id: gid
