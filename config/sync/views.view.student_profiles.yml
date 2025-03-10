@@ -13,6 +13,7 @@ dependencies:
     - node
     - options
     - user
+    - views_custom_cache_tag
 id: student_profiles
 label: 'Student Profiles'
 module: views
@@ -244,8 +245,9 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:student'
       empty: {  }
       sorts:
         field_profile_class_value:
@@ -371,7 +373,11 @@ display:
     position: 1
     display_options:
       display_description: ''
-      display_extenders: {  }
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
       allow:
         items_per_page: false
         offset: '0'
