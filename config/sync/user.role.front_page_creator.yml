@@ -3,6 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.ckeditor_media_browser
+    - entity_browser.browser.image_browser
+    - entity_browser.browser.media_browser
     - filter.format.rich_text
     - node.type.front_page
     - workflows.workflow.editorial
@@ -11,6 +14,7 @@ dependencies:
     - contextual
     - entity_browser
     - file
+    - file_delete
     - filter
     - media
     - moderation_sidebar
@@ -37,6 +41,8 @@ permissions:
   - 'administer panelizer node front_page layout'
   - 'create front_page content'
   - 'create url aliases'
+  - 'delete files immediately'
+  - 'delete files override usage'
   - 'delete own files'
   - 'edit own front_page content'
   - 'use editorial transition create_new_draft'
