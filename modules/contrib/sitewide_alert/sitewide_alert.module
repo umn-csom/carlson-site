@@ -15,8 +15,7 @@ function sitewide_alert_help($route_name, RouteMatchInterface $route_match) {
   switch ($route_name) {
     // Main module help for the sitewide_alert module.
     case 'help.page.sitewide_alert':
-      $output = '';
-      $output .= '<h3>' . t('About') . '</h3>';
+      $output = '<h3>' . t('About') . '</h3>';
       $output .= '<p>' . t('Provides ability to display an alert message at the top of all pages.') . '</p>';
       return $output;
 
@@ -27,7 +26,7 @@ function sitewide_alert_help($route_name, RouteMatchInterface $route_match) {
 /**
  * Implements hook_theme().
  */
-function sitewide_alert_theme() {
+function sitewide_alert_theme(): array {
   return [
     'sitewide_alert' => [
       'render element' => 'elements',
@@ -38,7 +37,7 @@ function sitewide_alert_theme() {
 /**
  * Prepares sitewide alert variables for twig template.
  */
-function template_preprocess_sitewide_alert(&$variables) {
+function template_preprocess_sitewide_alert(&$variables): void {
   /** @var \Drupal\sitewide_alert\Entity\SitewideAlertInterface $sitewideAlert */
   $sitewideAlert = $variables['elements']['#sitewide_alert'];
   $variables['sitewide_alert'] = $sitewideAlert;
@@ -61,6 +60,9 @@ function template_preprocess_sitewide_alert(&$variables) {
   // The data-uuid attribute is needed for the dynamic loading via JS to work.
   $variables['attributes']['data-uuid'] = $sitewideAlert->uuid();
 
+  // The data-changed attribute is needed to know if an alert has changed.
+  $variables['attributes']['data-changed'] = $sitewideAlert->get('changed')->value;
+
   // Helpful $content variable for template.
   $variables['content'] = [];
   foreach (Element::children($variables['elements']) as $key) {
@@ -71,7 +73,7 @@ function template_preprocess_sitewide_alert(&$variables) {
 /**
  * Implements hook_theme_suggestions_HOOK().
  */
-function sitewide_alert_theme_suggestions_sitewide_alert(array $variables) {
+function sitewide_alert_theme_suggestions_sitewide_alert(array $variables): array {
   $suggestions = [];
   /** @var \Drupal\sitewide_alert\Entity\SitewideAlertInterface $sitewideAlert */
   $sitewideAlert = $variables['elements']['#sitewide_alert'];
@@ -86,7 +88,7 @@ function sitewide_alert_theme_suggestions_sitewide_alert(array $variables) {
 /**
  * Implements hook_page_top().
  */
-function sitewide_alert_page_top(array &$page_top) {
+function sitewide_alert_page_top(array &$page_top): void {
   // Bail out if block submodule is enabled.
   if (\Drupal::service('module_handler')->moduleExists('sitewide_alert_block')) {
     return;

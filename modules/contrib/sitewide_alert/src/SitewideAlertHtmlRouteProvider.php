@@ -9,6 +9,7 @@ use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;
 use Drupal\sitewide_alert\Form\SitewideAlertRevisionDeleteForm;
 use Drupal\sitewide_alert\Form\SitewideAlertRevisionRevertTranslationForm;
 use Symfony\Component\Routing\Route;
+use Symfony\Component\Routing\RouteCollection;
 
 /**
  * Provides routes for Sitewide Alert entities.
@@ -21,29 +22,29 @@ class SitewideAlertHtmlRouteProvider extends AdminHtmlRouteProvider {
   /**
    * {@inheritdoc}
    */
-  public function getRoutes(EntityTypeInterface $entity_type) {
+  public function getRoutes(EntityTypeInterface $entity_type): RouteCollection|array {
     $collection = parent::getRoutes($entity_type);
 
     $entity_type_id = $entity_type->id();
 
     if ($history_route = $this->getHistoryRoute($entity_type)) {
-      $collection->add("entity.{$entity_type_id}.version_history", $history_route);
+      $collection->add("entity.$entity_type_id.version_history", $history_route);
     }
 
     if ($revision_route = $this->getRevisionRoute($entity_type)) {
-      $collection->add("entity.{$entity_type_id}.revision", $revision_route);
+      $collection->add("entity.$entity_type_id.revision", $revision_route);
     }
 
     if ($revert_route = $this->getRevisionRevertRoute($entity_type)) {
-      $collection->add("entity.{$entity_type_id}.revision_revert", $revert_route);
+      $collection->add("entity.$entity_type_id.revision_revert", $revert_route);
     }
 
     if ($delete_route = $this->getRevisionDeleteRoute($entity_type)) {
-      $collection->add("entity.{$entity_type_id}.revision_delete", $delete_route);
+      $collection->add("entity.$entity_type_id.revision_delete", $delete_route);
     }
 
     if ($translation_route = $this->getRevisionTranslationRevertRoute($entity_type)) {
-      $collection->add("{$entity_type_id}.revision_revert_translation_confirm", $translation_route);
+      $collection->add("$entity_type_id.revision_revert_translation_confirm", $translation_route);
     }
 
     if ($settings_form_route = $this->getSettingsFormRoute($entity_type)) {

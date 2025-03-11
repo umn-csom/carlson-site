@@ -11,7 +11,7 @@ use Drupal\user\RoleInterface;
 /**
  * Implements hook_install().
  */
-function sitewide_alert_install() {
+function sitewide_alert_install(): void {
   // Grant the "view published sitewide alert entities" permission to all users
   // by default.
   if (\Drupal::moduleHandler()->moduleExists('user')) {
@@ -23,7 +23,7 @@ function sitewide_alert_install() {
 /**
  * Set the new automated refresh config option to keep the current behavior.
  */
-function sitewide_alert_update_8001(&$sandbox) {
+function sitewide_alert_update_8001(&$sandbox): void {
   $config_factory = \Drupal::configFactory();
   $config_factory->getEditable('sitewide_alert.settings')->set('automatic_refresh', 1)->save();
 }
@@ -31,7 +31,7 @@ function sitewide_alert_update_8001(&$sandbox) {
 /**
  * Rename revision column from 'revision_log' to 'revision_log_message'.
  */
-function sitewide_alert_update_9001() {
+function sitewide_alert_update_9001(): void {
   $entity_type_id = 'sitewide_alert';
   $current_field_name = 'revision_log';
   $target_field_name = 'revision_log_message';
@@ -61,7 +61,7 @@ function sitewide_alert_update_9001() {
  * Add the 'view published sitewide alert entities' permission for roles that
  * have the 'access content' permission.
  */
-function sitewide_alert_update_9002() {
+function sitewide_alert_update_9002(): void {
   foreach (array_filter(Role::loadMultiple(), static fn($role) => $role->hasPermission('access content')) as $role) {
     $role
       ->grantPermission('view published sitewide alert entities')
@@ -173,7 +173,23 @@ function _sitewide_alert_rename_field_entity_storage_schema(string $entity_type_
 /**
  * Set default cache max age value to 15 seconds.
  */
-function sitewide_alert_update_9003() {
+function sitewide_alert_update_9003(): void {
   $config_factory = \Drupal::configFactory();
   $config_factory->getEditable('sitewide_alert.settings')->set('cache_max_age', 15)->save();
+}
+
+/**
+ * Set display order of alerts to ascend to match existing functionality.
+ */
+function sitewide_alert_update_9004(): void {
+  $config_factory = \Drupal::configFactory();
+  $config_factory->getEditable('sitewide_alert.settings')->set('display_order', 'ascending')->save();
+}
+
+/**
+ * Re-save sitewide_alert.settings for schema changes.
+ */
+function sitewide_alert_update_10300(): void {
+  $config_factory = \Drupal::configFactory();
+  $config_factory->getEditable('sitewide_alert.settings')->save();
 }

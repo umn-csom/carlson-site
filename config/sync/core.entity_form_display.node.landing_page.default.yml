@@ -18,7 +18,6 @@ dependencies:
     - node.type.landing_page
     - workflows.workflow.editorial
   module:
-    - chosen_field
     - content_moderation
     - field_group
     - link
@@ -79,9 +78,9 @@ third_party_settings:
         required_fields: true
     group_administrative:
       children:
-        - field_news_channels
-        - field_event_channels
         - field_menu_rule
+        - field_event_channels
+        - field_news_channels
       label: Administrative
       region: content
       parent_name: group_content
@@ -143,8 +142,8 @@ content:
     settings: {  }
     third_party_settings: {  }
   field_event_channels:
-    type: chosen_select
-    weight: 103
+    type: options_select
+    weight: 106
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -197,8 +196,8 @@ content:
       use_details: true
     third_party_settings: {  }
   field_news_channels:
-    type: chosen_select
-    weight: 102
+    type: options_select
+    weight: 107
     region: content
     settings: {  }
     third_party_settings: {  }
