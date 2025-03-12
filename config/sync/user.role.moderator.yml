@@ -3,6 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.ckeditor_media_browser
+    - entity_browser.browser.image_browser
+    - entity_browser.browser.media_browser
     - filter.format.rich_text
     - media.type.audio_file
     - media.type.document
@@ -45,6 +48,7 @@ dependencies:
     - entity_browser
     - field_ui
     - file
+    - file_delete
     - filter
     - group
     - lightning_core
@@ -224,6 +228,8 @@ permissions:
   - 'create webform content'
   - 'delete any audio_file media'
   - 'delete any document media'
+  - 'delete files immediately'
+  - 'delete files override usage'
   - 'delete own files'
   - 'delete webform submissions any node'
   - 'delete webform submissions own node'

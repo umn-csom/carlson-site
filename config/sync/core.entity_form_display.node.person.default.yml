@@ -22,7 +22,6 @@ dependencies:
     - field.field.node.person.field_teaser
     - node.type.person
   module:
-    - chosen_field
     - content_moderation
     - field_group
     - media_library
@@ -53,11 +52,11 @@ third_party_settings:
         - field_last_name
         - field_middle_initial
         - field_profile_title
-        - field_profile_admin_dept
-        - field_profile_img
         - field_email
         - field_fax
         - field_office_phone
+        - field_profile_img
+        - field_profile_admin_dept
       label: 'Personal Information'
       region: content
       parent_name: group_content
@@ -165,7 +164,9 @@ content:
     type: metatag_firehose
     weight: 11
     region: content
-    settings: {  }
+    settings:
+      sidebar: true
+      use_details: true
     third_party_settings: {  }
   field_middle_initial:
     type: string_textfield
@@ -191,8 +192,8 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_profile_admin_dept:
-    type: chosen_select
-    weight: 5
+    type: options_select
+    weight: 102
     region: content
     settings: {  }
     third_party_settings: {  }

@@ -27,13 +27,11 @@
                             if (row_element.id == 'title') {
                                 if(index <= render_length) {
                                     $(this).find('.column-header-text').text(table_array[key_thing][row_element.id]);
-                                    console.log('test')
                                     if (table_array[key_thing]['degree_type'].includes("Certificate")) {
                                         $(this).addClass('certificate-degree ');
                                     } else {
                                         $(this).removeClass('certificate-degree ');
                                     }
-                                    console.log('end test')
 
                                     $('.comparison-menu__mobile-header .column-header_mobile-container .column-header-text__mobile').eq(index-1).text(table_array[key_thing][row_element.id]);
                                     $('.comparison-menu__mobile-header .column-header_mobile-container').eq(index-1).removeClass("column-no-content");
@@ -181,8 +179,6 @@
                         layout_array = layout_response[0];
                         table_array = table_response[0];
 
-                        console.log(table_array);
-    
                         if ($('.comparison-menu__select').length > 0) {
                             for(const [key, value] of Object.entries(table_array)) {
                                 let o = new Option(value.title, key);

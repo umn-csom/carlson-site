@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Drupal\Tests\sitewide_alert\Functional;
 
 use Drupal\Core\Url;
-use Drupal\sitewide_alert\Entity\SitewideAlert;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\Tests\sitewide_alert\Traits\SitewideAlertTestTrait;
+use Drupal\sitewide_alert\Entity\SitewideAlert;
 
 /**
  * Defines a class for testing sitewide alerts.
@@ -32,6 +32,8 @@ final class SitewideAlertLimitTest extends BrowserTestBase {
 
   /**
    * Tests the limit pages functionality.
+   *
+   * @throws \Drupal\Core\Entity\EntityStorageException
    */
   public function testAlertLimitPageVisibilityForm(): void {
     $random = $this->getRandomGenerator();
@@ -46,7 +48,7 @@ final class SitewideAlertLimitTest extends BrowserTestBase {
       'limit_to_pages' => '/user/*',
     ]);
     $this->drupalLogin($user);
-    // Untick the limit field.
+    // Un-check the limit field.
     $url = Url::fromRoute('entity.sitewide_alert.edit_form', ['sitewide_alert' => $alert->id()])->toString();
     $this->drupalGet($url);
     $this->submitForm(['limit_alert_by_pages' => FALSE], 'Save');

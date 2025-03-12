@@ -17,34 +17,6 @@ use Drupal\Core\Language\LanguageManagerInterface;
 class SitewideAlertManager {
 
   /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
-
-  /**
-   * The time service.
-   *
-   * @var \Drupal\Component\Datetime\TimeInterface
-   */
-  protected $time;
-
-  /**
-   * The language manager.
-   *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
-   */
-  protected LanguageManagerInterface $languageManager;
-
-  /**
-   * The entity repository.
-   *
-   * @var \Drupal\Core\Entity\EntityRepositoryInterface
-   */
-  protected EntityRepositoryInterface $entityRepository;
-
-  /**
    * Time of current request.
    *
    * @var \DateTimeInterface
@@ -63,11 +35,12 @@ class SitewideAlertManager {
    * @param \Drupal\Core\Entity\EntityRepositoryInterface $entityRepository
    *   The entity repository.
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager, TimeInterface $time, LanguageManagerInterface $languageManager, EntityRepositoryInterface $entityRepository) {
-    $this->entityTypeManager = $entityTypeManager;
-    $this->time = $time;
-    $this->languageManager = $languageManager;
-    $this->entityRepository = $entityRepository;
+  public function __construct(
+    protected EntityTypeManagerInterface $entityTypeManager,
+    protected TimeInterface $time,
+    protected LanguageManagerInterface $languageManager,
+    protected EntityRepositoryInterface $entityRepository,
+  ) {
   }
 
   /**
@@ -88,7 +61,7 @@ class SitewideAlertManager {
       ->getQuery()
       ->condition('status', 1)
       ->condition('langcode', $sitewideAlertStorage->getEntityType()->isTranslatable() ? $langcode : LanguageInterface::LANGCODE_DEFAULT)
-      ->accessCheck(TRUE)
+      ->accessCheck()
       ->execute();
 
     /** @var \Drupal\sitewide_alert\Entity\SitewideAlertInterface[] $sitewideAlerts */
@@ -110,7 +83,6 @@ class SitewideAlertManager {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function activeVisibleSitewideAlerts(): array {
-    /** @var \Drupal\sitewide_alert\Entity\SitewideAlertInterface[] $activeVisibleSitewideAlerts */
     $activeVisibleSitewideAlerts = $this->activeSitewideAlerts();
 
     // Remove any alerts that are scheduled and it is not time to show them.
@@ -128,7 +100,8 @@ class SitewideAlertManager {
    * The time of the next scheduled change of alerts.
    *
    * @return \Drupal\Core\Datetime\DrupalDateTime|null
-   *   Time of next scheduled change of alerts; null if nothing is scheduled to change.
+   *   Time of next scheduled change of alerts; null if nothing is scheduled to
+   *   change.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
@@ -138,7 +111,7 @@ class SitewideAlertManager {
     $nextShowing = $this->soonestAppearingScheduledAlertDateTime();
 
     if ($nextExpiring && $nextShowing) {
-      return $nextShowing > $nextExpiring ? $nextExpiring : $nextShowing;
+      return min($nextShowing, $nextExpiring);
     }
 
     if ($nextShowing) {
@@ -156,7 +129,8 @@ class SitewideAlertManager {
    * Determines the datetime of the soonest expiring visible scheduled alert.
    *
    * @return \Drupal\Core\Datetime\DrupalDateTime|null
-   *   The datetime of the soonest expiring scheduled alert; null if none of the alerts are scheduled to expire.
+   *   The datetime of the soonest expiring scheduled alert; null if none of the
+   *   alerts are scheduled to expire.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
@@ -191,7 +165,8 @@ class SitewideAlertManager {
    * Determines the datetime of the soonest expiring scheduled alert.
    *
    * @return \Drupal\Core\Datetime\DrupalDateTime|null
-   *   The datetime of the soonest expiring scheduled alert; null if none of the alerts are scheduled to expire.
+   *   The datetime of the soonest expiring scheduled alert; null if none of the
+   *   alerts are scheduled to expire.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException

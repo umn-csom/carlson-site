@@ -3,16 +3,25 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.gray_background.field_bg_class
     - field.field.paragraph.gray_background.field_contained_paragraph
     - field.field.paragraph.gray_background.field_hex_color
     - paragraphs.paragraphs_type.gray_background
   module:
     - entity_reference_revisions
+    - options
 id: paragraph.gray_background.default
 targetEntityType: paragraph
 bundle: gray_background
 mode: default
 content:
+  field_bg_class:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
   field_contained_paragraph:
     type: entity_reference_revisions_entity_view
     label: hidden

@@ -1,4 +1,28 @@
-<div class="container-paragraph container-fluid space-above space-below no-lr-margins mb-12" style="background-color: {{ content.field_hex_color|field_value }}">
+{% set bg_class = paragraph.field_bg_class.value %}
+{% set bg_color_map = {
+    '#7a0019': 'bg-primary',
+    '#ffcc33': 'bg-gold',
+    '#fc3': 'bg-gold',
+    '#f7f3f1': 'bg-light',
+    '#f9f5f4': 'bg-light',
+    '#e6e0d2': 'bg-ivory',
+    '#b4d8e2': 'bg-light-blue',
+    '#73b5b2': 'bg-light-blue',
+} %}
+{% set bg_color = content.field_hex_color|field_value|render|lower|trim %}
+{% set classes = [
+    'container-paragraph',
+    'container-fluid',
+    'space-above',
+    'space-below',
+    'no-lr-margins',
+    'mb-12',
+    bg_class ? bg_class : bg_color_map[bg_color] ? bg_color_map[bg_color] : '',
+] %}
+<div class="{{ classes|join(' ')|trim }}"
+{% if bg_color and bg_color_map[bg_color] is empty %}
+    style="background-color: {{ bg_color }};"
+{% endif %}>
     <div class="container">
         {{ content.field_contained_paragraph }}
     </div>

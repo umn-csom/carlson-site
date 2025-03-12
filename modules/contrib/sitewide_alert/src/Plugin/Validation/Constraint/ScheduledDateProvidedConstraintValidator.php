@@ -13,19 +13,12 @@ use Symfony\Component\Validator\ConstraintValidator;
 class ScheduledDateProvidedConstraintValidator extends ConstraintValidator {
 
   /**
-   * Validator 2.5 and upwards compatible execution context.
-   *
-   * @var \Symfony\Component\Validator\Context\ExecutionContextInterface
-   */
-  protected $context;
-
-  /**
    * {@inheritdoc}
    */
-  public function validate($entity, Constraint $constraint): void {
-    if ($entity->isScheduled() &&
-      ($entity->getScheduledStartDateTime() === NULL ||
-      $entity->getScheduledEndDateTime() === NULL)) {
+  public function validate($value, Constraint $constraint): void {
+    if ($value->isScheduled() &&
+      ($value->getScheduledStartDateTime() === NULL ||
+        $value->getScheduledEndDateTime() === NULL)) {
       $this->context->buildViolation($constraint->messageDatesNotProvided)
         ->atPath('scheduled_date')
         ->addViolation();

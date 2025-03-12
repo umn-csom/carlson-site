@@ -9,10 +9,8 @@ use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EditorialContentEntityBase;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\Core\StringTranslation\TranslatableMarkup;
-use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\user\UserInterface;
 
 /**
@@ -101,10 +99,10 @@ class SitewideAlert extends EditorialContentEntityBase implements SitewideAlertI
   protected function urlRouteParameters($rel): array {
     $uri_route_parameters = parent::urlRouteParameters($rel);
 
-    if ($rel === 'revision_revert' && $this instanceof RevisionableInterface) {
+    if ($rel === 'revision_revert') {
       $uri_route_parameters[$this->getEntityTypeId() . '_revision'] = $this->getRevisionId();
     }
-    elseif ($rel === 'revision_delete' && $this instanceof RevisionableInterface) {
+    elseif ($rel === 'revision_delete') {
       $uri_route_parameters[$this->getEntityTypeId() . '_revision'] = $this->getRevisionId();
     }
 
@@ -172,7 +170,7 @@ class SitewideAlert extends EditorialContentEntityBase implements SitewideAlertI
   /**
    * {@inheritdoc}
    */
-  public function getOwner() {
+  public function getOwner(): UserInterface {
     return $this->get('user_id')->entity;
   }
 
@@ -434,26 +432,24 @@ class SitewideAlert extends EditorialContentEntityBase implements SitewideAlertI
    * {@inheritdoc}
    */
   public function getScheduledStartDateTime(): ?DrupalDateTime {
-    $value = $this->get('scheduled_date')->value;
-
-    if ($value === NULL || (is_array($value) && (empty($value['date']) || empty($value['time'])))) {
+    $start_date = $this->get('scheduled_date')->start_date;
+    if ($start_date === NULL || (is_array($start_date) && (empty($start_date['date']) || empty($start_date['time'])))) {
       return NULL;
     }
-
-    return DrupalDateTime::createFromFormat(DateTimeItemInterface::DATETIME_STORAGE_FORMAT, $value, DateTimeItemInterface::STORAGE_TIMEZONE);
+    assert($start_date instanceof DrupalDateTime);
+    return $start_date;
   }
 
   /**
    * {@inheritdoc}
    */
   public function getScheduledEndDateTime(): ?DrupalDateTime {
-    $end_value = $this->get('scheduled_date')->end_value;
-
-    if ($end_value === NULL || (is_array($end_value) && (empty($end_value['date']) || empty($end_value['time'])))) {
+    $end_date = $this->get('scheduled_date')->end_date;
+    if ($end_date === NULL || (is_array($end_date) && (empty($end_date['date']) || empty($end_date['time'])))) {
       return NULL;
     }
-
-    return DrupalDateTime::createFromFormat(DateTimeItemInterface::DATETIME_STORAGE_FORMAT, $end_value, DateTimeItemInterface::STORAGE_TIMEZONE);
+    assert($end_date instanceof DrupalDateTime);
+    return $end_date;
   }
 
   /**
@@ -473,7 +469,7 @@ class SitewideAlert extends EditorialContentEntityBase implements SitewideAlertI
   /**
    * {@inheritdoc}
    */
-  public function setDismissibleIgnoreBeforeTime($timestamp): SitewideAlertInterface {
+  public function setDismissibleIgnoreBeforeTime(int $timestamp): SitewideAlertInterface {
     $this->get('dismissible_ignore_before_time')->value = $timestamp;
     return $this;
   }
@@ -504,13 +500,42 @@ class SitewideAlert extends EditorialContentEntityBase implements SitewideAlertI
       return $paths;
     }
 
+    $langcode_prefix = $this->getLangcodePrefix();
     foreach (explode("\n", strip_tags($pagesString)) as $path) {
       $path = trim($path);
-      if (!empty($path) && str_starts_with($path, '/')) {
-        $paths[] = $path;
+      if (empty($path)) {
+        continue;
+      }
+
+      if (!str_starts_with($path, '/')) {
+        continue;
+      }
+
+      // To avoid problems with special URL for default language
+      // Will add two paths default one and with prefix.
+      $paths[] = $path;
+      if ($langcode_prefix) {
+        $paths[] = $langcode_prefix . $path;
       }
     }
     return $paths;
+  }
+
+  /**
+   * Returns a language prefix to add to paths.
+   *
+   * Return nothing if alerts are not translatable.
+   *
+   * @return string
+   *   Langcode path. E.g. "/sv-se" or "/fr-fr"
+   */
+  protected function getLangcodePrefix(): string {
+    if (!$this->isTranslatable()) {
+      return '';
+    }
+
+    $langcode = $this->languageManager()->getCurrentLanguage()->getId();
+    return "/$langcode";
   }
 
   /**

@@ -26,7 +26,7 @@ interface SitewideAlertStorageInterface extends ContentEntityStorageInterface {
    * @return int[]
    *   Sitewide Alert revision IDs (in ascending order).
    */
-  public function revisionIds(SitewideAlertInterface $entity);
+  public function revisionIds(SitewideAlertInterface $entity): array;
 
   /**
    * Gets a list of revision IDs having a given user as Sitewide Alert author.
@@ -37,7 +37,7 @@ interface SitewideAlertStorageInterface extends ContentEntityStorageInterface {
    * @return int[]
    *   Sitewide Alert revision IDs (in ascending order).
    */
-  public function userRevisionIds(AccountInterface $account);
+  public function userRevisionIds(AccountInterface $account): array;
 
   /**
    * Counts the number of revisions in the default language.
@@ -48,7 +48,7 @@ interface SitewideAlertStorageInterface extends ContentEntityStorageInterface {
    * @return int
    *   The number of revisions in the default language.
    */
-  public function countDefaultLanguageRevisions(SitewideAlertInterface $entity);
+  public function countDefaultLanguageRevisions(SitewideAlertInterface $entity): int;
 
   /**
    * Unsets the language for all Sitewide Alert with the given language.
@@ -56,6 +56,6 @@ interface SitewideAlertStorageInterface extends ContentEntityStorageInterface {
    * @param \Drupal\Core\Language\LanguageInterface $language
    *   The language object.
    */
-  public function clearRevisionsLanguage(LanguageInterface $language);
+  public function clearRevisionsLanguage(LanguageInterface $language): void;
 
 }

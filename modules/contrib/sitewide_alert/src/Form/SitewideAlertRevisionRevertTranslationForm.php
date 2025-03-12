@@ -26,21 +26,7 @@ class SitewideAlertRevisionRevertTranslationForm extends SitewideAlertRevisionRe
    *
    * @var string
    */
-  protected $langcode;
-
-  /**
-   * The language manager.
-   *
-   * @var \Drupal\Core\Language\LanguageManagerInterface
-   */
-  protected $languageManager;
-
-  /**
-   * The time service.
-   *
-   * @var \Drupal\Component\Datetime\TimeInterface
-   */
-  protected $time;
+  protected string $langcode;
 
   /**
    * Constructs a new SitewideAlertRevisionRevertTranslationForm.
@@ -49,21 +35,24 @@ class SitewideAlertRevisionRevertTranslationForm extends SitewideAlertRevisionRe
    *   The Sitewide Alert storage.
    * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
    *   The date formatter service.
-   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   * @param \Drupal\Core\Language\LanguageManagerInterface $languageManager
    *   The language manager.
    * @param \Drupal\Component\Datetime\TimeInterface $time
    *   The time service.
    */
-  public function __construct(EntityStorageInterface $entity_storage, DateFormatterInterface $date_formatter, LanguageManagerInterface $language_manager, TimeInterface $time) {
+  public function __construct(
+    EntityStorageInterface $entity_storage,
+    DateFormatterInterface $date_formatter,
+    protected LanguageManagerInterface $languageManager,
+    protected TimeInterface $time,
+  ) {
     parent::__construct($entity_storage, $date_formatter, $time);
-    $this->languageManager = $language_manager;
-    $this->time = $time;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container): static {
     return new static(
       $container->get('entity_type.manager')->getStorage('sitewide_alert'),
       $container->get('date.formatter'),

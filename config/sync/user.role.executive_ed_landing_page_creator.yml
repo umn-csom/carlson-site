@@ -3,6 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.ckeditor_media_browser
+    - entity_browser.browser.image_browser
+    - entity_browser.browser.media_browser
     - filter.format.rich_text
     - media.type.document
     - media.type.image
@@ -13,12 +16,12 @@ dependencies:
     - taxonomy.vocabulary.executive_ed_program_times
     - workflows.workflow.editorial
   module:
-    - carlson_general
     - ckeditor_templates
     - content_moderation
     - contextual
     - entity_browser
     - file
+    - file_delete
     - filter
     - lightning_core
     - lightning_scheduler
@@ -82,6 +85,8 @@ permissions:
   - 'delete any video media'
   - 'delete executive_ed_landing_page revisions'
   - 'delete executive_ed_program revisions'
+  - 'delete files immediately'
+  - 'delete files override usage'
   - 'delete own executive_ed_landing_page content'
   - 'delete own executive_ed_program content'
   - 'delete own files'
@@ -101,7 +106,6 @@ permissions:
   - 'schedule editorial transition create_new_draft'
   - 'schedule editorial transition publish'
   - 'schedule editorial transition ready_to_publish'
-  - 'use ckeditor_template session'
   - 'use editorial transition create_new_draft'
   - 'use editorial transition review'
   - 'use moderation sidebar'

@@ -47,7 +47,7 @@ interface SitewideAlertInterface extends ContentEntityInterface, RevisionLogInte
    * @return int
    *   Creation timestamp of the Sitewide Alert.
    */
-  public function getCreatedTime();
+  public function getCreatedTime(): int;
 
   /**
    * Sets the Sitewide Alert creation timestamp.
@@ -101,7 +101,7 @@ interface SitewideAlertInterface extends ContentEntityInterface, RevisionLogInte
    * @return bool
    *   TRUE if the sitewide alert is dismissible, FALSE otherwise.
    */
-  public function isDismissible();
+  public function isDismissible(): bool;
 
   /**
    * Gets the timestamp of when any dismissals should be ignored before.
@@ -119,7 +119,7 @@ interface SitewideAlertInterface extends ContentEntityInterface, RevisionLogInte
    *
    * @return $this
    */
-  public function setDismissibleIgnoreBeforeTime($timestamp): self;
+  public function setDismissibleIgnoreBeforeTime(int $timestamp): self;
 
   /**
    * Gets the style of the alert.
@@ -146,7 +146,7 @@ interface SitewideAlertInterface extends ContentEntityInterface, RevisionLogInte
   public function getPagesToShowOn(): array;
 
   /**
-   * Should we negate the pages we show on.
+   * Should we negate the pages we show on?
    *
    * @return bool
    *   TRUE if we should negate the page patterns, FALSE otherwise.
