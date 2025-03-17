@@ -6,14 +6,17 @@
             height: 25px;
             width: 25px;
             border-radius: 25px;
-            background: $maroon;
+            background: $gold;
             border: none;
 
             i {
                 color: white;
             }
             &:hover, &:focus, &:active {
-                background: $gold;
+                i {
+                    color: #363230;
+                }
+                background: $ivory;
             }
         }
     }
@@ -23,7 +26,6 @@
 
 
 .comparison-table {
-    background: white;
     table-layout: fixed;
     width: 100%;
 
@@ -34,6 +36,13 @@
     th {
         color: #363230;
     }
+
+    thead {
+        th {
+            color: $white;
+        }
+    }
+
     th, td {
         width: 25%;
         white-space: normal;
@@ -44,12 +53,12 @@
 
     &__header {
         .no-data {
-            background: transparent;
+            background: $maroon;
         }
         .column-header {
-            background: $gold;
+            background: $maroon;
             &.certificate-degree, &.column-no-content {
-                background: $white;
+                background: $maroon;
             }
             &-text {
                 width: 100%;
@@ -104,6 +113,9 @@
                     background: transparent;
                 }
             }
+            th.comparison-table__category {
+                background: $ivory;
+            }
             th, td {
                 white-space: normal;
 
@@ -138,15 +150,11 @@
             }
         }
     }
-
 }
 
 .comparison-menu {
 
     width: 100%;
-    padding: 10px;
-
-    background: $white;
 
     &__header {
         text-align: center;
@@ -167,7 +175,7 @@
     &__ui {
         display: flex;
         flex-wrap: wrap;
-        justify-content: center;
+        justify-content: left;
         align-items: end;
     }
 
@@ -180,7 +188,6 @@
     }
 
     &__add-program {
-        padding: 10px;
 
         #comparison-add {
           margin: 0 20px;

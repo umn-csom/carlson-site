@@ -90,8 +90,8 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
         $question_states = [];
         $question_attributes = [];
 
-        $prev_button = $question_key > 0 ? '<legend class="d-none">Prev Button</legend><a class="question-'.($question_key + 1).'-prev-button question-'.$question->id().'-prev-button quiz--question--prev btn maroon-outline-button py-3 px-4 px-sm-5" href="#edit-question-'.$questions[$question_key - 1]->id().'-title" id="question-'.$question->id().'-prev-button">Previous</a>' : '';
-        $next_button = next($questions) ? '<legend class="d-none">Next Button</legend><a class="question-'.($question_key + 1).'-next-button question-'.$question->id().'-next-button quiz--question--next btn maroon-solid-button py-3 px-4 pl-sm-5" href="#edit-question-'.$questions[$question_key + 1]->id().'-title" id="question-'.$question->id().'-next-button">Next</a>' : '';;
+        // $prev_button = $question_key > 0 ? '<legend class="d-none">Prev Button</legend><a class="question-'.($question_key + 1).'-prev-button question-'.$question->id().'-prev-button quiz--question--prev btn maroon-outline-button py-3 px-4 px-sm-5" href="#edit-question-'.$questions[$question_key - 1]->id().'-title" id="question-'.$question->id().'-prev-button">Previous</a>' : '';
+        // $next_button = next($questions) ? '<legend class="d-none">Next Button</legend><a class="question-'.($question_key + 1).'-next-button question-'.$question->id().'-next-button quiz--question--next btn maroon-solid-button py-3 px-4 pl-sm-5" href="#edit-question-'.$questions[$question_key + 1]->id().'-title" id="question-'.$question->id().'-next-button">Next</a>' : '';;
 
         foreach ($answers as $answer_key => $answer) {
           $answer_id = $answer->id();
@@ -173,35 +173,35 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
           '#required_error' => empty($states) ? 'Please select an answer before proceeding' : ''
         ];
 
-        if($prev_button !== '' || $next_button !== '') {
+        // if($prev_button !== '' || $next_button !== '') {
 
-          if($prev_button !== '') {
-            $elements['question_'.$question->id().'_prev_button'] = [
-              '#type' => 'processed_text',
-              '#format' => 'rich_text',
-              '#wrapper_attributes' => [
-                'class' => ['mb-5 mr-4 d-inline-block float-left'],
-              ],
-              '#text' => $prev_button,
-              '#states' => $states,
-            ];
-            if(!empty($states)) {
-              $prev_question = $questions[$question_key-1];
-              $elements['question_'.$prev_question->id().'_next_button']['#states'] = $states;
-            }
-          }
+        //   if($prev_button !== '') {
+        //     $elements['question_'.$question->id().'_prev_button'] = [
+        //       '#type' => 'processed_text',
+        //       '#format' => 'rich_text',
+        //       '#wrapper_attributes' => [
+        //         'class' => ['mb-5 mr-4 d-inline-block float-left'],
+        //       ],
+        //       '#text' => $prev_button,
+        //       '#states' => $states,
+        //     ];
+        //     if(!empty($states)) {
+        //       $prev_question = $questions[$question_key-1];
+        //       $elements['question_'.$prev_question->id().'_next_button']['#states'] = $states;
+        //     }
+        //   }
 
-          if($next_button !== '') {
-            $elements['question_'.$question->id().'_next_button'] = [
-              '#type' => 'processed_text',
-              '#format' => 'rich_text',
-              '#wrapper_attributes' => [
-                'class' => ['mb-5 d-inline-block'],
-              ],
-              '#text' => $next_button,
-            ];
-          }
-        }
+        //   if($next_button !== '') {
+        //     $elements['question_'.$question->id().'_next_button'] = [
+        //       '#type' => 'processed_text',
+        //       '#format' => 'rich_text',
+        //       '#wrapper_attributes' => [
+        //         'class' => ['mb-5 d-inline-block'],
+        //       ],
+        //       '#text' => $next_button,
+        //     ];
+        //   }
+        // }
       }
     }
 
