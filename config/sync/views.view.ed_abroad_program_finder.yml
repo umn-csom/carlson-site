@@ -20,6 +20,7 @@ dependencies:
     - node
     - taxonomy
     - user
+    - views_custom_cache_tag
 id: ed_abroad_program_finder
 label: 'Ed Abroad Program Finder'
 module: views
@@ -552,8 +553,9 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: "node_list:education_abroad_program\r\n"
       empty:
         area:
           id: area

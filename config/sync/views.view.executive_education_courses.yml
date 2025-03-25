@@ -18,6 +18,7 @@ dependencies:
     - paragraphs
     - taxonomy
     - user
+    - views_custom_cache_tag
 id: executive_education_courses
 label: 'Executive Education Courses'
 module: views
@@ -101,8 +102,9 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:executive_ed_program'
       empty: {  }
       sorts:
         delta:
@@ -233,7 +235,11 @@ display:
     position: 1
     display_options:
       display_description: ''
-      display_extenders: {  }
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
       block_description: 'Exec Ed Courses - Analytics'
       allow:
         items_per_page: false

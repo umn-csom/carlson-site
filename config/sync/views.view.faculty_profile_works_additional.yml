@@ -6,6 +6,7 @@ dependencies:
     - node
     - paragraphs
     - user
+    - views_custom_cache_tag
 id: faculty_profile_works_additional
 label: 'Faculty Profile Additional Works'
 module: views
@@ -93,8 +94,9 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: 'paragraph_list:profile_selected_works'
       empty: {  }
       sorts:
         delta:
@@ -191,56 +193,18 @@ display:
         - url
         - 'user.node_grants:view'
         - user.permissions
-      tags:
-        - 'config:core.entity_view_display.paragraph.accordion.default'
-        - 'config:core.entity_view_display.paragraph.accordion_tab_item.default'
-        - 'config:core.entity_view_display.paragraph.basic_paragraph.default'
-        - 'config:core.entity_view_display.paragraph.carlson_advantage.default'
-        - 'config:core.entity_view_display.paragraph.carlson_staff_faculty.default'
-        - 'config:core.entity_view_display.paragraph.carlson_staff_faculty_item.default'
-        - 'config:core.entity_view_display.paragraph.column.default'
-        - 'config:core.entity_view_display.paragraph.compound_link.default'
-        - 'config:core.entity_view_display.paragraph.contact_cta.default'
-        - 'config:core.entity_view_display.paragraph.course_grid.default'
-        - 'config:core.entity_view_display.paragraph.course_grid_item.default'
-        - 'config:core.entity_view_display.paragraph.cta_link.default'
-        - 'config:core.entity_view_display.paragraph.ee_course_dates.default'
-        - 'config:core.entity_view_display.paragraph.ee_course_dates.teaser'
-        - 'config:core.entity_view_display.paragraph.featured_people.default'
-        - 'config:core.entity_view_display.paragraph.featured_person.default'
-        - 'config:core.entity_view_display.paragraph.feature_block.default'
-        - 'config:core.entity_view_display.paragraph.fluid_columns.default'
-        - 'config:core.entity_view_display.paragraph.lead_paragraph.default'
-        - 'config:core.entity_view_display.paragraph.profile_activity.default'
-        - 'config:core.entity_view_display.paragraph.profile_degree.default'
-        - 'config:core.entity_view_display.paragraph.profile_expertise.default'
-        - 'config:core.entity_view_display.paragraph.profile_selected_works.default'
-        - 'config:core.entity_view_display.paragraph.program_cta.default'
-        - 'config:core.entity_view_display.paragraph.program_promo.default'
-        - 'config:core.entity_view_display.paragraph.quote.default'
-        - 'config:core.entity_view_display.paragraph.quote_group.default'
-        - 'config:core.entity_view_display.paragraph.schedule.default'
-        - 'config:core.entity_view_display.paragraph.schedule_details.default'
-        - 'config:core.entity_view_display.paragraph.schedule_row.default'
-        - 'config:core.entity_view_display.paragraph.slide.default'
-        - 'config:core.entity_view_display.paragraph.slideshow.default'
-        - 'config:core.entity_view_display.paragraph.speaker.default'
-        - 'config:core.entity_view_display.paragraph.speakers.default'
-        - 'config:core.entity_view_display.paragraph.sponsor_logos.default'
-        - 'config:core.entity_view_display.paragraph.statistic.default'
-        - 'config:core.entity_view_display.paragraph.statistics.default'
-        - 'config:core.entity_view_display.paragraph.tabbed_content.default'
-        - 'config:core.entity_view_display.paragraph.table.default'
-        - 'config:core.entity_view_display.paragraph.video.default'
-        - 'config:core.entity_view_display.paragraph.video_text_below.default'
-        - 'config:core.entity_view_display.paragraph.video_text_right.default'
+      tags: {  }
   block_1:
     id: block_1
     display_title: Block
     display_plugin: block
     position: 1
     display_options:
-      display_extenders: {  }
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
       contexts:
@@ -248,46 +212,4 @@ display:
         - url
         - 'user.node_grants:view'
         - user.permissions
-      tags:
-        - 'config:core.entity_view_display.paragraph.accordion.default'
-        - 'config:core.entity_view_display.paragraph.accordion_tab_item.default'
-        - 'config:core.entity_view_display.paragraph.basic_paragraph.default'
-        - 'config:core.entity_view_display.paragraph.carlson_advantage.default'
-        - 'config:core.entity_view_display.paragraph.carlson_staff_faculty.default'
-        - 'config:core.entity_view_display.paragraph.carlson_staff_faculty_item.default'
-        - 'config:core.entity_view_display.paragraph.column.default'
-        - 'config:core.entity_view_display.paragraph.compound_link.default'
-        - 'config:core.entity_view_display.paragraph.contact_cta.default'
-        - 'config:core.entity_view_display.paragraph.course_grid.default'
-        - 'config:core.entity_view_display.paragraph.course_grid_item.default'
-        - 'config:core.entity_view_display.paragraph.cta_link.default'
-        - 'config:core.entity_view_display.paragraph.ee_course_dates.default'
-        - 'config:core.entity_view_display.paragraph.ee_course_dates.teaser'
-        - 'config:core.entity_view_display.paragraph.featured_people.default'
-        - 'config:core.entity_view_display.paragraph.featured_person.default'
-        - 'config:core.entity_view_display.paragraph.feature_block.default'
-        - 'config:core.entity_view_display.paragraph.fluid_columns.default'
-        - 'config:core.entity_view_display.paragraph.lead_paragraph.default'
-        - 'config:core.entity_view_display.paragraph.profile_activity.default'
-        - 'config:core.entity_view_display.paragraph.profile_degree.default'
-        - 'config:core.entity_view_display.paragraph.profile_expertise.default'
-        - 'config:core.entity_view_display.paragraph.profile_selected_works.default'
-        - 'config:core.entity_view_display.paragraph.program_cta.default'
-        - 'config:core.entity_view_display.paragraph.program_promo.default'
-        - 'config:core.entity_view_display.paragraph.quote.default'
-        - 'config:core.entity_view_display.paragraph.quote_group.default'
-        - 'config:core.entity_view_display.paragraph.schedule.default'
-        - 'config:core.entity_view_display.paragraph.schedule_details.default'
-        - 'config:core.entity_view_display.paragraph.schedule_row.default'
-        - 'config:core.entity_view_display.paragraph.slide.default'
-        - 'config:core.entity_view_display.paragraph.slideshow.default'
-        - 'config:core.entity_view_display.paragraph.speaker.default'
-        - 'config:core.entity_view_display.paragraph.speakers.default'
-        - 'config:core.entity_view_display.paragraph.sponsor_logos.default'
-        - 'config:core.entity_view_display.paragraph.statistic.default'
-        - 'config:core.entity_view_display.paragraph.statistics.default'
-        - 'config:core.entity_view_display.paragraph.tabbed_content.default'
-        - 'config:core.entity_view_display.paragraph.table.default'
-        - 'config:core.entity_view_display.paragraph.video.default'
-        - 'config:core.entity_view_display.paragraph.video_text_below.default'
-        - 'config:core.entity_view_display.paragraph.video_text_right.default'
+      tags: {  }

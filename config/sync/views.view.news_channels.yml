@@ -24,6 +24,7 @@ dependencies:
     - taxonomy
     - text
     - user
+    - views_custom_cache_tag
 id: news_channels
 label: 'News Channels'
 module: views
@@ -106,8 +107,9 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:news'
       empty: {  }
       sorts:
         created:
@@ -798,6 +800,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 15
           total_pages: null
           id: 0
@@ -812,7 +815,6 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          pagination_heading_level: h4
       arguments: {  }
       filters:
         status:
@@ -932,6 +934,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 15
           total_pages: null
           id: 0
@@ -946,7 +949,6 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          pagination_heading_level: h4
       arguments: {  }
       filters:
         status:
@@ -1334,6 +1336,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 15
           total_pages: null
           id: 0
@@ -1348,7 +1351,6 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          pagination_heading_level: h4
       arguments: {  }
       style:
         type: default
@@ -2209,6 +2211,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 40
           total_pages: null
           id: 0
@@ -2223,7 +2226,6 @@ display:
             items_per_page_options_all_label: '- All -'
             offset: false
             offset_label: Offset
-          pagination_heading_level: h4
       arguments: {  }
       filters:
         status:

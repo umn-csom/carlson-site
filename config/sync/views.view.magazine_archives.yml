@@ -9,6 +9,7 @@ dependencies:
     - node
     - options
     - user
+    - views_custom_cache_tag
 id: magazine_archives
 label: 'Magazine archives'
 module: views
@@ -92,8 +93,9 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:magazine'
       empty: {  }
       sorts:
         created:
@@ -271,7 +273,11 @@ display:
           granularity: second
       defaults:
         sorts: false
-      display_extenders: {  }
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
       contexts:
