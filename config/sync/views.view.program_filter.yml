@@ -13,6 +13,7 @@ dependencies:
     - options
     - taxonomy
     - user
+    - views_custom_cache_tag
 id: program_filter
 label: 'Browse Programs (program filter)'
 module: views
@@ -181,8 +182,9 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: 'taxonomy_term_list:quiz_result_set'
       empty:
         area:
           id: area

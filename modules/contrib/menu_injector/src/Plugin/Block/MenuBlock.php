@@ -29,7 +29,7 @@ class MenuBlock extends SuperMenuBlock {
    *
    * @var string
    */
-  protected $menuRoot;
+  protected string $menuRoot;
   public $tree;
 
   /**

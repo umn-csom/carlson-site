@@ -15,6 +15,7 @@ dependencies:
     - paragraphs
     - taxonomy
     - user
+    - views_custom_cache_tag
 id: executive_ed_program_finder
 label: 'Executive Ed Program Finder'
 module: views
@@ -145,7 +146,6 @@ display:
                     filter_rewrite_values: '- Any -|Select Topic'
                     filter_rewrite_values_key: false
                   collapsible: false
-                  is_secondary: false
                   collapsible_disable_automatic_open: false
                   hide_label: false
               field_ee_level_target_id:
@@ -156,7 +156,6 @@ display:
                     filter_rewrite_values: '- Any -|Select Level'
                     filter_rewrite_values_key: false
                   collapsible: false
-                  is_secondary: false
                   collapsible_disable_automatic_open: false
                   hide_label: false
               field_ee_course_location_target_id:
@@ -167,7 +166,6 @@ display:
                     filter_rewrite_values: '- Any -|Select Location'
                     filter_rewrite_values_key: false
                   collapsible: false
-                  is_secondary: false
                   collapsible_disable_automatic_open: false
                   hide_label: false
       access:
@@ -175,8 +173,9 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:executive_ed_program'
       empty:
         area:
           id: area

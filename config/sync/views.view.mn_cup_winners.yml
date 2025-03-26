@@ -11,6 +11,7 @@ dependencies:
     - datatables
     - taxonomy
     - user
+    - views_custom_cache_tag
 id: mn_cup_winners
 label: 'MN Cup Winners'
 module: views
@@ -303,8 +304,9 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: 'taxonomy_term_list:mn_cup_winners'
       empty: {  }
       sorts: {  }
       arguments: {  }

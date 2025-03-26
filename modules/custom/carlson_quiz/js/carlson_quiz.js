@@ -113,27 +113,27 @@
                 }
             );
 
-            $('.quiz--question--prev, .quiz--question--next', context).on(
-                'click', function (event) {
-                    if (this.hash !== "") {
-                        event.preventDefault();
-                        var hash = this.hash;
-                        $('html, body').animate(
-                            {
-                                scrollTop: $(hash).offset().top + $("body").scrollTop() - 200
-                            }, 800, function () {
-                            }
-                        );
-                    }
-                }
-            );
+            // $('.quiz--question--prev, .quiz--question--next', context).on(
+            //     'click', function (event) {
+            //         if (this.hash !== "") {
+            //             event.preventDefault();
+            //             var hash = this.hash;
+            //             $('html, body').animate(
+            //                 {
+            //                     scrollTop: $(hash).offset().top + $("body").scrollTop() - 200
+            //                 }, 800, function () {
+            //                 }
+            //             );
+            //         }
+            //     }
+            // );
 
-            $('.quiz--main-img--inner', context).stick_in_parent(
-                {
-                    parent: '.quiz--main-img',
-                    offset_top: 75
-                }
-            );
+            // $('.quiz--main-img--inner', context).stick_in_parent(
+            //     {
+            //         parent: '.quiz--main-img',
+            //         offset_top: 75
+            //     }
+            // );
 
             var offset = $(window).outerWidth() > 991 ? $(window).outerHeight() - $('.quiz--progress-bar', context).first().outerHeight() : $('#carlson-navbar', context).outerHeight();
             $('.quiz--progress-bar', context).stick_in_parent(

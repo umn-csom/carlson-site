@@ -48,6 +48,7 @@ dependencies:
     - taxonomy
     - user
     - views_bulk_operations
+    - views_custom_cache_tag
 id: event_channels
 label: 'Event Channels'
 module: views
@@ -147,8 +148,9 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       empty:
         area:
           id: area
@@ -345,6 +347,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: true
         title: false
         css_class: false
         use_more: false
@@ -436,13 +439,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -468,6 +471,10 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       arguments: {  }
       filters:
         status:
@@ -761,6 +768,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -851,13 +859,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -883,6 +891,10 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:events'
       arguments: {  }
       filters:
         status:
@@ -1176,6 +1188,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -1251,13 +1264,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -1545,13 +1558,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -1577,6 +1590,10 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       arguments: {  }
       filters:
         status:
@@ -1875,6 +1892,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -1966,13 +1984,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -1998,6 +2016,10 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       sorts:
         sticky:
           id: sticky
@@ -2277,6 +2299,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -2367,13 +2390,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -2782,13 +2805,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -2826,6 +2849,10 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       arguments: {  }
       filters:
         status:
@@ -3161,6 +3188,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         use_ajax: false
         pager: false
@@ -3192,7 +3220,9 @@ display:
             format: rich_text
           tokenize: false
       display_extenders:
-        metatag_display_extender: {  }
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
         simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
@@ -3247,13 +3277,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -3279,6 +3309,10 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       arguments: {  }
       filters:
         status:
@@ -3463,6 +3497,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -3560,13 +3595,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -3592,6 +3627,10 @@ display:
                   collapsible_disable_automatic_open: false
                   is_secondary: false
                   hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       arguments: {  }
       filters:
         status:
@@ -3733,6 +3772,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -3766,7 +3806,9 @@ display:
             format: rich_text
           tokenize: false
       display_extenders:
-        metatag_display_extender: {  }
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
         simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
@@ -3820,13 +3862,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -4240,13 +4282,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -4553,13 +4595,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -4922,13 +4964,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -5294,13 +5336,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -5689,13 +5731,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -6070,13 +6112,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -6373,13 +6415,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -6722,13 +6764,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -7091,13 +7133,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -7511,13 +7553,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -7773,13 +7815,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -8084,13 +8126,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -8346,13 +8388,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
@@ -9164,13 +9206,13 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
             filter:
               title:
                 plugin_id: default
