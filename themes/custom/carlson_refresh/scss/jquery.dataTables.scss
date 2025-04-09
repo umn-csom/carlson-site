@@ -54,7 +54,6 @@ table.dataTable {
   position: relative;
   clear: both;
   *zoom: 1;
-  overflow: hidden;
   margin-bottom: 1.6rem;
 }
 
@@ -72,7 +71,7 @@ table.dataTable {
   float: left;
   text-align: left;
 
-  input[type="text"] {
+  input[type="search"] {
     // Bootstrap form-control styles.
     height: calc(1.5em + 2rem + 2px);
     width: 100%;
@@ -84,9 +83,19 @@ table.dataTable {
     color: #495057;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid #D5D6D2;
+    border: 1px solid $border-gray;
     border-radius: 0.25rem;
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:hover {
+        border-color: $mid-slate-2;
+    }
+
+    &:focus {
+        outline: 0;
+        border-color: $cyan;
+        box-shadow: 0 0 0 0.35rem rgba($cyan, 0.4);
+    }
   }
 }
 
