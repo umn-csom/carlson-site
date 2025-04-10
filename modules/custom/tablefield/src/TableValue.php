@@ -10,9 +10,9 @@ use Drupal\Core\TypedData\TypedData;
 class TableValue extends TypedData {
 
   /**
-   * Array of values.
+   * The computed value.
    *
-   * @var array
+   * @var mixed
    */
   protected $value;
 
@@ -35,16 +35,6 @@ class TableValue extends TypedData {
       $value = trim($value);
     }
     return $value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setValue($value, $notify = TRUE) {
-    // Notify the parent of any changes.
-    if ($notify && isset($this->parent)) {
-      $this->parent->onChange($this->name);
-    }
   }
 
 }

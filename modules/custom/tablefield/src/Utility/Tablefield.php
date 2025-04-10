@@ -20,7 +20,7 @@ class Tablefield {
 
     // Rationalize the table data.
     if (!empty($tablefield)) {
-      // Remove extraneous form data.
+      // Remove exterraneous form data.
       $count_cols = $tablefield['rebuild']['count_cols'];
       $count_rows = $tablefield['rebuild']['count_rows'];
       unset($tablefield['rebuild']);

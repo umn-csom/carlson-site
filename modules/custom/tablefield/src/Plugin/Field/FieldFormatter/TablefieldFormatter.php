@@ -12,6 +12,7 @@ use Drupal\Core\Session\AccountProxy;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+// Use Drupal\tablefield\Utility\Tablefield;.
 /**
  * Plugin implementation of the default Tablefield formatter.
  *
@@ -42,17 +43,15 @@ class TablefieldFormatter extends FormatterBase implements ContainerFactoryPlugi
   /**
    * {@inheritdoc}
    */
-  public function __construct(
-    $plugin_id,
-    $plugin_definition,
-    FieldDefinitionInterface $field_definition,
-    array $settings,
-    $label,
-    $view_mode,
-    array $third_party_settings,
-    AccountProxy $currentUser,
-    ModuleHandlerInterface $moduleHandler,
-  ) {
+  public function __construct($plugin_id,
+                              $plugin_definition,
+                              FieldDefinitionInterface $field_definition,
+                              array $settings,
+                              $label,
+                              $view_mode,
+                              array $third_party_settings,
+                              AccountProxy $currentUser,
+                              ModuleHandlerInterface $moduleHandler) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $label, $view_mode, $third_party_settings);
     $this->currentUser = $currentUser;
     $this->moduleHandler = $moduleHandler;
@@ -146,12 +145,13 @@ class TablefieldFormatter extends FormatterBase implements ContainerFactoryPlugi
     foreach ($items as $delta => $table) {
       // Check if the table value exists and is not empty.
       if (!empty($table->value) && !$this->isTableDataEmpty($table->value)) {
+        // Tablefield::rationalizeTable($table->value);.
         $tabledata = $table->value;
         $caption = !empty($tabledata['caption']) ? $tabledata['caption'] : '';
         if (isset($tabledata['caption'])) {
           unset($tabledata['caption']);
         }
-  
+
         // Run the table through input filters.
         foreach ($tabledata as $row_key => $row) {
           foreach ($row as $col_key => $cell) {
@@ -251,11 +251,11 @@ class TablefieldFormatter extends FormatterBase implements ContainerFactoryPlugi
 
         $elements[$delta] = $render_array;
       }
+
     }
-  
     return $elements;
   }
-  
+
   /**
    * Checks if the table data is empty, ignoring specific fields like 'weight'.
    *
@@ -267,21 +267,24 @@ class TablefieldFormatter extends FormatterBase implements ContainerFactoryPlugi
    */
   protected function isTableDataEmpty($data) {
     foreach ($data as $key => $value) {
-      // Ignore specific keys like 'weight'.
+      // Ignore the weight key because it gets populated and stored regardless
+      // of whether there is data in the row.
       if ($key === 'weight') {
         continue;
       }
-  
+
       if (is_array($value)) {
         // Recursively check nested arrays.
         if (!$this->isTableDataEmpty($value)) {
-          return FALSE; // If any nested value is not empty, return FALSE.
+          return FALSE;
         }
-      } elseif (!empty($value)) {
-        return FALSE; // If any value is not empty, return FALSE.
+      }
+      elseif (!empty($value)) {
+        return FALSE;
       }
     }
-    return TRUE; // All values are empty (except ignored fields).
+
+    return TRUE;
   }
 
 }

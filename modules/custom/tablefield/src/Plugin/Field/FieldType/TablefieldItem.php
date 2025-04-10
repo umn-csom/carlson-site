@@ -2,13 +2,13 @@
 
 namespace Drupal\tablefield\Plugin\Field\FieldType;
 
-use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\Field\FieldItemBase;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Routing\RouteObjectInterface;
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\TypedData\MapDataDefinition;
+use Drupal\Core\Field\FieldItemBase;
+use Drupal\Core\Routing\RouteObjectInterface;
 
 /**
  * Plugin implementation of the 'tablefield' field type.
@@ -161,14 +161,14 @@ class TablefieldItem extends FieldItemBase {
       $values['rebuild'] = $values['tablefield']['rebuild'];
       $values['value'] = $values['tablefield']['table'];
       unset($values['tablefield']);
-      unset($values['tablefield']['rebuild']);
+      unset($values['rebuild']['rebuild']);
     }
     // In case cell_processing is enabled
     // text_format puts values under an extra 'value' key.
     elseif (!empty($values['value']['tablefield'])) {
       $values['rebuild'] = $values['value']['tablefield']['rebuild'];
       $values['value'] = $values['value']['tablefield']['table'];
-      unset($values['value']['tablefield']['rebuild']);
+      unset($values['rebuild']['rebuild']);
     }
     // In case this is being loaded from storage recalculate rows/cols.
     elseif (empty($values['rebuild'])) {

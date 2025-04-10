@@ -4,8 +4,8 @@ namespace Drupal\tablefield\Plugin\Field\FieldWidget;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\Field\FieldItemList;
 use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\Core\Field\FieldItemList;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
@@ -43,15 +43,13 @@ class TablefieldWidget extends WidgetBase implements ContainerFactoryPluginInter
   /**
    * {@inheritdoc}
    */
-  public function __construct(
-    $plugin_id,
-    $plugin_definition,
-    FieldDefinitionInterface $field_definition,
-    array $settings,
-    array $third_party_settings,
-    ConfigFactoryInterface $configFactory,
-    AccountProxy $current_user,
-  ) {
+  public function __construct($plugin_id,
+                              $plugin_definition,
+                              FieldDefinitionInterface $field_definition,
+                              array $settings,
+                              array $third_party_settings,
+                              ConfigFactoryInterface $configFactory,
+                              AccountProxy $current_user) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
     $this->configFactory = $configFactory;
     $this->currentUser = $current_user;
@@ -91,10 +89,8 @@ class TablefieldWidget extends WidgetBase implements ContainerFactoryPluginInter
       '#default_value' => $this->getSetting('input_type'),
       '#required' => TRUE,
       '#options' => [
-        // phpcs:disable DrupalPractice.General.OptionsT.TforValue -- These options are HTML element names and are therefore not translatable.
         'textfield' => 'textfield',
         'textarea' => 'textarea',
-        // phpcs:enable
       ],
     ];
 
@@ -137,9 +133,11 @@ class TablefieldWidget extends WidgetBase implements ContainerFactoryPluginInter
     }
 
     // Make sure rows and cols are set.
-    $rows = $default_value->rebuild['rows'] ?? $this->configFactory->get('tablefield.settings')->get('rows');
+    $rows = isset($default_value->rebuild['rows']) ?
+      $default_value->rebuild['rows'] : $this->configFactory->get('tablefield.settings')->get('rows');
 
-    $cols = $default_value->rebuild['cols'] ?? $this->configFactory->get('tablefield.settings')->get('cols');
+    $cols = isset($default_value->rebuild['cols']) ?
+      $default_value->rebuild['cols'] : $this->configFactory->get('tablefield.settings')->get('cols');
 
     $element['caption'] = [
       '#type' => 'textfield',
@@ -161,7 +159,6 @@ class TablefieldWidget extends WidgetBase implements ContainerFactoryPluginInter
       '#locked_cells' => !empty($field_default->value) ? $field_default->value : [],
       '#rebuild' => $this->currentUser->hasPermission('rebuild tablefield'),
       '#import' => $this->currentUser->hasPermission('import tablefield'),
-      '#paste' => $this->currentUser->hasPermission('paste tablefield'),
     // Add permission.
       '#addrow' => $this->currentUser->hasPermission('addrow tablefield'),
     ] + $element;
@@ -178,7 +175,7 @@ class TablefieldWidget extends WidgetBase implements ContainerFactoryPluginInter
     if (!empty($field_settings['cell_processing'])) {
       $element['#base_type'] = $element['#type'];
       $element['#type'] = 'text_format';
-      $element['#format'] = $default_value->format ?? NULL;
+      $element['#format'] = isset($default_value->format) ? $default_value->format : NULL;
       $element['#editor'] = FALSE;
     }
 

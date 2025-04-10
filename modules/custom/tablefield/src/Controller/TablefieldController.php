@@ -26,7 +26,7 @@ class TablefieldController {
    * @return \Drupal\Core\Access\AccessResultInterface
    *   The Access check results.
    */
-  public static function access(AccountInterface $account, EntityInterface $entity, $field_name) {
+  public function access(AccountInterface $account, EntityInterface $entity, $field_name) {
     if (!$entity instanceof FieldableEntityInterface) {
       return AccessResult::forbidden();
     }
@@ -54,7 +54,7 @@ class TablefieldController {
    * @return \Symfony\Component\HttpFoundation\StreamedResponse
    *   A streamed response containing tablefield data as a CSV.
    */
-  public static function exportCsv(EntityInterface $entity, $field_name, $langcode, $delta) {
+  public function exportCsv(EntityInterface $entity, $field_name, $langcode, $delta) {
     $filename = sprintf('%s_%s_%s_%s_%s.csv', $entity->getEntityTypeId(), $entity->id(), $field_name, $langcode, $delta);
 
     // Tablefield::rationalizeTable($entity->{$field_name}[$delta]->value);.

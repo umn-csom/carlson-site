@@ -2,10 +2,10 @@
 
 namespace Drupal\tablefield\Element;
 
-use Drupal\Component\Utility\NestedArray;
 use Drupal\Component\Utility\Unicode;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element\FormElement;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Component\Utility\NestedArray;
 
 /**
  * Provides a form element for tabular data.
@@ -28,12 +28,12 @@ class Tablefield extends FormElement {
       '#input_type' => 'textfield',
       '#rebuild' => FALSE,
       '#import' => FALSE,
-      '#paste' => FALSE,
       '#process' => [
         [$class, 'processTablefield'],
       ],
       '#theme_wrappers' => ['form_element'],
       '#addrow' => FALSE,
+      '#add_row' => 0,
     ];
   }
 
@@ -78,8 +78,8 @@ class Tablefield extends FormElement {
       ],
     ];
     // Assign value.
-    $rows = $element['#rows'] ?? \Drupal::config('tablefield.settings')->get('rows');
-    $cols = $element['#cols'] ?? \Drupal::config('tablefield.settings')->get('cols');
+    $rows = isset($element['#rows']) ? $element['#rows'] : \Drupal::config('tablefield.settings')->get('rows');
+    $cols = isset($element['#cols']) ? $element['#cols'] : \Drupal::config('tablefield.settings')->get('cols');
 
     $table = $value['tablefield']['table'] ?? $value;
     $weightedRows = [];
@@ -116,7 +116,7 @@ class Tablefield extends FormElement {
           ];
         }
         else {
-          $cell_value = $value[$i][$ii] ?? '';
+          $cell_value = isset($value[$i][$ii]) ? $value[$i][$ii] : '';
           $weightedRows[$i][$ii] = [
             '#type' => $input_type,
             '#maxlength' => 2048,
@@ -230,60 +230,6 @@ class Tablefield extends FormElement {
       ];
     }
 
-    if (!empty($element['#paste'])) {
-      // Allow user to paste data (e.g. from Excel)
-      $element['tablefield']['paste'] = [
-        '#type' => 'details',
-        '#title' => t('Copy & Paste'),
-        '#open' => FALSE,
-      ];
-
-      $delimiters = [
-        'TAB' => 'TAB',
-        ',' => 'Comma ,',
-        ';' => 'Semicolon ;',
-        '|' => 'Pipe |',
-        '+' => 'Plus +',
-        ':' => 'Colon :',
-      ];
-
-      $element['tablefield']['paste']['delimiter'] = [
-        '#type' => 'select',
-        '#tree' => TRUE,
-        '#title' => t('Column separator'),
-        '#name' => 'tablefield-paste-delimiter-' . $id,
-        '#options' => $delimiters,
-        '#description' => t('Data copied from Excel will use TAB.'),
-      ];
-
-      $element['tablefield']['paste']['data'] = [
-        '#type' => 'textarea',
-        '#tree' => TRUE,
-        '#name' => 'tablefield-paste-data-' . $id,
-        '#title' => t('Paste table data here:'),
-      ];
-
-      $element['tablefield']['paste']['paste_import'] = [
-        '#type' => 'submit',
-        '#submit' => [[get_called_class(), 'submitCallbackRebuild']],
-        '#value' => t('Import & Rebuild'),
-        '#name' => 'tablefield-paste-' . $id,
-        '#attributes' => [
-          'class' => ['tablefield-paste'],
-        ],
-        '#limit_validation_errors' => [
-          array_merge($parents, ['tablefield', 'rebuild', 'cols']),
-          array_merge($parents, ['tablefield', 'rebuild', 'rows']),
-        ],
-        '#ajax' => [
-          'callback' => 'Drupal\tablefield\Element\Tablefield::ajaxCallbackRebuild',
-          'progress' => ['type' => 'throbber', 'message' => NULL],
-          'wrapper' => 'tablefield-' . $id . '-wrapper',
-          'effect' => 'fade',
-        ],
-      ];
-    }
-
     // Allow import of a csv file.
     if (!empty($element['#import'])) {
       $element['tablefield']['import'] = [
@@ -334,9 +280,6 @@ class Tablefield extends FormElement {
    *   Form array.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   Form state object.
-   *
-   * @return array
-   *   The rebuilt table form.
    */
   public static function ajaxCallbackRebuild(array $form, FormStateInterface $form_state) {
     $triggering_element = $form_state->getTriggeringElement();
@@ -386,23 +329,6 @@ class Tablefield extends FormElement {
     elseif (isset($triggering_element['#name']) && $triggering_element['#name'] == 'tablefield-import-' . $id) {
       // Import CSV.
       $imported_tablefield = static::importCsv($id);
-
-      if ($imported_tablefield) {
-        $form_state->setValue($parents, $imported_tablefield);
-
-        $input = $form_state->getUserInput();
-        NestedArray::setValue($input, $parents, $imported_tablefield);
-        $form_state->setUserInput($input);
-
-        $parents[] = 'rebuild';
-        NestedArray::setValue($form_state->getStorage(), $parents, $imported_tablefield['rebuild']);
-      }
-    }
-    elseif (isset($triggering_element['#name']) && $triggering_element['#name'] == 'tablefield-paste-' . $id) {
-      // Import from pasted text.
-      $columnDelimiter = $form_state->getUserInput()['tablefield-paste-delimiter-' . $id];
-      $pastedData = $form_state->getUserInput()['tablefield-paste-data-' . $id];
-      $imported_tablefield = static::importPasted($columnDelimiter, $pastedData);
 
       if ($imported_tablefield) {
         $form_state->setValue($parents, $imported_tablefield);
@@ -479,52 +405,6 @@ class Tablefield extends FormElement {
     }
 
     \Drupal::messenger()->addError(t('There was a problem importing @file.', ['@file' => $file_upload->getClientOriginalName()]));
-    return FALSE;
-  }
-
-  /**
-   * Helper function to import data from pasted content.
-   *
-   * @param array $columnDelimiter
-   *   Array $delimiters.
-   * @param string $pastedData
-   *   Contents of data pasted into field.
-   *
-   * @return mixed
-   *   Table array or FALSE.
-   */
-  private static function importPasted($columnDelimiter, $pastedData) {
-    if (!empty($pastedData)) {
-      if ($columnDelimiter == 'TAB') {
-        $columnDelimiter = "\t";
-      }
-
-      $max_col_count = 0;
-      $row_count = 0;
-      $tablefield = [];
-      $rows = explode(PHP_EOL, $pastedData);
-
-      foreach ($rows as $row_index => $row) {
-        // Explode the current row into columns:
-        $cols = explode($columnDelimiter, $row);
-        $col_count = count($cols);
-        if ($col_count > 0) {
-          foreach ($cols as $col_index => $col) {
-            $tablefield['table'][$row_index][] = $col;
-          }
-          $max_col_count = $col_count > $max_col_count ? $col_count : $max_col_count;
-          $row_count++;
-        }
-      }
-
-      $tablefield['rebuild']['cols'] = $max_col_count;
-      $tablefield['rebuild']['rows'] = $row_count;
-
-      \Drupal::messenger()->addMessage(t('Successfully imported pasted data.'));
-      return $tablefield;
-    }
-
-    \Drupal::messenger()->addMessage(t('There was a problem importing pasted data.'));
     return FALSE;
   }
 
