@@ -2,7 +2,9 @@
   <div class="container">
     <div class="row footer__logo text-center">
       <div class="col-12 text-center pb-10 border-bottom border-white">
-        <a class="d-lg-block" href="/"><img src="/{{ directory }}/images/new-footer-logo.png" width="413" height="81" alt="Carlson School of Management (home)"></a>
+        {% if not is_front %}<a class="d-inline-block" href="/" aria-label="Return to the homepage of theCarlson School of Management at the University of Minnesota">{% endif %}
+          {{ source(directory ~ '/logo-footer.svg') }}
+        {% if not is_front %}</a>{% endif %}
       </div>
     </div>
     <div class="row footer__content">
