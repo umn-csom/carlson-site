@@ -59,11 +59,13 @@
  * @see template_preprocess_node()
  */
 #}
+{% set aria_label = node.field_profile_title.value|trim ~ ' - ' ~ node.title.value|trim %}
+
 <div class="staff-faculty__wrapper">
   <div class="col-12 staff-faculty__item mb-6">
     <div class="row">
       <div class="col-12">
-        <a href="{{ url }}" class="faculty-profile-link d-flex">
+        <a href="{{ url }}" class="faculty-profile-link d-flex" aria-label="{{ aria_label }}">
           <div class="row w-100">
             <div class="col-12 col-lg-3 col-xl-2 offset-lg-1 staff-faculty__item--image">
               {% if content.field_profile_img|field_value is not empty %}
