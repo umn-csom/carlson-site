@@ -59,25 +59,20 @@
 %}
 <!DOCTYPE html>
 <html {{ html_attributes }}>
-  <head>
-    <head-placeholder token="{{ placeholder_token|raw }}">
-    <title>{{ head_title|safe_join(' | ') }}</title>
-    <css-placeholder token="{{ placeholder_token|raw }}">
-    <js-placeholder token="{{ placeholder_token|raw }}">
-  </head>
-  <body{{ attributes.addClass(body_classes) }}>
-    <div id="skip">
-      <a href="#main-content" class="visually-hidden focusable skip-link">
-        {{ 'Skip to main content'|t }}
-      </a>
-    </div>
-
-    {{ page_top }}
-    {{ page }}
-    {{ page_bottom }}
-
-    <js-bottom-placeholder token="{{ placeholder_token|raw }}">
-
-    <script type="text/javascript"> _linkedin_partner_id = "33585"; window._linkedin_data_partner_ids = window._linkedin_data_partner_ids || []; window._linkedin_data_partner_ids.push(_linkedin_partner_id); </script><script type="text/javascript"> (function(){var s = document.getElementsByTagName("script")[0]; var b = document.createElement("script"); b.type = "text/javascript";b.async = true; b.src = "https://snap.licdn.com/li.lms-analytics/insight.min.js"; s.parentNode.insertBefore(b, s);})(); </script>
-  </body>
+<head>
+<head-placeholder token="{{ placeholder_token|raw }}">
+<title>{{ head_title|safe_join(' | ') }}</title>
+<css-placeholder token="{{ placeholder_token|raw }}">
+<js-placeholder token="{{ placeholder_token|raw }}">
+</head>
+<body{{ attributes.addClass(body_classes) }}>
+<div id="skip">
+<a href="#main-content" class="visually-hidden focusable skip-link">{{ 'Skip to main content'|t }}</a>
+</div>
+{{ page_top }}
+{{ page }}
+{{ page_bottom }}
+<js-bottom-placeholder token="{{ placeholder_token|raw }}">
+<script>_linkedin_partner_id="33585";window._linkedin_data_partner_ids=window._linkedin_data_partner_ids||[];window._linkedin_data_partner_ids.push(_linkedin_partner_id);!function(){var s=document.getElementsByTagName("script")[0],b=document.createElement("script");b.type="text/javascript",b.async=!0,b.src="https://snap.licdn.com/li.lms-analytics/insight.min.js",s.parentNode.insertBefore(b,s)}();</script>
+</body>
 </html>
