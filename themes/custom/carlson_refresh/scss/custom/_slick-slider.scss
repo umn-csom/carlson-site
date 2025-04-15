@@ -18,7 +18,7 @@
   max-width: 100%;
 }
 
-/* Prevents overflowing nested slides. */
+// Prevents overflowing nested slides.
 .slick,
 .slick-wrapper {
   max-width: 100%;
@@ -42,7 +42,7 @@
   clear: both;
 }
 
-/** Draggable. */
+// Draggable.
 .draggable {
   cursor: grab;
 }
@@ -57,14 +57,14 @@
   user-select: none;
 }
 
-/** Visibility fix for stacking slides during initialization. */
+// Visibility fix for stacking slides during initialization.
 .slick__slide {
   max-width: 100%;
   position: absolute;
   visibility: hidden;
 }
 
-/** Prevents collapsing container during initialization. */
+// Prevents collapsing container during initialization.
 .slick__slide.slide--0 {
   position: relative;
 }
@@ -75,12 +75,12 @@
   visibility: visible;
 }
 
-/* Fix for Chrome blue outline */
+// Fix for Chrome blue outline
 .slick__slide:focus {
   outline: 0;
 }
 
-/* Prevents collapsing slick when unslick like one item. */
+// Prevents collapsing slick when unslick like one item.
 .unslick .slick__slide {
   width: 100%;
 }
@@ -112,20 +112,20 @@
   margin: 30px auto;
 }
 
-/* Overrides .slick-slider to make caption text selectable. */
+// Overrides .slick-slider to make caption text selectable.
 .slide__caption {
   cursor: text;
   user-select: text;
   width: 100%;
 }
 
-/* Only display when JS is ready. */
+// Only display when JS is ready.
 .slick__arrow,
 .is-loading .slide__caption {
   visibility: hidden;
 }
 
-/** Arrows are outside slick-initialized. */
+// Arrows are outside slick-initialized.
 .slick--initialized .slick__arrow {
   visibility: visible;
 }
@@ -144,7 +144,7 @@
  * Skins.
  * Arrows contained/wrapped within slick__arrow for easy moves.
  */
-/* Overrides problematic hidden arrows at core slick.css */
+// Overrides problematic hidden arrows at core slick.css
 .slick-prev {
   left: 0;
 }
@@ -165,7 +165,7 @@
   z-index: 2;
 }
 
-/** Keeps decent fallback for when slick-theme.css is disabled, even if dup. */
+// Keeps decent fallback for when slick-theme.css is disabled, even if dup.
 .slick-arrow {
   border: 0;
   border-radius: 50%;
@@ -203,21 +203,21 @@
 /**
  * Bullets.
  */
-/* Makes the pointer work when bullets placed over the slide. */
-/* Overrides core > 1.3.11, otherwise thumbnails are non-clickable */
+// Makes the pointer work when bullets placed over the slide.
+// Overrides core > 1.3.11, otherwise thumbnails are non-clickable
 .slick button,
 .slick--thumbnail .slick__slide img {
   pointer-events: auto;
 }
 
-/* Provides decent dots if core slick-theme.css is disabled. */
+// Provides decent dots if core slick-theme.css is disabled.
 .slick-dots li {
   margin-bottom: 5px;
   display: inline-block;
   vertical-align: top;
 }
 
-/* Overrides too tiny bullets from core slick.css.*/
+// Overrides too tiny bullets from core slick.css.
 .slick-dots li button::before {
   font-size: 12px;
   font-size: 0.75rem;
@@ -226,7 +226,7 @@
 /**
  * Media.
  */
-/* Hide lazyloaded image when JS is off.*/
+// Hide lazyloaded image when JS is off.
 img[data-lazy] {
   display: none;
 }
@@ -236,13 +236,13 @@ img[data-lazy] {
   position: relative;
 }
 
-/* Center the image to reduce gap at RHS with smaller image, larger container */
+// Center the image to reduce gap at RHS with smaller image, larger container
 .media__image {
   margin: 0 auto;
 }
 
-/** @todo: Remove temp fix for when total <= slidesToShow at 1.6.1+. */
-/** @see https://github.com/kenwheeler/slick/issues/262 */
+// @todo: Remove temp fix for when total <= slidesToShow at 1.6.1+.
+// @see https://github.com/kenwheeler/slick/issues/262
 .slick--less .slick-track {
   margin-left: auto;
   margin-right: auto;
