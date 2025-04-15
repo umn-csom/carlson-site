@@ -326,7 +326,6 @@
   margin: 0;
   border: 0;
   border-radius: 0;
-  -webkit-box-shadow: 5px 5px 15px 0 rgba(0,0,0,.2);
   box-shadow: 5px 5px 15px 0 rgba(0,0,0,.2);
   font-size: 16px;
   z-index: 200;
@@ -585,42 +584,24 @@
 @include media-breakpoint-up(xl) {
   .dropdown-animate {
     animation-duration: 0.5s;
-    -webkit-animation-duration: 0.5s;
     animation-fill-mode: both;
-    -webkit-animation-fill-mode: both;
   }
-  @keyframes slideIn {
-    0% {
-      transform: translateY(-1rem);
-      opacity: 0;
-    }
-    100% {
-      transform:translateY(0rem);
-      opacity: 1;
-    }
-    0% {
-      transform: translateY(-1rem);
-      opacity: 0;
-    }
-  }
-
-  @-webkit-keyframes slideIn {
-    0% {
-      -webkit-transform: transform;
-      -webkit-opacity: 0;
-    }
-    100% {
-      -webkit-transform: translateY(0);
-      -webkit-opacity: 1;
-    }
-    0% {
-      -webkit-transform: translateY(-1rem);
-      -webkit-opacity: 0;
-    }
-  }
-
   .dropdown-slide {
-    -webkit-animation-name: slideIn;
     animation-name: slideIn;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-1rem);
+    opacity: 0;
+  }
+  100% {
+    transform:translateY(0rem);
+    opacity: 1;
+  }
+  0% {
+    transform: translateY(-1rem);
+    opacity: 0;
   }
 }
