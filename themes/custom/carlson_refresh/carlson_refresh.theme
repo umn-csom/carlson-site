@@ -503,7 +503,7 @@ function carlson_refresh_preprocess_page(&$variables) {
   $variables['campus_links'] = theme_get_setting('campus_links');
   $dtd_select = theme_get_setting('dtd_select');
   $variables['myu_text'] = theme_get_setting('myu_text');
-  $header_color = theme_get_setting('header_color');
+  $header_color = str_replace('umnhf-background-', 'bg-', theme_get_setting('header_color'));
   $variables['campus_header'] = theme_get_setting('campus_select');
 
   $campus_select = theme_get_setting('campus_select') ?? 'umnhf-campus-tc';
@@ -527,12 +527,11 @@ function carlson_refresh_preprocess_page(&$variables) {
   $variables['accessibility_reporting_text'] = \Drupal::config('system.site')->get('accessibility_reporting_text');
   $variables['onestop_link'] = 'https://onestop.umn.edu';
 
-  $header_class_array = array($variables['campus_header'], $dtd_select, $header_color, $variables['mobile_search'], $variables['campus_links']
-  );
+  $header_class_array = array($variables['campus_header'], $dtd_select, $header_color);
   $variables['umn_header_classes'] = implode(' ', $header_class_array);
 
   // Embed the SVG logo in the mandatory header.
-  $logo_color = str_replace('umnhf-background-', '', $header_color);
+  $logo_color = str_replace('bg-', '', $header_color);
   $variables['svg_logo'] = "{$campus_select}-{$dtd_select}-{$logo_color}.svg";
 
   $block_manager = \Drupal::service('plugin.manager.block');

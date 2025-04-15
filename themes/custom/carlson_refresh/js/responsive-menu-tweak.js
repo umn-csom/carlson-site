@@ -15,7 +15,7 @@
           ),
         brandingMinnesota = $("#umnhf-h-wm-svg svg").clone()
         .wrap('<div class="mm-navbar__logo" />').parent()
-        .wrap('<div class="mm-navbar__branding umnhf-background-gold minnesota_logo" />').parent();
+        .wrap('<div class="mm-navbar__branding bg-gold minnesota_logo" />').parent();
       if (!mm_menu.hasClass("mm-menu--csm-customized")) {
         mm_menu
           .prepend(gsc_search)

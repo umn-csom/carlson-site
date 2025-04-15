@@ -18,18 +18,6 @@ $dtd-opts: (
                 width: 250px
         )
 );
-$colors: (
-        gold: (
-                value: $gold,
-                class: umnhf-background-gold,
-                text-color: $black,
-        ),
-        maroon: (
-                value: $maroon,
-                class:umnhf-background-maroon,
-                text-color: $white,
-        )
-);
 
 #umnhf-h.umnhf,
 #umnhf-uf.umnhf,
@@ -73,14 +61,6 @@ $colors: (
     height: auto;
   }
 }
-
-@each $color, $cdetail in $colors {
-  .#{map-get($cdetail, class)} {
-    background-color: map-get($cdetail, value);
-    a {color: map-get($cdetail, text-color);}
-  }
-}
-
 
 #umnhf-h-cl {
   position: relative;
