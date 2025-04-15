@@ -1,0 +1,626 @@
+[style="padding-top: 39px;"] {
+  .sticky-top {
+    @supports (position: sticky) {
+      top: 39px;
+    }
+  }
+}
+[style="padding-top: 79px;"] {
+  .sticky-top {
+    @supports (position: sticky) {
+      top: 79px;
+    }
+  }
+}
+
+#navbar-primary {
+  z-index: 35;
+  background: $white;
+
+  @include media-breakpoint-up(xl) {
+    max-width: 100%;
+    margin: auto;
+  }
+
+  + #navbar-secondary {
+    z-index: 30;
+  }
+}
+
+// All nav items.
+.nav-item {
+  margin: 0;
+}
+
+.nav-button,
+.nav-link,
+.dropdown-item {
+  text-decoration: none;
+  font-weight: normal;
+
+  @include transition($btn-transition);
+
+  &.is-active,
+  &.in-active-trail {
+    font-weight: bold;
+  }
+}
+
+// Only underline when the current page is active or to
+// indicate when a link is reachable.
+.dropdown-item.is-active,
+.dropdown-item:hover,
+.dropdown-item:focus-visible,
+.nav-link.is-active,
+.nav-item:not(.dropdown) > .nav-link:not(.tab-link):hover,
+.nav-item:not(.dropdown) > .nav-link:not(.tab-link):focus-visible,
+.nav-item.btn-group > .nav-link:hover,
+.nav-item.btn-group > .nav-link:focus-visible {
+  text-decoration: underline;
+}
+
+.navbar-nav {
+  flex-wrap: wrap;
+
+  .nav-button,
+  .nav-link {
+    font-size: 18px;
+  }
+
+  .nav-link {
+    padding: 14px 25px;
+
+    @media screen and (max-width: 1150px) {
+      padding: 14px 20px;
+    }
+
+    @media screen and (max-width: 1025px) {
+      padding: 14px 18px;
+    }
+  }
+
+  .nav-button {
+    padding: 14px 0;
+  }
+
+  .nav-button.has-dropdown,
+  .nav-link + .nav-button {
+    padding: 14px 16px;
+  }
+
+  .dropdown-item + .nav-button {
+    padding: 18px 16px;
+  }
+
+  .nav-button.dropdown-toggle {
+    color: $header-dark-gray;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      border: 1px solid transparent;
+      width: 24px;
+      height: 24px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    svg {
+      z-index: 2;
+    }
+
+    &:hover,
+    &:focus-visible {
+      color: $header-dark-gray;
+
+      &::before {
+        border-color: currentColor;
+      }
+    }
+  }
+
+  .btn-group > :first-child {
+    padding-right: 0;
+  }
+
+  // Top level nav items.
+  > .nav-item {
+    @include media-breakpoint-up(xl) {
+      margin-left: 1rem;
+
+      &:first-child {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.navbar-dark .navbar-nav > .nav-item {
+
+  // Top level items.
+  > .nav-button,
+  > .nav-link {
+    color: $navbar-dark-color;
+    background-color: $navbar-dark-bg-color;
+
+    &.in-active-trail {
+      &,
+      &:hover,
+      &:focus-visible {
+        color: $navbar-dark-active-color;
+        background-color: $navbar-dark-active-bg-color;
+      }
+    }
+
+    &.has-dropdown {
+      &:hover,
+      &:focus-visible {
+        color: $navbar-dark-hover-color;
+        background-color: $navbar-dark-hover-bg-color;
+      }
+    }
+  }
+
+  &.show > .nav-button,
+  &.show > .nav-link {
+    // test for need .in-active-trail here?
+    &,
+    &:hover,
+    &:focus-visible {
+      color: $navbar-dark-show-color;
+      background-color: $navbar-dark-show-bg-color;
+    }
+  }
+
+  &.btn-group {
+    &:has(.dropdown-toggle:hover),
+    &:has(.dropdown-toggle:focus-visible) {
+      &,
+      > .nav-button,
+      > .nav-link {
+        color: $navbar-dark-hover-color;
+        background-color: $navbar-dark-hover-bg-color;
+      }
+    }
+
+    //&.in-active-trail,
+    &.show {
+      &:has(.dropdown-toggle),
+      &:has(.dropdown-toggle:hover),
+      &:has(.dropdown-toggle:focus-visible) {
+        &,
+        > .nav-button,
+        > .nav-link {
+          color: $navbar-dark-show-color;
+          background-color: $navbar-dark-show-bg-color;
+        }
+      }
+    }
+
+    &:has(.dropdown-toggle[disabled]),
+    &:has(.dropdown-toggle.disabled) {
+      &,
+      > .nav-button,
+      > .nav-link {
+        &,
+        &:hover,
+        &:focus-visible {
+          color: $navbar-dark-disabled-color;
+          background-color: $navbar-dark-disabled-bg-color;
+        }
+      }
+    }
+  }
+
+  > .nav-button,
+  > .nav-link {
+    &[disabled],
+    &.disabled {
+      &,
+      &:hover,
+      &:focus-visible {
+        color: $navbar-dark-disabled-color;
+        background-color: $navbar-dark-disabled-bg-color;
+      }
+    }
+  }
+}
+
+// Secondary menu.
+.navbar-light .navbar-nav > .nav-item {
+
+  // Top level links.
+  > .nav-link {
+    color: $navbar-light-color;
+    background-color: $navbar-light-bg-color;
+
+    &.has-dropdown {
+      &:hover,
+      &:focus-visible {
+        color: $navbar-light-hover-color;
+        background-color: $navbar-light-hover-bg-color;
+      }
+    }
+
+    &.in-active-trail {
+      &,
+      &:hover,
+      &:focus-visible {
+        color: $navbar-light-active-color;
+        background-color: $navbar-light-active-bg-color;
+      }
+    }
+  }
+
+  &.show > .nav-button,
+  &.show > .nav-link {
+    // test for need .in-active-trail here?
+    &,
+    &:hover,
+    &:focus-visible {
+      color: $navbar-light-show-color;
+      background-color: $navbar-light-show-bg-color;
+    }
+  }
+
+  &.btn-group {
+    &:has(.dropdown-toggle:hover),
+    &:has(.dropdown-toggle:focus-visible) {
+      &,
+      > .nav-button,
+      > .nav-link {
+        color: $navbar-light-hover-color;
+        background-color: $navbar-light-hover-bg-color;
+      }
+    }
+
+    //&.in-active-trail,
+    &.show {
+      &:has(.dropdown-toggle),
+      &:has(.dropdown-toggle:hover),
+      &:has(.dropdown-toggle:focus-visible) {
+        &,
+        > .nav-button,
+        > .nav-link {
+          color: $navbar-light-show-color;
+          background-color: $navbar-light-show-bg-color;
+        }
+      }
+    }
+
+    &:has(.dropdown-toggle[disabled]),
+    &:has(.dropdown-toggle.disabled) {
+      &,
+      > .nav-button,
+      > .nav-link {
+        &,
+        &:hover,
+        &:focus-visible {
+          color: $navbar-light-disabled-color;
+          background-color: $navbar-light-disabled-bg-color;
+        }
+      }
+    }
+  }
+
+  > .nav-button,
+  > .nav-link {
+    &[disabled],
+    &.disabled {
+      &,
+      &:hover,
+      &:focus-visible {
+        color: $navbar-light-disabled-color;
+        background-color: $navbar-light-disabled-bg-color;
+      }
+    }
+  }
+}
+
+.dropdown-menu {
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  -webkit-box-shadow: 5px 5px 15px 0 rgba(0,0,0,.2);
+  box-shadow: 5px 5px 15px 0 rgba(0,0,0,.2);
+  font-size: 16px;
+  z-index: 200;
+
+  .dropleft & {
+    left: auto !important;
+    right: 100% !important;
+  }
+
+  .dropright & {
+    right: auto !important;
+    left: 100% !important;
+  }
+}
+
+.dropdown-toggle {
+  .dropleft &::before {
+    margin-left: calc($dropdown-item-padding-x / 2 * -1);
+    margin-right: calc($dropdown-item-padding-x / 4);
+  }
+
+  .dropright &::after {
+    margin-right: calc($dropdown-item-padding-x / 2 * -1);
+    margin-left: calc($dropdown-item-padding-x / 4);
+  }
+}
+
+.dropdown-item {
+
+  margin: 0;
+  min-width: 22rem;
+
+  &.active,
+  &:hover,
+  &:focus-visible,
+  .show & {
+    background: $light-ivory;
+  }
+
+  li:last-child > & {
+    border-bottom: 0;
+  }
+}
+
+.dropdown-submenu {
+  background:  $light-ivory;
+  border-bottom: 1px solid $white;
+  width: 100%;
+}
+
+
+//.dropdown-item > .nav-link,
+.navbar-nav--primary > .nav-item,
+.navbar-nav--secondary > .nav-item {
+
+  > .nav-button.has-dropdown,
+  > .nav-link.has-dropdown {
+    transition: background 120ms ease-out, color 120ms ease-out;
+    position: relative;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 0;
+      transition: height 120ms ease-out 0ms;
+
+      .navbar-dark & {
+        background-color: $navbar-dark-hover-bg-color;
+      }
+
+      .navbar-light & {
+        background-color: $navbar-light-hover-bg-color;
+      }
+    }
+
+    &:hover,
+    &:focus-visible {
+      &::before {
+        height: .4rem;
+        transition: height 120ms ease-out 0ms;
+      }
+    }
+  }
+
+  &.show {
+    > .nav-button.has-dropdown,
+    > .nav-link.has-dropdown {
+      &,
+      &:hover,
+      &:focus-visible {
+        &::before {
+          height: 0;
+          background-color: transparent;
+          transition: height 0ms ease-out 0ms;
+        }
+      }
+    }
+  }
+
+  &.btn-group {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 0;
+      transition: height 120ms ease-out 0ms;
+
+      .navbar-dark & {
+        background-color: $navbar-dark-hover-bg-color;
+      }
+
+      .navbar-light & {
+        background-color: $navbar-light-hover-bg-color;
+      }
+    }
+
+    &:has(.dropdown-toggle:hover),
+    &:has(.dropdown-toggle:focus-visible) {
+      &::before {
+        height: .4rem;
+        transition: height 120ms ease-out 0ms;
+      }
+    }
+
+    &.show {
+      &:has(.dropdown-toggle),
+      &:has(.dropdown-toggle:hover),
+      &:has(.dropdown-toggle:focus-visible) {
+        &::before {
+          height: 0;
+          transition: height 0ms ease-out 0ms;
+
+          .navbar-light &,
+          .navbar-dark & {
+            background-color: transparent;
+          }
+        }
+      }
+    }
+  }
+}
+
+.nav-item.dropdown.show > .nav-button,
+.nav-item.dropdown.show > .nav-link {
+  z-index: 37;
+}
+
+.nav-item.dropdown:not(.show) {
+  &:hover,
+  &:focus {
+    > .nav-button,
+    > .nav-link {
+      z-index: 38;
+    }
+  }
+}
+
+.nav-item.dropdown.show > .dropdown-menu {
+  z-index: 36
+}
+
+.dropdown--mega-menu {
+  position: initial;
+
+  > .dropdown-menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+  }
+}
+
+.nav-button {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  border: 0;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  .btn {
+    font-weight: 600;
+    font-size: 14px;
+    padding: 4px 10px;
+    margin: -2px 0;
+
+    svg {
+      display: flex;
+    }
+  }
+
+  .btn-outline-primary {
+    color: $white;
+    border: 1px solid currentColor;
+
+    &:hover,
+    &:active {
+      background-color: transparent;
+      border-color: currentColor;
+    }
+  }
+
+  .dropdown.in-active-trail:not(.show) & {
+    .btn-outline-primary {
+      color: $maroon;
+      background: transparent;
+      border-color: currentColor;
+    }
+  }
+
+  .dropdown.in-active-trail:not(.show) & {
+    &:hover,
+    &:active,
+    &:focus-visible {
+      .btn-outline-primary {
+        color: $white;
+        background: transparent;
+        border-color: currentColor;
+      }
+    }
+  }
+
+  .dropdown.show & {
+    &,
+    &:hover,
+    &:active,
+    &:focus-visible {
+      .btn-outline-primary {
+        color: $black;
+        background: transparent;
+        border-color: currentColor;
+      }
+    }
+  }
+
+  .dropdown.show:hover & {
+    &,
+    &:hover,
+    &:focus-visible {
+      .btn-outline-primary {
+        color: $black;
+        background: transparent;
+        border-color: currentColor;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .dropdown-animate {
+    animation-duration: 0.5s;
+    -webkit-animation-duration: 0.5s;
+    animation-fill-mode: both;
+    -webkit-animation-fill-mode: both;
+  }
+  @keyframes slideIn {
+    0% {
+      transform: translateY(-1rem);
+      opacity: 0;
+    }
+    100% {
+      transform:translateY(0rem);
+      opacity: 1;
+    }
+    0% {
+      transform: translateY(-1rem);
+      opacity: 0;
+    }
+  }
+
+  @-webkit-keyframes slideIn {
+    0% {
+      -webkit-transform: transform;
+      -webkit-opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+      -webkit-opacity: 1;
+    }
+    0% {
+      -webkit-transform: translateY(-1rem);
+      -webkit-opacity: 0;
+    }
+  }
+
+  .dropdown-slide {
+    -webkit-animation-name: slideIn;
+    animation-name: slideIn;
+  }
+}
