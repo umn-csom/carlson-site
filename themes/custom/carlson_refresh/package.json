@@ -14,23 +14,14 @@
     "dependencies": {
         "bootstrap": "^4.6.2",
         "jquery": "^3.6.0",
-        "natives": "^1.1.6",
-        "popper.js": "^1.14.3"
+        "popper.js": "^1.16.1"
     },
     "devDependencies": {
-        "browser-sync": "^2.27.5",
-        "gulp": "^3.9.1",
-        "gulp-autoprefixer": "^4.1.0",
-        "gulp-clean-css": "^4.3.0",
-        "gulp-compress": "0.0.9",
-        "gulp-concat": "^2.6.1",
-        "gulp-google-webfonts": "^4.0.0",
-        "gulp-load-plugins": "1.3.x",
-        "gulp-postcss": "^8.0.0",
-        "gulp-sass": "^3.2.1",
-        "gulp-shell": "^0.6.5",
-        "gulp-sourcemaps": "^2.6.4",
-        "gulp-twig": "^0.5.0",
+        "concurrently": "^8.2.2",
+        "node-sass": "^9.0.0",
+        "postcss": "^8.4.31",
+        "postcss-cli": "^10.1.0",
+        "postcss-prefixwrap": "^1.55.0",
         "postcss-rem-to-pixel": "^4.1.2",
         "postcss-selector-replace": "^1.0.2"
     },
@@ -40,5 +31,13 @@
     "engines": {
         "npm": ">=8.0.0",
         "node": ">=18.0.0"
+    },
+    "scripts": {
+        "sass": "node-sass scss -o css --output-style nested --source-map true --include-path node_modules --include-path ../../../../../libraries/",
+        "sass-watch": "node-sass scss -o css --output-style nested --source-map true --include-path node_modules --include-path ../../../../../libraries/ --watch",
+        "postcss": "postcss css/style.css -o css/ckeditor-style.css",
+        "postcss-watch": "postcss css/style.css -o css/ckeditor.css --watch",
+        "build": "npm run sass && npm run postcss",
+        "watch": "concurrently \"npm run sass-watch\" \"npm run postcss-watch\""
     }
 }
