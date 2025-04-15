@@ -6,7 +6,7 @@
     //line-height: 3.8rem;
     //font-size: 1.6rem;
     //color: $dark-gray;
-    //border-radius: 0.25rem;
+    //border-radius: .25rem;
     //&::placeholder {
     //    color: lighten($slate, 50%);
     //}
@@ -20,18 +20,18 @@
     font-weight: 400;
     line-height: 1.5;
     color: #495057;
-    background-color: #fff;
+    background-color: $white;
     background-clip: padding-box;
     border: 1px solid $border-gray;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     &:hover {
         border-color: $mid-slate-2;
     }
     &:focus {
         outline: 0;
         border-color: $cyan;
-        box-shadow: 0 0 0 0.35rem rgba($cyan, 0.4);
+        box-shadow: 0 0 0 .35rem rgba($cyan, .4);
     }
 }
 
@@ -45,11 +45,11 @@ select {
     font-weight: 400;
     line-height: 1.5;
     color: #495057;
-    background-color: #fff;
+    background-color: $white;
     background-clip: padding-box;
     border: 1px solid $border-gray;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     padding-right: 1.25em;
 
     &:hover {
@@ -59,7 +59,7 @@ select {
     &:focus {
         outline: 0;
         border-color: $cyan;
-        box-shadow: 0 0 0 0.35rem rgba($cyan, 0.4);
+        box-shadow: 0 0 0 .35rem rgba($cyan, .4);
     }
 }
 
@@ -67,7 +67,7 @@ select {
 select.form-control {
     -webkit-appearance: none;
     appearance: none;
-    border-radius: 0.25rem;
+    border-radius: .25rem;
     background: #fff url('../images/sort.svg') no-repeat right 1rem center;
     background-size: 1em;
     line-height: normal;
@@ -192,13 +192,13 @@ input[type='radio'] {
 }
 
 .form-control:focus {
-  box-shadow: 0 0 0 .35rem rgba($cyan, 0.4);
+  box-shadow: 0 0 0 .35rem rgba($cyan, .4);
 }
 
 .form-check-input:focus-visible {
   outline: 0;
   border-color: $cyan;
-  box-shadow: 0 0 0 .35rem rgba($cyan, 0.4);
+  box-shadow: 0 0 0 .35rem rgba($cyan, .4);
 }
 
 .form-checkboxes,
@@ -213,11 +213,11 @@ input[type='radio'] {
 details.form-item {
   position: relative;
   align-self: flex-start;
-  border: 1px solid #D5D6D2;
-  border-radius: 0.25rem;
+  border: 1px solid $border-gray;
+  border-radius: .25rem;
   margin-bottom: 1.6rem;
   margin-top: 0;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
   min-height: calc(1.5em + 2rem + 2px);
 
   &:hover, &:focus-within {
@@ -238,7 +238,7 @@ details.form-item {
   &:has(> summary:focus-visible) {
     outline: 0;
     border-color: #17a2b8;
-    box-shadow: 0 0 0 0.35rem rgba(23, 162, 184, 0.4);
+    box-shadow: 0 0 0 .35rem rgba($cyan, .4);
   }
 
   &[open] {
@@ -246,8 +246,8 @@ details.form-item {
 
     > summary {
       min-height: calc(1.5em + 2rem);
-      border-bottom: 1px solid #D5D6D2;
-      transition: border-color 0.15s ease-in-out;
+      border-bottom: 1px solid $border-gray;
+      transition: border-color .15s ease-in-out;
     }
 
     &:hover,
@@ -259,31 +259,31 @@ details.form-item {
   }
 
   > .details-wrapper {
-    background: #fff;
+    background: $white;
     width: 100%;
     max-height: 230px;
     overflow-y: scroll;
     scroll-behavior: smooth;
-    padding: 0.5em;
-    transition: all 0.2s ease-out;
+    padding: .5em;
+    transition: all .2s ease-out;
 
 
     &::-webkit-scrollbar {
       -webkit-appearance: none;
       width: 13px;
-      transition: all 0.2s ease-out;
+      transition: all .2s ease-out;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: rgba(0, 0, 0, .25);
+      background-color: rgba($black, .25);
       border-radius: 8px;
       border: 2.75px solid rgba(250, 250, 250, 100%);
-      transition: all 0.2s ease-out;
+      transition: all .2s ease-out;
     }
 
     &:hover::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, .5);
-      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+      background: rgba($black, .5);
+      box-shadow: inset 0 0 0 1px rgba($black, .05);
     }
   }
 }
@@ -317,12 +317,12 @@ details.form-item {
     &.select2-container--focus .select2-selection--multiple,
     .chosen-drop .chosen-results .active-result.highlighted {
         border-color: #80bdff;
-        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
     }
     .chosen-drop .chosen-results .result-selected {
         border-color: $light-gray;
-        border-radius: 0.25rem;
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+        border-radius: .25rem;
+        box-shadow: inset 0 1px 1px rgba($black, .075);
         line-height: 2.5rem;
         .select2-selection__rendered {
             padding-right: 3rem;
@@ -446,15 +446,15 @@ table tr th a:focus {
     .form-check-input:focus,
     .form-control:focus {
       border-color: $gray-800;
-      box-shadow: 0 0 0 .4rem rgba($white, 0.3);
+      box-shadow: 0 0 0 .4rem rgba($white, .3);
     }
 
     .form-group input[type="submit"] {
-      color: #212529;
+      color: $dark-dark-gray;
       background-color: $gold;
       border-color: $gold;
       &:hover, &:focus {
-        color: #212529;
+        color: $dark-dark-gray;
         background-color: #ffc20d;
         border-color: #ffbf00;
       }
@@ -466,7 +466,7 @@ table tr th a:focus {
     .form-radio:checked,
     .form-check .form-check-input:checked {
       border-color: #17a2b8;
-      background: #fff;
+      background: $white;
     }
 
     .form-radio,

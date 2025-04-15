@@ -26,14 +26,14 @@ body {
   font-weight: 400;
   line-height: 1.5;
   text-align: left;
-  background-color: #fff;
-  color: #363230;
+  background-color: $white;
+  color: $slate;
 }
 
 @media (max-width: 1339px) {
   body {
-    font-size: calc(1.285rem + 0.3764vw);
-    font-size: Min(1.6rem, calc(1.285rem + 0.3764vw));
+    font-size: calc(1.285rem + .3764vw);
+    font-size: Min(1.6rem, calc(1.285rem + .3764vw));
   }
 }
 
@@ -97,13 +97,13 @@ body {
 }
 
 .navbar-dark .nav-link {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba($white, .5);
 }
 
 .skip-link {
   background: #444;
-  background: rgba(0, 0, 0, 0.6);
-  font-size: 0.94em;
+  background: rgba($black, .6);
+  font-size: .94em;
   padding: 1px 10px 2px;
   border-radius: 0 0 10px 10px;
 }
@@ -321,7 +321,7 @@ a {
   text-decoration-thickness: auto;
   text-underline-position: from-font;
   font-weight: 600;
-  color: #7a0019;
+  color: $maroon;
 
   &:hover {
     text-decoration-thickness: auto;
@@ -377,7 +377,7 @@ button::-moz-focus-inner {
 .h5,
 h1,
 h2 {
-  margin-bottom: 0.5rem;
+  margin-bottom: .5rem;
   font-family: Newsreader, serif;
   font-weight: 300;
   line-height: 1.2;
@@ -393,7 +393,7 @@ h2 {
   }
 
   .h5 {
-    font-size: calc(1.325rem + 0.80657vw);
+    font-size: calc(1.325rem + .80657vw);
   }
 }
 
@@ -408,7 +408,7 @@ h2 {
 }
 
 .list-inline-item:not(:last-child) {
-  margin-right: 0.5rem;
+  margin-right: .5rem;
 }
 
 .img-fluid {
@@ -495,7 +495,7 @@ h2 {
 }
 
 .btn {
-  color: #212529;
+  color: $dark-dark-gray;
   background-color: transparent;
 }
 
@@ -510,7 +510,7 @@ h2 {
   padding: 1rem 4rem;
   font-size: 1.6rem;
   line-height: 1.5;
-  border-radius: 0.25rem;
+  border-radius: .25rem;
 }
 
 .maroon-outline-button {
@@ -521,35 +521,35 @@ h2 {
   .btn,
   .gold-solid-button,
   .maroon-outline-button {
-    font-size: calc(1.285rem + 0.3764vw);
+    font-size: calc(1.285rem + .3764vw);
   }
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #7a0019;
-  border-color: #7a0019;
+  color: $white;
+  background-color: $maroon;
+  border-color: $maroon;
 }
 
 .btn-secondary,
 .btn.btn-secondary,
 .gold-solid-button {
-  color: #212529;
-  background-color: #fc3;
-  border-color: #fc3;
+  color: $dark-dark-gray;
+  background-color: $gold;
+  border-color: $gold;
 }
 
 .btn-outline-primary,
 .maroon-outline-button {
-  color: #7a0019;
-  border-color: #7a0019;
+  color: $maroon;
+  border-color: $maroon;
 }
 
 .btn-sm {
-  padding: 0.3em 0.6em;
+  padding: .3em .6em;
   font-size: 1.4rem;
   line-height: 1.2em;
-  border-radius: 0.2rem;
+  border-radius: .2rem;
 }
 
 @media (max-width: 1339px) {
@@ -569,15 +569,15 @@ h2 {
   display: none;
   float: left;
   min-width: 10rem;
-  padding: 0.5rem 0;
+  padding: .5rem 0;
   font-size: 1.125rem;
-  color: #000;
+  color: $black;
   text-align: left;
   list-style: none;
-  background-color: #e6e0d2;
+  background-color: $ivory;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 0.25rem;
+  border: 1px solid rgba($black, .15);
+  border-radius: .25rem;
 }
 
 .dropdown-menu-left {
@@ -648,7 +648,7 @@ h2 {
 }
 
 .navbar-dark .navbar-nav .nav-link {
-  color: #fff;
+  color: $white;
 }
 
 .media {
@@ -657,19 +657,19 @@ h2 {
 }
 
 .bg-primary {
-  background-color: #7a0019 !important;
+  background-color: $maroon !important;
 }
 
 .bg-gold {
-  background-color: #fc3 !important;
+  background-color: $gold !important;
 }
 
 .bg-ivory {
-  background-color: #e6e0d2 !important;
+  background-color: $ivory !important;
 }
 
 .bg-white-90 {
-  background-color: rgba(255, 255, 255, 0.9) !important;
+  background-color: rgba($white, .9) !important;
 }
 
 .bg-white {
@@ -923,7 +923,7 @@ h2 a {
 }
 
 .mega-menu-layout__heading h2 a {
-  color: #212529;
+  color: $dark-dark-gray;
   font-size: 32px;
 }
 
@@ -993,7 +993,7 @@ h2 a {
 .bg-gold a {
   &,
   &:hover {
-    color: #000;
+    color: $black;
   }
 }
 
@@ -1011,7 +1011,7 @@ h2 a {
   font-family: "Open Sans", sans-serif;
   font-size: 20px;
   font-weight: 600;
-  color: #000;
+  color: $black;
   padding-bottom: 4px;
   margin-bottom: 16px;
   border-bottom: 1px solid currentColor;
@@ -1031,18 +1031,18 @@ h2 a {
   transform: translateX(-50%);
   z-index: 50;
   background: #495057;
-  color: #fff;
+  color: $white;
   font-size: 1.6rem;
   line-height: 1.5;
   padding: 1px 1rem 2px;
-  border-radius: 0 0 0.3rem 0.3rem;
+  border-radius: 0 0 .3rem .3rem;
   border-bottom-width: 0;
   outline: 0;
 }
 
 #umnhf-f.umnhf a {
   text-decoration: none;
-  color: #363230;
+  color: $slate;
 }
 
 #mandatory-header-wrapper {
@@ -1132,7 +1132,7 @@ h2 a {
 .gold-solid-button,
 .maroon-outline-button {
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: .1em;
 }
 
 @media (max-width: 991.98px) {
@@ -1170,7 +1170,7 @@ h2 {
   }
 
   .h5 {
-    font-size: Min(2rem, calc(1.325rem + 0.80657vw));
+    font-size: Min(2rem, calc(1.325rem + .80657vw));
   }
 }
 
@@ -1205,7 +1205,7 @@ ul li {
 }
 
 .btn-md {
-  padding: 0.5em 1em;
+  padding: .5em 1em;
   font-size: 1.1em;
 }
 
@@ -1216,12 +1216,12 @@ ul li {
 }
 
 .btn-sm.btn-outline-primary {
-  color: #1a1a1a;
+  color: $soft-black;
 }
 
 .btn-md.btn-secondary,
 .btn-sm.btn-secondary {
-  color: #7a0019;
+  color: $maroon;
 }
 
 .off-canvas-wrapper {
@@ -1230,7 +1230,7 @@ ul li {
 
 #navbar-primary {
   z-index: 35;
-  background: #fff;
+  background: $white;
 }
 
 .nav-item {
@@ -1294,7 +1294,7 @@ ul li {
 
 .navbar-dark .navbar-nav > .nav-item > .nav-button,
 .navbar-dark .navbar-nav > .nav-item > .nav-link {
-  color: #fff;
+  color: $white;
   background-color: transparent;
 
   &.is-active,
@@ -1302,8 +1302,8 @@ ul li {
     &,
     &:hover,
     &:focus-visible {
-      color: #000;
-      background-color: #e6e0d2;
+      color: $black;
+      background-color: $ivory;
     }
   }
 }
@@ -1322,7 +1322,7 @@ ul li {
 
     &,
     & a {
-      color: #000;
+      color: $black;
       font-weight: bold;
       font-size: 1.8rem;
     }
@@ -1334,7 +1334,7 @@ ul li {
   margin: 0;
   border: 0;
   border-radius: 0;
-  box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 15px 0 rgba($black, .2);
   font-size: 16px;
   z-index: 200;
 }
@@ -1363,7 +1363,7 @@ ul li {
 }
 
 .navbar-light .navbar-nav>.nav-item>.nav-link {
-    color: #000;
+    color: $black;
 }
 
 .dropdown--mega-menu {
@@ -1396,7 +1396,7 @@ ul li {
 }
 
 .nav-button .btn-outline-primary {
-  color: #fff;
+  color: $white;
   border: 1px solid currentColor;
 }
 

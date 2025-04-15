@@ -98,8 +98,8 @@ $value in $theme-colors {
 @mixin font-base-call-out() {
   font-family: $font-neutraface;
   font-size: 2rem;
-  line-height: 1.20em;
-  letter-spacing: 1.60px;
+  line-height: 1.2em;
+  letter-spacing: 1.6px;
   font-weight: 600;
   text-transform: uppercase;
 }
@@ -126,7 +126,7 @@ $value in $theme-colors {
     font-size: $font-base;
     text-transform: uppercase;
     border-radius: 0;
-    transition: all 0.3s ease-in-out;
+    transition: all .3s ease-in-out;
     display: inline-block;
 }
 @mixin button-outline($color) {
@@ -142,7 +142,7 @@ $value in $theme-colors {
     }
     &:hover, &:active, &:focus{
       background: $color;
-      box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20);
+      box-shadow: 0 15px 30px 0 rgba($black, .2);
       @if($color != $menu-gold) {
         color: $white;
       }
@@ -157,7 +157,7 @@ $value in $theme-colors {
     color: $white;
     &:hover, &:active, &:focus{
       background: $white;
-      box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20);
+      box-shadow: 0 15px 30px 0 rgba($black, .2);
       color: $color;
     }
 }
@@ -171,7 +171,7 @@ $value in $theme-colors {
     color: $maroon;
     &:hover, &:active, &:focus{
       background: $white;
-      box-shadow: 0 15px 30px 0 rgba(0,0,0,0.20);
+      box-shadow: 0 15px 30px 0 rgba($black, .2);
       border-right: 5px solid $white;
     }
 }
@@ -187,12 +187,12 @@ $value in $theme-colors {
       color: $menu-gold;
       &:after{
         content: '';
-        width: 0px;
+        width: 0;
       }
     }
     &:after{
       content: '';
-      transition: all 0.3s ease-in-out;
+      transition: all .3s ease-in-out;
       width: 100%;
       height: 2px;
       display: block;
@@ -211,12 +211,12 @@ $value in $theme-colors {
       color: $hamburger-grey;
       &:after{
         content: '';
-        width: 0px;
+        width: 0;
       }
     }
     &:after{
       content: '';
-      transition: all 0.3s ease-in-out;
+      transition: all .3s ease-in-out;
       width: 100%;
       height: 2px;
       display: block;
@@ -286,15 +286,15 @@ $value in $theme-colors {
 }
 
 @mixin profile-image-box-shadow() {
-    @include box-shadow(0, 15px, 60px, 0.30);
+    @include box-shadow(0, 15px, 60px, .3);
 }
 
 @mixin tab-box-shadow(){
     @include box-shadow(0, 4px, 30px);
 }
 
-@mixin box-shadow($x,$y,$blur,$opacity: 0.20) {
-    box-shadow: $x $y $blur 0 rgba(0,0,0,$opacity);
+@mixin box-shadow($x,$y,$blur,$opacity: .2) {
+    box-shadow: $x $y $blur 0 rgba($black, $opacity);
 }
 
 @mixin clear-box-shadow(){
@@ -304,13 +304,13 @@ $value in $theme-colors {
 @mixin yellow-line() {
     // Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90
     background: $white!important; // Old browsers
-    background: linear-gradient(to bottom, rgba(255,255,255,0)60%,$menu-gold 60%,$menu-gold 90%, rgba(255,255,255,0) 90%)!important; // W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+
+    background: linear-gradient(to bottom, rgba($white, 0)60%,$menu-gold 60%,$menu-gold 90%, rgba($white, 0) 90%)!important; // W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+
 }
 
 @mixin grey-gradient-line() {
     // Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90
     background: $white!important; // Old browsers
-    background: linear-gradient(to bottom, rgba(255,255,255,0)60%,$another-gray 60%,$another-gray 90%, rgba(255,255,255,0) 90%)!important; // W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+
+    background: linear-gradient(to bottom, rgba($white, 0)60%,$another-gray 60%,$another-gray 90%, rgba($white, 0) 90%)!important; // W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+
 }
 
 @mixin grey-line() {
@@ -332,16 +332,16 @@ $value in $theme-colors {
         &__title {
             @include font-newsreader-base();
             font-size: $font-small-mobile;
-            line-height : 125%;
+            line-height: 125%;
             @include media-breakpoint-up(lg) {
                 font-size: $font-smaller;
-                line-height : 125%;
+                line-height: 125%;
             }
             margin: 1.25rem 1rem;
             &--link {
                 color: $slate;
                 &:hover {
-                    transition: color 0.3s ease-in-out;
+                    transition: color .3s ease-in-out;
                     text-decoration: none;
                     color: $maroon;
                 }

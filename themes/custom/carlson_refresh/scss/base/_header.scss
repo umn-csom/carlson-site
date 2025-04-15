@@ -6,20 +6,20 @@
 
 #navbar-top.navbar-dark .nav-link:hover,
 #navbar-top.navbar-dark .nav-link:focus {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba($white, .75);
 }
 
 #navbar-top.navbar-dark .nav-link {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba($white, .5);
 }
 
 #navbar-top.navbar-light .nav-link:hover,
 #navbar-top.navbar-light .nav-link:focus {
-    color: rgba(0, 0, 0, 0.7);
+    color: rgba($black, .7);
 }
 
 #navbar-top.navbar-light .nav-link {
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba($black, .5);
 }
 
 @media (max-width: 33.9em) {
@@ -43,33 +43,33 @@
     .dropdown-menu {
       .dropdown-menu{
         .second-level{
-          border: 0px none;
+          border: 0;
           box-shadow: none !important;
           background: transparent !important;
           top: 0 !important;
-          padding-top: 0px;
+          padding-top: 0;
           @media (max-width: 991px){
-            padding-bottom: 0px;
+            padding-bottom: 0;
             width: 50% !important;
           }
           .we-mega-menu-submenu-inner{
             padding-right: 15px;
             a{
-              color: #363230;
+              color: $slate;
               font-family: "Lato" !important;
               font-size: 14px !important;
               font-weight: 400 !important;
               line-height: 40px !important;
               text-transform: uppercase;
               letter-spacing: 1.5px;
-              transition: all 0.3s ease-in-out;
-              padding-left: 0px;
+              transition: all .3s ease-in-out;
+              padding-left: 0;
               &:hover, &:focus, &:active{
                 padding-left: 15px;
               }
               &:after{
                 display: none !important;
-                width: 0px !important
+                width: 0 !important
               }
             }
             .nav-tabs{
@@ -81,16 +81,16 @@
               position: relative;
               float: left;
               width: 100%;
-              border-left: 1px solid #e6dbd6;
+              border-left: 1px solid $another-gray;
               .we-mega-menu-li{
                 width: 100%;
                 display: flex;
                 justify-content: flex-start !important;
-                padding-left: 0px;
+                padding-left: 0;
                 margin: 0;
-                padding: 0px;
+                padding: 0;
                 a{
-                  padding-left: 0px;
+                  padding-left: 0;
                   &:after{
                     display: none !important;
                   }
@@ -104,11 +104,11 @@
         }
         &:first-child{
           >.we-mega-menu-submenu{
-            border: 0px none;
+            border: 0;
             box-shadow: none !important;
             background: transparent !important;
             top: 0 !important;
-            padding-top: 0px;
+            padding-top: 0;
             @media (max-width: 991px){
               width: 50% !important;
             }
@@ -122,10 +122,10 @@
               float: left;
               width: auto;
               .we-mega-menu-li{
-                padding: 0px;
+                padding: 0;
                 width: auto;
                 a{
-                  padding-left: 0px;
+                  padding-left: 0;
                   &:after{
                     display: none !important;
                   }
@@ -137,13 +137,13 @@
                 }
                 &.active{
                   a{
-                    padding-left: 0px;
+                    padding-left: 0;
                     &:after{
                       content: '';
                       display: block;
                       width: 0;
                       height: 2px;
-                      background: #000;
+                      background: $black;
                       transition: width .3s;
                     }
                     &:hover , &:focus{
@@ -155,7 +155,7 @@
                   width: 100%;
                   display: flex;
                   justify-content: flex-start !important;
-                  padding-left: 0px;
+                  padding-left: 0;
 
                 }
               }
@@ -164,15 +164,15 @@
           .we-mega-menu-submenu-inner{
             padding-right: 15px;
             a{
-              color: #363230;
+              color: $slate;
               font-family: "Lato" !important;
               font-size: 14px !important;
               font-weight: 400 !important;
               line-height: 40px !important;
               text-transform: uppercase;
               letter-spacing: 1.5px;
-              transition: all 0.3s ease-in-out;
-              padding-left: 0px;
+              transition: all .3s ease-in-out;
+              padding-left: 0;
               &:hover, &:focus, &:active{
                 padding-left: 15px;
 
@@ -193,15 +193,15 @@
       width: 100%;
     }
     .we-mega-menu-li{
-      border-left: 0px none;
+      border-left: 0;
       display: inline-block;
       position: relative;
       min-width: auto;
-      border:0px none;
+      border:0;
       box-shadow: none;
-      padding: 0.5rem 0;
+      padding: .5rem 0;
       // font-size: 1.2vw;
-      font-size: calc( 0.72vw + (12 - 10) * (100vw - 400px) / (800 - 400) );
+      font-size: calc( .72vw + (12 - 10) * (100vw - 400px) / (800 - 400) );
       line-height: calc( 1.2vw + (18 - 12) * (100vw - 400px) / (800 - 400) );
       &:hover, &:focus{
         a.we-mega-menu-li{
@@ -216,10 +216,10 @@
         justify-content: center;
         flex: 0 1 auto;
         padding: 15px;
-        margin: 0px;
+        margin: 0;
         background-color: transparent !important;
         cursor: pointer !important;
-        color: #363230 !important;
+        color: $slate !important;
         @media screen and (max-width: 992px){
           padding: 15px 7px;
         }
@@ -237,12 +237,12 @@
           right: 0;
           opacity: 0;
           width: 100%;
-          transition: all 0.3s ease-in-out;
+          transition: all .3s ease-in-out;
           height: 0;
           background-image: none;
-          margin-top: 0px !important;
+          margin-top: 0 !important;
           @media (max-width: 991px){
-            bottom: 0px;
+            bottom: 0;
           }
         }
         &:hover:after , &:focus:after{
@@ -250,9 +250,9 @@
           opacity: 1;
         }
         @media (max-width: 991px){
-          border: 0px;
+          border: 0;
           justify-content: flex-start;
-          color: #363230;
+          color: $slate;
           @include font-newsreader-base();
           font-size: 30px;
           font-weight: 400;
@@ -262,15 +262,15 @@
     }
   }
   .nav-tabs{
-    border-bottom: 0px none;
+    border-bottom: 0;
   }
   .dropdown-menu{
     position: static !important;
-    border-left: 0px none;
+    border-left: 0;
     background: transparent !important;
     &:first-child > .we-mega-menu-submenu {
-      background-color: #fff;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.11765) !important;
+      background-color: $white;
+      box-shadow: 0 3px 15px rgba($black, .11765) !important;
       width: 100%;
       top: calc(100% - 27%);
 
@@ -283,13 +283,13 @@
       overflow: hidden;
       padding-bottom: 100%;
       background-color: transparent;
-      border: 0px none;
+      border: 0;
       box-shadow: none !important;
-      margin-top: 0px !important;
+      margin-top: 0 !important;
       top: 0;
 
-      background-color: #fff;
-      box-shadow: 0 3px 15px rgba(0,0,0,0.11765) !important;
+      background-color: $white;
+      box-shadow: 0 3px 15px rgba($black, .11765) !important;
       height: 100%;
       top: calc(100% - 27%);
       @media (max-width: 991px){
@@ -303,7 +303,7 @@
         .we-mega-menu-row{
           .we-mega-menu-col{
             margin-top: 0 !important;
-            margin-bottom: 0px !important;
+            margin-bottom: 0 !important;
             .nav-tabs{
               display: flex;
               justify-content: flex-end;
@@ -312,12 +312,12 @@
               text-align: right;
               position: absolute;
               width: 50%;
-              // border-right: 1px solid #e6dbd6;
+              // border-right: 1px solid $another-gray;
               @media (max-width: 991px){
                 width: 100%;
                 justify-content: flex-start !important;
                 align-items: flex-start !important;
-                padding-left: 0px !important;
+                padding-left: 0 !important;
               }
               .we-mega-menu-li{
                 width: auto;
@@ -335,13 +335,13 @@
                 }
 
                 a, span{
-                  color: #363230;
+                  color: $slate;
                   @include font-newsreader-base();
                   font-size: 30px;
                   font-weight: 400;
                   line-height: 48px;
                   cursor: pointer;
-                  border: 0px none;
+                  border: 0;
                   position: relative;
                   display: inline-block;
                   text-align: right;
@@ -353,12 +353,12 @@
                   }
                   &:hover, &:focus, &:active{
                     background-color: transparent;
-                    color: #363230;
-                    border: 0px none;
+                    color: $slate;
+                    border: 0;
                   }
                   &:after{
                     content: '';
-                    transition: all 0.3s ease-in-out;
+                    transition: all .3s ease-in-out;
                     transform: rotate(0deg) !important;
                     position: absolute;
                     width: 100%;
@@ -387,7 +387,7 @@
                 > a{
                   &:after{
                     content: '';
-                    transition: all 0.3s ease-in-out;
+                    transition: all .3s ease-in-out;
                     transform: rotate(0deg) !important;
                     position: absolute;
                     width: 100%;
@@ -423,7 +423,7 @@
                 width: 100%;
                 .we-mega-menu-li{
                   a.we-mega-menu-li{
-                    margin: 0px;
+                    margin: 0;
                   }
                 }
               }
@@ -434,7 +434,7 @@
     }
   }
   .dropdown-menu{
-    margin-top: 0px !important;
+    margin-top: 0 !important;
   }
 }
 
@@ -442,8 +442,8 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  transition: all 0.3s ease-in-out;
-  background: #fff;
+  transition: all .3s ease-in-out;
+  background: $white;
   .navbar-brand{
     height: auto !important;
   }
@@ -451,7 +451,7 @@
     position: fixed;
     z-index: 7777;
     width: 100%;
-    background: #fff;
+    background: $white;
     top: 64px;
   }
   .carlson-nav{
@@ -466,12 +466,12 @@
 }
 
 .umnhf-campus-tc{
-  transition: all 0.3s ease-in-out;
+  transition: all .3s ease-in-out;
   &.compressed{
     position: fixed;
     z-index: 9999;
     width: 100%;
-    top: 0px;
+    top: 0;
   }
 }
 
@@ -481,7 +481,7 @@
   &:hover, &:focus{
     border: 2px none !important;
     background: transparent url(../images/branding/sprites/lock-search-maroon.png) 0 -12px no-repeat !important;
-    color: #fff !important;
+    color: $white !important;
     box-shadow: none;
   }
 }
@@ -500,7 +500,7 @@ body.toggled .close-btn {
     height: 100vh;
     width: 100%;
     top: 96px;
-    background: #fff;
+    background: $white;
     opacity: 0;
     align-items: flex-start;
     justify-content: space-between;
@@ -521,7 +521,7 @@ body.toggled .mobile-main-menu{
   position: fixed;
   right: 24px;
   top: 112px;
-  color: #7a0019;
+  color: $maroon;
   @include font-sans-serif-base();
   font-size: 16px;
   font-weight: 700;
@@ -529,9 +529,9 @@ body.toggled .mobile-main-menu{
   opacity: 0;
   visibility: hidden;
   display: none;
-  transition: all 0.3s ease-in-out;
+  transition: all .3s ease-in-out;
   animation-fill-mode: both;
-  animation-duration: 0.2s;
+  animation-duration: .2s;
   animation-timing-function: ease-in-out;
   animation-name: fadeInFromNone;
   animation-delay: 0s;
@@ -540,27 +540,27 @@ body.toggled .mobile-main-menu{
 
 .btn-close{
   top: 64px;
-  right: 0px;
-  background: #fff;
+  right: 0;
+  background: $white;
   box-shadow: none;
   width: 100px;
   height: 100px;
-  border-radius: 0px;
+  border-radius: 0;
   animation-fill-mode: both;
-  animation-duration: 0.2s;
+  animation-duration: .2s;
   animation-timing-function: ease-in-out;
   animation-name: fadeInFromNone;
   animation-delay: 0s;
   &:before{
     width: 25px;
     height: 2px;
-    background-color: #5a5450;
+    background-color: $header-icon-gray;
     top: 30px;
   }
   &:after{
     width: 25px;
     height: 2px;
-    background-color: #5a5450;
+    background-color: $header-icon-gray;
     top: 30px;
   }
 }
@@ -577,14 +577,14 @@ body.toggled .mobile-main-menu{
       align-items: center;
       &:after{
         content: 'MENU';
-        color: #7a0019;
+        color: $maroon;
         @include font-sans-serif-base();
         font-size: 16px;
         font-weight: 700;
         text-transform: uppercase;
       }
       .icon-bar{
-        background-color: #5a5450;
+        background-color: $header-icon-gray;
         width: 29px;
         + .icon-bar{
             margin-top: 6px;
@@ -605,7 +605,7 @@ body.toggled .mobile-main-menu{
 }
 
 body.toggled {
-    right: 0px !important;
+    right: 0 !important;
 }
 body.toggled .navbar-toggle{
   visibility: visible !important;
@@ -621,12 +621,12 @@ body.toggled .navbar-toggle{
   .type-of-block{
     width: 100%;
     padding: 0 15px;
-    border-left: 1px solid #e6dbd6;
+    border-left: 1px solid $another-gray;
   }
 }
 
 .col-auto{
-  padding: 0px;
+  padding: 0;
 }
 
 #block-mainnavigation{
@@ -653,6 +653,6 @@ body.toggled .navbar-toggle{
 
 .navbar-we-mega-menu.navbar .nav-tabs>li.active>a, .navbar-we-mega-menu.navbar .nav-tabs>li.active>a:focus, .navbar-we-mega-menu.navbar .nav-tabs>li.active>a:hover,
 .navbar-we-mega-menu.navbar .nav .open>a, .navbar-we-mega-menu.navbar .nav .open>a:focus, .navbar-we-mega-menu.navbar .nav .open>a:hover{
-  border-top: 0px !important;
-  color: #363230 !important;
+  border-top: 0 !important;
+  color: $slate !important;
 }
