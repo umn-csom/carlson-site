@@ -4,7 +4,7 @@
  * Template for the webform page.
  */
 #}
- <header role="banner" aria-label="Site header" class="bg-white">
+<header role="banner" aria-label="Site header" class="bg-white">
 {% include directory ~ '/templates/layout/umn-header.html.twig' %}
 {% if page.header %}
   {{ page.header }}
@@ -55,14 +55,14 @@
   {% block content %}
     <div id="main" class="container">
       <div class="row row-offcanvas row-offcanvas-left clearfix">
-          <main{{ content_attributes }}>
-            <section class="section">
-              <a id="main-content" tabindex="-1"></a>
-              {{ page.page_title }}
+        <main{{ content_attributes }}>
+          <section class="section">
+            <a id="main-content" tabindex="-1"></a>
+            {{ page.page_title }}
 
-              {{ page.content }}
-            </section>
-          </main>
+            {{ page.content }}
+          </section>
+        </main>
         {% if page.sidebar_first %}
           <div{{ sidebar_first_attributes }}>
             <aside class="section" role="complementary">
