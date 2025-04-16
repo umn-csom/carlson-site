@@ -5,11 +5,11 @@
  */
 #}
 {# Header that contains main menu/branding #}
-<header id="header" class="header carlson-header" role="banner" aria-label="{{ 'Site header'|t}}">
+<header role="banner" aria-label="Site header" class="bg-white">
   {# Add in Carlson inverted logo #}
 </header>
 
-<main>
+<main role="main" aria-label="Page content">
 {% if page.local_tasks %}
   {{ page.local_tasks }}
 {% endif %}
@@ -32,6 +32,8 @@
 </main>
 
 {# Beginning of footer #}
+<footer role="contentinfo" aria-label="Site links and info">
 {% include '@carlson_refresh/includes/footer.html.twig' %}
 
 {% include directory ~ '/templates/layout/umn-footer.html.twig' %}
+</footer>

@@ -21,7 +21,7 @@
 {% endif %}
 </section>
 
-<main>
+<main role="main" aria-label="Page content">
 {% if page.local_tasks %}
   {{ page.local_tasks }}
 {% endif %}
@@ -101,6 +101,8 @@
 </main>
 
 {# Beginning of footer #}
+<footer role="contentinfo" aria-label="Site links and info">
 {% include '@carlson_refresh/includes/footer.html.twig' %}
 
 {% include directory ~ '/templates/layout/umn-footer.html.twig' %}
+</footer>
