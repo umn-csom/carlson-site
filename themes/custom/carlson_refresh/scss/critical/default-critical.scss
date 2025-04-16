@@ -1,3 +1,8 @@
+@import "bootstrap/scss/_functions";
+@import "bootstrap/scss/_variables";
+@import "bootstrap/scss/mixins/_breakpoints";
+@import "bootstrap/scss/mixins/_grid";
+@import "bootstrap/scss/utilities/_spacing";
 @import "../abstracts/variables";
 
 *,
@@ -76,10 +81,6 @@ body {
   content: "\ee17";
 }
 
-.news__item__img {
-  min-width: 155px;
-}
-
 .align-center {
   display: block;
   margin-right: auto;
@@ -94,18 +95,6 @@ body {
   width: 1px;
   height: 1px;
   word-wrap: normal;
-}
-
-.navbar-dark .nav-link {
-  color: rgba($white, .5);
-}
-
-.skip-link {
-  background: #444;
-  background: rgba($black, .6);
-  font-size: .94em;
-  padding: 1px 10px 2px;
-  border-radius: 0 0 10px 10px;
 }
 
 .no-gutters > [class*="col-"] {
@@ -558,104 +547,6 @@ h2 {
   }
 }
 
-.dropdown {
-  position: relative;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  display: none;
-  float: left;
-  min-width: 10rem;
-  padding: .5rem 0;
-  font-size: 1.125rem;
-  color: $black;
-  text-align: left;
-  list-style: none;
-  background-color: $ivory;
-  background-clip: padding-box;
-  border: 1px solid rgba($black, .15);
-  border-radius: .25rem;
-}
-
-.dropdown-menu-left {
-  right: auto;
-  left: 0;
-}
-
-.nav-link {
-  display: block;
-  padding: 1.4rem 2.5rem;
-}
-
-.navbar {
-  position: relative;
-  padding: 0;
-}
-
-.navbar,
-.navbar .container-fluid,
-.navbar .container-xl {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.navbar-nav {
-  display: flex;
-  flex-direction: row;
-  padding-left: 0;
-  margin-bottom: 0;
-  list-style: none;
-}
-
-.navbar-nav .dropdown-menu {
-  position: static;
-  float: none;
-}
-
-.navbar-expand {
-  flex-flow: row nowrap;
-  justify-content: flex-start;
-}
-
-.navbar-expand > .container-fluid,
-.navbar-expand > .container-xl {
-  padding-right: 0;
-  padding-left: 0;
-}
-
-.navbar-expand .navbar-nav {
-  flex-direction: row;
-}
-
-.navbar-expand .navbar-nav .dropdown-menu {
-  position: absolute;
-}
-
-.navbar-expand .navbar-nav .nav-link {
-  padding-right: 2.5rem;
-  padding-left: 2.5rem;
-}
-
-.btn.d-flex,
-.navbar-expand > .container-fluid,
-.navbar-expand > .container-xl {
-  flex-wrap: nowrap;
-}
-
-.navbar-dark .navbar-nav .nav-link {
-  color: $white;
-}
-
-.media {
-  display: flex;
-  align-items: flex-start;
-}
-
 .bg-primary {
   background-color: $maroon !important;
 }
@@ -702,38 +593,6 @@ h2 {
   .d-lg-block {
     display: block !important;
   }
-}
-
-.embed-responsive {
-  position: relative;
-  display: block;
-  width: 100%;
-  padding: 0;
-  overflow: hidden;
-}
-
-.embed-responsive::before {
-  display: block;
-  content: "";
-}
-
-.embed-responsive-1by1::before {
-  padding-top: 100%;
-}
-
-.embed-responsive-21by9::before {
-  padding-top: 42.85714%;
-}
-
-.embed-responsive img {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  object-fit: cover;
 }
 
 .flex-row {
@@ -910,14 +769,6 @@ h2 {
   }
 }
 
-p:last-child {
-  margin-bottom: 0;
-}
-
-h2 a {
-  font-weight: 300;
-}
-
 .mega-menu-layout__main {
   min-height: 65vh;
 }
@@ -1026,103 +877,8 @@ h2 a {
   height: auto;
 }
 
-.skip-link {
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 50;
-  background: #495057;
-  color: $white;
-  font-size: 1.6rem;
-  line-height: 1.5;
-  padding: 1px 1rem 2px;
-  border-radius: 0 0 .3rem .3rem;
-  border-bottom-width: 0;
-  outline: 0;
-}
-
-#umnhf-f.umnhf a {
-  text-decoration: none;
-  color: $slate;
-}
-
-#mandatory-header-wrapper {
-  min-height: 50px;
-}
-
-#umnhf-h-mast {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#umnhf-h-wm-svg {
-  display: flex;
-  height: 18px;
-  margin: 16px;
-}
-
-#umnhf-h-wm-svg svg {
-  width: 100%;
-  height: auto;
-}
-
-#umnhf-h-ql {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  width: auto;
-}
-
-#umnhf-h-ql li {
-  margin: 0 0 0 1.25em;
-}
-
-#umnhf-h-ql a {
-  font-weight: 400;
-  font-size: 14px;
-}
-
-#umnhf-h-myu svg {
-  fill: currentColor;
-  vertical-align: baseline;
-}
-
-#umnhf-h-contact a,
-#umnhf-h-give a,
-#umnhf-h-myu a,
-#umnhf-h-onestop a {
-  min-width: 44px;
-  min-height: 44px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-#umnhf-f.umnhf #umnhf-f-myu {
-  display: none;
-}
-
-@media screen and (max-width: 775px) {
-  #umnhf-f.umnhf #umnhf-f-myu {
-    display: block;
-  }
-
-  #umnhf-f.umnhf #umnhf-f-myu ul {
-    margin: 0 0 16px;
-    padding: 0;
-    list-style: none;
-    line-height: 3em;
-  }
-
-  #umnhf-f.umnhf #umnhf-f-myu ul span {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    background: url('/sites/carlsonschool.umn.edu/themes/custom/carlson_refresh/branding/sprites/lock-search-gold.png') no-repeat;
-  }
-}
+@import "../base/skip-link";
+@import "../base/umn-branding";
 
 .umn-search-form {
   margin: 8px 0 40px;
@@ -1135,15 +891,8 @@ h2 a {
   letter-spacing: .1em;
 }
 
-@media (max-width: 991.98px) {
-  #umnhf-f-myu ul {
-    display: flex;
-    justify-content: center;
-  }
-
-  #umnhf-f-myu ul li {
-    padding: 0 15px;
-  }
+p:last-child {
+  margin-bottom: 0;
 }
 
 h1 {
@@ -1160,6 +909,10 @@ h2 {
   font-size: 4.2rem;
 }
 
+h2 a {
+  font-weight: 300;
+}
+
 .h5 {
   font-size: 2rem;
 }
@@ -1174,7 +927,6 @@ h2 {
   }
 }
 
-#umnhf-h-ql li,
 .list-inline li,
 .row:after,
 .row:before {
@@ -1233,8 +985,75 @@ ul li {
   background: $white;
 }
 
+.navbar-dark .nav-link {
+  color: rgba($white, .5);
+}
+
+.navbar {
+  position: relative;
+  padding: 0;
+}
+
+.navbar,
+.navbar .container-fluid,
+.navbar .container-xl {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.navbar-nav .dropdown-menu {
+  position: static;
+  float: none;
+}
+
+.navbar {
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+
+.navbar > .container-fluid,
+.navbar > .container-xl {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.navbar-nav {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .nav-item {
   margin: 0;
+}
+
+.nav-link {
+  display: block;
+  padding: 1.4rem 2.5rem;
+}
+
+.navbar-nav .nav-link {
+  padding-right: 2.5rem;
+  padding-left: 2.5rem;
+}
+
+.btn.d-flex,
+.navbar > .container-fluid,
+.navbar > .container-xl {
+  flex-wrap: nowrap;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: $white;
 }
 
 .nav-button,
@@ -1249,9 +1068,6 @@ ul li {
   }
 }
 
-.navbar-nav {
-  flex-wrap: wrap;
-}
 
 @media (min-width: 1340px) {
   .navbar-nav > .nav-item {
@@ -1307,6 +1123,7 @@ ul li {
     }
   }
 }
+
 .navbar-brand {
   display: inline-block;
   padding-top: 13px;
@@ -1327,16 +1144,6 @@ ul li {
       font-size: 1.8rem;
     }
   }
-}
-
-.dropdown-menu {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-  box-shadow: 5px 5px 15px 0 rgba($black, .2);
-  font-size: 16px;
-  z-index: 200;
 }
 
 .navbar-nav--primary > .nav-item > .nav-button.has-dropdown,
@@ -1366,16 +1173,6 @@ ul li {
     color: $black;
 }
 
-.dropdown--mega-menu {
-  position: initial;
-}
-
-.dropdown--mega-menu > .dropdown-menu {
-  position: absolute;
-  left: 0;
-  right: 0;
-}
-
 .nav-button {
   height: 100%;
   justify-content: center;
@@ -1400,8 +1197,51 @@ ul li {
   border: 1px solid currentColor;
 }
 
-@import "../custom/breadcrumb";
+.dropdown {
+  position: relative;
+}
 
+.dropdown-menu {
+  position: absolute;
+  display: none;
+  top: 100%;
+  left: 0;
+  float: left;
+  min-width: 10rem;
+  padding: .5rem 0;
+  font-size: 1.125rem;
+  color: $black;
+  text-align: left;
+  list-style: none;
+  background-color: $ivory;
+  background-clip: padding-box;
+  border: 1px solid rgba($black, .15);
+  border-radius: .25rem;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: 5px 5px 15px 0 rgba($black, .2);
+  font-size: 16px;
+  z-index: 200;
+}
+
+.dropdown-menu-left {
+  right: auto;
+  left: 0;
+}
+
+.dropdown--mega-menu {
+  position: initial;
+}
+
+.dropdown--mega-menu > .dropdown-menu {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+@import "../custom/breadcrumb";
 
 @media (min-width: 992px) {
   .basic-hero__title {
