@@ -99,7 +99,7 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
           $answer_icon_entity = $answer->hasField('field_quiz_answer_icon') && !empty($answer->get('field_quiz_answer_icon')->target_id) ? $answer->get('field_quiz_answer_icon')->referencedEntities()[0] : null;
           $answer_icon_file = $answer_icon_entity ? $answer_icon_entity->get('field_media_file')->referencedEntities()[0] : null;
           $answer_icon_url = $answer_icon_file ? $answer_icon_file->createFileUrl() : '';
-          $answer_icon = $answer_icon_url ? '<img src="'.$answer_icon_url.'" alt="icon" width="38" height="38" />' : '';
+          $answer_icon = $answer_icon_url ? '<img src="'.$answer_icon_url.'" alt="" aria-hidden="true" width="38" height="38" />' : '';
           $options[$answer_id] = $answer_text.' -- '.$answer_icon;
           $answer_wrapper_classes = '';
           switch ($answers_layout) {
