@@ -1,27 +1,31 @@
-
 .slick__arrow {
   .slick-arrow {
     background: $white;
+
     &::before {
       color: $maroon;
       font-size: 1.8rem;
       font-weight: bold;
     }
   }
+
   .slick-prev {
     &::before {
       @include carlson-icons($icon-arrow-left2);
     }
   }
+
   .slick-next {
     &::before {
       @include carlson-icons($icon-arrow-right2);
     }
   }
+
   @include media-breakpoint-up(lg) {
     .slick-arrow {
       width: 60px;
       height: 60px;
+
       &::before {
         font-size: 2.6rem;
       }
@@ -49,10 +53,11 @@
     padding: 0 5px;
     display: flex;
     margin-bottom: 0;
+
     button {
       width: 17px;
       height: 17px;
-      border: none;
+      border: 0;
       background: rgba($white, 0.5);
       color: rgba($primary, 0.5);
       border-radius: 50%;
@@ -62,6 +67,7 @@
       white-space: nowrap;
       overflow: hidden;
     }
+
     &.slick-active {
       button {
         background: rgba($white, 0.8);
@@ -69,12 +75,14 @@
       }
     }
   }
+
   @include media-breakpoint-up(sm) {
     li {
       padding: 0 10px;
     }
   }
 }
+
 .bg-ivory {
   .slick-dots {
     li {
@@ -82,6 +90,7 @@
         background: rgba($primary, 0.5);
         color: rgba($white, 0.5);
       }
+
       &.slick-active {
         button {
           background: rgba($primary, 1);
@@ -95,26 +104,31 @@
 .slider-nav {
   margin-top: 15px !important;
   margin-bottom: 15px !important;
+
   .slick-list {
     display: flex;
     justify-content: initial;
     height: auto;
     width: 100% !important;
-    .slick-track{
+
+    .slick-track {
       display: flex;
       justify-content: center;
     }
   }
+
   .slide.slick-slide {
     min-width: 177px;
     max-width: 177px;
     margin: 0 7px;
-    img{
+
+    img {
       border-bottom: 9px solid transparent;
       transition: all 0.3s ease-in-out;
       height: 108.5px;
     }
-    &.slick-current img{
+
+    &.slick-current img {
       border-bottom: 9px solid $gold;
     }
   }

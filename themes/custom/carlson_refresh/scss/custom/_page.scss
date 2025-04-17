@@ -2,11 +2,13 @@
 
 .card-flip {
   perspective: 1000px;
+
   .card {
-    border: none;
+    border: 0;
     background: transparent;
     width: 100%;
   }
+
   .flip {
     transition: 0.6s;
     transform-style: preserve-3d;
@@ -34,27 +36,34 @@
   &__back {
     transform: rotateY(180deg);
   }
-  @media not all and (min-resolution: 0.001dpcm){ //target Safari
+
+  @media not all and (min-resolution: 0.001dpcm) {
+    //target Safari
     @supports (-webkit-appearance: none) {
       &__back {
         display: none;
       }
     }
   }
+
   &:hover,
   &.focus {
     .flip {
       transform: rotateY(180deg);
-      @media not all and (min-resolution: 0.001dpcm){ //target Safari
+
+      @media not all and (min-resolution: 0.001dpcm) {
+        //target Safari
         @supports (-webkit-appearance: none) {
           .card-flip {
             &__front {
               transform: rotateY(180deg);
               display: none;
             }
+
             &__back {
               transform: rotateY(0deg);
               display: flex;
+
               .card {
                 transform: rotateY(180deg);
               }
@@ -62,13 +71,17 @@
           }
         }
       }
-      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) { //target IE11
+
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        //target IE11
         .card-flip {
           &__front {
             transform: rotateY(180deg);
           }
+
           &__back {
             transform: rotateY(0deg);
+
             .card {
               transform: rotateY(180deg);
             }
@@ -78,6 +91,7 @@
     }
   }
 }
+
 .card-flip,
 .card-flip__front,
 .card-flip__back {
@@ -103,16 +117,20 @@
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 1.78px;
+
   .addtoany_list {
     display: flex;
     justify-content: space-around;
-    @include media-breakpoint-up(md){
+
+    @include media-breakpoint-up(md) {
       display: inline;
     }
+
     a {
       padding: 0.5rem;
       text-align: center;
-      @include media-breakpoint-up(lg){
+
+      @include media-breakpoint-up(lg) {
         margin-top: 0;
       }
     }
@@ -122,22 +140,27 @@
 .page-links {
   &__tags {
     margin-bottom: 1rem;
+
     &-label {
       @include font-newsreader-base();
+
       font-size: 3.4rem;
       display: block;
       margin-bottom: 1.5rem;
       margin-right: 0.5rem;
-      @include media-breakpoint-up(md){
+
+      @include media-breakpoint-up(md) {
         display: inline;
       }
     }
+
     a {
       font-style: italic;
     }
   }
+
   .share-this {
-    @include media-breakpoint-up(lg){
+    @include media-breakpoint-up(lg) {
       text-align: right;
     }
   }
@@ -149,72 +172,74 @@
 
   &--general,
   &--application-octet-stream {
-      background-image: url(../../images/icons/application-octet-stream.png);
+    background-image: url("../../images/icons/application-octet-stream.png");
   }
 
   &--package-x-generic {
-      background-image: url(../../images/icons/package-x-generic.png);
+    background-image: url("../../images/icons/package-x-generic.png");
   }
 
   &--x-office-spreadsheet {
-      background-image: url(../../images/icons/x-office-spreadsheet.png);
+    background-image: url("../../images/icons/x-office-spreadsheet.png");
   }
 
   &--x-office-document {
-      background-image: url(../../images/icons/x-office-document.png);
+    background-image: url("../../images/icons/x-office-document.png");
   }
 
   &--x-office-presentation {
-      background-image: url(../../images/icons/x-office-presentation.png);
+    background-image: url("../../images/icons/x-office-presentation.png");
   }
 
   &--text-x-script {
-      background-image: url(../images/icons/text-x-script.png);
+    background-image: url("../images/icons/text-x-script.png");
   }
 
   &--text-html {
-      background-image: url(../images/icons/text-html.png);
+    background-image: url("../images/icons/text-html.png");
   }
 
   &--text-plain {
-      background-image: url(../images/icons/text-plain.png);
+    background-image: url("../images/icons/text-plain.png");
   }
 
   &--application-pdf {
-      background-image: url(../images/icons/application-pdf.png);
+    background-image: url("../images/icons/application-pdf.png");
   }
 
   &--application-x-executable {
-      background-image: url(../images/icons/application-x-executable.png);
+    background-image: url("../images/icons/application-x-executable.png");
   }
 
   &--audio {
-      background-image: url(../images/icons/audio-x-generic.png);
+    background-image: url("../images/icons/audio-x-generic.png");
   }
 
   &--video {
-      background-image: url(../images/icons/video-x-generic.png);
+    background-image: url("../images/icons/video-x-generic.png");
   }
 
   &--text {
-      background-image: url(../images/icons/text-x-generic.png);
+    background-image: url("../images/icons/text-x-generic.png");
   }
 
   &--image {
-      background-image: url(../images/icons/image-x-generic.png);
+    background-image: url("../images/icons/image-x-generic.png");
   }
 }
 
 .views-row:not([class*="col"]) {
-		flex: 0 0 100%;
-    max-width: 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
 }
 
 .node__bottom {
   &__col {
     @include make-col(12);
+
     padding: 0 15px;
-    @include media-breakpoint-up(lg){
+
+    @include media-breakpoint-up(lg) {
       @include make-col(6);
     }
   }
@@ -225,10 +250,12 @@
   font-size: 0;
   color: $white;
 }
+
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset {
   float: none;
   text-align: center;
 }
+
 .ui-dialog .ui-dialog-buttonpane button {
   max-width: 300px;
   margin: 1rem auto;
@@ -243,7 +270,8 @@
   font-weight: bold;
   background-color: $maroon;
   border: 2px solid $maroon;
-  color: white;
+  color: $white;
+
   &:hover,
   &:focus,
   &:active {

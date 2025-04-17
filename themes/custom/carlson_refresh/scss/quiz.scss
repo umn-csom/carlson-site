@@ -3,38 +3,45 @@ $grid-breakpoints: (
   sm: 576px,
   md: 768px,
   lg: 992px,
-  xl: 1200px
+  xl: 1200px,
 );
-$grid-columns:                12 !default;
-$grid-gutter-width:           30px !default;
-$grid-row-columns:            6 !default;
+$grid-columns: 12 !default;
+$grid-gutter-width: 30px !default;
+$grid-row-columns: 6 !default;
+
 @import "abstracts/variables";
 @import "bootstrap/scss/mixins/breakpoints";
 @import "bootstrap/scss/mixins/grid";
 
 .page-node-type-quiz {
   background: $lighter-ivory;
+
   &:not(.page-node-type-quiz-results) {
     .breadcrumb {
       display: none;
     }
+
     #main {
       max-width: none;
       margin: 0;
       overflow-x: hidden;
     }
   }
+
   .footer {
     margin-top: 0;
   }
+
   &-results {
     .breadcrumb {
       padding-left: 15px !important;
     }
+
     .component-paragraph {
       margin-bottom: 0;
     }
   }
+
   @include media-breakpoint-only(lg) {
     &-results {
       .breadcrumb.col {
@@ -50,6 +57,7 @@ $grid-row-columns:            6 !default;
       font-size: 3.4rem;
       line-height: 4.2rem;
     }
+
     &--webform {
       .webform-button--submit {
         padding-top: 1rem;
@@ -58,11 +66,13 @@ $grid-row-columns:            6 !default;
       }
     }
   }
+
   &--main-img {
     &--inner {
-      >div {
+      > div {
         width: 100%;
         height: calc(100vh - 70px);
+
         img {
           width: 100%;
           height: 100%;
@@ -71,46 +81,56 @@ $grid-row-columns:            6 !default;
       }
     }
   }
+
   &--question {
     legend {
       display: none;
     }
+
     &--title-wrapper {
       &:not(:first-of-type) {
         margin-top: 40px;
       }
     }
+
     &--title-prefix {
       font-size: 1.2rem;
       line-height: 1.5rem;
       letter-spacing: 1.13px;
     }
+
     &--title {
-      > p, div {
+      > p,
+      div {
         display: inline;
       }
     }
+
     &--multiple-label {
       font-style: italic;
       font-size: 2rem;
       line-height: 2.3rem;
     }
+
     &--info-btn {
       width: 15px;
       height: 15px;
       background-image: url("../images/svg/info.svg");
       background-size: contain;
     }
+
     .js-webform-checkboxes,
     .js-webform-radios {
       @include make-row();
     }
+
     &.stacked {
       .js-webform-checkboxes,
       .js-webform-radios {
         margin-left: 0;
         margin-right: 0;
       }
+
       .quiz--answer {
         // Center options in stacked layout.
         margin: 0 auto;
@@ -122,9 +142,10 @@ $grid-row-columns:            6 !default;
         }
       }
     }
+
     &--next {
       &::after {
-        content: '';
+        content: "";
         width: 14px;
         height: 11px;
         background: url("../images/svg/checkmark.svg");
@@ -132,6 +153,7 @@ $grid-row-columns:            6 !default;
         margin-left: 15px;
         transition: all 0.3s ease-in-out;
       }
+
       &:hover,
       &:focus {
         &::after {
@@ -140,6 +162,7 @@ $grid-row-columns:            6 !default;
       }
     }
   }
+
   &--answer {
     background: $white;
     display: flex !important;
@@ -168,6 +191,7 @@ $grid-row-columns:            6 !default;
     .description {
       order: 1;
     }
+
     label {
       display: block;
       width: 100%;
@@ -189,11 +213,13 @@ $grid-row-columns:            6 !default;
         inset: 0;
       }
     }
+
     input {
       margin: 0;
       position: static;
       order: 3;
       cursor: pointer;
+      // stylelint-disable-next-line property-no-vendor-prefix
       -webkit-appearance: none;
       appearance: none;
       background: $lighter-ivory;
@@ -202,6 +228,7 @@ $grid-row-columns:            6 !default;
       border: 1px solid $mid-gray-3;
       display: grid;
       place-content: center;
+
       &[type='radio'],
       &[type='checkbox'] {
         &:focus,
@@ -213,6 +240,7 @@ $grid-row-columns:            6 !default;
           }
         }
       }
+      
       &[type='radio'] {
         border-radius: 50%;
         margin: 0;
@@ -224,15 +252,19 @@ $grid-row-columns:            6 !default;
         &::before {
           display: none;
         }
+
         &:checked {
           border-color: $maroon;
+
           &::before {
             transform: scale(1);
           }
         }
       }
-      &[type='checkbox'] {
+
+      &[type="checkbox"] {
         border-radius: 2px;
+
         &::before {
           content: "";
           width: 13px;
@@ -240,18 +272,22 @@ $grid-row-columns:            6 !default;
           background: url("../images/svg/checkmark.svg");
           transform: scale(0);
         }
+
         &:checked {
           border-color: $maroon;
           background: $maroon;
+
           &::before {
             transform: scale(1);
           }
         }
       }
+
       &:focus {
         outline: 0;
       }
     }
+
     &.checked {
       border-color: $maroon;
       &::before {
@@ -262,6 +298,7 @@ $grid-row-columns:            6 !default;
         border-left-width: 3px;
       }
     }
+
     &--popover-btn {
       position: absolute;
       top: 100%;
@@ -271,28 +308,35 @@ $grid-row-columns:            6 !default;
         box-shadow: 0;
       }
     }
+
     &.disabled {
       opacity: 0.8;
       cursor: not-allowed;
+
       label {
         cursor: not-allowed;
       }
+
       input {
         cursor: not-allowed;
       }
     }
   }
+
   &--webform {
     padding-bottom: 170px;
   }
+
   &--progress-bar {
     z-index: 34;
+
     &--bar {
       height: 5px;
       width: 100%;
       background: $lighter-ivory;
-      border-top: 1px solid #E2D9DC;
-      border-bottom: 1px solid #E2D9DC;
+      border-top: 1px solid #e2d9dc;
+      border-bottom: 1px solid #e2d9dc;
+
       &--seek {
         height: 7px;
         width: var(--seek-width);
@@ -301,37 +345,44 @@ $grid-row-columns:            6 !default;
         transition: width 0.3s ease;
       }
     }
+
     &--title {
       font-size: 1.8rem;
       line-height: 2.1rem;
     }
+
     &--progress {
       font-size: 1.2rem;
       line-height: 1.5rem;
       text-transform: uppercase;
-      letter-spacing: 1.13px
+      letter-spacing: 1.13px;
     }
   }
+
   .js-webform-states-hidden {
     .quiz--question--title-wrapper {
-        margin-top: 40px;
+      margin-top: 40px;
     }
   }
+
   .was-validated {
     .form-check-input:invalid ~ .form-check-label,
     .form-check-input.is-invalid ~ .form-check-label {
       color: inherit;
     }
+
     .form-check-input:valid ~ .form-check-label,
     .form-check-input.is-valid ~ .form-check-label {
       color: inherit;
     }
+
     .webform-button--submit:valid,
     .webform-button--submit.is-valid {
       border: 2px solid $maroon;
       background-image: none;
       padding-left: 3rem;
       padding-right: 3rem;
+
       &:focus {
         border-color: $maroon;
         box-shadow: 0 15px 30px 0 rgba($black, 0.2);
@@ -346,29 +397,35 @@ $grid-row-columns:            6 !default;
         line-height: 4.6rem;
       }
     }
+
     &--content {
       max-width: 620px !important;
     }
+
     &--body,
     &--body p {
       font-size: 1.8rem;
       line-height: 2.8rem;
     }
+
     &--question {
       &--title-wrapper {
         &:not(:first-of-type) {
           margin-top: 40px;
         }
       }
+
       &--title-prefix {
         font-size: 1.3rem;
         line-height: 1.6rem;
         letter-spacing: 1.22px;
       }
+
       &--info-btn {
         width: 20px;
         height: 20px;
       }
+
       &.three_cols {
         .quiz--answer {
           justify-content: center;
@@ -376,6 +433,7 @@ $grid-row-columns:            6 !default;
           margin-bottom: 0;
           text-align: center;
           padding: 20px 10px;
+
           label {
             img {
               // Make icons non-interactive
@@ -383,9 +441,11 @@ $grid-row-columns:            6 !default;
               display: block;
             }
           }
+
           input {
             margin: 0;
           }
+
           &.checked {
             &::before {
               content: '';
@@ -398,23 +458,28 @@ $grid-row-columns:            6 !default;
         }
       }
     }
+
     &--answer {
       label {
         font-size: 1.6rem;
         line-height: 1.9rem;
       }
     }
+
     &--progress-bar {
       &--bar {
         height: 7px;
+
         &--inner {
           height: 9px;
         }
       }
+
       &--title {
         font-size: 2.5rem;
         line-height: 2.8rem;
       }
+
       &--progress {
         font-size: 1.6rem;
         line-height: 1.9rem;
@@ -422,12 +487,14 @@ $grid-row-columns:            6 !default;
         letter-spacing: 1.5px;
       }
     }
+
     .js-webform-states-hidden {
       .quiz--question--title-wrapper {
         margin-top: 40px;
       }
     }
   }
+
   @include media-breakpoint-down(md) {
     &--question {
       &--title {
@@ -436,6 +503,7 @@ $grid-row-columns:            6 !default;
           line-height: 3.2rem;
         }
       }
+
       &.three_cols {
         .js-webform-checkboxes,
         .js-webform-radios {
@@ -444,6 +512,7 @@ $grid-row-columns:            6 !default;
         }
       }
     }
+
     &--answer {
       .description {
         img {
@@ -453,6 +522,7 @@ $grid-row-columns:            6 !default;
       }
     }
   }
+
   @include media-breakpoint-only(xs) {
     .quiz {
       &--webform {
@@ -462,6 +532,7 @@ $grid-row-columns:            6 !default;
         }
       }
     }
+
     .was-validated {
       .form-control:valid,
       .form-control.is-valid {
@@ -478,25 +549,31 @@ $grid-row-columns:            6 !default;
       font-size: 3.4rem;
       line-height: 4.2rem;
     }
+
     &--result {
       &--title {
         font-size: 2.5rem;
         line-height: 2.8rem;
       }
+
       &--subtitle {
         font-size: 2rem;
         line-height: 2.3rem;
       }
     }
   }
+
   &--title-prefix {
     font-size: 1.3rem;
     line-height: 1.6rem;
     letter-spacing: 1.22px;
   }
+
   &--result {
     box-shadow: 2px 4px 7px 0 rgba($slate, 0.1);
+
     &--compare-checkbox {
+      // stylelint-disable-next-line property-no-vendor-prefix
       -webkit-appearance: none;
       appearance: none;
       background: $lighter-ivory;
@@ -506,6 +583,7 @@ $grid-row-columns:            6 !default;
       display: grid;
       place-content: center;
       border-radius: 2px;
+
       &::before {
         content: "";
         width: 13px;
@@ -513,13 +591,16 @@ $grid-row-columns:            6 !default;
         background: url("../images/svg/checkmark.svg");
         transform: scale(0);
       }
+
       &:checked {
         border-color: $maroon;
         background: $maroon;
+
         &::before {
           transform: scale(1);
         }
       }
+
       &-label {
         text-transform: initial;
         font-size: 1.4rem;
@@ -528,23 +609,27 @@ $grid-row-columns:            6 !default;
       }
     }
   }
+
   @include media-breakpoint-up(lg) {
     .quiz-results {
       &--title {
         font-size: 4.2rem;
         line-height: 4.6rem;
       }
+
       &--result {
         &--title {
           font-size: 3.4rem;
           line-height: 3.7rem;
         }
+
         &--subtitle {
           font-size: 2.5rem;
           line-height: 2.8rem;
         }
       }
     }
+
     &--result-wrapper {
       &.quiz-results--result-wrapper-alt {
         .quiz-results {
@@ -553,36 +638,43 @@ $grid-row-columns:            6 !default;
               position: relative;
               z-index: 1;
             }
+
             &--content {
               border-right: 1px solid #dee2e6 !important;
             }
+
             &--img {
               img {
                 max-width: 315px;
               }
             }
+
             &--description {
               border-bottom: 0 !important;
             }
           }
         }
       }
+
       &.quiz-results--result-wrapper-alt-2 {
         .quiz-results {
           &--result {
             &--img {
               position: relative;
+
               &::before {
-                content: '';
+                content: "";
                 padding-top: 47.42%;
                 display: block;
               }
+
               .media {
                 position: absolute;
                 left: 0;
                 top: 0;
                 width: 100%;
                 height: 100%;
+
                 img {
                   width: 100%;
                   height: 100%;
@@ -599,17 +691,22 @@ $grid-row-columns:            6 !default;
 
 .popover {
   border-radius: 4px;
+
   .popover-body {
     padding: 15px 20px;
     font-size: 1.6rem;
     line-height: 1.9rem;
-    p, a {
+
+    p,
+    a {
       font-size: 1.6rem;
       line-height: 1.9rem;
     }
+
     p:last-of-type {
       margin-bottom: 0;
     }
+
     a {
       text-decoration: underline;
     }
@@ -630,25 +727,31 @@ $grid-row-columns:            6 !default;
 }
 
 .quiz-results {
-  #comparison-table, .scroll-to-button {
+  #comparison-table,
+  .scroll-to-button {
     display: none;
   }
 
   .quiz-results--result--compare-checkbox-wrapper {
     padding-top: 2rem;
+
     label {
       display: none !important;
     }
   }
 }
+
 .quiz-results.quiz-display-table {
   .quiz-results--result--compare-checkbox-wrapper {
     padding-top: 0;
+
     label {
       display: flex !important;
     }
   }
-  #comparison-table, .scroll-to-button {
+
+  #comparison-table,
+  .scroll-to-button {
     display: flex;
   }
 }

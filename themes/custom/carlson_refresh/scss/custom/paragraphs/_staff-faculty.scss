@@ -1,72 +1,79 @@
 .staff-faculty {
-	&__heading {
-		display: none;
-	}
-	&__item {
-		&--link {
-			display: block;
-			max-width: 900px;
-			margin: 0 auto;
+  &__heading {
+    display: none;
+  }
 
-			&,
-			&:hover,
-			&:focus,
-			&:active {
-				text-decoration: none;
-				color: $slate;
-			}
+  &__item {
+    &--link {
+      display: block;
+      max-width: 900px;
+      margin: 0 auto;
 
-			&:focus-visible {
-				h3 {
-					text-decoration: underline;
-				}
-			}
-		}
-		&--name {
-			color: $slate;
-			margin-bottom: 2rem;
-			display: block;
-		}
-		&--position {
-			font-weight: 700;
-		}
-		&--address {
-			&::before {
-				@include carlson-icons($icon-map-pin);
-				font-size: 1.6rem;
-				color: $maroon;
-				width: 2rem;
-				margin-right: 1.5rem;
-				display: inline-block;
-				text-align: center;
-				font-size: 2rem;
-				vertical-align: middle;
-			}
-		}
-		&--phone,
-		&--email {
-			a::before {
-				@include carlson-icons($icon-link);
-				font-size: 1.6rem;
-				color: $maroon;
-				width: 2rem;
-				margin-right: 1.5rem;
-				display: inline-block;
-				text-align: center;
-			}
-		}
-		&--phone {
-			a::before {
-				content: $icon-mobile-phone;
-				font-size: 2rem;
-			}
-		}
-		&--email {
-			a::before {
-				content: $icon-envelope;
-				font-size: 1.2rem;
-			}
-		}
-	}
+      &,
+      &:hover,
+      &:focus,
+      &:active {
+        text-decoration: none;
+        color: $slate;
+      }
 
+      &:focus-visible {
+        h3 {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    &--name {
+      color: $slate;
+      margin-bottom: 2rem;
+      display: block;
+    }
+
+    &--position {
+      font-weight: 700;
+    }
+
+    &--address {
+      &::before {
+        @include carlson-icons($icon-map-pin);
+
+        color: $maroon;
+        width: 2rem;
+        margin-right: 1.5rem;
+        display: inline-block;
+        text-align: center;
+        font-size: 2rem;
+        vertical-align: middle;
+      }
+    }
+
+    &--phone,
+    &--email {
+      a::before {
+        @include carlson-icons($icon-link);
+
+        font-size: 1.6rem;
+        color: $maroon;
+        width: 2rem;
+        margin-right: 1.5rem;
+        display: inline-block;
+        text-align: center;
+      }
+    }
+
+    &--phone {
+      a::before {
+        content: $icon-mobile-phone;
+        font-size: 2rem;
+      }
+    }
+
+    &--email {
+      a::before {
+        content: $icon-envelope;
+        font-size: 1.2rem;
+      }
+    }
+  }
 }

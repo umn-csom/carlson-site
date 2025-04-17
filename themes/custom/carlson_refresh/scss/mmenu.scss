@@ -9,11 +9,10 @@
  * http://creativecommons.org/licenses/by-nc/4.0/
  */
 
-@import 'abstracts/variables';
-$ivory-border: #9E9785; // @todo add to variables.scss?
+@import "abstracts/variables";
+$ivory-border: #9e9785; // @todo add to variables.scss?
 
-
- //	Animations
+//	Animations
 $mm_transitionDuration: 0.15s;
 $mm_transitionDelay: 0.15s;
 $mm_transitionFunction: ease-out;
@@ -45,7 +44,7 @@ $mm_panelPadding: $mm_padding * 2 !default;
 $mm_subopenWidth: $mm_btnSize !default;
 $mm_subpanelOffset: 100%;
 
-$mm_menuWidth: 1.0 !default;
+$mm_menuWidth: 1 !default;
 $mm_menuMinWidth: 240px !default;
 $mm_menuMaxWidth: 480px;
 $mm_menuHeight: 0.8 !default;
@@ -83,12 +82,12 @@ $mm_pagedimOpacity: 0.4;
 $mm_pagedimDelay: 0.2s !default;
 $mm_popupShadow: 0 2px 10px rgba($black, 0.3) !default;
 
-@import 'mmenu/src/mmenu';
-
+@import "mmenu/src/mmenu";
 
 body.toolbar-tray-open.toolbar-vertical.mm-wrapper {
   transition: margin-left 0.15s ease-out;
 }
+
 body.toolbar-tray-open.toolbar-vertical.mm-wrapper_blocking {
   margin-left: 0 !important;
 
@@ -99,6 +98,7 @@ body.toolbar-tray-open.toolbar-vertical.mm-wrapper_blocking {
 
 .mm-menu_offcanvas {
   z-index: 500;
+
   @media (max-width: 767px) {
     max-width: 767px;
   }
@@ -148,12 +148,12 @@ body.toolbar-tray-open.toolbar-vertical.mm-wrapper_blocking {
 
       .mm-navbar__logo {
         margin: 16px;
+
         svg {
           display: flex;
           align-items: center;
         }
       }
-
     }
 
     .site-branding__logo {
@@ -196,7 +196,7 @@ body.toolbar-tray-open.toolbar-vertical.mm-wrapper_blocking {
     &::after {
       content: "";
       position: absolute;
-      border: 2px solid #9E9785;
+      border: 2px solid #9e9785;
       width: 30px;
       height: 30px;
       min-height: 30px;
@@ -212,7 +212,7 @@ body.toolbar-tray-open.toolbar-vertical.mm-wrapper_blocking {
     &::before {
       content: "";
       position: absolute;
-      border: 2px solid #9E9785;
+      border: 2px solid #9e9785;
       width: 30px;
       height: 30px;
       border-radius: 50%;
@@ -272,7 +272,6 @@ body.toolbar-tray-open.toolbar-vertical.mm-wrapper_blocking {
 
     &:nth-last-child(-n + 1) {
       margin-left: 12px;
-
     }
 
     &:nth-last-child(-n + 2) {

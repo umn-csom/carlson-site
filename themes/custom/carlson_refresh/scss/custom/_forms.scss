@@ -1,73 +1,81 @@
 // generic form styles
 [type="search"] {
-    display: block;
-    width: 100%;
-    padding: 0.25rem;
-    font-size: 1.6rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: $white;
-    background-clip: padding-box;
-    border: 1px solid $border-gray;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    &:hover {
-        border-color: $mid-slate-2;
-    }
-    &:focus {
-        outline: 0;
-        border-color: $cyan;
-        box-shadow: 0 0 0 0.35rem rgba($cyan, 0.4);
-    }
+  display: block;
+  width: 100%;
+  padding: 0.25rem;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: $white;
+  background-clip: padding-box;
+  border: 1px solid $border-gray;
+  border-radius: 0.25rem;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+
+  &:hover {
+    border-color: $mid-slate-2;
+  }
+
+  &:focus {
+    outline: 0;
+    border-color: $cyan;
+    box-shadow: 0 0 0 0.35rem rgba($cyan, 0.4);
+  }
 }
 
 select {
-    -webkit-appearance: none;
-    appearance: none;
-    background: #fff url('../images/sort.svg') no-repeat right 0.25em center;
-    background-size: 1em;
-    padding: 0.25em;
-    font-size: 1.6rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: $white;
-    background-clip: padding-box;
-    border: 1px solid $border-gray;
-    border-radius: 0.25rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-    padding-right: 1.25em;
+  // stylelint-disable-next-line property-no-vendor-prefix
+  -webkit-appearance: none;
+  appearance: none;
+  background: #fff url("../images/sort.svg") no-repeat right 0.25em center;
+  background-size: 1em;
+  padding: 0.25em;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: $white;
+  background-clip: padding-box;
+  border: 1px solid $border-gray;
+  border-radius: 0.25rem;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+  padding-right: 1.25em;
 
-    &:hover {
-        border-color: $mid-slate-2;
-    }
+  &:hover {
+    border-color: $mid-slate-2;
+  }
 
-    &:focus {
-        outline: 0;
-        border-color: $cyan;
-        box-shadow: 0 0 0 0.35rem rgba($cyan, 0.4);
-    }
+  &:focus {
+    outline: 0;
+    border-color: $cyan;
+    box-shadow: 0 0 0 0.35rem rgba($cyan, 0.4);
+  }
 }
-
 
 select.form-control {
-    -webkit-appearance: none;
-    appearance: none;
-    border-radius: 0.25rem;
-    background: #fff url('../images/sort.svg') no-repeat right 1rem center;
-    background-size: 1em;
-    line-height: normal;
+  // stylelint-disable-next-line property-no-vendor-prefix
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0.25rem;
+  background: #fff url("../images/sort.svg") no-repeat right 1rem center;
+  background-size: 1em;
+  line-height: normal;
 }
+
 label,
 .radios--wrapper .fieldset-legend {
-    margin-bottom: 1rem;
-    font-family: $font-lato;
-    text-transform: uppercase;
-    letter-spacing: 1.39px;
-    color: $slate;
-    font-size: 1.3rem;
-    line-height: 1.6rem;
+  margin-bottom: 1rem;
+  font-family: $font-lato;
+  text-transform: uppercase;
+  letter-spacing: 1.39px;
+  color: $slate;
+  font-size: 1.3rem;
+  line-height: 1.6rem;
 }
 
 .form-check {
@@ -96,14 +104,15 @@ label,
   line-height: 1.4;
 }
 
-input[type='checkbox'],
-input[type='radio'],
+input[type="checkbox"],
+input[type="radio"],
 .form-checkbox,
 .form-radio,
 .form-checkbox {
-  cursor: pointer;
+  // stylelint-disable-next-line property-no-vendor-prefix
   -webkit-appearance: none;
   appearance: none;
+  cursor: pointer;
   margin-left: calc((20px + 1rem) * -1);
   background: $input-bg;
   width: 20px;
@@ -123,23 +132,26 @@ input[type='radio'],
 }
 
 .form-checkbox,
-input[type='checkbox'] {
+input[type="checkbox"] {
   @include border-radius($custom-checkbox-indicator-border-radius);
 
   &::before {
     content: "";
     width: 13px;
     height: 10px;
-    background: url('../images/svg/checkmark.svg');
+    background: url("../images/svg/checkmark.svg");
     transform: scale(0);
   }
 
   &:indeterminate {
     border-color: $custom-checkbox-indicator-indeterminate-border-color;
+
     @include gradient-bg($custom-checkbox-indicator-indeterminate-bg);
 
     &::before {
-      background-image: escape-svg($custom-checkbox-indicator-icon-indeterminate);
+      background-image: escape-svg(
+        $custom-checkbox-indicator-icon-indeterminate
+      );
     }
   }
 
@@ -147,6 +159,7 @@ input[type='checkbox'] {
     &:checked {
       @include gradient-bg($custom-control-indicator-checked-disabled-bg);
     }
+
     &:indeterminate {
       @include gradient-bg($custom-control-indicator-checked-disabled-bg);
     }
@@ -154,7 +167,7 @@ input[type='checkbox'] {
 }
 
 .form-radio,
-input[type='radio'] {
+input[type="radio"] {
   @include border-radius($custom-radio-indicator-border-radius);
 
   &::before {
@@ -166,7 +179,7 @@ input[type='radio'] {
   }
 }
 
-.form-check-input:has(+.form-check-label:hover),
+.form-check-input:has(+ .form-check-label:hover),
 .form-check-input:hover,
 .form-control:hover {
   border-color: $mid-slate-2;
@@ -204,10 +217,13 @@ details.form-item {
   border-radius: 0.25rem;
   margin-bottom: 1.6rem;
   margin-top: 0;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  transition:
+    border-color 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
   min-height: calc(1.5em + 2rem + 2px);
 
-  &:hover, &:focus-within {
+  &:hover,
+  &:focus-within {
     border-color: #878b92;
   }
 
@@ -254,9 +270,10 @@ details.form-item {
     padding: 0.5em;
     transition: all 0.2s ease-out;
 
-
     &::-webkit-scrollbar {
+      // stylelint-disable-next-line property-no-vendor-prefix
       -webkit-appearance: none;
+      appearance: none;
       width: 13px;
       transition: all 0.2s ease-out;
     }
@@ -276,36 +293,42 @@ details.form-item {
 }
 
 .form-group {
-    &.half-width {
-        display: inline-block;
-        padding: 0;
-        width: calc(49% - 15px);
-        margin-left: 15px;
-        + .form-group.half-width {
-            margin-left: 5px;
-        }
+  &.half-width {
+    display: inline-block;
+    padding: 0;
+    width: calc(49% - 15px);
+    margin-left: 15px;
+
+    + .form-group.half-width {
+      margin-left: 5px;
     }
-    input[type="submit"] {
-      @extend .btn;
-      @extend .btn-primary;
-    }
+  }
+
+  input[type="submit"] {
+    @extend .btn;
+    @extend .btn-primary;
+  }
 }
 
 table tr th a,
 table tr th a:hover,
 table tr th a:focus {
-    color: $maroon;
+  color: $maroon;
 }
 
-.paragraph--type--webform, .hero-program-webform {
+.paragraph--type--webform,
+.hero-program-webform {
   form {
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
     padding: 10px;
 
-    .form-group:not(.form-type-webform-markup):not(.form-actions):not(.form-full-width) {
+    .form-group:not(.form-type-webform-markup):not(.form-actions):not(
+        .form-full-width
+      ) {
       width: 100%;
+
       @include media-breakpoint-up(md) {
         width: calc(50% - 10px);
       }
@@ -339,10 +362,13 @@ table tr th a:focus {
 }
 
 .hero-program-webform {
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     color: $white;
-    font-family: "Open Sans",sans-serif;
+    font-family: "Open Sans", sans-serif;
   }
+
   .embed-responsive {
     width: unset;
     height: 100%;
@@ -357,14 +383,18 @@ table tr th a:focus {
   }
 
   form {
-    h1, h2, h3 {
+    h1,
+    h2,
+    h3 {
       color: $white;
-      font-family: "Open Sans",sans-serif;
+      font-family: "Open Sans", sans-serif;
     }
 
     color: $white;
 
-    label, a, .radios--wrapper .fieldset-legend {
+    label,
+    a,
+    .radios--wrapper .fieldset-legend {
       color: $white;
     }
 
@@ -378,15 +408,17 @@ table tr th a:focus {
       color: $dark-dark-gray;
       background-color: $gold;
       border-color: $gold;
-      &:hover, &:focus {
+
+      &:hover,
+      &:focus {
         color: $dark-dark-gray;
         background-color: #ffc20d;
         border-color: #ffbf00;
       }
     }
 
-    input[type='checkbox']:checked,
-    input[type='radio']:checked,
+    input[type="checkbox"]:checked,
+    input[type="radio"]:checked,
     .form-checkbox:checked,
     .form-radio:checked,
     .form-check .form-check-input:checked {
@@ -395,7 +427,7 @@ table tr th a:focus {
     }
 
     .form-radio,
-    input[type='radio'] {
+    input[type="radio"] {
       &::before {
         width: 16px;
         height: 16px;
@@ -404,14 +436,15 @@ table tr th a:focus {
     }
 
     .form-required::after {
-      background-image: url(../images/required-white.svg);
+      background-image: url("../images/required-white.svg");
     }
 
     .form-check {
       .text-muted {
-        color: white !important;
+        color: $white !important;
+
         .webform-element-description {
-          color: white;
+          color: $white;
         }
       }
     }

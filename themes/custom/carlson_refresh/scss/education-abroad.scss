@@ -1,11 +1,9 @@
 @import "./abstracts/import";
 
 .fees-table {
-
   // Education Abroad Fee Tables styles.
   // Imported from https://umabroad.umn.edu/sites/umabroad.umn.edu/themes/lac/assets/main.css
   margin-bottom: 4rem;
-
 
   td {
     padding: 0.5rem 0.625rem 0.625rem;
@@ -57,7 +55,7 @@
     }
   }
 
-  tr td+td {
+  tr td + td {
     text-align: right;
   }
 
@@ -87,7 +85,8 @@
   }
 
   // Education Abroad Fee Tables custom styles.
-  td, th {
+  td,
+  th {
     h2 {
       font-size: 32px;
     }
@@ -99,6 +98,7 @@
 
   thead {
     background-color: $ivory;
+
     th:has(ul) {
       text-align: left;
     }
@@ -133,7 +133,6 @@
     list-style-type: none;
 
     > a {
-      font-size: 0.9375rem;
       font-weight: 300;
       letter-spacing: 0.0625rem;
       text-transform: uppercase;
@@ -145,10 +144,12 @@
       line-height: 1;
       // Override Education Abroad styles.
       font-size: 15px;
+
       &:hover {
         background-color: #f6f6f6;
       }
-      &[aria-selected=true] {
+
+      &[aria-selected="true"] {
         border-bottom: 4px solid $gold;
         font-weight: 600;
         background-color: #f6f6f6;
@@ -156,6 +157,7 @@
     }
   }
 }
+
 .fees-tabs-content {
   .tabs-panel {
     display: none;
@@ -171,7 +173,7 @@
     .tablefield-wrapper {
       td.empty-cell {
         display: none;
-        border: none;
+        border: 0;
       }
     }
   }

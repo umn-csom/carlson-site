@@ -1,19 +1,14 @@
-/**
- * @file
- * Visual styles for Videos in Barrio.
- */
+// Visual styles for Videos in Barrio.
 
 .video-textright {
-
-  &__link{
-
+  &__link {
     &::before {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       // @include carlson-icons($icon-button-play);
-      content: url(../images/video-white-button-play.svg);
+      content: url("../images/video-white-button-play.svg");
       font-size: 30px;
       color: $white;
       z-index: 1;
@@ -26,15 +21,16 @@
       background: rgba($slate, 0.8);
       transition: all 0.3s ease-in-out;
     }
+
     &:hover::before,
     &:active::before,
     &:focus::before {
-        background: $gold;
+      background: $gold;
     }
   }
 
   @include media-breakpoint-up(lg) {
-    &__link--left{
+    &__link--left {
       &::after {
         height: 2px;
         background: $gold;
@@ -47,23 +43,26 @@
 }
 
 .video-textbelow {
-	img {
+  img {
     width: 100%;
   }
+
   &__inner {
     max-width: 800px;
     width: 100%;
   }
+
   &__media {
-    &--link{
+    &--link {
       display: block;
+
       &::before {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         //@include carlson-icons($icon-button-play);
-        content: url(../images/video-white-button-play.svg);
+        content: url("../images/video-white-button-play.svg");
         font-size: 30px;
         color: $white;
         z-index: 2;
@@ -76,10 +75,11 @@
         background: rgba($slate, 0.8);
         transition: all 0.3s ease-in-out;
       }
+
       &:hover::before,
       &:active::before,
       &:focus::before {
-          background: $gold;
+        background: $gold;
       }
     }
   }
@@ -87,22 +87,23 @@
 
 .fullwidth-video,
 .fullwidth-image {
-	display: flex;
-	justify-content: center;
+  display: flex;
+  justify-content: center;
 
-	&__image{
-		height: 100%;
-		width: 100%;
-	}
+  &__image {
+    height: 100%;
+    width: 100%;
+  }
 
-	&__link{
-
+  &__link {
     &::before {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+
       @include carlson-icons($icon-button-play);
+
       font-size: 30px;
       color: $white;
       z-index: 1;
@@ -115,27 +116,33 @@
       background: rgba($slate, 0.8);
       transition: all 0.3s ease-in-out;
     }
+
     &:hover::before,
     &:active::before,
     &:focus::before {
-        background: $gold;
+      background: $gold;
     }
   }
-	&__caption {
+
+  &__caption {
     margin-top: 1.5rem;
     color: $mid-gray-2;
     line-height: 25px;
+
     @include font-newsreader-base();
+
     text-align: center;
     font-style: italic;
     font-size: 1.5rem;
     margin-left: auto;
     margin-right: auto;
-	}
-	img{
-		width: 100%;
-		height: auto;
-	}
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
   @include media-breakpoint-up(md) {
     &__caption {
       max-width: 80%;

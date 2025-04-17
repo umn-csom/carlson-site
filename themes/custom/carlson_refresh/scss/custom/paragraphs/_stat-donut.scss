@@ -45,7 +45,6 @@
         flex-direction: column;
       }
     }
-
   }
 
   &__circle {
@@ -67,11 +66,8 @@
       content: "";
       position: absolute;
       border-radius: 50%;
-    }
-
-    &::before,
-    &::after {
       inset: 0;
+      // stylelint-disable-next-line property-no-vendor-prefix
       -webkit-mask: radial-gradient(
         farthest-side,
         #0000 calc(99% - var(--csom-stat-donut-border-width)),
@@ -86,53 +82,61 @@
 
     &--maroon.animate {
       &::before {
-        background: radial-gradient(farthest-side, transparent 98%, transparent)
+        background:
+          radial-gradient(farthest-side, transparent 98%, transparent)
             top/var(--csom-stat-donut-border-width)
             var(--csom-stat-donut-border-width) no-repeat,
           conic-gradient(
             $gold calc(var(--csom-stat-donut-percentage-100) * 1%),
             transparent 0
           );
-        background-size: 0 0, auto;
+        background-size:
+          0 0,
+          auto;
       }
 
       &::after {
-        background: radial-gradient(
-              farthest-side,
-              $maroon-light 98%,
-              transparent
-            )
+        background:
+          radial-gradient(farthest-side, $maroon-light 98%, transparent)
             top/var(--csom-stat-donut-border-width)
             var(--csom-stat-donut-border-width) no-repeat,
           conic-gradient(
             $maroon-light calc(var(--csom-stat-donut-percentage) * 1%),
             transparent 0
           );
-        background-size: 0 0, auto;
+        background-size:
+          0 0,
+          auto;
       }
     }
 
     &--gold.animate {
       &::before {
-        background: radial-gradient(farthest-side, transparent 98%, transparent)
+        background:
+          radial-gradient(farthest-side, transparent 98%, transparent)
             top/var(--csom-stat-donut-border-width)
             var(--csom-stat-donut-border-width) no-repeat,
           conic-gradient(
             $white calc(var(--csom-stat-donut-percentage-100) * 1%),
             transparent 0
           );
-        background-size: 0 0, auto;
+        background-size:
+          0 0,
+          auto;
       }
 
       &::after {
-        background: radial-gradient(farthest-side, $gold 98%, $white)
+        background:
+          radial-gradient(farthest-side, $gold 98%, $white)
             top/var(--csom-stat-donut-border-width)
             var(--csom-stat-donut-border-width) no-repeat,
           conic-gradient(
             $gold calc(var(--csom-stat-donut-percentage) * 1%),
             transparent 0
           );
-        background-size: 0 0, auto;
+        background-size:
+          0 0,
+          auto;
       }
     }
 

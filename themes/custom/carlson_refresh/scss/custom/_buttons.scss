@@ -1,8 +1,4 @@
-/**
- * @file
- * Bootstrap Barrio specific styling for the Book module.
- */
-
+// Bootstrap Barrio specific styling for the Book module.
 
 .btn {
   border-radius: 0;
@@ -54,26 +50,33 @@
   }
 }
 
-.bg-gold, .bg-ivory, .bg-light-blue {
+.bg-gold,
+.bg-ivory,
+.bg-light-blue {
   .btn.btn-primary {
     @extend .btn-primary;
   }
 }
 
-// Edior button classes
+// Editor button classes
 
 .gold-outline-button {
   @include button();
+  @include button-outline($gold);
+
   display: inline-block;
   font-size: 1.6rem;
-  @include button-outline($gold);
   background-color: transparent;
-  &:hover, &:focus {
+
+  &:hover,
+  &:focus {
     text-decoration: none;
   }
+
   @extend .btn;
   @extend .btn-outline-secondary;
 }
+
 .maroon-outline-button {
   @extend .btn;
   @extend .btn-outline-primary;
@@ -81,17 +84,20 @@
 
 .maroon-solid-button {
   @extend .btn;
-  @extend .btn-primary
+  @extend .btn-primary;
 }
 
 .gold-underline-button {
   @extend .btn;
   @extend .btn-gold;
+
   padding: 0.5rem 1.5rem;
 }
+
 .maroon-underline-button {
   @extend .btn;
   @extend .btn-primary;
+
   padding: 0.5rem 1.5rem;
 }
 

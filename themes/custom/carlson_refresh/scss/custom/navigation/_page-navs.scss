@@ -15,6 +15,7 @@
 
   &__label {
     @extend .h3;
+
     color: $maroon;
     padding-left: 2rem;
     font-size: 3.2rem;
@@ -22,6 +23,7 @@
     border-bottom: 2px solid $menu-line-grey;
     margin-bottom: 2.5rem;
     padding-bottom: 0.8rem;
+
     &:hover {
       color: $maroon;
       text-decoration: none;
@@ -42,8 +44,10 @@
       display: none;
     }
   }
+
   @include media-breakpoint-down(md) {
     margin: 0 0 3rem;
+
     &__collapsed-target {
       background: $light-light-ivory;
       padding: 0 2rem 1.5rem;
@@ -85,9 +89,9 @@
 }
 
 .inner-menu {
-
   &__label {
     @extend .h3;
+
     color: $maroon;
     padding-left: 2rem;
     font-size: 3.2rem;
@@ -95,6 +99,7 @@
     border-bottom: 2px solid $menu-line-grey;
     margin-bottom: 2.5rem;
     padding-bottom: 0.8rem;
+
     &:hover {
       color: $maroon;
       text-decoration: none;
@@ -111,6 +116,7 @@
   }
 
   margin: 0 0 3rem;
+
   &__collapsed-target {
     background: $light-light-ivory;
     padding: 0 2rem 1.5rem;
@@ -153,24 +159,29 @@
 .inner_nav {
   .block {
     width: 100%;
+
     > label {
       @include sr-only();
     }
+
     .nav {
       justify-content: space-between;
       width: 100%;
-      @include media-breakpoint-up(lg){
+
+      @include media-breakpoint-up(lg) {
         border-bottom: 1px solid $warm-gray;
       }
+
       .nav-item {
         width: 100%;
-        position:relative;
-        border-top:1px solid transparent;
+        position: relative;
+        border-top: 1px solid transparent;
         margin-bottom: 0;
 
-        @include media-breakpoint-up(lg){
+        @include media-breakpoint-up(lg) {
           flex: 1 1;
         }
+
         .nav-link {
           padding: 1.6rem 2.8rem;
           text-transform: uppercase;
@@ -179,14 +190,17 @@
           line-height: 1.6rem;
           letter-spacing: 1.39px;
           border-top: 1px solid $warm-gray;
-          @include media-breakpoint-up(lg){
+
+          @include media-breakpoint-up(lg) {
             padding: 2.8rem;
             height: 100%;
             text-align: center;
             border-top-width: 0;
             border-right: 1px solid $warm-gray;
           }
-          &:hover, &:focus {
+
+          &:hover,
+          &:focus {
             color: $maroon;
             background-color: transparent;
           }
@@ -199,25 +213,31 @@
             border-bottom: 3px solid $maroon;
           }
         }
+
         &:last-child .nav-link {
           border-right-width: 0;
         }
+
         &.menu-item--expanded {
           > .nav-link {
             padding-right: 4.8rem;
+
             &::after {
               position: absolute;
               right: 3rem;
               top: calc(50% - 0.7rem);
               color: $maroon;
-              @include media-breakpoint-up(lg){
+
+              @include media-breakpoint-up(lg) {
                 top: calc(50% - 1.4rem);
               }
             }
           }
+
           .menu {
             list-style-type: none;
             padding-left: 2.8rem;
+
             .nav-item {
               .nav-link {
                 text-transform: none;
@@ -226,22 +246,27 @@
               }
             }
           }
-          @include media-breakpoint-up(lg){
+
+          @include media-breakpoint-up(lg) {
             .menu {
               .nav-item {
                 display: none;
               }
             }
-            &:hover, &:focus {
+
+            &:hover,
+            &:focus {
               position: relative;
               border-style: solid;
               border-color: $warm-gray;
-              border-width: 1px 0 0 0;
+              border-width: 1px 0 0;
+
               > .nav-link {
                 &::after {
                   transform: rotate(180deg);
                 }
               }
+
               .menu {
                 position: absolute;
                 background: $white;
@@ -251,26 +276,29 @@
                 padding-left: 0;
                 border-style: solid;
                 border-color: $warm-gray;
-                border-width: 0 1px 1px 1px;
+                border-width: 0 1px 1px;
                 padding: 0 2.8rem;
+
                 .nav-item {
                   display: inline-block;
                   width: 100%;
                   border-top: 1px solid $warm-gray;
+
                   .nav-link {
                     width: 100%;
                     display: inline-block;
                     padding: 2rem 0;
-                    border: none;
+                    border: 0;
                   }
                 }
               }
-
             }
           }
+
           &.menu-item--active-trail {
-            @include media-breakpoint-up(lg){
-              &:hover, &:focus {
+            @include media-breakpoint-up(lg) {
+              &:hover,
+              &:focus {
                 .menu {
                   background: $lightergray;
                 }
@@ -278,9 +306,11 @@
             }
           }
         }
+
         &:first-child {
           &.menu-item--expanded {
-            &:hover, &:focus {
+            &:hover,
+            &:focus {
               border-left-width: 1px;
             }
           }
@@ -288,34 +318,45 @@
       }
     }
   }
+
   &--accordion {
     border-bottom: 1px solid $warm-gray;
-    @include media-breakpoint-up(lg){
+
+    @include media-breakpoint-up(lg) {
       border-bottom-width: 0;
     }
+
     .accordion {
       margin-bottom: 0;
+
       .card {
         .card-header {
-          @include media-breakpoint-up(lg){
+          @include media-breakpoint-up(lg) {
             display: none;
           }
+
           .btn-link {
             background: transparent;
+
             @include bold_link(1.6rem, $maroon);
+
             line-height: 2rem;
+
             &::before {
               color: $slate;
               font-size: 2rem;
             }
           }
         }
+
         .card-body {
           padding: 0 1.25rem;
         }
+
         .inner {
           background-image: none;
-          @include media-breakpoint-up(lg){
+
+          @include media-breakpoint-up(lg) {
             opacity: 1;
             display: block;
           }
@@ -324,29 +365,31 @@
     }
   }
 }
-.menu-title{
-	display:none;
+
+.menu-title {
+  display: none;
 }
-.node--type-executive-ed-program{
-	.menu-title{
-			display:block;
-	}
+
+.node--type-executive-ed-program {
+  .menu-title {
+    display: block;
+  }
 }
 // Fix for EE menu Dropdowns
-.accordion{
-	&#block-executiveedcation-menu-link{
-		.card{
-			overflow:visible;
-		}
-	}
+.accordion {
+  &#block-executiveedcation-menu-link {
+    .card {
+      overflow: visible;
+    }
+  }
 }
 
 .inner_nav--accordion {
-	.accordion {
-		.card {
-			overflow: visible;
-		}
-	}
+  .accordion {
+    .card {
+      overflow: visible;
+    }
+  }
 }
 
 // TODO: rewrite this to be a mixin instead, note how the # on the maroon hexcode has to be escaped with %23

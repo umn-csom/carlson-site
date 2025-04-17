@@ -1,47 +1,53 @@
 // MIXINS
 
-@each $color,
-$value in $theme-colors {
-    .btn-#{"" + $color} a {
-        @include button-variant($value, $value);
-    }
+@each $color, $value in $theme-colors {
+  .btn-#{"" + $color} a {
+    @include button-variant($value, $value);
+  }
 }
 
-@each $color,
-$value in $theme-colors {
-    .btn-outline-#{"" + $color} a {
-        @include button-outline-variant($value);
-    }
+@each $color, $value in $theme-colors {
+  .btn-outline-#{"" + $color} a {
+    @include button-outline-variant($value);
+  }
 }
 
 // Font mixins embellished headings
-@mixin heading-title($size: $font-medium, $color: $gold, $align:'center', $include_after:'true') {
-    //@include font-newsreader-base();
-    @include font-base-heading($font-large-mobile);
-    word-break: break-word;
-    font-size: $font-large-mobile;
-    //line-height: 110%;
-    @include media-breakpoint-up(md) {
-        font-size: $size;
-        //line-height: 110%;
-    }
-    position: relative;
-    margin-bottom: 15px;
-    @if($color != 'none' and $include_after != 'false' ) {
-        &::after{
-            content: '';
-            height: 2px;
-            width: 100px;
-            display: block;
-            background: $color;
+@mixin heading-title(
+  $size: $font-medium,
+  $color: $gold,
+  $align: "center",
+  $include_after: "true"
+) {
+  //@include font-newsreader-base();
+  @include font-base-heading($font-large-mobile);
 
-            @if ($align == 'center') {
-                margin: 2.4rem auto 0 auto;
-            } @else {
-                margin-top: 1.6rem;
-            }
-        }
+  word-break: break-word;
+  font-size: $font-large-mobile;
+  //line-height: 110%;
+  @include media-breakpoint-up(md) {
+    font-size: $size;
+    //line-height: 110%;
+  }
+
+  position: relative;
+  margin-bottom: 15px;
+
+  @if ($color != "none" and $include_after != "false") {
+    &::after {
+      content: "";
+      height: 2px;
+      width: 100px;
+      display: block;
+      background: $color;
+
+      @if ($align == "center") {
+        margin: 2.4rem auto 0;
+      } @else {
+        margin-top: 1.6rem;
+      }
     }
+  }
 }
 
 // @mixin font-crimson-base() {
@@ -49,7 +55,7 @@ $value in $theme-colors {
 // }
 
 @mixin font-lato-base() {
-    font-family: $font-lato;
+  font-family: $font-lato;
 }
 
 @mixin font-neutraface-base() {
@@ -69,23 +75,27 @@ $value in $theme-colors {
 }
 
 @mixin sans-serif-font($size) {
-    @include font-open-sans-base();
-    font-size: $font-large-mobile;
-    line-height: $font-large-mobile;
-    @include media-breakpoint-up(lg) {
-        font-size: $size;
-        line-height: $size;
-    }
+  @include font-open-sans-base();
+
+  font-size: $font-large-mobile;
+  line-height: $font-large-mobile;
+
+  @include media-breakpoint-up(lg) {
+    font-size: $size;
+    line-height: $size;
+  }
 }
 
 @mixin serif-font($size) {
-    @include font-newsreader-base();
-    font-size: $font-large-mobile;
-    line-height: $font-large-mobile;
-    @include media-breakpoint-up(lg) {
-        font-size: $size;
-        line-height: $size;
-    }
+  @include font-newsreader-base();
+
+  font-size: $font-large-mobile;
+  line-height: $font-large-mobile;
+
+  @include media-breakpoint-up(lg) {
+    font-size: $size;
+    line-height: $size;
+  }
 }
 
 @mixin font-base-heading($size: 6rem) {
@@ -105,273 +115,325 @@ $value in $theme-colors {
 }
 
 @mixin menu-title-font() {
-    @include font-newsreader-base();
-    text-shadow: none;
-    color: $slate!important;
+  @include font-newsreader-base();
+
+  text-shadow: none;
+  color: $slate !important;
 }
 
 @mixin menu-sub-font() {
-    @include font-sans-serif-base();
-    font-size: 1.4rem;
-    text-shadow: none;
-    color: $slate!important;
-    text-transform: uppercase;
-    font-weight: normal;
-    letter-spacing: 1.5px;
-    line-height: 1.3em;
+  @include font-sans-serif-base();
+
+  font-size: 1.4rem;
+  text-shadow: none;
+  color: $slate !important;
+  text-transform: uppercase;
+  font-weight: normal;
+  letter-spacing: 1.5px;
+  line-height: 1.3em;
 }
 // Button mixins
 @mixin button() {
-    padding: 1.5rem 3rem;
-    font-size: $font-base;
-    text-transform: uppercase;
-    border-radius: 0;
-    transition: all 0.3s ease-in-out;
-    display: inline-block;
+  padding: 1.5rem 3rem;
+  font-size: $font-base;
+  text-transform: uppercase;
+  border-radius: 0;
+  transition: all 0.3s ease-in-out;
+  display: inline-block;
 }
-@mixin button-outline($color) {
-    @include button();
-    font-weight: bold;
-    border-color: $color;
-    border-style: solid;
-    border-width: 2px;
-    @if($color == $menu-gold) {
-        color: $slate;
-    }@else {
-       color: $color;
-    }
-    &:hover, &:active, &:focus{
-      background: $color;
-      box-shadow: 0 15px 30px 0 rgba($black, 0.2);
-      @if($color != $menu-gold) {
-        color: $white;
-      }
-    }
 
-}
-@mixin button-solid($color) {
-    @include button();
-    font-weight: bold;
-    background-color: $color;
-    border: 2px solid $color;
-    color: $white;
-    &:hover, &:active, &:focus{
-      background: $white;
-      box-shadow: 0 15px 30px 0 rgba($black, 0.2);
-      color: $color;
+@mixin button-outline($color) {
+  @include button();
+
+  font-weight: bold;
+  border-color: $color;
+  border-style: solid;
+  border-width: 2px;
+
+  @if ($color == $menu-gold) {
+    color: $slate;
+  } @else {
+    color: $color;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    background: $color;
+    box-shadow: 0 15px 30px 0 rgba($black, 0.2);
+
+    @if ($color != $menu-gold) {
+      color: $white;
     }
+  }
+}
+
+@mixin button-solid($color) {
+  @include button();
+
+  font-weight: bold;
+  background-color: $color;
+  border: 2px solid $color;
+  color: $white;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background: $white;
+    box-shadow: 0 15px 30px 0 rgba($black, 0.2);
+    color: $color;
+  }
 }
 
 @mixin button-solid-v($color) {
-    @include button();
-    font-weight: bold;
-    background-color: $color;
-    border-left: 5px solid $color;
-    border-right: 5px solid $color;
-    color: $maroon;
-    &:hover, &:active, &:focus{
-      background: $white;
-      box-shadow: 0 15px 30px 0 rgba($black, 0.2);
-      border-right: 5px solid $white;
-    }
+  @include button();
+
+  font-weight: bold;
+  background-color: $color;
+  border-left: 5px solid $color;
+  border-right: 5px solid $color;
+  color: $maroon;
+
+  &:hover,
+  &:active,
+  &:focus {
+    background: $white;
+    box-shadow: 0 15px 30px 0 rgba($black, 0.2);
+    border-right: 5px solid $white;
+  }
 }
 
 @mixin button-link-primary() {
-    color: $hamburger-grey;
-    letter-spacing: 1.78;
-    text-transform: uppercase;
-    font-weight: 700;
-    padding: 0;
-    &:hover, &:active, &:focus{
-      text-decoration: none;
-      color: $menu-gold;
-      &::after{
-        content: '';
-        width: 0;
-      }
+  color: $hamburger-grey;
+  letter-spacing: 1.78;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0;
+
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: none;
+    color: $menu-gold;
+
+    &::after {
+      content: "";
+      width: 0;
     }
-    &::after{
-      content: '';
-      transition: all 0.3s ease-in-out;
-      width: 100%;
-      height: 2px;
-      display: block;
-      margin: 0 auto;
-      background: $menu-gold;
-    }
+  }
+
+  &::after {
+    content: "";
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+    height: 2px;
+    display: block;
+    margin: 0 auto;
+    background: $menu-gold;
+  }
 }
+
 @mixin button-link-secondary() {
-    color: $maroon;
-    letter-spacing: 1.78;
-    text-transform: uppercase;
-    font-weight: 700;
-    padding: 0;
-    &:hover, &:active, &:focus{
-      text-decoration: none;
-      color: $hamburger-grey;
-      &::after{
-        content: '';
-        width: 0;
-      }
+  color: $maroon;
+  letter-spacing: 1.78;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0;
+
+  &:hover,
+  &:active,
+  &:focus {
+    text-decoration: none;
+    color: $hamburger-grey;
+
+    &::after {
+      content: "";
+      width: 0;
     }
-    &::after{
-      content: '';
-      transition: all 0.3s ease-in-out;
-      width: 100%;
-      height: 2px;
-      display: block;
-      margin: 0 auto;
-      background: $maroon;
-    }
+  }
+
+  &::after {
+    content: "";
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+    height: 2px;
+    display: block;
+    margin: 0 auto;
+    background: $maroon;
+  }
 }
 // Inner page width settings for narrow and wide insets
 @mixin page-inset($inset) {
-    max-width: $inset;
-    @include media-breakpoint-up(lg) {
-        margin-left: auto;
-        margin-right: auto;
-    }
+  max-width: $inset;
+
+  @include media-breakpoint-up(lg) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 
-@mixin bold_link($font-size: 'initial', $color: $maroon){
-    @include font-sans-serif-base();
-    font-weight: bold;
-    letter-spacing: 1.78px;
-    color: $color;
-    text-transform: uppercase;
-    @if($font-size != 'initial') {
-        font-size: $font-size;
-    }
+@mixin bold_link($font-size: "initial", $color: $maroon) {
+  @include font-sans-serif-base();
+
+  font-weight: bold;
+  letter-spacing: 1.78px;
+  color: $color;
+  text-transform: uppercase;
+
+  @if ($font-size != "initial") {
+    font-size: $font-size;
+  }
 }
 
 @mixin accordion-icon($icon, $color) {
-    @include carlson-icons($icon);
-    color: $color;
-    font-size: 2rem;
-    line-height: 1.5;
-    font-weight: bold;
+  @include carlson-icons($icon);
 
-    position: absolute;
-    background: none;
-    height: auto;
-    width: auto;
-    margin: 0;
-    padding: 0;
-    left: 2.5rem;
-    top: unset;
+  color: $color;
+  font-size: 2rem;
+  line-height: 1.5;
+  font-weight: bold;
+  position: absolute;
+  background: none;
+  height: auto;
+  width: auto;
+  margin: 0;
+  padding: 0;
+  left: 2.5rem;
+  top: unset;
 
-    @include media-breakpoint-down(md) {
-      left: 1.25rem;
-    }
+  @include media-breakpoint-down(md) {
+    left: 1.25rem;
+  }
 }
 
 // Icon font
 @mixin carlson-icons($icon) {
-    font-family: 'carlson-icons' !important;
-    speak: none;
-    font-style: normal;
-    font-weight: normal;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
+  font-family: "carlson-icons" !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
 
-    // Better Font Rendering
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    content: $icon;
+  // Better Font Rendering
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  content: $icon;
 }
 // Box shadows
 @mixin box-shadow-a() {
-    @include box-shadow(0, 0, 67px);
+  @include box-shadow(0, 0, 67px);
 }
 
 @mixin profile-image-box-shadow() {
-    @include box-shadow(0, 15px, 60px, 0.3);
+  @include box-shadow(0, 15px, 60px, 0.3);
 }
 
-@mixin tab-box-shadow(){
-    @include box-shadow(0, 4px, 30px);
+@mixin tab-box-shadow() {
+  @include box-shadow(0, 4px, 30px);
 }
 
-@mixin box-shadow($x,$y,$blur,$opacity: 0.2) {
-    box-shadow: $x $y $blur 0 rgba($black, $opacity);
+@mixin box-shadow($x, $y, $blur, $opacity: 0.2) {
+  box-shadow: $x $y $blur 0 rgba($black, $opacity);
 }
 
-@mixin clear-box-shadow(){
-    box-shadow: none;
+@mixin clear-box-shadow() {
+  box-shadow: none;
 }
 
 @mixin yellow-line() {
-    // Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90
-    background: $white!important; // Old browsers
-    background: linear-gradient(to bottom, rgba($white, 0)60%,$menu-gold 60%,$menu-gold 90%, rgba($white, 0) 90%)!important; // W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+
+  // Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90
+  background: $white !important; // Old browsers
+  background: linear-gradient(
+    to bottom,
+    rgba($white, 0) 60%,
+    $menu-gold 60%,
+    $menu-gold 90%,
+    rgba($white, 0) 90%
+  ) !important; // W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+
 }
 
 @mixin grey-gradient-line() {
-    // Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90
-    background: $white!important; // Old browsers
-    background: linear-gradient(to bottom, rgba($white, 0)60%,$another-gray 60%,$another-gray 90%, rgba($white, 0) 90%)!important; // W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+
+  // Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90
+  background: $white !important; // Old browsers
+  background: linear-gradient(
+    to bottom,
+    rgba($white, 0) 60%,
+    $another-gray 60%,
+    $another-gray 90%,
+    rgba($white, 0) 90%
+  ) !important; // W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+
 }
 
 @mixin grey-line() {
-    &::after {
-        content: '';
-        position: absolute;
-        z-index: 0;
-        top: 60px;
-        bottom: 35px;
-        left: 50.1%;
-        border-left: 1px solid $menu-line-grey;
-        transform: translate(-50%);
-    }
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    top: 60px;
+    bottom: 35px;
+    left: 50.1%;
+    border-left: 1px solid $menu-line-grey;
+    transform: translate(-50%);
+  }
 }
 // News Hub cards
 @mixin news-hub-card() {
-    .card {
-        position: relative;
-        &__title {
-            @include font-newsreader-base();
-            font-size: $font-small-mobile;
-            line-height: 125%;
-            @include media-breakpoint-up(lg) {
-                font-size: $font-smaller;
-                line-height: 125%;
-            }
-            margin: 1.25rem 1rem;
-            &--link {
-                color: $slate;
-                &:hover {
-                    transition: color 0.3s ease-in-out;
-                    text-decoration: none;
-                    color: $maroon;
-                }
-            }
+  .card {
+    position: relative;
+
+    &__title {
+      @include font-newsreader-base();
+
+      font-size: $font-small-mobile;
+      line-height: 125%;
+
+      @include media-breakpoint-up(lg) {
+        font-size: $font-smaller;
+        line-height: 125%;
+      }
+
+      margin: 1.25rem 1rem;
+
+      &--link {
+        color: $slate;
+
+        &:hover {
+          transition: color 0.3s ease-in-out;
+          text-decoration: none;
+          color: $maroon;
         }
-        &__text {
-            margin: 1rem 1rem;
-        }
-        &__link {
-            @include bold_link();
-            margin: 1.5rem 1rem;
-        }
+      }
     }
+
+    &__text {
+      margin: 1rem;
+    }
+
+    &__link {
+      @include bold_link();
+
+      margin: 1.5rem 1rem;
+    }
+  }
 }
 
 // Targetting only IE11 https://gist.github.com/tcrammond/99fd936007685dba97b7
 @mixin target-metro {
-    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-      @content;
-    }
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    @content;
   }
+}
 
 @mixin hidden-style {
-    clip: rect(0 0 0 0);
-    clip-path: inset(50%);
-    height: 1px;
-    overflow: hidden;
-    position: absolute;
-    white-space: nowrap;
-    width: 1px;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
 }
 
 //Override of the rfs mixin to set a max font size
@@ -383,46 +445,69 @@ $value in $theme-colors {
   $rfs-suffix: if($important, " !important", "");
 
   // If $fs isn't a number (like inherit) or $fs has a unit (not px or rem, like 1.5em) or $ is 0, just print the value
-  @if not $fs-unit or $fs-unit != "" and $fs-unit != "px" and $fs-unit != "rem" or $fs == 0 {
+  @if not
+    $fs-unit or
+    $fs-unit !=
+    "" and
+    $fs-unit !=
+    "px" and
+    $fs-unit !=
+    "rem" or
+    $fs ==
+    0
+  {
     font-size: #{$fs}#{$rfs-suffix};
-  }
-  @else {
+  } @else {
     // Remove unit from $fs for calculations
     @if $fs-unit == "px" {
       $fs: divide($fs, $fs * 0 + 1);
-    }
-    @else if $fs-unit == "rem" {
+    } @else if $fs-unit == "rem" {
       $fs: divide($fs, divide($fs * 0 + 1, $rfs-rem-value));
     }
 
     // Set default font size
-    $rfs-static: if($rfs-font-size-unit == rem, #{divide($fs, $rfs-rem-value)}rem, #{$fs}px);
+    $rfs-static: if(
+      $rfs-font-size-unit == rem,
+      #{divide($fs, $rfs-rem-value)}rem,
+      #{$fs}px
+    );
 
     // Only add the media query if the font size is bigger than the minimum font size
     @if $fs <= $rfs-base-font-size or not $enable-responsive-font-sizes {
       font-size: #{$rfs-static}#{$rfs-suffix};
-    }
-    @else {
+    } @else {
       // Calculate the minimum font size for $fs
-      $fs-min: $rfs-base-font-size + divide($fs - $rfs-base-font-size, $rfs-factor);
+      $fs-min: $rfs-base-font-size +
+        divide($fs - $rfs-base-font-size, $rfs-factor);
 
       // Calculate difference between $fs and the minimum font size
       $fs-diff: $fs - $fs-min;
 
       // Base font-size formatting
-      $min-width: if($rfs-font-size-unit == rem, #{divide($fs-min, $rfs-rem-value)}rem, #{$fs-min}px);
+      $min-width: if(
+        $rfs-font-size-unit == rem,
+        #{divide($fs-min, $rfs-rem-value)}rem,
+        #{$fs-min}px
+      );
 
       // Use `vmin` if two-dimensional is enabled
       $variable-unit: if($rfs-two-dimensional, vmin, vw);
 
       // Calculate the variable width between 0 and $rfs-breakpoint
-      $variable-width: #{divide($fs-diff * 100, $rfs-breakpoint)}#{$variable-unit};
+      $variable-width: #{divide(
+          $fs-diff * 100,
+          $rfs-breakpoint
+        )}#{$variable-unit};
 
       // Set the calculated font-size
       $rfs-fluid: calc(#{$min-width} + #{$variable-width}) #{$rfs-suffix};
 
       // Breakpoint formatting
-      $mq-value: if($rfs-breakpoint-unit == px, #{$rfs-breakpoint}px, #{divide($rfs-breakpoint, $rfs-rem-value)}#{$rfs-breakpoint-unit});
+      $mq-value: if(
+        $rfs-breakpoint-unit == px,
+        #{$rfs-breakpoint}px,
+        #{divide($rfs-breakpoint, $rfs-rem-value)}#{$rfs-breakpoint-unit}
+      );
 
       @include _rfs-disable-class {
         font-size: #{$rfs-static}#{$rfs-suffix};
@@ -439,4 +524,3 @@ $value in $theme-colors {
     }
   }
 }
-

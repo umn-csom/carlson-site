@@ -5,6 +5,7 @@
   .space-above-child {
     > div {
       padding-top: 15px !important;
+
       @include media-breakpoint-up(md) {
         padding-top: 30px !important;
       }
@@ -13,6 +14,7 @@
 
   .space-below {
     padding-bottom: 10px;
+
     @include media-breakpoint-up(lg) {
       padding-bottom: 20px;
     }
@@ -28,6 +30,7 @@
 
     .space-above {
       padding-top: 10px;
+
       @include media-breakpoint-up(lg) {
         padding-top: 20px;
       }
@@ -35,9 +38,9 @@
 
     .column {
       &__img {
-          img {
+        img {
           box-shadow: none;
-          }
+        }
       }
     }
 
@@ -53,6 +56,7 @@
         &:not(:last-child) {
           padding-bottom: 0 !important;
         }
+
         &:not(:first-child) {
           padding-top: 0 !important;
         }
@@ -72,6 +76,7 @@
           letter-spacing: 1.78px;
           text-transform: uppercase;
         }
+
         .column__img {
           //ie11 height bug apply rule to only ie11
           @include target-metro {
@@ -93,6 +98,7 @@
             box-shadow: 0 4px 4px rgba($black, 0.25);
             background-color: $white;
           }
+
           .column__content {
             padding: 30px;
           }
@@ -119,9 +125,10 @@
         padding-top: 0;
         padding-bottom: 30px;
       }
+
       &-components > .container {
-          padding-top: 30px;
-          padding-bottom: 30px;
+        padding-top: 30px;
+        padding-bottom: 30px;
       }
     }
 
@@ -138,10 +145,12 @@
         flex-direction: column;
         justify-content: center;
         padding: 30px 50px !important;
+
         @include media-breakpoint-up(lg) {
           padding: 100px 150px !important;
         }
-        background-image: url('../images/bg/alumni-hero-bg.png');
+
+        background-image: url("../images/bg/alumni-hero-bg.png");
         background-color: $gold;
         background-size: 18%;
         background-position: top left;
@@ -152,19 +161,22 @@
         p {
           line-height: 165%;
           font-size: 1em;
+
           @include media-breakpoint-up(lg) {
             font-size: 1em;
           }
+        }
 
-        }
         &::before {
-          display:none;
+          display: none;
         }
+
         padding: 0;
-        border: none;
+        border: 0;
         line-height: 2em;
+
         &__quotation {
-          font: 12em/1.08em Georgia,Times,Times New Roman,serif;
+          font: 12em/1.08em $font-georgia;
           height: 10rem;
           color: $gold-darker;
           text-align: left;
@@ -176,6 +188,7 @@
         background-repeat: no-repeat;
         background-position: center center;
         height: 300px;
+
         @include media-breakpoint-up(lg) {
           height: 100%;
         }
@@ -192,6 +205,7 @@
       &.slick-prev {
         margin-left: 20px;
       }
+
       &.slick-next {
         margin-right: 20px;
       }
@@ -202,15 +216,21 @@
     @include media-breakpoint-up(lg) {
       .event-items__item {
         transition: all 0.3s ease-in-out;
+
         &::before {
-            display: none;
+          display: none;
         }
+
         &::after {
-            display: none;
+          display: none;
         }
-        &:hover, &:focus {
-          @include box-shadow(0,6px,20px, 0.2);
+
+        &:hover,
+        &:focus {
+          @include box-shadow(0, 6px, 20px, 0.2);
+
           cursor: pointer;
+
           &::after {
             background: $gold;
             border: solid 1px $gold;
@@ -222,16 +242,19 @@
 
   .view-display-id-block_14 {
     margin: 0 !important;
+
     @include media-breakpoint-up(lg) {
       .view-content {
-          justify-content: center;
+        justify-content: center;
       }
+
       .event-items__item--row {
-          flex: 0 0 100%;
+        flex: 0 0 100%;
       }
+
       .form-actions {
-          margin-left: auto;
-          margin-right: auto;
+        margin-left: auto;
+        margin-right: auto;
       }
     }
   }
@@ -242,6 +265,7 @@
       @include media-breakpoint-up(lg) {
         padding-right: 0 !important;
       }
+
       padding-top: 10px;
       padding-bottom: 10px;
       border: solid 1px $warm-gray;
@@ -274,6 +298,7 @@
         border-top: solid 8px $menu-gold;
         padding-left: 15px;
         padding-right: 15px;
+
         @include media-breakpoint-up(lg) {
           border-top: solid 1px $warm-gray;
           border-left: solid 8px $menu-gold;
@@ -290,6 +315,7 @@
 
       .event-content {
         margin-left: 15px;
+
         @include media-breakpoint-up(lg) {
           margin-left: 0;
         }
@@ -301,13 +327,15 @@
 
       .date-cal {
         margin: 0 15px;
-        &__item {
 
+        &__item {
           &--day {
             line-height: 6rem;
           }
+
           &--month {
             color: $slate;
+
             &::after {
               margin-left: 20px;
               margin-right: 20px;
@@ -337,24 +365,30 @@
         display: block;
         width: 100%;
         height: 100%;
+
         h4.event-items__item--title {
           @include font-sans-serif-base();
+
           line-height: 150%;
           font-size: 2.4rem;
           font-weight: bold;
           color: $darkgray;
           cursor: default;
         }
-        &:hover, &:focus {
+
+        &:hover,
+        &:focus {
           h4.event-items__item--title {
             text-decoration: none;
           }
         }
+
         span.event-items__item--link {
           @include bold_link();
         }
       }
     }
+
     &__details {
       width: 100%;
       display: block;
@@ -374,6 +408,7 @@
   a.gold-solid-button {
     margin-top: 10px;
     margin-bottom: 10px;
+
     @include media-breakpoint-up(lg) {
       margin-top: 0;
       margin-bottom: 0;

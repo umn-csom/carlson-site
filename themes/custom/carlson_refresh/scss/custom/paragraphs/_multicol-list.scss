@@ -25,30 +25,41 @@
   ul {
     list-style: none;
     padding: 2rem 0;
-    margin: 0;
     column-width: 16rem;
     column-gap: 2.5rem;
-
     overflow-y: auto;
     position: relative;
     border-radius: 4px;
     margin: 0 auto;
     width: 100%;
     background: $white;
+    // stylelint-disable-next-line property-no-vendor-prefix
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      $black var(--top-mask-size, 5rem),
+      $black calc(100% - var(--bottom-mask-size, 5rem)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      $black var(--top-mask-size, 5rem),
+      $black calc(100% - var(--bottom-mask-size, 5rem)),
+      transparent 100%
+    );
 
-    -webkit-mask-image: linear-gradient(to bottom, transparent 0, black var(--top-mask-size, 5rem), black calc(100% - var(--bottom-mask-size, 5rem)), transparent 100%);
-    mask-image: linear-gradient(to bottom, transparent 0, black var(--top-mask-size, 5rem), black calc(100% - var(--bottom-mask-size, 5rem)), transparent 100%);
     --top-mask-size: 5rem;
     --bottom-mask-size: 5rem;
 
     &.is-scrolled-to-top {
       // Note: rem units are required here for this to work.
-      --top-mask-size: 0rem;
+      --top-mask-size: 0;
     }
 
     &.is-scrolled-to-bottom {
       // Note: rem units are required here for this to work.
-      --bottom-mask-size: 0rem;
+      --bottom-mask-size: 0;
     }
   }
 
@@ -65,6 +76,7 @@
 
   .ck-widget {
     display: block;
+
     .more-less {
       position: relative;
       display: flex;

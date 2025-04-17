@@ -1,77 +1,93 @@
 .webform {
-	&__body {
-		h4 {
-			@include serif-font($font-small);
-			margin-bottom: 2rem;
-		}
-	}
+  &__body {
+    h4 {
+      @include serif-font($font-small);
+
+      margin-bottom: 2rem;
+    }
+  }
 }
 
-.webform-element-help  {
-	background: transparent;
-	border: 1px solid $border-gray;
-	color: currentColor;
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
+.webform-element-help {
+  background: transparent;
+  border: 1px solid $border-gray;
+  color: currentColor;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 
-	&:hover,
-	&:active,
-	&:focus {
-		border-color: $gold;
-		background: $gold;
-		border-width: 1px;
-		color: $maroon;
-	}
+  &:hover,
+  &:active,
+  &:focus {
+    border-color: $gold;
+    background: $gold;
+    border-width: 1px;
+    color: $maroon;
+  }
 
-	&:focus {
-		outline: none;
-		box-shadow: 0 0 0 0.1rem $white, 0 0 0 0.2rem $focus-ring-color;
-	}
+  &:focus {
+    outline: none;
+    box-shadow:
+      0 0 0 0.1rem $white,
+      0 0 0 0.2rem $focus-ring-color;
+  }
 }
 
 #drupal-modal {
-	.webform {
-		font-family: $font-lato;
-		&__body {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			flex-wrap: wrap;
-			margin: 0rem 3rem 3rem;
-			h1, h2, h3, h4 {
-				color: $maroon;
-				text-align: center;
-			}
-		}
-		&__form {
-			input, select {
-				border: 2px solid $gold;
-				font-size: 1.6rem;
-				margin-bottom: 1rem;
-			}
-		}
-	}
+  .webform {
+    font-family: $font-lato;
+
+    &__body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 0 3rem 3rem;
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        color: $maroon;
+        text-align: center;
+      }
+    }
+
+    &__form {
+      input,
+      select {
+        border: 2px solid $gold;
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
 }
 
 .ui-dialog {
-	background-color: $lightergray;
-	.ui-dialog-buttonpane {
-		background-color: $lightergray;
-		button.webform-button--submit {
-			background: $white;
-			border-color: $gold;
-			color: $black;
-			border-radius: 0;
-			max-width: 200px;
-			padding: 1rem;
-			&:hover, &:focus, &:active {
-				background: $gold;
-				color: $white;
-			}
-		}
-	}
-	.ui-widget-content {
-		border: none;
-	}
+  background-color: $lightergray;
+
+  .ui-dialog-buttonpane {
+    background-color: $lightergray;
+
+    button.webform-button--submit {
+      background: $white;
+      border-color: $gold;
+      color: $black;
+      border-radius: 0;
+      max-width: 200px;
+      padding: 1rem;
+
+      &:hover,
+      &:focus,
+      &:active {
+        background: $gold;
+        color: $white;
+      }
+    }
+  }
+
+  .ui-widget-content {
+    border: 0;
+  }
 }

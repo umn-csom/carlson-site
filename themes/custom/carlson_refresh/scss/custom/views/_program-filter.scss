@@ -1,185 +1,209 @@
 // Views page
 .program-filter {
-	margin-top: 1rem;
+  margin-top: 1rem;
 
-	.sticky-menu::after {
-		content: none;
-	}
+  .sticky-menu::after {
+    content: none;
+  }
 
-	.card-columns, .card-columns .views-infinite-scroll-content-wrapper {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
+  .card-columns,
+  .card-columns .views-infinite-scroll-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
-		.card {
-			box-sizing: border-box;
-			margin: 0 0.25rem 2rem;
-			flex: 100%;
-			flex-basis: 100%;
-			flex-grow: 0;
+    .card {
+      box-sizing: border-box;
+      margin: 0 0.25rem 2rem;
+      flex: 100%;
+      flex-basis: 100%;
+      flex-grow: 0;
+      border: 1px solid $light-gray;
+      border-bottom: 5px solid $light-gray;
 
-			border: 1px solid $light-gray;
-			border-bottom: 5px solid $light-gray;
+      &:active,
+      &:hover,
+      &:focus {
+        border: 1px solid $maroon;
+        border-bottom: 5px solid $maroon;
+      }
 
-			&:active, &:hover, &:focus {
-				border: 1px solid $maroon;
-				border-bottom: 5px solid $maroon;
-			}
+      // TEMP STYLING TEST
+      a {
+        color: unset;
 
-			// TEMP STYLING TEST
-			a {
-				color: unset;
-				h2 {
-					color: $maroon;
-				}
-				&:active, &:hover, &:focus {
-					color: unset;
-					text-decoration: none;
-				}
-			}
+        h2 {
+          color: $maroon;
+        }
 
-			// END TEST
-		}
+        &:active,
+        &:hover,
+        &:focus {
+          color: unset;
+          text-decoration: none;
+        }
+      }
 
-		@include media-breakpoint-up(lg) {
-			.card {
-				flex-basis: calc(50% - 1.2rem);
-			}
-		}
-	}
+      // END TEST
+    }
 
-	// Header
-	header {
-		h1 {
-		  font-size: $font-medium-mobile;
+    @include media-breakpoint-up(lg) {
+      .card {
+        flex-basis: calc(50% - 1.2rem);
+      }
+    }
+  }
 
-		  @include media-breakpoint-up(lg) {
-		    font-size: $font-medium;
-		  }
-		}
-	}
-	&__link {
-		font-size: 1.5rem;
-		padding: 1.5rem 1rem;
-		text-transform: uppercase;
-	}
+  // Header
+  header {
+    h1 {
+      font-size: $font-medium-mobile;
 
-	// Filters
-	&__filter {
-		padding: 0 10px;
+      @include media-breakpoint-up(lg) {
+        font-size: $font-medium;
+      }
+    }
+  }
 
-		.form-group input[type="submit"] {
-			transition: none;
-			&:hover, &:focus {
-				transition: all 0.3s ease-in-out;
-			}
-			margin-bottom: 5px;
-		}
-		.form-item-search-api-fulltext,
-		.form-item-keyword {
-			width: 100%;
-		}
-		#edit-search-api-fulltext,
-		#edit-keyword {
-			background-image: url(../images/svg/spy-glass-maroon.svg);
-			background-repeat: no-repeat;
-			padding-left: 40px;
-			background-position: 10px;
-		}
-		fieldset.form-type-select {
-			width: 100%;
-		}
-		@include media-breakpoint-up(md) {
-			fieldset.form-type-select {
-				width: 100%;
-			}
-		}
-		@include media-breakpoint-up(lg) {
-			fieldset.form-type-select {
-				width: 100%;
-			}
-		}
+  &__link {
+    font-size: 1.5rem;
+    padding: 1.5rem 1rem;
+    text-transform: uppercase;
+  }
 
-		#edit-actions {
-			border-bottom: 1px solid $light-gray;
-    		padding-bottom: 20px;
-			@include media-breakpoint-up(lg) {
-				width: 100%;
-			}
-		}
-		#edit-submit-hub-search-page {
-			@include button-outline($maroon);
-			background: $white;
-			width: 100%;
-		}
+  // Filters
+  &__filter {
+    padding: 0 10px;
 
-		#edit-keyword,
-		select.form-control {
-			color: $dark-gray;
-			font-family: $font-lato;
-		}
+    .form-group input[type="submit"] {
+      transition: none;
 
-		#edit-topic {
-			display: none;
-		}
+      &:hover,
+      &:focus {
+        transition: all 0.3s ease-in-out;
+      }
 
-		details.form-item {
-			width: 100%;
-			summary {
-				text-transform: uppercase;
-				font-weight: bold;
-				min-height: 44px;
-				min-width: 44px;
-			}
-		}
+      margin-bottom: 5px;
+    }
 
-	}
-	// Content
-	&__results {
-		margin-top: 0rem;
-		@include media-breakpoint-up(md) {
-			margin-top: 0rem;
-		}
-		nav {
-			width: 100%;
-		}
-	}
+    .form-item-search-api-fulltext,
+    .form-item-keyword {
+      width: 100%;
+    }
 
-	&-card {
-		&--category {
-			padding-bottom: 10px;
-		}
-		&--info-wrapper {
-			display: flex;
-			padding: 15px 0 10px;
-			flex-flow: wrap;
-		}
-		&--info-block {
-			width: 50%;
-			text-align: center;
-			padding-bottom: 10px;
-		}
-		&--label {
-			font-size: 16px;
-		}
-		&--value {
-			font-size: 14px;
-			color: $maroon;
-		}
-	}
+    #edit-search-api-fulltext,
+    #edit-keyword {
+      background-image: url("../images/svg/spy-glass-maroon.svg");
+      background-repeat: no-repeat;
+      padding-left: 40px;
+      background-position: 10px;
+    }
 
-	legend {
-		text-transform: uppercase;
-	}
+    fieldset.form-type-select {
+      width: 100%;
+    }
 
-	.form-check {
-		display: flex;
-		vertical-align: middle;
-		padding-bottom: 5px;
-	}
-	.form-check-label {
-		font-size: 1.5rem;
-		text-transform: none;
-	}
+    @include media-breakpoint-up(md) {
+      fieldset.form-type-select {
+        width: 100%;
+      }
+    }
 
+    @include media-breakpoint-up(lg) {
+      fieldset.form-type-select {
+        width: 100%;
+      }
+    }
+
+    #edit-actions {
+      border-bottom: 1px solid $light-gray;
+      padding-bottom: 20px;
+
+      @include media-breakpoint-up(lg) {
+        width: 100%;
+      }
+    }
+
+    #edit-submit-hub-search-page {
+      @include button-outline($maroon);
+
+      background: $white;
+      width: 100%;
+    }
+
+    #edit-keyword,
+    select.form-control {
+      color: $dark-gray;
+      font-family: $font-lato;
+    }
+
+    #edit-topic {
+      display: none;
+    }
+
+    details.form-item {
+      width: 100%;
+
+      summary {
+        text-transform: uppercase;
+        font-weight: bold;
+        min-height: 44px;
+        min-width: 44px;
+      }
+    }
+  }
+  // Content
+  &__results {
+    margin-top: 0;
+
+    @include media-breakpoint-up(md) {
+      margin-top: 0;
+    }
+
+    nav {
+      width: 100%;
+    }
+  }
+
+  &-card {
+    &--category {
+      padding-bottom: 10px;
+    }
+
+    &--info-wrapper {
+      display: flex;
+      padding: 15px 0 10px;
+      flex-flow: wrap;
+    }
+
+    &--info-block {
+      width: 50%;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+
+    &--label {
+      font-size: 16px;
+    }
+
+    &--value {
+      font-size: 14px;
+      color: $maroon;
+    }
+  }
+
+  legend {
+    text-transform: uppercase;
+  }
+
+  .form-check {
+    display: flex;
+    vertical-align: middle;
+    padding-bottom: 5px;
+  }
+
+  .form-check-label {
+    font-size: 1.5rem;
+    text-transform: none;
+  }
 }

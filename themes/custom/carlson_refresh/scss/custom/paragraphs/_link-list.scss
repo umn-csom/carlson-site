@@ -1,33 +1,38 @@
 .link-list {
-    &__collection {
-        list-style: none;
-        padding: 0.85em;
-        column-count: 1;
-        @include media-breakpoint-up(md) {
-            column-count: 2;
-            column-gap: 3rem;
-        }
-        @include media-breakpoint-up(lg) {
-            column-gap: 5rem;
-        }
-    }
-    &__item {
-        padding: 0;
-        background: $ivory;
-        border-bottom: 3px solid $white;
-        page-break-inside: avoid;
+  &__collection {
+    list-style: none;
+    padding: 0.85em;
+    column-count: 1;
 
-        a {
-            color: #333;
-            padding: 0.75em 1em;
-            text-decoration: none;
-            display: block;
-            position: relative;
-            border-bottom: none;
-            &:hover, &:focus {
-                color: $maroon;
-                background: $mediumgray;
-            }
-        }
+    @include media-breakpoint-up(md) {
+      column-count: 2;
+      column-gap: 3rem;
     }
+
+    @include media-breakpoint-up(lg) {
+      column-gap: 5rem;
+    }
+  }
+
+  &__item {
+    padding: 0;
+    background: $ivory;
+    border-bottom: 3px solid $white;
+    page-break-inside: avoid;
+
+    a {
+      color: #333;
+      padding: 0.75em 1em;
+      text-decoration: none;
+      display: block;
+      position: relative;
+      border-bottom: 0;
+
+      &:hover,
+      &:focus {
+        color: $maroon;
+        background: $mediumgray;
+      }
+    }
+  }
 }

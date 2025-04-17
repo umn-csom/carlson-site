@@ -1,27 +1,26 @@
-/**
-* @file
-* Visual styles for slide in Barrio.
-*/
-
+// Visual styles for slide in Barrio.
 .slide {
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+
+  .slick-slider {
     display: flex !important;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
+  }
 
-    .slick-slider{
-      display: flex !important;
-      justify-content: center;
-    }
-    &__img {
-        display: inline-block;
-    }
+  &__img {
+    display: inline-block;
+  }
 
-    &__caption {
-        color: $another-gray;
-        @include font-sans-serif-base();
-        font-size: 14px;
-        font-weight: 700;
-        text-transform: uppercase;
-        display: none;
-    }
+  &__caption {
+    color: $another-gray;
+
+    @include font-sans-serif-base();
+
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: none;
+  }
 }

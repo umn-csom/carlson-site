@@ -12,18 +12,26 @@
 .front {
   &__advantage {
     background-size: cover;
+
     &__subheading {
       @include rfs(2.4rem);
     }
+
     @include media-breakpoint-down(md) {
       background-image: none !important;
     }
   }
+
   &-features {
     &__item {
       &__bg {
         &__inner {
-          clip-path: polygon(-1% 25%, 101% calc(25% + 30px), 101% 101%, -1% 101%);
+          clip-path: polygon(
+            -1% 25%,
+            101% calc(25% + 30px),
+            101% 101%,
+            -1% 101%
+          );
         }
       }
     }

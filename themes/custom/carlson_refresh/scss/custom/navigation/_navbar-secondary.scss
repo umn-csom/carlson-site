@@ -1,4 +1,3 @@
-
 .navbar-brand--secondary,
 .navbar-brand--tertiary {
   margin: 0;
@@ -11,76 +10,97 @@
     font-size: $navbar-brand-font-size;
   }
 }
+
 #secondary-navbar {
   top: 0.5rem;
   z-index: 30;
   border-bottom: 1px solid $menu-line-grey;
   min-height: 55px;
   background: $white;
+
   @include media-breakpoint-up(xl) {
-      top: 7.5rem;
-      max-width: 100%;
-      margin: auto;
-      min-height: 68px;
+    top: 7.5rem;
+    max-width: 100%;
+    margin: auto;
+    min-height: 68px;
   }
+
   .navbar {
     .navbar-nav {
       margin-top: 12px;
+
       > .nav-item {
         border-radius: 6px !important;
-          &:hover, &:focus {
-            background-color: $white;
-            > a {
-              color: $maroon;
-            }
+
+        &:hover,
+        &:focus {
+          background-color: $white;
+
+          > a {
+            color: $maroon;
           }
-          a {
-            font-size: 1.4rem;
-            white-space: nowrap;
-            padding: 0.5rem 1rem;
-            &:hover, &:focus {
-              text-decoration: underline;
-            }
+        }
+
+        a {
+          font-size: 1.4rem;
+          white-space: nowrap;
+          padding: 0.5rem 1rem;
+
+          &:hover,
+          &:focus {
+            text-decoration: underline;
           }
-          @include media-breakpoint-up(xl) {
-            margin-left: 1rem;
-            &:first-child {
-              margin-left: 0rem;
-            }
+        }
+
+        @include media-breakpoint-up(xl) {
+          margin-left: 1rem;
+
+          &:first-child {
+            margin-left: 0;
           }
+        }
+
         > .nav-link {
           border-radius: 6px !important;
           padding: 4px 10px;
           text-transform: uppercase;
           color: $menu-grey;
         }
+
         .dropdown-menu {
           border: 0;
           border-radius: 0;
           box-shadow: 5px 5px 15px 0 rgba($black, 0.2);
           background-color: $white;
+
           @include media-breakpoint-up(xl) {
             padding: 0;
             margin: 0;
+
             a {
               font-size: 1.575rem;
             }
           }
         }
       }
+
       .dropdown-submenu.show {
         border-bottom: 1px solid $dark-gray;
+
         @include media-breakpoint-up(xl) {
           border-bottom: 0;
         }
       }
+
       .dropdown-item {
         background-color: $white;
-        padding: 0.8rem 0.8rem;
-        &:hover, &:focus {
+        padding: 0.8rem;
+
+        &:hover,
+        &:focus {
           background-color: $ivory;
           //color: $menu-grey;
-          }
+        }
       }
     }
   }
@@ -88,53 +108,69 @@
   .nav-item.dropdown.active {
     > a.nav-link {
       color: $maroon;
-      &:hover, &:focus {
+
+      &:hover,
+      &:focus {
         background-color: $white;
         color: $maroon;
       }
     }
-
   }
+
   .dropdown .dropdown-menu .dropdown-submenu .dropdown-menu a {
     padding-left: 30px;
+
     @include media-breakpoint-up(xl) {
       padding-left: 15px;
     }
   }
+
   .dropdown-submenu.active {
     > a.dropdown-item {
       background-color: $maroon;
       color: $white;
+
       &.dropdown-toggle::after {
         color: $white;
       }
-      &:hover, &:focus {
+
+      &:hover,
+      &:focus {
         background-color: $ivory;
         color: $body-color;
+
         &.dropdown-toggle::after {
           color: $menu-grey;
         }
       }
     }
   }
+
   .dropdown-submenu {
     > a.dropdown-item {
-      &:hover, &:focus, &:active {
+      &:hover,
+      &:focus,
+      &:active {
         color: $body-color;
       }
     }
   }
+
   .secondary-navbar--endlink.active {
     > a.dropdown-item {
       background-color: $maroon;
       color: $white;
-      &:hover, &:focus {
+
+      &:hover,
+      &:focus {
         background-color: $header-gray;
       }
     }
   }
+
   .dropright.show .dropdown-toggle.active-dropdown::after {
     transform: rotate(90deg);
+
     @include media-breakpoint-up(xl) {
       transform: rotate(0deg) translateX(15px);
     }

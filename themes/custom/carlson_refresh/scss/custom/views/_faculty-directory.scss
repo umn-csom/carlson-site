@@ -1,66 +1,83 @@
 .faculty-directory {
-	.view-filters {
-		margin-bottom: 4.5rem;
-		.accordion {
-			padding: 0;
-			margin: 0;
-			.card {
-				overflow: visible;
-				.card-header {
-					border-top: 0;
-					@include media-breakpoint-up(lg){
-						display: none;
-					}
-					.btn-link {
-						background: transparent;
-						padding-left: 0;
-						@include bold_link(1.6rem);
-						line-height: 2rem;
-						&::before {
-							font-weight: bold;
-							color: $slate;
-							font-size: 2rem;
-						}
-					}
-				}
-				.card-body {
-					padding: 1.25rem 0;
-				}
-				.inner {
-					background-image: none;
-					&.show {
-						background-image: none;
-					}
-					@include media-breakpoint-up(lg){
-						opacity: 1;
-						display: block;
-					}
-				}
-			}
-		}
-		.form-row {
-			display: flex;
-			justify-content: center;
-			flex-direction: column;
-			@include media-breakpoint-up(lg){
-				flex-direction: row;
-				flex-wrap: nowrap;
-			}
-			> fieldset {
-				@include media-breakpoint-up(lg){
-					margin-right: 0.5rem;
-				}
-			}
-			input[type="submit"] {
-				margin: 0;
-				padding: 1rem;
-			}
-			#edit-actions {
-				width: 100%;
-				@include media-breakpoint-up(lg){
-					width: auto;
-				}
-			}
-		}
-	}
+  .view-filters {
+    margin-bottom: 4.5rem;
+
+    .accordion {
+      padding: 0;
+      margin: 0;
+
+      .card {
+        overflow: visible;
+
+        .card-header {
+          border-top: 0;
+
+          @include media-breakpoint-up(lg) {
+            display: none;
+          }
+
+          .btn-link {
+            background: transparent;
+            padding-left: 0;
+
+            @include bold_link(1.6rem);
+
+            line-height: 2rem;
+
+            &::before {
+              font-weight: bold;
+              color: $slate;
+              font-size: 2rem;
+            }
+          }
+        }
+
+        .card-body {
+          padding: 1.25rem 0;
+        }
+
+        .inner {
+          background-image: none;
+
+          &.show {
+            background-image: none;
+          }
+
+          @include media-breakpoint-up(lg) {
+            opacity: 1;
+            display: block;
+          }
+        }
+      }
+    }
+
+    .form-row {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+
+      @include media-breakpoint-up(lg) {
+        flex-flow: row nowrap;
+      }
+
+      > fieldset {
+        @include media-breakpoint-up(lg) {
+          margin-right: 0.5rem;
+        }
+      }
+
+      input[type="submit"] {
+        margin: 0;
+        padding: 1rem;
+      }
+
+      #edit-actions {
+        width: 100%;
+
+        @include media-breakpoint-up(lg) {
+          width: auto;
+        }
+      }
+    }
+  }
 }

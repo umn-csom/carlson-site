@@ -1,7 +1,4 @@
-/**
-* @file
-* Visual styles for comments in Barrio.
-*/
+// Visual styles for comments in Barrio.
 
 .accordion-content {
   &__heading {
@@ -36,7 +33,6 @@
         cursor: pointer;
         padding: 2rem 2rem 2rem 6rem;
         width: 100%;
-
         word-break: break-word;
         font-family: $font-family-sans-serif;
         font-weight: 400;
@@ -93,6 +89,7 @@
 
           &::before {
             @include accordion-icon($icon-minus, $white);
+
             color: $white;
           }
         }
@@ -101,6 +98,7 @@
 
     > .inner {
       transition: all 0.26s ease-in-out;
+
       > .card-body {
         padding: 3rem 3rem 5rem;
         border-bottom: 0.5rem solid $maroon;
@@ -130,14 +128,13 @@
 
   // Edge-to-edge support:
   &:not(.sub-accordion) > .card {
-
     @include media-breakpoint-down(md) {
       overflow: visible; // edge-to-edge
 
       > .card-header {
         &::before,
         &::after {
-          content: '';
+          content: "";
           display: block;
           position: absolute;
           right: 100%;
@@ -163,7 +160,7 @@
       > .inner > .card-body {
         &::before,
         &::after {
-          content: '';
+          content: "";
           display: block;
           position: absolute;
           right: 100%;

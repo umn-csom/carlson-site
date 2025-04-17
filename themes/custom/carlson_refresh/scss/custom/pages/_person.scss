@@ -3,44 +3,50 @@
 
   &__contact {
     &--address {
-			&::before {
-				@include carlson-icons($icon-map-pin);
-				color: $maroon;
-				width: 2rem;
-				margin-right: 1.5rem;
-				display: inline-block;
-				text-align: center;
-				font-size: 2rem;
-				vertical-align: middle;
+      &::before {
+        @include carlson-icons($icon-map-pin);
+
+        color: $maroon;
+        width: 2rem;
+        margin-right: 1.5rem;
+        display: inline-block;
+        text-align: center;
+        font-size: 2rem;
+        vertical-align: middle;
         font-weight: bold;
-			}
-		}
-		&--phone,
-		&--email {
-			a::before {
-				@include carlson-icons($icon-link);
-				font-size: 1.6rem;
-				color: $maroon;
-				width: 2rem;
-				margin-right: 1.5rem;
-				display: inline-block;
-				text-align: center;
+      }
+    }
+
+    &--phone,
+    &--email {
+      a::before {
+        @include carlson-icons($icon-link);
+
+        font-size: 1.6rem;
+        color: $maroon;
+        width: 2rem;
+        margin-right: 1.5rem;
+        display: inline-block;
+        text-align: center;
         font-weight: bold;
-			}
-		}
-		&--phone {
-			a::before {
-				content: $icon-mobile-phone;
-				font-size: 2rem;
-			}
-		}
-		&--email {
-			a::before {
-				content: $icon-envelope;
-				font-size: 1.2rem;
-			}
-		}
+      }
+    }
+
+    &--phone {
+      a::before {
+        content: $icon-mobile-phone;
+        font-size: 2rem;
+      }
+    }
+
+    &--email {
+      a::before {
+        content: $icon-envelope;
+        font-size: 1.2rem;
+      }
+    }
   }
+
   @include media-breakpoint-up(lg) {
     &__sidebar {
       > div {

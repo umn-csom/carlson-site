@@ -1,11 +1,15 @@
 .program-features {
   @include make-row();
+
   justify-content: space-around;
   margin: 6rem 0 3rem;
+
   &__item {
     @include make-col-ready();
     @include make-col(6);
+
     margin-bottom: 3rem;
+
     &__img {
       margin-left: auto;
       margin-right: auto;
@@ -13,16 +17,20 @@
       text-align: center;
       max-width: 80px;
     }
+
     &__text {
       text-align: center;
+
       a {
         text-decoration: underline;
       }
     }
+
     &__title {
       text-transform: uppercase;
       letter-spacing: 0.1em;
       font-weight: 600;
+
       > a {
         text-transform: uppercase;
         letter-spacing: 0.1em;
@@ -30,16 +38,20 @@
       }
     }
   }
+
   &__btn {
     @extend .btn;
     @extend .btn-primary;
+
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
     margin-top: 3rem;
+
     &-wrapper {
       text-align: center;
     }
   }
+
   @include media-breakpoint-up(sm) {
     &__item {
       &__img {
@@ -47,6 +59,7 @@
       }
     }
   }
+
   @include media-breakpoint-up(md) {
     &__item {
       @include make-col(3);

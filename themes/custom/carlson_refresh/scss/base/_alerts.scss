@@ -1,31 +1,33 @@
-/**
- * @file
- * Visual styles for comments in Barrio.
- */
-
+// Visual styles for comments in Barrio.
 .alert {
-    font-family: 'Lato', sans-serif;
-    transition: all 0.3s ease-in-out;
-    &:hover,
-    &:focus {
-      background: grey;
+  font-family: "Lato", sans-serif;
+  transition: all 0.3s ease-in-out;
+
+  &:hover,
+  &:focus {
+    background: $mid-gray-3;
+  }
+
+  &.success {
+    background: $green;
+
+    p {
+      margin-bottom: 0;
+      color: $white;
+      font-family: "Lato", sans-serif;
     }
-    &.success{
-      background: green;
-      p{
-        margin-bottom: 0;
-        color: $white;
-        font-family: 'Lato', sans-serif;
-      }
+  }
+
+  &.warning {
+    background: $red;
+
+    p {
+      margin-bottom: 0;
+      color: $white;
+      font-family: "Lato", sans-serif;
     }
-    &.warning {
-    	background: red;
-      p{
-        margin-bottom: 0;
-        color: $white;
-        font-family: 'Lato', sans-serif;
-      }
-    }
+  }
+
   &.sitewide-alert {
     margin-bottom: 0;
     display: flex;
@@ -33,6 +35,7 @@
 
     > span {
       width: calc(100% - 30px);
+
       > p {
         text-align: center;
       }
@@ -45,28 +48,35 @@
     &.alert-maroon {
       background: $maroon;
       color: $white;
+
       a {
         color: $gold;
       }
+
       &:hover,
       &:focus {
         background: $maroon;
       }
     }
+
     &.alert-burgundy {
       background: $burgundy;
       color: $white;
+
       a {
         color: $gold;
       }
+
       &:hover,
       &:focus {
         background: $burgundy;
       }
     }
+
     &.alert-gold {
       background: $gold;
       color: $black;
+
       &:hover,
       &:focus {
         background: $gold;

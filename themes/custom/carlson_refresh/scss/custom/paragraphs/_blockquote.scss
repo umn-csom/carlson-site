@@ -137,7 +137,7 @@ blockquote {
   &.blockquote--no-quote-mark {
     > p:first-of-type {
       &::before {
-        content: '';
+        content: "";
         display: none !important;
       }
     }
@@ -155,11 +155,11 @@ blockquote {
     font-size: 2.2rem;
 
     &::before {
-      content: '–';
+      content: "–";
     }
 
     &:has(+ .blockquote__organization)::before {
-      content: '';
+      content: "";
     }
   }
 
@@ -183,7 +183,7 @@ blockquote {
 
     &::before,
     &::after {
-      content: '';
+      content: "";
       left: 0;
       top: 0;
       width: 6rem;
@@ -225,12 +225,13 @@ blockquote {
 
           img {
             height: 100%;
-            width: 100%;;
+            width: 100%;
             object-fit: cover;
             object-position: center;
           }
         }
       }
+
       > .drupal-media,
       > .media {
         @media (max-width: 991px) {
@@ -246,7 +247,7 @@ blockquote {
 
     &::before,
     &::after {
-      content: '' !important;
+      content: "" !important;
       display: none !important;
     }
 
@@ -288,7 +289,7 @@ blockquote {
             }
 
             &::after {
-              content: '';
+              content: "";
               position: absolute;
               right: -0.5px;
               top: 0;
@@ -303,7 +304,13 @@ blockquote {
     }
 
     &.blockquote--notch-right {
-      clip-path: polygon(0 0, calc(100% - 60px) 0, 100% 60px, 100% 100%, 0 100%);
+      clip-path: polygon(
+        0 0,
+        calc(100% - 60px) 0,
+        100% 60px,
+        100% 100%,
+        0 100%
+      );
       padding: 6rem;
 
       &:has(.media) {
@@ -339,14 +346,20 @@ blockquote {
             }
 
             &::after {
-              content: '';
+              content: "";
               position: absolute;
               left: -0.5px;
               top: 0;
               height: 100%;
               width: 6rem;
               z-index: 1;
-              clip-path: polygon(0 0, calc(100% - 60px) 0, 100% 60px, 100% 100%, 0 100%);
+              clip-path: polygon(
+                0 0,
+                calc(100% - 60px) 0,
+                100% 60px,
+                100% 100%,
+                0 100%
+              );
             }
           }
         }
