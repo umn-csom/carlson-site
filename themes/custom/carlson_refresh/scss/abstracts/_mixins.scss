@@ -28,7 +28,7 @@ $value in $theme-colors {
     position: relative;
     margin-bottom: 15px;
     @if($color != 'none' and $include_after != 'false' ) {
-        &:after{
+        &::after{
             content: '';
             height: 2px;
             width: 100px;
@@ -185,12 +185,12 @@ $value in $theme-colors {
     &:hover, &:active, &:focus{
       text-decoration: none;
       color: $menu-gold;
-      &:after{
+      &::after{
         content: '';
         width: 0;
       }
     }
-    &:after{
+    &::after{
       content: '';
       transition: all .3s ease-in-out;
       width: 100%;
@@ -209,12 +209,12 @@ $value in $theme-colors {
     &:hover, &:active, &:focus{
       text-decoration: none;
       color: $hamburger-grey;
-      &:after{
+      &::after{
         content: '';
         width: 0;
       }
     }
-    &:after{
+    &::after{
       content: '';
       transition: all .3s ease-in-out;
       width: 100%;
@@ -314,7 +314,7 @@ $value in $theme-colors {
 }
 
 @mixin grey-line() {
-    &:after {
+    &::after {
         content: '';
         position: absolute;
         z-index: 0;

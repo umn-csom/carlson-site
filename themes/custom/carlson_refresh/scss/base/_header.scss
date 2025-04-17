@@ -67,7 +67,7 @@
               &:hover, &:focus, &:active{
                 padding-left: 15px;
               }
-              &:after{
+              &::after{
                 display: none !important;
                 width: 0 !important
               }
@@ -91,7 +91,7 @@
                 padding: 0;
                 a{
                   padding-left: 0;
-                  &:after{
+                  &::after{
                     display: none !important;
                   }
                   &:hover, &:focus{
@@ -126,7 +126,7 @@
                 width: auto;
                 a{
                   padding-left: 0;
-                  &:after{
+                  &::after{
                     display: none !important;
                   }
                   &:hover, &:focus{
@@ -138,7 +138,7 @@
                 &.active{
                   a{
                     padding-left: 0;
-                    &:after{
+                    &::after{
                       content: '';
                       display: block;
                       width: 0;
@@ -205,7 +205,7 @@
       line-height: calc( 1.2vw + (18 - 12) * (100vw - 400px) / (800 - 400) );
       &:hover, &:focus{
         a.we-mega-menu-li{
-          &:after{
+          &::after{
             content: '';
             opacity: 1;
           }
@@ -223,10 +223,10 @@
         @media screen and (max-width: 992px){
           padding: 15px 7px;
         }
-        &:before{
+        &::before{
           display: none;
         }
-        &:after{
+        &::after{
           content: '';
           position: absolute;
           border-bottom: 10px solid $gold;
@@ -245,7 +245,7 @@
             bottom: 0;
           }
         }
-        &:hover:after , &:focus:after{
+        &:hover::after , &:focus::after{
           content: '';
           opacity: 1;
         }
@@ -326,7 +326,7 @@
                 position: relative;
                 &:hover, &:focus{
                   a, span{
-                    &:after{
+                    &::after{
                       content: '';
                       transform: rotate(0deg) !important;
                       opacity: 1 !important;
@@ -348,7 +348,7 @@
                   width: auto;
                   padding: 0;
                   margin: 0 15px;
-                  &:before, &:after{
+                  &::before, &::after{
                     display: none;
                   }
                   &:hover, &:focus, &:active{
@@ -356,7 +356,7 @@
                     color: $slate;
                     border: 0;
                   }
-                  &:after{
+                  &::after{
                     content: '';
                     transition: all .3s ease-in-out;
                     transform: rotate(0deg) !important;
@@ -377,7 +377,7 @@
                       bottom: 0;
                     }
                   }
-                    &:hover:after , &:focus:after{
+                    &:hover::after , &:focus::after{
                       content: '';
                       transform: rotate(0deg) !important;
                       opacity: 1 !important;
@@ -385,7 +385,7 @@
                 }
                 &.active{
                 > a{
-                  &:after{
+                  &::after{
                     content: '';
                     transition: all .3s ease-in-out;
                     transform: rotate(0deg) !important;
@@ -401,7 +401,7 @@
                     margin-top: -1.05rem !important;
                     background-image: none;
                   }
-                    &:hover:after, &:focus:after{
+                    &:hover::after, &:focus::after{
                       content: '';
                       transform: rotate(0deg) !important;
                       opacity: 1 !important;
@@ -551,13 +551,13 @@ body.toggled .mobile-main-menu{
   animation-timing-function: ease-in-out;
   animation-name: fadeInFromNone;
   animation-delay: 0s;
-  &:before{
+  &::before{
     width: 25px;
     height: 2px;
     background-color: $header-icon-gray;
     top: 30px;
   }
-  &:after{
+  &::after{
     width: 25px;
     height: 2px;
     background-color: $header-icon-gray;
@@ -575,7 +575,7 @@ body.toggled .mobile-main-menu{
       flex-direction: column;
       flex-wrap: nowrap;
       align-items: center;
-      &:after{
+      &::after{
         content: 'MENU';
         color: $maroon;
         @include font-sans-serif-base();
