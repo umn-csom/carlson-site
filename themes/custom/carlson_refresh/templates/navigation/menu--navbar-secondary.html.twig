@@ -28,7 +28,7 @@
     {% import _self as menus %}
     {% if items %}
       {% if menu_level == 0 %}
-        <ul class="navbar-nav navbar-nav--secondary" >
+        <ul class="site-nav__ul" >
       {% else %}
         <ul class="dropdown-animate dropdown-slide dropdown-menu dropdown-menu-left" >
       {% endif %}
@@ -41,7 +41,7 @@
         {% set is_link = item.url and not is_button and not is_nolink %}
         {%
           set item_classes = [
-            'nav-item',
+            'site-nav__li',
             item.below ? 'dropdown',
             item.below and is_sub_level ? 'dropdown-submenu',
             item.below and is_sub_level and last ? 'dropleft',
@@ -52,8 +52,8 @@
         %}
         {%
           set link_classes = [
-            is_top_level and is_button ? 'nav-button',
-            is_top_level and not is_button ? 'nav-link',
+            is_top_level and is_button ? 'site-nav__sl-btn',
+            is_top_level and not is_button ? 'site-nav__sl-lnk',
             is_top_level and item.below and is_link ? 'is-reachable',
             is_sub_level ? 'dropdown-item',
             item.in_active_trail ? 'in-active-trail',

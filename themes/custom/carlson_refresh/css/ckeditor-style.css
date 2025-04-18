@@ -15641,14 +15641,14 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
 .ck-content .sidebar nav ul.nav {
   margin: 0 -10px; }
 
-.ck-content .site-branding {
-  margin: 0 30px 0 0; }
-
 .ck-content .site-branding__logo {
-  max-width: 100%;
-  height: auto; }
-  .ck-content .site-branding__logo--mobile {
-    width: 220px; }
+  width: 220px;
+  height: auto;
+  margin: -10px;
+  padding: 10px; }
+  @media (min-width: 768px) {
+    .ck-content .site-branding__logo {
+      width: 330px; } }
 
 .ck-content .site-footer {
   padding: 10px 0; }
@@ -15850,62 +15850,67 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
     .ck-content .umnhf a:hover, .ck-content .umnhf a:active, .ck-content .umnhf a:focus {
       text-decoration: underline; }
 
-.ck-content #mandatory-header-wrapper {
-  min-height: 50px; }
+.ck-content .umnhf-hw {
+  background: #fff; }
 
-.ck-content #umnhf-h-mast {
-  position: relative;
+.ck-content .umnhf-h {
+  min-height: 50px;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fc3; }
+
+.ck-content .umnhf-h-mast {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center; }
+  max-width: 1340px;
+  padding: 0 25px;
+  width: 100%; }
 
-.ck-content #umnhf-h-wm-svg {
+.ck-content .umnhf-h-wm {
   display: flex;
-  margin: 8px;
-  padding: 8px; }
+  align-items: center;
+  margin: 0 0 0 3px;
+  padding: 13px; }
 
-.ck-content #umnhf-h-cl {
-  position: relative;
-  clear: both;
-  margin: 0 10px;
-  padding: 0 0 10px;
+.ck-content .umnhf-h-ql {
   list-style-type: none;
-  text-align: center;
-  width: 288px; }
-  .ck-content #umnhf-h-cl li {
-    display: inline-block;
-    padding: 0 0.5em;
-    text-align: center; }
-    .ck-content #umnhf-h-cl li:first-child {
-      padding-left: 0; }
-    .ck-content #umnhf-h-cl li:last-child {
-      padding-right: 0; }
-  @media screen and (max-width: 609px) {
-    .ck-content #umnhf-h-cl {
-      display: none; } }
-
-.ck-content #umnhf-h-ql {
-  list-style-type: none;
-  margin: 0;
+  margin: 0 -1em 0 0;
   padding: 0;
-  width: auto; }
-  .ck-content #umnhf-h-ql li {
-    margin: 0;
-    display: inline-block; }
-  .ck-content #umnhf-h-ql a {
+  width: auto;
+  display: none; }
+  @media (min-width: 768px) {
+    .ck-content .umnhf-h-ql {
+      display: flex; } }
+  .ck-content .umnhf-h-ql a {
     font-weight: 400;
     font-size: 14px;
     min-width: 44px;
     min-height: 44px;
+    margin: 0 .5em;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 0.625em;
+    padding: 0.5em;
     color: #000; }
-  .ck-content #umnhf-h-ql svg {
+  .ck-content .umnhf-h-ql svg {
     fill: currentColor;
     vertical-align: baseline; }
+
+.ck-content .umnhf-h-si {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  place-items: center space-between;
+  margin: 0 auto;
+  padding: 20px 25px;
+  list-style-type: none;
+  text-align: center;
+  width: 100%;
+  max-width: 1340px; }
 
 .ck-content #umnhf-f {
   border-top: 1px solid #f0f0f0;

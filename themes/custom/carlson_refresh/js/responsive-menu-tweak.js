@@ -13,7 +13,7 @@
           .append(
             '<a class="mm-btn--close" id="close-nav" href="#mm-0" aria-label="close menu">&times;</a>'
           ),
-        brandingMinnesota = $("#umnhf-h-wm-svg svg").clone()
+        brandingMinnesota = $("#umnhf-h-si svg").clone()
         .wrap('<div class="mm-navbar__logo" />').parent()
         .wrap('<div class="mm-navbar__branding bg-gold minnesota_logo" />').parent();
       if (!mm_menu.hasClass("mm-menu--csm-customized")) {
