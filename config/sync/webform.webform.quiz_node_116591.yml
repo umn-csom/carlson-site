@@ -172,7 +172,7 @@ elements: |-
   question_136626_title:
     '#type': processed_text
     '#format': rich_text
-    '#text': '<legend class="d-none">Question Title</legend><div class="quiz--question--title-prefix text-uppercase mb-2">Question 4</div><div class="quiz--question--title column__heading"><h3 class="d-inline">Do you want to broaden your business knowledge or go deep into a specific subject/topic?*</h3></div>'
+    '#text': '<legend class="d-none">Question Title</legend><div class="quiz--question--title-prefix text-uppercase mb-2">Question 4</div><div class="quiz--question--title column__heading"><h3 class="d-inline">Do you want to broaden your business knowledge or go deep into a specific subject/topic?*</h3><button class="quiz--question--info-btn border-0 p-0 bg-transparent" type="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-html="true" data-content="&lt;p&gt;While these two options are similar, there are key differences between them. Which one is right for you? It depends on your career goals. &lt;a href=&quot;/news/mba-or-ms-whats-difference&quot;&gt;Learn more&lt;/a&gt;.&lt;/p&gt;"><span class="sr-only">Help Text</span></button></div>'
     '#wrapper_attributes':
       class:
         - quiz--question--title-wrapper
@@ -235,6 +235,9 @@ elements: |-
         - mb-5
         - quiz--question
         - stacked
+        - has-limit
+      data-limit-type: exactly
+      data-limit: '3'
     '#options':
       136631: 'Yes, Active Duty -- <img src="/sites/carlsonschool.umn.edu/files/2023-04/veteran_icon_maroon.svg" alt="" aria-hidden="true" width="38" height="38" />'
       136636: 'Yes, Guard/Reserve -- <img src="/sites/carlsonschool.umn.edu/files/2023-04/veteran_icon_maroon.svg" alt="" aria-hidden="true" width="38" height="38" />'
@@ -242,39 +245,39 @@ elements: |-
       136646: 'Spouse/Dependent -- <img src="/sites/carlsonschool.umn.edu/files/2023-04/veteran_icon_maroon.svg" alt="" aria-hidden="true" width="38" height="38" />'
       136651: 'No affiliation -- <img src="/sites/carlsonschool.umn.edu/files/2023-04/person_icon_maroon.svg" alt="" aria-hidden="true" width="38" height="38" />'
     '#options__properties':
-      136631:
+      136696:
         '#wrapper_attributes':
           class:
             - 'quiz--answer col-12 '
         '#attributes':
           class:
             - question-5-answer-1
-            - question-136656-answer-136631
-      136636:
+            - question-136726-answer-136696
+      136701:
         '#wrapper_attributes':
           class:
             - 'quiz--answer col-12 '
         '#attributes':
           class:
             - question-5-answer-2
-            - question-136656-answer-136636
-      136641:
+            - question-136726-answer-136701
+      136706:
         '#wrapper_attributes':
           class:
             - 'quiz--answer col-12 '
         '#attributes':
           class:
             - question-5-answer-3
-            - question-136656-answer-136641
-      136646:
+            - question-136726-answer-136706
+      136711:
         '#wrapper_attributes':
           class:
             - 'quiz--answer col-12 '
         '#attributes':
           class:
             - question-5-answer-4
-            - question-136656-answer-136646
-      136651:
+            - question-136726-answer-136711
+      136716:
         '#wrapper_attributes':
           class:
             - 'quiz--answer col-12 '
@@ -359,31 +362,28 @@ elements: |-
             - 'quiz--answer col-12 '
         '#attributes':
           class:
-            - question-6-answer-6
-            - question-136691-answer-136686
+            - question-5-answer-6
+            - question-136726-answer-136721
     '#states': {  }
     '#required': true
     '#required_error': 'Please select an answer before proceeding'
   question_136726_title:
     '#type': processed_text
     '#format': rich_text
-    '#text': '<legend class="d-none">Question Title</legend><div class="quiz--question--title-prefix text-uppercase mb-2">Question 7</div><div class="quiz--question--title column__heading"><h3 class="d-inline">Which of the following best describe what you want to do in your career?*</h3></div><div class="quiz--question--multiple-label">Select exactly three.</div>'
+    '#text': '<legend class="d-none">Question Title</legend><div class="quiz--question--title-prefix text-uppercase mb-2">Question 6</div><div class="quiz--question--title column__heading"><h3 class="d-inline">Are you interested in a STEM-designed program?</h3><button class="quiz--question--info-btn border-0 p-0 bg-transparent" type="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-html="true" data-content="&lt;p&gt;STEM degrees are more quantitative and technical. These degrees allow international students to work in the U.S. for longer after graduation.&lt;/p&gt;"><span class="sr-only">Help Text</span></button></div>'
     '#wrapper_attributes':
       class:
         - quiz--question--title-wrapper
     '#states': {  }
-  question_136726:
-    '#type': checkboxes
-    '#title': 'Which of the following best describe what you want to do in your career?*'
+  question_214436:
+    '#type': radios
+    '#title': 'Are you interested in a STEM-designed program?'
     '#default_value': ''
     '#wrapper_attributes':
       class:
         - mb-5
         - quiz--question
         - stacked
-        - has-limit
-      data-limit-type: exactly
-      data-limit: '3'
     '#options':
       136696: 'Manage financial information -- <img src="/sites/carlsonschool.umn.edu/files/2023-04/money_icon_maroon.svg" alt="" aria-hidden="true" width="38" height="38" />'
       136701: 'Work with people -- <img src="/sites/carlsonschool.umn.edu/files/2023-04/group_icon_maroon.svg" alt="" aria-hidden="true" width="38" height="38" />'
@@ -392,54 +392,30 @@ elements: |-
       136716: 'Solve complex problems -- <img src="/sites/carlsonschool.umn.edu/files/2023-04/puzzle_icon_maroon.svg" alt="" aria-hidden="true" width="38" height="38" />'
       136721: 'Be creative -- <img src="/sites/carlsonschool.umn.edu/files/2023-04/lightbulb_icon_maroon.svg" alt="" aria-hidden="true" width="38" height="38" />'
     '#options__properties':
-      136696:
+      214421:
         '#wrapper_attributes':
           class:
             - 'quiz--answer col-12 '
         '#attributes':
           class:
-            - question-7-answer-1
-            - question-136726-answer-136696
-      136701:
+            - question-6-answer-1
+            - question-214436-answer-214421
+      214426:
         '#wrapper_attributes':
           class:
             - 'quiz--answer col-12 '
         '#attributes':
           class:
-            - question-7-answer-2
-            - question-136726-answer-136701
-      136706:
+            - question-6-answer-2
+            - question-214436-answer-214426
+      214431:
         '#wrapper_attributes':
           class:
             - 'quiz--answer col-12 '
         '#attributes':
           class:
-            - question-7-answer-3
-            - question-136726-answer-136706
-      136711:
-        '#wrapper_attributes':
-          class:
-            - 'quiz--answer col-12 '
-        '#attributes':
-          class:
-            - question-7-answer-4
-            - question-136726-answer-136711
-      136716:
-        '#wrapper_attributes':
-          class:
-            - 'quiz--answer col-12 '
-        '#attributes':
-          class:
-            - question-7-answer-5
-            - question-136726-answer-136716
-      136721:
-        '#wrapper_attributes':
-          class:
-            - 'quiz--answer col-12 '
-        '#attributes':
-          class:
-            - question-7-answer-6
-            - question-136726-answer-136721
+            - question-6-answer-3
+            - question-214436-answer-214431
     '#states': {  }
     '#required': true
     '#required_error': 'Please select an answer before proceeding'
@@ -465,36 +441,43 @@ elements: |-
     '#type': textfield
     '#title': 'First Name'
     '#placeholder': 'First Name'
-    '#required': false
     '#required_error': 'Please enter your first name'
   lastname:
     '#type': textfield
     '#title': 'Last Name'
     '#placeholder': 'Last Name'
-    '#required': false
     '#required_error': 'Please enter your last name'
   email:
     '#type': email
     '#title': Email
     '#placeholder': Email
-    '#required': false
     '#required_error': 'Please enter your email address'
   phone:
     '#type': tel
     '#title': Phone
     '#placeholder': 'Mobile Phone'
-    '#required': false
     '#required_error': 'Please enter a valid phone number'
   country:
     '#type': select
     '#title': Country
     '#options': country_codes_us_first_
-    '#required': false
   zip:
     '#type': textfield
     '#title': 'Postal Code'
     '#placeholder': 'Postal Code'
-    '#required': false
+  student_type:
+    '#type': select
+    '#title': 'I am an'
+    '#options':
+      international: 'International student'
+      military: 'U.S. military member or veteran'
+  work_experience:
+    '#type': select
+    '#title': 'Work Experience'
+    '#options':
+      undergraduate: 'Current undergraduate student'
+      0-2: '0-2 years full-time experience'
+      2+: '2+ years full-time experience'
   allow_sms_content:
     '#type': checkbox
     '#title': 'Allow SMS Content'
@@ -516,6 +499,19 @@ elements: |-
   utm_campaign:
     '#type': hidden
     '#title': 'UTM Campaign'
+  visitorid:
+    '#type': hidden
+    '#title': visitorid
+  clientid:
+    '#type': hidden
+    '#title': clientid
+  subscriberid:
+    '#type': hidden
+    '#title': subscriberid
+    '#prepopulate': true
+  referralurl:
+    '#type': hidden
+    '#title': referralUrl
   actions:
     '#type': webform_actions
     '#title': 'Submit button(s)'
@@ -523,8 +519,70 @@ elements: |-
     '#attributes':
       class:
         - 'mb-5 d-inline-block'
-css: ''
-javascript: ''
+css: |
+  /* Improve accessibility of radio and checkbox options */
+  .quiz--answer {
+    position: relative;
+    text-align: center;
+  }
+
+  .quiz--answer input[type="radio"],
+  .quiz--answer input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    z-index: -1;
+  }
+
+  .quiz--answer label {
+    display: block;
+    width: 100%;
+    position: relative;
+    padding: 1rem;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    background-color: transparent;
+    text-align: center;
+  }
+
+  /* Center options in stacked layout */
+  .stacked .quiz--answer {
+    margin: 0 auto;
+    max-width: 90%;
+  }
+
+  /* Center options in three-column layout */
+  .three_cols .quiz--answer {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Focus ring for keyboard navigation */
+  .quiz--answer input[type="radio"]:focus + label,
+  .quiz--answer input[type="checkbox"]:focus + label {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+
+  /* Persistent visual indicator for selected options */
+  .quiz--answer input[type="radio"]:checked + label,
+  .quiz--answer input[type="checkbox"]:checked + label {
+    background-color: rgba(122, 0, 25, 0.1); /* Light maroon to match Carlson branding */
+    border-color: #7a0019; /* Maroon color for Carlson School */
+  }
+
+  /* Make icons non-interactive */
+  .quiz--answer label img {
+    pointer-events: none;
+  }
+
+  /* Center content inside labels */
+  .quiz--answer label img {
+    display: block;
+    margin: 0.5rem auto;
+  }
+javascript: ""
 settings:
   ajax: false
   ajax_scroll_top: form
@@ -739,7 +797,7 @@ handlers:
       file_data: true
       cast: false
       debug: false
-      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/3v67fv0/'
+      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/2cl9ym0/'
       completed_custom_data: ''
       updated_url: ''
       updated_custom_data: ''

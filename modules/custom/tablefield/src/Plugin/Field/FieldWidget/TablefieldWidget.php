@@ -9,7 +9,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Session\AccountProxy;
+use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 
@@ -27,20 +27,6 @@ use Symfony\Component\Validator\ConstraintViolationInterface;
 class TablefieldWidget extends WidgetBase implements ContainerFactoryPluginInterface {
 
   /**
-   * Drupal\Core\Session\AccountProxy definition.
-   *
-   * @var \Drupal\Core\Session\AccountProxy
-   */
-  protected $currentUser;
-
-  /**
-   * Drupal\Core\Config\ConfigFactoryInterface definition.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
    * {@inheritdoc}
    */
   public function __construct(
@@ -49,12 +35,10 @@ class TablefieldWidget extends WidgetBase implements ContainerFactoryPluginInter
     FieldDefinitionInterface $field_definition,
     array $settings,
     array $third_party_settings,
-    ConfigFactoryInterface $configFactory,
-    AccountProxy $current_user,
+    protected ConfigFactoryInterface $configFactory,
+    protected AccountInterface $currentUser,
   ) {
     parent::__construct($plugin_id, $plugin_definition, $field_definition, $settings, $third_party_settings);
-    $this->configFactory = $configFactory;
-    $this->currentUser = $current_user;
   }
 
   /**
@@ -195,13 +179,13 @@ class TablefieldWidget extends WidgetBase implements ContainerFactoryPluginInter
       $values = FALSE;
       if (isset($element['#value'])) {
         foreach ($element['#value']['tablefield']['table'] as $row) {
-          foreach ($row as $cell) {
-            if (empty($cell)) {
+          foreach ($row as $key => $cell) {
+            if ($key !== 'weight' && $cell === '') {
               $values = TRUE;
               break;
             }
           }
-        };
+        }
       }
       if (!$items->count() && $values == TRUE) {
         $form_state->setError($element, $this->t('@name field is required.', ['@name' => $this->fieldDefinition->getLabel()]));

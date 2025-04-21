@@ -4,7 +4,7 @@
  * Centennial News Hub page override - PROD ID 100316
  */
 #}
- <header role="banner" aria-label="Site header" class="bg-white">
+<header role="banner" aria-label="Site header" class="bg-white">
 {% include directory ~ '/templates/layout/umn-header.html.twig' %}
 {% if page.header %}
   {{ page.header }}
@@ -12,16 +12,16 @@
 </header>
 
 <div id="sticky-top-sentinel" style="height: 1px;"></div>
-<section role="banner" aria-label="Top navigation" class="sticky-top" id="top-navigation">
+<div role="region" aria-label="Persistent navigation" class="sticky-top" id="top-navigation">
 {% if page.navbar_primary %}
   {{ page.navbar_primary }}
 {% endif %}
 {% if page.navbar_secondary %}
   {{ page.navbar_secondary }}
 {% endif %}
-</section>
+</div>
 
-<main>
+<main role="main" aria-label="Page content">
 {% if page.local_tasks %}
   {{ page.local_tasks }}
 {% endif %}
@@ -55,18 +55,18 @@
   {% block content %}
     <div id="main" class="container">
       <div class="row row-offcanvas row-offcanvas-left clearfix">
-          <main{{ content_attributes }}>
-            <section class="section">
-              <a id="main-content" tabindex="-1"></a>
-              {% if node %}
-                {# Hide the title #}
-              {% else %}
-                {{ page.page_title }}
-              {% endif %}
+        <main{{ content_attributes }}>
+          <section class="section">
+            <a id="main-content" tabindex="-1"></a>
+            {% if node %}
+              {# Hide the title #}
+            {% else %}
+              {{ page.page_title }}
+            {% endif %}
 
-              {{ page.content }}
-            </section>
-          </main>
+            {{ page.content }}
+          </section>
+        </main>
         {% if page.sidebar_first %}
           <div{{ sidebar_first_attributes }}>
             <aside class="section" role="complementary">
@@ -101,6 +101,8 @@
 </main>
 
 {# Beginning of footer #}
+<footer role="contentinfo" aria-label="Site links and info">
 {% include '@carlson_refresh/includes/footer.html.twig' %}
 
 {% include directory ~ '/templates/layout/umn-footer.html.twig' %}
+</footer>

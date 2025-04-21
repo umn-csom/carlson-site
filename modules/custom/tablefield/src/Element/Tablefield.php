@@ -5,14 +5,14 @@ namespace Drupal\tablefield\Element;
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\Element\FormElement;
+use Drupal\Core\Render\Element\FormElementBase;
 
 /**
  * Provides a form element for tabular data.
  *
  * @FormElement("tablefield")
  */
-class Tablefield extends FormElement {
+class Tablefield extends FormElementBase {
 
   /**
    * {@inheritdoc}
@@ -157,14 +157,14 @@ class Tablefield extends FormElement {
         '#attributes' => [
           'class' => ['tablefield-addrow'],
         ],
-        '#submit' => [[get_called_class(), 'submitCallbackRebuild']],
+        '#submit' => [[static::class, 'submitCallbackRebuild']],
         '#limit_validation_errors' => [
           array_merge($parents, ['tablefield', 'rebuild', 'cols']),
           array_merge($parents, ['tablefield', 'rebuild', 'rows']),
           array_merge($parents, ['tablefield', 'rebuild', 'rebuild']),
         ],
         '#ajax' => [
-          'callback' => 'Drupal\tablefield\Element\Tablefield::ajaxCallbackRebuild',
+          'callback' => [static::class, 'ajaxCallbackRebuild'],
           'progress' => ['type' => 'throbber', 'message' => NULL],
           'wrapper' => 'tablefield-' . $id . '-wrapper',
           'effect' => 'fade',
@@ -215,14 +215,14 @@ class Tablefield extends FormElement {
         '#attributes' => [
           'class' => ['tablefield-rebuild'],
         ],
-        '#submit' => [[get_called_class(), 'submitCallbackRebuild']],
+        '#submit' => [[static::class, 'submitCallbackRebuild']],
         '#limit_validation_errors' => [
           array_merge($parents, ['tablefield', 'rebuild', 'cols']),
           array_merge($parents, ['tablefield', 'rebuild', 'rows']),
           array_merge($parents, ['tablefield', 'rebuild', 'rebuild']),
         ],
         '#ajax' => [
-          'callback' => 'Drupal\tablefield\Element\Tablefield::ajaxCallbackRebuild',
+          'callback' => [static::class, 'ajaxCallbackRebuild'],
           'progress' => ['type' => 'throbber', 'message' => NULL],
           'wrapper' => 'tablefield-' . $id . '-wrapper',
           'effect' => 'fade',
@@ -265,7 +265,7 @@ class Tablefield extends FormElement {
 
       $element['tablefield']['paste']['paste_import'] = [
         '#type' => 'submit',
-        '#submit' => [[get_called_class(), 'submitCallbackRebuild']],
+        '#submit' => [[static::class, 'submitCallbackRebuild']],
         '#value' => t('Import & Rebuild'),
         '#name' => 'tablefield-paste-' . $id,
         '#attributes' => [
@@ -276,7 +276,7 @@ class Tablefield extends FormElement {
           array_merge($parents, ['tablefield', 'rebuild', 'rows']),
         ],
         '#ajax' => [
-          'callback' => 'Drupal\tablefield\Element\Tablefield::ajaxCallbackRebuild',
+          'callback' => [static::class, 'ajaxCallbackRebuild'],
           'progress' => ['type' => 'throbber', 'message' => NULL],
           'wrapper' => 'tablefield-' . $id . '-wrapper',
           'effect' => 'fade',
@@ -293,7 +293,7 @@ class Tablefield extends FormElement {
       ];
       $element['tablefield']['import']['csv'] = [
         '#name' => 'files[' . $id . ']',
-        '#title' => 'File upload',
+        '#title' => t('File upload'),
         '#type' => 'file',
       ];
 
@@ -304,13 +304,13 @@ class Tablefield extends FormElement {
         '#attributes' => [
           'class' => ['tablefield-rebuild'],
         ],
-        '#submit' => [[get_called_class(), 'submitCallbackRebuild']],
+        '#submit' => [[static::class, 'submitCallbackRebuild']],
         '#limit_validation_errors' => [
           array_merge($parents, ['tablefield', 'import', 'csv']),
           array_merge($parents, ['tablefield', 'import', 'import']),
         ],
         '#ajax' => [
-          'callback' => 'Drupal\tablefield\Element\Tablefield::ajaxCallbackRebuild',
+          'callback' => [static::class, 'ajaxCallbackRebuild'],
           'progress' => ['type' => 'throbber', 'message' => NULL],
           'wrapper' => 'tablefield-' . $id . '-wrapper',
           'effect' => 'fade',
