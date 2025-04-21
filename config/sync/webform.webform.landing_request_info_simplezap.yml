@@ -1,4 +1,4 @@
-uuid: 6bfc8972-3a76-4252-9225-eed003d7cb58
+uuid: d8137951-f349-4cf7-95e0-2100f0ef43ed
 langcode: en
 status: open
 dependencies: {  }
@@ -8,50 +8,32 @@ weight: 0
 uid: 49146
 template: false
 archive: false
-id: request_info_cemba_prog_finder
-title: 'Request Information Executive MBA '
-description: 'RFI form for the CEMBA program linked from the Program Finder Tool'
+id: landing_request_info_simplezap
+title: 'Landing Page Request Information: TEST with Simplified Zap'
+description: '<p>Form for testing with the simplified RFI zap</p>'
 categories: {  }
 elements: |-
+  markup:
+    '#type': webform_markup
+    '#admin_title': Title
+    '#markup': |-
+      <h2 style="font-size: 2.4rem; font-weight: bold">Request information</h2>
+
+      <p>Complete this form to receive information about coursework, admissions, tuition, and more.</p>
+
+      <p style="font-size: 1.2rem">*Required information</p>
   firstname:
     '#type': textfield
     '#title': 'First Name'
-    '#title_display': invisible
     '#placeholder': 'First Name'
     '#required': true
     '#required_error': 'Please enter your first name'
   lastname:
     '#type': textfield
     '#title': 'Last Name'
-    '#title_display': invisible
     '#placeholder': 'Last Name'
     '#required': true
     '#required_error': 'Please enter your last name'
-  email:
-    '#type': email
-    '#title': Email
-    '#title_display': invisible
-    '#placeholder': Email
-    '#required': true
-    '#required_error': 'Please enter your email address'
-  phone:
-    '#type': tel
-    '#title': Phone
-    '#title_display': invisible
-    '#placeholder': 'Mobile Phone'
-    '#required': true
-  zip:
-    '#type': textfield
-    '#title': 'Postal Code'
-    '#title_display': invisible
-    '#placeholder': 'Postal Code'
-    '#required': true
-  student_type:
-    '#type': select
-    '#title': 'I am an'
-    '#options':
-      international: 'International student'
-      military: 'U.S. military member or veteran'
   work_experience:
     '#type': select
     '#title': 'Work Experience'
@@ -59,50 +41,79 @@ elements: |-
       undergraduate: 'Current undergraduate student'
       0-2: '0-2 years full-time experience'
       2+: '2+ years full-time experience'
+  email:
+    '#type': email
+    '#title': Email
+    '#placeholder': Email
+    '#required': true
+    '#required_error': 'Please enter your email address'
+  phone:
+    '#type': tel
+    '#title': Phone
+    '#placeholder': 'Mobile Phone'
+    '#required': true
+    '#required_error': 'Please enter a valid phone number'
+  zip:
+    '#type': textfield
+    '#title': 'Postal Code'
+    '#placeholder': 'Postal Code'
+    '#required': true
   program:
     '#type': hidden
     '#title': Program
-    '#default_value': emba
-  clientid:
-    '#type': hidden
-    '#title': clientid
+    '#default_value': 'Full-Time MSBA'
   visitorid:
     '#type': hidden
     '#title': visitorid
-  interest:
+  clientid:
     '#type': hidden
-    '#title': Interest
-    '#default_value': 'program finder tool'
-  markup:
+    '#title': clientid
+  disclosure:
     '#type': webform_markup
     '#markup': '<p><sub>By submitting this form, I am agreeing that the Carlson School may contact me by phone and SMS text at the telephone number provided. I understand this consent is not a condition to attend the Carlson School. </sub><a href="https://privacy.umn.edu/"><sub>Privacy statement.</sub></a> <a href="/node/129371"><sub>Privacy Notice</sub></a><sub>.</sub></p>'
-  referralurl:
+  i_am_an:
+    '#type': select
+    '#title': 'I am an'
+    '#options':
+      international: 'International student'
+      military: 'U.S. military member or veteran'
+  program_format:
+    '#type': radios
+    '#title': 'I am interested in'
+    '#options':
+      'MS in Finance': 'MS in Finance'
+      'MS Finance - Research': 'MS in Finance Research Track'
+  utm_source:
     '#type': hidden
-    '#title': referralurl
+    '#title': 'UTM Source'
+    '#prepopulate': true
+  utm_medium:
+    '#type': hidden
+    '#title': 'UTM Medium'
+    '#prepopulate': true
+  utm_term:
+    '#type': hidden
+    '#title': 'UTM Term'
+    '#prepopulate': true
+  utm_content:
+    '#type': hidden
+    '#title': 'UTM Content'
+    '#prepopulate': true
+  utm_campaign:
+    '#type': hidden
+    '#title': 'UTM Campaign'
+    '#prepopulate': true
+  interest:
+    '#type': hidden
+    '#title': interest
+    '#default_value': simplifiedzap
   subscriberid:
     '#type': hidden
     '#title': subscriberid
     '#prepopulate': true
-  utm_campaign:
+  referralurl:
     '#type': hidden
-    '#title': utm_campaign
-    '#prepopulate': true
-  utm_content:
-    '#type': hidden
-    '#title': utm_content
-    '#prepopulate': true
-  utm_medium:
-    '#type': hidden
-    '#title': utm_medium
-    '#prepopulate': true
-  utm_source:
-    '#type': hidden
-    '#title': utm_source
-    '#prepopulate': true
-  utm_term:
-    '#type': hidden
-    '#title': utm_term
-    '#prepopulate': true
+    '#title': referralUrl
 css: ''
 javascript: ''
 settings:
@@ -208,7 +219,7 @@ settings:
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
   confirmation_type: url
-  confirmation_url: node/104726
+  confirmation_url: /graduate/masters/supply-chain-management/request-information/rfi-confirm
   confirmation_title: ''
   confirmation_message: ''
   confirmation_attributes: {  }
@@ -290,92 +301,7 @@ handlers:
   quick_capture:
     id: remote_post
     handler_id: quick_capture
-    label: 'Quick Capture'
-    notes: ''
-    status: false
-    conditions: {  }
-    weight: 0
-    settings:
-      method: POST
-      type: x-www-form-urlencoded
-      excluded_data:
-        serial: serial
-        sid: sid
-        token: token
-        created: created
-        completed: completed
-        changed: changed
-        in_draft: in_draft
-        current_page: current_page
-        uid: uid
-        langcode: langcode
-        webform_id: webform_id
-        entity_type: entity_type
-        entity_id: entity_id
-        locked: locked
-        sticky: sticky
-        notes: notes
-      custom_data: ''
-      custom_options: ''
-      file_data: true
-      cast: false
-      debug: false
-      completed_url: 'https://work.csom.umn.edu/carlsoninquirydataserviced8/qc'
-      completed_custom_data: ''
-      updated_url: ''
-      updated_custom_data: ''
-      deleted_url: ''
-      deleted_custom_data: ''
-      draft_created_url: ''
-      draft_created_custom_data: ''
-      draft_updated_url: ''
-      draft_updated_custom_data: ''
-      converted_url: ''
-      converted_custom_data: ''
-      message: ''
-      messages: {  }
-      error_url: ''
-  email_keri:
-    id: email
-    handler_id: email_keri
-    label: 'Email Keri'
-    notes: ''
-    status: true
-    conditions: {  }
-    weight: 0
-    settings:
-      states:
-        - completed
-      to_mail: kpoeppe@umn.edu
-      to_options: {  }
-      bcc_mail: ''
-      bcc_options: {  }
-      cc_mail: ''
-      cc_options: {  }
-      from_mail: _default
-      from_options: {  }
-      from_name: _default
-      reply_to: ''
-      return_path: ''
-      sender_mail: ''
-      sender_name: ''
-      subject: 'webform submission from Request Information Executive MBA NEW prog page'
-      body: _default
-      excluded_elements: {  }
-      ignore_access: false
-      exclude_empty: true
-      exclude_empty_checkbox: false
-      exclude_attachments: false
-      html: true
-      attachments: false
-      twig: false
-      theme_name: ''
-      parameters: {  }
-      debug: false
-  remote_post:
-    id: remote_post
-    handler_id: remote_post
-    label: 'Remote post to Zapier'
+    label: 'Push to zapier, RFI Simplified'
     notes: ''
     status: true
     conditions: {  }
@@ -401,13 +327,12 @@ handlers:
         locked: locked
         sticky: sticky
         notes: notes
-        metatag: metatag
       custom_data: ''
       custom_options: ''
       file_data: true
       cast: false
       debug: false
-      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/2wu36wa/'
+      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/2w4wpyp/'
       completed_custom_data: ''
       updated_url: ''
       updated_custom_data: ''
@@ -422,4 +347,41 @@ handlers:
       message: ''
       messages: {  }
       error_url: ''
+  email:
+    id: email
+    handler_id: email
+    label: Email
+    notes: ''
+    status: false
+    conditions: {  }
+    weight: 0
+    settings:
+      states:
+        - completed
+      to_mail: kpoeppe@umn.edu
+      to_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: _default
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: 'Webform submission from Request Information: Online MBA QC program landing page'
+      body: _default
+      excluded_elements: {  }
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: false
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: false
+      theme_name: ''
+      parameters: {  }
+      debug: false
 variants: {  }

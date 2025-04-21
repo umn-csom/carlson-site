@@ -46,6 +46,19 @@ elements: |-
     '#title_display': invisible
     '#placeholder': 'Postal Code'
     '#required': true
+  student_type:
+    '#type': select
+    '#title': 'I am an'
+    '#options':
+      international: 'International student'
+      military: 'U.S. military member or veteran'
+  work_experience:
+    '#type': select
+    '#title': 'Work Experience'
+    '#options':
+      undergraduate: 'Current undergraduate student'
+      0-2: '0-2 years full-time experience'
+      2+: '2+ years full-time experience'
   program:
     '#type': hidden
     '#title': program
@@ -56,21 +69,6 @@ elements: |-
   visitorid:
     '#type': hidden
     '#title': visitorid
-  quickcapturejs:
-    '#type': processed_text
-    '#text': |-
-      <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script>
-      	jQuery.getScript( "//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", function() {
-      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).length > 0) {
-      			document.getElementsByName('clientid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).split('.')[2];
-      		}
-      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).length > 0) {
-      			document.getElementsByName('visitorid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).split('.')[0];
-      		}
-      	});
-      </script>
-    '#format': full_html
   interest:
     '#type': hidden
     '#title': Interest
@@ -78,6 +76,33 @@ elements: |-
   markup:
     '#type': webform_markup
     '#markup': '<p><sup>By submitting this form, I am agreeing that the Carlson School and its agent, </sup><a href="https://carlsonschool.umn.edu/risepoint-partnership"><sup>Risepoint</sup></a><sup>, may email me or contact me regarding educational services by telephone and/or text message utilizing automated technology or a pre-recorded message at the telephone number provided above. I understand this consent is not a condition to attend the Carlson School. </sup><a href="https://privacy.umn.edu/"><sup>University of Minnesota privacy statement</sup></a><sup>. </sup><a href="https://policies.risepoint.com/privacy-main/"><sup>Risepoint privacy policy.</sup></a><sup> </sup><a href="/node/129371"><sup>Carlson School Privacy notice.</sup></a></p>'
+  referralurl:
+    '#type': hidden
+    '#title': referralurl
+  subscriberid:
+    '#type': hidden
+    '#title': subscriberid
+    '#prepopulate': true
+  utm_campaign:
+    '#type': hidden
+    '#title': utm_campaign
+    '#prepopulate': true
+  utm_content:
+    '#type': hidden
+    '#title': utm_content
+    '#prepopulate': true
+  utm_medium:
+    '#type': hidden
+    '#title': utm_medium
+    '#prepopulate': true
+  utm_source:
+    '#type': hidden
+    '#title': utm_source
+    '#prepopulate': true
+  utm_term:
+    '#type': hidden
+    '#title': utm_term
+    '#prepopulate': true
 css: ''
 javascript: ''
 settings:
@@ -267,7 +292,7 @@ handlers:
     handler_id: quick_capture
     label: 'Quick Capture'
     notes: ''
-    status: true
+    status: false
     conditions: {  }
     weight: 0
     settings:
@@ -315,7 +340,7 @@ handlers:
     handler_id: email_keri
     label: 'Email Keri'
     notes: ''
-    status: false
+    status: true
     conditions: {  }
     weight: 0
     settings:
@@ -347,4 +372,54 @@ handlers:
       theme_name: ''
       parameters: {  }
       debug: false
+  remote_post:
+    id: remote_post
+    handler_id: remote_post
+    label: 'Remote post to Zapier'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      method: POST
+      type: x-www-form-urlencoded
+      excluded_data:
+        serial: serial
+        sid: sid
+        token: token
+        created: created
+        completed: completed
+        changed: changed
+        in_draft: in_draft
+        current_page: current_page
+        remote_addr: remote_addr
+        uid: uid
+        langcode: langcode
+        webform_id: webform_id
+        entity_type: entity_type
+        entity_id: entity_id
+        locked: locked
+        sticky: sticky
+        notes: notes
+        metatag: metatag
+      custom_data: ''
+      custom_options: ''
+      file_data: true
+      cast: false
+      debug: false
+      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/2wu36wa/'
+      completed_custom_data: ''
+      updated_url: ''
+      updated_custom_data: ''
+      deleted_url: ''
+      deleted_custom_data: ''
+      draft_created_url: ''
+      draft_created_custom_data: ''
+      draft_updated_url: ''
+      draft_updated_custom_data: ''
+      converted_url: ''
+      converted_custom_data: ''
+      message: ''
+      messages: {  }
+      error_url: ''
 variants: {  }

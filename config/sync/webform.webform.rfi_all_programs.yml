@@ -1,49 +1,80 @@
-uuid: 6bfc8972-3a76-4252-9225-eed003d7cb58
+uuid: 64f3aa27-acb9-47ff-9107-292f9cdb5f5c
 langcode: en
 status: open
 dependencies: {  }
 open: null
 close: null
 weight: 0
-uid: 49146
+uid: 51021
 template: false
 archive: false
-id: request_info_cemba_prog_finder
-title: 'Request Information Executive MBA '
-description: 'RFI form for the CEMBA program linked from the Program Finder Tool'
+id: rfi_all_programs
+title: 'Landing Page Request Information: Graduate Programs'
+description: '<p>RFI form for Graduate Programs (with undecided option)</p>'
 categories: {  }
 elements: |-
+  markup:
+    '#type': webform_markup
+    '#admin_title': Title
+    '#markup': '<h2><strong>Request information</strong></h2><p>Complete this form to receive information about coursework, admissions, tuition, and more.</p><p>*Required information</p>'
+  program:
+    '#type': select
+    '#title': 'Program of Interest'
+    '#options':
+      UNDECIDED: Undecided
+      FTMBA: 'Full-Time MBA'
+      STEMBA: 'Management Science MBA'
+      EMBA: 'Executive MBA'
+      OMBA: 'Online MBA'
+      PTMBA: 'Part-Time MBA'
+      MACC: 'Master of Accountancy'
+      MABA: 'Online Master of Applied Business Analytics'
+      FTMSBA: 'Master of Science in Business Analytics'
+      MBT: 'Online Master of Business Taxation'
+      FINANCEMS: 'Master of Science in Finance'
+      MAHRIR: 'Master of Human Resources & Industrial Relations'
+      MSMK: 'Master of Marketing'
+      SUPPLYCHAINMS: 'Master of Science in Supply Chain Management'
+    '#required': true
+    '#required_error': 'Please make a selection'
+  program_format:
+    '#type': radios
+    '#title': 'I am interested in'
+    '#options':
+      'MS in Finance': 'MS in Finance'
+      'MS Finance - Research': 'MS Finance - Research'
+    '#states':
+      visible:
+        ':input[name="program"]':
+          value: FINANCEMS
+    '#required': true
   firstname:
     '#type': textfield
     '#title': 'First Name'
-    '#title_display': invisible
     '#placeholder': 'First Name'
     '#required': true
     '#required_error': 'Please enter your first name'
   lastname:
     '#type': textfield
     '#title': 'Last Name'
-    '#title_display': invisible
     '#placeholder': 'Last Name'
     '#required': true
     '#required_error': 'Please enter your last name'
   email:
     '#type': email
     '#title': Email
-    '#title_display': invisible
     '#placeholder': Email
     '#required': true
     '#required_error': 'Please enter your email address'
   phone:
     '#type': tel
     '#title': Phone
-    '#title_display': invisible
     '#placeholder': 'Mobile Phone'
     '#required': true
+    '#required_error': 'Please enter a valid phone number'
   zip:
     '#type': textfield
     '#title': 'Postal Code'
-    '#title_display': invisible
     '#placeholder': 'Postal Code'
     '#required': true
   student_type:
@@ -59,49 +90,49 @@ elements: |-
       undergraduate: 'Current undergraduate student'
       0-2: '0-2 years full-time experience'
       2+: '2+ years full-time experience'
-  program:
-    '#type': hidden
-    '#title': Program
-    '#default_value': emba
-  clientid:
-    '#type': hidden
-    '#title': clientid
   visitorid:
     '#type': hidden
     '#title': visitorid
+  clientid:
+    '#type': hidden
+    '#title': clientid
   interest:
     '#type': hidden
     '#title': Interest
-    '#default_value': 'program finder tool'
-  markup:
-    '#type': webform_markup
-    '#markup': '<p><sub>By submitting this form, I am agreeing that the Carlson School may contact me by phone and SMS text at the telephone number provided. I understand this consent is not a condition to attend the Carlson School. </sub><a href="https://privacy.umn.edu/"><sub>Privacy statement.</sub></a> <a href="/node/129371"><sub>Privacy Notice</sub></a><sub>.</sub></p>'
-  referralurl:
-    '#type': hidden
-    '#title': referralurl
-  subscriberid:
-    '#type': hidden
-    '#title': subscriberid
-    '#prepopulate': true
   utm_campaign:
     '#type': hidden
     '#title': utm_campaign
-    '#prepopulate': true
-  utm_content:
-    '#type': hidden
-    '#title': utm_content
-    '#prepopulate': true
-  utm_medium:
-    '#type': hidden
-    '#title': utm_medium
     '#prepopulate': true
   utm_source:
     '#type': hidden
     '#title': utm_source
     '#prepopulate': true
+  utm_medium:
+    '#type': hidden
+    '#title': utm_medium
+    '#prepopulate': true
   utm_term:
     '#type': hidden
     '#title': utm_term
+    '#prepopulate': true
+  utm_content:
+    '#type': hidden
+    '#title': utm_content
+    '#prepopulate': true
+  disclosure:
+    '#type': webform_markup
+    '#wrapper_attributes':
+      class:
+        - small
+      style: 'order: 1'
+    '#admin_title': Disclosure
+    '#markup': '<p><sup>By submitting this form, I am agreeing that the Carlson School and its agent, </sup><a href="https://carlsonschool.umn.edu/risepoint-partnership"><sup>Risepoint</sup></a><sup>, may email me or contact me regarding educational services by telephone and/or text message utilizing automated technology or a pre-recorded message at the telephone number provided above. I understand this consent is not a condition to attend the Carlson School. </sup><a href="https://privacy.umn.edu/"><sup>University of Minnesota privacy statement</sup></a><sup>. </sup><a href="https://policies.risepoint.com/privacy-main/"><sup>Risepoint privacy policy.</sup></a><sup> </sup><a href="/node/129371"><sup>Carlson School Privacy notice.</sup></a></p>'
+  referralurl:
+    '#type': hidden
+    '#title': referralUrl
+  subscriberid:
+    '#type': hidden
+    '#title': subscriberid
     '#prepopulate': true
 css: ''
 javascript: ''
@@ -115,7 +146,7 @@ settings:
   page_submit_path: ''
   page_confirm_path: ''
   page_theme_name: ''
-  form_title: both
+  form_title: source_entity_webform
   form_submit_once: false
   form_open_message: ''
   form_close_message: ''
@@ -208,7 +239,7 @@ settings:
   draft_pending_single_message: ''
   draft_pending_multiple_message: ''
   confirmation_type: url
-  confirmation_url: node/104726
+  confirmation_url: /node/130181
   confirmation_title: ''
   confirmation_message: ''
   confirmation_attributes: {  }
@@ -290,93 +321,8 @@ handlers:
   quick_capture:
     id: remote_post
     handler_id: quick_capture
-    label: 'Quick Capture'
-    notes: ''
-    status: false
-    conditions: {  }
-    weight: 0
-    settings:
-      method: POST
-      type: x-www-form-urlencoded
-      excluded_data:
-        serial: serial
-        sid: sid
-        token: token
-        created: created
-        completed: completed
-        changed: changed
-        in_draft: in_draft
-        current_page: current_page
-        uid: uid
-        langcode: langcode
-        webform_id: webform_id
-        entity_type: entity_type
-        entity_id: entity_id
-        locked: locked
-        sticky: sticky
-        notes: notes
-      custom_data: ''
-      custom_options: ''
-      file_data: true
-      cast: false
-      debug: false
-      completed_url: 'https://work.csom.umn.edu/carlsoninquirydataserviced8/qc'
-      completed_custom_data: ''
-      updated_url: ''
-      updated_custom_data: ''
-      deleted_url: ''
-      deleted_custom_data: ''
-      draft_created_url: ''
-      draft_created_custom_data: ''
-      draft_updated_url: ''
-      draft_updated_custom_data: ''
-      converted_url: ''
-      converted_custom_data: ''
-      message: ''
-      messages: {  }
-      error_url: ''
-  email_keri:
-    id: email
-    handler_id: email_keri
-    label: 'Email Keri'
-    notes: ''
-    status: true
-    conditions: {  }
-    weight: 0
-    settings:
-      states:
-        - completed
-      to_mail: kpoeppe@umn.edu
-      to_options: {  }
-      bcc_mail: ''
-      bcc_options: {  }
-      cc_mail: ''
-      cc_options: {  }
-      from_mail: _default
-      from_options: {  }
-      from_name: _default
-      reply_to: ''
-      return_path: ''
-      sender_mail: ''
-      sender_name: ''
-      subject: 'webform submission from Request Information Executive MBA NEW prog page'
-      body: _default
-      excluded_elements: {  }
-      ignore_access: false
-      exclude_empty: true
-      exclude_empty_checkbox: false
-      exclude_attachments: false
-      html: true
-      attachments: false
-      twig: false
-      theme_name: ''
-      parameters: {  }
-      debug: false
-  remote_post:
-    id: remote_post
-    handler_id: remote_post
-    label: 'Remote post to Zapier'
-    notes: ''
+    label: 'Send to Zapier'
+    notes: 'Sends to zap named CSOM RFI'
     status: true
     conditions: {  }
     weight: 0
@@ -422,4 +368,41 @@ handlers:
       message: ''
       messages: {  }
       error_url: ''
+  email:
+    id: email
+    handler_id: email
+    label: Email
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      states:
+        - completed
+      to_mail: kpoeppe@umn.edu
+      to_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: _default
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: 'Webform submission from Request Information: Graduate Programs'
+      body: _default
+      excluded_elements: {  }
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: false
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: false
+      theme_name: ''
+      parameters: {  }
+      debug: false
 variants: {  }
