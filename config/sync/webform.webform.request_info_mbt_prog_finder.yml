@@ -16,7 +16,9 @@ elements: |-
   firstname:
     '#type': textfield
     '#title': 'First Name'
+    '#placeholder': 'First Name'
     '#required': true
+    '#required_error': 'Please enter your first name'
   first_name:
     '#type': hidden
     '#title': 'First Name'
@@ -25,74 +27,45 @@ elements: |-
   lastname:
     '#type': textfield
     '#title': 'Last Name'
+    '#placeholder': 'Last Name'
     '#required': true
+    '#required_error': 'Please enter your last name'
   last_name:
     '#type': hidden
     '#title': 'Last Name'
     '#description': ''
     '#required': 0
-  address_1:
-    '#type': textfield
-    '#title': 'Address 1'
-    '#description': ''
-    '#required': true
-  address_2:
-    '#type': textfield
-    '#title': 'Address 2'
-    '#description': ''
-  city:
-    '#type': textfield
-    '#title': City
-    '#description': ''
-    '#required': true
-  state_province:
-    '#type': textfield
-    '#title': State/Province
-    '#description': ''
-    '#required': true
-  zip:
-    '#type': textfield
-    '#title': Zip
-    '#description': ''
-    '#required': true
-  country:
-    '#type': textfield
-    '#title': Country
-    '#description': ''
   email:
     '#type': email
     '#title': Email
+    '#placeholder': Email
     '#required': true
+    '#required_error': 'Please enter your email'
   phone:
     '#type': tel
-    '#title': 'Mobile Phone'
+    '#title': Phone
+    '#placeholder': Phone
     '#required': true
-  how_can_we_contact_you:
-    '#description': ''
-    '#type': checkboxes
-    '#options':
-      01_key: Email
-      02_key: Phone
-      03_key: Mail
-    '#multiple': true
-    '#title': 'How can we contact you?'
-    '#required': true
-  area_of_interest_major_area_of_concentration_etc:
-    '#type': textarea
-    '#title': 'Area of Interest (major, area of concentration, etc.)'
-    '#description': ''
-  expected_date_of_enrollment:
+    '#required_error': 'Please enter a valid phone number'
+  zip:
     '#type': textfield
-    '#title': 'Expected Date of Enrollment'
-    '#description': ''
-  how_did_you_hear_about_this_program:
-    '#type': textarea
-    '#title': 'How did you hear about this program?'
-    '#description': ''
-  comments:
-    '#type': textarea
-    '#title': Comments
-    '#description': ''
+    '#title': 'Postal Code'
+    '#placeholder': 'Postal Code'
+    '#required': true
+    '#required_error': 'Please enter your postal code'
+  student_type:
+    '#type': select
+    '#title': 'I am an'
+    '#options':
+      international: 'International student'
+      military: 'U.S. military member or veteran'
+  work_experience:
+    '#type': select
+    '#title': 'Work Experience'
+    '#options':
+      undergraduate: 'Current undergraduate student'
+      0-2: '0-2 years full-time experience'
+      2+: '2+ years full-time experience'
   program:
     '#type': hidden
     '#title': Program
@@ -103,21 +76,6 @@ elements: |-
   visitorid:
     '#type': hidden
     '#title': visitorId
-  quickcapturejs:
-    '#type': processed_text
-    '#text': |-
-      <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script>
-      	jQuery.getScript( "//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", function() {
-      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).length > 0) {
-      			document.getElementsByName('clientid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).split('.')[2];
-      		}
-      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).length > 0) {
-      			document.getElementsByName('visitorid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).split('.')[0];
-      		}
-      	});
-      </script>
-    '#format': full_html
   interest:
     '#type': hidden
     '#title': Interest
@@ -125,6 +83,33 @@ elements: |-
   markup:
     '#type': webform_markup
     '#markup': '<p><sup>By submitting this form, I am agreeing that the Carlson School and its agent, </sup><a href="https://carlsonschool.umn.edu/risepoint-partnership"><sup>Risepoint</sup></a><sup>, may email me or contact me regarding educational services by telephone and/or text message utilizing automated technology or a pre-recorded message at the telephone number provided above. I understand this consent is not a condition to attend the Carlson School. </sup><a href="https://privacy.umn.edu/"><sup>University of Minnesota privacy statement</sup></a><sup>. </sup><a href="https://policies.risepoint.com/privacy-main/"><sup>Risepoint privacy policy.</sup></a><sup> </sup><a href="/node/129371"><sup>Carlson School Privacy notice.</sup></a></p>'
+  referralurl:
+    '#type': hidden
+    '#title': referralurl
+  subscriberid:
+    '#type': hidden
+    '#title': subscriberid
+    '#prepopulate': true
+  utm_campaign:
+    '#type': hidden
+    '#title': utm_campaign
+    '#prepopulate': true
+  utm_content:
+    '#type': hidden
+    '#title': utm_content
+    '#prepopulate': true
+  utm_medium:
+    '#type': hidden
+    '#title': utm_medium
+    '#prepopulate': true
+  utm_source:
+    '#type': hidden
+    '#title': utm_source
+    '#prepopulate': true
+  utm_term:
+    '#type': hidden
+    '#title': utm_term
+    '#prepopulate': true
 css: ''
 javascript: ''
 settings:
@@ -352,7 +337,7 @@ handlers:
     handler_id: quick_capture
     label: 'Quick Capture'
     notes: ''
-    status: true
+    status: false
     conditions: {  }
     weight: 2
     settings:
@@ -407,4 +392,91 @@ handlers:
       message: ''
       messages: {  }
       error_url: ''
+  remote_post:
+    id: remote_post
+    handler_id: remote_post
+    label: 'Remote post to Zapier'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 2
+    settings:
+      method: POST
+      type: x-www-form-urlencoded
+      excluded_data:
+        serial: serial
+        sid: sid
+        token: token
+        created: created
+        completed: completed
+        changed: changed
+        in_draft: in_draft
+        current_page: current_page
+        remote_addr: remote_addr
+        uid: uid
+        langcode: langcode
+        webform_id: webform_id
+        entity_type: entity_type
+        entity_id: entity_id
+        locked: locked
+        sticky: sticky
+        notes: notes
+        metatag: metatag
+      custom_data: ''
+      custom_options: ''
+      file_data: true
+      cast: false
+      debug: false
+      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/2wu36wa/'
+      completed_custom_data: ''
+      updated_url: ''
+      updated_custom_data: ''
+      deleted_url: ''
+      deleted_custom_data: ''
+      draft_created_url: ''
+      draft_created_custom_data: ''
+      draft_updated_url: ''
+      draft_updated_custom_data: ''
+      converted_url: ''
+      converted_custom_data: ''
+      message: ''
+      messages: {  }
+      error_url: ''
+  email:
+    id: email
+    handler_id: email
+    label: 'Email to Keri'
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 2
+    settings:
+      states:
+        - completed
+      to_mail: kpoeppe@umn.edu
+      to_options: {  }
+      bcc_mail: ''
+      bcc_options: {  }
+      cc_mail: ''
+      cc_options: {  }
+      from_mail: _default
+      from_options: {  }
+      from_name: _default
+      reply_to: ''
+      return_path: ''
+      sender_mail: ''
+      sender_name: ''
+      subject: _default
+      body: _default
+      excluded_elements: {  }
+      ignore_access: false
+      exclude_empty: true
+      exclude_empty_checkbox: false
+      exclude_attachments: false
+      html: true
+      attachments: false
+      twig: false
+      theme_name: ''
+      parameters: {  }
+      debug: false
 variants: {  }

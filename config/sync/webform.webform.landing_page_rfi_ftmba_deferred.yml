@@ -16,15 +16,15 @@ elements: |-
   markup:
     '#type': webform_markup
     '#admin_title': Title
-    '#markup': '<h2 style="font-size:2.4rem;"><strong>Request information</strong></h2><p>Complete this form to receive information about the Full-Time or Management Science MBA program''s coursework, admissions, tuition, deferred entry, and more.</p><p style="font-size:1.2rem;">*Required information</p>'
+    '#markup': '<h2 style="font-size:2.4rem;"><strong>Request information</strong></h2><p>Complete this form to receive information about the Full-Time or Management Science MBA program’s coursework, admissions, tuition, deferred entry option, and more.</p><p style="font-size:1.2rem;">*Required information</p>'
   program:
     '#type': radios
     '#title': Program
     '#options':
-      ftmba: |
+      FTMBA: |
         Full-Time MBA -- The Carlson MBA
         Program provides a blend of coursework and hands-on experiences to give students the tools they need to build bright careers in their chosen fields.
-      stemba: "Management Science MBA (STEM) -- The Management Science MBA (STEM-designated) is a Full-time MBA degree that covers traditional management topics across business disciplines while developing a specific set of skills, including statistical modeling, analytics, programming, forecasting, and operations research.\_"
+      STEMBA: "Management Science MBA (STEM) -- The Management Science MBA (STEM-designated) is a Full-time MBA degree that covers traditional management topics across business disciplines while developing a specific set of skills, including statistical modeling, analytics, programming, forecasting, and operations research.\_"
     '#options_display': side_by_side
     '#options_description_display': help
     '#required': true
@@ -110,27 +110,25 @@ elements: |-
       2005: '2005'
     '#required': true
     '#required_error': 'Please enter the year of your undergraduate graduation'
+  student_type:
+    '#type': select
+    '#title': 'I am an'
+    '#options':
+      international: 'International student'
+      military: 'U.S. military member or veteran'
+  work_experience:
+    '#type': select
+    '#title': 'Work Experience'
+    '#options':
+      undergraduate: 'Current undergraduate student'
+      0-2: '0-2 years full-time experience'
+      2+: '2+ years full-time experience'
   visitorid:
     '#type': hidden
     '#title': visitorid
   clientid:
     '#type': hidden
     '#title': clientid
-  quickcapturejs:
-    '#type': processed_text
-    '#text': |-
-      <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script>
-      	jQuery.getScript( "//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", function() {
-      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).length > 0) {
-      			document.getElementsByName('clientid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).split('.')[2];
-      		}
-      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).length > 0) {
-      			document.getElementsByName('visitorid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).split('.')[0];
-      		}
-      	});
-      </script>
-    '#format': full_html
   undergraduate_institution:
     '#type': hidden
     '#title': 'Undergraduate Institution'
@@ -138,6 +136,32 @@ elements: |-
   disclosure:
     '#type': webform_markup
     '#markup': '<p><sub>By submitting this form, I am agreeing that the Carlson School may contact me by phone and SMS text at the telephone number provided. I understand this consent is not a condition to attend the Carlson School. </sub><a href="https://privacy.umn.edu/"><sub>Privacy statement.</sub></a> <a href="/node/129371"><sub>Privacy Notice</sub></a><sub>.</sub></p>'
+  utm_content:
+    '#type': hidden
+    '#title': utm_content
+    '#prepopulate': true
+  utm_source:
+    '#type': hidden
+    '#title': utm_source
+    '#prepopulate': true
+  utm_medium:
+    '#type': hidden
+    '#title': utm_medium
+    '#prepopulate': true
+  utm_term:
+    '#type': hidden
+    '#title': utm_term
+  utm_campaign:
+    '#type': hidden
+    '#title': utm_campaign
+    '#prepopulate': true
+  subscriberid:
+    '#type': hidden
+    '#title': subscriberid
+    '#prepopulate': true
+  referralurl:
+    '#type': hidden
+    '#title': referralUrl
 css: ''
 javascript: ''
 settings:
@@ -375,7 +399,7 @@ handlers:
     handler_id: email
     label: Email
     notes: ''
-    status: false
+    status: true
     conditions: {  }
     weight: 0
     settings:
@@ -394,7 +418,7 @@ handlers:
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: 'Webform submission from Request Information: FTMBA QC program landing page (NEW FORM TESTING)'
+      subject: 'Webform submission from Request Information: FTMBA QC program landing page'
       body: _default
       excluded_elements: {  }
       ignore_access: false
@@ -421,9 +445,7 @@ handlers:
       excluded_data:
         serial: serial
         sid: sid
-        uuid: uuid
         token: token
-        uri: uri
         created: created
         completed: completed
         changed: changed

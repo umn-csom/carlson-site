@@ -26,26 +26,27 @@ elements: |-
     '#type': select
     '#title': 'Program of Interest'
     '#options':
+      UNDECIDED: Undecided
       'Part-Time MBA': 'Part-Time MBA'
       'Online MBA': 'Online MBA'
       'Executive MBA': 'Executive MBA'
       'Applied Business Analytics': 'Applied Business Analytics'
-      'Business Taxation': 'Business Taxation'
-      'Human Resources & Industrial Relations': 'Human Resources & Industrial Relations'
-      'Supply Chain Management': 'Supply Chain Management'
-      'Corporate Financial Management Certificate': 'Corporate Financial Management Certificate'
-      'Entrepreneurship & Innovation Certificate': 'Entrepreneurship & Innovation Certificate'
-      'Leadership for Managers Certificate': 'Leadership for Managers Certificate'
-      'Medical Industry Certificate': 'Medical Industry Certificate'
-      'Strategic Management Certificate': 'Strategic Management Certificate'
-      'Strategic Marketing Certificate': 'Strategic Marketing Certificate'
-      'Supply Chain Management for the Medical & Health Sector Certificate': 'Supply Chain Management for the Medical & Health Sector Certificate'
-      'Sustainable Environmental': 'Sustainable Environmental, Social and Governance Leadership Certificate'
-      'Taxation Certificate': 'Taxation Certificate'
-      'International Taxation Certificate': 'International Taxation Certificate'
-      'Closely-Held Business Taxation Certificate': 'Closely-Held Business Taxation Certificate'
-      'Tax Executives Certificate': 'Tax Executives Certificate'
-      'High-Net Worth Individual Taxation Certificate': 'High-Net Worth Individual Taxation Certificate'
+      MBT: 'Business Taxation'
+      MAHRIR: 'Human Resources & Industrial Relations'
+      SUPPLYCHAINMS: 'Supply Chain Management'
+      FINCERT: 'Corporate Financial Management Certificate'
+      ENTRECERT: 'Entrepreneurship & Innovation Certificate'
+      LEADCERT: 'Leadership for Managers Certificate'
+      MILICERT: 'Medical Industry Certificate'
+      MGMTCERT: 'Strategic Management Certificate'
+      MKTGCERT: 'Strategic Marketing Certificate'
+      SCMEDCERT: 'Supply Chain Management for the Medical & Health Sector Certificate'
+      SESGCERT: 'Sustainable Environmental, Social and Governance Leadership Certificate'
+      TXCERT: 'Taxation Certificate'
+      ITXCERT: 'International Taxation Certificate'
+      CHTXCERT: 'Closely-Held Business Taxation Certificate'
+      EXTXCERT: 'Tax Executives Certificate'
+      HNWITXCERT: 'High-Net Worth Individual Taxation Certificate'
     '#required': true
   firstname:
     '#type': textfield
@@ -86,6 +87,8 @@ elements: |-
       'Best Buy Company, Inc.': 'Best Buy Company, Inc.'
       'Boston Scientific Corporation': 'Boston Scientific Corporation'
       'Cargill, Inc.': 'Cargill, Inc.'
+      'CLA (CliftonLarsonAllen)': 'CLA (CliftonLarsonAllen)'
+      'Essentia Health': 'Essentia Health'
       'Ecolab Inc.': 'Ecolab Inc.'
       'Flint Hills Resources': 'Flint Hills Resources'
       'H.B. Fuller Company': 'H.B. Fuller Company'
@@ -100,31 +103,22 @@ elements: |-
       'Target Corporation': 'Target Corporation'
       'The Tile Shop': 'The Tile Shop'
       'Toro Company': 'The Toro Company'
+      'U.S. Bank National Association': 'U.S. Bank National Association'
       'Winnebago Industries': 'Winnebago Industries'
       'Wipfli LLP': 'Wipfli LLP'
     '#required': true
+  student_type:
+    '#type': select
+    '#title': 'I am an'
+    '#options':
+      international: 'International student'
+      military: 'U.S. military member or veteran'
   visitorid:
     '#type': hidden
     '#title': visitorid
   clientid:
     '#type': hidden
     '#title': clientid
-  quickcapturejs:
-    '#type': processed_text
-    '#text': |+
-      <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script>
-      	jQuery.getScript( "//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", function() {
-      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).length > 0) {
-      			document.getElementsByName('clientid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).split('.')[2];
-      		}
-      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).length > 0) {
-      			document.getElementsByName('visitorid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).split('.')[0];
-      		}
-      	});
-      </script>
-
-    '#format': full_html
   interest:
     '#type': hidden
     '#title': Interest
@@ -157,6 +151,13 @@ elements: |-
       style: 'order: 1'
     '#admin_title': 'Wiley Disclosure'
     '#markup': '<hr><p><sup>By submitting this form, I am agreeing that the Carlson School and its agent, </sup><a href="https://carlsonschool.umn.edu/risepoint-partnership"><sup>Risepoint</sup></a><sup>, may email me or contact me regarding educational services by telephone and/or text message utilizing automated technology or a pre-recorded message at the telephone number provided above. I understand this consent is not a condition to attend the Carlson School. </sup><a href="https://privacy.umn.edu/"><sup>University of Minnesota privacy statement</sup></a><sup>. </sup><a href="https://policies.risepoint.com/privacy-main/"><sup>Risepoint privacy policy.</sup></a><sup> </sup><a href="/node/129371"><sup>Carlson School Privacy notice.</sup></a></p>'
+  subscriberid:
+    '#type': hidden
+    '#title': subscriberid
+    '#prepopulate': true
+  referralurl:
+    '#type': hidden
+    '#title': referralUrl
 css: ''
 javascript: ''
 settings:
@@ -179,7 +180,7 @@ settings:
   form_confidential_message: ''
   form_disable_remote_addr: false
   form_convert_anonymous: false
-  form_prepopulate: true
+  form_prepopulate: false
   form_prepopulate_source_entity: false
   form_prepopulate_source_entity_required: false
   form_prepopulate_source_entity_type: ''
@@ -394,7 +395,7 @@ handlers:
     handler_id: email
     label: Email
     notes: ''
-    status: false
+    status: true
     conditions: {  }
     weight: 0
     settings:

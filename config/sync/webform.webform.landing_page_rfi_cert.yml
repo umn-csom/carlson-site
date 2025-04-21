@@ -22,20 +22,20 @@ elements: |-
     '#title': "I'm Interested In a Certificate in"
     '#options':
       'Graduate Business Certificates':
-        'Corporate Financial Management': 'Corporate Financial Management'
-        'Entrepreneurship &amp; Innovation': 'Entrepreneurship and Innovation'
-        'Leadership for Managers': 'Leadership for Managers'
-        'Medical Industry': 'Medical Industry'
-        'Strategic Management': 'Strategic Management'
-        'Strategic Marketing': 'Strategic Marketing'
-        'Supply Chain Management for the Medical and Health Sector': 'Supply Chain Management for the Medical and Health Sector'
-        'Sustainable Environmental, Social and Governance Leadership': 'Sustainable Environmental, Social and Governance Leadership'
+        FINCERT: 'Corporate Financial Management'
+        ENTRECERT: 'Entrepreneurship and Innovation'
+        LEADCERT: 'Leadership for Managers'
+        MILICERT: 'Medical Industry'
+        MGMTCERT: 'Strategic Management'
+        MKTCERT: 'Strategic Marketing'
+        SCMEDCERT: 'Supply Chain Management for the Medical and Health Sector'
+        SESGCERT: 'Sustainable Environmental, Social and Governance Leadership'
       'Graduate Taxation Certificates':
-        'Closely-Held Business Taxation': 'Closely-Held Business Taxation'
-        'International Taxation': 'International Taxation'
-        'High-Net Worth Individual Taxation': 'High-Net Worth Individual Taxation'
-        'Tax Executives': 'Tax Executives'
-        Taxation: Taxation
+        CHTXCERT: 'Closely-Held Business Taxation'
+        ITXCERT: 'International Taxation'
+        HNWITXCERT: 'High-Net Worth Individual Taxation'
+        EXTXCERT: 'Tax Executives'
+        TXCERT: Taxation
     '#empty_option': '- Select Certificate -'
     '#required': true
     '#wrapper_attributes':
@@ -70,27 +70,25 @@ elements: |-
     '#title': 'Postal Code'
     '#placeholder': 'Postal Code'
     '#required': true
+  student_type:
+    '#type': select
+    '#title': 'I am an'
+    '#options':
+      international: 'International student'
+      military: 'U.S. military member or veteran'
+  work_experience:
+    '#type': select
+    '#title': 'Work Experience'
+    '#options':
+      undergraduate: 'Current undergraduate student'
+      0-2: '0-2 years full-time experience'
+      2+: '2+ years full-time experience'
   visitorid:
     '#type': hidden
     '#title': visitorid
   clientid:
     '#type': hidden
     '#title': clientid
-  quickcapturejs:
-    '#type': processed_text
-    '#text': |-
-      <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script>
-      	jQuery.getScript( "//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", function() {
-      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).length > 0) {
-      			document.getElementsByName('clientid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).split('.')[2];
-      		}
-      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).length > 0) {
-      			document.getElementsByName('visitorid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).split('.')[0];
-      		}
-      	});
-      </script>
-    '#format': full_html
   disclosure:
     '#type': webform_markup
     '#wrapper_attributes':
@@ -99,6 +97,33 @@ elements: |-
       style: 'order: 1'
     '#admin_title': 'Wiley Disclosure'
     '#markup': '<hr><p>By submitting this form, I am providing my digital signature agreeing that the Carlson School and its agent, Risepoint, may email me or contact me regarding educational services by telephone utilizing automated technology or a pre-recorded message at the telephone number(s) provided above. I understand this consent is not a condition to attend the Carlson School or to purchase any other goods or services. <a href="https://carlsonschool.umn.edu/risepoint-partnership" target="_blank">Learn more about Risepoint and their Privacy Policy.</a></p>'
+  subscriberid:
+    '#type': hidden
+    '#title': subscriberid
+    '#prepopulate': true
+  utm_content:
+    '#type': hidden
+    '#title': utm_content
+    '#prepopulate': true
+  utm_source:
+    '#type': hidden
+    '#title': utm_source
+    '#prepopulate': true
+  utm_medium:
+    '#type': hidden
+    '#title': utm_medium
+    '#prepopulate': true
+  utm_term:
+    '#type': hidden
+    '#title': utm_term
+    '#prepopulate': true
+  utm_campaign:
+    '#type': hidden
+    '#title': utm_campaign
+    '#prepopulate': true
+  referralurl:
+    '#type': hidden
+    '#title': referralUrl
 css: ''
 javascript: ''
 settings:
@@ -288,7 +313,7 @@ handlers:
     handler_id: quick_capture
     label: Zapier
     notes: ''
-    status: true
+    status: false
     conditions: {  }
     weight: 0
     settings:
@@ -303,6 +328,7 @@ handlers:
         changed: changed
         in_draft: in_draft
         current_page: current_page
+        remote_addr: remote_addr
         uid: uid
         langcode: langcode
         webform_id: webform_id
@@ -336,7 +362,7 @@ handlers:
     handler_id: email
     label: Email
     notes: ''
-    status: false
+    status: true
     conditions: {  }
     weight: 0
     settings:
@@ -368,4 +394,54 @@ handlers:
       theme_name: ''
       parameters: {  }
       debug: false
+  remote_post:
+    id: remote_post
+    handler_id: remote_post
+    label: 'Remote post to Zap CSOM RFI '
+    notes: ''
+    status: true
+    conditions: {  }
+    weight: 0
+    settings:
+      method: POST
+      type: x-www-form-urlencoded
+      excluded_data:
+        serial: serial
+        sid: sid
+        token: token
+        created: created
+        completed: completed
+        changed: changed
+        in_draft: in_draft
+        current_page: current_page
+        remote_addr: remote_addr
+        uid: uid
+        langcode: langcode
+        webform_id: webform_id
+        entity_type: entity_type
+        entity_id: entity_id
+        locked: locked
+        sticky: sticky
+        notes: notes
+        metatag: metatag
+      custom_data: ''
+      custom_options: ''
+      file_data: true
+      cast: false
+      debug: false
+      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/2wu36wa/'
+      completed_custom_data: ''
+      updated_url: ''
+      updated_custom_data: ''
+      deleted_url: ''
+      deleted_custom_data: ''
+      draft_created_url: ''
+      draft_created_custom_data: ''
+      draft_updated_url: ''
+      draft_updated_custom_data: ''
+      converted_url: ''
+      converted_custom_data: ''
+      message: ''
+      messages: {  }
+      error_url: ''
 variants: {  }
