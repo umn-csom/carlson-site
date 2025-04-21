@@ -9,8 +9,8 @@ uid: 51021
 template: false
 archive: false
 id: campus
-title: 'Landing Page Request Information: Campus Ground Game'
-description: '<p>RFI form for Campus Ground Game (multi-select)</p>'
+title: 'Landing Page Request Information: Early Career Programs'
+description: '<p>RFI form for Campus Ground Game &nbsp;(with undecided option)</p>'
 categories: {  }
 elements: |-
   markup:
@@ -21,22 +21,26 @@ elements: |-
     '#type': select
     '#title': 'Program of Interest'
     '#options':
-      Undecided: Undecided
-      demba: 'Deferred Entry MBA'
-      macc: 'Master of Accountancy'
-      ftmsba: 'Master of Science in Business Analytics'
-      msf: 'Master of Science in Finance'
-      mhrir: 'Master of Human Resources & Industrial Relations'
-      msmk: 'Master of Marketing'
+      UNDECIDED: Undecided
+      FTMBA: 'Full-Time MBA'
+      MACC: 'Master of Accountancy'
+      FTMSBA: 'Master of Science in Business Analytics'
+      MBT: 'Master of Business Taxation'
+      FINANCEMS: 'Master of Science in Finance'
+      MAHRIR: 'Master of Human Resources & Industrial Relations'
+      MSMK: 'Master of Marketing'
     '#required': true
     '#required_error': 'Please make a selection'
-  work_experience:
-    '#type': select
-    '#title': 'Work Experience'
+  program_format:
+    '#type': radios
+    '#title': 'I am interested in'
     '#options':
-      undergraduate: 'Current undergraduate student'
-      0-2: '0-2 years full-time experience'
-      2+: '2+ years full-time experience'
+      'MS in Finance': 'MS in Finance'
+      'MS Finance - Research': 'MS Finance - Research'
+    '#states':
+      visible:
+        ':input[name="program"]':
+          value: FINANCEMS
   firstname:
     '#type': textfield
     '#title': 'First Name'
@@ -49,12 +53,6 @@ elements: |-
     '#placeholder': 'Last Name'
     '#required': true
     '#required_error': 'Please enter your last name'
-  student_type:
-    '#type': select
-    '#title': 'I am an'
-    '#options':
-      international: 'International student'
-      military: 'U.S. military member or veteran'
   email:
     '#type': email
     '#title': Email
@@ -72,28 +70,25 @@ elements: |-
     '#title': 'Postal Code'
     '#placeholder': 'Postal Code'
     '#required': true
+  student_type:
+    '#type': select
+    '#title': 'I am an'
+    '#options':
+      international: 'International student'
+      military: 'U.S. military member or veteran'
+  work_experience:
+    '#type': select
+    '#title': 'Work Experience'
+    '#options':
+      undergraduate: 'Current undergraduate student'
+      0-2: '0-2 years full-time experience'
+      2+: '2+ years full-time experience'
   visitorid:
     '#type': hidden
     '#title': visitorid
   clientid:
     '#type': hidden
     '#title': clientid
-  quickcapturejs:
-    '#type': processed_text
-    '#text': |+
-      <script type="text/javascript"  src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-      <script>
-      	jQuery.getScript( "//cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js", function() {
-      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).length > 0) {
-      			document.getElementsByName('clientid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_ga") })[0]).split('.')[2];
-      		}
-      		if(Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).length > 0) {
-      			document.getElementsByName('visitorid')[0].value = Cookies.get(Object.keys(Cookies.get()).filter(function(k){ return ~k.indexOf("_pk_id") })[0]).split('.')[0];
-      		}
-      	});
-      </script>
-
-    '#format': full_html
   interest:
     '#type': hidden
     '#title': Interest
@@ -126,6 +121,13 @@ elements: |-
       style: 'order: 1'
     '#admin_title': Disclosure
     '#markup': '<p><sup>By submitting this form, I am agreeing that the Carlson School and its agent, </sup><a href="https://carlsonschool.umn.edu/risepoint-partnership"><sup>Risepoint</sup></a><sup>, may email me or contact me regarding educational services by telephone and/or text message utilizing automated technology or a pre-recorded message at the telephone number provided above. I understand this consent is not a condition to attend the Carlson School. </sup><a href="https://privacy.umn.edu/"><sup>University of Minnesota privacy statement</sup></a><sup>. </sup><a href="https://policies.risepoint.com/privacy-main/"><sup>Risepoint privacy policy.</sup></a><sup> </sup><a href="/node/129371"><sup>Carlson School Privacy notice.</sup></a></p>'
+  referralurl:
+    '#type': hidden
+    '#title': referralUrl
+  subscriberid:
+    '#type': hidden
+    '#title': subscriberid
+    '#prepopulate': true
 css: ''
 javascript: ''
 settings:
@@ -148,7 +150,7 @@ settings:
   form_confidential_message: ''
   form_disable_remote_addr: false
   form_convert_anonymous: false
-  form_prepopulate: true
+  form_prepopulate: false
   form_prepopulate_source_entity: false
   form_prepopulate_source_entity_required: false
   form_prepopulate_source_entity_type: ''
@@ -314,7 +316,7 @@ handlers:
     id: remote_post
     handler_id: quick_capture
     label: 'Send to Zapier'
-    notes: ''
+    notes: 'Sends to zap named CSOM RFI'
     status: true
     conditions: {  }
     weight: 0
@@ -330,6 +332,7 @@ handlers:
         changed: changed
         in_draft: in_draft
         current_page: current_page
+        remote_addr: remote_addr
         uid: uid
         langcode: langcode
         webform_id: webform_id
@@ -338,12 +341,13 @@ handlers:
         locked: locked
         sticky: sticky
         notes: notes
+        metatag: metatag
       custom_data: ''
       custom_options: ''
       file_data: true
       cast: false
       debug: false
-      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/30g5loj/'
+      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/2wu36wa/'
       completed_custom_data: ''
       updated_url: ''
       updated_custom_data: ''
@@ -363,7 +367,7 @@ handlers:
     handler_id: email
     label: Email
     notes: ''
-    status: false
+    status: true
     conditions: {  }
     weight: 0
     settings:
@@ -382,7 +386,7 @@ handlers:
       return_path: ''
       sender_mail: ''
       sender_name: ''
-      subject: 'Webform submission from Request Information: Corporate Discount Drupal form'
+      subject: 'Webform submission from Request Information: Campus Ground Game'
       body: _default
       excluded_elements: {  }
       ignore_access: false
@@ -395,55 +399,4 @@ handlers:
       theme_name: ''
       parameters: {  }
       debug: false
-  s:
-    id: remote_post
-    handler_id: s
-    label: s
-    notes: ''
-    status: false
-    conditions: {  }
-    weight: 0
-    settings:
-      method: POST
-      type: x-www-form-urlencoded
-      excluded_data:
-        serial: serial
-        sid: sid
-        uuid: uuid
-        token: token
-        uri: uri
-        created: created
-        completed: completed
-        changed: changed
-        in_draft: in_draft
-        current_page: current_page
-        remote_addr: remote_addr
-        uid: uid
-        langcode: langcode
-        webform_id: webform_id
-        entity_type: entity_type
-        entity_id: entity_id
-        locked: locked
-        sticky: sticky
-        notes: notes
-      custom_data: ''
-      custom_options: ''
-      file_data: true
-      cast: false
-      debug: false
-      completed_url: 'https://hooks.zapier.com/hooks/catch/5850303/30g5loj/'
-      completed_custom_data: ''
-      updated_url: ''
-      updated_custom_data: ''
-      deleted_url: ''
-      deleted_custom_data: ''
-      draft_created_url: ''
-      draft_created_custom_data: ''
-      draft_updated_url: ''
-      draft_updated_custom_data: ''
-      converted_url: ''
-      converted_custom_data: ''
-      message: ''
-      messages: {  }
-      error_url: ''
 variants: {  }
