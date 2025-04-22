@@ -1375,7 +1375,7 @@ body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.5;
@@ -2689,6 +2689,30 @@ h2 {
     .site-nav__sl a:hover {
       color: inherit; }
 
+.crumbs {
+  display: block;
+  width: 100%;
+  max-width: 1340px;
+  padding: 0 2.5rem;
+  margin: 3rem auto; }
+  .crumbs * {
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 400;
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+  .crumbs li:only-child a,
+  .crumbs li:only-child span, .crumbs li:only-child::after,
+  .crumbs li:not(:last-child) a,
+  .crumbs li:not(:last-child) span,
+  .crumbs li:not(:last-child)::after {
+    color: #7a0019; }
+  .crumbs li:only-child::after,
+  .crumbs li:not(:last-child)::after {
+    content: ">";
+    margin: 0 4px; }
+
 .umn-search-form {
   margin: 8px 0 40px; }
 
@@ -2726,7 +2750,7 @@ ul li {
   margin-bottom: 1rem; }
 
 .ff-sans-serif {
-  font-family: "Open Sans", sans-serif; }
+  font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif; }
 
 .img-fluid,
 .view-display-id-top_feature .view-content > div {
@@ -2787,38 +2811,6 @@ ul li {
   position: absolute;
   left: 0;
   right: 0; }
-
-.breadcrumb {
-  background: transparent;
-  padding: 0;
-  margin: 0; }
-
-.breadcrumb-item {
-  margin: 0;
-  padding: 0; }
-  .breadcrumb-item,
-  .breadcrumb-item a,
-  .breadcrumb-item span {
-    font-weight: 400;
-    color: #7a0019;
-    min-width: 44px;
-    min-height: 44px;
-    display: inline-block; }
-  .breadcrumb-item::after {
-    content: ">";
-    padding: 0;
-    margin: 0; }
-  .breadcrumb-item + .breadcrumb-item {
-    padding-left: 4px; }
-    .breadcrumb-item + .breadcrumb-item::before {
-      display: none; }
-  .breadcrumb-item:last-child span {
-    color: #000; }
-  .breadcrumb-item:last-child::after {
-    content: "";
-    display: none; }
-  .breadcrumb-item:last-child:first-child {
-    display: none; }
 
 @media (min-width: 992px) {
   .basic-hero__title {
