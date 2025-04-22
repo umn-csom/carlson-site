@@ -99,9 +99,9 @@
   cursor: pointer;
   position: relative;
   gap: 15px; }
-  .quiz--answer:hover {
+  .quiz--answer:not(.disabled):not(.checked):hover {
     border-color: #878b92; }
-  .quiz--answer:has([type='radio']:focus-visible), .quiz--answer:has([type='checkbox']:focus-visible) {
+  .quiz--answer:has([type="radio"]:focus-visible), .quiz--answer:has([type="checkbox"]:focus-visible) {
     outline: 0;
     box-shadow: 0 0 0 1px #fff, 0 0 0 3px #17a2b8;
     z-index: 1;
@@ -112,7 +112,6 @@
     display: block;
     width: 100%;
     padding: 0;
-    cursor: pointer;
     border: 2px solid transparent;
     border-radius: 4px;
     background-color: transparent;
@@ -124,7 +123,7 @@
     margin: 0;
     cursor: pointer; }
     .quiz--answer label::before {
-      content: '';
+      content: "";
       position: absolute;
       inset: 0; }
   .quiz--answer input {
@@ -140,21 +139,21 @@
     border: 1px solid #85807d;
     display: grid;
     place-content: center; }
-    .quiz--answer input[type='radio']:focus, .quiz--answer input[type='radio']:focus::before, .quiz--answer input[type='radio']:focus-visible, .quiz--answer input[type='radio']:focus-visible::before, .quiz--answer input[type='checkbox']:focus, .quiz--answer input[type='checkbox']:focus::before, .quiz--answer input[type='checkbox']:focus-visible, .quiz--answer input[type='checkbox']:focus-visible::before {
+    .quiz--answer input[type="radio"]:focus, .quiz--answer input[type="radio"]:focus::before, .quiz--answer input[type="radio"]:focus-visible, .quiz--answer input[type="radio"]:focus-visible::before, .quiz--answer input[type="checkbox"]:focus, .quiz--answer input[type="checkbox"]:focus::before, .quiz--answer input[type="checkbox"]:focus-visible, .quiz--answer input[type="checkbox"]:focus-visible::before {
       outline: 0;
       box-shadow: none; }
-    .quiz--answer input[type='radio'] {
+    .quiz--answer input[type="radio"] {
       border-radius: 50%;
       margin: 0;
       margin: 1px;
       padding: 0 0 20px 20px;
       width: 0;
       height: 0; }
-      .quiz--answer input[type='radio']::before {
+      .quiz--answer input[type="radio"]::before {
         display: none; }
-      .quiz--answer input[type='radio']:checked {
+      .quiz--answer input[type="radio"]:checked {
         border-color: #7a0019; }
-        .quiz--answer input[type='radio']:checked::before {
+        .quiz--answer input[type="radio"]:checked::before {
           transform: scale(1); }
     .quiz--answer input[type="checkbox"] {
       border-radius: 2px; }
@@ -174,7 +173,7 @@
   .quiz--answer.checked {
     border-color: #7a0019; }
     .quiz--answer.checked::before {
-      content: '';
+      content: "";
       position: absolute;
       inset: 0;
       border: 1px solid #7a0019;
@@ -273,7 +272,7 @@
     .quiz--question.three_cols .quiz--answer input {
       margin: 0; }
     .quiz--question.three_cols .quiz--answer.checked::before {
-      content: '';
+      content: "";
       position: absolute;
       inset: 0;
       border: 1px solid #7a0019;
