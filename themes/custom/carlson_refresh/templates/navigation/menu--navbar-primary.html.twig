@@ -57,6 +57,8 @@
         {% set link_attrs = link_attrs|merge({
           'role': 'button',
           'data-toggle': 'dropdown',
+          'data-boundary': 'site-nav__p',
+          'data-display': 'static',
           'aria-haspopup': 'true',
           'aria-expanded': 'false',
         }) %}
@@ -95,7 +97,7 @@
       {% if item.below %}
         {% if is_top_level %}
           {% if is_with_megamenu %}
-            <div class="dropdown-animate dropdown-slide dropdown-menu dropdown-menu--mega-menu dropdown-menu-left">
+            <div class="dropdown-animate dropdown-slide dropdown-menu dropdown-menu--mega-menu">
               <div class="mega-menu-background"></div>
               {{ view_megamenu(item.url, 'before') }}
             </div>

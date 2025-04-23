@@ -7,6 +7,11 @@
     display: block;
   }
 
+  &__p,
+  &__s {
+    position: relative;
+  }
+
   // Nav primary
   &__p {
     background-color: $maroon;
@@ -122,15 +127,9 @@
   // Nav primary list link/button
   &__pl-btn,
   &__pl-lnk {
-    &.in-active-trail {
-      color: $navbar-dark-show-color;
-      background-color: $navbar-dark-show-bg-color;
-    }
 
     &:hover {
       text-decoration: none;
-      color: $navbar-dark-hover-color;
-      background-color: $navbar-dark-hover-bg-color;
     }
 
     &.has-dropdown {
@@ -145,12 +144,33 @@
         background-color: $navbar-dark-hover-bg-color;
       }
 
-      &:hover {
+      &:not([aria-expanded="true"]):hover {
         &::before {
           height: 0.4rem;
         }
       }
     }
+  }
+
+  &__ul:not(:has(.show)) .site-nav__pl-btn.in-active-trail,
+  &__ul:not(:has(.show)) .site-nav__pl-lnk.in-active-trail,
+  &__ul:has(.show) .site-nav__pl-btn[aria-expanded="true"],
+  &__ul:has(.show) .site-nav__pl-lnk[aria-expanded="true"] {
+    color: $navbar-dark-show-color;
+    background-color: $navbar-dark-show-bg-color;
+  }
+
+  &__ul:not(:has(.show)) .site-nav__pl-btn:hover,
+  &__ul:not(:has(.show)) .site-nav__pl-lnk:hover,
+  &__ul:not(:has(.show)) .site-nav__pl-btn:focus,
+  &__ul:not(:has(.show)) .site-nav__pl-lnk:focus,
+  &__ul:has(.show) .site-nav__pl-btn:not([aria-expanded="true"]):hover,
+  &__ul:has(.show) .site-nav__pl-lnk:not([aria-expanded="true"]):hover,
+  &__ul:has(.show) .site-nav__pl-btn:not([aria-expanded="true"]):focus,
+  &__ul:has(.show) .site-nav__pl-lnk:not([aria-expanded="true"]):focus {
+    color: $navbar-dark-hover-color;
+    background-color: $navbar-dark-hover-bg-color;
+    z-index: $zindex-dropdown + 1;
   }
 
   &__pl-btn {

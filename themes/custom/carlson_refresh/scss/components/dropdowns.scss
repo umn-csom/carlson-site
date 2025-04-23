@@ -1,4 +1,4 @@
-@import "../abstracts/variables";
+@import "../abstracts/import";
 
 .dropdown {
   &::before {
@@ -13,7 +13,7 @@
   }
 
   &:has(.dropdown-toggle:hover)::before {
-    height: .4rem;
+    height: 0.4rem;
   }
 
   &:has(.dropdown-toggle:hover),
@@ -30,7 +30,7 @@
   position: relative;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     border: 1px solid transparent;
     width: 24px;
@@ -49,5 +49,74 @@
     &::before {
       border-color: currentColor;
     }
+  }
+}
+
+.dropdown-menu {
+  min-width: 22rem;
+}
+
+.dropdown-list-item {
+  background-color: $light-ivory;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.dropdown-item {
+  &:hover,
+  &:focus,
+  &.is-active {
+    text-decoration: underline;
+  }
+
+  &.in-active-trail {
+    font-weight: 700;
+  }
+}
+
+.dropdown--mega-menu {
+  position: initial;
+}
+
+.dropdown-menu--mega-menu {
+  background-color: $ivory;
+  left: 0;
+  right: 0;
+}
+
+.site-nav__li.show:has(.dropdown-toggle),
+.site-nav__li.show:has(.dropdown-toggle) > .site-nav__sl-btn,
+.site-nav__li.show:has(.dropdown-toggle) > .site-nav__sl-lnk,
+.site-nav__li.show:has(.dropdown-toggle:hover),
+.site-nav__li.show:has(.dropdown-toggle:hover) > .site-nav__sl-btn,
+.site-nav__li.show:has(.dropdown-toggle:hover) > .site-nav__sl-lnk,
+.site-nav__li.show:has(.dropdown-toggle:focus-visible),
+.site-nav__li.show:has(.dropdown-toggle:focus-visible) > .site-nav__sl-btn,
+.site-nav__li.show:has(.dropdown-toggle:focus-visible) > .site-nav__sl-lnk {
+  background-color: $light-ivory;
+}
+
+@include media-breakpoint-up(xl) {
+  .dropdown-animate .mega-menu-layout__main {
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+  }
+
+  .dropdown-slide .mega-menu-layout__main {
+    animation-name: slide-in;
+  }
+}
+
+@keyframes slide-in {
+  0% {
+    transform: translateY(-1rem);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
   }
 }

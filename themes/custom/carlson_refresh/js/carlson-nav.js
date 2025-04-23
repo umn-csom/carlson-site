@@ -1,67 +1,62 @@
 /**
  * @file
- * Global utilities.
- * *
+ * Navigation dropdowns.
  */
 (function ($, Drupal) {
+  "use strict";
+  // Execute code when the DOM is fully loaded
+  $(document).ready(function () {
+    // Add click event handler to dropdown toggle buttons
+    $(".dropdown .dropdown-toggle").on("click", function (e) {
+      // Store reference to the clicked element
+      var $this = $(this),
+        shouldExpand = $this.attr("aria-expanded") !== "true";
 
-   'use strict';
+      // Toggle active class on the clicked dropdown toggle
+      $this.attr("aria-expanded", shouldExpand);
 
-   // ------------------------------------------------------- //
-   // Multi Level dropdowns
-   // ------------------------------------------------------ //
-   $( document ).ready( function () {
-    $( '.dropdown-menu .dropdown-toggle' ).on( 'click', function ( e ) {
-        var $el = $( this );
-        $el.toggleClass('active-dropdown');
-        var $parent = $( this ).offsetParent( ".dropdown-menu" );
-        if ( !$( this ).next().hasClass( 'show' ) ) {
-            $( this ).parents( '.dropdown-menu' ).first().find( '.show' ).removeClass( "show" );
-        }
-        var $subMenu = $( this ).next( ".dropdown-menu" );
-        $subMenu.toggleClass( 'show' );
+      // Find the parent dropdown menu container
+      var $parent = $this.closest(".dropdown");
 
-        $( this ).parent( "li" ).toggleClass( 'show' );
+      var openSiblings = $this.parent().siblings(":has([aria-expanded='true'])");
+      // Close any other open dropdowns at the same level and lower.
+      if (openSiblings.length > 0) {
+        openSiblings.each(function () {
+          var $sibling = $(this);
+          $sibling.removeClass("show");
+          // Remove "show" class from any open dropdown menus
+          $sibling.find(".show").removeClass("show");
+          // Remove aria-expanded from the toggle button
+          $sibling.find(".dropdown-toggle").attr("aria-expanded", "false");
+        });
+      }
 
-        $( this ).parents( 'li.nav-item.dropdown.show' ).on( 'hidden.bs.dropdown', function ( e ) {
-            $( '.dropdown-menu .show' ).removeClass( "show" );
-            $el.removeClass('active-dropdown');
-        } );
+      // Toggle the display of the submenu
+      $this.next(".dropdown-menu").toggleClass("show");
 
-         if ( !$parent.parent().hasClass( 'navbar-nav' ) ) {
-            $el.next().css( { "top": $el[0].offsetTop, "left": $parent.outerWidth() - 4 } );
-        }
+      // Toggle the class on the parent list item
+      $this.parent("li").toggleClass("show");
 
-        return false;
-    } );
+      // When a parent dropdown is closed, clean up all child dropdowns
+      $this
+        .parents("li.dropdown.show")
+        .on("hidden.bs.dropdown", function (e) {
+          // Remove "show" class from any open dropdown menus
+          $(".dropdown-menu .show", e.target).removeClass("show");
+          // Remove aria-expanded from the toggle button
+          $(".dropdown-toggle", e.target).attr("aria-expanded", "false");
+        });
 
-    $( '.navbar-toggler' ).on( 'click', function(e) {
-        var $curr_target = $(this).data("target");
-        var $curr_ariaex = $(this).attr("aria-expanded");
-        var $carl_target = $("#navbar-primary > nav > div > button").data("target");
-        var $carl_ariaex = $("#navbar-primary > nav > div > button").attr("aria-expanded");
-        var $alum_target = $("#navbar-secondary > nav > div > button").data("target");
-        var $alum_ariaex = $("#navbar-secondary > nav > div > button").attr("aria-expanded");
-        console.log("Curr Target = " + $curr_target);
-        console.log("Curr AriaEx = " + $curr_ariaex);
-        console.log("Carl Target = " + $carl_target);
-        console.log("Carl AriaEx = " + $carl_ariaex);
-        console.log("Alum Target = " + $alum_target);
-        console.log("Alum AriaEx = " + $alum_ariaex);
-        if (
-            $curr_target == "#navbarAlumni" &&
-            $carl_ariaex == "true") {
-                console.log("Retracting Carlson");
-                $('#navbar-primary > nav > div > button').click();
-        }
-        if (
-            $curr_target == "#navbarCarlson" &&
-            $alum_ariaex == "true") {
-                console.log("Retracting Alumni");
-                $('#navbar-secondary > nav > div > button').click();
-        }
+      // Position nested dropdown menus correctly for submenu flyouts.
+      if (!$parent.parent().hasClass("site-nav__ul")) {
+        // Position the submenu to the right of its parent
+        $this
+          .next()
+          .css({ top: $this[0].offsetTop, left: $parent.outerWidth() - 4 });
+      }
+
+      // Prevent default link behavior
+      return false;
     });
-} );
-
-
- })(jQuery, Drupal);
+  });
+})(jQuery, Drupal);
