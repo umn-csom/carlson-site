@@ -24552,4 +24552,38 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
       max-width: 50%; }
       .ck-content .take-the-next-step__column--first {
         margin-bottom: 0; } }
+
+.ck-content .dropdown::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 0;
+  transition: height 120ms ease-out 0ms;
+  background-color: #f7f0df; }
+
+.ck-content .dropdown:has(.dropdown-toggle:hover)::before {
+  height: 4px; }
+
+.ck-content .dropdown:has(.dropdown-toggle:hover), .ck-content .dropdown:has(.dropdown-toggle:hover) > .nav-button, .ck-content .dropdown:has(.dropdown-toggle:hover) > .nav-link, .ck-content .dropdown:has(.dropdown-toggle:focus-visible), .ck-content .dropdown:has(.dropdown-toggle:focus-visible) > .nav-button, .ck-content .dropdown:has(.dropdown-toggle:focus-visible) > .nav-link {
+  background-color: #f7f0df; }
+
+.ck-content .dropdown-toggle {
+  position: relative; }
+  .ck-content .dropdown-toggle::before {
+    content: '';
+    position: absolute;
+    border: 1px solid transparent;
+    width: 24px;
+    height: 24px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 1; }
+  .ck-content .dropdown-toggle:hover, .ck-content .dropdown-toggle:focus {
+    color: #1a1a1a; }
+    .ck-content .dropdown-toggle:hover::before, .ck-content .dropdown-toggle:focus::before {
+      border-color: currentColor; }
 /*# sourceMappingURL=ckeditor-style.css.map */

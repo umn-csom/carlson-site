@@ -38,6 +38,17 @@
     }
   }
 
+  &__ddt {
+    appearance: none;
+    border: 0;
+    background: none;
+    color: $header-dark-gray;
+    padding: 1.4rem 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   // Nav primary + secondary
   &__p + &__s {
     z-index: 30;
@@ -65,9 +76,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    flex-flow: column nowrap;
-    // align-items: center;
-    // justify-content: flex-start;
+    flex-flow: row nowrap;
     position: relative;
 
     @include media-breakpoint-up(xl) {
@@ -83,7 +92,7 @@
   &__sl-lnk {
     appearance: none;
     color: inherit;
-    border: none;
+    border: 0;
     background: none;
     display: block;
     padding: 1.4rem 2.5rem;
@@ -97,17 +106,16 @@
     position: relative;
     background-color: transparent;
 
-    &:hover,
-    &:focus {
-      color: inherit;
-    }
-
     &.is-active {
       text-decoration: underline;
     }
 
     &.in-active-trail {
       font-weight: 700;
+    }
+
+    &:has(+ .dropdown-toggle) {
+      padding-right: 0;
     }
   }
 
@@ -121,6 +129,7 @@
 
     &:hover {
       text-decoration: none;
+      color: $navbar-dark-hover-color;
       background-color: $navbar-dark-hover-bg-color;
     }
 
@@ -149,11 +158,6 @@
 
     &--apply {
       padding: 1.4rem 0;
-    }
-
-    &--search-and-more {
-      .btn {
-      }
     }
   }
 
@@ -187,6 +191,24 @@
 
     &:hover {
       color: inherit;
+    }
+  }
+
+  &__sl-btn,
+  &__sl-lnk {
+    &:hover {
+      color: $black;
+    }
+  }
+
+  &__pl-btn,
+  &__pl-lnk,
+  &__sl-btn,
+  &__sl-lnk,
+  &__sl a {
+    @media (min-width: 992px) and (max-width: 1100px) {
+      font-size: 1.6rem;
+      padding: 1.4rem 2rem;
     }
   }
 }

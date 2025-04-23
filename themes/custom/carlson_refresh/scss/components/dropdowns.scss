@@ -1,0 +1,53 @@
+@import "../abstracts/variables";
+
+.dropdown {
+  &::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 0;
+    transition: height 120ms ease-out 0ms;
+    background-color: $light-ivory;
+  }
+
+  &:has(.dropdown-toggle:hover)::before {
+    height: .4rem;
+  }
+
+  &:has(.dropdown-toggle:hover),
+  &:has(.dropdown-toggle:focus-visible) {
+    &,
+    > .nav-button,
+    > .nav-link {
+      background-color: $light-ivory;
+    }
+  }
+}
+
+.dropdown-toggle {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    border: 1px solid transparent;
+    width: 24px;
+    height: 24px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: 1;
+  }
+
+  &:hover,
+  &:focus {
+    color: $soft-black;
+
+    &::before {
+      border-color: currentColor;
+    }
+  }
+}

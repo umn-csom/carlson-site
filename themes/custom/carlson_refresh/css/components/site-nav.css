@@ -679,6 +679,15 @@
     @media (min-width: 992px) {
       .site-nav__mbl {
         display: none; } }
+  .site-nav__ddt {
+    appearance: none;
+    border: none;
+    background: none;
+    color: #8a8a8a;
+    padding: 1.4rem 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center; }
   .site-nav__p + .site-nav__s {
     z-index: 30; }
   .site-nav__i {
@@ -696,7 +705,7 @@
     margin: 0;
     padding: 0;
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
     position: relative; }
     @media (min-width: 1200px) {
       .site-nav__li + .site-nav__li {
@@ -715,17 +724,18 @@
     transition: background 120ms ease-out, color 120ms ease-out;
     position: relative;
     background-color: transparent; }
-    .site-nav__pl-btn:hover, .site-nav__pl-btn:focus, .site-nav__pl-lnk:hover, .site-nav__pl-lnk:focus, .site-nav__sl-btn:hover, .site-nav__sl-btn:focus, .site-nav__sl-lnk:hover, .site-nav__sl-lnk:focus {
-      color: inherit; }
     .site-nav__pl-btn.is-active, .site-nav__pl-lnk.is-active, .site-nav__sl-btn.is-active, .site-nav__sl-lnk.is-active {
       text-decoration: underline; }
     .site-nav__pl-btn.in-active-trail, .site-nav__pl-lnk.in-active-trail, .site-nav__sl-btn.in-active-trail, .site-nav__sl-lnk.in-active-trail {
       font-weight: 700; }
+    .site-nav__pl-btn:has(+ .dropdown-toggle), .site-nav__pl-lnk:has(+ .dropdown-toggle), .site-nav__sl-btn:has(+ .dropdown-toggle), .site-nav__sl-lnk:has(+ .dropdown-toggle) {
+      padding-right: 0; }
   .site-nav__pl-btn.in-active-trail, .site-nav__pl-lnk.in-active-trail {
     color: #000;
     background-color: #e6e0d2; }
   .site-nav__pl-btn:hover, .site-nav__pl-lnk:hover {
     text-decoration: none;
+    color: #fff;
     background-color: #973c49; }
   .site-nav__pl-btn.has-dropdown::before, .site-nav__pl-lnk.has-dropdown::before {
     content: "";
@@ -766,5 +776,12 @@
     font-weight: 700; }
     .site-nav__sl a:hover {
       color: inherit; }
+  .site-nav__sl-btn:hover, .site-nav__sl-lnk:hover {
+    color: #000; }
+  @media (min-width: 992px) and (max-width: 1100px) {
+    .site-nav__pl-btn, .site-nav__pl-lnk, .site-nav__sl-btn, .site-nav__sl-lnk,
+    .site-nav__sl a {
+      font-size: 1.6rem;
+      padding: 1.4rem 2rem; } }
 
 /*# sourceMappingURL=site-nav.css.map */
