@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Override Bootstrap Barrio's local tasks.
+ *
+ * Remove the default Bootstrap classes.
+ */
+#}
+{{ attach_library('carlson_refresh/tabs') }}
+{%
+  set classes = [
+    'nav-tabs',
+    primary ? 'nav-tabs--primary',
+    secondary ? 'nav-tabs--secondary',
+  ]
+%}
+
+{% if primary %}
+  <h2 class="visually-hidden">{{ 'Primary tabs'|t }}</h2>
+  <ul{{ attributes.addClass(classes) }}>{{ primary }}</ul>
+{% endif %}
+{% if secondary %}
+  <h2 class="visually-hidden">{{ 'Secondary tabs'|t }}</h2>
+  <ul{{ attributes.addClass(classes) }}>{{ secondary }}</ul>
+{% endif %}

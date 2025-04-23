@@ -1,0 +1,64 @@
+@import "../abstracts/import";
+
+// Copied from bootstrap/scss/_nav.scss and modified for our needs.
+.tabs {
+  margin: 1.5rem auto;
+  max-width: 1340px;
+  padding: 0 25px;
+}
+
+.nav-tabs {
+  border-bottom: $nav-tabs-border-width solid $maroon;
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  .nav-item {
+    display: flex;
+    margin: 0;
+  }
+
+  .nav-link {
+    margin-bottom: -$nav-tabs-border-width;
+    background-color: transparent;
+    font-weight: 400;
+    border: $nav-tabs-border-width solid transparent;
+
+    margin-bottom: 0;
+    background: $ivory;
+    color: $black;
+    text-decoration: none;
+    font-weight: 400;
+    border: 0;
+    padding: 2rem 4rem;
+    font-size: 1.8rem;
+    line-height: 1.2;
+
+    &:hover,
+    &:focus {
+      background: $light-ivory;
+      color: $black;
+      isolation: isolate;
+      text-decoration: none;
+    }
+
+    &.disabled {
+      color: $nav-link-disabled-color;
+      background-color: transparent;
+      border-color: transparent;
+    }
+  }
+
+  .nav-link.active,
+  .nav-item.show .nav-link {
+    &,
+    &:hover,
+    &:focus {
+      font-weight: 700;
+      background: $maroon;
+      border-bottom-color: $maroon;
+      color: $white;
+    }
+  }
+}
