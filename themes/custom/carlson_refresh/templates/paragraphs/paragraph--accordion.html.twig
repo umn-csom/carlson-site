@@ -49,7 +49,8 @@
 %}
 {% block paragraph %}
     {% block content %}
-    <div class="row component-paragraph accordion-content">
+    {% set custom_id = paragraph.field_custom_id.value ? paragraph.field_custom_id.value|clean_id : '' %}
+    <div{% if custom_id %} id="{{ custom_id }}"{% endif %} class="row component-paragraph accordion-content">
       {% if content.field_tab_accordion_item is not empty %}
         {% set items = content.field_tab_accordion_item|field_value %}
         {% set paragraphId = paragraph.id() %}

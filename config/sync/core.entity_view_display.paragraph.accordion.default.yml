@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.accordion.field_custom_id
     - field.field.paragraph.accordion.field_heading
     - field.field.paragraph.accordion.field_main_content
     - field.field.paragraph.accordion.field_tab_accordion_item
@@ -15,6 +16,14 @@ targetEntityType: paragraph
 bundle: accordion
 mode: default
 content:
+  field_custom_id:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 3
+    region: content
   field_heading:
     type: string
     label: hidden
