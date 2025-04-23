@@ -266,3 +266,20 @@ function carlson_general_preprocess_views_view_datatables(&$variables) {
     $row['attributes']['role'] = 'row';
   }
 }
+
+/**
+ * Implements hook_preprocess_image().
+ */
+function carlson_general_preprocess_image(array &$variables) {
+  // Check if both alt and title attributes exist
+  if (!empty($variables['attributes']['alt']) && !empty($variables['attributes']['title'])) {
+    // Trim whitespace from both attributes for accurate comparison
+    $alt = trim($variables['attributes']['alt']);
+    $title = trim($variables['attributes']['title']);
+
+    // If alt and title are identical, remove the redundant title attribute
+    if ($alt === $title) {
+      unset($variables['attributes']['title']);
+    }
+  }
+}

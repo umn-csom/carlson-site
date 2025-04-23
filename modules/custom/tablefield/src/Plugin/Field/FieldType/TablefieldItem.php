@@ -9,6 +9,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteObjectInterface;
 use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\TypedData\MapDataDefinition;
+use Drupal\tablefield\TableValue;
 
 /**
  * Plugin implementation of the 'tablefield' field type.
@@ -134,7 +135,7 @@ class TablefieldItem extends FieldItemBase {
       ->setLabel(t('Stringified table value'))
       ->setDescription(t('The stringified value of the table.'))
       ->setComputed(TRUE)
-      ->setClass('\Drupal\tablefield\TableValue');
+      ->setClass(TableValue::class);
 
     $properties['value'] = MapDataDefinition::create()
       ->setLabel(t('Table data'))
@@ -161,7 +162,6 @@ class TablefieldItem extends FieldItemBase {
       $values['rebuild'] = $values['tablefield']['rebuild'];
       $values['value'] = $values['tablefield']['table'];
       unset($values['tablefield']);
-      unset($values['tablefield']['rebuild']);
     }
     // In case cell_processing is enabled
     // text_format puts values under an extra 'value' key.

@@ -1,25 +1,31 @@
-.staff-faculty{
+.staff-faculty {
 	&__heading {
 		display: none;
 	}
 	&__item {
-		margin-bottom: 3rem;
-		&--image {
-			img {
-				//@include profile-image-box-shadow();
-			}
-			margin-bottom: 3rem;
-		}
-		&--name {
-			//@include heading-title($font-small, $gold, 'left');
-			color: $slate;
-			margin-bottom: 2rem;
+		&--link {
 			display: block;
+			max-width: 900px;
+			margin: 0 auto;
+
+			&,
 			&:hover,
 			&:focus,
 			&:active {
 				text-decoration: none;
+				color: $slate;
 			}
+
+			&:focus-visible {
+				h3 {
+					text-decoration: underline;
+				}
+			}
+		}
+		&--name {
+			color: $slate;
+			margin-bottom: 2rem;
+			display: block;
 		}
 		&--position {
 			font-weight: 700;

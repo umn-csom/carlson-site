@@ -112,6 +112,8 @@ $grid-row-columns:            6 !default;
         margin-right: 0;
       }
       .quiz--answer {
+        // Center options in stacked layout.
+        margin: 0 auto;
         .description {
           img {
             width: 24px;
@@ -146,18 +148,46 @@ $grid-row-columns:            6 !default;
     padding: 15px 10px;
     margin-bottom: 10px;
     cursor: pointer;
+    position: relative;
+    gap: 15px;
+
+    &:not(.disabled, .checked):hover {
+      border-color: $mid-slate-2;
+    }
+
+    &:has([type='radio']:focus-visible),
+    &:has([type='checkbox']:focus-visible) {
+      outline: 0;
+      box-shadow:
+        0 0 0 1px $white,
+        0 0 0 3px $cyan;
+      z-index: 1;
+      border-radius: 2px;
+    }
+
     .description {
       order: 1;
-      margin-right: 10px;
     }
     label {
+      display: block;
+      width: 100%;
+      padding: 0;
+      cursor: pointer;
+      border: 2px solid transparent;
+      border-radius: 4px;
+      background-color: transparent;
       order: 2;
       flex-grow: 1;
       text-transform: initial;
       font-size: 1.4rem;
       line-height: 1.7rem;
-      margin-right: 10px;
+      margin: 0;
       cursor: pointer;
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+      }
     }
     input {
       margin: 0;
@@ -172,15 +202,27 @@ $grid-row-columns:            6 !default;
       border: 1px solid #85807D;
       display: grid;
       place-content: center;
+      &[type='radio'],
+      &[type='checkbox'] {
+        &:focus,
+        &:focus-visible {
+          &,
+          &::before {
+            outline: 0;
+            box-shadow: none;
+          }
+        }
+      }
       &[type='radio'] {
         border-radius: 50%;
+        margin: 0;
+        margin: 1px;
+        padding: 0 0 20px 20px;
+        width: 0;
+        height: 0;
+
         &::before {
-          content: "";
-          width: 12px;
-          height: 12px;
-          background: $maroon;
-          border-radius: 50%;
-          transform: scale(0);
+          display: none;
         }
         &:checked {
           border-color: $maroon;
@@ -212,14 +254,22 @@ $grid-row-columns:            6 !default;
     }
     &.checked {
       border-color: $maroon;
-      border-width: 2px;
-      border-left-width: 4px;
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border: 1px solid $maroon;
+        border-left-width: 3px;
+      }
     }
     &--popover-btn {
-      position: relative;
-      left: -10px;
-      bottom: -10px;
-      z-index: 0;
+      position: absolute;
+      top: 100%;
+      width: 234px;
+      &:focus {
+        outline: none;
+        box-shadow: 0;
+      }
     }
     &.disabled {
       opacity: 0.8;
@@ -321,24 +371,29 @@ $grid-row-columns:            6 !default;
       }
       &.three_cols {
         .quiz--answer {
+          justify-content: center;
           flex-direction: column;
           margin-bottom: 0;
           text-align: center;
-          .description {
-            margin-bottom: 10px;
-            margin-right: 0;
-          }
+          padding: 20px 10px;
           label {
-            margin-bottom: 10px;
-            margin-right: 0;
+            img {
+              // Make icons non-interactive
+              pointer-events: none;
+              display: block;
+            }
+          }
+          input {
+            margin: 0;
           }
           &.checked {
-            border-left-width: 2px;
-            border-bottom-width: 4px;
-          }
-          &--popover-btn {
-            left: 0;
-            bottom: 0;
+            &::before {
+              content: '';
+              position: absolute;
+              inset: 0;
+              border: 1px solid $maroon;
+              border-bottom-width: 3px;
+            }
           }
         }
       }
