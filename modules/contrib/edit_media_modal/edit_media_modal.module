@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * This is the module to improve working edit media entity in modal windows.
+ */
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function edit_media_modal_entity_type_alter(array &$entity_types) {
+  if (isset($entity_types['media'])) {
+    // Override edit media form class.
+    $entity_types['media']->setFormClass('edit', 'Drupal\edit_media_modal\Form\MediaForm');
+  }
+}

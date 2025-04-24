@@ -1,0 +1,7 @@
+edit_media_modal.get_id_by_uuid:
+  path: '/edit-media-modal/edit-url/{uuid}'
+  defaults:
+    _controller: '\Drupal\edit_media_modal\Controller\EditMediaModalController::getEditUrl'
+    _title: 'Edit entity'
+  requirements:
+    _custom_access: '\Drupal\edit_media_modal\Controller\EditMediaModalController::access'
