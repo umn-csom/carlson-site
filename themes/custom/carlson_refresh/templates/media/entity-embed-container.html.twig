@@ -1,0 +1,12 @@
+{#
+/**
+ * @file
+ * Override Entity Embed module's container template.
+ *
+ * Remove the alt, image_style, and title attributes from the container for
+ * better accessibility.
+ *
+ * See https://www.drupal.org/project/entity_embed/issues/3306681
+ */
+#}
+<div{{ attributes|without('alt', 'title') }}>{{ children }}</div>
