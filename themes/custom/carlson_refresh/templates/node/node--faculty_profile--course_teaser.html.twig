@@ -59,7 +59,11 @@
  * @see template_preprocess_node()
  */
 #}
-{% set aria_label = node.field_profile_title.value|trim ~ ' - ' ~ node.title.value|trim %}
+{% set aria_label = node.title.value|trim ~ ' - click to view full bio' %}
+{% set profile_title = node.field_profile_title.value %}
+{% if profile_title is not empty %}
+{% set aria_label = profile_title ~ ' - ' ~ aria_label %}
+{% endif %}
 
 <div class="staff-faculty__wrapper my-3">
 
