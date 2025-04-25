@@ -76,11 +76,21 @@
               {{ item.title }}
             {% endif %}
           {% endset %}
+
           {% set url = item.url %}
           {% if is_search_and_more %}
             {% set url = 'route:<button>' %}
           {% endif %}
-          {{ link(link_markup, url, link_attrs) }}
+
+          {% if is_with_megamenu %}
+            <button type="button"{{ create_attribute(link_attrs|merge({'class': link_attrs.class|merge(['nav-link', 'nav-button'])})) }}>
+              {{ link_markup }}
+              <span class="visually-hidden">{{ 'Toggle'|t }} {{ item.title }} {{ 'menu'|t }}</span>
+            </button>
+          {% else %}
+            {{ link(link_markup, url, link_attrs) }}
+          {% endif %}
+
         {% if item.below %}
           {% if is_top_level %}
             {% if is_with_megamenu %}
