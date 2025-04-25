@@ -83,6 +83,7 @@ if (in_array($environment, ['local', 'dev', 'test'])) {
   $origin_dir = 'sites/carlsonschool.umn.edu/files';
   $config['stage_file_proxy.settings']['origin'] = $origin;
   $config['stage_file_proxy.settings']['origin_dir'] = $origin_dir;
+  $config['stage_file_proxy.settings']['proxy_headers'] = '';
 }
 
 $config['system.performance']['cache']['page']['max_age'] = 60;
