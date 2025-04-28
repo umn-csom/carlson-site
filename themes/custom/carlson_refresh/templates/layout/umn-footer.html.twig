@@ -1,21 +1,25 @@
 <!-- Begin UMN Footer -->
-<div id="umnhf-f" class="umnhf">
-    <nav id="umnhf-f-myu">
-        <h2 class="umnhf-f-title sr-only">For Students, Faculty, and Staff</h2>
-        <ul role="presentation">
-            <li><a href="http://onestop.umn.edu/">One Stop</a></li>
-            <li><a href="https://www.myu.umn.edu/">MyU <span></span></a></li>
-        </ul>
-    </nav>
-    <small>© <span id="cdate">{{ copyright_year }}</span> Regents of the University of Minnesota. All rights reserved. The University of Minnesota is an equal opportunity educator and employer.</small>
-    <small>
-        <a href="{{ privacy_link }}">Privacy Statement</a> |
-        <a href="/privacy-notice">Privacy Notice</a> |
-        <a href="{{ accessibility_reporting_link }}">{{ accessibility_reporting_text }}</a> |
-        <a href="/title-ix-statement">Title IX</a>
-    </small>
-    <!-- Optional last updated link-->
-    {% if last_updated %}<small>Current as of {{ last_updated }}</small>{% endif %} <!-- add time tag w datetime attr -->
-
+<div class="umnhf-f">
+  <nav class="umnhf-f-ql" aria-label="Campus quick links">
+    <a href="https://www.myu.umn.edu" target="_blank">MyU{{ source(directory ~ '/images/svg/lock-search.svg') }}<span class="external-link-text sr-only">(this link opens in a new browser window or tab)</span>
+    </a>
+    <a href="{{ onestop_link }}" target="_blank">One Stop{{ source(directory ~ '/images/svg/external-link.svg') }}<span class="external-link-text sr-only">(this link opens in a new browser window or tab)</span>
+    </a>
+    <a href="/give" aria-label="Give to the Carlson School">Give</a>
+    <a href="/contact" aria-label="Contact the Carlson School">Contact
+    </a>
+  </nav>
+  <div class="umnhf-f-copyright">
+    © {{ copyright_year }} Regents of the University of Minnesota. All rights reserved. The University of Minnesota is an equal opportunity educator and employer.
+  </div>
+  <nav class="umnhf-f-links" aria-label="Footer links">
+    <a href="{{ privacy_link }}">Privacy Statement</a>
+    &nbsp;|&nbsp;
+    <a href="/privacy-notice">Privacy Notice</a>
+    &nbsp;|&nbsp;
+    <a href="{{ accessibility_reporting_link }}">{{ accessibility_reporting_text }}</a>
+    &nbsp;|&nbsp;
+    <a href="/title-ix-statement">Title IX</a>
+  </nav>
 </div>
 <!-- End UMN Footer -->

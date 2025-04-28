@@ -1,51 +1,46 @@
 // UMN Footer
-#umnhf-f {
+.umnhf-f {
   border-top: 1px solid $lightergray;
-  font-size: 14px;
-  margin: 0 auto 5px;
+  font-size: 13px;
+  text-align: center;
+  line-height: 1.4;
+  margin: 0 auto 15px;
   padding: 15px 0 0;
 
-  &-myu {
+  a {
+    color: $slate;
+  }
+
+  svg {
+    vertical-align: baseline;
+  }
+
+  &-ql {
     display: none;
   }
 
-  small {
+  &-links,
+  &-copyright {
     display: block;
     padding: 5px 54px;
-    text-align: center;
-    font-size: 0.9em;
-    line-height: 1.15em;
   }
 
-  @media screen and (max-width: 775px) {
-    &-myu {
+  @include media-breakpoint-down(sm) {
+    &-ql {
       display: block;
+      margin: 0 0 8px;
 
-      ul {
-        margin: 0 0 16px;
-        padding: 0;
-        list-style: none;
-        line-height: 3em;
-
-        span {
-          display: inline-block;
-          width: 12px;
-          height: 12px;
-          background: transparent
-            url("../branding/sprites/lock-search-gold.png") 0 0 no-repeat;
-
-          // stylelint-disable-next-line media-feature-name-no-vendor-prefix
-          @media (min-resolution: 192dpi),
-            (-webkit-min-device-pixel-ratio: 1.25) {
-            background-image: url("../branding/sprites/lock-search-gold@2x.png");
-            background-size: 22px 34px;
-          }
-        }
+      a {
+        display: inline-block;
+        font-size: 14px;
+        margin: 0;
+        padding: 5px 15px;
       }
     }
 
-    small {
-      padding: 5px 17px;
+    &-links,
+    &-copyright {
+      padding: 5px 15px;
     }
   }
 }
