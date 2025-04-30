@@ -95,6 +95,33 @@
     width: 100%;
   }
 
+  &__caption {
+    margin-top: 1.5rem;
+    color: $mid-gray-2;
+    line-height: 25px;
+
+    @include font-newsreader-base();
+
+    text-align: center;
+    font-style: italic;
+    font-size: 1.5rem;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  @include media-breakpoint-up(md) {
+    &__caption {
+      max-width: 80%;
+    }
+  }
+}
+
+.fullwidth-video {
   &__link {
     &::before {
       position: absolute;
@@ -121,31 +148,6 @@
     &:active::before,
     &:focus::before {
       background: $gold;
-    }
-  }
-
-  &__caption {
-    margin-top: 1.5rem;
-    color: $mid-gray-2;
-    line-height: 25px;
-
-    @include font-newsreader-base();
-
-    text-align: center;
-    font-style: italic;
-    font-size: 1.5rem;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  img {
-    width: 100%;
-    height: auto;
-  }
-
-  @include media-breakpoint-up(md) {
-    &__caption {
-      max-width: 80%;
     }
   }
 }
