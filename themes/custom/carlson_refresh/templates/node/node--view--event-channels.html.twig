@@ -92,7 +92,7 @@
             <h3 class="{{ node.isSticky() ? 'event-items__item--title' : '' }}">{{ label }}</h3>
             {% if node.field_location_type is not empty %}
                 {% set list_value = node.field_location_type.value %}
-                <span class="event-items__item--location d-none d-lg-block"><i class='bx bxs-map'></i>{{ node.field_location_type.getSetting('allowed_values')[list_value] }}</span>
+                <span class="event-items__item--location d-none d-lg-block">{{ source(directory ~ '/images/svg/map-solid.svg') }}{{ node.field_location_type.getSetting('allowed_values')[list_value] }}</span>
             {% endif %}
             <div class="event-items__item--desc {{ node.isSticky() ? 'd-block' : 'd-none d-lg-block' }}">
                 {% set text = node.body.summary|render|striptags|trim %}

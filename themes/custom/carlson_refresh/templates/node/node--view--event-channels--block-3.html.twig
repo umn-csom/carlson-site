@@ -85,7 +85,7 @@
             <a class="events__item__title mb-3 flex-grow-1 ff-serif font-weight-light" href="{{ url }}">{{ label }}</a>
             {% if node.field_location_type is not empty %}
                 {% set list_value = node.field_location_type.value %}
-                <span class="event-items__item--location d-none d-lg-block"><i class='bx bxs-map'></i>{{ node.field_location_type.getSetting('allowed_values')[list_value] }}</span>
+                <span class="event-items__item--location d-none d-lg-block">{{ source(directory ~ '/images/svg/map-solid.svg') }}{{ node.field_location_type.getSetting('allowed_values')[list_value] }}</span>
             {% endif %}
 
         </div>
