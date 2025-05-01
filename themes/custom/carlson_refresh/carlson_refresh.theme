@@ -729,3 +729,15 @@ function carlson_refresh_preprocess_slick(&$variables) {
     $variables['content_attributes']->setAttribute('data-slick', json_encode($data_slick));
   }
 }
+
+/**
+ * Implements hook_theme().
+ */
+function carlson_refresh_theme() {
+  return [
+    'test_buttons' => [
+      'template' => 'tests/test-buttons',
+      'variables' => [],
+    ],
+  ];
+}

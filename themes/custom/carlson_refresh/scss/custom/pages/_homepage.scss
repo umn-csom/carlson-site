@@ -177,7 +177,7 @@
     }
 
     #program-finder__result-go {
-      @include button-outline($maroon);
+      @extend %btn-outline-primary;
 
       background-color: $gold;
       height: 5rem;
@@ -187,21 +187,6 @@
 
       @include media-breakpoint-up(md) {
         width: auto;
-      }
-
-      &[disabled] {
-        @include button-outline($dark-gray);
-
-        padding-top: 0;
-        padding-bottom: 0;
-
-        &:hover,
-        &:focus {
-          color: $dark-gray;
-          background-color: $gold;
-          box-shadow: none;
-          cursor: not-allowed;
-        }
       }
     }
   }

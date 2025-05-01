@@ -1,11 +1,290 @@
-@each $color, $value in $theme-colors {
-  .btn-#{"" + $color} a {
+@import "../abstracts/import";
+@import "../abstracts/extensions";
+// Global focus visible styles.
+:root :focus-visible {
+  @extend %focus-visible;
+}
+
+.btn {
+  @extend %btn-base;
+
+  // Style button containers (eg div or span) that have inner links.
+  // <div class="btn"><a href="#"></a></div>
+  @extend %has-focus-visible;
+  position: relative;
+
+  > a {
+    // Ensure the tap target of the inner link covers the entire button area.
+    &:before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    // Ensure the inner link inherits the button styles.
+    &,
+    &:hover,
+    &:focus,
+    &.disabled,
+    &:disabled,
+    &:active,
+    &:focus-visible {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    &:focus-visible {
+      outline: 0;
+      box-shadow: none;
+    }
+  }
+}
+
+.btn-primary {
+  @extend %btn-primary;
+}
+
+.btn-secondary {
+  @extend %btn-secondary;
+}
+
+.btn-outline-primary {
+  @extend %btn-outline-primary;
+}
+
+.btn-outline-secondary {
+  @extend %btn-outline-secondary;
+}
+
+.btn-gold,
+.btn-primary--yellow,
+.btn-primary--gold,
+.bg-primary .btn-primary {
+  @extend %btn-secondary;
+}
+
+// Currently not used.
+// .btn-link {
+//   @extend %btn-link;
+// }
+
+.btn-block {
+  @extend %btn-block;
+
+  // Vertically space out multiple block buttons
+  + .btn-block {
+    margin-top: $btn-block-spacing-y;
+  }
+}
+
+.btn-lg {
+  @extend %btn-lg;
+}
+
+.btn-md {
+  @extend %btn-md;
+}
+
+.btn-sm {
+  @extend %btn-sm;
+}
+
+// Buttons inside background colors.
+.bg-primary {
+
+  // Swap maroon with gold on primary background.
+  .btn-primary--maroon,
+  .btn-primary {
+    background-color: $white;
+    border-color: $white;
+    color: $maroon;
+  }
+
+  // Ensure outline and text is visible.
+  .btn-outline-primary {
+    border-color: $white;
+    color: $white;
+
+    &:hover {
+      background-color: $white;
+      color: $maroon;
+    }
+  }
+
+  // Ensure text is visible.
+  .btn-outline-secondary {
+    color: $gold;
+
+    &:hover {
+      background-color: darken($gold, 7.5%);
+      border-color: darken($gold, 12.5%);
+      color: $body-color;
+    }
+  }
+}
+
+// Ensure outline and text is visible.
+.bg-gold,
+.bg-ivory,
+.bg-light-blue {
+  .btn-outline-secondary {
+    border-color: $body-color;
+    color: $body-color;
+
+    &:hover {
+      background-color: darken($gold, 7.5%);
+      border-color: darken($gold, 12.5%);
+    }
+  }
+}
+
+// Swap gold with maroon on gold background.
+.bg-gold {
+  .btn-gold,
+  .btn-secondary {
+    @extend %btn-primary;
+  }
+}
+
+.btn-ivory {
+  @extend %btn-ivory;
+}
+
+
+//
+// Legacy button styles from CKE4 editor.
+// @todo Deprecated. Remove them all and use btn-primary, btn-secondary, etc?
+//
+
+// @deprecated, but still used in ckeditor.
+.maroon-underline-button {
+  @extend %btn-base;
+  @extend %btn-primary;
+}
+
+// @deprecated, but still used in ckeditor.
+.gold-underline-button {
+  @extend %btn-base;
+  @extend %btn-secondary;
+}
+
+
+// @deprecated.
+// .btn-primary--maroon {
+//   @extend %btn-primary;
+// }
+
+// @deprecated.
+// .btn-link-primary {
+//   @extend %btn-link;
+// }
+
+// @deprecated.
+// .btn-link-secondary {
+//   @extend %btn-link;
+//   color: $body-color;
+// }
+
+// @deprecated.
+// .maroon-solid-button {
+//   @extend %btn-primary;
+// }
+
+// @deprecated.
+// .gold-solid-button {
+//   @extend %btn-secondary;
+// }
+
+// @deprecated.
+// .maroon-outline-button {
+//   @extend %btn-outline-primary;
+// }
+
+// @deprecated.
+// .gold-outline-button {
+//   @extend %btn-outline-secondary;
+// }
+
+// @deprecated.
+// .button-link-primary {
+//   @extend %btn-primary;
+//   @extend %btn-link;
+// }
+
+// @deprecated.
+// .button-link-secondary {
+//   @extend %btn-secondary;
+//   @extend %btn-link;
+// }
+
+//
+// Form element button styles.
+//
+
+// button {
+//   @extend %btn-base;
+// }
+
+// [type="submit"] {
+//   @extend %btn-base;
+//   @extend %btn-primary;
+// }
+
+// [type="reset"] {
+//   @extend %btn-base;
+//   @extend %btn-link;
+// }
+
+// [type="button"] {
+//   @extend %btn-base;
+//   @extend %btn-outline-primary;
+// }
+
+//
+// Auto-generated Bootstrap button variants
+// @todo remove these.
+
+$button-colors: (
+  // primary: $maroon,
+  // secondary: $gold,
+  // maroon: $maroon,
+  // gold: $gold,
+  // ivory: $ivory,
+  // light: $gray-200,
+  // gray: $gray,
+  // success: $green,
+  // info: $light-blue,
+  // warning: $yellow,
+  // danger: $red,
+  // light: $gray-200,
+  // dark: $gray-800,
+  // white-90: $white-90,
+  // light-blue: $light-blue,
+  // black: $black,
+);
+
+$button-outline-colors: (
+  // primary: $maroon,
+  // secondary: $gold,
+  // maroon: $maroon,
+  // gold: $gold,
+  // ivory: $ivory,
+  // gray: $gray,
+  // dark-gray: $dark-gray,
+  // black: $black,
+);
+
+@each $color, $value in $button-colors {
+  %btn-#{$color},
+  .btn-#{$color} {
     @include button-variant($value, $value);
   }
 }
 
-@each $color, $value in $theme-colors {
-  .btn-outline-#{"" + $color} a {
+@each $color, $value in $button-outline-colors {
+  %btn-outline-#{$color},
+  .btn-outline-#{$color} {
     @include button-outline-variant($value);
   }
 }

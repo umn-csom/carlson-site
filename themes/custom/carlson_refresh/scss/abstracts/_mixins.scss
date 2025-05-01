@@ -110,136 +110,83 @@
   text-transform: uppercase;
 }
 
-// Button mixins
-@mixin button() {
-  padding: 1.5rem 3rem;
-  font-size: $font-base;
-  text-transform: uppercase;
-  border-radius: 0;
-  transition: all 0.3s ease-in-out;
-  display: inline-block;
-}
+// Legacy bootstrap button variants
+// @mixin button-variant($background, $border, $hover-background: darken($background, 7.5%), $hover-border: darken($border, 10%), $active-background: darken($background, 10%), $active-border: darken($border, 12.5%)) {
+//   color: color-yiq($background);
+//   @include gradient-bg($background);
+//   border-color: $border;
 
-@mixin button-outline($color) {
-  @include button();
+//   &:hover {
+//     color: color-yiq($hover-background);
+//     @include gradient-bg($hover-background);
+//     border-color: $hover-border;
+//   }
 
-  font-weight: 700;
-  border-color: $color;
-  border-style: solid;
-  border-width: 2px;
+//   &:focus {
+//     color: color-yiq($hover-background);
+//     @include gradient-bg($hover-background);
+//     border-color: $hover-border;
+//   }
 
-  @if ($color == $menu-gold) {
-    color: $slate;
-  } @else {
-    color: $color;
-  }
+//   // Disabled comes first so active can properly restyle
+//   &.disabled,
+//   &:disabled {
+//     color: color-yiq($background);
+//     background-color: $background;
+//     border-color: $border;
+//     // Remove CSS gradients if they're enabled
+//     @if $enable-gradients {
+//       background-image: none;
+//     }
+//   }
 
-  &:hover,
-  &:active,
-  &:focus {
-    background: $color;
-    box-shadow: 0 15px 30px 0 rgba($black, 0.2);
+//   &:not(:disabled):not(.disabled):active,
+//   &:not(:disabled):not(.disabled).active,
+//   .show > &.dropdown-toggle {
+//     color: color-yiq($active-background);
+//     background-color: $active-background;
+//     border-color: $active-border;
+//   }
+// }
 
-    @if ($color != $menu-gold) {
-      color: $white;
-    }
-  }
-}
+// @mixin button-outline-variant($color, $color-hover: color-yiq($color), $active-background: $color, $active-border: $color) {
+//   color: $color;
+//   border-color: $color;
 
-@mixin button-solid($color) {
-  @include button();
+//   &:hover {
+//     color: $color-hover;
+//     background-color: $active-background;
+//     border-color: $active-border;
+//   }
 
-  font-weight: 700;
-  background-color: $color;
-  border: 2px solid $color;
-  color: $white;
+//   &:focus {
+//     box-shadow: 0 0 0 $btn-focus-width rgba($color, .5);
+//   }
 
-  &:hover,
-  &:active,
-  &:focus {
-    background: $white;
-    box-shadow: 0 15px 30px 0 rgba($black, 0.2);
-    color: $color;
-  }
-}
+//   &:focus-visible {
+//     outline: 0;
+//     border-radius: 2px;
+//     box-shadow:
+//       0 0 0 1px $white,
+//       0 0 0 2px $cyan,
+//       0 0 0 calc(2px + 0.35rem) rgba($cyan, 0.4);
+//   }
 
-@mixin button-solid-v($color) {
-  @include button();
+//   &.disabled,
+//   &:disabled {
+//     color: $color;
+//     background-color: transparent;
+//   }
 
-  font-weight: 700;
-  background-color: $color;
-  border-left: 5px solid $color;
-  border-right: 5px solid $color;
-  color: $maroon;
+//   &:not(:disabled):not(.disabled):active,
+//   &:not(:disabled):not(.disabled).active,
+//   .show > &.dropdown-toggle {
+//     color: color-yiq($active-background);
+//     background-color: $active-background;
+//     border-color: $active-border;
+//   }
+// }
 
-  &:hover,
-  &:active,
-  &:focus {
-    background: $white;
-    box-shadow: 0 15px 30px 0 rgba($black, 0.2);
-    border-right: 5px solid $white;
-  }
-}
-
-@mixin button-link-primary() {
-  color: $hamburger-grey;
-  letter-spacing: 1.78;
-  text-transform: uppercase;
-  font-weight: 700;
-  padding: 0;
-
-  &:hover,
-  &:active,
-  &:focus {
-    text-decoration: none;
-    color: $menu-gold;
-
-    &::after {
-      content: "";
-      width: 0;
-    }
-  }
-
-  &::after {
-    content: "";
-    transition: all 0.3s ease-in-out;
-    width: 100%;
-    height: 2px;
-    display: block;
-    margin: 0 auto;
-    background: $menu-gold;
-  }
-}
-
-@mixin button-link-secondary() {
-  color: $maroon;
-  letter-spacing: 1.78;
-  text-transform: uppercase;
-  font-weight: 700;
-  padding: 0;
-
-  &:hover,
-  &:active,
-  &:focus {
-    text-decoration: none;
-    color: $hamburger-grey;
-
-    &::after {
-      content: "";
-      width: 0;
-    }
-  }
-
-  &::after {
-    content: "";
-    transition: all 0.3s ease-in-out;
-    width: 100%;
-    height: 2px;
-    display: block;
-    margin: 0 auto;
-    background: $maroon;
-  }
-}
 // Inner page width settings for narrow and wide insets
 @mixin page-inset($inset) {
   max-width: $inset;
