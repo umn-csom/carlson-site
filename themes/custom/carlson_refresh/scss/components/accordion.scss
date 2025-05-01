@@ -1,19 +1,27 @@
-// Visual styles for comments in Barrio.
-
-.accordion-content {
-  &__heading {
-    margin-top: 2.2rem;
-    margin-bottom: 2.2rem;
-  }
-
-  table {
-    max-width: max-content;
-    width: unset !important;
-  }
-}
+@import "../abstracts/import";
 
 .accordion {
   margin-bottom: 30px;
+
+  &-content {
+    &__heading {
+      margin-top: 2.2rem;
+      margin-bottom: 2.2rem;
+    }
+
+    table {
+      max-width: max-content;
+      width: unset !important;
+    }
+  }
+
+  .card {
+    .card-body {
+      *[id] {
+        scroll-margin-top: 200px;
+      }
+    }
+  }
 
   > .card {
     border: 0;
@@ -174,6 +182,13 @@
           left: 100%;
         }
       }
+    }
+  }
+
+  // Fix for EE menu Dropdowns
+  &#block-executiveedcation-menu-link {
+    .card {
+      overflow: visible;
     }
   }
 }

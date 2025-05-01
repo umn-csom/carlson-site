@@ -1,0 +1,161 @@
+.accordion {
+  margin-bottom: 30px; }
+  .accordion-content__heading {
+    margin-top: 2.2rem;
+    margin-bottom: 2.2rem; }
+  .accordion-content table {
+    max-width: max-content;
+    width: unset !important; }
+  .accordion .card .card-body *[id] {
+    scroll-margin-top: 200px; }
+  .accordion > .card {
+    border: 0;
+    border-radius: 0; }
+    .accordion > .card:not(:last-of-type) {
+      margin-bottom: 1px; }
+    .accordion > .card > .card-header {
+      background-color: transparent;
+      padding: 0;
+      border: 0;
+      position: relative; }
+      .accordion > .card > .card-header .btn-link {
+        cursor: pointer;
+        padding: 2rem 2rem 2rem 6rem;
+        width: 100%;
+        word-break: break-word;
+        font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
+        font-weight: 400;
+        font-size: 2rem;
+        letter-spacing: 0.04em;
+        text-align: left;
+        white-space: normal;
+        text-transform: none; }
+        @media (max-width: 991.98px) {
+          .accordion > .card > .card-header .btn-link {
+            padding: 2rem 2rem 2rem 4rem; } }
+        .accordion > .card > .card-header .btn-link:hover, .accordion > .card > .card-header .btn-link:focus, .accordion > .card > .card-header .btn-link:active, .accordion > .card > .card-header .btn-link:visited {
+          text-decoration: none;
+          outline: none; }
+        .accordion > .card > .card-header .btn-link.collapsed {
+          background: #e6e0d2;
+          color: #212529; }
+          .accordion > .card > .card-header .btn-link.collapsed:hover, .accordion > .card > .card-header .btn-link.collapsed:focus {
+            background: #e6e0d2;
+            color: #7a0019; }
+          .accordion > .card > .card-header .btn-link.collapsed:focus-visible {
+            background: #d8cfb9; }
+          .accordion > .card > .card-header .btn-link.collapsed::before {
+            font-family: "carlson-icons" !important;
+            speak: none;
+            font-style: normal;
+            font-weight: 400;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            content: "\e900";
+            color: #7a0019;
+            font-size: 2rem;
+            line-height: 1.5;
+            font-weight: 700;
+            position: absolute;
+            background: none;
+            height: auto;
+            width: auto;
+            margin: 0;
+            padding: 0;
+            left: 2.5rem;
+            top: unset; }
+            @media (max-width: 991.98px) {
+              .accordion > .card > .card-header .btn-link.collapsed::before {
+                left: 1.25rem; } }
+        .accordion > .card > .card-header .btn-link:not(.collapsed), .accordion > .card > .card-header .btn-link:not(.collapsed):hover, .accordion > .card > .card-header .btn-link:not(.collapsed):focus {
+          background: #7a0019;
+          color: #fff;
+          font-weight: 700;
+          letter-spacing: normal; }
+        .accordion > .card > .card-header .btn-link:not(.collapsed):focus-visible {
+          background: #540011; }
+        .accordion > .card > .card-header .btn-link:not(.collapsed)::before {
+          font-family: "carlson-icons" !important;
+          speak: none;
+          font-style: normal;
+          font-weight: 400;
+          font-variant: normal;
+          text-transform: none;
+          line-height: 1;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          content: "\e901";
+          color: #fff;
+          font-size: 2rem;
+          line-height: 1.5;
+          font-weight: 700;
+          position: absolute;
+          background: none;
+          height: auto;
+          width: auto;
+          margin: 0;
+          padding: 0;
+          left: 2.5rem;
+          top: unset;
+          color: #fff; }
+          @media (max-width: 991.98px) {
+            .accordion > .card > .card-header .btn-link:not(.collapsed)::before {
+              left: 1.25rem; } }
+    .accordion > .card > .inner {
+      transition: all 0.26s ease-in-out; }
+      .accordion > .card > .inner > .card-body {
+        padding: 3rem 3rem 5rem;
+        border-bottom: 0.5rem solid #7a0019;
+        overflow: auto; }
+        @media (max-width: 991.98px) {
+          .accordion > .card > .inner > .card-body {
+            padding-left: 0;
+            padding-right: 0; } }
+        .accordion > .card > .inner > .card-body .container.session {
+          padding: 0;
+          max-width: none;
+          width: 100%; }
+        .accordion > .card > .inner > .card-body .sub-accordion {
+          margin-bottom: 0; }
+        .accordion > .card > .inner > .card-body .accordion-content:not(:first-child) {
+          margin-top: 3rem; }
+  @media (max-width: 991.98px) {
+    .accordion:not(.sub-accordion) > .card {
+      overflow: visible; }
+      .accordion:not(.sub-accordion) > .card > .card-header::before, .accordion:not(.sub-accordion) > .card > .card-header::after {
+        content: "";
+        display: block;
+        position: absolute;
+        right: 100%;
+        top: 0;
+        width: 100%;
+        background-color: #7a0019;
+        height: 100%;
+        transition: background-color 0.15s ease-in-out; }
+      .accordion:not(.sub-accordion) > .card > .card-header:has(.collapsed)::before, .accordion:not(.sub-accordion) > .card > .card-header:has(.collapsed)::after {
+        background: #e6e0d2; }
+      .accordion:not(.sub-accordion) > .card > .card-header::after {
+        left: 100%; }
+      .accordion:not(.sub-accordion) > .card > .inner > .card-body::before, .accordion:not(.sub-accordion) > .card > .inner > .card-body::after {
+        content: "";
+        display: block;
+        position: absolute;
+        right: 100%;
+        bottom: 0;
+        width: 100%;
+        background-color: #7a0019;
+        height: 0.5rem; }
+      .accordion:not(.sub-accordion) > .card > .inner > .card-body::after {
+        left: 100%; } }
+  .accordion#block-executiveedcation-menu-link .card {
+    overflow: visible; }
+
+@media print {
+  .accordion > .card > .inner.collapse {
+    display: block;
+    opacity: 1; } }
+
+/*# sourceMappingURL=accordion.css.map */
