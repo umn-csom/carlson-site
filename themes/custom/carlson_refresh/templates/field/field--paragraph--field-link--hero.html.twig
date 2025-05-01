@@ -1,0 +1,14 @@
+{#
+/**
+ * @file
+ * Theme override for the link field in the hero paragraph.
+ */
+#}
+{{ attach_library('carlson_refresh/hero-program') }}
+{% set url = items.0.content['#url'] %}
+{% set title = items.0.content['#title'] %}
+{% if url is not empty and title is not empty %}
+<a href="{{ url }}" class="hero-program__link">
+  {{ title }}&nbsp;&nbsp;{{ source(directory ~ '/images/svg/arrow-right-cta.svg')}}
+</a>
+{% endif %}

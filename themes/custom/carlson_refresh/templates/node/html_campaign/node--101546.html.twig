@@ -17,6 +17,7 @@
   {# Render hero with hero-basic component #}
   {% if content.field_hero_media|field_value is empty %}
     <section>
+      {{ attach_library('carlson_refresh/hero-basic') }}
       <div class="row basic-hero travel-hero">
         <div class="col-11 col-lg-10 offset-lg-1 basic-hero__title">
           <h1>{{ label }}</h1>
@@ -25,6 +26,7 @@
     </section>
   {% else %}
     <section>
+      {{ attach_library('carlson_refresh/hero-basic') }}
       <div class="row basic-hero travel-hero">
         <div class="col-lg-12 basic-hero__img">
           {{ content.field_hero_media }}

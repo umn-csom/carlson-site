@@ -95,6 +95,7 @@
     {# Render hero with hero-basic component #}
     {% if node.field_hero_media.isEmpty %}
       <section>
+        {{ attach_library('carlson_refresh/hero-basic') }}
         <div class="row justify-content-center basic-hero">
           <div class="col-12 basic-hero__title">
             <h1>{{ label }}</h1>
@@ -103,6 +104,7 @@
       </section>
     {% else %}
       <section>
+        {{ attach_library('carlson_refresh/hero-basic') }}
         <div class="row justify-content-center basic-hero">
           <div class="col-12 basic-hero__img">
             {{ content.field_hero_media }}
