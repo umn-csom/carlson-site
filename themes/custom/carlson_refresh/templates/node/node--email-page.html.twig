@@ -114,15 +114,16 @@
     <section class="row basic-page__content">
       <div class="col-12 main-content basic-page__content--inner">
         {# inner_nav region #}
-		    {% if inner_nav %}
-		    <div class="row inner_nav">
-		      <div class="col-12">
+        {{ attach_library('carlson_refresh/inner-nav') }}
+        {% if inner_nav %}
+        <div class="row inner_nav">
+          <div class="col-12">
             <div class="row">
-		          {{ inner_nav }}
+              {{ inner_nav }}
             </div>
-		      </div>
-		    </div>
-		  	{% endif %}
+          </div>
+        </div>
+        {% endif %}
 
         {# Course brochure link #}
         {% if content.field_ee_catalog_link|field_value is not empty %}

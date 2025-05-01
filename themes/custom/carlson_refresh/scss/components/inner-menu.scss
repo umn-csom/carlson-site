@@ -1,0 +1,63 @@
+@import "../abstracts/import";
+
+.inner-menu {
+  margin: 0 0 3rem;
+  background-color: $light-warm-ivory;
+
+  &__collapsed-target {
+    padding: 0 2rem 1.5rem;
+  }
+
+  &__collapsed-trigger {
+    background: none;
+    border: 0;
+    color: $dark-dark-gray;
+    display: flex;
+    font-weight: 600;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: left;
+    width: 100%;
+  }
+
+  [aria-expanded="false"] > &__close-icon {
+    display: none;
+  }
+
+  [aria-expanded="false"] + &__collapsed-target {
+    display: none;
+  }
+
+  &:has([aria-expanded="true"]) {
+    background-color: $light-light-ivory;
+  }
+
+  [aria-expanded="true"] > &__open-icon {
+    display: none;
+  }
+
+  [aria-expanded="true"] > &__collapsed-target {
+    display: block;
+  }
+
+  &__nav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__link {
+    display: block;
+    padding: 0.5rem 1.5rem;
+    border-left: 6px solid transparent;
+    transition: border-left 300ms ease-out;
+
+    &.is-active {
+      border-left-color: $gold;
+    }
+  }
+}

@@ -91,15 +91,16 @@
     <section class="row basic-page__content">
       <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
         {# inner_nav region #}
-		    {% if inner_nav %}
-		    <div class="row inner_nav">
-		      <div class="col-12">
+        {% if inner_nav %}
+        {{ attach_library('carlson_refresh/inner-nav') }}
+        <div class="row inner_nav">
+          <div class="col-12">
             <div class="row">
-		          {{ inner_nav }}
+              {{ inner_nav }}
             </div>
-		      </div>
-		    </div>
-		  	{% endif %}
+          </div>
+        </div>
+        {% endif %}
 
         <div class="row">
 
