@@ -23456,7 +23456,7 @@ figure:has(.csom-datatable--basic-3):not(.table.ck-widget) > figcaption,
         max-width: max-content;
         flex: 0 1 70%; }
 
-.node--type-executive-ed-program .inner_nav .block .inner_nav--accordion .card-body {
+.node--type-executive-ed-program .inner_nav .block .inner_nav--accordion .accordion-content-inner {
   padding: 0; }
 
 .node--type-executive-ed-program .inner_nav .block .inner_nav--accordion .sidebar-menu {
@@ -26314,37 +26314,44 @@ body.page-node-type-curriculum-plan {
   .faculty-directory .view-filters .accordion {
     padding: 0;
     margin: 0; }
-    .faculty-directory .view-filters .accordion .card {
-      overflow: visible; }
-      .faculty-directory .view-filters .accordion .card .card-header {
-        border-top: 0; }
-        @media (min-width: 992px) {
-          .faculty-directory .view-filters .accordion .card .card-header {
-            display: none; } }
-        .faculty-directory .view-filters .accordion .card .card-header .btn-link {
-          background: transparent;
-          padding-left: 0;
-          font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
-          font-weight: 700;
-          letter-spacing: 1.78px;
-          color: #7a0019;
-          text-transform: uppercase;
-          font-size: 1.6rem;
-          line-height: 2rem; }
-          .faculty-directory .view-filters .accordion .card .card-header .btn-link::before {
-            font-weight: 700;
-            color: #363230;
-            font-size: 2rem; }
-      .faculty-directory .view-filters .accordion .card .card-body {
-        padding: 1.25rem 0; }
-      .faculty-directory .view-filters .accordion .card .inner {
-        background-image: none; }
-        .faculty-directory .view-filters .accordion .card .inner.show {
-          background-image: none; }
-        @media (min-width: 992px) {
-          .faculty-directory .view-filters .accordion .card .inner {
-            opacity: 1;
-            display: block; } }
+    @media (max-width: 991.98px) {
+      .faculty-directory .view-filters .accordion {
+        background-color: #eae7e2; }
+        .faculty-directory .view-filters .accordion:has([aria-expanded="true"]) {
+          background-color: #f9f5f4; } }
+    .faculty-directory .view-filters .accordion-button {
+      background: none;
+      border: 0;
+      color: #212529;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      font-size: 1.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: left;
+      width: 100%; }
+      .faculty-directory .view-filters .accordion-button svg {
+        stroke: currentColor; }
+      @media (min-width: 992px) {
+        .faculty-directory .view-filters .accordion-button {
+          display: none; } }
+    .faculty-directory .view-filters .accordion-content-inner {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid #d8d8d8; }
+      @media (max-width: 991.98px) {
+        .faculty-directory .view-filters .accordion-content-inner {
+          padding: 1.25rem 2rem;
+          border-bottom: 0; } }
+    .faculty-directory .view-filters .accordion-content {
+      background-image: none; }
+      @media (min-width: 992px) {
+        .faculty-directory .view-filters .accordion-content {
+          opacity: 1;
+          display: block; } }
   .faculty-directory .view-filters .form-row {
     display: flex;
     justify-content: center;
@@ -26359,7 +26366,8 @@ body.page-node-type-curriculum-plan {
       margin: 0;
       padding: 1rem; }
     .faculty-directory .view-filters .form-row #edit-actions {
-      width: 100%; }
+      width: 100%;
+      flex-grow: 1; }
       @media (min-width: 992px) {
         .faculty-directory .view-filters .form-row #edit-actions {
           width: auto; } }

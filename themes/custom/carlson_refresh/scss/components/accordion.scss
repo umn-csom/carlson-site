@@ -1,12 +1,15 @@
 @import "../abstracts/import";
 
 .accordion {
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
 
-  &-content {
-    &__heading {
-      margin-top: 2.2rem;
-      margin-bottom: 2.2rem;
+  &--child {
+    margin-bottom: 0;
+  }
+
+  &__wrapper {
+    &:not(:first-child) {
+      margin-top: 3rem;
     }
 
     table {
@@ -15,131 +18,131 @@
     }
   }
 
-  .card {
-    .card-body {
-      *[id] {
-        scroll-margin-top: 200px;
+  &__heading {
+    margin-top: 2.2rem;
+    margin-bottom: 2.2rem;
+  }
+
+  &-item {
+    &:not(:last-child) {
+      margin-bottom: 1px;
+    }
+
+    *[id] {
+      scroll-margin-top: 200px;
+    }
+  }
+
+  &-button {
+    cursor: pointer;
+    border: 0;
+    display: flex;
+    gap: 1.5rem;
+    padding: 2rem 2.4rem;
+    width: 100%;
+    position: relative;
+    word-break: break-word;
+    font-family: $font-family-sans-serif;
+    font-weight: 400;
+    font-size: 2rem;
+    letter-spacing: 0.04em;
+    text-align: left;
+    white-space: normal;
+    text-transform: none;
+
+    @include media-breakpoint-down(md) {
+      padding: 1.5rem;
+    }
+
+    &:hover,
+    &:focus,
+    &:active,
+    &:visited {
+      text-decoration: none;
+      outline: none;
+    }
+
+    svg {
+      margin: 0.5rem 0;
+      stroke: $maroon;
+      flex: 0 0 auto;
+    }
+
+    &.collapsed {
+      background: $ivory;
+      color: $body-color;
+
+      &:hover,
+      &:focus {
+        background: $ivory;
+        color: $maroon;
+      }
+
+      &:focus-visible {
+        background: darken($ivory, 7.5%);
+      }
+
+      .icon-chevron-up-sm,
+      .icon-minus {
+        display: none;
+      }
+    }
+
+    &:not(.collapsed) {
+      &,
+      &:hover,
+      &:focus {
+        background: $maroon;
+        color: $white;
+        font-weight: 700;
+        letter-spacing: normal;
+      }
+
+      &:focus-visible {
+        background: darken($maroon, 7.5%);
+      }
+
+      svg {
+        stroke: $white;
+      }
+
+      .icon-chevron-down-sm,
+      .icon-plus {
+        display: none;
       }
     }
   }
 
-  > .card {
-    border: 0;
-    border-radius: 0;
+  &-content {
+    transition: all 0.26s ease-in-out;
+    position: relative;
 
-    &:not(:last-of-type) {
-      margin-bottom: 1px;
+    &-inner {
+      padding: 3rem 3rem 5rem;
+      border-bottom: 0.5rem solid $maroon;
+      overflow: auto;
+
+      @include media-breakpoint-down(md) {
+        padding-left: 0;
+        padding-right: 0;
+      }
     }
 
-    > .card-header {
-      background-color: transparent;
+    .container.session {
       padding: 0;
-      border: 0;
-      position: relative;
-
-      .btn-link {
-        cursor: pointer;
-        padding: 2rem 2rem 2rem 6rem;
-        width: 100%;
-        word-break: break-word;
-        font-family: $font-family-sans-serif;
-        font-weight: 400;
-        font-size: 2rem;
-        letter-spacing: 0.04em;
-        text-align: left;
-        white-space: normal;
-        text-transform: none;
-
-        @include media-breakpoint-down(md) {
-          padding: 2rem 2rem 2rem 4rem;
-        }
-
-        &:hover,
-        &:focus,
-        &:active,
-        &:visited {
-          text-decoration: none;
-          outline: none;
-        }
-
-        &.collapsed {
-          background: $ivory;
-          color: $body-color;
-
-          &:hover,
-          &:focus {
-            background: $ivory;
-            color: $maroon;
-          }
-
-          &:focus-visible {
-            background: darken($ivory, 7.5%);
-          }
-
-          &::before {
-            @include accordion-icon($icon-plus, $maroon);
-          }
-        }
-
-        &:not(.collapsed) {
-          &,
-          &:hover,
-          &:focus {
-            background: $maroon;
-            color: $white;
-            font-weight: 700;
-            letter-spacing: normal;
-          }
-
-          &:focus-visible {
-            background: darken($maroon, 7.5%);
-          }
-
-          &::before {
-            @include accordion-icon($icon-minus, $white);
-
-            color: $white;
-          }
-        }
-      }
-    }
-
-    > .inner {
-      transition: all 0.26s ease-in-out;
-
-      > .card-body {
-        padding: 3rem 3rem 5rem;
-        border-bottom: 0.5rem solid $maroon;
-        overflow: auto;
-
-        @include media-breakpoint-down(md) {
-          padding-left: 0;
-          padding-right: 0;
-        }
-
-        .container.session {
-          padding: 0;
-          max-width: none;
-          width: 100%;
-        }
-
-        .sub-accordion {
-          margin-bottom: 0;
-        }
-
-        .accordion-content:not(:first-child) {
-          margin-top: 3rem;
-        }
-      }
+      max-width: none;
+      width: 100%;
     }
   }
 
   // Edge-to-edge support:
-  &:not(.sub-accordion) > .card {
+  &-item--edge-expand-mobile {
     @include media-breakpoint-down(md) {
       overflow: visible; // edge-to-edge
 
-      > .card-header {
+      > .accordion-button {
+        padding: 1.5rem 0;
+
         &::before,
         &::after {
           content: "";
@@ -150,22 +153,22 @@
           width: 100%;
           background-color: $maroon;
           height: 100%;
-          transition: background-color 0.15s ease-in-out;
         }
 
-        &:has(.collapsed) {
+        &[aria-expanded="false"] {
           &::before,
           &::after {
-            background: $ivory;
+            background-color: $ivory;
           }
         }
 
         &::after {
           left: 100%;
+          right: initial;
         }
       }
 
-      > .inner > .card-body {
+      > .accordion-content {
         &::before,
         &::after {
           content: "";
@@ -180,6 +183,7 @@
 
         &::after {
           left: 100%;
+          right: initial;
         }
       }
     }

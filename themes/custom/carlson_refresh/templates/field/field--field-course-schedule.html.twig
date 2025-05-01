@@ -8,7 +8,7 @@
 <!-- Accordion for Mobile -->
 {{ attach_library('carlson_refresh/accordion') }}
 <div class="accordion d-block d-lg-none mb-0">
-  <div class="row component-paragraph accordion-content">
+  <div class="row component-paragraph">
     {% if items is not empty %}
 
       <div class="accordion col-12" id="accordion-list-course-schedule">
@@ -16,29 +16,28 @@
         {% for item in items %}
           {% set paragraph = item.content['#paragraph'] %}
           {% set paragraphId = paragraph.id() %}
-          <div class="card">
-            <div class="card-header">
-              <span class="mb-0">
-                {% set is_active = inc == 0 %}
-                {% set collapsed = is_active ? '' : 'collapsed' %}
-                {% set expanded = is_active ? 'true' : 'false' %}
-                {% set show = is_active ? 'show' : '' %}
-                <button id="heading-{{ paragraphId }}-{{ inc }}"
-                  class="btn btn-link {{ collapsed }}"
-                  type="button"
-                  data-toggle="collapse"
-                  data-target="#collapse-{{ paragraphId }}-{{ inc }}"
-                  aria-expanded="{{ expanded }}"
-                  aria-controls="collapse-{{ paragraphId }}-{{ inc }}">
-                  {{ paragraph.field_day_title.value }}
-                </button>
-              </span>
-            </div>
+          {% set is_active = inc == 0 %}
+          {% set collapsed = is_active ? '' : 'collapsed' %}
+          {% set expanded = is_active ? 'true' : 'false' %}
+          {% set show = is_active ? 'show' : '' %}
+          <div class="accordion-item accordion-item--edge-expand-mobile">
+            <button id="heading-{{ paragraphId }}-{{ inc }}"
+              class="accordion-button {{ collapsed }}"
+              type="button"
+              data-toggle="collapse"
+              data-target="#collapse-{{ paragraphId }}-{{ inc }}"
+              aria-expanded="{{ expanded }}"
+              aria-controls="collapse-{{ paragraphId }}-{{ inc }}">
+              {{ source('@carlson_refresh/../images/svg/plus.svg') }}
+              {{ source('@carlson_refresh/../images/svg/minus.svg') }}
+              {{ paragraph.field_day_title.value }}
+            </button>
             <div id="collapse-{{ paragraphId }}-{{ inc }}"
-              class="collapse {{ show }} inner"
+              class="accordion-content collapse {{ show }}"
               aria-labelledby="heading-{{ paragraphId }}-{{ inc }}"
-              data-parent="#accordion-list-course-schedule">
-              <div class="card-body">
+              data-parent="#accordion-list-course-schedule"
+              role="region">
+              <div class="accordion-content-inner">
                 {{ item.content }}
               </div>
             </div>

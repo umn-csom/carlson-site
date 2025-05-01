@@ -1,145 +1,103 @@
 .accordion {
-  margin-bottom: 30px; }
-  .accordion-content__heading {
-    margin-top: 2.2rem;
-    margin-bottom: 2.2rem; }
-  .accordion-content table {
+  margin-bottom: 3rem; }
+  .accordion--child {
+    margin-bottom: 0; }
+  .accordion__wrapper:not(:first-child) {
+    margin-top: 3rem; }
+  .accordion__wrapper table {
     max-width: max-content;
     width: unset !important; }
-  .accordion .card .card-body *[id] {
+  .accordion__heading {
+    margin-top: 2.2rem;
+    margin-bottom: 2.2rem; }
+  .accordion-item:not(:last-child) {
+    margin-bottom: 1px; }
+  .accordion-item *[id] {
     scroll-margin-top: 200px; }
-  .accordion > .card {
+  .accordion-button {
+    cursor: pointer;
     border: 0;
-    border-radius: 0; }
-    .accordion > .card:not(:last-of-type) {
-      margin-bottom: 1px; }
-    .accordion > .card > .card-header {
-      background-color: transparent;
+    display: flex;
+    gap: 1.5rem;
+    padding: 2rem 2.4rem;
+    width: 100%;
+    position: relative;
+    word-break: break-word;
+    font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
+    font-weight: 400;
+    font-size: 2rem;
+    letter-spacing: 0.04em;
+    text-align: left;
+    white-space: normal;
+    text-transform: none; }
+    @media (max-width: 991.98px) {
+      .accordion-button {
+        padding: 1.5rem; } }
+    .accordion-button:hover, .accordion-button:focus, .accordion-button:active, .accordion-button:visited {
+      text-decoration: none;
+      outline: none; }
+    .accordion-button svg {
+      margin: 0.5rem 0;
+      stroke: #7a0019;
+      flex: 0 0 auto; }
+    .accordion-button.collapsed {
+      background: #e6e0d2;
+      color: #212529; }
+      .accordion-button.collapsed:hover, .accordion-button.collapsed:focus {
+        background: #e6e0d2;
+        color: #7a0019; }
+      .accordion-button.collapsed:focus-visible {
+        background: #d8cfb9; }
+      .accordion-button.collapsed .icon-chevron-up-sm,
+      .accordion-button.collapsed .icon-minus {
+        display: none; }
+    .accordion-button:not(.collapsed), .accordion-button:not(.collapsed):hover, .accordion-button:not(.collapsed):focus {
+      background: #7a0019;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: normal; }
+    .accordion-button:not(.collapsed):focus-visible {
+      background: #540011; }
+    .accordion-button:not(.collapsed) svg {
+      stroke: #fff; }
+    .accordion-button:not(.collapsed) .icon-chevron-down-sm,
+    .accordion-button:not(.collapsed) .icon-plus {
+      display: none; }
+  .accordion-content {
+    transition: all 0.26s ease-in-out;
+    position: relative; }
+    .accordion-content-inner {
+      padding: 3rem 3rem 5rem;
+      border-bottom: 0.5rem solid #7a0019;
+      overflow: auto; }
+      @media (max-width: 991.98px) {
+        .accordion-content-inner {
+          padding-left: 0;
+          padding-right: 0; } }
+    .accordion-content .container.session {
       padding: 0;
-      border: 0;
-      position: relative; }
-      .accordion > .card > .card-header .btn-link {
-        cursor: pointer;
-        padding: 2rem 2rem 2rem 6rem;
-        width: 100%;
-        word-break: break-word;
-        font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
-        font-weight: 400;
-        font-size: 2rem;
-        letter-spacing: 0.04em;
-        text-align: left;
-        white-space: normal;
-        text-transform: none; }
-        @media (max-width: 991.98px) {
-          .accordion > .card > .card-header .btn-link {
-            padding: 2rem 2rem 2rem 4rem; } }
-        .accordion > .card > .card-header .btn-link:hover, .accordion > .card > .card-header .btn-link:focus, .accordion > .card > .card-header .btn-link:active, .accordion > .card > .card-header .btn-link:visited {
-          text-decoration: none;
-          outline: none; }
-        .accordion > .card > .card-header .btn-link.collapsed {
-          background: #e6e0d2;
-          color: #212529; }
-          .accordion > .card > .card-header .btn-link.collapsed:hover, .accordion > .card > .card-header .btn-link.collapsed:focus {
-            background: #e6e0d2;
-            color: #7a0019; }
-          .accordion > .card > .card-header .btn-link.collapsed:focus-visible {
-            background: #d8cfb9; }
-          .accordion > .card > .card-header .btn-link.collapsed::before {
-            font-family: "carlson-icons" !important;
-            speak: none;
-            font-style: normal;
-            font-weight: 400;
-            font-variant: normal;
-            text-transform: none;
-            line-height: 1;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            content: "\e900";
-            color: #7a0019;
-            font-size: 2rem;
-            line-height: 1.5;
-            font-weight: 700;
-            position: absolute;
-            background: none;
-            height: auto;
-            width: auto;
-            margin: 0;
-            padding: 0;
-            left: 2.5rem;
-            top: unset; }
-            @media (max-width: 991.98px) {
-              .accordion > .card > .card-header .btn-link.collapsed::before {
-                left: 1.25rem; } }
-        .accordion > .card > .card-header .btn-link:not(.collapsed), .accordion > .card > .card-header .btn-link:not(.collapsed):hover, .accordion > .card > .card-header .btn-link:not(.collapsed):focus {
-          background: #7a0019;
-          color: #fff;
-          font-weight: 700;
-          letter-spacing: normal; }
-        .accordion > .card > .card-header .btn-link:not(.collapsed):focus-visible {
-          background: #540011; }
-        .accordion > .card > .card-header .btn-link:not(.collapsed)::before {
-          font-family: "carlson-icons" !important;
-          speak: none;
-          font-style: normal;
-          font-weight: 400;
-          font-variant: normal;
-          text-transform: none;
-          line-height: 1;
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-          content: "\e901";
-          color: #fff;
-          font-size: 2rem;
-          line-height: 1.5;
-          font-weight: 700;
-          position: absolute;
-          background: none;
-          height: auto;
-          width: auto;
-          margin: 0;
-          padding: 0;
-          left: 2.5rem;
-          top: unset;
-          color: #fff; }
-          @media (max-width: 991.98px) {
-            .accordion > .card > .card-header .btn-link:not(.collapsed)::before {
-              left: 1.25rem; } }
-    .accordion > .card > .inner {
-      transition: all 0.26s ease-in-out; }
-      .accordion > .card > .inner > .card-body {
-        padding: 3rem 3rem 5rem;
-        border-bottom: 0.5rem solid #7a0019;
-        overflow: auto; }
-        @media (max-width: 991.98px) {
-          .accordion > .card > .inner > .card-body {
-            padding-left: 0;
-            padding-right: 0; } }
-        .accordion > .card > .inner > .card-body .container.session {
-          padding: 0;
-          max-width: none;
-          width: 100%; }
-        .accordion > .card > .inner > .card-body .sub-accordion {
-          margin-bottom: 0; }
-        .accordion > .card > .inner > .card-body .accordion-content:not(:first-child) {
-          margin-top: 3rem; }
+      max-width: none;
+      width: 100%; }
   @media (max-width: 991.98px) {
-    .accordion:not(.sub-accordion) > .card {
+    .accordion-item--edge-expand-mobile {
       overflow: visible; }
-      .accordion:not(.sub-accordion) > .card > .card-header::before, .accordion:not(.sub-accordion) > .card > .card-header::after {
-        content: "";
-        display: block;
-        position: absolute;
-        right: 100%;
-        top: 0;
-        width: 100%;
-        background-color: #7a0019;
-        height: 100%;
-        transition: background-color 0.15s ease-in-out; }
-      .accordion:not(.sub-accordion) > .card > .card-header:has(.collapsed)::before, .accordion:not(.sub-accordion) > .card > .card-header:has(.collapsed)::after {
-        background: #e6e0d2; }
-      .accordion:not(.sub-accordion) > .card > .card-header::after {
-        left: 100%; }
-      .accordion:not(.sub-accordion) > .card > .inner > .card-body::before, .accordion:not(.sub-accordion) > .card > .inner > .card-body::after {
+      .accordion-item--edge-expand-mobile > .accordion-button {
+        padding: 1.5rem 0; }
+        .accordion-item--edge-expand-mobile > .accordion-button::before, .accordion-item--edge-expand-mobile > .accordion-button::after {
+          content: "";
+          display: block;
+          position: absolute;
+          right: 100%;
+          top: 0;
+          width: 100%;
+          background-color: #7a0019;
+          height: 100%; }
+        .accordion-item--edge-expand-mobile > .accordion-button[aria-expanded="false"]::before, .accordion-item--edge-expand-mobile > .accordion-button[aria-expanded="false"]::after {
+          background-color: #e6e0d2; }
+        .accordion-item--edge-expand-mobile > .accordion-button::after {
+          left: 100%;
+          right: initial; }
+      .accordion-item--edge-expand-mobile > .accordion-content::before, .accordion-item--edge-expand-mobile > .accordion-content::after {
         content: "";
         display: block;
         position: absolute;
@@ -148,8 +106,9 @@
         width: 100%;
         background-color: #7a0019;
         height: 0.5rem; }
-      .accordion:not(.sub-accordion) > .card > .inner > .card-body::after {
-        left: 100%; } }
+      .accordion-item--edge-expand-mobile > .accordion-content::after {
+        left: 100%;
+        right: initial; } }
   .accordion#block-executiveedcation-menu-link .card {
     overflow: visible; }
 

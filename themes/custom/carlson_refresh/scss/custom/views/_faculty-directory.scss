@@ -6,47 +6,55 @@
       padding: 0;
       margin: 0;
 
-      .card {
-        overflow: visible;
+      @include media-breakpoint-down(md) {
+        background-color: $light-warm-ivory;
 
-        .card-header {
-          border-top: 0;
+        &:has([aria-expanded="true"]) {
+          background-color: $light-light-ivory;
+        }
+      }
 
-          @include media-breakpoint-up(lg) {
-            display: none;
-          }
+      &-button {
+        background: none;
+        border: 0;
+        color: $dark-dark-gray;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+        font-size: 1.6rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        text-align: left;
+        width: 100%;
 
-          .btn-link {
-            background: transparent;
-            padding-left: 0;
-
-            @include bold_link(1.6rem);
-
-            line-height: 2rem;
-
-            &::before {
-              font-weight: 700;
-              color: $slate;
-              font-size: 2rem;
-            }
-          }
+        svg {
+          stroke: currentColor;
         }
 
-        .card-body {
-          padding: 1.25rem 0;
+        @include media-breakpoint-up(lg) {
+          display: none;
         }
+      }
 
-        .inner {
-          background-image: none;
+      &-content-inner {
+        padding: 1.25rem 0;
+        border-bottom: 1px solid $menu-line-grey;
 
-          &.show {
-            background-image: none;
-          }
+        @include media-breakpoint-down(md) {
+          padding: 1.25rem 2rem;
+          border-bottom: 0;
+        }
+      }
 
-          @include media-breakpoint-up(lg) {
-            opacity: 1;
-            display: block;
-          }
+      &-content {
+        background-image: none;
+
+        @include media-breakpoint-up(lg) {
+          opacity: 1;
+          display: block;
         }
       }
     }
@@ -73,6 +81,7 @@
 
       #edit-actions {
         width: 100%;
+        flex-grow: 1;
 
         @include media-breakpoint-up(lg) {
           width: auto;

@@ -173,40 +173,39 @@
     .accordion {
       margin-bottom: 0;
 
-      .card {
+      &-item {
         overflow: visible;
+      }
 
-        .card-header {
-          @include media-breakpoint-up(lg) {
-            display: none;
-          }
+      &-button {
+        background: transparent;
+        color: $slate;
 
-          .btn-link {
-            background: transparent;
+        @include bold_link(1.6rem, $maroon);
 
-            @include bold_link(1.6rem, $maroon);
+        line-height: 2rem;
 
-            line-height: 2rem;
-
-            &::before {
-              color: $slate;
-              font-size: 2rem;
-            }
-          }
+        svg {
+          height: 2rem;
         }
 
-        .card-body {
-          padding: 0 1.25rem;
+        @include media-breakpoint-up(lg) {
+          display: none;
         }
+      }
 
-        .inner {
-          background-image: none;
 
-          @include media-breakpoint-up(lg) {
-            opacity: 1;
-            display: block;
-          }
+      &-content {
+        background-image: none;
+
+        @include media-breakpoint-up(lg) {
+          opacity: 1;
+          display: block;
         }
+      }
+
+      &-content-inner {
+        padding: 0 1.25rem;
       }
     }
   }
