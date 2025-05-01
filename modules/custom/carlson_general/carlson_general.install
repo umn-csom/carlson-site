@@ -152,3 +152,304 @@ function carlson_general_update_100103() {
   return t('Successfully fixed heading structure issues. See system log for details.');
 }
 
+/**
+ * Remove title attributes from img tags in WYSIWYG fields - all batches in one request.
+ */
+function carlson_general_update_100104() {
+  // Set longer execution limits
+  ini_set('max_execution_time', 1800);  // 30 minutes
+
+  $start_time = microtime(true);
+  \Drupal::logger('carlson_general')->notice('Starting bulk removal of img title attributes...');
+
+  $entity_field_manager = \Drupal::service('entity_field.manager');
+  $entity_type_manager = \Drupal::service('entity_type.manager');
+  $db = \Drupal::database();
+
+  // === STEP 1: Find all text fields ===
+  $fields_to_process = [];
+
+  // APPROACH 1: Get configured fields
+  $field_configs = $entity_type_manager->getStorage('field_config')->loadByProperties([
+    'field_type' => ['text', 'text_long', 'text_with_summary'],
+  ]);
+
+  foreach ($field_configs as $field_config) {
+    $entity_type = $field_config->getTargetEntityTypeId();
+    $bundle = $field_config->getTargetBundle();
+    $field_name = $field_config->getName();
+
+    $fields_to_process[] = [
+      'entity_type' => $entity_type,
+      'bundle' => $bundle,
+      'field_name' => $field_name,
+    ];
+  }
+
+  // APPROACH 2: Get base fields for all entity types
+  $entity_types = $entity_type_manager->getDefinitions();
+  foreach ($entity_types as $entity_type_id => $entity_type) {
+    if ($entity_type->entityClassImplements('\Drupal\Core\Entity\ContentEntityInterface')) {
+      // Get all base fields for this entity type
+      $base_fields = $entity_field_manager->getBaseFieldDefinitions($entity_type_id);
+
+      foreach ($base_fields as $field_name => $field_definition) {
+        $field_type = $field_definition->getType();
+
+        // Only include text fields
+        if (in_array($field_type, ['text', 'text_long', 'text_with_summary'])) {
+          // For node body fields, we need one entry per bundle
+          if ($entity_type_id == 'node' && $field_name == 'body') {
+            $bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type_id);
+            foreach (array_keys($bundles) as $bundle) {
+              $fields_to_process[] = [
+                'entity_type' => $entity_type_id,
+                'bundle' => $bundle,
+                'field_name' => $field_name,
+              ];
+            }
+          } else {
+            $fields_to_process[] = [
+              'entity_type' => $entity_type_id,
+              'bundle' => $entity_type_id,
+              'field_name' => $field_name,
+            ];
+          }
+        }
+      }
+    }
+  }
+
+  // APPROACH 3: Directly scan database tables for field tables
+  $tables = $db->query("SHOW TABLES LIKE '%\\_\\_%'")->fetchCol();
+
+  foreach ($tables as $table) {
+    // Only look for field data tables, not revision tables
+    if (strpos($table, '__') !== FALSE && strpos($table, 'revision') === FALSE) {
+      list($entity_type, $field_name) = explode('__', $table, 2);
+
+      // Check if table has a value column (text fields should)
+      $schema = $db->query("DESCRIBE `{$table}`")->fetchAllAssoc('Field');
+      $value_column = $field_name . '_value';
+
+      if (isset($schema[$value_column])) {
+        // This appears to be a text field table
+        $fields_to_process[] = [
+          'entity_type' => $entity_type,
+          'bundle' => 'all',  // We don't know the bundle but don't need it
+          'field_name' => $field_name,
+          'table' => $table,
+          'value_column' => $value_column,
+        ];
+      }
+    }
+  }
+
+  // Remove any duplicates (by entity_type and field_name)
+  $unique_fields = [];
+  foreach ($fields_to_process as $field) {
+    $key = $field['entity_type'] . '|' . $field['field_name'];
+    $unique_fields[$key] = $field;
+  }
+  $fields_to_process = array_values($unique_fields);
+
+  \Drupal::logger('carlson_general')->notice('Found @count text fields to process', [
+    '@count' => count($fields_to_process)
+  ]);
+
+  // === STEP 2: Process all fields directly ===
+  $processed_entities = 0;
+  $updated_entities = 0;
+  $updated_by_type = [];
+  $log = [];
+
+  // Process each field directly
+  foreach ($fields_to_process as $field_index => $field) {
+    $entity_type = $field['entity_type'];
+    $field_name = $field['field_name'];
+
+    // Progress logging - report every 10 fields
+    if ($field_index % 10 === 0) {
+      \Drupal::logger('carlson_general')->notice('Processing field @current of @total', [
+        '@current' => $field_index + 1,
+        '@total' => count($fields_to_process)
+      ]);
+    }
+
+    // Get table name for the field
+    if (isset($field['table']) && isset($field['value_column'])) {
+      $table_name = $field['table'];
+      $value_column = $field['value_column'];
+    } else {
+      $table_name = $entity_type . '__' . $field_name;
+      $value_column = $field_name . '_value';
+    }
+    $entity_id_column = 'entity_id';
+
+    // Load entity storage
+    $entity_storage = \Drupal::entityTypeManager()->getStorage($entity_type);
+
+    try {
+      // Query without batching - get all entities with title attributes
+      $query = \Drupal::database()->select($table_name, 't')
+        ->fields('t', [$entity_id_column])
+        ->condition('t.' . $value_column, '%<img%title=%', 'LIKE');
+
+      $result = $query->execute()->fetchCol();
+
+      // Process all results at once
+      if (!empty($result)) {
+        $entities = $entity_storage->loadMultiple($result);
+
+        foreach ($entities as $entity) {
+          $field_items = $entity->get($field_name);
+          $field_updated = false;
+          $title_attrs_removed = 0;
+
+          // Process all values in multi-value fields
+          foreach ($field_items as $delta => $item) {
+            $field_value = $item->value;
+
+            // Only process if the field has content and contains img tags with title attributes
+            if (!empty($field_value) && strpos($field_value, '<img') !== false && strpos($field_value, 'title=') !== false) {
+              // Count how many title attributes before changes
+              $title_count_before = preg_match_all('/<img[^>]*title=["\'](.*?)["\'][^>]*>/i', $field_value, $matches);
+
+              // Use regex to find and remove title attributes from img tags
+              $pattern = '/<img\b([^>]*)\btitle\s*=\s*(["\'])(.*?)\2([^>]*)>/is';
+              $replacement = '<img$1$3>';
+              $new_value = preg_replace($pattern, $replacement, $field_value);
+
+              // Count how many title attributes after changes
+              $title_count_after = preg_match_all('/<img[^>]*title=["\'](.*?)["\'][^>]*>/i', $new_value, $matches);
+              $removed_count = $title_count_before - $title_count_after;
+
+              // If content was changed, update the entity
+              if ($new_value !== $field_value) {
+                $entity->get($field_name)->set($delta, ['value' => $new_value, 'format' => $item->format]);
+                $field_updated = true;
+                $title_attrs_removed += $removed_count;
+              }
+            }
+          }
+
+          // Save entity if any field values were updated
+          if ($field_updated) {
+            $entity->save();
+            $updated_entities++;
+
+            // Get entity label or ID
+            $entity_label = '';
+            if (method_exists($entity, 'label') && $entity->label()) {
+              $entity_label = $entity->label();
+            } else {
+              $entity_label = "ID: " . $entity->id();
+            }
+
+            // Find parent node for paragraphs
+            $parent_info = '';
+            if ($entity_type == 'paragraph') {
+              try {
+                // Get the parent entity
+                $parent_field = $entity->get('parent_field_name')->value;
+                $parent_type = $entity->get('parent_type')->value;
+                $parent_id = $entity->get('parent_id')->value;
+
+                if ($parent_type && $parent_id) {
+                  // Try to load the parent entity
+                  $parent_entity = \Drupal::entityTypeManager()
+                    ->getStorage($parent_type)
+                    ->load($parent_id);
+
+                  if ($parent_entity) {
+                    $parent_label = method_exists($parent_entity, 'label') ? $parent_entity->label() : "ID: $parent_id";
+                    $parent_info = " (in $parent_type: \"$parent_label\", ID: $parent_id)";
+                  } else {
+                    $parent_info = " (in $parent_type ID: $parent_id)";
+                  }
+                }
+              } catch (\Exception $e) {
+                $parent_info = " (parent lookup failed: {$e->getMessage()})";
+              }
+            }
+
+            // Track by entity type for summary
+            if (!isset($updated_by_type[$entity_type])) {
+              $updated_by_type[$entity_type] = [];
+            }
+            $updated_by_type[$entity_type][] = [
+              'id' => $entity->id(),
+              'label' => $entity_label,
+              'attributes_removed' => $title_attrs_removed,
+              'parent_info' => $parent_info
+            ];
+
+            // Add detailed log entry with parent info for paragraphs
+            $log[] = t(
+              'Updated @type "@label" (ID: @id)@parent_info: Removed @count title attributes from @field field',
+              [
+                '@type' => $entity_type,
+                '@label' => $entity_label,
+                '@id' => $entity->id(),
+                '@parent_info' => $parent_info,
+                '@count' => $title_attrs_removed,
+                '@field' => $field_name,
+              ]
+            );
+          }
+
+          $processed_entities++;
+        }
+      }
+    } catch (\Exception $e) {
+      // Log error and continue with next field
+      \Drupal::logger('carlson_general')->error('Error processing field @field for entity type @type: @error', [
+        '@field' => $field_name,
+        '@type' => $entity_type,
+        '@error' => $e->getMessage(),
+      ]);
+    }
+  }
+
+  // === STEP 3: Create summary and log file ===
+  $log_file = \Drupal::service('file_system')->getTempDirectory() . '/img_title_removal_' . date('Y-m-d_H-i-s') . '.log';
+  file_put_contents($log_file, implode("\n", $log));
+
+  // Create a summary of entities updated by type
+  $summary = [];
+  $total_removed = 0;
+  foreach ($updated_by_type as $type => $entities) {
+    $type_total = count($entities);
+    $entity_list = [];
+    $removed_attrs = 0;
+    foreach ($entities as $entity_data) {
+      $entity_list[] = $entity_data['label'] . ' (ID: ' . $entity_data['id'] . ')' .
+        (!empty($entity_data['parent_info']) ? $entity_data['parent_info'] : '');
+      $removed_attrs += $entity_data['attributes_removed'];
+    }
+    $total_removed += $removed_attrs;
+    $summary[] = "$type ($type_total): " . implode(', ', $entity_list);
+  }
+
+  // Add summary to log file
+  $summary_text = "=== SUMMARY ===\n";
+  $summary_text .= "Total entities processed: {$processed_entities}\n";
+  $summary_text .= "Total entities updated: {$updated_entities}\n";
+  $summary_text .= "Total title attributes removed: {$total_removed}\n\n";
+  $summary_text .= "Updated entities by type:\n" . implode("\n", $summary);
+  file_put_contents($log_file, "\n\n" . $summary_text, FILE_APPEND);
+
+  $execution_time = microtime(true) - $start_time;
+  \Drupal::logger('carlson_general')->notice('Completed image title removal in @time seconds', [
+    '@time' => round($execution_time, 2)
+  ]);
+
+  return t(
+    'Removed title attributes from images in WYSIWYG fields. Processed @processed entities, updated @updated entities. See log at @log',
+    [
+      '@processed' => $processed_entities,
+      '@updated' => $updated_entities,
+      '@log' => $log_file,
+    ]
+  );
+}
