@@ -1,14 +1,22 @@
 // MIXINS
 
-@each $color, $value in $theme-colors {
-  .btn-#{"" + $color} a {
-    @include button-variant($value, $value);
-  }
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-@each $color, $value in $theme-colors {
-  .btn-outline-#{"" + $color} a {
-    @include button-outline-variant($value);
+@mixin sr-only-table {
+  @include sr-only;
+  * {
+    padding: 0 !important;
+    margin: 0 !important;
   }
 }
 
@@ -309,63 +317,7 @@
   -moz-osx-font-smoothing: grayscale;
   content: $icon;
 }
-// Box shadows
-@mixin box-shadow-a() {
-  @include box-shadow(0, 0, 67px);
-}
 
-@mixin profile-image-box-shadow() {
-  @include box-shadow(0, 15px, 60px, 0.3);
-}
-
-@mixin tab-box-shadow() {
-  @include box-shadow(0, 4px, 30px);
-}
-
-@mixin box-shadow($x, $y, $blur, $opacity: 0.2) {
-  box-shadow: $x $y $blur 0 rgba($black, $opacity);
-}
-
-@mixin clear-box-shadow() {
-  box-shadow: none;
-}
-
-@mixin yellow-line() {
-  // Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90
-  background: $white !important; // Old browsers
-  background: linear-gradient(
-    to bottom,
-    rgba($white, 0) 60%,
-    $menu-gold 60%,
-    $menu-gold 90%,
-    rgba($white, 0) 90%
-  ) !important; // W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+
-}
-
-@mixin grey-gradient-line() {
-  // Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/$white+60,ffcc33+60,ffcc33+90,ffffff+90
-  background: $white !important; // Old browsers
-  background: linear-gradient(
-    to bottom,
-    rgba($white, 0) 60%,
-    $another-gray 60%,
-    $another-gray 90%,
-    rgba($white, 0) 90%
-  ) !important; // W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+
-}
-
-@mixin grey-line() {
-  &::after {
-    content: "";
-    position: absolute;
-    z-index: 0;
-    top: 60px;
-    bottom: 35px;
-    left: 50.1%;
-    border-left: 1px solid $menu-line-grey;
-    transform: translate(-50%);
-  }
-}
 // News Hub cards
 @mixin news-hub-card() {
   .card {
@@ -412,16 +364,6 @@
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     @content;
   }
-}
-
-@mixin hidden-style {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
 }
 
 //Override of the rfs mixin to set a max font size
