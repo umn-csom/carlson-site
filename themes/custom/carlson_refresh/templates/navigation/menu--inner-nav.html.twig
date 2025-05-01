@@ -60,7 +60,7 @@ We call a macro which calls itself to render the full tree.
           set link_classes = [
           'nav-link',
           item.in_active_trail ? 'active',
-          item.url.getOption('attributes').class ? item.url.getOption('attributes').class | join(''),
+          item.url.getOption('attributes').class|default([])|join(' '),
           'nav-link-' ~ item.url.toString() | clean_class,
           menu_level == 0 ? 'fs-18' : 'text-body',
           'pl-3 py-1',
@@ -70,7 +70,13 @@ We call a macro which calls itself to render the full tree.
           'inner-menu__link',
         ]
         %}
-        {{ link(item.title, item.url, {'class': link_classes}) }}
+        {% set title = item.title %}
+        {% if 'secure' in link_classes %}
+          {% set title %}
+            {{ item.title }}&nbsp;{{ source('@carlson_refresh/../images/svg/lock-search.svg') }}
+          {% endset %}
+        {% endif %}
+        {{ link(title, item.url, {'class': link_classes}) }}
         {% if item.below is not empty and item.in_active_trail %}
           {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
         {% endif %}

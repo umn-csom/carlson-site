@@ -48,11 +48,17 @@ We call a macro which calls itself to render the full tree.
           set link_classes = [
           'nav-link',
           item.in_active_trail ? 'in-active-trail',
-          item.url.getOption('attributes').class ? item.url.getOption('attributes').class | join(''),
+          item.url.getOption('attributes').class|default([])|join(' '),
           'nav-link-' ~ item.url.toString() | clean_class,
         ]
         %}
-        {{ link(item.title, item.url, {'class': link_classes}) }}
+        {% set title = item.title %}
+        {% if 'secure' in link_classes %}
+          {% set title %}
+            {{ item.title }}&nbsp;{{ source('@carlson_refresh/../images/svg/lock-search.svg') }}
+          {% endset %}
+        {% endif %}
+        {{ link(title, item.url, {'class': link_classes}) }}
         {% if item.below %}
           {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
         {% endif %}

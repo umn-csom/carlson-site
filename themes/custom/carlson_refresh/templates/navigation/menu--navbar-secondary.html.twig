@@ -53,6 +53,7 @@
         set link_classes = [
           is_top_level and is_button ? 'site-nav__sl-btn',
           is_top_level and not is_button ? 'site-nav__sl-lnk',
+          item.url.getOption('attributes').class|default([])|join(' '),
           is_top_level and item.below and is_link ? 'is-reachable',
           is_sub_level ? 'dropdown-item',
           item.in_active_trail ? 'in-active-trail',
@@ -61,23 +62,29 @@
       {% set link_attrs = {
         'class': link_classes,
       } %}
+      {% set title = item.title %}
+      {% if 'secure' in link_classes %}
+        {% set title %}
+          {{ item.title }}&nbsp;{{ source('@carlson_refresh/../images/svg/lock-search.svg') }}
+        {% endset %}
+      {% endif %}
       {% if item.below %}
         {% if is_top_level %}
           <li{{ item.attributes.addClass(item_classes) }}>
-            {{ link(item.title, item.url, link_attrs) }}
+            {{ link(title, item.url, link_attrs) }}
             <button class="site-nav__ddt dropdown-toggle" data-toggle="dropdown" data-boundary=".site-nav__s" data-display="static" aria-haspopup="true" aria-expanded="false"><svg fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><title>Toggle sub-menu</title><path d="m15.146 6.263-1.292-1.526L8 9.69 2.146 4.737.854 6.263 8 12.31l7.146-6.047Z"></path></svg></button>
             {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
           </li>
         {% else %}
           <li{{ item.attributes.addClass(item_classes) }}>
-            {{ link(item.title, item.url, link_attrs) }}
+            {{ link(title, item.url, link_attrs) }}
             <button class="site-nav__ddt dropdown-toggle" data-toggle="dropdown" data-display="static" aria-haspopup="true" aria-expanded="false"><svg fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><title>Toggle sub-menu</title><path d="M6.263 15.146 12.31 8 6.263.854 4.737 2.146 9.69 8l-4.953 5.854 1.526 1.292Z"></path></svg></button>
             {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
           </li>
         {% endif %}
       {% else %}
         <li{{ item.attributes.addClass(item_classes) }}>
-          {{ link(item.title, item.url, link_attrs) }}
+          {{ link(title, item.url, link_attrs) }}
           {{ menus.menu_links(item.below, attributes, menu_level + 1, last) }}
         </li>
       {% endif %}
