@@ -1,15 +1,15 @@
 /**
  * @file
- * Sticky menu collapsed trigger.
+ * Inner menu collapsed trigger.
  *
  */
 (function ($, Drupal, window) {
   "use strict";
 
-  Drupal.behaviors.sticky_menu__collapsed_trigger = {
+  Drupal.behaviors.inner_menu__collapsed_trigger = {
     attach: function (context) {
       let trigger = document.querySelectorAll(
-        ".sticky-menu__collapsed-trigger",
+        ".inner-menu__collapsed-trigger",
         context,
       );
       Array.prototype.forEach.call(trigger, function (el) {
@@ -22,5 +22,4 @@
       });
     },
   };
-
 })(jQuery, Drupal, window);
