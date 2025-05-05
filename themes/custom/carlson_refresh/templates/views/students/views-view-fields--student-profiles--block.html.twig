@@ -31,14 +31,27 @@
  * @ingroup themeable
  */
 #}
-<a href="{{ fields.view_node.content }}">
-  {% if fields.field_profile_img.content is not empty%}
-    {{ fields.field_profile_img.content }}
+{{ attach_library('carlson_refresh/student-ambassadors') }}
+<a class="use-ajax bg-white border box-shadow w-100 h-100 d-flex flex-column font-weight-semi-bold text-primary" data-dialog-type="modal" href="/node/{{ fields.nid.content|render|striptags|trim }}" data-dialog-options="{&quot;width&quot;:800}">
+  {% if (("Organization" in fields.field_profile_type.content|render|render) or ("Horizontal" in fields.field_profile_type.content|render|render)) %}
+  <div class="embed-responsive embed-responsive-50by31 testing">
   {% else %}
-    <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
+  <div class="embed-responsive embed-responsive-5by7">
   {% endif %}
+    {% if fields.field_profile_img.content is not empty %}
+      {% if (("Organization" in fields.field_profile_type.content|render|render) or ("Horizontal" in fields.field_profile_type.content|render|render)) %}
+        {{ fields.field_profile_img_1.content }}
+      {% else %}
+        {{ fields.field_profile_img.content }}
+      {% endif %}
+    {% else %}
+      <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
+    {% endif %}
+  </div>
 
   {% if fields.title.content is not empty%}
-    <h3 class="student-ambassadors__item--name">{{ fields.title.content }}</h3>
+    <div class="bg-white px-3 py-4 border-top flex-grow-1">
+      <h3 class="student-ambassadors__item--name ff-sans-serif text-uppercase fs-18 font-weight-semi-bold">{{ fields.title.content }}</h3>
+    </div>
   {% endif %}
 </a>
