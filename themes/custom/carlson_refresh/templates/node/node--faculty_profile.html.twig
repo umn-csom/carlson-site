@@ -237,7 +237,7 @@
         {% endif %}
 
         {% if logged_in %}
-          <a href="/node/{{ node.id }}/edit" rel="nofollow" class="faculty-profile__edit">
+          <a href="/node/{{ node.id }}/edit" rel="nofollow" class="faculty-profile__edit"><span class="sr-only">Edit Profile</span></a>
         {% else %}
           <button id="faculty-profile__modal" class="faculty-profile__edit"><span class="sr-only">Log In to Edit Page</span></button>
           <dialog id="faculty-profile__confirm" class="faculty-profile__confirm">
@@ -246,18 +246,17 @@
 
             <section class="faculty-profile__buttons">
               <div class="faculty-profile__column">
-                <a href="https://form.asana.com/?k=p2h5OJXeyM2-bOxRCt9jSg&d=939683240123509" target="_blank" class="btn btn-primary btn-sm py-3 px-4">Request Edit Access</a>
+                <a href="https://form.asana.com/?k=p2h5OJXeyM2-bOxRCt9jSg&d=939683240123509" target="_blank" class="btn btn-primary btn-md">Request Edit Access</a>
               </div>
 
               <div class="faculty-profile__column">
-                <a href="/saml_login?destination=/node/{{ node.id }}/edit" rel="nofollow" class="btn btn-primary btn-sm py-3 px-4">Log in to Edit<a>
+                <a href="/saml_login?destination=/node/{{ node.id }}/edit" rel="nofollow" class="btn btn-primary btn-md">Log in to Edit</a>
                 <div>Only select this option if you already have access to a Carlson School Drupal account.</div>
               </div>
             </section>
 
           </dialog>
         {% endif %}
-        <span class="sr-only">Edit Profile</span></a>
       </div>
     </div>
   </div>
