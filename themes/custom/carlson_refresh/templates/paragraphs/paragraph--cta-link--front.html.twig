@@ -63,6 +63,7 @@
 
     {% if content.field_link.0['#url'].toString() is not empty %}
       {% if '1' in content.field_show_in_modal[0] %}
+        {{ attach_library('carlson_refresh/ui-dialog') }}
         <a class="{{ classes|join(' ') }} font-small unb-cta-{{ content.field_cta_icon|field_value }} use-ajax" data-dialog-type="modal" href="{{ content.field_link.0['#url'] }}" data-dialog-options="{&quot;width&quot;:600}">
       {% else %}
         <a class="{{ classes|join(' ') }} unb-cta-{{ content.field_cta_icon|field_value }}" href="{{ content.field_link.0['#url'] }}">

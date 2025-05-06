@@ -68,12 +68,13 @@
     </div>
     <div class="col-9 video-items__item--text">
       <h2 class="video-items__item--title h4">{{ label }}</h2>
+      {{ attach_library('carlson_refresh/ui-dialog') }}
       <a class="use-ajax video-items__item--link" data-dialog-type="modal" href="/media/{{ content.field_video.0 }}" data-dialog-options="{&quot;width&quot;:800}">Watch Video</a>
     </div>
   {% else %}
     <div class="col-12">
       <h2 class="video-items__item--title h4">{{ label }}</h2>
       <a href="{{ url }}" class="video-items__item--link">Watch Video</a>
-    </div> 
-  {% endif %} 
+    </div>
+  {% endif %}
 </div>
