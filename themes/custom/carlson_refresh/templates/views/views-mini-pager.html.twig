@@ -12,6 +12,7 @@
      */
     #}
     {% if items.previous or items.next %}
+      {{ attach_library('carlson_refresh/pagination') }}
       <nav aria-label="Page navigation">
         <ul class="js-pager__items pagination mini-pagination">
           <li class="page-item {{ items.previous ? '' : 'disabled' }} page-item--go-to-previous">
