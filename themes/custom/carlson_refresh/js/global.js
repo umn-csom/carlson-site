@@ -8,12 +8,6 @@
 
   $(".card-flip").toggleClass("flip");
 
-  $('.node__bottom').each(function () {
-    if ($(this).find('.node__bottom__col:empty').length > 0){
-      $(this).find('.node__bottom__col:not(:empty)').addClass('node__bottom__col--single')
-    }
-  });
-
   function tables() {
     const tables = document.querySelectorAll('table');
     if(tables.length) {
