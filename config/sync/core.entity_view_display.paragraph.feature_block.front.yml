@@ -13,6 +13,7 @@ dependencies:
   module:
     - layout_builder
     - link
+    - media
     - options
     - text
 third_party_settings:
@@ -40,11 +41,13 @@ content:
     weight: 1
     region: content
   field_image:
-    type: entity_reference_entity_view
+    type: media_thumbnail
     label: hidden
     settings:
-      view_mode: original_optimized
-      link: false
+      image_link: ''
+      image_style: ''
+      image_loading:
+        attribute: eager
     third_party_settings: {  }
     weight: 0
     region: content
