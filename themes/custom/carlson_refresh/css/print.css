@@ -1,57 +1,130 @@
-/* ---------- General Layout ---------- */
-body {
+:root *,
+:root *::before,
+:root *::after {
+  text-shadow: none !important;
+  box-shadow: none !important; }
+
+@page {
+  :root {
+    size: a3; } }
+
+:root body {
   font-family: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
   background: none;
-  color: black; }
+  color: #000 !important; }
 
-body,
-input,
-textarea,
-select {
-  color: #000;
+:root body,
+:root .container {
+  min-width: 640px !important; }
+
+:root body,
+:root input,
+:root textarea,
+:root select {
   background: none; }
 
-.site-nav,
-.site-nav__mbl,
-.umnhf-h,
-.umnhf-f-links,
-.footer__logo,
-.footer__links,
-.footer__connect,
-.inner-menu,
-.page-links,
-.share-this,
-.site-footer,
-.tabs,
-.mm-menu,
-.shortcut-action {
+:root .site-nav,
+:root .site-nav__mbl,
+:root .umnhf-h,
+:root .umnhf-f-links,
+:root .footer__logo,
+:root .footer__links,
+:root .footer__connect,
+:root .inner-menu,
+:root .page-links,
+:root .share-this,
+:root .site-footer,
+:root .tabs,
+:root .mm-menu,
+:root .shortcut-action {
   display: none; }
 
-.footer {
+:root .footer {
   background: none; }
-  .footer__info {
+  :root .footer__info {
     width: 100%;
     margin: 0 auto; }
-    .footer__info,
-    .footer__info a {
-      color: #000; }
+    :root .footer__info,
+    :root .footer__info a {
+      color: #000 !important; }
 
-.btn,
-[type="submit"],
-.inline-contact__btn {
+:root .bg-primary,
+:root .bg-secondary,
+:root .bg-gold,
+:root .bg-ivory {
+  background-color: #fff !important; }
+
+:root .text-white {
+  color: #000 !important; }
+
+:root .btn,
+:root [type="submit"],
+:root .inline-contact__btn {
   background: none;
   border-color: currentColor;
-  color: #000;
+  color: #000 !important;
   font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, Cantarell, Ubuntu, roboto, noto, helvetica, arial, sans-serif; }
 
-#header, #menu-bar, #sidebar, h2#postcomment, form#commentform, #footer {
+:root #header,
+:root #menu-bar,
+:root #sidebar,
+:root h2#postcomment,
+:root form#commentform,
+:root #footer {
   display: none; }
 
-.entry a:after {
-  content: " [" attr(href) "] "; }
+:root main a[href]:not(.btn) {
+  text-decoration: underline; }
 
-#printed-article {
+:root #printed-article {
   border: 1px solid #666;
   padding: 10px; }
+
+:root abbr[title]::after {
+  content: " (" attr(title) ")"; }
+
+:root pre {
+  white-space: pre-wrap !important; }
+
+:root pre,
+:root blockquote {
+  border: 1px solid #adb5bd;
+  page-break-inside: avoid; }
+
+:root tr,
+:root img {
+  page-break-inside: avoid; }
+
+:root p,
+:root h2,
+:root h3 {
+  orphans: 3;
+  widows: 3; }
+
+:root h2,
+:root h3 {
+  page-break-after: avoid; }
+
+:root .table {
+  border-collapse: collapse !important; }
+  :root .table td,
+  :root .table th {
+    background-color: #fff !important; }
+
+:root .table-bordered th,
+:root .table-bordered td {
+  border: 1px solid #dee2e6 !important; }
+
+:root .table-dark {
+  color: inherit; }
+  :root .table-dark th,
+  :root .table-dark td,
+  :root .table-dark thead th,
+  :root .table-dark tbody + tbody {
+    border-color: #dee2e6; }
+
+:root .table .thead-dark th {
+  color: inherit;
+  border-color: #dee2e6; }
 
 /*# sourceMappingURL=print.css.map */

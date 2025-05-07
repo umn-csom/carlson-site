@@ -1,70 +1,184 @@
-/* ---------- General Layout ---------- */
+@import "abstracts/import";
 
 // systemfontstack.com
 $sans-serif: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, Cantarell, Ubuntu, roboto, noto, helvetica, arial, sans-serif;
 $serif: Iowan Old Style, Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 $monospace: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
 
-body {
-  font-family: $serif;
-  background: none;
-  color: black;
-}
+:root {
+  *,
+  *::before,
+  *::after {
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
 
-body,
-input,
-textarea,
-select {
-  color: #000;
-  background: none;
-}
-.site-nav,
-.site-nav__mbl,
-.umnhf-h,
-.umnhf-f-links,
-.footer__logo,
-.footer__links,
-.footer__connect,
-.inner-menu,
-.page-links,
-.share-this,
-.site-footer,
-.tabs,
-.mm-menu,
-.shortcut-action {
-  display: none;
-}
+  @page {
+    size: $print-page-size;
+  }
 
-.footer {
-  background: none;
+  body {
+    font-family: $serif;
+    background: none;
+    color: $black !important;
+  }
 
-  &__info {
-    width: 100%;
-    margin: 0 auto;
+  // Specify a size and min-width to make printing closer across browsers.
+  // We don't set margin here because it breaks `size` in Chrome.
+  body,
+  .container {
+    min-width: 640px !important; // or 6.5in, roughly A4/Letter width minus margins
+  }
 
-    &,
-    a {
-      color: #000;
+  body,
+  input,
+  textarea,
+  select {
+    background: none;
+  }
+  .site-nav,
+  .site-nav__mbl,
+  .umnhf-h,
+  .umnhf-f-links,
+  .footer__logo,
+  .footer__links,
+  .footer__connect,
+  .inner-menu,
+  .page-links,
+  .share-this,
+  .site-footer,
+  .tabs,
+  .mm-menu,
+  .shortcut-action {
+    display: none;
+  }
+
+  .footer {
+    background: none;
+
+    &__info {
+      width: 100%;
+      margin: 0 auto;
+
+      &,
+      a {
+        color: $black !important;
+      }
     }
   }
-}
 
-.btn,
-[type="submit"],
-.inline-contact__btn {
-  background: none;
-  border-color: currentColor;
-  color: #000;
-  font-family: $sans-serif;
-}
+  .bg-primary,
+  .bg-secondary,
+  .bg-gold,
+  .bg-ivory {
+    background-color: $white !important;
+  }
 
-#header, #menu-bar, #sidebar, h2#postcomment, form#commentform, #footer {
-  display: none;
-}
-.entry a:after {
-  content: " [" attr(href) "] ";
-}
-#printed-article {
-  border: 1px solid #666;
-  padding: 10px;
+  .text-white {
+    color: $black !important;
+  }
+
+  .btn,
+  [type="submit"],
+  .inline-contact__btn {
+    background: none;
+    border-color: currentColor;
+    color: $black !important;
+    font-family: $sans-serif;
+  }
+
+  #header,
+  #menu-bar,
+  #sidebar,
+  h2#postcomment,
+  form#commentform,
+  #footer {
+    display: none;
+  }
+
+  main a {
+    &[href]:not(.btn) {
+      text-decoration: underline;
+    }
+
+    // &[href]:after {
+    //   content: " [" attr(href) "] ";
+    // }
+
+    // // Don't show links that are fragment identifiers,
+    // // or use the `javascript:` pseudo protocol
+    // &[href^="#"]::after,
+    // &[href^="javascript:"]::after {
+    //   content: "";
+    // }
+  }
+
+  #printed-article {
+    border: 1px solid #666;
+    padding: 10px;
+  }
+
+  abbr[title]::after {
+    content: " (" attr(title) ")";
+  }
+
+  pre {
+    white-space: pre-wrap !important;
+  }
+
+  pre,
+  blockquote {
+    border: $border-width solid $gray-500;
+    page-break-inside: avoid;
+  }
+
+  tr,
+  img {
+    page-break-inside: avoid;
+  }
+
+  p,
+  h2,
+  h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2,
+  h3 {
+    page-break-after: avoid;
+  }
+
+
+  .table {
+    border-collapse: collapse !important;
+
+    td,
+    th {
+      background-color: $white !important;
+    }
+  }
+
+  .table-bordered {
+    th,
+    td {
+      border: $border-width solid $gray-300 !important;
+    }
+  }
+
+  .table-dark {
+    color: inherit;
+
+    th,
+    td,
+    thead th,
+    tbody + tbody {
+      border-color: $table-border-color;
+    }
+  }
+
+  .table .thead-dark th {
+    color: inherit;
+    border-color: $table-border-color;
+  }
 }
