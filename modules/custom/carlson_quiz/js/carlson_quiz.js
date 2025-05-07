@@ -172,10 +172,10 @@
                 function () {
                     var requiredError = 'Please select an answer before proceeding';
                     if($(this).data('limit') !== 'undefined' && $(this).data('limit-type') === 'at_least') {
-                        requiredError = 'Please select ' + numbers[$(this).data('limit')] + ' or more answers before proceeding';
+                        requiredError = 'Please select ' + $(this).data('limit') + ' or more answers before proceeding';
                     }
                     if($(this).data('limit') !== 'undefined' && $(this).data('limit-type') === 'exactly') {
-                        requiredError = 'Please select ' + numbers[$(this).data('limit')] + ' answers before proceeding';
+                        requiredError = 'Please select ' + $(this).data('limit') + ' answers before proceeding';
                     }
                     $(this).find('.quiz--answer').first().append('<button type="button" class="quiz--answer--popover-btn border-0 p-0 order-last" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="'+ requiredError +'"><span class="sr-only">Required</span></button>');
                 }
