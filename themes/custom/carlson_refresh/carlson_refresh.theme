@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Functions to support theming in the SASS Starterkit subtheme.
+ * Functions to support theming in the Carlson Refresh theme.
  */
 
 use Drupal\block\Entity\Block;
@@ -11,19 +11,6 @@ use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
-/*
-function paragraphs_theme_suggestions_paragraph(array $variables) {
-  $suggestions = array();
-  $paragraph = $variables['elements']['#paragraph'];
-  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
-
-  $suggestions[] = 'paragraph__' . $sanitized_view_mode;
-  $suggestions[] = 'paragraph__' . $paragraph->bundle();
-  $suggestions[] = 'paragraph__' . $paragraph->bundle() . '__' . $sanitized_view_mode;
-
-  return $suggestions;
-}*/
-
 /**
  * Implements hook_form_system_theme_settings_alter() for settings form.
  *
@@ -31,20 +18,20 @@ function paragraphs_theme_suggestions_paragraph(array $variables) {
  */
 function carlson_refresh_form_system_theme_settings_alter(&$form, FormStateInterface $form_state) {
   $form['components']['navbar']['carlson_refresh_navbar_top_background']['#options'] = array(
-      'bg-primary' => t('Primary'),
-      'bg-secondary' => t('Secondary'),
-      'bg-light' => t('Light'),
-      'bg-dark' => t('Dark'),
-      'bg-white' => t('White'),
-      'bg-transparent' => t('Transparent'),
+    'bg-primary' => t('Primary'),
+    'bg-secondary' => t('Secondary'),
+    'bg-light' => t('Light'),
+    'bg-dark' => t('Dark'),
+    'bg-white' => t('White'),
+    'bg-transparent' => t('Transparent'),
   );
   $form['components']['navbar']['carlson_refresh_navbar_background']['#options'] = array(
-      'bg-primary' => t('Primary'),
-      'bg-secondary' => t('Secondary'),
-      'bg-light' => t('Light'),
-      'bg-dark' => t('Dark'),
-      'bg-white' => t('White'),
-      'bg-transparent' => t('Transparent'),
+    'bg-primary' => t('Primary'),
+    'bg-secondary' => t('Secondary'),
+    'bg-light' => t('Light'),
+    'bg-dark' => t('Dark'),
+    'bg-white' => t('White'),
+    'bg-transparent' => t('Transparent'),
   );
 
   // Work-around for a core bug affecting admin themes. See issue #943212.
@@ -179,6 +166,7 @@ function carlson_refresh_preprocess_html(&$variables) {
     'google_static_preconnect'
   ];
 }
+
 /**
  * Implements hook_theme_suggestions_HOOK_alter().
  *
@@ -192,13 +180,13 @@ function carlson_refresh_preprocess_html(&$variables) {
 function carlson_refresh_theme_suggestions_page_alter(array &$suggestions, array $variables) {
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
     $content_type = $node->bundle();
-    $suggestions[] = 'page__'.$content_type;
+    $suggestions[] = 'page__' . $content_type;
   }
 }
 
 /**
-* Implements hook_preprocess_node() for NODE document templates.
-*/
+ * Implements hook_preprocess_node() for NODE document templates.
+ */
 function carlson_refresh_preprocess_node(&$variables) {
 
   /** @var \Drupal\node\NodeInterface $node */
@@ -212,42 +200,42 @@ function carlson_refresh_preprocess_node(&$variables) {
   $allowed_view_modes = ['full']; // Array of allowed view modes (for performance so as to not execute on unneeded nodes)
 
   // If view mode is in allowed view modes list, pass to THEME_add_regions_to_node()
-  if(in_array($view_mode, $allowed_view_modes)) {
+  if (in_array($view_mode, $allowed_view_modes)) {
     // Allowed regions (for performance so as to not execute for unneeded region)
-    $allowed_regions = ['sticky_sidebar', 'inner_nav','node_content','node_middle','node_bottom_left','node_bottom_right','node_bottom','node_top'];
+    $allowed_regions = ['sticky_sidebar', 'inner_nav', 'node_content', 'node_middle', 'node_bottom_left', 'node_bottom_right', 'node_bottom', 'node_top'];
     carlson_refresh_add_regions_to_node($allowed_regions, $variables);
   }
-  switch($bundle) {
+  switch ($bundle) {
     case 'news':
       // Check if there is a sidebar so we can add the right classes
       $sidebar = $node->field_sidebar_content->getValue();
-      if(!empty($sidebar)) {
+      if (!empty($sidebar)) {
         $variables['has_sidebar'] = TRUE;
       }
 
-      if(!$node->get('field_in_the_media')->isEmpty() && !$node->get('field_featured_media_faculty')->isEmpty()) {
+      if (!$node->get('field_in_the_media')->isEmpty() && !$node->get('field_featured_media_faculty')->isEmpty()) {
         $referenceItem = $node->get('field_featured_media_faculty')->first();
         $entityReference = $referenceItem->get('entity');
         $entityAdapter = $entityReference->getTarget();
-        if(!is_null($entityAdapter)) {
+        if (!is_null($entityAdapter)) {
           $referencedEntity = $entityAdapter->getValue();
           $variables['faculty_member'] = $referencedEntity->getTitle();
           $variables['faculty_member_link'] = $referencedEntity->toUrl();
           $variables['faculty_published'] = $referencedEntity->isPublished();
         }
       }
-    break;
+      break;
     case 'blog_entry':
       // Check if there is a sidebar so we can add the right classes
       $sidebar = $node->field_blog_categories->getValue();
-      if(!empty($sidebar)) {
+      if (!empty($sidebar)) {
         $variables['has_sidebar'] = TRUE;
       }
       $byline = $node->field_blog_by_line->getString();
-      if(!empty($sidebar)) {
-        $variables['byline'] = '<span class="basic-hero__title--byline"> — by '.$byline."</span>";
+      if (!empty($sidebar)) {
+        $variables['byline'] = '<span class="basic-hero__title--byline"> — by ' . $byline . "</span>";
       }
-    break;
+      break;
     case 'executive_ed_program':
       if ($node->get('field_ee_course_dates')->first()) {
         $referenceItem = $node->get('field_ee_course_dates')->first();
@@ -258,13 +246,13 @@ function carlson_refresh_preprocess_node(&$variables) {
         $variables['register_link'] = $referencedEntity->get('field_ee_register')->view();
         $variables['invoice_link'] = $referencedEntity->get('field_ee_request_invoice')->view();
       }
-    break;
+      break;
   }
 }
 
 /**
-* THEME_add_regions_to_node
-*/
+ * THEME_add_regions_to_node
+ */
 
 function carlson_refresh_add_regions_to_node($allowed_regions, &$variables) {
   // Retrieve active theme
@@ -281,7 +269,7 @@ function carlson_refresh_add_regions_to_node($allowed_regions, &$variables) {
 
     // Load region blocks
     $blocks = \Drupal::entityTypeManager()->getStorage('block')->loadByProperties(array('theme' => $theme, 'region' => $region));
-    // Sort ‘em
+    // Sort blocks by weight.
     uasort($blocks, 'Drupal\block\Entity\Block::sort');
 
     // Capture viewable blocks and their settings to $build
@@ -483,12 +471,18 @@ function _carlson_refresh_region_has_simple_megamenu($menu_name, $region) {
   return FALSE;
 }
 
+/**
+ * Implements hook_preprocess_views_exposed_form().
+ */
 function carlson_refresh_preprocess_views_exposed_form(&$variables) {
   $form = $variables['form'];
   $id = $form['#id'];
   // Do code here
 }
 
+/**
+ * Implements hook_preprocess_page().
+ */
 function carlson_refresh_preprocess_page(&$variables) {
 
   $home_link = [
@@ -541,6 +535,9 @@ function carlson_refresh_preprocess_page(&$variables) {
   $variables['search_block'] = $block_output;
 }
 
+/**
+ * Implements hook_preprocess_pager().
+ */
 function carlson_refresh_preprocess_pager(&$variables) {
   $element = $variables['pager']['#element'];
   $parameters = $variables['pager']['#parameters'];
@@ -637,7 +634,7 @@ function carlson_refresh_preprocess_pager(&$variables) {
     if (isset($tags[3])) {
       $items['next']['text'] = $tags[3];
     }
-    if ($pager_page_array[$element] < $pager_max - $pager_middle){
+    if ($pager_page_array[$element] < $pager_max - $pager_middle) {
       $items['last'] = array();
       $options = array(
         'query' => $pager_manager->getUpdatedParameters($parameters, $element, $pager_max - 1),
@@ -670,27 +667,29 @@ function carlson_refresh_preprocess_pager(&$variables) {
  *   - paragraph: The paragraph object.
  *   - view_mode: View mode; e.g., 'full', 'teaser'...
  */
-
 function carlson_refresh_preprocess_paragraph(&$variables) {
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
   $bundle = $paragraph->bundle();
 
-  switch($bundle) {
+  switch ($bundle) {
     case 'carlson_staff_faculty':
       // kint($paragraph);
-    break;
+      break;
   }
   // Add Page Type as variable - needed for execuitve_ed
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
-      $variables['node'] = $node;
+    $variables['node'] = $node;
   }
 }
 
+/**
+ * Implements hook_preprocess_field().
+ */
 function carlson_refresh_preprocess_field(&$variables, $hook) {
   // Add Page Type as variable - needed for execuitve_ed
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
-      $variables['node'] = $node;
+    $variables['node'] = $node;
   }
 }
 
@@ -698,29 +697,29 @@ function carlson_refresh_preprocess_field(&$variables, $hook) {
  * Implements hook_preprocess_slick().
  */
 function carlson_refresh_preprocess_slick(&$variables) {
-//  if ($node = \Drupal::routeMatch()->getParameter('node')) {
-//    $variables['node'] = $node;
-//    $bundle = $node->bundle();
-//    switch ($bundle) {
-//      case 'landing_page':
-//        if($variables["settings"]["optionset"] == 'new_front_stats' && $variables['content_attributes']->hasAttribute('data-slick')) {
-//          $data_slick = json_decode($variables['content_attributes']->toArray()['data-slick']);
-//          foreach ($data_slick->responsive as $key => $responsive_item) {
-//            if($responsive_item->breakpoint == 992) {
-//              $data_slick->responsive[$key]->settings->slidesPerRow = 2;
-//              $data_slick->responsive[$key]->settings->slidesToShow = 2;
-//              $data_slick->responsive[$key]->settings->slidesToScroll = 2;
-//            }
-//          }
-//          $variables['content_attributes']->setAttribute('data-slick', json_encode($data_slick));
-//        }
-//        break;
-//    }
-//  }
-  if(isset($variables["settings"]) && $variables["settings"]["optionset"] == 'new_front_stats' && count($variables["items"]) < 3) {
+  //  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+  //    $variables['node'] = $node;
+  //    $bundle = $node->bundle();
+  //    switch ($bundle) {
+  //      case 'landing_page':
+  //        if($variables["settings"]["optionset"] == 'new_front_stats' && $variables['content_attributes']->hasAttribute('data-slick')) {
+  //          $data_slick = json_decode($variables['content_attributes']->toArray()['data-slick']);
+  //          foreach ($data_slick->responsive as $key => $responsive_item) {
+  //            if($responsive_item->breakpoint == 992) {
+  //              $data_slick->responsive[$key]->settings->slidesPerRow = 2;
+  //              $data_slick->responsive[$key]->settings->slidesToShow = 2;
+  //              $data_slick->responsive[$key]->settings->slidesToScroll = 2;
+  //            }
+  //          }
+  //          $variables['content_attributes']->setAttribute('data-slick', json_encode($data_slick));
+  //        }
+  //        break;
+  //    }
+  //  }
+  if (isset($variables["settings"]) && $variables["settings"]["optionset"] == 'new_front_stats' && count($variables["items"]) < 3) {
     $data_slick = json_decode($variables['content_attributes']->toArray()['data-slick']);
     foreach ($data_slick->responsive as $key => $responsive_item) {
-      if($responsive_item->breakpoint == 992) {
+      if ($responsive_item->breakpoint == 992) {
         $data_slick->responsive[$key]->settings->slidesPerRow = count($variables["items"]);
         $data_slick->responsive[$key]->settings->slidesToShow = count($variables["items"]);
         $data_slick->responsive[$key]->settings->slidesToScroll = count($variables["items"]);
