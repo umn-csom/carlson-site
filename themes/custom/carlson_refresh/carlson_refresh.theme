@@ -691,6 +691,42 @@ function carlson_refresh_preprocess_field(&$variables, $hook) {
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
     $variables['node'] = $node;
   }
+
+  // Define field types that can contain HTML content.
+  $html_field_types = [
+    'text_long',
+    'text_with_summary',
+    'text',
+    'string_long',
+  ];
+
+  // Check if this is a field type that might contain HTML content
+  if (in_array($variables['element']['#field_type'], $html_field_types)) {
+    // Get the field value - handle different field structures
+    $field_value = '';
+    if (isset($variables['items'][0]['content']['#text'])) {
+      $field_value = $variables['items'][0]['content']['#text'];
+    }
+    elseif (isset($variables['items'][0]['content']['#markup'])) {
+      $field_value = $variables['items'][0]['content']['#markup'];
+    }
+    elseif (isset($variables['items'][0]['content']['#value'])) {
+      $field_value = $variables['items'][0]['content']['#value'];
+    }
+
+    $classname_library = [
+      'csom-datatable' => ['carlson_refresh/csom-datatable'],
+    ];
+
+    // Check if the content contains classnames that should trigger a library.
+    foreach ($classname_library as $classname => $libraries) {
+      if (strpos($field_value, $classname) !== FALSE) {
+        foreach ($libraries as $library) {
+          $variables['#attached']['library'][] = $library;
+        }
+      }
+    }
+  }
 }
 
 /**

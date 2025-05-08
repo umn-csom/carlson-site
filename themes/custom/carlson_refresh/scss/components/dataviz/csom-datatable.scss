@@ -1,3 +1,5 @@
+@import "../../abstracts/import";
+
 %datatable-caption {
   text-align: center;
   color: $soft-black;
@@ -10,7 +12,6 @@
   background-color: transparent;
 }
 
-// .csom-datatable--basic-1,
 .csom-datatable {
   margin: 20px auto 40px;
   line-height: 1.3;
@@ -91,19 +92,16 @@ figure {
   }
 }
 
-// Improve consistency in wysiwyg editor.
 .table.ck-widget {
   .csom-datatable {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
 
-    // Replicate '.csom-datatable caption'.
     + figcaption.ck-editor__editable {
       @extend %datatable-caption;
     }
   }
 
-  // Replicate '.csom-datatable + figcaption'
   + figcaption {
     margin: 1.5rem auto 5rem;
   }
@@ -207,8 +205,6 @@ figure:has(.csom-datatable--fullwidth),
   margin-right: auto;
 }
 
-//---------------- tables type 2 --------------//
-
 .csom-datatable--basic-2 {
   thead {
     tr,
@@ -232,8 +228,6 @@ figure:has(.csom-datatable--fullwidth),
   }
 }
 
-//---------------- tables type 3 --------------//
-
 .csom-datatable--basic-3 {
   thead,
   tbody {
@@ -248,51 +242,5 @@ figure:has(.csom-datatable--fullwidth),
   thead {
     background: none !important;
     color: $black !important;
-
-    th {
-      text-align: center !important;
-      background: none !important;
-      color: $black !important;
-
-      &:first-child {
-        @include sr-only-table;
-      }
-    }
   }
-
-  tbody {
-    th {
-      background: none !important;
-      color: $black !important;
-      text-align: right !important;
-      text-transform: initial;
-    }
-
-    td {
-      text-align: center !important;
-    }
-  }
-
-  td:nth-child(3n - 1) {
-    background: $ivory !important;
-    color: $soft-black !important;
-    border: 1px solid $white !important;
-  }
-
-  td:nth-child(3n - 3) {
-    background: $maroon !important;
-    color: $white !important;
-    border: 1px solid $white !important;
-  }
-
-  td:nth-child(3n - 2) {
-    background: $darkmedgray !important;
-    color: $white !important;
-    border: 1px solid $white !important;
-  }
-}
-
-figure:has(.csom-datatable--basic-3):not(.table.ck-widget) > figcaption,
-.csom-datatable--basic-3 + figcaption {
-  text-align: center !important;
 }
