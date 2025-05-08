@@ -55,6 +55,7 @@
 -%}
 {% if label_hidden %}
   {% set count = items|length %}
+  <div class="row component-paragraph flexible-features">
   {% for item in items %}
     {% set type = item.content['#paragraph'].type.0.target_id %}
     {# {% if node.gettype == 'executive_ed_program' %}
@@ -139,6 +140,7 @@
       {% endif %}
     {% endif %}
   {% endfor %}
+  </div>
 {% else %}
   <div{{ attributes.addClass(classes) }}>
     <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>
