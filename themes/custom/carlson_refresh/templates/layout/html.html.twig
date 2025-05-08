@@ -46,6 +46,9 @@
 #}
 {% set url = url('<current>') %}
 {% set iframe_view = 'iframe-view' in url|render|render %}
+{% if iframe_view %}
+  {{ attach_library('carlson_refresh/iframe-view') }}
+{% endif %}
 {%
   set body_classes = [
     logged_in ? 'user-logged-in',
