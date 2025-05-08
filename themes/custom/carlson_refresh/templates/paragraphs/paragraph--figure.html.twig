@@ -1,3 +1,13 @@
+{#
+/**
+ * @file
+ * Theme override to display a figure paragraph.
+ *
+ * @see template_preprocess_paragraph()
+ */
+#}
+{{ attach_library('carlson_refresh/csom-figure-with-datatable') }}
+
 {% set has_media = paragraph.field_figure_image.value is not empty %}
 <section class="component-paragraph component-paragraph--narrow">
   <div class="csom-figure-with-datatable">
