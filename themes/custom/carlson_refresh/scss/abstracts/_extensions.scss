@@ -62,9 +62,9 @@
 
   svg {
     display: inline-block;
-    height: 1em;
+    height: .85em;
     width: auto;
-    vertical-align: -0.125em;
+    vertical-align: -0.08em;
   }
 }
 
@@ -172,13 +172,16 @@
 %btn-link {
   color: $link-color;
   text-decoration: $link-decoration;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 
   &:hover {
     color: $link-hover-color;
     text-decoration: $link-hover-decoration;
   }
 
-  &:disabled {
+  &:disabled,
+  &.disabled {
     color: $btn-link-disabled-color;
     pointer-events: none;
   }
@@ -194,9 +197,8 @@
   text-transform: initial;
 
   svg {
-    height: .9em;
     width: auto;
-    vertical-align: -0.2em;
+    vertical-align: -0.125em;
   }
 }
 
@@ -206,10 +208,6 @@
 
   line-height: 1.5;
   letter-spacing: 0.05em;
-
-  svg {
-    vertical-align: -0.15em
-  }
 }
 
 %btn-sm {
@@ -226,6 +224,7 @@
   text-transform: initial;
 
   svg {
+    height: 1em;
     vertical-align: -0.15em
   }
 
