@@ -123,12 +123,8 @@
         {% else %}
           <div class="col-12 quote-group__wrap">{{ item.content }}</div>
         {% endif %}
-      {% elseif type == 'video_text_below' or type == 'video_text_right' %}
-        {% if count == 1 %}
-          <div class="col-12 align-items-center video-textbelow mt-10 mb-10">{{ item.content }}</div>
-        {% else %}
-          <div class="col-12 align-items-center video-textbelow mt-10 mb-10">{{ item.content }}</div>
-        {% endif %}
+      {% elseif type in ['video_text_below', 'video_text_right', 'video_text_left'] %}
+        <div class="col-12 align-items-center video__wrapper my-10">{{ item.content }}</div>
       {% elseif type == 'hero' %}
         {% if count == 1 %}
           <div class="col-12 hero">{{ item.content }}</div>
