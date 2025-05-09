@@ -9065,10 +9065,48 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
   vertical-align: top;
   border-top: 1px solid #dee2e6; }
 
-.ck-content table, .ck-content .table {
+.ck-content th, .ck-content td {
+  height: auto;
+  padding: 4px 9px; }
+
+.ck-content .table, .ck-content .table-striped, .ck-content table {
+  max-width: 100%;
+  width: 100%;
   font-size: 16px; }
-  .ck-content table th, .ck-content table td, .ck-content .table th, .ck-content .table td {
-    height: auto; }
+  .ck-content .table tr, .ck-content .table-striped tr, .ck-content table tr {
+    background: #fff;
+    border: 0 !important;
+    padding: 0 !important; }
+    .ck-content .table tr td, .ck-content .table-striped tr td, .ck-content table tr td {
+      border: 1px solid #e3e1db; }
+    .ck-content .table tr th, .ck-content .table-striped tr th, .ck-content table tr th {
+      border: 1px solid #d6d1c5;
+      color: #212529;
+      background: #e6e0d2;
+      font-weight: 600; }
+    .ck-content .table tr td .tablesaw-cell-label, .ck-content .table tr th .tablesaw-cell-label, .ck-content .table-striped tr td .tablesaw-cell-label, .ck-content .table-striped tr th .tablesaw-cell-label, .ck-content table tr td .tablesaw-cell-label, .ck-content table tr th .tablesaw-cell-label {
+      font-weight: 600;
+      width: 40%; }
+    .ck-content .table tr td:empty, .ck-content .table tr td.empty-cell, .ck-content .table tr th:empty, .ck-content .table tr th.empty-cell, .ck-content .table-striped tr td:empty, .ck-content .table-striped tr td.empty-cell, .ck-content .table-striped tr th:empty, .ck-content .table-striped tr th.empty-cell, .ck-content table tr td:empty, .ck-content table tr td.empty-cell, .ck-content table tr th:empty, .ck-content table tr th.empty-cell {
+      padding: 0;
+      border-right: 0; }
+    .ck-content .table tr td:not(:first-child):empty, .ck-content .table tr td:not(:first-child).empty-cell, .ck-content .table tr th:not(:first-child):empty, .ck-content .table tr th:not(:first-child).empty-cell, .ck-content .table-striped tr td:not(:first-child):empty, .ck-content .table-striped tr td:not(:first-child).empty-cell, .ck-content .table-striped tr th:not(:first-child):empty, .ck-content .table-striped tr th:not(:first-child).empty-cell, .ck-content table tr td:not(:first-child):empty, .ck-content table tr td:not(:first-child).empty-cell, .ck-content table tr th:not(:first-child):empty, .ck-content table tr th:not(:first-child).empty-cell {
+      border-left: 0; }
+  @media (max-width: 639px) {
+    .ck-content .table, .ck-content .table-striped, .ck-content table {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #e6e0d2 !important; }
+      .ck-content .table tr:nth-of-type(odd) td, .ck-content .table-striped tr:nth-of-type(odd) td, .ck-content table tr:nth-of-type(odd) td {
+        background-color: #e6e0d2; } }
+
+.ck-content .table-responsive {
+  border-color: #e6d8d6;
+  border-bottom: 0; }
+  .ck-content .table-responsive.col {
+    border: 0; }
+  .ck-content .table-responsive > .tablesaw-stack > thead > tr > th, .ck-content .table-responsive > .tablesaw-stack > thead > tr > td, .ck-content .table-responsive > .tablesaw-stack > t.ck-content > tr > th, .ck-content .table-responsive > .tablesaw-stack > tbody > tr > td, .ck-content .table-responsive > .tablesaw-stack > tfoot > tr > th, .ck-content .table-responsive > .tablesaw-stack > tfoot > tr > td {
+    white-space: normal; }
 
 .ck-content tr.drag {
   background-color: #fffff0; }
@@ -9676,43 +9714,6 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
     position: absolute;
     top: 12px;
     left: 4px; }
-
-.ck-content .table, .ck-content .table-striped, .ck-content table {
-  max-width: 100%; }
-  .ck-content .table tr, .ck-content .table-striped tr, .ck-content table tr {
-    background: #fff;
-    border: 0 !important;
-    padding: 0 !important; }
-    .ck-content .table tr td, .ck-content .table-striped tr td, .ck-content table tr td {
-      border: 1px solid #e3e1db; }
-    .ck-content .table tr th, .ck-content .table-striped tr th, .ck-content table tr th {
-      border: 1px solid #d6d1c5;
-      color: #212529;
-      background: #e6e0d2;
-      font-weight: 600; }
-    .ck-content .table tr td .tablesaw-cell-label, .ck-content .table tr th .tablesaw-cell-label, .ck-content .table-striped tr td .tablesaw-cell-label, .ck-content .table-striped tr th .tablesaw-cell-label, .ck-content table tr td .tablesaw-cell-label, .ck-content table tr th .tablesaw-cell-label {
-      font-weight: 600;
-      width: 40%; }
-    .ck-content .table tr td:empty, .ck-content .table tr td.empty-cell, .ck-content .table tr th:empty, .ck-content .table tr th.empty-cell, .ck-content .table-striped tr td:empty, .ck-content .table-striped tr td.empty-cell, .ck-content .table-striped tr th:empty, .ck-content .table-striped tr th.empty-cell, .ck-content table tr td:empty, .ck-content table tr td.empty-cell, .ck-content table tr th:empty, .ck-content table tr th.empty-cell {
-      padding: 0;
-      border-right: 0; }
-    .ck-content .table tr td:not(:first-child):empty, .ck-content .table tr td:not(:first-child).empty-cell, .ck-content .table tr th:not(:first-child):empty, .ck-content .table tr th:not(:first-child).empty-cell, .ck-content .table-striped tr td:not(:first-child):empty, .ck-content .table-striped tr td:not(:first-child).empty-cell, .ck-content .table-striped tr th:not(:first-child):empty, .ck-content .table-striped tr th:not(:first-child).empty-cell, .ck-content table tr td:not(:first-child):empty, .ck-content table tr td:not(:first-child).empty-cell, .ck-content table tr th:not(:first-child):empty, .ck-content table tr th:not(:first-child).empty-cell {
-      border-left: 0; }
-  @media (max-width: 639px) {
-    .ck-content .table, .ck-content .table-striped, .ck-content table {
-      margin-top: 15px;
-      margin-bottom: 15px;
-      border: 1px solid #e6e0d2 !important; }
-      .ck-content .table tr:nth-of-type(odd) td, .ck-content .table-striped tr:nth-of-type(odd) td, .ck-content table tr:nth-of-type(odd) td {
-        background-color: #e6e0d2; } }
-
-.ck-content .table-responsive {
-  border-color: #e6d8d6;
-  border-bottom: 0; }
-  .ck-content .table-responsive.col {
-    border: 0; }
-  .ck-content .table-responsive > .tablesaw-stack > thead > tr > th, .ck-content .table-responsive > .tablesaw-stack > thead > tr > td, .ck-content .table-responsive > .tablesaw-stack > t.ck-content > tr > th, .ck-content .table-responsive > .tablesaw-stack > tbody > tr > td, .ck-content .table-responsive > .tablesaw-stack > tfoot > tr > th, .ck-content .table-responsive > .tablesaw-stack > tfoot > tr > td {
-    white-space: normal; }
 
 .ck-content article.node--type-webform.node--view-mode-full {
   padding: 20px; }

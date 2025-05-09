@@ -10598,14 +10598,91 @@ header #search-block-form {
   vertical-align: top;
   border-top: 1px solid #dee2e6; }
 
-table,
-.table {
+th,
+td {
+  height: auto;
+  padding: 4px 9px; }
+
+.table,
+.table-striped,
+table {
+  max-width: 100%;
+  width: 100%;
   font-size: 1.6rem; }
-  table th,
-  table td,
-  .table th,
-  .table td {
-    height: auto; }
+  .table tr,
+  .table-striped tr,
+  table tr {
+    background: #fff;
+    border: 0 !important;
+    padding: 0 !important; }
+    .table tr td,
+    .table-striped tr td,
+    table tr td {
+      border: 1px solid #e3e1db; }
+    .table tr th,
+    .table-striped tr th,
+    table tr th {
+      border: 1px solid #d6d1c5;
+      color: #212529;
+      background: #e6e0d2;
+      font-weight: 600; }
+    .table tr td .tablesaw-cell-label,
+    .table tr th .tablesaw-cell-label,
+    .table-striped tr td .tablesaw-cell-label,
+    .table-striped tr th .tablesaw-cell-label,
+    table tr td .tablesaw-cell-label,
+    table tr th .tablesaw-cell-label {
+      font-weight: 600;
+      width: 40%; }
+    .table tr td:empty, .table tr td.empty-cell,
+    .table tr th:empty,
+    .table tr th.empty-cell,
+    .table-striped tr td:empty,
+    .table-striped tr td.empty-cell,
+    .table-striped tr th:empty,
+    .table-striped tr th.empty-cell,
+    table tr td:empty,
+    table tr td.empty-cell,
+    table tr th:empty,
+    table tr th.empty-cell {
+      padding: 0;
+      border-right: 0; }
+    .table tr td:not(:first-child):empty, .table tr td:not(:first-child).empty-cell,
+    .table tr th:not(:first-child):empty,
+    .table tr th:not(:first-child).empty-cell,
+    .table-striped tr td:not(:first-child):empty,
+    .table-striped tr td:not(:first-child).empty-cell,
+    .table-striped tr th:not(:first-child):empty,
+    .table-striped tr th:not(:first-child).empty-cell,
+    table tr td:not(:first-child):empty,
+    table tr td:not(:first-child).empty-cell,
+    table tr th:not(:first-child):empty,
+    table tr th:not(:first-child).empty-cell {
+      border-left: 0; }
+  @media (max-width: 639px) {
+    .table,
+    .table-striped,
+    table {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #e6e0d2 !important; }
+      .table tr:nth-of-type(odd) td,
+      .table-striped tr:nth-of-type(odd) td,
+      table tr:nth-of-type(odd) td {
+        background-color: #e6e0d2; } }
+
+.table-responsive {
+  border-color: #e6d8d6;
+  border-bottom: 0; }
+  .table-responsive.col {
+    border: 0; }
+  .table-responsive > .tablesaw-stack > thead > tr > th,
+  .table-responsive > .tablesaw-stack > thead > tr > td,
+  .table-responsive > .tablesaw-stack > tbody > tr > th,
+  .table-responsive > .tablesaw-stack > tbody > tr > td,
+  .table-responsive > .tablesaw-stack > tfoot > tr > th,
+  .table-responsive > .tablesaw-stack > tfoot > tr > td {
+    white-space: normal; }
 
 tr.drag {
   background-color: #fffff0; }
@@ -11238,85 +11315,6 @@ ul ul {
     position: absolute;
     top: 1.2rem;
     left: 0.4rem; }
-
-.table,
-.table-striped,
-table {
-  max-width: 100%; }
-  .table tr,
-  .table-striped tr,
-  table tr {
-    background: #fff;
-    border: 0 !important;
-    padding: 0 !important; }
-    .table tr td,
-    .table-striped tr td,
-    table tr td {
-      border: 1px solid #e3e1db; }
-    .table tr th,
-    .table-striped tr th,
-    table tr th {
-      border: 1px solid #d6d1c5;
-      color: #212529;
-      background: #e6e0d2;
-      font-weight: 600; }
-    .table tr td .tablesaw-cell-label,
-    .table tr th .tablesaw-cell-label,
-    .table-striped tr td .tablesaw-cell-label,
-    .table-striped tr th .tablesaw-cell-label,
-    table tr td .tablesaw-cell-label,
-    table tr th .tablesaw-cell-label {
-      font-weight: 600;
-      width: 40%; }
-    .table tr td:empty, .table tr td.empty-cell,
-    .table tr th:empty,
-    .table tr th.empty-cell,
-    .table-striped tr td:empty,
-    .table-striped tr td.empty-cell,
-    .table-striped tr th:empty,
-    .table-striped tr th.empty-cell,
-    table tr td:empty,
-    table tr td.empty-cell,
-    table tr th:empty,
-    table tr th.empty-cell {
-      padding: 0;
-      border-right: 0; }
-    .table tr td:not(:first-child):empty, .table tr td:not(:first-child).empty-cell,
-    .table tr th:not(:first-child):empty,
-    .table tr th:not(:first-child).empty-cell,
-    .table-striped tr td:not(:first-child):empty,
-    .table-striped tr td:not(:first-child).empty-cell,
-    .table-striped tr th:not(:first-child):empty,
-    .table-striped tr th:not(:first-child).empty-cell,
-    table tr td:not(:first-child):empty,
-    table tr td:not(:first-child).empty-cell,
-    table tr th:not(:first-child):empty,
-    table tr th:not(:first-child).empty-cell {
-      border-left: 0; }
-  @media (max-width: 639px) {
-    .table,
-    .table-striped,
-    table {
-      margin-top: 15px;
-      margin-bottom: 15px;
-      border: 1px solid #e6e0d2 !important; }
-      .table tr:nth-of-type(odd) td,
-      .table-striped tr:nth-of-type(odd) td,
-      table tr:nth-of-type(odd) td {
-        background-color: #e6e0d2; } }
-
-.table-responsive {
-  border-color: #e6d8d6;
-  border-bottom: 0; }
-  .table-responsive.col {
-    border: 0; }
-  .table-responsive > .tablesaw-stack > thead > tr > th,
-  .table-responsive > .tablesaw-stack > thead > tr > td,
-  .table-responsive > .tablesaw-stack > tbody > tr > th,
-  .table-responsive > .tablesaw-stack > tbody > tr > td,
-  .table-responsive > .tablesaw-stack > tfoot > tr > th,
-  .table-responsive > .tablesaw-stack > tfoot > tr > td {
-    white-space: normal; }
 
 article.node--type-webform.node--view-mode-full {
   padding: 20px; }

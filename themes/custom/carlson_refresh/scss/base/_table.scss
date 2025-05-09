@@ -10,12 +10,91 @@
   border-top: $table-border-width solid $table-border-color;
 }
 
-table,
-.table {
+th,
+td {
+  height: auto;
+  padding: 4px 9px;
+}
+
+// GENERIC TABLE STYLES
+.table,
+.table-striped,
+table {
+  max-width: 100%;
+  width: 100%;
   font-size: 1.6rem;
 
-  th,
-  td {
-    height: auto;
+  tr {
+    background: $white;
+    border: 0 !important;
+    padding: 0 !important;
+
+    td {
+      border: 1px solid $table-border;
+    }
+
+    th {
+      border: 1px solid $table-header-border;
+      color: $body-color;
+      background: $ivory;
+      font-weight: 600;
+    }
+
+    td,
+    th {
+      .tablesaw-cell-label {
+        font-weight: 600;
+        width: 40%;
+      }
+
+      &:empty,
+      &.empty-cell {
+        padding: 0;
+        border-right: 0;
+      }
+
+      &:not(:first-child) {
+        &:empty,
+        &.empty-cell {
+          border-left: 0;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 639px) {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 1px solid $ivory !important;
+
+    tr {
+      &:nth-of-type(odd) {
+        td {
+          background-color: $ivory;
+        }
+      }
+    }
+  }
+}
+
+.table-responsive {
+  border-color: $light-gray;
+  border-bottom: 0;
+
+  &.col {
+    border: 0;
+  }
+
+  > .tablesaw-stack {
+    > thead,
+    > tbody,
+    > tfoot {
+      > tr {
+        > th,
+        > td {
+          white-space: normal;
+        }
+      }
+    }
   }
 }
