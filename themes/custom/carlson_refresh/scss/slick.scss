@@ -1,4 +1,5 @@
 @import "abstracts/import";
+@import "abstracts/extensions";
 
 // Base styles
 .slick {
@@ -36,6 +37,8 @@
   overflow: hidden;
   margin: 0;
   padding: 0;
+
+  @extend %has-focus-visible;
 
   &:focus {
     outline: none;
@@ -109,6 +112,44 @@
 }
 
 // Navigation arrows
+.slick-arrow {
+  border: 0;
+  border-radius: 50%;
+  font-size: 0;
+  height: 42px;
+  pointer-events: auto;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+
+  &:focus-visible {
+    box-shadow:
+      0 0 0 1px $white,
+      0 0 0 2px $cyan,
+      0 0 0 calc(2px + 0.35rem) rgba($cyan, 0.4);
+  }
+}
+
+.slick-arrow:active,
+.slick-arrow:focus {
+  box-shadow: none;
+  outline: 0;
+}
+
+.slick-arrow::before,
+.slick-arrow::after {
+  pointer-events: none;
+}
+
+.slick-prev {
+  left: 0;
+}
+
+.slick-next {
+  right: 0;
+}
+
 .slick__arrow {
   bottom: auto;
   height: 2px;
@@ -122,39 +163,21 @@
 
   .slick-arrow {
     background: $white;
-    border: 0;
-    border-radius: 50%;
-    font-size: 0;
-    height: 42px;
-    pointer-events: auto;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 42px;
-
-    &:active,
-    &:focus {
-      box-shadow: none;
-      outline: 0;
-    }
 
     &::before {
       color: $maroon;
       font-size: 1.8rem;
       font-weight: 700;
-      pointer-events: none;
     }
   }
 
   .slick-prev {
-    left: 0;
     &::before {
       @include carlson-icons($icon-arrow-left2);
     }
   }
 
   .slick-next {
-    right: 0;
     &::before {
       @include carlson-icons($icon-arrow-right2);
     }

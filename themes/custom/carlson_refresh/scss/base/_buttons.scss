@@ -13,6 +13,15 @@
   @extend %has-focus-visible;
   position: relative;
 
+  &:has(:focus-visible),
+  &:focus-visible {
+    border-radius: 2px;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
   > a {
     // Ensure the tap target of the inner link covers the entire button area.
     &:before {

@@ -2248,10 +2248,7 @@ textarea.form-control {
       margin-bottom: 0; } }
 
 .btn:has(:focus-visible), :root :focus-visible {
-  position: relative;
-  z-index: 1;
   outline: 0;
-  border-radius: 2px;
   box-shadow: 0 0 0 1px #fff, 0 0 0 2px #17a2b8, 0 0 0 calc(2px + 0.35rem) rgba(23, 162, 184, 0.4); }
 
 .btn:has(:focus-visible) :focus-visible {
@@ -2440,6 +2437,10 @@ figcaption {
 
 .btn {
   position: relative; }
+  .btn:has(:focus-visible), .btn:focus-visible {
+    border-radius: 2px; }
+  .btn strong {
+    font-weight: 600; }
   .btn > a:before {
     content: '';
     position: absolute;
@@ -9885,10 +9886,6 @@ h4 a,
 h5 a,
 h6 a {
   font-weight: 300; }
-
-a:hover,
-a:focus {
-  color: #7a0019; }
 
 .affix {
   position: fixed;

@@ -2086,10 +2086,7 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
       margin-bottom: 0; } }
 
 .ck-content .btn:has(:focus-visible), .ck-content :focus-visible {
-  position: relative;
-  z-index: 1;
   outline: 0;
-  border-radius: 2px;
   box-shadow: 0 0 0 1px #fff, 0 0 0 2px #17a2b8, 0 0 0 calc(2px + 3.5px) rgba(23, 162, 184, 0.4); }
 
 .ck-content .btn:has(:focus-visible) :focus-visible {
@@ -2244,6 +2241,10 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
 
 .ck-content .btn {
   position: relative; }
+  .ck-content .btn:has(:focus-visible), .ck-content .btn:focus-visible {
+    border-radius: 2px; }
+  .ck-content .btn strong {
+    font-weight: 600; }
   .ck-content .btn > a:before {
     content: '';
     position: absolute;
@@ -8383,9 +8384,6 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
 
 .ck-content h1 a, .ck-content h2 a, .ck-content h3 a, .ck-content h4 a, .ck-content h5 a, .ck-content h6 a {
   font-weight: 300; }
-
-.ck-content a:hover, .ck-content a:focus {
-  color: #7a0019; }
 
 .ck-content .affix {
   position: fixed;
