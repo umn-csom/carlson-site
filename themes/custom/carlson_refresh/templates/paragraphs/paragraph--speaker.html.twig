@@ -62,19 +62,17 @@
             </div>
             {% endif %}
             {% if (content.field_link_linkedin|field_value is not empty) or (content.field_link_facebook|field_value is not empty) or (content.field_link_twitter|field_value is not empty) %}
-            <div class="col-12 px-3 speaker__social">
+            <div class="col-12 px-3 speaker__social text-center text-lg-left">
               {% if (content.field_link_linkedin | field_value is not empty) or (content.field_link_facebook | field_value is not empty) or (content.field_link_twitter | field_value is not empty) %}
-                <ul class="social-media list-unstyled list-inline text-center text-lg-left">
-                  {% if content.field_link_linkedin | field_value is not empty %}
-                    <li><a href="{{ content.field_link_linkedin.0['#url'] }}">{{ source(directory ~ '/images/svg/social-linkedin.svg') }}<span class="sr-only">LinkedIn</span></a></li>
-                  {% endif %}
-                  {% if content.field_link_facebook | field_value is not empty %}
-                  <li><a href="{{ content.field_link_facebook.0['#url'] }}">{{ source(directory ~ '/images/svg/social-facebook.svg') }}<span class="sr-only">Facebook</span></a></li>
-                  {% endif %}
-                  {# {% if content.field_link_twitter | field_value is not empty %}
-                  <li><a href="{{ content.field_link_twitter.0['#url'] }}">{{ source(directory ~ '/images/svg/social-twitter.svg') }}<span class="sr-only">Twitter</span></a></li>
-                  {% endif %} #}
-                </ul>
+                {% if content.field_link_linkedin | field_value is not empty %}
+                  <a href="{{ content.field_link_linkedin.0['#url'] }}">{{ source(directory ~ '/images/svg/social-linkedin.svg') }}<span class="sr-only">LinkedIn</span></a>
+                {% endif %}
+                {% if content.field_link_facebook | field_value is not empty %}
+                  <a href="{{ content.field_link_facebook.0['#url'] }}">{{ source(directory ~ '/images/svg/social-facebook.svg') }}<span class="sr-only">Facebook</span></a>
+                {% endif %}
+                {# {% if content.field_link_twitter | field_value is not empty %}
+                  <a href="{{ content.field_link_twitter.0['#url'] }}">{{ source(directory ~ '/images/svg/social-twitter.svg') }}<span class="sr-only">Twitter</span></a>
+                {% endif %} #}
               {% endif %}
             </div>
             {% endif %}
