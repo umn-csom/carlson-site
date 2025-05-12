@@ -77,8 +77,8 @@
  */
 #}
 
+{{ attach_library('carlson_refresh/card-flip') }}
 {{ attach_library('carlson_refresh/course-grid') }}
-
 {%
   set classes = [
     'component-paragraph',
@@ -95,49 +95,48 @@
       {% endif %}
 
       {% if (content.field_heading|field_value is not empty) or (content.field_main_content|field_value is not empty) %}
-      <div class="col-12 col-md-10 offset-md-1 course-grid__heading text-center">
-        <h2 class="h3 label-border yellow">{{ content.field_heading }}</h2>
-        {{ content.field_main_content }}
-      </div>
+        <div class="col-12 col-md-10 offset-md-1 course-grid__heading text-center">
+          <h2 class="h3 label-border yellow">{{ content.field_heading }}</h2>
+          {{ content.field_main_content }}
+        </div>
       {% endif %}
 
       <div class="col-12 component-paragraph course-grid__items mt-8">
         <div class="row">
           {% set inc = 0 %}
           {% for item in items %}
-            {# {{ vardumper(item['#paragraph'].field_link[0].url) }} #}
-                <div class="col-12 col-lg-4 mb-6">
-                  <!-- Card Flip -->
-                  <div class="card-flip text-center {{ item['#paragraph'].field_course_icon.0.value }}">
-                    <div class="flip">
-                      <div class="card-flip__front">
-                        <!-- front content -->
-                        <div class="card">
-                          <div class="card-block">
-                            <p class="card-flip__front--title">{{ item['#paragraph'].field_heading.0.value }}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="card-flip__back">
-                        <!-- back content -->
-                        <div class="card">
-                          <div class="card-block">
-                            <p class="card-flip__back--title">{{ item['#paragraph'].field_heading.0.value }}</p>
-                            <p class="card-flip__back--text">{{ item['#paragraph'].field_plain_text.0.value|raw|striptags }}</p>
-                            <a href="{{ path(item['#paragraph'].field_link.0.url.routeName, item['#paragraph'].field_link.0.url.routeParameters) }}" class="btn btn-secondary mt-1">
-                              {{ item['#paragraph'].field_link.title }}
-                            </a>
-                          </div>
-                        </div>
+            <div class="col-12 col-lg-4 mb-6">
+              <!-- Card Flip -->
+              <div class="card-flip text-center {{ item['#paragraph'].field_course_icon.0.value }}">
+                <div class="flip">
+                  <div class="card-flip__front">
+                    <!-- front content -->
+                    <div class="card">
+                      <div class="card-block">
+                        <p class="card-flip__front--title">{{ item['#paragraph'].field_heading.0.value }}</p>
                       </div>
                     </div>
                   </div>
-                  <!-- End Card Flip -->
+                  <div class="card-flip__back">
+                    <!-- back content -->
+                    <div class="card">
+                      <div class="card-block">
+                        <p class="card-flip__back--title">{{ item['#paragraph'].field_heading.0.value }}</p>
+                        <p class="card-flip__back--text">{{ item['#paragraph'].field_plain_text.0.value|raw|striptags }}</p>
+                        <a href="{{ path(item['#paragraph'].field_link.0.url.routeName, item['#paragraph'].field_link.0.url.routeParameters) }}" class="btn btn-secondary mt-1">
+                          {{ item['#paragraph'].field_link.title }}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              {% set inc = inc+1 %}
+              </div>
+              <!-- End Card Flip -->
+            </div>
+            {% set inc = inc+1 %}
           {% endfor %}
         </div>
       </div>
     </div>
-    {% endblock %}
+  {% endblock %}
 {% endblock paragraph %}

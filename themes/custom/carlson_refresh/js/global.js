@@ -6,8 +6,6 @@
 (function ($, Drupal) {
   'use strict';
 
-  $(".card-flip").toggleClass("flip");
-
   function tables() {
     const tables = document.querySelectorAll('table');
     if(tables.length) {
