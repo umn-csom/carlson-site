@@ -21,18 +21,9 @@
   display: table;
 }
 
-[dir="rtl"] .comment {
-  direction: rtl;
-}
-
 .comment__meta {
   padding: 0 30px 0 0;
-  // LTR
   font-size: $font-size-base;
-}
-
-[dir="rtl"] .comment__meta {
-  padding: 0 0 0 30px;
 }
 
 .comment__attribution img {
@@ -61,12 +52,6 @@
   font-size: $font-size-sm;
   line-height: 1.2;
   padding: 0 0.5em 0 0;
-  // LTR
-}
-
-[dir="rtl"] .comment__time,
-.comment__permalink {
-  padding: 0 0 0 0.5em;
 }
 
 .comment__permalink {
@@ -78,42 +63,21 @@
   content: "";
   position: absolute;
   right: 100%;
-  // LTR
   top: $comment-spacer-y;
   border-top: $comment-spacer-y solid transparent;
   border-right: $comment-spacer-x solid $border-color;
-  // LTR
   border-bottom: $comment-spacer-y solid transparent;
-}
-
-[dir="rtl"] .comment__content::before {
-  right: auto;
-  left: 100%;
-  border-right: 0;
-  border-left: $comment-spacer-x solid $border-color;
 }
 
 .comment__content::after {
   content: "";
   position: absolute;
   right: 100%;
-  // LTR
   top: $comment-spacer-y;
   border-top: $comment-spacer-y solid transparent;
   border-right: $comment-spacer-x solid $white;
-  // LTR
   border-bottom: $comment-spacer-y solid transparent;
   margin-right: -1px;
-  // LTR
-}
-
-[dir="rtl"] .comment__content::after {
-  right: auto;
-  left: 100%;
-  border-right: 0;
-  border-left: $comment-spacer-x solid $white;
-  margin-right: 0;
-  margin-left: -1px;
 }
 
 .comment__content h3 {
@@ -128,12 +92,6 @@
 
 .indented {
   margin-left: 40px;
-  // LTR
-}
-
-[dir="rtl"] .indented {
-  margin-right: 40px;
-  margin-left: 0;
 }
 
 .comment .links {
@@ -142,26 +100,13 @@
 
 .comment .links-inline span {
   padding: 0 0.5em 0 0;
-  // LTR
   font-size: $font-size-base;
-}
-
-[dir="rtl"] .comment .links-inline span {
-  padding: 0 0 0 0.5em;
 }
 
 .comment--unpublished {
   margin-right: 5px;
-  // LTR
   padding: 5px 2px 5px 5px;
-  // LTR
   background: $maroon-accent-light;
-}
-
-[dir="rtl"] .comment--unpublished {
-  margin-left: 5px;
-  margin-right: 0;
-  padding: 5px 5px 5px 2px;
 }
 
 // @todo: unpublished nodes have class .node--unpublished change this to comment--unpublished.
@@ -182,10 +127,4 @@
 .comment--unpublished .comment__text::after,
 .node--unpublished .comment__text::after {
   border-right-color: $maroon-accent-light;
-  // LTR
-}
-
-[dir="rtl"] .comment--unpublished .comment__content::after,
-[dir="rtl"] .node--unpublished .comment__content::after {
-  border-left-color: $maroon-accent-light;
 }
