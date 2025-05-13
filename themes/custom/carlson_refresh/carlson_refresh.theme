@@ -309,12 +309,24 @@ function carlson_refresh_theme_suggestions_block_alter(array &$suggestions, arra
 
   // Normal blocks.
   if ($id) {
-    $name = $id;
+    $name = str_replace('-', '_', $id);
   }
 
   // Custom block content blocks.
   if (is_object($block_content)) {
-    $name = $block_content->bundle();
+    $name = str_replace('-', '_', $block_content->bundle());
+  }
+
+  if ($derivative) {
+    $derivative = str_replace('-', '_', $derivative);
+  }
+
+  if ($suggestion) {
+    $suggestion = str_replace('-', '_', $suggestion);
+  }
+
+  if ($region) {
+    $region = str_replace('-', '_', $region);
   }
 
   // @todo layout builder blocks
