@@ -195,6 +195,10 @@ function carlson_refresh_preprocess_node(&$variables) {
   // Check the type
   $bundle = $node->bundle();
 
+  if ($node->isPublished() == FALSE) {
+      $variables['#attached']['library'][] = 'carlson_refresh/node--unpublished';
+  }
+
   // Allowed view modes
   $view_mode = $variables['view_mode']; // Retrieve view mode
   $allowed_view_modes = ['full']; // Array of allowed view modes (for performance so as to not execute on unneeded nodes)
