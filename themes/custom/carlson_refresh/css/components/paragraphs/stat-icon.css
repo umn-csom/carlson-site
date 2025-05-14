@@ -5,77 +5,51 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
-}
+  text-align: center; }
 
-.csom-stat-icon__image {
-  img,
-  svg {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    // The following line is required for several uploaded SVG
-    // media icons that expand beyond their defined viewBox.
-    overflow: visible;
-  }
-}
+.csom-stat-icon__image img,
+.csom-stat-icon__image svg {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  overflow: visible; }
 
 .csom-stat-icon__value {
   font-size: 5.5rem;
   line-height: 1;
-  margin: 0;
-}
+  margin: 0; }
 
 .csom-stat-icon__description {
-  font-size: 2rem;
-}
+  font-size: 2rem; }
 
 .csom-stat-icon--position-above {
-  max-width: 18rem;
-
-  .csom-stat-icon__image + .csom-stat-icon__text {
-    margin-top: 1.5rem;
-  }
-}
+  max-width: 18rem; }
+  .csom-stat-icon--position-above .csom-stat-icon__image + .csom-stat-icon__text {
+    margin-top: 1.5rem; }
 
 .csom-stat-icon--position-left {
   max-width: 29rem;
   flex-direction: row;
-  text-align: left;
-
-  .csom-stat-icon__image {
+  text-align: left; }
+  .csom-stat-icon--position-left .csom-stat-icon__image {
     min-width: 5rem;
-    width: 5rem;
-  }
+    width: 5rem; }
+  .csom-stat-icon--position-left .csom-stat-icon__text {
+    flex-grow: 1; }
+  .csom-stat-icon--position-left .csom-stat-icon__image + .csom-stat-icon__text {
+    margin-left: 1.5rem; }
+  .csom-stat-icon--position-left .csom-stat-icon__value {
+    font-size: 2.6rem; }
+  .csom-stat-icon--position-left .csom-stat-icon__description {
+    font-size: 1.5rem; }
 
-  .csom-stat-icon__text {
-    flex-grow: 1;
-  }
+.csom-stat-icon--style-bold .csom-stat-icon__description {
+  font-weight: 700; }
 
-  .csom-stat-icon__image + .csom-stat-icon__text {
-    margin-left: 1.5rem;
-  }
+.csom-stat-icon--style-bold .csom-stat-icon__value {
+  color: #7a0019;
+  font-weight: 700; }
+  .bg-primary .csom-stat-icon--style-bold .csom-stat-icon__value {
+    color: #fc3; }
 
-  .csom-stat-icon__value {
-    font-size: 2.6rem;
-  }
-
-  .csom-stat-icon__description {
-    font-size: 1.5rem;
-  }
-}
-
-.csom-stat-icon--style-bold {
-  .csom-stat-icon__description {
-    font-weight: 700;
-  }
-
-  .csom-stat-icon__value {
-    color: $maroon;
-    font-weight: 700;
-
-    .bg-primary & {
-      color: $gold;
-    }
-  }
-}
+/*# sourceMappingURL=stat-icon.css.map */
