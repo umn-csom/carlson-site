@@ -119,7 +119,7 @@
       </section>
     {% endif %}
     {# Event Details #}
-    <section class="row align-items-center border-top border-bottom py-4 py-lg-6 component-paragraph event__details">
+    <section class="row align-items-center pb-8 component-paragraph event__details">
       {% if content.field_event_date|field_value is not empty %}
         <div class="col-auto px-lg-6 text-center events__item__date d-flex align-items-center justify-content-center">
           {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
@@ -165,13 +165,13 @@
     </section>
 
     {% if content.field_google_map|field_value is not empty %}
-    <section class="row event__map">
+    <section class="event__map pt-8">
       {{ content.field_google_map }}
     </section>
     {% endif %}
 
     {{ attach_library('carlson_refresh/contact-cta') }}
-    <div class="row component-paragraph contact-cta">
+    <div class="row component-paragraph contact-cta pt-8">
     {% set has_contact_info = content.field_full_name|field_value is not empty and content.field_email|field_value is not empty and content.field_phone|field_value is not empty %}
     {% if has_contact_info %}
       <div class="col-lg-6 contact-cta__contact">
