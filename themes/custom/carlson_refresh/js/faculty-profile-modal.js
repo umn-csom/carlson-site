@@ -1,7 +1,6 @@
 /**
  * @file
- * Tabbed Content utilities.
- *
+ * Faculty Profile Modal.
  */
  (function ($, Drupal) {
     'use strict';
