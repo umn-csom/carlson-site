@@ -1,0 +1,124 @@
+@import "../abstracts/import";
+@import "../abstracts/extensions";
+
+//
+// Card display styles for aggregated news hub content
+// Events, News, Video and Hub Post content types.
+//
+.hub-card--news,
+.hub-card--video,
+.hub-card--blog {
+  border: 0;
+  border-bottom: 5px solid;
+  border-bottom-color: $maroon;
+  background-color: $lightergray;
+
+  &:hover,
+  &:focus {
+    border-bottom-color: $submit-gold;
+  }
+}
+
+.hub-card--news,
+.hub-card--event,
+.hub-card--video,
+.hub-card--post,
+.hub-card--blog {
+  display: inline-block;
+  width: 100%;
+
+  @include news-hub-card();
+
+  &:hover,
+  &:focus {
+    box-shadow: 0 8px 16px 0 rgba($black, 0.2);
+
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+// Event card specific styles
+.hub-card--event {
+  .card {
+    &__date {
+      background-color: $maroon;
+      background-blend-mode: multiply;
+      background-size: cover;
+
+      .date-cal {
+        padding-top: 20%;
+
+        &__item {
+          margin: 0 auto;
+          width: 120px;
+
+          &--day {
+            color: $gold;
+            font-size: 9rem;
+            line-height: 9rem;
+          }
+
+          &--month {
+            font-weight: 700;
+            font-size: 1.7rem;
+            letter-spacing: 1.89px;
+            color: $white;
+
+            &::after {
+              background: $white;
+              height: 5px;
+              margin-top: 2.2rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Video specifc card styles
+.hub-card--video {
+  .card__img {
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      content: "";
+      height: 100%;
+      width: 100%;
+      background-image: url("../images/news-hub-video.svg");
+      background-repeat: no-repeat;
+      background-size: 100%;
+      transition: all 0.3s ease-in-out;
+    }
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    .card__img::before {
+      background-image: url("../images/news-hub-video-gold.svg");
+    }
+  }
+}
+
+// Blog specific card styles
+.hub-card--blog {
+  .card__body {
+    &.no-img {
+      padding-top: 40px;
+    }
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 30px;
+      content: "";
+      height: 35px;
+      width: 35px;
+      background-image: url("../images/news-hub-blog.svg");
+      background-repeat: no-repeat;
+      background-size: 100%;
+    }
+  }
+}

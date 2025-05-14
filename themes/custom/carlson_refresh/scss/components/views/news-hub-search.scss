@@ -1,0 +1,134 @@
+@import "../../abstracts/import";
+@import "../../abstracts/extensions";
+
+// Views page
+.news-hub-search {
+  margin-top: 1rem;
+
+  &__link {
+    font-size: 1.5rem;
+    padding: 1.5rem 1rem;
+    text-transform: uppercase;
+  }
+  // Filters
+  &__filter {
+    padding: 0 10px;
+
+    .form-row {
+      flex-wrap: nowrap;
+      gap: 1.6rem;
+
+      > * {
+        margin: 0;
+      }
+
+      @include media-breakpoint-down(md) {
+        flex-wrap: wrap;
+
+        > fieldset,
+        > details,
+        > div {
+          width: 100%;
+        }
+      }
+    }
+
+    .form-group input[type="submit"] {
+      margin-bottom: 10px;
+      transition: none;
+
+      &:hover,
+      &:focus {
+        transition: all 0.3s ease-in-out;
+      }
+
+      &#edit-reset {
+        color: $maroon;
+        height: auto;
+        line-height: 2.4rem;
+        padding: 0;
+        background: none;
+        border: 0;
+        text-align: right;
+        box-shadow: none;
+
+        &:hover,
+        &:focus {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    #edit-search-api-fulltext,
+    #edit-keyword {
+      background-image: url("../images/svg/spy-glass-maroon.svg");
+      background-repeat: no-repeat;
+      padding-left: 40px;
+      background-position: 10px;
+    }
+
+    @include media-breakpoint-up(md) {
+      fieldset.form-type-textfield,
+      fieldset.form-type-select {
+        width: 100%;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      fieldset.form-type-textfield,
+      fieldset.form-type-select {
+        width: 100%;
+      }
+    }
+
+    #edit-actions {
+      @include media-breakpoint-up(lg) {
+        width: min-content;
+        display: flex;
+        gap: 10px;
+        align-self: flex-start;
+        margin-top: 3rem;
+      }
+    }
+
+    #edit-submit-hub-search-page {
+      @extend %btn-base;
+      @extend %btn-primary;
+
+      background: $white;
+      width: 100%;
+    }
+
+    details.form-item {
+      margin-bottom: 0;
+
+      @include media-breakpoint-up(lg) {
+        margin-top: 3rem;
+        min-width: 270px;
+      }
+    }
+
+    #edit-keyword,
+    select.form-control {
+      color: $dark-gray;
+      font-family: $font-family-sans-serif;
+    }
+  }
+  // Content
+  &__results {
+    margin-top: 0;
+
+    @include media-breakpoint-up(md) {
+      margin-top: 0;
+    }
+
+    nav {
+      width: 100%;
+    }
+  }
+  // Centennial
+  &__centennial-footer {
+    background: $ivory;
+  }
+
+}

@@ -60,10 +60,11 @@
  * @see template_preprocess_node()
  */
 #}
+{{ attach_library('carlson_refresh/hub-card') }}
 
 <div class="card hub-card--news">
   <div class="card__body">
-    <h2 class="card__source h4"> 
+    <h2 class="card__source h4">
       {{ node.getCreatedTime|date('m/d/Y') }} {% if content.field_in_the_media_source %}| {{ content.field_in_the_media_source }}{% endif %}
     </h2>
     <h3 class="card__title">
