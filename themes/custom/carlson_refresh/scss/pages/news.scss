@@ -1,3 +1,6 @@
+@import "../abstracts/import";
+@import "../abstracts/extensions";
+
 // News Page styles
 .news {
   .program-cta,
@@ -58,63 +61,5 @@
     margin: 10px;
     white-space: nowrap;
     line-height: 45px;
-  }
-}
-// News Teaser styles
-.news__teaser {
-  padding: 3rem 0;
-  border-top: 1px solid $warm-gray;
-
-  &:last-child {
-    border-bottom: 1px solid $warm-gray;
-  }
-
-  &--heading {
-    a {
-      color: $slate;
-
-      &:hover,
-      &:focus {
-        color: $maroon;
-      }
-    }
-  }
-
-  &--created {
-    text-transform: uppercase;
-  }
-
-  &--learn-more {
-    text-transform: uppercase;
-    font-weight: 700;
-    letter-spacing: 1.78px;
-  }
-}
-// News Teaser Compact styles
-.news-items__item {
-  a {
-    display: block;
-    width: 100%;
-    height: 100%;
-
-    h4.news-items__item--title {
-      @include font-sans-serif-base();
-
-      line-height: 150%;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: $darkgray;
-    }
-
-    &:hover,
-    &:focus {
-      h4.news-items__item--title {
-        text-decoration: none !important;
-      }
-    }
-
-    span.news-items__item--link {
-      @include bold_link();
-    }
   }
 }
