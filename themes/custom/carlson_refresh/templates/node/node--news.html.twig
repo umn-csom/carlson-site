@@ -93,13 +93,15 @@
         {{ attach_library('carlson_refresh/hero-basic') }}
         <div class="row justify-content-center basic-hero">
           <div class="col-12 basic-hero__title">
-            <h1>{{ label }}</h1>
-            <div class="row">
-              <div class="col-12 col-lg basic-hero__pub mb-6 mb-lg-0">
-                <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
-              </div>
-              <div class="col-12 col-lg-auto">
-                {% include '@carlson_refresh/includes/share-this.html.twig' %}
+            <div class="basic-hero__title-inner">
+              <h1>{{ label }}</h1>
+              <div class="row">
+                <div class="col-12 col-lg basic-hero__pub mb-6 mb-lg-0">
+                  <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
+                </div>
+                <div class="col-12 col-lg-auto basic-hero__share">
+                  {% include '@carlson_refresh/includes/share-this.html.twig' %}
+                </div>
               </div>
             </div>
           </div>
@@ -119,7 +121,7 @@
                 <div class="col-12 col-lg basic-hero__pub mb-6 mb-lg-0">
                   <p><span class="date">{{ node.getCreatedTime|date('l, F j, Y') }}</span></p>
                 </div>
-                <div class="col-12 col-lg-auto">
+                <div class="col-12 col-lg-auto basic-hero__share">
                   {% include '@carlson_refresh/includes/share-this.html.twig' %}
                 </div>
               </div>
@@ -129,22 +131,28 @@
       </section>
     {% endif %}
     {# Body and side bar #}
-    <section class="row news__body">
-
-      <div class="col-12">
-        {% if content.field_sidebar_content|field_value is not empty %}
+    {% set has_sidebar = content.field_sidebar_content|field_value is not empty %}
+    {% if has_sidebar %}
+      <section class="news__body news__body--wide">
+        <div class="row">
+          <div class="col-md-8">
+            {{ content.body }}
+          </div>
           <div class="col-md-4 news__body--sidebar">
             <div>
               {{ content.field_sidebar_content }}
             </div>
           </div>
-        {% endif %}
+        </div>
+      </section>
+    {% else %}
+      <section class="news__body">
         {{ content.body }}
-      </div>
+      </section>
+    {% endif %}
 
-      {# Flexible features are rendered through the paragraph templates specific to the feature #}
-      {{ content.field_flexible_features }}
-    </section>
+    {# Flexible features are rendered through the paragraph templates specific to the feature #}
+    {{ content.field_flexible_features }}
 
     {% if (node.id == 104056) %}
       {{ drupal_view('faces', 'block_1') }} <!-- block only for the Faces 100 -->
