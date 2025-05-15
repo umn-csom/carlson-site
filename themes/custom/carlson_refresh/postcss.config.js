@@ -1,6 +1,10 @@
-module.exports = {
+import prefixwrap from 'postcss-prefixwrap';
+import selectorReplace from 'postcss-selector-replace';
+import remToPixel from 'postcss-rem-to-pixel';
+
+export default {
   plugins: [
-    require('postcss-prefixwrap')('.ck-content', {
+    prefixwrap('.ck-content', {
       ignoreSelectors: [
         'body',
         'html',
@@ -9,7 +13,7 @@ module.exports = {
         '.ck.ck-content',
       ]
     }),
-    require('postcss-selector-replace')({
+    selectorReplace({
       before: [
         "body",
         "html",
@@ -21,7 +25,7 @@ module.exports = {
         '.ck-content',
       ],
     }),
-    require('postcss-rem-to-pixel')({
+    remToPixel({
       rootValue: 10,
       propList: ["*"],
       mediaQuery: true,

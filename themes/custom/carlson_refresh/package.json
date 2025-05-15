@@ -2,6 +2,7 @@
     "name": "carlson_refresh",
     "version": "8.4.1",
     "description": "Carlson Refresh theme is an implementation of Barrio SASS.",
+    "type": "module",
     "main": "index.js",
     "keywords": [
         "SASS",
@@ -12,12 +13,14 @@
     "author": "@hatuhay",
     "license": "MIT",
     "dependencies": {
+        "axios": "^1.9.0",
         "bootstrap": "^4.6.2",
         "jquery": "^3.6.0",
         "popper.js": "^1.16.1"
     },
     "devDependencies": {
         "concurrently": "^8.2.2",
+        "critical": "^7.2.1",
         "node-sass": "^9.0.0",
         "postcss": "^8.4.31",
         "postcss-cli": "^10.1.0",
@@ -48,6 +51,8 @@
         "postcss": "postcss css/style.css -o css/ckeditor-style.css",
         "postcss-watch": "postcss css/style.css -o css/ckeditor-style.css --watch",
         "build": "npm run sass && npm run postcss",
-        "watch": "concurrently \"npm run sass-watch\" \"npm run postcss-watch\""
+        "watch": "concurrently \"npm run sass-watch\" \"npm run postcss-watch\"",
+        "critical": "node --max-http-header-size=32768 scripts/generate-critical.js",
+        "minify-critical": "node scripts/minify-critical.js"
     }
 }
