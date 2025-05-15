@@ -89,20 +89,20 @@
     background-color: #973c49; }
   .site-nav__pl-btn.has-dropdown:not([aria-expanded="true"]):hover::before, .site-nav__pl-lnk.has-dropdown:not([aria-expanded="true"]):hover::before {
     height: 0.4rem; }
-  .site-nav__ul:not(:has(.show)) .site-nav__pl-btn.in-active-trail,
-  .site-nav__ul:not(:has(.show)) .site-nav__pl-lnk.in-active-trail,
-  .site-nav__ul:has(.show) .site-nav__pl-btn[aria-expanded="true"],
-  .site-nav__ul:has(.show) .site-nav__pl-lnk[aria-expanded="true"] {
+  .site-nav :where(.site-nav__ul:not(:has(.show))) :where(.site-nav__pl-btn.in-active-trail),
+  .site-nav :where(.site-nav__ul:not(:has(.show))) :where(.site-nav__pl-lnk.in-active-trail),
+  .site-nav :where(.site-nav__ul:has(.show)) :where(.site-nav__pl-btn[aria-expanded="true"]),
+  .site-nav :where(.site-nav__ul:has(.show)) :where(.site-nav__pl-lnk[aria-expanded="true"]) {
     color: #000;
     background-color: #e6e0d2; }
-  .site-nav__ul:not(:has(.show)) .site-nav__pl-btn:hover,
-  .site-nav__ul:not(:has(.show)) .site-nav__pl-lnk:hover,
-  .site-nav__ul:not(:has(.show)) .site-nav__pl-btn:focus,
-  .site-nav__ul:not(:has(.show)) .site-nav__pl-lnk:focus,
-  .site-nav__ul:has(.show) .site-nav__pl-btn:not([aria-expanded="true"]):hover,
-  .site-nav__ul:has(.show) .site-nav__pl-lnk:not([aria-expanded="true"]):hover,
-  .site-nav__ul:has(.show) .site-nav__pl-btn:not([aria-expanded="true"]):focus,
-  .site-nav__ul:has(.show) .site-nav__pl-lnk:not([aria-expanded="true"]):focus {
+  .site-nav :where(.site-nav__ul:not(:has(.show))) :where(.site-nav__pl-btn:hover),
+  .site-nav :where(.site-nav__ul:not(:has(.show))) :where(.site-nav__pl-lnk:hover),
+  .site-nav :where(.site-nav__ul:not(:has(.show))) :where(.site-nav__pl-btn:focus),
+  .site-nav :where(.site-nav__ul:not(:has(.show))) :where(.site-nav__pl-lnk:focus),
+  .site-nav :where(.site-nav__ul:has(.show)) :where(.site-nav__pl-btn:not([aria-expanded="true"]):hover),
+  .site-nav :where(.site-nav__ul:has(.show)) :where(.site-nav__pl-lnk:not([aria-expanded="true"]):hover),
+  .site-nav :where(.site-nav__ul:has(.show)) :where(.site-nav__pl-btn:not([aria-expanded="true"]):focus),
+  .site-nav :where(.site-nav__ul:has(.show)) :where(.site-nav__pl-lnk:not([aria-expanded="true"]):focus) {
     color: #fff;
     background-color: #973c49;
     z-index: 1001; }
@@ -110,13 +110,16 @@
     padding: 1.4rem 1.6rem; }
     .site-nav__pl-btn--apply {
       padding: 1.4rem 0; }
+      .site-nav__pl-btn--apply:hover, .site-nav__pl-btn--apply:focus, .site-nav__pl-btn--apply.in-active-trail {
+        background-color: transparent; }
+      .site-nav__pl-btn--apply.is-active {
+        text-decoration: none; }
   .site-nav__pl-btn-inner {
     padding: 4px 10px;
     margin: -2px 0;
     font-weight: 600;
     font-size: 14px;
     text-transform: uppercase;
-    color: #fff;
     border: 1px solid currentColor; }
     .site-nav__pl-btn-inner--apply {
       color: #7a0019;

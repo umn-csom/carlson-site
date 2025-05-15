@@ -156,22 +156,22 @@
     }
   }
 
-  &__ul:not(:has(.show)) .site-nav__pl-btn.in-active-trail,
-  &__ul:not(:has(.show)) .site-nav__pl-lnk.in-active-trail,
-  &__ul:has(.show) .site-nav__pl-btn[aria-expanded="true"],
-  &__ul:has(.show) .site-nav__pl-lnk[aria-expanded="true"] {
+  :where(.site-nav__ul:not(:has(.show))) :where(.site-nav__pl-btn.in-active-trail),
+  :where(.site-nav__ul:not(:has(.show))) :where(.site-nav__pl-lnk.in-active-trail),
+  :where(.site-nav__ul:has(.show)) :where(.site-nav__pl-btn[aria-expanded="true"]),
+  :where(.site-nav__ul:has(.show)) :where(.site-nav__pl-lnk[aria-expanded="true"]) {
     color: $navbar-dark-show-color;
     background-color: $navbar-dark-show-bg-color;
   }
 
-  &__ul:not(:has(.show)) .site-nav__pl-btn:hover,
-  &__ul:not(:has(.show)) .site-nav__pl-lnk:hover,
-  &__ul:not(:has(.show)) .site-nav__pl-btn:focus,
-  &__ul:not(:has(.show)) .site-nav__pl-lnk:focus,
-  &__ul:has(.show) .site-nav__pl-btn:not([aria-expanded="true"]):hover,
-  &__ul:has(.show) .site-nav__pl-lnk:not([aria-expanded="true"]):hover,
-  &__ul:has(.show) .site-nav__pl-btn:not([aria-expanded="true"]):focus,
-  &__ul:has(.show) .site-nav__pl-lnk:not([aria-expanded="true"]):focus {
+  :where(.site-nav__ul:not(:has(.show))) :where(.site-nav__pl-btn:hover),
+  :where(.site-nav__ul:not(:has(.show))) :where(.site-nav__pl-lnk:hover),
+  :where(.site-nav__ul:not(:has(.show))) :where(.site-nav__pl-btn:focus),
+  :where(.site-nav__ul:not(:has(.show))) :where(.site-nav__pl-lnk:focus),
+  :where(.site-nav__ul:has(.show)) :where(.site-nav__pl-btn:not([aria-expanded="true"]):hover),
+  :where(.site-nav__ul:has(.show)) :where(.site-nav__pl-lnk:not([aria-expanded="true"]):hover),
+  :where(.site-nav__ul:has(.show)) :where(.site-nav__pl-btn:not([aria-expanded="true"]):focus),
+  :where(.site-nav__ul:has(.show)) :where(.site-nav__pl-lnk:not([aria-expanded="true"]):focus) {
     color: $navbar-dark-hover-color;
     background-color: $navbar-dark-hover-bg-color;
     z-index: $zindex-dropdown + 1;
@@ -182,6 +182,16 @@
 
     &--apply {
       padding: 1.4rem 0;
+
+      &:hover,
+      &:focus,
+      &.in-active-trail {
+        background-color: transparent;
+      }
+
+      &.is-active {
+        text-decoration: none;
+      }
     }
   }
 
@@ -191,7 +201,6 @@
     font-weight: 600;
     font-size: 14px;
     text-transform: uppercase;
-    color: $white;
     border: 1px solid currentColor;
 
     &--apply {
