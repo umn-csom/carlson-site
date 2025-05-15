@@ -1,7 +1,6 @@
 import { generate } from 'critical';
 import fs from 'fs';
 import path from 'path';
-import axios from 'axios';
 import { fileURLToPath } from 'url';
 
 // Get __dirname equivalent in ES modules
@@ -128,15 +127,15 @@ ${result.css}`;
         success = true;
 
         // Only fetch HTML if CSS generation was successful
-        try {
-          const html = (await axios.get(`${BASE_URL}${url}`, { maxRedirects: 5 }))
-            .data;
-          const htmlPath = path.join(OUTPUT_DIR, `${type}.html`);
-          fs.writeFileSync(htmlPath, html);
-          console.log(`✓ HTML stored in css/critical/${type}.html`);
-        } catch (error) {
-          console.error(`⨉ Error generating HTML for ${type}:`, error);
-        }
+        // try {
+        //   const html = (await axios.get(`${BASE_URL}${url}`, { maxRedirects: 5 }))
+        //     .data;
+        //   const htmlPath = path.join(OUTPUT_DIR, `${type}.html`);
+        //   fs.writeFileSync(htmlPath, html);
+        //   console.log(`✓ HTML stored in css/critical/${type}.html`);
+        // } catch (error) {
+        //   console.error(`⨉ Error generating HTML for ${type}:`, error);
+        // }
 
       } catch (error) {
         retryCount++;
