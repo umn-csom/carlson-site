@@ -1,0 +1,34 @@
+{{ attach_library('carlson_refresh/news-teaser') }}
+{% if node.field_in_the_media.value.0.uri is not empty %}
+  {% set is_external = true %}
+  {% set url = node.field_in_the_media.value.0.uri %}
+{% endif %}
+{% set has_hero_media = content.field_hero_media|field_value is not empty %}
+<div class="row news__teaser mx-0 mx-xl-n3 px-3 mb-6 border box-shadow flex-grow-1">
+  {% if has_hero_media %}
+    <div class="col-12 col-md-4 news__teaser--image mb-3 mb-md-0">
+      <div class="position-relative h-100 w-100">
+        <div class="embed-responsive embed-responsive-16by9 position-static">
+          {{ content.field_hero_media }}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  <div class="col-12{% if has_hero_media %} col-md-8{% endif %}">
+    <h3 class="news__teaser--heading">
+      <a href="{{ url }}" {% if is_external %} target="_blank" {% endif %} rel="bookmark">{{ label }}</a>
+    </h3>
+    {% if content.body|render|striptags is not empty %}
+      {% if content.body.summary|field_value is not empty %}
+        {{ content.body.summary }}
+      {% else %}
+        {% set text = content.body|render|striptags %}
+        <p class="news__teaser--body">{{ text|length > 200 ? text|slice(0, 200) ~ '...' : text }}</p>
+      {% endif %}
+    {% elseif content.field_description|render|striptags is not empty %}
+      {% set text = content.field_description|render|striptags %}
+        <p class="news__teaser--description">{{ text|length > 200 ? text|slice(0, 200) ~ '...' : text }}</p>
+    {% endif %}
+    <a href="{{ url }}" class="btn btn-primary mt-2" {% if is_external %} target="_blank" {% endif %}>Learn More</a>
+  </div>
+</div>
