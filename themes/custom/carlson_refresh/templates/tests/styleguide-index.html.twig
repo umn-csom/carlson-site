@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Theme override for the styleguide index page.
+ *
+ * Available variables:
+ * - styleguide_pages: An array of styleguide pages with title, description, and url.
+ */
+#}
+<div class="container py-5">
+  <div class="row mb-5">
+    <div class="col-12">
+      <p class="lead">This styleguide provides a comprehensive overview of design elements and styles used on the Carlson School website.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    {% for page in styleguide_pages %}
+      <div class="col-md-6 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h2 class="h3 card-title">{{ page.title }}</h2>
+            <p class="card-text">{{ page.description }}</p>
+            <a href="{{ page.url }}" class="btn btn-primary">View {{ page.title }}</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

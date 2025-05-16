@@ -8384,6 +8384,17 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
 .ck-content .invisible {
   visibility: hidden !important; }
 
+.ck-content h1, .ck-content h2, .ck-content h3, .ck-content h4, .ck-content h5, .ck-content h6, .ck-content p, .ck-content ul, .ck-content ol {
+  margin-top: 0;
+  margin-bottom: 10px; }
+
+.ck-content ul ul {
+  margin-bottom: 0;
+  list-style-type: disc; }
+
+.ck-content ul li, .ck-content ol li {
+  margin-bottom: 10px; }
+
 .ck-content a {
   font-weight: 600; }
   .ck-content a p {
@@ -8392,8 +8403,37 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
 .ck-content p:last-child {
   margin-bottom: 0; }
 
-.ck-content h1 a, .ck-content h2 a, .ck-content h3 a, .ck-content h4 a, .ck-content h5 a, .ck-content h6 a {
-  font-weight: 300; }
+.ck-content h1, .ck-content h2, .ck-content h3, .ck-content h4, .ck-content h5, .ck-content h6, .ck-content .h1, .ck-content .h2, .ck-content .h3, .ck-content .h4, .ck-content .h5, .ck-content .h6 {
+  margin-bottom: 5px;
+  font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
+  font-weight: 300;
+  line-height: 1.2; }
+  .ck-content h1 a, .ck-content h2 a, .ck-content h3 a, .ck-content h4 a, .ck-content h5 a, .ck-content h6 a, .ck-content .h1 a, .ck-content .h2 a, .ck-content .h3 a, .ck-content .h4 a, .ck-content .h5 a, .ck-content .h6 a {
+    font-weight: 300; }
+
+.ck-content h1, .ck-content .h1 {
+  font-size: 50px;
+  font-size: Min(50px, calc(16.25px + 4.03286vw)); }
+
+.ck-content h2, .ck-content .h2 {
+  font-size: 42px;
+  font-size: Min(42px, calc(15.45px + 3.17252vw)); }
+
+.ck-content h3, .ck-content .h3 {
+  font-size: 34px;
+  font-size: Min(34px, calc(14.65px + 2.31217vw)); }
+
+.ck-content h4, .ck-content .h4 {
+  font-size: 25px;
+  font-size: Min(25px, calc(13.75px + 1.34429vw)); }
+
+.ck-content h5, .ck-content .h5 {
+  font-size: 20px;
+  font-size: Min(20px, calc(13.25px + 0.80657vw)); }
+
+.ck-content h6, .ck-content .h6 {
+  font-size: 16px;
+  font-size: Min(16px, calc(12.85px + 0.3764vw)); }
 
 .ck-content .affix {
   position: fixed;
@@ -9661,42 +9701,6 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
     .ck-content {
       font-size: calc(12.85px + 0.3764vw); } }
 
-.ck-content h1, .ck-content .h1 {
-  font-size: 50px; }
-  @media (max-width: 1339px) {
-    .ck-content h1, .ck-content .h1 {
-      font-size: calc(16.25px + 4.03286vw); } }
-
-.ck-content h2, .ck-content .h2 {
-  font-size: 42px; }
-  @media (max-width: 1339px) {
-    .ck-content h2, .ck-content .h2 {
-      font-size: calc(15.45px + 3.17252vw); } }
-
-.ck-content h3, .ck-content .h3 {
-  font-size: 34px; }
-  @media (max-width: 1339px) {
-    .ck-content h3, .ck-content .h3 {
-      font-size: calc(14.65px + 2.31217vw); } }
-
-.ck-content h4, .ck-content .h4 {
-  font-size: 25px; }
-  @media (max-width: 1339px) {
-    .ck-content h4, .ck-content .h4 {
-      font-size: calc(13.75px + 1.34429vw); } }
-
-.ck-content h5, .ck-content .h5 {
-  font-size: 20px; }
-  @media (max-width: 1339px) {
-    .ck-content h5, .ck-content .h5 {
-      font-size: calc(13.25px + 0.80657vw); } }
-
-.ck-content h6, .ck-content .h6 {
-  font-size: 16px; }
-  @media (max-width: 1339px) {
-    .ck-content h6, .ck-content .h6 {
-      font-size: calc(12.85px + 0.3764vw); } }
-
 .ck-content .row::before, .ck-content .row::after {
   display: inline-block; }
 
@@ -9709,17 +9713,15 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
   margin-top: 20px;
   margin-bottom: 20px; }
 
-.ck-content ul li, .ck-content ol li {
-  margin-bottom: 10px; }
-
-.ck-content ul ul {
-  list-style-type: disc; }
-
 .ck-content .font-weight-semi-bold {
   font-weight: 600; }
 
 .ck-content .font-weight-medium {
   font-weight: 500; }
+
+@media (max-width: 991.98px) {
+  .ck-content .font-weight-bold-mobile {
+    font-weight: 700; } }
 
 .ck-content .fs-18 {
   font-size: 18px; }
@@ -9844,10 +9846,6 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
     position: absolute;
     top: 12px;
     left: 4px; }
-
-@media (max-width: 991.98px) {
-  .ck-content .font-weight-bold-mobile {
-    font-weight: 700; } }
 
 .ck-content img {
   max-width: 100%; }
