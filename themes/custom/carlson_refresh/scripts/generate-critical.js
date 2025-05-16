@@ -80,6 +80,7 @@ async function generateCriticalCSS() {
           },
           cleanCSS: {
             level: 2,
+            format: "beautify",
           },
           penthouse: {
             timeout: 120000,
