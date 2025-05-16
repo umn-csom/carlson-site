@@ -9,6 +9,7 @@ use Drupal\block\Entity\Block;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
+use Drupal\Component\Utility\UrlHelper;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 /**
@@ -784,6 +785,41 @@ function carlson_refresh_preprocess_slick(&$variables) {
       }
     }
     $variables['content_attributes']->setAttribute('data-slick', json_encode($data_slick));
+  }
+}
+
+function carlson_refresh_preprocess_table(&$variables) {
+  // Adding table sort indicator CSS class for inactive sort link.
+  // @todo Revisit after https://www.drupal.org/node/3025726 or
+  //   https://www.drupal.org/node/1973418 is in.
+  if (!empty($variables['header'])) {
+    foreach ($variables['header'] as &$header_cell) {
+      if ($header_cell['content'] instanceof Link) {
+        $query = $header_cell['content']->getUrl()->getOption('query') ?: [];
+
+        if (isset($query['order']) && isset($query['sort'])) {
+          $header_cell['attributes']->addClass('tablesort-heading');
+        }
+      }
+    }
+  }
+}
+
+function carlson_refresh_preprocess_views_view_table(&$variables) {
+  // Adding table sort indicator CSS class for inactive sort link.
+  // @todo Revisit after https://www.drupal.org/node/3025726 or
+  //   https://www.drupal.org/node/1973418 is in.
+  if (!empty($variables['header'])) {
+    foreach ($variables['header'] as &$header_cell) {
+      if (!empty($header_cell['url'])) {
+        $parsed_url = UrlHelper::parse($header_cell['url']);
+        $query = !empty($parsed_url['query']) ? $parsed_url['query'] : [];
+
+        if (isset($query['order']) && isset($query['sort'])) {
+          $header_cell['attributes']->addClass('tablesort-heading');
+        }
+      }
+    }
   }
 }
 
