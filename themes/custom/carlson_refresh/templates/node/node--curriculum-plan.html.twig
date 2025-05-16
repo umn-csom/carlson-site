@@ -90,25 +90,19 @@
     {# Render hero with hero-basic component #}
 
     <section class="row basic-page__content">
-      <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
-        {# inner_nav region #}
-        {% if inner_nav %}
+      {# inner_nav region #}
+      {% if inner_nav %}
         {{ attach_library('carlson_refresh/inner-nav') }}
-        <div class="row inner_nav">
-          <div class="col-12">
-            <div class="row">
-              {{ inner_nav }}
-            </div>
-          </div>
+        <div class="col-12 inner_nav">
+          {{ inner_nav }}
         </div>
-        {% endif %}
+      {% endif %}
 
+      <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
         <div class="row">
-
           <div class="col-12 basic-page__content-components">
-
             {# Inner node region for blocks #}
-              {{ node_top }}
+            {{ node_top }}
 
             {# Home Flexible feature paragraphs #}
             <div class="component-paragraph curriculum-plan__header">
