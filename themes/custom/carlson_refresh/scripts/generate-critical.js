@@ -9,8 +9,8 @@ const __dirname = path.dirname(__filename);
 
 // Configuration
 const BASE_URL = 'http://carlsonschool.ddev.site';
-const OUTPUT_DIR = path.join(__dirname, '../css/critical');
-const DEFAULT_CRITICAL_PATH = path.join(__dirname, '../css/critical/default-critical.css');
+const OUTPUT_DIR = path.join(__dirname, '../scss/critical');
+const DEFAULT_CRITICAL_PATH = path.join(__dirname, '../scss/critical/default-critical.scss');
 const ERROR_DELAY = 5000; // 5 seconds delay after error
 const MAX_RETRIES = 3; // Maximum number of retries per page
 
@@ -19,6 +19,7 @@ const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Define Critical CSS filename suggestions and their representative URLs
 const criticalUrlSuggestions = {
+  // Content types
   alumni_default_page: "/node/114021",
   alumni_landing_page: "/node/113926",
   blog_entry: "/node/113001",
@@ -36,12 +37,50 @@ const criticalUrlSuggestions = {
   magazine: "/node/126576",
   news: "/node/129931",
   news_landing: "/node/106836",
-  page: "/node/13", //page: "/node/11771",
+  page: "/node/101191", //page: "/node/11771",
   person: "/node/96621",
   quiz: "/node/116591",
   session: "/node/94421",
   student: "/node/128751",
   video: "/node/107586",
+
+  // Views pages.
+  "path-graduate": "/graduate",
+  "path-news": "/news",
+  "path-faculty-research-directory-tenured-tenure-track":
+    "/faculty-research/directory-tenured-tenure-track",
+
+  // Linked from header or footer.
+  "path-contact": "/contact",
+  "path-contact-media": "/contact/media",
+  "path-give": "/give",
+  "path-location-facilities": "/location-facilities",
+
+  // Special pages.
+  "path-graduate-resources-compare-programs":
+    "/graduate/resources/compare-programs",
+  "path-undergraduate": "/undergraduate",
+  "path-undergraduate-admissions": "/undergraduate/admissions",
+  "path-undergraduate-majors-minors": "/undergraduate/majors-minors",
+  "path-undergraduate-tuition-aid": "/undergraduate/tuition-aid",
+  "path-undergraduate-student-life": "/undergraduate/student-life",
+  "path-undergraduate-academics": "/undergraduate/academics",
+  "path-undergraduate-careers": "/undergraduate/careers",
+  "path-undergraduate-admissions-freshman-students":
+    "/undergraduate/admissions/freshman-students",
+  "path-undergraduate-admissions-transfer-students":
+    "/undergraduate/admissions/transfer-students",
+  "path-undergraduate-admissions-international-students":
+    "/undergraduate/admissions/international-students",
+  "path-undergraduate-admissions-returning-students":
+    "/undergraduate/admissions/returning-students",
+  "path-undergraduate-admissions-class-profile":
+    "/undergraduate/admissions/class-profile",
+  "path-undergraduate-student-life-ambassadors":
+    "/undergraduate/student-life/ambassadors",
+
+  // Miscellaneous.
+  "path-user-login": "/user/login",
 };
 
 // Ensure output directory exists
@@ -61,9 +100,9 @@ async function generateCriticalCSS() {
         const result = await generate({
           src: `${BASE_URL}${url}`,
           target: {
-            css: path.join(OUTPUT_DIR, `${type}.css`),
+            css: path.join(OUTPUT_DIR, `${type}.scss`),
           },
-          width: 1300,
+          width: 1400,
           height: 900,
           inline: false,
           ignore: {
@@ -72,15 +111,61 @@ async function generateCriticalCSS() {
               ":root",
               "::-webkit-file-upload-button",
               ":-moz-focus-inner",
+              "html",
+              "body",
+              "button",
+              "article",
+              "header",
+              "main",
+              "nav",
+              "section",
+              "img",
+              "svg",
+              "p",
+              "p:last-child",
+              "a",
+              "a:hover",
+              "a:not([href]):not([class])",
+              "ul ul",
+              "ul li",
+              "ol li",
+              ".ff-sans-serif",
+              ".align-center",
+              ".text-uppercase",
+              ".text-capitalize",
+              ".img-fluid",
+              ".clearfix::after",
+              ".umn-search-form",
+              /crumbs/,
+              /dropdown/,
+              /dropright/,
+              /dropleft/,
+              /focus/,
+              /h[1-6]/,
+              /list-inline/,
               /mega-menu/,
               /menu-block/,
-              /focus/,
+              /mm-menu/,
+              /off-canvas/,
+              /off-canvas-wrapper/,
+              /site-branding/,
+              /site-nav/,
+              /skip-link/,
+              /sr-only/,
+              /umnhf-h/,
+              /visually-hidden/,
             ],
-            decl: [/--mm-/, "transition", "animation"],
+            decl: [
+              /\-\-mm-/,
+              "transition",
+              "animation",
+              "box-sizing",
+              "-webkit-appearance",
+            ],
           },
           cleanCSS: {
             level: 2,
-            format: "beautify",
+            //format: "beautify",
           },
           penthouse: {
             timeout: 120000,
@@ -118,12 +203,22 @@ async function generateCriticalCSS() {
  */
 ${result.css}`;
 
-        fs.writeFileSync(path.join(OUTPUT_DIR, `${type}.css`), cssContent);
-        const stats = fs.statSync(path.join(OUTPUT_DIR, `${type}.css`));
+
+        const scssContent = `/**
+ * @file
+ * Critical CSS for ${type}
+ *
+ * Generated automatically - DO NOT EDIT DIRECTLY
+ */
+@import "base-critical";
+${result.css}`;
+
+        fs.writeFileSync(path.join(OUTPUT_DIR, `${type}.scss`), scssContent);
+        const stats = fs.statSync(path.join(OUTPUT_DIR, `${type}.scss`));
         const sizeInBytes = stats.size;
         const sizeInKB = (sizeInBytes / 1024).toFixed(2);
         console.log(
-          `✓ Generated css/critical/${type}.css (${sizeInBytes} bytes, ${sizeInKB} KB)`,
+          `✓ Generated scss/critical/${type}.scss (${sizeInBytes} bytes, ${sizeInKB} KB)`,
         );
         success = true;
 
