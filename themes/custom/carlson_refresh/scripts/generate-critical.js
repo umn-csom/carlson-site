@@ -17,8 +17,8 @@ const MAX_RETRIES = 3; // Maximum number of retries per page
 // Helper function to add delay
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-// Define content types and their representative URLs
-const contentTypes = {
+// Define Critical CSS filename suggestions and their representative URLs
+const criticalUrlSuggestions = {
   alumni_default_page: "/node/114021",
   alumni_landing_page: "/node/113926",
   blog_entry: "/node/113001",
@@ -49,9 +49,9 @@ if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-// Generate critical CSS for each content type
+// Generate critical CSS for each URL suggestion
 async function generateCriticalCSS() {
-  for (const [type, url] of Object.entries(contentTypes)) {
+  for (const [type, url] of Object.entries(criticalUrlSuggestions)) {
     console.log(`Generating critical CSS for ${type}...`);
     let retryCount = 0;
     let success = false;
@@ -136,16 +136,20 @@ ${result.css}`;
         // } catch (error) {
         //   console.error(`⨉ Error generating HTML for ${type}:`, error);
         // }
-
       } catch (error) {
         retryCount++;
-        console.error(`⨉ Error generating critical CSS for ${type} (attempt ${retryCount}/${MAX_RETRIES}):`, error);
+        console.error(
+          `⨉ Error generating critical CSS for ${type} (attempt ${retryCount}/${MAX_RETRIES}):`,
+          error,
+        );
 
         if (retryCount < MAX_RETRIES) {
           console.log(`Waiting ${ERROR_DELAY}ms before retry...`);
           await delay(ERROR_DELAY);
         } else {
-          console.error(`Failed to generate critical CSS for ${type} after ${MAX_RETRIES} attempts`);
+          console.error(
+            `Failed to generate critical CSS for ${type} after ${MAX_RETRIES} attempts`,
+          );
         }
       }
     }
