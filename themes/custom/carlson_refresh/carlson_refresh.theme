@@ -834,3 +834,26 @@ function carlson_refresh_theme() {
     ],
   ];
 }
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function carlson_refresh_views_pre_render(\Drupal\views\ViewExecutable $view) {
+  // Map CSS classes to libraries for view attachment
+  $class_library_map = [
+    'news-hub-search' => 'carlson_refresh/news-hub-search',
+    'news-events' => 'carlson_refresh/news-events',
+  ];
+
+  if (!empty($view->style_plugin->options['css_class'])) {
+    $view_classes = $view->style_plugin->options['css_class'];
+
+    // Check each mapping to see if the view has the class
+    foreach ($class_library_map as $class => $library) {
+      if (strpos($view_classes, $class) !== FALSE) {
+        // Attach the corresponding library
+        $view->element['#attached']['library'][] = $library;
+      }
+    }
+  }
+}

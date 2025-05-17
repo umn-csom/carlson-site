@@ -5,6 +5,116 @@
 .news-hub-search {
   margin-top: 1rem;
 
+  .card-columns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 1.5rem;
+
+    .card {
+      box-sizing: border-box;
+      margin: 0 .25rem 2rem;
+      flex: 100%;
+      flex-basis: 100%;
+      flex-grow: 0;
+
+      .card__tags {
+        .card__tag {
+          display: inline-block;
+          width: min-content;
+          font-size: 14px;
+          padding: 3px 6px;
+          margin-bottom: 5px;
+          background-color: $ivory;
+          color: black;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  &.in-the-media {
+    .in-the-media__header {
+      text-align: center;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid $light-gray;
+      margin-bottom: 3rem;
+      p {
+        max-width: 1080px;
+        margin: auto;
+        @include font-sans-serif-base();
+      }
+    }
+    .in-the-media__filter {
+      .form-row {
+        flex-wrap: wrap;
+        gap: 1.6rem;
+      }
+    }
+    .card-columns {
+      .card {
+        .card__body {
+          margin: 2rem;
+          h3.card__title {
+            margin-left: 0;
+          }
+        }
+        &.hub-card--news,
+        &.hub-card--video,
+        &.hub-card--blog {
+          border-bottom: none;
+          .card__title--link::after{
+              content: unset;
+          }
+        }
+        margin: 0.5rem 0 ;
+        h4.card__source {
+          font-family: "Lato",Arial,Verdana,sans-serif;
+          font-size: 1.5rem;
+          text-transform: uppercase;
+          font-weight: bolder;
+        }
+        .card__text {
+          font-family: "Lato",Arial,Verdana,sans-serif;
+          font-size: 1.5rem;
+          text-transform: uppercase;
+          font-weight: bolder;
+          margin: 0rem;
+        }
+        a.card__text {
+          color: $maroon;
+        }
+        .card__bar {
+          margin: 0.5rem 0;
+          width: 20rem;
+          border: 3px solid $maroon;
+          border-radius: 3px 3px 3px 3px;
+        }
+
+      }
+      @include media-breakpoint-up(lg) {
+        .card {
+          max-width: calc(50% - 1rem);
+        }
+      }
+      @include media-breakpoint-up(xl) {
+        .card {
+          max-width: calc(50% - 1rem);
+        }
+      }
+    }
+  }
+
+  header {
+    h1 {
+      font-size: $font-medium-mobile;
+
+      @include media-breakpoint-up(lg) {
+        font-size: $font-medium;
+      }
+    }
+  }
+
   &__link {
     font-size: 1.5rem;
     padding: 1.5rem 1rem;
@@ -126,9 +236,4 @@
       width: 100%;
     }
   }
-  // Centennial
-  &__centennial-footer {
-    background: $ivory;
-  }
-
 }

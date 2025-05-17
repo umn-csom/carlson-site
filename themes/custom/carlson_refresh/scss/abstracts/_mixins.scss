@@ -247,47 +247,6 @@
   content: $icon;
 }
 
-// News Hub cards
-@mixin news-hub-card() {
-  .card {
-    position: relative;
-
-    &__title {
-      @include font-newsreader-base();
-
-      font-size: $font-small-mobile;
-      line-height: 125%;
-
-      @include media-breakpoint-up(lg) {
-        font-size: $font-smaller;
-        line-height: 125%;
-      }
-
-      margin: 1.25rem 1rem;
-
-      &--link {
-        color: $slate;
-
-        &:hover {
-          transition: color 0.3s ease-in-out;
-          text-decoration: none;
-          color: $maroon;
-        }
-      }
-    }
-
-    &__text {
-      margin: 1rem;
-    }
-
-    &__link {
-      @include bold_link();
-
-      margin: 1.5rem 1rem;
-    }
-  }
-}
-
 // Targetting only IE11 https://gist.github.com/tcrammond/99fd936007685dba97b7
 @mixin target-metro {
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
