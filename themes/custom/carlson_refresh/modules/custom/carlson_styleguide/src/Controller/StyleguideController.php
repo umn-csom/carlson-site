@@ -30,11 +30,10 @@ class StyleguideController extends ControllerBase {
           'description' => $this->t('Button styles and variations.'),
           'url' => Url::fromRoute('carlson_styleguide.buttons'),
         ],
-      ],
-      '#attached' => [
-        'library' => [
-          'carlson_refresh/global-styling',
-          'carlson_refresh/global-scripts',
+        [
+          'title' => $this->t('CTA Links'),
+          'description' => $this->t('CTA link styles and variations.'),
+          'url' => Url::fromRoute('carlson_styleguide.cta_links'),
         ],
       ],
     ];
@@ -51,12 +50,34 @@ class StyleguideController extends ControllerBase {
   public function buttons() {
     $build = [
       '#theme' => 'test_buttons',
-      '#attached' => [
-        'library' => [
-          'carlson_refresh/global-styling',
-          'carlson_refresh/global-scripts',
-        ],
-      ],
+    ];
+
+    return $build;
+  }
+
+  /**
+   * Renders the CTA Links styleguide page.
+   *
+   * @return array
+   *   A render array for the CTA Links styleguide page.
+   */
+  public function cta_links() {
+    $build = [
+      '#theme' => 'test_cta_links',
+    ];
+
+    return $build;
+  }
+
+  /**
+   * Renders the CTA Links modal.
+   *
+   * @return array
+   *   A render array for the CTA Links modal.
+   */
+  public function cta_links_modal() {
+    $build = [
+      '#theme' => 'test_cta_links_modal',
     ];
 
     return $build;
@@ -71,12 +92,6 @@ class StyleguideController extends ControllerBase {
   public function typography() {
     $build = [
       '#theme' => 'test_typography',
-      '#attached' => [
-        'library' => [
-          'carlson_refresh/global-styling',
-          'carlson_refresh/global-scripts',
-        ],
-      ],
     ];
 
     return $build;
