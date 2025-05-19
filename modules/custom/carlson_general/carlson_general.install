@@ -95,3 +95,74 @@ function carlson_general_update_100102() {
   }
 }
 
+/**
+ * Update button styles site-wide.
+ * 
+ * CSM-295: Replace old button styles with new consolidated ones.
+ */
+function carlson_general_update_100103() {
+  // Set a longer execution time
+  ini_set('max_execution_time', 3600); // 1 hour
+  
+  // Get the script path
+  $script_path = DRUPAL_ROOT . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/update_button_styles_batch_api_public.php';
+  
+  if (!file_exists($script_path)) {
+    \Drupal::logger('carlson_general')->error('Could not find script file at @path', [
+      '@path' => $script_path,
+    ]);
+    return t('Script file not found. Button update failed.');
+  }
+  
+  try {
+    // Start timing
+    $start_time = microtime(true);
+    
+    // Disable memory limit
+    ini_set('memory_limit', '-1');
+    
+    \Drupal::logger('carlson_general')->notice('Starting button style update script...');
+    
+    // Make sure the script functions are available
+    require_once $script_path;
+    
+    // Run the update (not a dry run)
+    $result = runButtonStyleUpdate(FALSE);
+    
+    $execution_time = microtime(true) - $start_time;
+    
+    // Log results
+    \Drupal::logger('carlson_general')->notice('Finished button style update in @time seconds', [
+      '@time' => round($execution_time, 2),
+    ]);
+    
+    // Create log in public files
+    $public_scheme = \Drupal::service('stream_wrapper_manager')->getViaScheme('public');
+    $log_directory = $public_scheme->getDirectoryPath() . '/button_update_logs';
+    
+    if (!file_exists($log_directory)) {
+      mkdir($log_directory, 0755, TRUE);
+    }
+    
+    \Drupal::logger('carlson_general')->notice('Button style update complete. @total entities scanned, @updated updated. Log file: @log', [
+      '@total' => $result['total_entities'],
+      '@updated' => $result['total_updated'],
+      '@log' => $result['log_file'] ?? 'Not generated',
+    ]);
+    
+    return t('Button style update complete. @total entities scanned, @updated entities updated. Log saved to: @log', [
+      '@total' => $result['total_entities'],
+      '@updated' => $result['total_updated'],
+      '@log' => $result['log_file'] ?? 'public://button_update_logs/',
+    ]);
+    
+  } catch (\Exception $e) {
+    \Drupal::logger('carlson_general')->error('Error running button update script: @error', [
+      '@error' => $e->getMessage(),
+    ]);
+    return t('Error occurred while running the button update script: @error', [
+      '@error' => $e->getMessage(),
+    ]);
+  }
+}
+
