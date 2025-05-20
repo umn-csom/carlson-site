@@ -8,7 +8,7 @@
 
     $(window).on('hashchange', function(e) {
         var hash = $(location).attr('hash');
-        
+
         $(".collapse").each(function () {
             if($(this).find(hash).length == 1) {
                 $(this).collapse('show');
