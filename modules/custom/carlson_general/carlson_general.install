@@ -166,3 +166,235 @@ function carlson_general_update_100103() {
   }
 }
 
+/**
+ * Update menu link button classes.
+ * 
+ * CSM-295: Replace old button styles with new consolidated ones in menu link attributes.
+ */
+function carlson_general_update_100104() {
+  // Set a longer execution time
+  ini_set('max_execution_time', 1800); // 30 minutes
+  
+  // Get database connection
+  $database = \Drupal::database();
+  
+  // Create log file in public files directory
+  $public_scheme = \Drupal::service('stream_wrapper_manager')->getViaScheme('public');
+  $log_directory = $public_scheme->getDirectoryPath() . '/button_update_logs';
+  
+  if (!file_exists($log_directory)) {
+    mkdir($log_directory, 0755, TRUE);
+  }
+  
+  $log_file = $log_directory . '/menu_link_class_update_' . date('Y-m-d_H-i-s') . '.log';
+  
+  // Start timing
+  $start_time = microtime(true);
+  
+  \Drupal::logger('carlson_general')->notice('Starting menu link button class update...');
+  
+  // Get button style mappings from the existing update script
+  $button_mappings = [
+    // Original single class mappings
+    'button-link-primary' => 'btn btn-primary',
+    'button-link-secondary' => 'btn btn-primary',
+    'btn-link-primary' => 'btn btn-primary',
+    'btn-link-secondary' => 'btn btn-primary',
+    'maroon-solid-button' => 'btn btn-primary',
+    'btn-primary--maroon' => 'btn btn-primary',
+    'maroon-underline-button' => 'btn btn-primary',
+    'gold-solid-button' => 'btn btn-secondary',
+    'btn-primary--gold' => 'btn btn-secondary',
+    'btn-primary--yellow' => 'btn btn-secondary',
+    'btn-gold' => 'btn btn-secondary',
+    'gold-underline-button' => 'btn btn-secondary',
+    'maroon-outline-button' => 'btn btn-outline-primary',
+    'gold-outline-button' => 'btn btn-outline-secondary',
+    'btn-cta' => '',
+    'program-features__btn' => 'btn btn-primary',
+    
+    // Compound class mappings
+    'btn btn-link-primary' => 'btn btn-primary',
+    'btn btn-link-secondary' => 'btn btn-primary',
+    'btn-sm btn-link-primary' => 'btn btn-sm btn-primary',
+    'btn-sm btn-link-secondary' => 'btn btn-sm btn-primary',
+    'btn-lg btn-link-primary' => 'btn btn-lg btn-primary',
+    'btn-lg btn-link-secondary' => 'btn btn-lg btn-primary',
+  ];
+  
+  // Find menu links with button classes
+  $button_classes = array_keys($button_mappings);
+  $query = $database->select('menu_link_content_data', 'm')
+    ->fields('m', ['id', 'title', 'menu_name', 'link__options'])
+    ->condition('link__options', '%' . $database->escapeLike('class') . '%', 'LIKE');
+
+  $or_condition = $query->orConditionGroup();
+  foreach ($button_classes as $class) {
+    $or_condition->condition('link__options', '%' . $database->escapeLike($class) . '%', 'LIKE');
+  }
+  $query->condition($or_condition);
+  $results = $query->execute()->fetchAll();
+
+  $total_links = count($results);
+  $updated_count = 0;
+  $log_entries = [];
+
+  \Drupal::logger('carlson_general')->notice('Found @count menu links with potential button classes to update.', [
+    '@count' => $total_links,
+  ]);
+
+  // Get entity type manager to load/save entities properly
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $menu_link_storage = $entity_type_manager->getStorage('menu_link_content');
+
+  foreach ($results as $link) {
+    $id = $link->id;
+    $title = $link->title;
+    $menu_name = $link->menu_name;
+    $options = unserialize($link->link__options);
+    
+    $original_options = $options;
+    $updated = false;
+    
+    // Check if there are classes in attributes
+    if (isset($options['attributes']['class']) && is_array($options['attributes']['class'])) {
+      $classes = $options['attributes']['class'];
+      $new_classes = [];
+      
+      foreach ($classes as $idx => $class) {
+        // Check single classes
+        if (isset($button_mappings[$class])) {
+          $updated = true;
+          $mapping = $button_mappings[$class];
+          
+          if (empty($mapping)) {
+            // Remove the class
+            unset($classes[$idx]);
+            $log_entries[] = sprintf(
+              'Menu link #%d "%s" (%s): Removed class "%s"',
+              $id,
+              $title,
+              $menu_name,
+              $class
+            );
+          } else {
+            // Replace with new class(es)
+            $new_class_parts = explode(' ', $mapping);
+            foreach ($new_class_parts as $new_class) {
+              if (!in_array($new_class, $new_classes)) {
+                $new_classes[] = $new_class;
+              }
+            }
+            unset($classes[$idx]);
+            $log_entries[] = sprintf(
+              'Menu link #%d "%s" (%s): Replaced "%s" with "%s"',
+              $id,
+              $title,
+              $menu_name,
+              $class,
+              $mapping
+            );
+          }
+        } else {
+          // Keep original class if no mapping
+          $new_classes[] = $class;
+        }
+      }
+      
+      // Check compound classes (e.g., "btn btn-link-primary")
+      $combined_class = implode(' ', $classes);
+      foreach ($button_mappings as $old_compound => $new_compound) {
+        if (strpos($old_compound, ' ') !== false && strpos($combined_class, $old_compound) !== false) {
+          $updated = true;
+          $compound_parts = explode(' ', $old_compound);
+          
+          // Remove all parts of the compound class
+          foreach ($compound_parts as $part) {
+            $key = array_search($part, $new_classes);
+            if ($key !== false) {
+              unset($new_classes[$key]);
+            }
+          }
+          
+          // Add new compound class parts
+          if (!empty($new_compound)) {
+            $new_parts = explode(' ', $new_compound);
+            foreach ($new_parts as $new_part) {
+              if (!in_array($new_part, $new_classes)) {
+                $new_classes[] = $new_part;
+              }
+            }
+          }
+          
+          $log_entries[] = sprintf(
+            'Menu link #%d "%s" (%s): Replaced compound "%s" with "%s"',
+            $id,
+            $title,
+            $menu_name,
+            $old_compound,
+            $new_compound
+          );
+        }
+      }
+      
+      // Update the options with new classes
+      if ($updated) {
+        $options['attributes']['class'] = array_values($new_classes);
+        
+        // Try both approaches: direct DB update and entity save
+        // 1. Direct DB update
+        $database->update('menu_link_content_data')
+          ->fields([
+            'link__options' => serialize($options),
+          ])
+          ->condition('id', $id)
+          ->execute();
+          
+        // 2. Load and save the entity properly to ensure caches are cleared
+        try {
+          $menu_link_entity = $menu_link_storage->load($id);
+          if ($menu_link_entity) {
+            // Update the link options in the entity
+            $menu_link_entity->link->first()->options = $options;
+            $menu_link_entity->save();
+          }
+        }
+        catch (\Exception $e) {
+          \Drupal::logger('carlson_general')->error('Error updating menu link entity #@id: @error', [
+            '@id' => $id,
+            '@error' => $e->getMessage(),
+          ]);
+        }
+        
+        $updated_count++;
+      }
+    }
+  }
+
+  // Write log entries to the log file
+  if (!empty($log_entries)) {
+    file_put_contents($log_file, implode("\n", $log_entries));
+  }
+  
+  // For good measure, clear all relevant caches
+  \Drupal::service('cache_tags.invalidator')->invalidateTags(['menu', 'rendered']);
+  
+  $execution_time = microtime(true) - $start_time;
+  
+  // Log results
+  \Drupal::logger('carlson_general')->notice('Finished menu link button class update in @time seconds', [
+    '@time' => round($execution_time, 2),
+  ]);
+  
+  \Drupal::logger('carlson_general')->notice('Menu link button class update complete. @total links processed, @updated updated. Log file: @log', [
+    '@total' => $total_links,
+    '@updated' => $updated_count,
+    '@log' => $log_file,
+  ]);
+  
+  return t('Menu link button class update complete. @total links processed, @updated links updated. Log saved to: @log', [
+    '@total' => $total_links,
+    '@updated' => $updated_count,
+    '@log' => $log_file,
+  ]);
+}
