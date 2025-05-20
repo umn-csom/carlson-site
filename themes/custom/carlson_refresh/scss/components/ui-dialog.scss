@@ -32,17 +32,14 @@
     padding: 0 1em;
     border: 0;
     background-color: transparent;
-
-    .ui-dialog-title {
-      height: 4.2rem;
-      line-height: 4.2rem;
-      margin: 0;
-    }
   }
 
   .ui-dialog-title {
+    height: 0;
+    line-height: 0;
+    margin: 0;
     font-size: 0;
-    color: $white;
+    color: $lightergray;
   }
 
   .ui-dialog-titlebar-close {
@@ -53,6 +50,7 @@
     height: 4.2rem;
     border: 0;
     background-color: $maroon;
+    z-index: 501;
 
     &::before {
       @include carlson-icons($icon-menu-close);
@@ -131,3 +129,35 @@
   z-index: 3000000000 !important;
 }
 
+#drupal-modal {
+  .webform {
+    font-family: $font-family-sans-serif;
+
+    &__body:not(:empty) {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 0 3rem 3rem;
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        color: $maroon;
+        text-align: center;
+      }
+    }
+
+    &__form {
+      margin-left: -10px;
+      margin-right: 5px;
+      input,
+      select {
+        border: 2px solid $gold;
+        font-size: 1.6rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
