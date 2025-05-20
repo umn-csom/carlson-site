@@ -13,6 +13,7 @@
  */
 #}
 {% if site_logo or site_name %}
+  {{ attach_library('carlson_refresh/site-branding') }}
   {% if not is_front %}<a href="{{ path('<front>') }}" aria-label="Go to the Carlson School homepage" title="Home" rel="home" class="site-branding">
   {% else %}
     <span class="site-branding">
@@ -25,6 +26,7 @@
   {% if not is_front %}</a>{% else %}</span>{% endif %}
 {% endif %}
 {% if site_slogan %}
+  {{ attach_library('carlson_refresh/site-name-slogan') }}
   <div class="d-inline-block align-top site-name-slogan">
     {{ site_slogan }}
   </div>
