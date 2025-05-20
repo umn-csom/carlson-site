@@ -8,7 +8,6 @@
 }
 
 html {
-  box-sizing: border-box;
   height: 100%;
   font-size: 62.5%;
   text-size-adjust: 100%;
@@ -20,17 +19,18 @@ body {
   overflow-x: hidden;
   height: 100%;
   margin: 0;
-  background-color: $white;
-  color: $slate;
+
+  // stylelint-disable-next-line property-no-vendor-prefix
+  -webkit-font-smoothing: antialiased;
+  // stylelint-disable-next-line property-no-vendor-prefix
+  -moz-osx-font-smoothing: grayscale;
 
   font-size: 1.6rem;
   font-weight: 400;
   line-height: 1.5;
   text-align: left;
-
-  // stylelint-disable-next-line property-no-vendor-prefix
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: $white;
+  color: $slate;
 
   @media (max-width: 1339px) {
     font-size: calc(1.285rem + 0.3764vw);
@@ -81,8 +81,7 @@ img {
 }
 
 hr {
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
 }
 
 svg {
