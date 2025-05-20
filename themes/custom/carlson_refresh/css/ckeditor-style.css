@@ -4918,41 +4918,6 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
 .ck-content .overflow-hidden {
   overflow: hidden !important; }
 
-.ck-content .position-static {
-  position: static !important; }
-
-.ck-content .position-relative {
-  position: relative !important; }
-
-.ck-content .position-absolute {
-  position: absolute !important; }
-
-.ck-content .position-fixed {
-  position: fixed !important; }
-
-.ck-content .position-sticky {
-  position: sticky !important; }
-
-.ck-content .fixed-top {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  z-index: 1030; }
-
-.ck-content .fixed-bottom {
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1030; }
-
-@supports (position: sticky) {
-  .ck-content .sticky-top {
-    position: sticky;
-    top: 0;
-    z-index: 500; } }
-
 .ck-content .sr-only {
   position: absolute;
   width: 1px;
@@ -9102,6 +9067,27 @@ Description: Carlson Refresh Drupal theme based on Bootstrap SASS.
 
 .ck-content #main {
   margin-top: 10px; }
+
+.ck-content .position-static {
+  position: static !important; }
+
+.ck-content .position-relative {
+  position: relative !important; }
+
+.ck-content .position-absolute {
+  position: absolute !important; }
+
+.ck-content .position-fixed {
+  position: fixed !important; }
+
+.ck-content .position-sticky {
+  position: sticky !important; }
+
+@supports (position: sticky) {
+  .ck-content .sticky-top {
+    position: sticky;
+    top: var(--drupal-displace-offset-top, 0);
+    z-index: 500; } }
 
 .ck-content input[type="search"] {
   box-sizing: border-box; }

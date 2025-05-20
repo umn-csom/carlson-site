@@ -1,0 +1,13 @@
+// Overrides Bootstrap's position utilities to adjust for Drupal Displace
+
+@each $position in $positions {
+  .position-#{$position} { position: $position !important; }
+}
+
+@supports (position: sticky) {
+  .sticky-top {
+    position: sticky;
+    top: var(--drupal-displace-offset-top, 0);
+    z-index: 500;
+  }
+}
