@@ -68,6 +68,7 @@
 {#  </div>#}
 {#</section>#}
 
+{{ attach_library('carlson_refresh/front-statistics') }}
 <section class="front-statistics bg-light-blue text-black d-flex">
   <div class="front-statistics__container py-10 bg-primary w-100">
     <div class="container-fluid container-xl">
@@ -78,7 +79,8 @@
 
 {# TODO: REWRITE AS SEPARATE PARAGRAPH/BLOCK #}
 
-<section style="background-image: url('{% apply spaceless %}{{ content.field_front_advantage_bg[0]['#markup'] ?? '/sites/carlsonschool.umn.edu/themes/custom/carlson_refresh/images/building-homepage-min.webp' }}{% endapply %}');" class="front__advantage">
+{{ attach_library('carlson_refresh/front-advantage') }}
+<section class="front-advantage" style="background-image: url('{% apply spaceless %}{{ content.field_front_advantage_bg[0]['#markup'] ?? '/sites/carlsonschool.umn.edu/themes/custom/carlson_refresh/images/building-homepage-min.webp' }}{% endapply %}');">
   <div class="container-fluid container-lg p-0 px-lg-3">
     <div class="row justify-content-center">
       <div class="col-12 col-lg-10">
@@ -90,12 +92,12 @@
             <div class="bg-white-90 p-6 px-lg-8 py-lg-12">
               <h2 class="h1 mb-6 text-center text-lg-left">{{ content.field_field_front_advantage_head|render|trim is not empty ? content.field_field_front_advantage_head : 'Experience the Carlson Advantage' }}</h2>
               <div class="mb-6 mb-lg-12">
-                <p class="front__advantage__subheading text-uppercase mb-2 font-weight-semi-bold">{{ content.field_front_advantage_1head|render|trim is not empty ? content.field_front_advantage_1head : 'Reputation and rankings' }}</p>
+                <p class="front-advantage__subheading text-uppercase mb-2 font-weight-semi-bold">{{ content.field_front_advantage_1head|render|trim is not empty ? content.field_front_advantage_1head : 'Reputation and rankings' }}</p>
                 {{ content.field_front_advantage_1copy|render|trim is not empty ? content.field_front_advantage_1copy : "<p>The Carlson School of Management's educational programs and faculty are highly ranked, both nationally and internationally.</p>" }}
                 <a href="{{ content.field_front_advantage_1link.0['#url']|render|trim is not empty ? content.field_front_advantage_1link.0['#url'] : '/about-us/facts-figure' }}" class="btn btn-primary">{{ content.field_front_advantage_1link.0['#title']|render|trim is not empty ? content.field_front_advantage_1link.0['#title'] : 'More facts' }}</a>
               </div>
               <div>
-                <p class="front__advantage__subheading text-uppercase mb-2 font-weight-semi-bold">{{ content.field_field_front_advantage_2hea |render|trim is not empty ? content.field_field_front_advantage_2hea : 'Join a vibrant business community' }}</p>
+                <p class="front-advantage__subheading text-uppercase mb-2 font-weight-semi-bold">{{ content.field_field_front_advantage_2hea |render|trim is not empty ? content.field_field_front_advantage_2hea : 'Join a vibrant business community' }}</p>
                 {{ content.field_front_advantage_2copy|render|trim is not empty ? content.field_front_advantage_2copy : "<p>The Carlson School is located in the heart of Minneapolis-St. Paul: a thriving business community and one of the nation's top-rated places to live, work, and play.</p>" }}
                 <a href="{{ content.field_front_advantage_2link.0['#url']|render|trim is not empty ? content.field_front_advantage_2link.0['#url'] : '/degrees/master-business-administration/full-time-mba/student-life/living-in-minneapolis' }}" class="btn btn-primary">{{ content.field_front_advantage_2link.0['#title']|render|trim is not empty ? content.field_front_advantage_2link.0['#title'] : 'Learn more' }}</a>
               </div>
