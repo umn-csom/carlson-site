@@ -65,13 +65,13 @@
             <div class="col-12 px-3 speaker__social text-center text-lg-left">
               {% if (content.field_link_linkedin | field_value is not empty) or (content.field_link_facebook | field_value is not empty) or (content.field_link_twitter | field_value is not empty) %}
                 {% if content.field_link_linkedin | field_value is not empty %}
-                  <a href="{{ content.field_link_linkedin.0['#url'] }}">{{ source(directory ~ '/images/svg/social-linkedin.svg') }}<span class="sr-only">LinkedIn</span></a>
+                  <a href="{{ content.field_link_linkedin.0['#url'] }}">{{ source('@carlson_refresh/../images/svg/social-linkedin.svg') }}<span class="sr-only">LinkedIn</span></a>
                 {% endif %}
                 {% if content.field_link_facebook | field_value is not empty %}
-                  <a href="{{ content.field_link_facebook.0['#url'] }}">{{ source(directory ~ '/images/svg/social-facebook.svg') }}<span class="sr-only">Facebook</span></a>
+                  <a href="{{ content.field_link_facebook.0['#url'] }}">{{ source('@carlson_refresh/../images/svg/social-facebook.svg') }}<span class="sr-only">Facebook</span></a>
                 {% endif %}
                 {# {% if content.field_link_twitter | field_value is not empty %}
-                  <a href="{{ content.field_link_twitter.0['#url'] }}">{{ source(directory ~ '/images/svg/social-twitter.svg') }}<span class="sr-only">Twitter</span></a>
+                  <a href="{{ content.field_link_twitter.0['#url'] }}">{{ source('@carlson_refresh/../images/svg/social-twitter.svg') }}<span class="sr-only">Twitter</span></a>
                 {% endif %} #}
               {% endif %}
             </div>
