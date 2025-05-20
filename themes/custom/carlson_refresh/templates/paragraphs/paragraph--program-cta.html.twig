@@ -50,12 +50,17 @@
 
 {% block paragraph %}
     {% block content %}
+        {% set link_url = content.field_link.0['#url'] %}
+        {% set link_text = content.field_link.0['#title'] %}
         <div class="row component-paragraph align-items-center program-cta bg-gold p-6 align-items-center">
           <div class="col-12 col-lg-8 program-cta__intro mb-3 mb-lg-0">
             <h2 class="my-0 font-weight-medium h3">{{ content.field_heading|field_value }}</h2>
           </div>
           <div class="col-12 col-lg-4 d-flex align-items-center justify-content-center text-uppercase text-body program-cta__link">
-            {{ content.field_link|field_value }}<span class="ml-5">{{ source(directory ~ '/images/svg/arrow-right-cta.svg')}}</span>
+            <a href="{{ link_url }}" class="btn btn-outline-secondary">
+              {{ link_text }}
+              {{ source(directory ~ '/images/svg/arrow-right-cta.svg')}}
+            </a>
           </div>
       </div>
     {% endblock %}
