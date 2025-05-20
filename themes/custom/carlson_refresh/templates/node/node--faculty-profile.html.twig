@@ -76,7 +76,7 @@
                       <div class="col-12 col-lg-6">
                         {% if content.field_office_phone|field_value is not empty %}
                           <div class="faculty-profile__contact--phone d-flex align-items-center mb-1">
-                            <span class="icon icon-mobile-phone mr-1 font-weight-bold"></span>
+                            {{ source('@carlson_refresh/images/svg/smartphone.svg') }}&nbsp;
                             <a href="tel:{{ content.field_office_phone|field_value }}">
                               {{ content.field_office_phone|field_value }}
                             </a>
@@ -85,13 +85,14 @@
 
                         {% if content.field_profile_address|field_value is not empty %}
                           <div class="faculty-profile__contact--address d-flex align-items-center mb-1">
-                            <span class="icon icon-map-pin mr-1 font-weight-bold"></span>{{ content.field_profile_address|field_value }}
+                            {{ source('@carlson_refresh/images/svg/map-pin.svg') }}&nbsp;
+                            {{ content.field_profile_address|field_value }}
                           </div>
                         {% endif %}
 
                         {% if content.field_email|field_value is not empty %}
                           <div class="faculty-profile__contact--email d-flex align-items-center mb-1">
-                            <span class="icon icon-envelope mr-1 font-weight-bold"></span>
+                            {{ source('@carlson_refresh/images/svg/email.svg') }}&nbsp;
                             <a href="mailto:{{ content.field_email|field_value }}">
                               {{ content.field_email|field_value }}
                             </a>
@@ -101,7 +102,7 @@
                       <div class="col-12 col-lg-6">
                         {% if content.field_profile_cvc|field_value is not empty %}
                           <div class="faculty-profile__contact--cvc d-flex align-items-center mb-1">
-                            <span class="icon icon-download mr-1 font-weight-bold"></span>
+                            {{ source('@carlson_refresh/images/svg/curriculum-vitae.svg') }}&nbsp;
                             <a href="{{ file_url( node.field_profile_cvc.entity.uri.value  ?: '') }}">
                               Curriculum Vitae
                             </a>
@@ -110,8 +111,10 @@
 
                         {% if content.field_profile_url|field_value is not empty %}
                           <div class="faculty-profile__contact--link d-flex align-items-center mb-1">
-                            <span class="icon icon-link mr-1 font-weight-bold"></span>
-                            {{ content.field_profile_url|field_value }}
+                            {{ source('@carlson_refresh/images/svg/external-link.svg') }}&nbsp;
+                            <a href="{{ content.field_profile_url|field_value }}">
+                              {{ content.field_profile_url|field_value }}
+                            </a>
                           </div>
                         {% endif %}
                       </div>
