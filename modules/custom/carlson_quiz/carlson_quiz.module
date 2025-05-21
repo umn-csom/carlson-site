@@ -74,7 +74,7 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
 
     foreach ($questions as $question_key => $question) {
       if($question->hasField('field_quiz_question_answers')) {
-        $text = $question->hasField('field_quiz_question_text') ? strip_tags($question->get('field_quiz_question_text')->value, '<a><b><div><strong><i><em><img><span><sup><ul><li>') : '';
+        $text = $question->hasField('field_quiz_question_text') ? strip_tags($question->get('field_quiz_question_text')->value, '<a><b><div><strong><i><em><img><span><small><br>') : '';
         $help_text = $question->hasField('field_quiz_question_help_text') && !empty($question->get('field_quiz_question_help_text')->getValue()) ? '<button class="quiz--question--info-btn border-0 p-0 bg-transparent" type="button" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-html="true" data-content="'.str_replace(["\r", "\n"], '', htmlspecialchars($question->get('field_quiz_question_help_text')->value)).'"><span class="sr-only">Help Text</span></button>' : '';
         $type = $question->hasField('field_quiz_question_type') && $question->get('field_quiz_question_type')->value === 'multiple' ? 'checkboxes' : 'radios';
         $answers_layout = $question->hasField('field_quiz_question_answs_layout') && !empty($question->get('field_quiz_question_answs_layout')->getValue()) ? $question->get('field_quiz_question_answs_layout')->value : 'stacked';
