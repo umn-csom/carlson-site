@@ -463,6 +463,48 @@ h6,
 .text-capitalize {
   text-transform: capitalize; }
 
+.btn {
+  align-items: center;
+  justify-content: center; }
+
+.accordion {
+  overflow-anchor: none; }
+
+@media (max-width: 991.98px) {
+  .accordion-content-inner {
+    padding-left: 0;
+    padding-right: 0; }
+  .accordion-item--edge-expand-mobile {
+    overflow: visible; }
+  .accordion-item--edge-expand-mobile > .accordion-button {
+    padding: 1.5rem 0; }
+  .accordion-item--edge-expand-mobile > .accordion-button::after, .accordion-item--edge-expand-mobile > .accordion-button::before {
+    content: "";
+    display: block;
+    position: absolute;
+    right: 100%;
+    top: 0;
+    width: 100%;
+    background-color: #7a0019;
+    height: 100%; }
+  .accordion-item--edge-expand-mobile > .accordion-button[aria-expanded=false]::after, .accordion-item--edge-expand-mobile > .accordion-button[aria-expanded=false]::before {
+    background-color: #e6e0d2; }
+  .accordion-item--edge-expand-mobile > .accordion-button::after {
+    left: 100%;
+    right: initial; }
+  .accordion-item--edge-expand-mobile > .accordion-content::after, .accordion-item--edge-expand-mobile > .accordion-content::before {
+    content: "";
+    display: block;
+    position: absolute;
+    right: 100%;
+    bottom: 0;
+    width: 100%;
+    background-color: #7a0019;
+    height: .5rem; }
+  .accordion-item--edge-expand-mobile > .accordion-content::after {
+    left: 100%;
+    right: initial; } }
+
 .icon-plus:before {
   content: "\e900"; }
 
@@ -542,6 +584,10 @@ strong {
   order: 2; }
 
 @media (min-width: 992px) {
+  .component-paragraph {
+    margin-bottom: 2rem; }
+  .basic-hero__title {
+    text-align: left; }
   .col-lg-3 {
     flex: 0 0 25%;
     max-width: 25%; }
