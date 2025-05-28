@@ -1,0 +1,97 @@
+/**
+ * Accessibility: Enhanced tap target sizes for WCAG 2.1 Level AAA
+ * Ensures interactive elements meet 44x44px minimum tap target size
+ */
+
+// Apply to content area lists to avoid affecting navigation
+.main-content,
+.node__content,
+.field--name-body,
+.field--type-text-with-summary,
+.field--type-text-long {
+  
+  // Target links within unordered and ordered lists
+  ul li a,
+  ol li a {
+    // Ensure minimum height for tap target
+    display: inline-block;
+    min-height: 44px;
+    // Add vertical padding to help reach 44px while maintaining visual balance
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    // Maintain clickable area for the full width
+    position: relative;
+    
+    // For links that wrap to multiple lines
+    line-height: 1.5;
+    
+    // Ensure the entire link area is clickable
+    &::before {
+      content: '';
+      position: absolute;
+      top: -0.5rem;
+      right: -0.25rem;
+      bottom: -0.5rem;
+      left: -0.25rem;
+      z-index: 0;
+    }
+  }
+  
+  // Adjust list item spacing to accommodate larger tap targets
+  ul li,
+  ol li {
+    // Increase margin slightly to prevent overlap
+    margin-bottom: 1.25rem;
+    
+    // Last item doesn't need bottom margin
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
+  // Nested lists should have slightly less spacing
+  ul ul li,
+  ol ol li,
+  ul ol li,
+  ol ul li {
+    margin-bottom: 0.75rem;
+  }
+}
+
+// Media query for mobile devices where tap targets are most critical
+@media (max-width: 768px) {
+  .main-content,
+  .node__content,
+  .field--name-body,
+  .field--type-text-with-summary,
+  .field--type-text-long {
+    
+    ul li a,
+    ol li a {
+      // Ensure full 44px on mobile
+      min-height: 44px;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+    }
+  }
+}
+
+// Exclude certain areas where this might cause issues
+.nav,
+.navbar,
+.we-mega-menu,
+.menu,
+.tabs,
+.breadcrumb {
+  ul li a,
+  ol li a {
+    // Reset to default for navigation elements
+    min-height: auto;
+    padding-top: initial;
+    padding-bottom: initial;
+    
+    &::before {
+      display: none;
+    }
+  }
+}
