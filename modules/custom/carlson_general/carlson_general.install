@@ -141,7 +141,11 @@ function carlson_general_update_100103() {
   }
 
   // Log the full output to a file for debugging
-  $log_file = DRUPAL_ROOT . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/heading_fix_log_' . date('Y-m-d_H-i-s') . '.txt';
+  $log_dir = \Drupal::service('file_system')->realpath('public://script_logs');
+  if (!file_exists($log_dir)) {
+    \Drupal::service('file_system')->mkdir($log_dir, 0755, TRUE);
+  }
+  $log_file = $log_dir . '/analyze_headings_' . date('Y-m-d_H-i-s') . '.txt';
   file_put_contents($log_file, $output);
   \Drupal::logger('carlson_general')->notice('Full output log saved to @log', ['@log' => $log_file]);
 
