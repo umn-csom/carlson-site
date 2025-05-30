@@ -3,7 +3,7 @@
 /**
  * Script to detect and fix heading structure issues from a CSV list of URLs.
  *
- * Usage: drush scr modules/custom/carlson_general/scripts/analyze_headings.php [--dry-run]
+ * Usage: drush scr fix_possible_headings.php [--dry-run]
  * The CSV path is currently hardcoded in this script.
  */
 
@@ -79,7 +79,7 @@ $file_system = \Drupal::service('file_system');
 
 
 // CSV Path and Fix Mode
-$csv_path = $drupal_root . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/alerts_skipped_heading_level.csv';
+$csv_path = $drupal_root . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/fix_possible_headings.csv';
 script_log("Using CSV file: {$csv_path}", 'info');
 
 $fix_mode = true; // Default to fix_mode when run from update hook.
@@ -210,7 +210,7 @@ script_log("Nodes/URLs that failed to process (e.g., not found, path error): {$f
 // Generate a CSV report file for detailed fixes
 $report_file_uri = '';
 if (!empty($detailed_fixes_report_data)) {
-    $report_base_filename = 'heading_fixes_report_' . $datetime_suffix . '.csv';
+    $report_base_filename = 'fix_possible_headings_' . $datetime_suffix . '_report.csv';
     $report_file_uri = $log_directory . '/' . $report_base_filename;
 
     try {
