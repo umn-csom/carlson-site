@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Update hook to synchronize alt text between images and thumbnails, with detailed logging.
- * Always copies the alt text from the main image to the thumbnail unless the main image's alt text is empty.
+ * CSM-213 - Copy missing alt text to media thumbnail from media image field.
  */
 function carlson_general_update_100101() {
+
   $database = \Drupal::database();
   $log_file = \Drupal::service('file_system')->getTempDirectory() . '/alt_text_sync.log';
 
@@ -54,7 +54,7 @@ function carlson_general_update_100101() {
 }
 
 /**
- * Fix fragmented links in tabbed content.
+ * CSM-232 - Fix fragmented links in tabbed content.
  */
 function carlson_general_update_100102() {
   // Set a longer execution time
@@ -400,9 +400,9 @@ function carlson_general_update_100104() {
 }
 
 /**
- * ARB-247 - Fix skipped heading levels for accessibility.
+ * CSM-247 - Fix skipped heading levels for accessibility.
  */
-function carlson_general_update_100104() {
+function carlson_general_update_100105() {
   // Initialize $_SERVER['argv'] if it doesn't exist (for web UI context)
   if (!isset($_SERVER['argv'])) {
     $_SERVER['argv'] = [];
@@ -459,7 +459,7 @@ function carlson_general_update_100104() {
 /**
  * CSM-231 - Remove title attributes from img tags in WYSIWYG fields.
  */
-function carlson_general_update_100105() {
+function carlson_general_update_100106() {
   // Set longer execution limits
   ini_set('max_execution_time', 1800);  // 30 minutes
 
@@ -766,9 +766,9 @@ function carlson_general_update_100105() {
 }
 
 /**
- * Convert specific p tags to h2 tags based on CSV data - exact matches only.
+ * CSM-248 - Convert P tags to H2 tags based on PopeTech Alert data in CSV - exact matches only.
  */
-function carlson_general_update_100105() {
+function carlson_general_update_100107() {
   // Set longer execution limits
   ini_set('max_execution_time', 1800);
 
