@@ -81,38 +81,79 @@ function carlson_general_update_100102() {
   // Set a longer execution time
   ini_set('max_execution_time', 1800);
 
-  // Get the script path
-  $script_path = DRUPAL_ROOT . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/fix_fragmented_links.php';
+  $script_name = 'fix_fragmented_links.php';
+  // Use a relative path from the Drupal root for consistency.
+  $script_path = \Drupal::root() . '/' . drupal_get_path('module', 'carlson_general') . '/scripts/' . $script_name;
 
   if (!file_exists($script_path)) {
-    \Drupal::logger('carlson_general')->error('Could not find script file at @path', [
+    $error_message = t('Script file @script_name not found at @path. Fix failed.', [
+      '@script_name' => $script_name,
       '@path' => $script_path,
     ]);
-    return t('Script file not found. Fix failed.');
+    \Drupal::logger('carlson_general')->error($error_message);
+    return $error_message;
   }
+
+  $summary_message = '';
+  $log_file_path_message = '';
 
   try {
-    // Include the script directly - this will execute it and return the summary
     $start_time = microtime(true);
-    \Drupal::logger('carlson_general')->notice('Starting fragmented links fix script...');
+    \Drupal::logger('carlson_general')->notice('Starting execution of @script_name via update hook...', ['@script_name' => $script_name]);
 
-    // Execute the script in the Drupal context - it will return a summary message
-    $result = include_once $script_path;
+    // Include the script. It will handle its own detailed logging.
+    // The script is expected to return a string like: "Script completed. ... Detailed log: /path/to/log.txt"
+    $result_string = include $script_path;
 
     $execution_time = microtime(true) - $start_time;
-    \Drupal::logger('carlson_general')->notice('Finished running fragmented links fix script in @time seconds', [
+    \Drupal::logger('carlson_general')->notice('Finished running @script_name in @time seconds. Result: @result', [
+      '@script_name' => $script_name,
       '@time' => round($execution_time, 2),
+      '@result' => $result_string,
     ]);
 
-    return $result ?: t('Successfully executed the fragmented links fix script.');
-  }
-  catch (\Exception $e) {
-    \Drupal::logger('carlson_general')->error('Error running script: @error', [
-      '@error' => $e->getMessage(),
+    // Parse the result string to get summary and log file path
+    if (is_string($result_string)) {
+        if (strpos($result_string, "Detailed log:") !== false) {
+            list($summary_message, $log_file_path_message) = explode("Detailed log:", $result_string, 2);
+            $summary_message = trim($summary_message);
+            $log_file_path_message = trim($log_file_path_message);
+        } else {
+            // If the script failed very early, it might just return an error string
+            $summary_message = $result_string;
+        }
+    }
+
+    if (strpos(strtolower($summary_message), 'error') !== false || strpos(strtolower($summary_message), 'failed') !== false) {
+      \Drupal::logger('carlson_general')->error('Error reported by @script_name: @summary. Log: @log', [
+        '@script_name' => $script_name,
+        '@summary' => $summary_message,
+        '@log' => $log_file_path_message,
+      ]);
+      // Return a message suitable for the update UI
+      $ui_message = t('Error running @script: @summary. Check logs for details. Log file: @log', [
+        '@script' => $script_name,
+        '@summary' => $summary_message,
+        '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
+      ]);
+       return $ui_message;
+    }
+
+    $ui_message = t('Successfully executed @script. @summary. Log file: @log', [
+      '@script' => $script_name,
+      '@summary' => $summary_message,
+      '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
     ]);
-    return t('Error occurred while running the script: @error', [
+    return $ui_message;
+
+  } catch (\Exception $e) {
+    $error_message = t('Exception while running @script: @error. Log: @log', [
+      '@script' => $script_name,
       '@error' => $e->getMessage(),
+      '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
     ]);
+    \Drupal::logger('carlson_general')->error($error_message);
+    return $error_message;
   }
 }
 
