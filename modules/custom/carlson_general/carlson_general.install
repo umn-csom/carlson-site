@@ -4,53 +4,74 @@
  * CSM-213 - Copy missing alt text to media thumbnail from media image field.
  */
 function carlson_general_update_100101() {
+  // Set a longer execution time if needed, though this script should be relatively quick.
+  // ini_set('max_execution_time', 300);
 
-  $database = \Drupal::database();
-  $log_file = \Drupal::service('file_system')->getTempDirectory() . '/alt_text_sync.log';
+  $script_name = 'alt_text_sync.php';
+  $script_path = \Drupal::root() . '/' . drupal_get_path('module', 'carlson_general') . '/scripts/' . $script_name;
 
-  // Step 1: Select all main images with a non-empty alt text.
-  $query = $database->select('media__image', 'main')
-    ->fields('main', ['entity_id', 'image_alt'])
-    ->condition('main.image_alt', NULL, 'IS NOT NULL');
-  $query->join('media_field_data', 'field', 'main.entity_id = field.mid');
-  $query->fields('field', ['thumbnail__target_id', 'thumbnail__alt']);
+  if (!file_exists($script_path)) {
+    $error_message = t('Script file @script_name not found at @path. Update failed.', [
+      '@script_name' => $script_name,
+      '@path' => $script_path,
+    ]);
+    \Drupal::logger('carlson_general')->error($error_message);
+    return $error_message;
+  }
 
-  $results = $query->execute();
+  $summary_message = '';
+  $log_file_path_message = '';
 
-  $log_entries = [];
-  foreach ($results as $record) {
-    $main_image_id = $record->entity_id;
-    $main_image_alt = $record->image_alt;
-    $thumbnail_id = $record->thumbnail__target_id;
-    $current_thumbnail_alt = $record->thumbnail__alt;
+  try {
+    \Drupal::logger('carlson_general')->notice('Starting execution of @script_name via update hook...', ['@script_name' => $script_name]);
 
-    // Update the thumbnail alt text with the main image alt text if the main image alt is not empty.
-    if (!empty($main_image_alt)) {
-      $database->update('media_field_data')
-        ->fields(['thumbnail__alt' => $main_image_alt])
-        ->condition('thumbnail__target_id', $thumbnail_id)
-        ->execute();
+    $result_string = include $script_path;
 
-      // Add to log entries with 'from' and 'to' (handle NULL gracefully).
-      $log_entries[] = sprintf(
-        'Updated thumbnail (ID: %d) alt text from "%s" to "%s" based on main image (ID: %d).',
-        $thumbnail_id,
-        $current_thumbnail_alt ?? 'NULL',
-        $main_image_alt,
-        $main_image_id
-      );
+    \Drupal::logger('carlson_general')->notice('Finished running @script_name. Result: @result', [
+      '@script_name' => $script_name,
+      '@result' => $result_string,
+    ]);
+
+    if (is_string($result_string)) {
+        if (strpos($result_string, "Detailed log:") !== false) {
+            list($summary_message, $log_file_path_message) = explode("Detailed log:", $result_string, 2);
+            $summary_message = trim($summary_message);
+            $log_file_path_message = trim($log_file_path_message);
+        } else {
+            $summary_message = $result_string;
+        }
     }
-  }
 
-  // Step 3: Write log entries to the log file.
-  if (!empty($log_entries)) {
-    file_put_contents($log_file, implode("\n", $log_entries), FILE_APPEND);
-  }
+    if (strpos(strtolower($summary_message), 'error') !== false || strpos(strtolower($summary_message), 'failed') !== false) {
+      \Drupal::logger('carlson_general')->error('Error reported by @script_name: @summary. Log: @log', [
+        '@script_name' => $script_name,
+        '@summary' => $summary_message,
+        '@log' => $log_file_path_message,
+      ]);
+      $ui_message = t('Error running @script: @summary. Check logs. Log: @log', [
+        '@script' => $script_name,
+        '@summary' => $summary_message,
+        '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
+      ]);
+       return $ui_message;
+    }
 
-  // Log the completion of the update in Drupal's logger.
-  \Drupal::logger('carlson_general')->info('Alt text synchronization completed. Log file: @log_file', [
-    '@log_file' => $log_file,
-  ]);
+    $ui_message = t('Successfully executed @script. @summary. Log: @log', [
+      '@script' => $script_name,
+      '@summary' => $summary_message,
+      '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
+    ]);
+    return $ui_message;
+
+  } catch (\Exception $e) {
+    $error_message = t('Exception while running @script: @error. Log: @log', [
+      '@script' => $script_name,
+      '@error' => $e->getMessage(),
+      '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
+    ]);
+    \Drupal::logger('carlson_general')->error($error_message);
+    return $error_message;
+  }
 }
 
 /**
