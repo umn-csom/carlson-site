@@ -5,3 +5,27 @@ carlson_general.csv_import:
     _title: 'CSV Import'
   requirements:
     _permission: 'access administration pages'
+
+carlson_general.carlson_scripts:
+  path: '/admin/reports/carlson-scripts'
+  defaults:
+    _controller: '\Drupal\carlson_general\Controller\CarlsonScriptsController::content'
+    _title: 'Carlson scripts'
+  requirements:
+    _permission: 'view reports'
+
+carlson_general.view_file:
+  path: '/admin/reports/carlson-scripts/view/{basename}'
+  defaults:
+    _controller: '\Drupal\carlson_general\Controller\CarlsonScriptsController::viewFile'
+    _title: 'View File'
+  requirements:
+    _permission: 'view reports'
+
+carlson_general.execute_script:
+  path: '/admin/reports/carlson-scripts/execute/{basename}'
+  defaults:
+    _controller: '\Drupal\carlson_general\Controller\CarlsonScriptsController::executeScript'
+    _title: 'Execute Script'
+  requirements:
+    _permission: 'view reports'
