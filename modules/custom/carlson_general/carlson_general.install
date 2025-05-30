@@ -500,6 +500,13 @@ function carlson_general_update_100105() {
       foreach ($base_fields as $field_name => $field_definition) {
         $field_type = $field_definition->getType();
 
+        // Add this before the field type check
+        if ($field_name === 'field_schedule_time') {
+          \Drupal::logger('carlson_general')->notice('Found field_schedule_time with type: @type', [
+            '@type' => $field_definition->getType()
+          ]);
+        }
+
         // Only include text fields
         if (in_array($field_type, ['text', 'text_long', 'text_with_summary'])) {
           // For node body fields, we need one entry per bundle
@@ -756,4 +763,715 @@ function carlson_general_update_100105() {
       '@log' => $log_file,
     ]
   );
+}
+
+/**
+ * Convert specific p tags to h2 tags based on CSV data - exact matches only.
+ */
+function carlson_general_update_100105() {
+  // Set longer execution limits
+  ini_set('max_execution_time', 1800);
+
+  // Helper function to normalize HTML for comparison
+  $normalizeHtml = function ($html) {
+    // Decode HTML entities
+    $html = html_entity_decode($html, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    // Explicitly replace apostrophe entities that might not get decoded
+    $html = str_replace('&apos;', "'", $html);
+    $html = str_replace('&rsquo;', "'", $html); // Add this line
+    // Normalize all whitespace more aggressively (including newlines)
+    $html = preg_replace('/[\s\n\r\t]+/', ' ', $html);
+    // Normalize quotes (convert all quotes to double quotes)
+    $html = str_replace("'", '"', $html);
+    $html = str_replace('""', '"', $html);
+    return trim($html);
+  };
+
+  $start_time = microtime(true);
+  \Drupal::logger('carlson_general')->notice('Starting conversion of specific p tags to h2 tags (replacing ALL exact matches)...');
+
+  $csv_file = DRUPAL_ROOT . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/alerts_possible_heading.csv';
+
+  if (!file_exists($csv_file)) {
+    \Drupal::logger('carlson_general')->error('CSV file not found at @path', ['@path' => $csv_file]);
+    return t('Error: CSV file not found.');
+  }
+
+  // Read CSV file
+  $csv_data = array_map('str_getcsv', file($csv_file));
+  $header = array_shift($csv_data); // Remove header row
+
+  // Get column indices
+  $url_index = array_search('uri', $header);
+  $html_index = array_search('html', $header);
+
+  if ($url_index === false || $html_index === false) {
+    \Drupal::logger('carlson_general')->error('CSV must contain uri and html columns');
+    return t('Error: CSV format is incorrect.');
+  }
+
+  $processed_nodes = 0;
+  $updated_entities = 0; // Count all updated entities (nodes and paragraphs)
+  $total_tags_converted = 0; // Count all p tags converted to h2
+  $log = [];
+  $fields_checked = []; // Track fields we checked for matches
+  $successful_replacements = []; // Track successful replacements for the example page
+
+  // Process each row in CSV
+  foreach ($csv_data as $row_index => $row) {
+    if (empty($row[$url_index]) || empty($row[$html_index])) {
+      continue;
+    }
+
+    $url = trim($row[$url_index]);
+    $html_to_find = trim($row[$html_index]);
+
+    // Clean and normalize the HTML
+    $html_to_find = $normalizeHtml($html_to_find);
+
+    \Drupal::logger('carlson_general')->notice('Processing row @row: @url', [
+      '@row' => $row_index + 1,
+      '@url' => $url
+    ]);
+
+    // Get just the path from the URL (remove domain)
+    $url_parts = parse_url($url);
+    $path = isset($url_parts['path']) ? $url_parts['path'] : $url;
+
+    if ($path && $path[0] !== '/') {
+      $path = '/' . $path;
+    }
+
+    $internal_path = \Drupal::service('path_alias.manager')->getPathByAlias($path);
+
+    try {
+      $path = $internal_path;
+
+      // Check if this is a node path
+      if (preg_match('|^/node/(\d+)$|', $path, $matches)) {
+        $nid = $matches[1];
+        $node = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+
+        if (!$node) {
+          $log[] = t('Node not found for URL @url', ['@url' => $url]);
+          continue;
+        }
+
+        $processed_nodes++;
+        $node_updated = false;
+        $node_title = $node->getTitle();
+        $log[] = t('Processing node @title (ID: @nid) for URL @url', [
+          '@title' => $node_title,
+          '@nid' => $nid,
+          '@url' => $url,
+        ]);
+
+        // PART 1: Check direct node text fields
+        $entity_type = 'node';
+        $field_definitions = \Drupal::service('entity_field.manager')
+          ->getFieldDefinitions('node', $node->bundle());
+
+        foreach ($field_definitions as $field_name => $field_definition) {
+          if (in_array($field_definition->getType(), ['text_long', 'text_with_summary', 'string', 'text', 'text_plain', 'text_formatted']) && $node->hasField($field_name)) {
+            $field = $node->get($field_name);
+
+            foreach ($field as $delta => $item) {
+              $field_value = $item->value;
+              $found_match = false;
+
+              if (!empty($field_value)) {
+                // Normalize the field value for comparison
+                $normalized_field_value = $normalizeHtml($field_value);
+
+                // EXACT MATCH ONLY - Direct string match with normalized HTML
+                if (strpos($normalized_field_value, $html_to_find) !== false) {
+                  $found_match = true;
+                  $log[] = t('Found exact HTML match in @field (after normalization)', ['@field' => $field_name]);
+                }
+
+                if ($found_match) {
+                  // Extract the content from the original HTML
+                  $content = '';
+                  if (preg_match('/<p[^>]*>(.*?)<\/p>/is', $html_to_find, $content_match)) {
+                    $content = $content_match[1];
+                  } else {
+                    $content = strip_tags($html_to_find);
+                  }
+
+                  // Create clean h2 tag
+                  if ($actual_html) {
+                    $new_html = preg_replace('/^<p\b([^>]*)>(.*?)<\/p>$/is', '<h2$1>$2</h2>', $actual_html);
+                  }
+
+                  // Process all occurrences in this field
+                  $matches_found = 0;
+                  $updated_field_value = $field_value;
+                  $current_position = 0;
+
+                  // Keep searching for the pattern while there are matches
+                  while (true) {
+                    // Get the updated normalized field value after previous replacements
+                    $current_normalized_value = $normalizeHtml($updated_field_value);
+
+                    // Find position of next occurrence
+                    $pos = strpos($current_normalized_value, $html_to_find, $current_position);
+                    if ($pos === false) {
+                      break; // No more matches
+                    }
+
+                    // Extract the surrounding context to find the actual tag
+                    $context_length = strlen($html_to_find) + 100; // More context
+                    $start_pos = max(0, $pos - 50);
+                    $extract_length = min(strlen($updated_field_value) - $start_pos, $context_length);
+
+                    // Get the context from the current field value
+                    $context = substr($updated_field_value, $start_pos, $extract_length);
+
+                    // Find p tag in this context
+                    if (preg_match('/<p[^>]*>(.*?)<\/p>/is', $context, $match) && strpos($normalizeHtml($match[0]), $html_to_find) !== false) {
+                      $actual_html = $match[0];
+
+                      \Drupal::logger('carlson_general')->notice('Found p tag: "@html"', [
+                        '@html' => $actual_html
+                      ]);
+
+                      // Add this line here:
+                      if ($actual_html) {
+                        $new_html = preg_replace('/^<p\b([^>]*)>(.*?)<\/p>$/is', '<h2$1>$2</h2>', $actual_html);
+                      }
+
+                      // Add this before your substr_replace:
+                      $pos_in_context = strpos($context, $actual_html);
+                      if ($pos_in_context !== false) {
+                        $updated_field_value = substr_replace(
+                          $updated_field_value,
+                          $new_html,
+                          $start_pos + $pos_in_context,
+                          strlen($actual_html)
+                        );
+                        $matches_found++;
+                      } else {
+                        // Fall back to direct replacement if position can't be found
+                        \Drupal::logger('carlson_general')->notice('Context position not found for HTML, trying direct replacement: "@html"', [
+                          '@html' => substr($actual_html, 0, 50)
+                        ]);
+                        $temp = str_replace($actual_html, $new_html, $updated_field_value);
+                        if ($temp !== $updated_field_value) {
+                          $updated_field_value = $temp;
+                          $matches_found++;
+                        } else {
+                          // Move past this position to avoid infinite loop
+                          $current_position = $pos + strlen($html_to_find);
+                        }
+                      }
+                    } else {
+                      // If we can't find the p tag in this context, move past this position
+                      $current_position = $pos + strlen($html_to_find);
+                    }
+                  }
+
+                  // Update field if changed and something was replaced
+                  if ($matches_found > 0 && $updated_field_value !== $field_value) {
+                    $node->get($field_name)->set($delta, ['value' => $updated_field_value, 'format' => $item->format]);
+                    $node_updated = true;
+                    $total_tags_converted += $matches_found;
+
+                    // Add to successful replacements to show in the example page
+                    $successful_replacements[] = [
+                      'url' => $url,
+                      'entity_type' => $entity_type,
+                      'entity_id' => $node->id(),
+                      'field_name' => $field_name,
+                      'original_html' => $actual_html,
+                      'new_html' => $new_html
+                    ];
+
+                    if ($matches_found > 1) {
+                      $log[] = t('Updated node @title - replaced @count p tags with h2 in @field field', [
+                        '@title' => $node_title,
+                        '@count' => $matches_found,
+                        '@field' => $field_name,
+                      ]);
+                    } else {
+                      $log[] = t('Updated node @title - replaced p tag with h2 in @field field', [
+                        '@title' => $node_title,
+                        '@field' => $field_name,
+                      ]);
+                    }
+                  }
+                }
+              }
+            }
+            $fields_checked[$entity_type . ':' . $field_name] = $field_definition->getType();
+          }
+        }
+
+        // PART 2: Check for paragraph fields that might contain HTML
+        $paragraph_field_types = ['entity_reference_revisions', 'paragraphs'];
+
+        foreach ($field_definitions as $field_name => $field_definition) {
+          if (in_array($field_definition->getType(), $paragraph_field_types) && $node->hasField($field_name)) {
+            $paragraphs = $node->get($field_name)->referencedEntities();
+
+            foreach ($paragraphs as $paragraph_index => $paragraph) {
+              $paragraph_updated = false;
+
+              // Check all text fields in this paragraph
+              $paragraph_field_definitions = \Drupal::service('entity_field.manager')
+                ->getFieldDefinitions('paragraph', $paragraph->bundle());
+
+              foreach ($paragraph_field_definitions as $p_field_name => $p_field_definition) {
+                if (in_array($p_field_definition->getType(), ['text_long', 'text_with_summary', 'string', 'text', 'text_plain', 'text_formatted']) && $paragraph->hasField($p_field_name)) {
+
+                  $p_field = $paragraph->get($p_field_name);
+
+                  foreach ($p_field as $p_delta => $p_item) {
+                    $p_field_value = $p_item->value;
+                    $found_match = false;
+
+                    if (!empty($p_field_value)) {
+                      // Normalize the paragraph field value
+                      $normalized_p_field_value = $normalizeHtml($p_field_value);
+
+                      // EXACT MATCH ONLY - Direct string match with normalized HTML
+                      if (strpos($normalized_p_field_value, $html_to_find) !== false) {
+                        $found_match = true;
+                        $log[] = t('Found exact HTML match in paragraph field @field (after normalization)', ['@field' => $p_field_name]);
+
+                        // Debug original content vs. normalized
+                        \Drupal::logger('carlson_general')->notice('CSV normalized: "@csv", Field normalized: "@field", Original field: "@orig"', [
+                          '@csv' => $html_to_find,
+                          '@field' => $normalized_p_field_value,
+                          '@orig' => substr($p_field_value, 0, 100)
+                        ]);
+                      }
+
+                      if ($found_match) {
+                        // Extract the content from the original HTML
+                        $content = '';
+                        if (preg_match('/<p[^>]*>(.*?)<\/p>/is', $html_to_find, $content_match)) {
+                          $content = $content_match[1];
+                        } else {
+                          $content = strip_tags($html_to_find);
+                        }
+
+                        // Create clean h2 tag
+                        if ($actual_html) {
+                          $new_html = preg_replace('/^<p\b([^>]*)>(.*?)<\/p>$/is', '<h2$1>$2</h2>', $actual_html);
+                        }
+
+                        // Process all occurrences in this field
+                        $matches_found = 0;
+                        $updated_p_field_value = $p_field_value;
+                        $current_position = 0;
+
+                        // Keep searching for the pattern while there are matches
+                        while (true) {
+                          // Get the updated normalized field value after previous replacements
+                          $current_normalized_value = $normalizeHtml($updated_p_field_value);
+
+                          // Find position of next occurrence
+                          $pos = strpos($current_normalized_value, $html_to_find, $current_position);
+                          if ($pos === false) {
+                            break; // No more matches
+                          }
+
+                          // Extract the surrounding context to find the actual tag
+                          $context_length = strlen($html_to_find) + 100; // More context
+                          $start_pos = max(0, $pos - 50);
+                          $extract_length = min(strlen($updated_p_field_value) - $start_pos, $context_length);
+
+                          // Get the context from the current field value
+                          $context = substr($updated_p_field_value, $start_pos, $extract_length);
+
+                          // Find p tag in this context
+                          if (preg_match('/<p[^>]*>(.*?)<\/p>/is', $context, $match) && strpos($normalizeHtml($match[0]), $html_to_find) !== false) {
+                            $actual_html = $match[0];
+
+                            \Drupal::logger('carlson_general')->notice('Found p tag: "@html"', [
+                              '@html' => $actual_html
+                            ]);
+
+                            // Add this line here:
+                            if ($actual_html) {
+                              $new_html = preg_replace('/^<p\b([^>]*)>(.*?)<\/p>$/is', '<h2$1>$2</h2>', $actual_html);
+                            }
+
+                            // Add this before your substr_replace:
+                            $pos_in_context = strpos($context, $actual_html);
+                            if ($pos_in_context !== false) {
+                              $updated_p_field_value = substr_replace(
+                                $updated_p_field_value,
+                                $new_html,
+                                $start_pos + $pos_in_context,
+                                strlen($actual_html)
+                              );
+                              $matches_found++;
+                            } else {
+                              // Fall back to direct replacement if position can't be found
+                              \Drupal::logger('carlson_general')->notice('Context position not found for HTML, trying direct replacement: "@html"', [
+                                '@html' => substr($actual_html, 0, 50)
+                              ]);
+                              $temp = str_replace($actual_html, $new_html, $updated_p_field_value);
+                              if ($temp !== $updated_p_field_value) {
+                                $updated_p_field_value = $temp;
+                                $matches_found++;
+                              } else {
+                                // Move past this position to avoid infinite loop
+                                $current_position = $pos + strlen($html_to_find);
+                              }
+                            }
+                          } else {
+                            // If we can't find the p tag in this context, move past this position
+                            $current_position = $pos + strlen($html_to_find);
+                          }
+                        }
+
+                        // Update field if changed and something was replaced
+                        if ($matches_found > 0 && $updated_p_field_value !== $p_field_value) {
+                          $paragraph->get($p_field_name)->set($p_delta, ['value' => $updated_p_field_value, 'format' => $p_item->format]);
+                          $paragraph_updated = true;
+                          $total_tags_converted += $matches_found;
+
+                          // Add to successful replacements to show in the example page
+                          $successful_replacements[] = [
+                            'url' => $url,
+                            'entity_type' => 'paragraph',
+                            'entity_id' => $paragraph->id(),
+                            'field_name' => $p_field_name,
+                            'original_html' => $actual_html,
+                            'new_html' => $new_html
+                          ];
+
+                          if ($matches_found > 1) {
+                            $log[] = t('Updated paragraph (ID: @id) - replaced @count p tags with h2 in @field field', [
+                              '@id' => $paragraph->id(),
+                              '@count' => $matches_found,
+                              '@field' => $p_field_name,
+                            ]);
+                          } else {
+                            $log[] = t('Updated paragraph (ID: @id) - replaced p tag with h2 in @field field', [
+                              '@id' => $paragraph->id(),
+                              '@field' => $p_field_name,
+                            ]);
+                          }
+                        }
+                      }
+                    }
+                  }
+                  $fields_checked['paragraph:' . $p_field_name] = $p_field_definition->getType();
+                }
+              }
+
+              // Check for nested paragraphs
+              foreach ($paragraph_field_definitions as $nested_field_name => $nested_field_def) {
+                if (in_array($nested_field_def->getType(), $paragraph_field_types) && $paragraph->hasField($nested_field_name)) {
+                  $nested_paragraphs = $paragraph->get($nested_field_name)->referencedEntities();
+                  foreach ($nested_paragraphs as $nested_para) {
+                    $nested_updated = false;
+                    $nested_field_defs = \Drupal::service('entity_field.manager')->getFieldDefinitions('paragraph', $nested_para->bundle());
+                    foreach ($nested_field_defs as $np_name => $np_def) {
+                      if (in_array($np_def->getType(), ['text_long', 'text_with_summary', 'string', 'text', 'text_plain', 'text_formatted']) && $nested_para->hasField($np_name)) {
+                        if ($nested_para->hasField($np_name) && !$nested_para->get($np_name)->isEmpty()) {
+                          $np_field = $nested_para->get($np_name);
+
+                          foreach ($np_field as $np_delta => $np_item) {
+                            $np_value = $np_item->value;
+                            $found_match = false;
+
+                            if (!empty($np_value)) {
+                              // Normalize the nested paragraph field value
+                              $normalized_np_value = $normalizeHtml($np_value);
+
+                              // EXACT MATCH ONLY - Direct string match with normalized HTML
+                              if (strpos($normalized_np_value, $html_to_find) !== false) {
+                                $found_match = true;
+                                $log[] = t('Found exact HTML match in nested paragraph field @field (after normalization)', ['@field' => $np_name]);
+                              }
+
+                              if ($found_match) {
+                                // Extract the content from the original HTML
+                                $content = '';
+                                if (preg_match('/<p[^>]*>(.*?)<\/p>/is', $html_to_find, $content_match)) {
+                                  $content = $content_match[1];
+                                } else {
+                                  $content = strip_tags($html_to_find);
+                                }
+
+                                // Create clean h2 tag
+                                if ($actual_html) {
+                                  $new_html = preg_replace('/^<p\b([^>]*)>(.*?)<\/p>$/is', '<h2$1>$2</h2>', $actual_html);
+                                }
+
+                                // Process all occurrences in this field
+                                $matches_found = 0;
+                                $updated_np_value = $np_value;
+                                $current_position = 0;
+
+                                // Keep searching for the pattern while there are matches
+                                while (true) {
+                                  // Get the updated normalized field value after previous replacements
+                                  $current_normalized_value = $normalizeHtml($updated_np_value);
+
+                                  // Find position of next occurrence
+                                  $pos = strpos($current_normalized_value, $html_to_find, $current_position);
+                                  if ($pos === false) {
+                                    break; // No more matches
+                                  }
+
+                                  // Extract the surrounding context to find the actual tag
+                                  $context_length = strlen($html_to_find) + 100; // More context
+                                  $start_pos = max(0, $pos - 50);
+                                  $extract_length = min(strlen($updated_np_value) - $start_pos, $context_length);
+
+                                  // Get the context from the current field value
+                                  $context = substr($updated_np_value, $start_pos, $extract_length);
+
+                                  // Find p tag in this context
+                                  if (preg_match('/<p[^>]*>(.*?)<\/p>/is', $context, $match) && strpos($normalizeHtml($match[0]), $html_to_find) !== false) {
+                                    $actual_html = $match[0];
+
+                                    \Drupal::logger('carlson_general')->notice('Found p tag: "@html"', [
+                                      '@html' => $actual_html
+                                    ]);
+
+                                    // Add this line here:
+                                    if ($actual_html) {
+                                      $new_html = preg_replace('/^<p\b([^>]*)>(.*?)<\/p>$/is', '<h2$1>$2</h2>', $actual_html);
+                                    }
+
+                                    // Add this before your substr_replace:
+                                    $pos_in_context = strpos($context, $actual_html);
+                                    if ($pos_in_context !== false) {
+                                      $updated_np_value = substr_replace(
+                                        $updated_np_value,
+                                        $new_html,
+                                        $start_pos + $pos_in_context,
+                                        strlen($actual_html)
+                                      );
+                                      $matches_found++;
+                                    } else {
+                                      // Fall back to direct replacement if position can't be found
+                                      \Drupal::logger('carlson_general')->notice('Context position not found for HTML, trying direct replacement: "@html"', [
+                                        '@html' => substr($actual_html, 0, 50)
+                                      ]);
+                                      $temp = str_replace($actual_html, $new_html, $updated_np_value);
+                                      if ($temp !== $updated_np_value) {
+                                        $updated_np_value = $temp;
+                                        $matches_found++;
+                                      } else {
+                                        // Move past this position to avoid infinite loop
+                                        $current_position = $pos + strlen($html_to_find);
+                                      }
+                                    }
+                                  } else {
+                                    // If we can't find the p tag in this context, move past this position
+                                    $current_position = $pos + strlen($html_to_find);
+                                  }
+                                }
+
+                                // Update field if changed
+                                if ($matches_found > 0 && $updated_np_value !== $np_value) {
+                                  $nested_para->get($np_name)->set($np_delta, ['value' => $updated_np_value, 'format' => $np_item->format]);
+                                  $nested_updated = true;
+                                  $total_tags_converted += $matches_found;
+
+                                  // Add to successful replacements to show in the example page
+                                  $successful_replacements[] = [
+                                    'url' => $url,
+                                    'entity_type' => 'nested_paragraph',
+                                    'entity_id' => $nested_para->id(),
+                                    'field_name' => $np_name,
+                                    'original_html' => $actual_html,
+                                    'new_html' => $new_html
+                                  ];
+
+                                  if ($matches_found > 1) {
+                                    $log[] = t('Updated nested paragraph (ID: @id) - replaced @count p tags with h2 in @field field', [
+                                      '@id' => $nested_para->id(),
+                                      '@count' => $matches_found,
+                                      '@field' => $np_name,
+                                    ]);
+                                  } else {
+                                    $log[] = t('Updated nested paragraph (ID: @id) - replaced p tag with h2 in @field field', [
+                                      '@id' => $nested_para->id(),
+                                      '@field' => $np_name,
+                                    ]);
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                    if ($nested_updated) {
+                      $nested_para->save();
+                      $updated_entities++;
+                    }
+                  }
+                }
+                if (isset($np_name) && isset($np_def)) {
+                  $fields_checked['nested_paragraph:' . $np_name] = $np_def->getType();
+                }
+              }
+
+              // Save paragraph if updated
+              if ($paragraph_updated) {
+                $paragraph->save();
+                $updated_entities++;
+              }
+            }
+          }
+        }
+
+        // Save node if updated directly
+        if ($node_updated) {
+          $node->save();
+          $updated_entities++;
+        }
+
+        if (!$node_updated && empty($paragraphs)) {
+          $log[] = t('No matching content found in node @title (ID: @nid)', [
+            '@title' => $node_title,
+            '@nid' => $nid,
+          ]);
+        }
+      } else {
+        $log[] = t('URL @url is not a node path (resolved to @path)', [
+          '@url' => $url,
+          '@path' => $path
+        ]);
+      }
+    } catch (\Exception $e) {
+      \Drupal::logger('carlson_general')->error('Error processing URL @url: @error', [
+        '@url' => $url,
+        '@error' => $e->getMessage(),
+      ]);
+      $log[] = t('Error processing URL @url: @error', [
+        '@url' => $url,
+        '@error' => $e->getMessage(),
+      ]);
+    }
+  }
+
+  // Create log file with detailed information
+  $log_file = \Drupal::service('file_system')->getTempDirectory() . '/p_to_h2_conversion_' . date('Y-m-d_H-i-s') . '.log';
+  file_put_contents($log_file, implode("\n", $log));
+
+  // Add summary to log file
+  $summary_text = "=== SUMMARY ===\n";
+  $summary_text .= "Total rows processed: " . count($csv_data) . "\n";
+  $summary_text .= "Total nodes processed: {$processed_nodes}\n";
+  $summary_text .= "Total entities updated: {$updated_entities}\n";
+  $summary_text .= "Total p tags converted to h2: {$total_tags_converted}\n\n";
+
+  // Add fields list
+  $summary_text .= "=== FIELDS CHECKED FOR MATCHES ===\n";
+  foreach ($fields_checked as $field_id => $field_type) {
+    $summary_text .= "$field_id ($field_type)\n";
+  }
+
+  file_put_contents($log_file, "\n\n" . $summary_text, FILE_APPEND);
+
+  // Create a demonstration page showing only successful replacements
+  try {
+    $examples_html = "<h1>Successful P to H2 Conversions</h1>\n";
+    $examples_html .= "<p>This page shows the actual HTML patterns that were successfully replaced.</p>\n\n";
+
+    if (empty($successful_replacements)) {
+      $examples_html .= "<p><strong>No successful replacements were made.</strong></p>\n";
+    } else {
+      $examples_html .= "<p><strong>" . count($successful_replacements) . " patterns were successfully replaced.</strong></p>\n\n";
+
+      // Group by URL for better organization
+      $by_url = [];
+      foreach ($successful_replacements as $replacement) {
+        $url = $replacement['url'];
+        if (!isset($by_url[$url])) {
+          $by_url[$url] = [];
+        }
+        $by_url[$url][] = $replacement;
+      }
+
+      // Create content for each URL
+      foreach ($by_url as $url => $replacements) {
+        $examples_html .= "<h2>URL: " . htmlspecialchars($url) . "</h2>\n";
+
+        foreach ($replacements as $index => $replacement) {
+          $examples_html .= "<h3>Replacement #" . ($index + 1) . "</h3>\n";
+          $examples_html .= "<p><strong>Entity:</strong> " . $replacement['entity_type'] . " #" . $replacement['entity_id'] . ", Field: " . $replacement['field_name'] . "</p>\n";
+
+          // Before/After comparison with actual rendered HTML
+          $examples_html .= "<div style='display:flex; margin-bottom:20px;'>\n";
+
+          // BEFORE - original p tag (rendered as HTML)
+          $examples_html .= "<div style='flex:1; padding:10px; background:#f5f5f5; border:1px solid #ddd; margin-right:10px;'>\n";
+          $examples_html .= "<h4>Original HTML (rendered):</h4>\n";
+          $examples_html .= $replacement['original_html'] . "\n";
+          $examples_html .= "</div>\n";
+
+          // AFTER - new h2 tag (rendered as HTML)
+          $examples_html .= "<div style='flex:1; padding:10px; background:#e9f7e9; border:1px solid #cde6cd;'>\n";
+          $examples_html .= "<h4>Replaced with (rendered):</h4>\n";
+          $examples_html .= $replacement['new_html'] . "\n";
+          $examples_html .= "</div>\n";
+
+          $examples_html .= "</div>\n";
+
+          // Plain text version for comparison
+          $examples_html .= "<details>\n";
+          $examples_html .= "<summary>Show HTML code</summary>\n";
+          $examples_html .= "<div style='display:flex; margin-bottom:20px;'>\n";
+
+          // BEFORE - original HTML as code
+          $examples_html .= "<div style='flex:1; padding:10px; background:#f5f5f5; border:1px solid #ddd; margin-right:10px;'>\n";
+          $examples_html .= "<h4>Original HTML (code):</h4>\n";
+          $examples_html .= "<pre>" . htmlspecialchars($replacement['original_html']) . "</pre>\n";
+          $examples_html .= "</div>\n";
+
+          // AFTER - new HTML as code
+          $examples_html .= "<div style='flex:1; padding:10px; background:#e9f7e9; border:1px solid #cde6cd;'>\n";
+          $examples_html .= "<h4>Replaced with (code):</h4>\n";
+          $examples_html .= "<pre>" . htmlspecialchars($replacement['new_html']) . "</pre>\n";
+          $examples_html .= "</div>\n";
+
+          $examples_html .= "</div>\n";
+          $examples_html .= "</details>\n";
+
+          $examples_html .= "<hr>\n";
+        }
+      }
+    }
+
+    // Create a basic page node with these examples
+    $node = \Drupal::entityTypeManager()->getStorage('node')->create([
+      'type' => 'page',
+      'title' => 'P to H2 Conversion Results - ' . date('Y-m-d H:i'),
+      'body' => [
+        'value' => $examples_html,
+        'format' => 'full_html',
+      ],
+      'status' => 1,
+    ]);
+
+    $node->save();
+
+    $log[] = t('Created example page node with ID: @id showing successful replacements', ['@id' => $node->id()]);
+    \Drupal::logger('carlson_general')->notice('Created example page node with ID: @id showing successful replacements', ['@id' => $node->id()]);
+  } catch (\Exception $e) {
+    \Drupal::logger('carlson_general')->error('Error creating example page: @error', ['@error' => $e->getMessage()]);
+  }
+
+  $execution_time = microtime(true) - $start_time;
+  \Drupal::logger('carlson_general')->notice('Completed p to h2 conversion in @time seconds', [
+    '@time' => round($execution_time, 2)
+  ]);
+
+  return t('Converted p tags to h2 tags based on CSV input. Processed @processed nodes, updated @updated entities, converted @tags tags. See log at @log', [
+    '@processed' => $processed_nodes,
+    '@updated' => $updated_entities,
+    '@tags' => $total_tags_converted,
+    '@log' => $log_file,
+  ]);
 }
