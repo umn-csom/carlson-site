@@ -2,27 +2,111 @@
 
 /**
  * Script to detect and fix heading structure issues from a CSV list of URLs.
- * 
- * Usage: drush scr analyze_headings.php [path_to_csv] [--dry-run]
+ *
+ * Usage: drush scr modules/custom/carlson_general/scripts/analyze_headings.php [--dry-run]
+ * The CSV path is currently hardcoded in this script.
  */
 
-// Replace these lines:
-$csv_path = DRUPAL_ROOT . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/alerts_skipped_heading_level.csv';
-echo "Using CSV file: {$csv_path}\n";
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\node\Entity\Node;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 
-$fix_mode = !in_array('--dry-run', $_SERVER['argv']);
+// --- Script Initialization ---
+$is_cli = (php_sapi_name() === 'cli');
+$log_messages = [];
+$start_time = microtime(true);
+$script_filename = basename(__FILE__, '.php');
+$datetime_suffix = date('Y-m-d_H-i-s');
+$log_filename = "{$script_filename}_{$datetime_suffix}.txt";
+$log_directory = 'public://script_logs';
+$log_file_uri = "{$log_directory}/{$log_filename}";
+$drupal_root = \Drupal::root(); // Used for constructing default CSV path if needed.
+
+/**
+ * Helper function to write messages to the log array.
+ */
+function script_log($message, $type = 'notice') {
+    global $log_messages, $is_cli;
+    $timestamp = date('Y-m-d H:i:s');
+    $log_entry = "[{$timestamp}] [{$type}] {$message}";
+    $log_messages[] = $log_entry;
+    if ($is_cli && in_array($type, ['error', 'warning', 'info'])) {
+        // Echo more types to console for this script as it has more direct user interaction steps.
+        echo $log_entry . PHP_EOL;
+    }
+}
+
+/**
+ * Writes all accumulated log messages to the specified log file.
+ */
+function write_log_file(FileSystemInterface $file_system, $log_uri, array $messages) {
+    try {
+        $log_dir_path = $file_system->realpath(dirname($log_uri));
+        if (!$file_system->prepareDirectory($log_dir_path, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS)) {
+            \Drupal::logger('carlson_general')->error("Failed to create or prepare log directory: @dir", ['@dir' => $log_dir_path]);
+            echo "ERROR: Failed to create or prepare log directory: {$log_dir_path}" . PHP_EOL;
+            return false;
+        }
+        $file_system->saveData(implode(PHP_EOL, $messages), $log_uri, FileSystemInterface::EXISTS_REPLACE);
+        return $log_uri;
+    } catch (\Exception $e) {
+        \Drupal::logger('carlson_general')->error("Failed to write log file @log_uri: @error", ['@log_uri' => $log_uri, '@error' => $e->getMessage()]);
+        echo "ERROR: Failed to write log file {$log_uri}: " . $e->getMessage() . PHP_EOL;
+        return false;
+    }
+}
+// --- End Script Initialization ---
+
+script_log("Starting heading analysis script ({$script_filename}).", 'info');
+script_log("Log file will be: {$log_file_uri}", 'info');
+
+// Ensure Drupal services are available
+if (!\Drupal::hasService('path_alias.manager') || !\Drupal::hasService('entity_type.manager') || !\Drupal::hasService('file_system')) {
+    $error_msg = "Required Drupal services not available. Ensure Drupal is bootstrapped.";
+    script_log($error_msg, 'error');
+    if (isset($file_system) && $file_system instanceof FileSystemInterface) {
+         write_log_file($file_system, $log_file_uri, $log_messages);
+    }
+    return "ERROR: {$error_msg}"; // For update hook
+}
+
+/** @var \Drupal\Core\Path\AliasManagerInterface $alias_manager */
+$alias_manager = \Drupal::service('path_alias.manager');
+/** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager */
+$entity_type_manager = \Drupal::service('entity_type.manager');
+/** @var \Drupal\Core\File\FileSystemInterface $file_system */
+$file_system = \Drupal::service('file_system');
+
+
+// CSV Path and Fix Mode
+$csv_path = $drupal_root . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/alerts_skipped_heading_level.csv';
+script_log("Using CSV file: {$csv_path}", 'info');
+
+$fix_mode = true; // Default to fix_mode when run from update hook.
+if ($is_cli && in_array('--dry-run', $_SERVER['argv'])) {
+    $fix_mode = false;
+}
 $mode_text = $fix_mode ? "FIX MODE" : "DRY RUN MODE";
-echo "Running in {$mode_text}\n";
+script_log("Running in {$mode_text}", 'info');
 
 // Check if CSV file exists
 if (!file_exists($csv_path)) {
-    echo "Error: CSV file not found at {$csv_path}\n";
-    exit(1);
+    $error_msg = "Error: CSV file not found at {$csv_path}";
+    script_log($error_msg, 'error');
+    write_log_file($file_system, $log_file_uri, $log_messages);
+    return "Script failed: {$error_msg}. Detailed log: " . $file_system->realpath($log_file_uri);
 }
 
 // Read CSV file
-echo "Reading URLs from {$csv_path}...\n";
+script_log("Reading URLs from {$csv_path}...", 'info');
 $handle = fopen($csv_path, 'r');
+if (!$handle) {
+    $error_msg = "Error: Could not open CSV file at {$csv_path}";
+    script_log($error_msg, 'error');
+    write_log_file($file_system, $log_file_uri, $log_messages);
+    return "Script failed: {$error_msg}. Detailed log: " . $file_system->realpath($log_file_uri);
+}
+
 $headers = fgetcsv($handle);
 $urls = [];
 
@@ -36,354 +120,312 @@ while (($data = fgetcsv($handle)) !== FALSE) {
     }
 }
 fclose($handle);
-
-echo "Found " . count($urls) . " URLs to process.\n\n";
+script_log("Found " . count($urls) . " URLs to process.", 'info');
 
 // Track results
-$processed = 0;
-$successful = 0;
-$failed = 0;
-$fixed_count = 0;
-
-// More detailed tracking of fixes
-$detailed_fixes = [];
+$processed_nodes_count = 0;
+$successful_fixes_nodes_count = 0;
+$failed_to_process_nodes_count = 0;
+$total_heading_issues_fixed = 0;
+$detailed_fixes_report_data = []; // For CSV report
 
 // Process each URL
 foreach ($urls as $index => $item) {
     $url = $item['url'];
     $title = $item['title'];
-    $html_snippet = $item['html']; // This comes from your CSV
-    
-    $current = $index + 1;
-    $total = $processed + $failed + 1;
-    echo "Processing [{$current}/{$total}]: {$title}\n";
-    echo "URL: {$url}\n";
-    
-    // Show the problematic HTML
-    if (!empty($html_snippet)) {
-        echo "HTML with issue: " . htmlspecialchars($html_snippet) . "\n";
-        
-        // Extract heading levels from the HTML snippet
-        if (preg_match('/<h([1-6])[^>]*>/', $html_snippet, $start_match) && 
-            preg_match('/<h([1-6])[^>]*>/', $html_snippet, $end_match, 0, strpos($html_snippet, '</h'))) {
+    $html_snippet_from_csv = $item['html'];
+
+    $current_item_num = $index + 1;
+    script_log("Processing [{$current_item_num}/" . count($urls) . "]: Page title '{$title}' URL: {$url}", 'info');
+
+    if (!empty($html_snippet_from_csv)) {
+        script_log("Problematic HTML from CSV: " . htmlspecialchars($html_snippet_from_csv), 'debug');
+        if (preg_match('/<h([1-6])[^>]*>/', $html_snippet_from_csv, $start_match) &&
+            preg_match('/<h([1-6])[^>]*>/', $html_snippet_from_csv, $end_match, 0, strpos($html_snippet_from_csv, '</h'))) {
             $first_level = (int)$start_match[1];
             $second_level = (int)$end_match[1];
-            
             if ($second_level > $first_level + 1) {
-                echo "CONFIRMED ISSUE: Heading level skip from h{$first_level} to h{$second_level}\n";
+                script_log("CONFIRMED CSV ISSUE: Heading level skip from h{$first_level} to h{$second_level}", 'debug');
             }
         }
     }
-    
-    // Convert URL to internal path
-    $path_alias = parse_url($url, PHP_URL_PATH);
-    $internal_path = \Drupal::service('path_alias.manager')->getPathByAlias($path_alias);
-    
-    // Extract node ID from internal path
-    if (preg_match('|^/node/(\d+)|', $internal_path, $matches)) {
+
+    $internal_path = '';
+    try {
+        $path_alias = parse_url($url, PHP_URL_PATH);
+        $internal_path = $alias_manager->getPathByAlias($path_alias);
+    } catch (\Exception $e) {
+        script_log("Error converting URL to internal path for {$url}: " . $e->getMessage(), 'warning');
+        $failed_to_process_nodes_count++;
+        continue;
+    }
+
+    if (preg_match('|^/node/(\d+)|S', $internal_path, $matches)) {
         $node_id = $matches[1];
-        echo "Found Node ID: {$node_id}\n";
-        
-        // Process the node
+        script_log("Found Node ID: {$node_id} for path {$internal_path}", 'debug');
+
         try {
-            $result = processNode($node_id, $fix_mode);
-            if ($result['processed']) {
-                $processed++;
-                if ($result['fixed'] > 0) {
-                    $fixed_count += $result['fixed'];
-                    $successful++;
-                    
-                    // Store detailed fix information
-                    if (!empty($result['details'])) {
-                        $detailed_fixes[$url] = [
-                            'title' => $title,
-                            'node_id' => $node_id,
-                            'fixed_count' => $result['fixed'],
-                            'details' => $result['details']
-                        ];
+            $node_process_result = processNode($node_id, $fix_mode, $entity_type_manager);
+            if ($node_process_result['processed']) {
+                $processed_nodes_count++;
+                if ($node_process_result['fixed_count'] > 0) {
+                    $total_heading_issues_fixed += $node_process_result['fixed_count'];
+                    $successful_fixes_nodes_count++;
+                    if (!empty($node_process_result['details'])) {
+                        foreach($node_process_result['details'] as $detail_item) {
+                             $detailed_fixes_report_data[] = [
+                                'page_title' => $title,
+                                'url' => $url,
+                                'node_id' => $node_id,
+                                'item_type' => $detail_item['type'], // 'node_field' or 'paragraph'
+                                'field_name' => $detail_item['field'],
+                                'paragraph_type' => $detail_item['type'] == 'paragraph' ? $detail_item['paragraph_type'] : 'N/A',
+                                'issues_fixed_in_field' => $detail_item['count'],
+                                'example_before' => $detail_item['example_before'],
+                                'example_after' => $detail_item['example_after'],
+                            ];
+                        }
                     }
                 }
             }
         } catch (\Exception $e) {
-            echo "ERROR processing node: " . $e->getMessage() . "\n";
-            $failed++;
+            script_log("ERROR processing node {$node_id}: " . $e->getMessage(), 'error');
+            $failed_to_process_nodes_count++;
         }
     } else {
-        echo "Could not determine node ID from path {$internal_path}\n";
-        $failed++;
+        script_log("Could not determine node ID from path {$internal_path} (original URL: {$url})", 'warning');
+        $failed_to_process_nodes_count++;
     }
-    
-    echo str_repeat('-', 80) . "\n\n";
+    script_log(str_repeat('-', 80), 'debug');
 }
 
-// Summary
-echo "\n=== SUMMARY ===\n";
-echo "Total URLs: " . count($urls) . "\n";
-echo "Successfully processed: {$processed}\n";
-echo "Failed to process: {$failed}\n";
-echo "Pages with fixed issues: {$successful}\n";
-echo "Total heading issues fixed: {$fixed_count}\n";
+// Summary logging
+script_log("\n--- SCRIPT SUMMARY ---", 'info');
+script_log("Total URLs from CSV: " . count($urls), 'info');
+script_log("Nodes processed: {$processed_nodes_count}", 'info');
+script_log("Nodes where heading issues were fixed: {$successful_fixes_nodes_count}", 'info');
+script_log("Total heading structure issues fixed across all content: {$total_heading_issues_fixed}", 'info');
+script_log("Nodes/URLs that failed to process (e.g., not found, path error): {$failed_to_process_nodes_count}", 'info');
 
-// Add this comprehensive report at the end, after the summary section:
-if (!empty($detailed_fixes)) {
-    echo "\n\n=== DETAILED FIX REPORT ===\n";
-    echo "The following heading structure issues were fixed:\n\n";
-    
-    foreach ($detailed_fixes as $url => $fix_data) {
-        echo "PAGE: {$fix_data['title']}\n";
-        echo "URL: {$url}\n";
-        echo "Node ID: {$fix_data['node_id']}\n";
-        echo "Total fixes: {$fix_data['fixed_count']}\n";
-        
-        foreach ($fix_data['details'] as $i => $detail) {
-            $item_number = $i + 1;
-            echo "  {$item_number}. ";
-            
-            if ($detail['type'] == 'paragraph') {
-                echo "Paragraph type '{$detail['paragraph_type']}', field '{$detail['field']}'\n";
+// Generate a CSV report file for detailed fixes
+$report_file_uri = '';
+if (!empty($detailed_fixes_report_data)) {
+    $report_base_filename = 'heading_fixes_report_' . $datetime_suffix . '.csv';
+    $report_file_uri = $log_directory . '/' . $report_base_filename;
+
+    try {
+        $report_dir_path = $file_system->realpath(dirname($report_file_uri));
+        if (!$file_system->prepareDirectory($report_dir_path, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS)) {
+            script_log("Failed to create or prepare directory for detailed report: {$report_dir_path}", 'error');
+        } else {
+            $report_handle = fopen($file_system->realpath($report_file_uri) ?: $report_dir_path . '/' . $report_base_filename, 'w');
+            if ($report_handle) {
+                fputcsv($report_handle, ['Page Title', 'URL', 'Node ID', 'Item Type', 'Field Name', 'Paragraph Type', 'Issues Fixed', 'Example Before', 'Example After']);
+                foreach ($detailed_fixes_report_data as $report_row) {
+                    fputcsv($report_handle, $report_row);
+                }
+                fclose($report_handle);
+                script_log("Detailed fixes report saved to: " . $file_system->realpath($report_file_uri), 'info');
             } else {
-                echo "Node field '{$detail['field']}'\n";
+                script_log("Failed to open detailed report file for writing: " . $file_system->realpath($report_file_uri), 'error');
             }
-            
-            echo "     Fixed {$detail['count']} heading structure issues\n";
-            echo "     Example: '{$detail['example_before']}' → '{$detail['example_after']}'\n";
         }
-        
-        echo str_repeat('-', 80) . "\n";
+    } catch (\Exception $e) {
+        script_log("Error creating detailed CSV report: " . $e->getMessage(), 'error');
     }
-    
-    // Generate a CSV report file
-    $report_file = __DIR__ . '/heading_fixes_report_' . date('Y-m-d_H-i-s') . '.csv';
-    $report_handle = fopen($report_file, 'w');
-    
-    // CSV headers
-    fputcsv($report_handle, ['Page Title', 'URL', 'Node ID', 'Field Type', 'Field Name', 'Issue Count']);
-    
-    // CSV data
-    foreach ($detailed_fixes as $url => $fix_data) {
-        foreach ($fix_data['details'] as $detail) {
-            fputcsv($report_handle, [
-                $fix_data['title'],
-                $url,
-                $fix_data['node_id'],
-                $detail['type'],
-                $detail['field'],
-                $detail['count']
-            ]);
-        }
-    }
-    
-    fclose($report_handle);
-    echo "\nDetailed report saved to: {$report_file}\n";
+} else {
+    script_log("No detailed fixes to report in CSV.", 'info');
 }
 
 /**
- * Process a single node to detect and fix heading structure issues
+ * Process a single node to detect and fix heading structure issues.
  */
-function processNode($node_id, $fix_mode) {
+function processNode($node_id, $fix_mode, EntityTypeManagerInterface $entity_type_manager) {
+    global $is_cli; // Allow script_log to use CLI specific echo
     $result = [
         'processed' => false,
-        'fixed' => 0,
-        'details' => [] // Add this to track details
+        'fixed_count' => 0, // Changed from 'fixed' to 'fixed_count' for clarity
+        'details' => []
     ];
-    
-    // Load the node
-    $node = \Drupal\node\Entity\Node::load($node_id);
+
+    $node = Node::load($node_id);
     if (!$node) {
-        echo "Error: Node #{$node_id} not found.\n";
+        script_log("Error: Node #{$node_id} not found.", 'warning');
         return $result;
     }
-    
-    echo "Analyzing node #{$node_id}: {$node->label()}\n";
-    
-    // Track if any updates were made
-    $updated = false;
-    $issues_fixed = 0;
-    
-    // Check for paragraphs
-    echo "EXAMINING PARAGRAPHS:\n";
+
+    script_log("Analyzing node #{$node_id}: {$node->label()} ({$node->bundle()})", 'debug');
+    $updated_in_node = false;
+    $issues_fixed_in_node = 0;
+
+    // Check text fields directly on the node
+    script_log("EXAMINING NODE FIELDS for node {$node_id}:", 'debug');
     foreach ($node->getFieldDefinitions() as $field_name => $field_definition) {
-        if (
-            $field_definition->getType() == 'entity_reference_revisions' &&
-            $field_definition->getSetting('target_type') == 'paragraph'
-        ) {
+        if (in_array($field_definition->getType(), ['text_with_summary', 'text_long', 'text'])) {
             if ($node->hasField($field_name) && !$node->get($field_name)->isEmpty()) {
-                echo "- Checking paragraph field: {$field_name}\n";
-                
+                $item = $node->get($field_name)->first();
+                $value = $item->value;
+                $format = $item->format;
+                script_log("- Checking node field: {$field_name} on node {$node_id}", 'debug');
+
+                if (preg_match('/<h2[^>]*>/i', $value) && preg_match('/<h4[^>]*>/i', $value)) {
+                    script_log("  ✓ Field {$field_name} (Node {$node_id}) contains both h2 and h4 tags. Potential fix needed.", 'debug');
+                    $new_value = fix_heading_structure_in_value($value, $issues_in_field);
+                    if ($new_value !== $value && $issues_in_field > 0) {
+                        $issues_fixed_in_node += $issues_in_field;
+                        $result['details'][] = [
+                            'type' => 'node_field',
+                            'field' => $field_name,
+                            'count' => $issues_in_field,
+                            'example_before' => htmlspecialchars(substr(strip_tags($value), 0, 70)),
+                            'example_after' => htmlspecialchars(substr(strip_tags($new_value), 0, 70))
+                        ];
+                        if ($fix_mode) {
+                            $node->get($field_name)->setValue(['value' => $new_value, 'format' => $format]);
+                            $updated_in_node = true;
+                            script_log("    ✓ Fixed {$issues_in_field} heading structure issues in node field {$field_name} for Node {$node_id}", 'info');
+                        } else {
+                            script_log("    DRY RUN: Would fix {$issues_in_field} heading issues in node field {$field_name} for Node {$node_id}", 'info');
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Check for paragraphs
+    script_log("EXAMINING PARAGRAPHS for node {$node_id}:", 'debug');
+    foreach ($node->getFieldDefinitions() as $field_name => $field_definition) {
+        if ($field_definition->getType() == 'entity_reference_revisions' &&
+            $field_definition->getSetting('target_type') == 'paragraph') {
+            if ($node->hasField($field_name) && !$node->get($field_name)->isEmpty()) {
+                script_log("- Checking paragraph field: {$field_name} on node {$node_id}", 'debug');
                 $paragraphs = $node->get($field_name)->referencedEntities();
-                foreach ($paragraphs as $index => $paragraph) {
-                    echo "  Paragraph #{$index} (type: {$paragraph->getType()})\n";
-                    
+                foreach ($paragraphs as $para_index => $paragraph) {
+                    script_log("  Paragraph #{$para_index} (type: {$paragraph->bundle()}, ID: {$paragraph->id()}) in field {$field_name}", 'debug');
+                    $paragraph_updated = false;
                     foreach ($paragraph->getFieldDefinitions() as $para_field_name => $para_field_def) {
                         if (in_array($para_field_def->getType(), ['text_long', 'text_with_summary', 'text'])) {
                             if ($paragraph->hasField($para_field_name) && !$paragraph->get($para_field_name)->isEmpty()) {
                                 $para_item = $paragraph->get($para_field_name)->first();
                                 $para_value = $para_item->value;
-                                
-                                echo "    Field: {$para_field_name}\n";
-                                
-                                // Check if paragraph field contains both h2 and h4 tags
+                                $para_format = $para_item->format;
+                                script_log("    Field: {$para_field_name} in Paragraph {$paragraph->id()}", 'debug');
+
                                 if (preg_match('/<h2[^>]*>/i', $para_value) && preg_match('/<h4[^>]*>/i', $para_value)) {
-                                    echo "    ✓ Field contains both h2 and h4 tags\n";
-                                    
-                                    // First, identify sections that start with h2 and end at the next h2 or end of content
-                                    $sections = preg_split('/(<h2[^>]*>.*?<\/h2>)/si', $para_value, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-                                    $new_value = '';
-
-                                    foreach ($sections as $index => $section) {
-                                        // If this is an h2 heading section starter
-                                        if (preg_match('/^<h2[^>]*>.*?<\/h2>$/si', $section)) {
-                                            $new_value .= $section;
-                                        } else {
-                                            // For content after an h2, replace all h4 with h3
-                                            $fixed_section = preg_replace_callback('/(<h4)([^>]*>)(.*?)(<\/h4>)/si', 
-                                                function($matches) {
-                                                    $tag_start = $matches[1]; // <h4
-                                                    $attributes = $matches[2]; // any attributes including >
-                                                    $content = $matches[3]; // content between tags
-                                                    $tag_end = $matches[4]; // </h4>
-                                                    
-                                                    // Check if class attribute already exists
-                                                    if (strpos($attributes, 'class="') !== false) {
-                                                        // Append h4 class to existing classes
-                                                        $attributes = preg_replace('/class="([^"]*)"/', 'class="$1 h4"', $attributes);
-                                                    } else if (strpos($attributes, "class='") !== false) {
-                                                        // Handle single quotes too
-                                                        $attributes = preg_replace('/class=\'([^\']*)\'/', "class='$1 h4'", $attributes);
-                                                    } else {
-                                                        // Add class attribute before the closing >
-                                                        $attributes = rtrim($attributes, '>') . ' class="h4">';
-                                                    }
-                                                    
-                                                    return '<h3' . $attributes . $content . '</h3>';
-                                                }, 
-                                                $section
-                                            );
-                                            $new_value .= $fixed_section;
-                                        }
-                                    }
-
-                                    // Count how many we fixed
-                                    $fixed_count = substr_count($para_value, '<h4') - substr_count($new_value, '<h4');
-                                    $issues_fixed += $fixed_count;
-
-                                    if ($fix_mode && $fixed_count > 0) {
-                                        $paragraph->set($para_field_name, [
-                                            'value' => $new_value,
-                                            'format' => $para_item->format
-                                        ]);
-                                        $paragraph->save();
-                                        $updated = true;
-                                        echo "    ✓ Fixed heading structure in paragraph {$para_field_name}\n";
-                                        
-                                        // Add detailed information about the fix
+                                    script_log("    ✓ Paragraph field {$para_field_name} (Para ID {$paragraph->id()}) contains both h2 and h4 tags.", 'debug');
+                                    $new_para_value = fix_heading_structure_in_value($para_value, $issues_in_para_field);
+                                    if ($new_para_value !== $para_value && $issues_in_para_field > 0) {
+                                        $issues_fixed_in_node += $issues_in_para_field;
                                         $result['details'][] = [
                                             'type' => 'paragraph',
-                                            'paragraph_type' => $paragraph->getType(),
+                                            'paragraph_type' => $paragraph->bundle(),
                                             'field' => $para_field_name,
-                                            'count' => $fixed_count,
-                                            'example_before' => substr(strip_tags($para_value), 0, 50),
-                                            'example_after' => substr(strip_tags($new_value), 0, 50)
+                                            'count' => $issues_in_para_field,
+                                            'example_before' => htmlspecialchars(substr(strip_tags($para_value), 0, 70)),
+                                            'example_after' => htmlspecialchars(substr(strip_tags($new_para_value), 0, 70))
                                         ];
+                                        if ($fix_mode) {
+                                            $paragraph->get($para_field_name)->setValue(['value' => $new_para_value, 'format' => $para_format]);
+                                            $paragraph_updated = true;
+                                            script_log("      ✓ Fixed {$issues_in_para_field} heading issues in paragraph field {$para_field_name} (Para ID {$paragraph->id()})", 'info');
+                                        } else {
+                                            script_log("      DRY RUN: Would fix {$issues_in_para_field} heading issues in paragraph field {$para_field_name} (Para ID {$paragraph->id()})", 'info');
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-            }
-        }
-    }
-    
-    // First check body field and other primary text fields
-    echo "EXAMINING NODE FIELDS:\n";
-    foreach ($node->getFieldDefinitions() as $field_name => $field_definition) {
-        if (
-            $field_definition->getType() == 'text_with_summary' ||
-            $field_definition->getType() == 'text_long' ||
-            $field_definition->getType() == 'text'
-        ) {
-            if ($node->hasField($field_name) && !$node->get($field_name)->isEmpty()) {
-                $item = $node->get($field_name)->first();
-                $value = $item->value;
-                
-                echo "- Checking field: {$field_name}\n";
-                
-                // Check if field contains both h2 and h4 tags
-                if (preg_match('/<h2[^>]*>/i', $value) && preg_match('/<h4[^>]*>/i', $value)) {
-                    echo "  ✓ Field contains both h2 and h4 tags\n";
-                    
-                    // First, identify sections that start with h2 and end at the next h2 or end of content
-                    $sections = preg_split('/(<h2[^>]*>.*?<\/h2>)/si', $value, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
-                    $new_value = '';
-
-                    foreach ($sections as $index => $section) {
-                        // If this is an h2 heading section starter
-                        if (preg_match('/^<h2[^>]*>.*?<\/h2>$/si', $section)) {
-                            $new_value .= $section;
-                        } else {
-                            // For content after an h2, replace all h4 with h3
-                            $fixed_section = preg_replace_callback('/(<h4)([^>]*>)(.*?)(<\/h4>)/si', 
-                                function($matches) {
-                                    $tag_start = $matches[1]; // <h4
-                                    $attributes = $matches[2]; // any attributes including >
-                                    $content = $matches[3]; // content between tags
-                                    $tag_end = $matches[4]; // </h4>
-                                    
-                                    // Check if class attribute already exists
-                                    if (strpos($attributes, 'class="') !== false) {
-                                        // Append h4 class to existing classes
-                                        $attributes = preg_replace('/class="([^"]*)"/', 'class="$1 h4"', $attributes);
-                                    } else if (strpos($attributes, "class='") !== false) {
-                                        // Handle single quotes too
-                                        $attributes = preg_replace('/class=\'([^\']*)\'/', "class='$1 h4'", $attributes);
-                                    } else {
-                                        // Add class attribute before the closing >
-                                        $attributes = rtrim($attributes, '>') . ' class="h4">';
-                                    }
-                                    
-                                    return '<h3' . $attributes . $content . '</h3>';
-                                }, 
-                                $section
-                            );
-                            $new_value .= $fixed_section;
-                        }
-                    }
-
-                    // Count how many we fixed
-                    $fixed_count = substr_count($value, '<h4') - substr_count($new_value, '<h4');
-                    $issues_fixed += $fixed_count;
-
-                    if ($fix_mode && $fixed_count > 0) {
-                        $node->set($field_name, [
-                            'value' => $new_value,
-                            'format' => $item->format
-                        ]);
-                        $updated = true;
-                        echo "  ✓ Fixed heading structure in {$field_name}\n";
-                        
-                        // Add detailed information about the fix
-                        $result['details'][] = [
-                            'type' => 'node_field',
-                            'field' => $field_name,
-                            'count' => $fixed_count,
-                            'example_before' => substr(strip_tags($value), 0, 50),
-                            'example_after' => substr(strip_tags($new_value), 0, 50)
-                        ];
+                    if ($paragraph_updated && $fix_mode) { // Save paragraph if it was changed
+                        $paragraph->save();
+                        $updated_in_node = true; // Mark that the main node needs saving if any paragraph was changed and saved.
                     }
                 }
             }
         }
     }
-    
-    // Save changes if needed
-    if ($updated && $fix_mode) {
+
+    if ($updated_in_node && $fix_mode) {
         $node->save();
-        echo "Changes have been saved for node {$node_id}\n";
+        script_log("Changes have been saved for node {$node_id}", 'info');
     }
-    
+
     $result['processed'] = true;
-    $result['fixed'] = $issues_fixed;
-    
+    $result['fixed_count'] = $issues_fixed_in_node;
     return $result;
 }
+
+/**
+ * Helper function to fix heading structure within an HTML string.
+ * Replaces H4s that appear after an H2 (and before another H2 or end of content) with H3s,
+ * adding a class 'h4' to the new H3 for styling continuity.
+ * @param string $html_content The HTML content to fix.
+ * @param int &$fixed_count Reference to count how many replacements were made.
+ * @return string The modified HTML content.
+ */
+function fix_heading_structure_in_value($html_content, &$fixed_count) {
+    $fixed_count = 0;
+    $sections = preg_split('/(<h2[^>]*>.*?<\/h2>)/si', $html_content, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
+    $new_overall_value = '';
+
+    foreach ($sections as $section) {
+        if (preg_match('/^<h2[^>]*>.*?<\/h2>$/si', $section)) {
+            $new_overall_value .= $section; // This is an H2 section starter, add as is.
+        } else {
+            // This is content after an H2. Replace H4s within this section.
+            $fixed_section_content = preg_replace_callback(
+                '/(<h4)([^>]*>)(.*?)(<\/h4>)/si',
+                function ($matches) use (&$fixed_count) {
+                    $fixed_count++;
+                    $attributes_part = $matches[2]; // This is the part like ' class="some-class" data-attr="val">'
+                    $attributes_inside_tag = rtrim($attributes_part, '>'); // Remove the trailing >
+
+                    // Correct regex to find class attribute and its value
+                    if (preg_match('/class=(["\'])(.*?)\1/', $attributes_inside_tag, $class_matches)) {
+                        $quote_char = $class_matches[1];
+                        $existing_classes = $class_matches[2];
+                        $new_classes = trim($existing_classes . ' h4');
+                        // Replace the old class attribute with the new one
+                        $attributes_inside_tag = preg_replace('/class=(["\'])(.*?)\1/', 'class=' . $quote_char . $new_classes . $quote_char, $attributes_inside_tag, 1);
+                    } else {
+                        // No existing class attribute, add one
+                        $attributes_inside_tag .= ' class="h4"';
+                    }
+                    return '<h3' . $attributes_inside_tag . '>' . $matches[3] . '</h3>';
+                },
+                $section
+            );
+            $new_overall_value .= $fixed_section_content;
+        }
+    }
+    return $new_overall_value;
+}
+
+// --- Final Script Output & Return ---
+$final_summary_message = sprintf(
+    "Heading analysis script completed. URLs processed: %d. Nodes with fixes: %d. Total issues fixed: %d.",
+    count($urls),
+    $successful_fixes_nodes_count,
+    $total_heading_issues_fixed
+);
+
+$execution_time = microtime(true) - $start_time;
+script_log(sprintf("Total script execution time: %.2f seconds.", $execution_time), 'info');
+script_log("Heading analysis script finished: {$final_summary_message}", 'info');
+
+$log_file_written_path = write_log_file($file_system, $log_file_uri, $log_messages);
+$log_path_for_output = $log_file_written_path ? $file_system->realpath($log_file_written_path) : "ERROR creating main log file.";
+
+$report_path_for_output = '';
+if ($report_file_uri && $file_system->realpath($report_file_uri)){
+    $report_path_for_output = $file_system->realpath($report_file_uri);
+    $final_summary_message .= " Fixes report: {$report_path_for_output}";
+}
+
+if ($is_cli) {
+    echo PHP_EOL . $final_summary_message . PHP_EOL;
+    echo "Detailed operations log: {$log_path_for_output}" . PHP_EOL;
+}
+
+return "{$final_summary_message} Detailed operations log: {$log_path_for_output}";

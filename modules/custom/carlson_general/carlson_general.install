@@ -465,57 +465,90 @@ function carlson_general_update_100104() {
  * CSM-247 - Fix skipped heading levels for accessibility.
  */
 function carlson_general_update_100105() {
-  // Initialize $_SERVER['argv'] if it doesn't exist (for web UI context)
-  if (!isset($_SERVER['argv'])) {
-    $_SERVER['argv'] = [];
-  }
+  ini_set('max_execution_time', 1800); // 30 minutes
 
-  // Capture output for logging
-  ob_start();
+  $script_name = 'analyze_headings.php';
+  // Path relative to Drupal root.
+  $script_path = \Drupal::root() . '/' . drupal_get_path('module', 'carlson_general') . '/scripts/' . $script_name;
 
-  // Execute the script directly
-  $script_path = DRUPAL_ROOT . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/analyze_headings.php';
-
-  // Ensure fix_mode is enabled in the script context
-  $_SERVER['argv'] = array_diff($_SERVER['argv'], ['--dry-run']);
-
-  if (file_exists($script_path)) {
-    include_once $script_path;
-  } else {
-    return t('Script file not found at @path', ['@path' => $script_path]);
-  }
-
-  // Get output
-  $output = ob_get_clean();
-
-  // Log key parts of the output
-  if (preg_match('/Total heading issues fixed: (\d+)/', $output, $matches)) {
-    $fixed_count = $matches[1];
-    \Drupal::logger('carlson_general')->notice('Fixed @count heading structure issues', [
-      '@count' => $fixed_count
+  if (!file_exists($script_path)) {
+    $error_message = t('Script file @script_name not found at @path. Update failed.', [
+      '@script_name' => $script_name,
+      '@path' => $script_path,
     ]);
-  } else {
-    \Drupal::logger('carlson_general')->warning('Could not determine how many heading issues were fixed.');
+    \Drupal::logger('carlson_general')->error($error_message);
+    return $error_message;
   }
 
-  // Extract report file location
-  if (preg_match('/Detailed report saved to: (.+)/', $output, $matches)) {
-    $report_file = $matches[1];
-    \Drupal::logger('carlson_general')->notice('Heading structure report saved to @file', [
-      '@file' => $report_file
+  // The script now handles its own fix_mode detection if run from CLI.
+  // When included by the update hook, it defaults to fix_mode = true.
+  // $_SERVER['argv'] manipulation is no longer needed here.
+
+  $summary_message = '';
+  $log_file_path_message = '';
+  $report_file_path_message = '';
+
+  try {
+    \Drupal::logger('carlson_general')->notice('Starting execution of @script_name via update hook for heading analysis...', ['@script_name' => $script_name]);
+
+    // The script returns a string like: "Summary... Detailed operations log: /path/to/log.txt Fixes report: /path/to/report.csv"
+    $result_string = include $script_path;
+
+    \Drupal::logger('carlson_general')->notice('Finished running @script_name for heading analysis. Result: @result', [
+      '@script_name' => $script_name,
+      '@result' => $result_string,
     ]);
-  }
 
-  // Log the full output to a file for debugging
-  $log_dir = \Drupal::service('file_system')->realpath('public://script_logs');
-  if (!file_exists($log_dir)) {
-    \Drupal::service('file_system')->mkdir($log_dir, 0755, TRUE);
-  }
-  $log_file = $log_dir . '/analyze_headings_' . date('Y-m-d_H-i-s') . '.txt';
-  file_put_contents($log_file, $output);
-  \Drupal::logger('carlson_general')->notice('Full output log saved to @log', ['@log' => $log_file]);
+    // Parse the result string
+    if (is_string($result_string)) {
+        if (strpos($result_string, "Detailed operations log:") !== false) {
+            list($summary_part, $log_part) = explode("Detailed operations log:", $result_string, 2);
+            $summary_message = trim($summary_part);
+            if (strpos($log_part, "Fixes report:") !== false) {
+                list($log_file_path_message, $report_file_path_message) = explode("Fixes report:", $log_part, 2);
+                $log_file_path_message = trim($log_file_path_message);
+                $report_file_path_message = trim($report_file_path_message);
+            } else {
+                $log_file_path_message = trim($log_part);
+            }
+        } else {
+            $summary_message = $result_string; // Script might have failed early
+        }
+    }
 
-  return t('Successfully fixed heading structure issues. See system log for details.');
+    if (strpos(strtolower($summary_message), 'error') !== false || strpos(strtolower($summary_message), 'failed') !== false) {
+      \Drupal::logger('carlson_general')->error('Error reported by @script_name: @summary. Log: @log. Report: @report', [
+        '@script_name' => $script_name,
+        '@summary' => $summary_message,
+        '@log' => $log_file_path_message,
+        '@report' => $report_file_path_message,
+      ]);
+      $ui_message = t('Error running @script: @summary. Check logs. Log: @log. Report: @report', [
+        '@script' => $script_name,
+        '@summary' => $summary_message,
+        '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
+        '@report' => $report_file_path_message ? $report_file_path_message : '(not available)',
+      ]);
+       return $ui_message;
+    }
+
+    $ui_message = t('Successfully executed @script. @summary. Log: @log. Report: @report', [
+      '@script' => $script_name,
+      '@summary' => $summary_message,
+      '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
+      '@report' => $report_file_path_message ? $report_file_path_message : '(not available)',
+    ]);
+    return $ui_message;
+
+  } catch (\Exception $e) {
+    $error_message = t('Exception while running @script for heading analysis: @error. Log: @log', [
+      '@script' => $script_name,
+      '@error' => $e->getMessage(),
+      '@log' => $log_file_path_message ? $log_file_path_message : '(details not available)',
+    ]);
+    \Drupal::logger('carlson_general')->error($error_message);
+    return $error_message;
+  }
 }
 
 /**
