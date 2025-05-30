@@ -407,25 +407,25 @@ function carlson_general_update_100104() {
   if (!isset($_SERVER['argv'])) {
     $_SERVER['argv'] = [];
   }
-  
+
   // Capture output for logging
   ob_start();
-  
+
   // Execute the script directly
   $script_path = DRUPAL_ROOT . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/analyze_headings.php';
-  
+
   // Ensure fix_mode is enabled in the script context
   $_SERVER['argv'] = array_diff($_SERVER['argv'], ['--dry-run']);
-  
+
   if (file_exists($script_path)) {
     include_once $script_path;
   } else {
     return t('Script file not found at @path', ['@path' => $script_path]);
   }
-  
+
   // Get output
   $output = ob_get_clean();
-  
+
   // Log key parts of the output
   if (preg_match('/Total heading issues fixed: (\d+)/', $output, $matches)) {
     $fixed_count = $matches[1];
@@ -435,7 +435,7 @@ function carlson_general_update_100104() {
   } else {
     \Drupal::logger('carlson_general')->warning('Could not determine how many heading issues were fixed.');
   }
-  
+
   // Extract report file location
   if (preg_match('/Detailed report saved to: (.+)/', $output, $matches)) {
     $report_file = $matches[1];
@@ -443,11 +443,11 @@ function carlson_general_update_100104() {
       '@file' => $report_file
     ]);
   }
-  
+
   // Log the full output to a file for debugging
   $log_file = DRUPAL_ROOT . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/heading_fix_log_' . date('Y-m-d_H-i-s') . '.txt';
   file_put_contents($log_file, $output);
   \Drupal::logger('carlson_general')->notice('Full output log saved to @log', ['@log' => $log_file]);
-  
+
   return t('Successfully fixed heading structure issues. See system log for details.');
 }

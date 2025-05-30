@@ -2,8 +2,8 @@
 
 /**
  * Drupal script to detect and fix fragmented links in tabbed_content paragraphs.
- * 
- * Usage: 
+ *
+ * Usage:
  * - Just run: drush scr fix_fragmented_links.php
  */
 
@@ -517,7 +517,7 @@ foreach ($tabbed_content_ids as $paragraph_id) {
                 // Add this check before attempting to fix:
                 if (!empty($links) && isActuallyFragmentedLink($content)) {
                     if (!empty($links)) {
-                        // Add this line to count items with fragmented links 
+                        // Add this line to count items with fragmented links
                         $fragmented_count++;
 
                         // Initialize array for this node if not exists
@@ -601,7 +601,7 @@ foreach ($tabbed_content_ids as $paragraph_id) {
                         // Add this check before attempting to fix:
                         if (!empty($links) && isActuallyFragmentedLink($subcontent)) {
                             if (!empty($links)) {
-                                // Add this line to count items with fragmented links 
+                                // Add this line to count items with fragmented links
                                 $fragmented_count++;
 
                                 if (!isset($fragmented_links_by_node[$node_id])) {
