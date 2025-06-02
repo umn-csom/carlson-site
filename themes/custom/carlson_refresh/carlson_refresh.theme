@@ -513,7 +513,7 @@ function carlson_refresh_preprocess_page(&$variables) {
   $footer_date = theme_get_setting('footer_date');
 
   if (!empty($footer_date)) {
-    $last_updated_node_array = node_get_recent(1);
+    $last_updated_node_array = Drupal::entityQuery(1);
     if (!empty($last_updated_node_array)) {
       $last_updated_node = array_shift($last_updated_node_array);
       $variables['last_updated'] = date('F j, Y', $last_updated_node->getRevisionCreationTime());
