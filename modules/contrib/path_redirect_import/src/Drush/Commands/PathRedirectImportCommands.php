@@ -6,6 +6,7 @@ use Drupal\Core\Batch\BatchBuilder;
 use Drupal\Core\Datetime\DateFormatter;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
@@ -15,6 +16,8 @@ use Drupal\path_redirect_import\Form\MigrateRedirectForm;
 use Drupal\path_redirect_import\RedirectExport;
 use Drush\Attributes as CLI;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+
+// cspell:ignore commandfile prii idlist prie prie
 
 /**
  * A Drush commandfile.
@@ -103,7 +106,7 @@ class PathRedirectImportCommands extends MigrateToolsCommands {
 
     $directory = dirname(MigrateRedirectForm::MIGRATE_FILE_PATH);
     $this->fileSystem->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
-    $this->fileSystem->copy($file, MigrateRedirectForm::MIGRATE_FILE_PATH, FileSystemInterface::EXISTS_REPLACE);
+    $this->fileSystem->copy($file, MigrateRedirectForm::MIGRATE_FILE_PATH, FileExists::Replace);
 
     $this->resetStatus('path_redirect_import');
 

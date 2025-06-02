@@ -20,10 +20,22 @@ interface WidgetSettingsCheckerInterface {
    *   The paragraph entity.
    *
    * @return bool
+   *   TRUE in case the bind with form mode is enabled, FALSE otherwise.
    */
   public function hasFormModeBindEnabled(
     string $form_mode,
-    ParagraphInterface $paragraph
+    ParagraphInterface $paragraph,
   ): bool;
+
+  /**
+   * Checks if the apply to previews feature is enabled for the given paragraph.
+   *
+   * @param \Drupal\paragraphs\ParagraphInterface $paragraph
+   *   The paragraph entity.
+   *
+   * @return bool
+   *   TRUE in case applying to preview is enabled, FALSE otherwise.
+   */
+  public function hasApplyToPreviewEnabled(ParagraphInterface $paragraph): bool;
 
 }

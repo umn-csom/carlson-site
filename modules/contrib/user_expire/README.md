@@ -1,6 +1,6 @@
 # User Expire
 
-The User Expire module allows an administrator to define a date on which to
+The User Expire module allows administrators to define a date on which to
 expire a specific user account or to define a period at a role level where
 inactive accounts will be locked.
 
@@ -66,3 +66,6 @@ information.
 - Erik Webb - [erikwebb](https://www.drupal.org/u/erikwebb)
 - Greg Knaddison - [greggles](https://www.drupal.org/u/greggles)
 - Shelane French - [shelane](https://www.drupal.org/u/shelane)
+- Joe Parsons    - [joegraduate](https://www.drupal.org/u/joegraduate)
+- Troy Dean      - [tadean](https://www.drupal.org/u/tadean)
+- Chris Green    - [trackleft2](https://www.drupal.org/u/trackleft2)

@@ -11,6 +11,11 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 interface ImporterInterface extends PluginInspectionInterface, ContainerFactoryPluginInterface {
 
   /**
+   * Regular expression for unlimited fields.
+   */
+  const REGEX_MULTIPLE = '/^(values|multiple)\(([^+]+(\+[^+]+)*)\)$/';
+
+  /**
    * Prepare data for import.
    *
    * @return array
@@ -40,9 +45,6 @@ interface ImporterInterface extends PluginInspectionInterface, ContainerFactoryP
    *   The value set in $context['results'] by callback_batch_operation().
    * @param array $operations
    *   Contains the operations that remained unprocessed.
-   *
-   * @return array
-   *   Prepared data.
    */
   public function finished($success, array $results, array $operations);
 

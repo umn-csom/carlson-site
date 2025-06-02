@@ -28,6 +28,8 @@ function paragraph_view_mode_help($route_name, RouteMatchInterface $route_match)
       $output .= '<dd>' . t('Go to the "Manage form display" tab and place your field anywhere you want (except the disabled section).') . '</dd>';
       $output .= '<dt>' . t('Widget settings') . '</dt>';
       $output .= '<dd>' . t('You can configure the field widget, by selecting which view modes you want to allow to view during adding/editing the content. If you do not select any view mode, the "default" will be displayed.') . '</dd>';
+      $output .= '<dt>' . t('Bind with the form mode') . '</dt>';
+      $output .= '<dd>' . t('This option will be checked by default, but you can change if you need. If marked it will reload the paragraph form on change event using ajax only if there is a form mode with exactly the same machine name as the view mode.') . '</dd>';
       $output .= '</dl>';
       return $output;
   }
@@ -49,6 +51,7 @@ function paragraph_view_mode_entity_form_mode_alter(&$form_mode, EntityInterface
     $form_mode = $mode;
   }
 }
+
 /**
  * Implements hook_entity_view_mode_alter().
  */
@@ -113,7 +116,7 @@ function paragraph_view_mode_form_paragraphs_type_edit_form_submit(array &$form,
 
   $config_name = StorageManagerInterface::CONFIG_NAME;
   $enable = $form_state->getValue([$config_name, 'enabled']);
-  $enabled = $paragraphType->getThirdPartySetting($config_name, 'enabled');
+  $enabled = $storage_manager->getField($bundle) instanceof FieldConfigInterface;
 
   if (!$enabled && $enable) {
     $enable = $storage_manager->addField($bundle);

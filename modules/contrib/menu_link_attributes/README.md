@@ -1,6 +1,6 @@
 # Menu Link Attributes
 
-> Allows you to add attributes to your menu links.
+Allows you to add attributes to your menu links.
 
 ## Installation
 

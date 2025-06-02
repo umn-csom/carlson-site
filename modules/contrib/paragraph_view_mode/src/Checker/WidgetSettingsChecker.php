@@ -17,7 +17,7 @@ class WidgetSettingsChecker implements WidgetSettingsCheckerInterface {
   /**
    * The entity display repository.
    *
-   * @var EntityDisplayRepositoryInterface
+   * @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface
    */
   protected $displayRepository;
 
@@ -42,8 +42,21 @@ class WidgetSettingsChecker implements WidgetSettingsCheckerInterface {
     $view_mode_field = $form_display
       ->getComponent(StorageManagerInterface::FIELD_TYPE);
 
-
     return (bool) ($view_mode_field['settings'][WidgetSettings::FORM_MODE_BIND] ?? NULL);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasApplyToPreviewEnabled(ParagraphInterface $paragraph): bool {
+    $default_form_display = $this
+      ->displayRepository
+      ->getFormDisplay($paragraph->getEntityTypeId(), $paragraph->bundle());
+
+    $view_mode_field = $default_form_display
+      ->getComponent(StorageManagerInterface::FIELD_TYPE);
+
+    return (bool) ($view_mode_field['settings'][WidgetSettings::APPLY_TO_PREVIEW] ?? NULL);
   }
 
 }
