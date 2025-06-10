@@ -7,11 +7,22 @@
   text-align: center;
 
   &__link {
-    @include rfs(2rem);
+    font-size: 2rem;
+    text-decoration: none;
+    color: $dark-dark-gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    text-transform: uppercase;
 
-    a {
-      text-decoration: none;
-      color: inherit;
+    svg {
+      width: 2.25rem;
+      height: auto;
+    }
+
+    &:hover {
+      color: $soft-black;
     }
   }
 
@@ -20,6 +31,7 @@
 
     &__link {
       text-align: right;
+      max-width: 18em;
     }
   }
 }
