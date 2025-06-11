@@ -488,91 +488,6 @@ h6,
 .text-capitalize {
   text-transform: capitalize; }
 
-label {
-  text-transform: uppercase;
-  display: inline-block;
-  margin-bottom: 1rem;
-  font-family: "Open Sans",Roboto,"Segoe UI","Helvetica Neue",sans-serif;
-  text-transform: uppercase;
-  letter-spacing: 1.39px;
-  color: #363230;
-  font-size: 1.3rem;
-  line-height: 1.6rem; }
-
-@media (min-width: 1340px) {
-  .mt-xl-0 {
-    margin-top: 0 !important; }
-  .text-xl-left {
-    text-align: left !important; } }
-
-.btn {
-  align-items: center;
-  justify-content: center; }
-
-.accordion {
-  overflow-anchor: none; }
-
-@media (min-width: 992px) {
-  .session {
-    padding: 2.5rem;
-    flex-direction: row; }
-  .session__title {
-    font-weight: 500;
-    font-size: 2.8rem; }
-  .session__overview {
-    padding-left: 5rem;
-    flex: 0 0 80%;
-    max-width: 80%; }
-  .session__body, .session__header {
-    display: block; }
-  .session__header {
-    font-size: 2.4rem;
-    font-weight: 300;
-    font-family: "Open Sans",Roboto,"Segoe UI","Helvetica Neue",sans-serif; }
-  .session__body {
-    font-size: 6.4rem;
-    font-weight: 400;
-    font-family: Newsreader,serif; } }
-
-@media (max-width: 991.98px) {
-  .accordion-content-inner {
-    padding-left: 0;
-    padding-right: 0; }
-  .accordion-item--edge-expand-mobile {
-    overflow: visible; }
-  .accordion-item--edge-expand-mobile > .accordion-button {
-    padding: 1.5rem 0; }
-  .accordion-item--edge-expand-mobile > .accordion-button::after, .accordion-item--edge-expand-mobile > .accordion-button::before {
-    content: "";
-    display: block;
-    position: absolute;
-    right: 100%;
-    top: 0;
-    width: 100%;
-    background-color: #7a0019;
-    height: 100%; }
-  .accordion-item--edge-expand-mobile > .accordion-button[aria-expanded=false]::after, .accordion-item--edge-expand-mobile > .accordion-button[aria-expanded=false]::before {
-    background-color: #e6e0d2; }
-  .accordion-item--edge-expand-mobile > .accordion-button::after {
-    left: 100%;
-    right: initial; }
-  .accordion-item--edge-expand-mobile > .accordion-content::after, .accordion-item--edge-expand-mobile > .accordion-content::before {
-    content: "";
-    display: block;
-    position: absolute;
-    right: 100%;
-    bottom: 0;
-    width: 100%;
-    background-color: #7a0019;
-    height: .5rem; }
-  .accordion-item--edge-expand-mobile > .accordion-content::after {
-    left: 100%;
-    right: initial; }
-  .ee-program__top .hero-program__img, .ee-program__top .hero-program__img > div {
-    height: 100%; }
-  .ee-program__top .hero-program__img img, .ee-program__top .hero-program__teaser {
-    padding-right: 0; } }
-
 .text-align-center {
   text-align: center; }
 
@@ -788,8 +703,11 @@ strong {
 .font-weight-bold {
   font-weight: 700 !important; }
 
+ol, ul {
+  margin-top: 0;
+  margin-bottom: 1rem; }
+
 .btn {
-  position: relative;
   display: inline-block;
   align-items: center;
   justify-content: center;
@@ -803,7 +721,8 @@ strong {
   border: 1px solid transparent;
   font-size: 1.6rem;
   font-weight: 600;
-  padding: 1rem 4rem; }
+  padding: 1rem 4rem;
+  position: relative; }
 
 .btn svg {
   display: inline-block;
@@ -852,10 +771,6 @@ strong {
 
 .btn-sm [stroke-width="1.75"] {
   stroke-width: 1.5; }
-
-ol, ul {
-  margin-top: 0;
-  margin-bottom: 1rem; }
 
 #main {
   margin-top: 1rem; }
@@ -1120,7 +1035,7 @@ ol, ul {
   color: #212529;
   height: fit-content;
   align-self: flex-end;
-  margin: auto; }
+  margin: 0 auto; }
 
 .ee-program__details--actions {
   order: 1; }
@@ -1132,7 +1047,7 @@ ol, ul {
   display: flex;
   margin-bottom: 5px; }
 
-.ee-program__details .course_details label {
+.ee-program__details .course_details .field-label {
   font-weight: 700;
   margin-right: 10px;
   margin-bottom: 0;
@@ -1146,7 +1061,7 @@ ol, ul {
   width: 100%; }
 
 .ee-program__dates .ee-program__date {
-  border-bottom: 1px solid #e6d8d6; }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
 
 .ee-program__dates .ee-program__date:last-child {
   border-bottom: 0; }
@@ -1180,17 +1095,10 @@ ol, ul {
 .ee-program__content .ee_contact-cta.contact-cta .contact-cta__contact--heading {
   margin: 0 0 10px; }
 
-.ee-program__content .ee_contact-cta.contact-cta .contact-cta__contact--person {
-  font-weight: 700;
-  color: #363230;
-  letter-spacing: 1.78px;
-  text-transform: uppercase;
-  margin: 5px 0 10px; }
-
 .ee-program__details-bottom .ee-program__actions .ee-program__date, .ee-program__details-bottom .ee-program__content .ee-program__details--actions {
   display: none; }
 
-.ee-program__details-bottom .course_details label {
+.ee-program__details-bottom .course_details .field-label {
   margin-bottom: 1rem;
   font-family: "Open Sans",Roboto,"Segoe UI","Helvetica Neue",sans-serif;
   text-transform: uppercase;
@@ -1224,8 +1132,5 @@ ol, ul {
 
 .tab-content > .tab-pane {
   display: none; }
-
-.tab-content > .active {
-  display: block; }
 
 /*# sourceMappingURL=executive_ed_program.css.map */

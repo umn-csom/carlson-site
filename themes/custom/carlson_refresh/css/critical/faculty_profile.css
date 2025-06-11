@@ -392,8 +392,12 @@ h6,
     border: 1px solid currentColor;
     display: flex;
     gap: 4px; }
+    @media (min-width: 992px) and (max-width: 1100px) {
+      .site-nav__pl-btn-inner {
+        font-size: 1.2rem; } }
     .site-nav__pl-btn-inner svg {
-      margin-bottom: 0; }
+      margin-bottom: 0;
+      height: 1.5em; }
     .site-nav__pl-btn-inner--apply {
       color: #7a0019;
       border-color: #fc3;
@@ -483,28 +487,6 @@ h6,
 
 .text-capitalize {
   text-transform: capitalize; }
-
-.embed-responsive img {
-  object-fit: cover;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  object-fit: cover; }
-
-.btn {
-  align-items: center;
-  justify-content: center; }
-
-@media (min-width: 768px) {
-  .faculty-profile__column {
-    flex-basis: 50%; }
-  .node__content .faculty-profile__works ul {
-    margin-left: 40px;
-    margin-right: 50px; } }
 
 .icon-minus:before {
   content: "\e901"; }
@@ -627,6 +609,16 @@ h6,
   display: block;
   content: ""; }
 
+.embed-responsive img {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover; }
+
 .embed-responsive-1by1::before {
   padding-top: 100%; }
 
@@ -696,8 +688,11 @@ h6,
 .font-weight-bold {
   font-weight: 700 !important; }
 
+ul {
+  margin-top: 0;
+  margin-bottom: 1rem; }
+
 .btn {
-  position: relative;
   display: inline-block;
   align-items: center;
   justify-content: center;
@@ -711,7 +706,8 @@ h6,
   border: 1px solid transparent;
   font-size: 1.6rem;
   font-weight: 600;
-  padding: 1rem 4rem; }
+  padding: 1rem 4rem;
+  position: relative; }
 
 .btn svg {
   display: inline-block;
@@ -760,10 +756,6 @@ h6,
 
 .btn-sm [stroke-width="1.75"] {
   stroke-width: 1.5; }
-
-ul {
-  margin-top: 0;
-  margin-bottom: 1rem; }
 
 #main {
   margin-top: 1rem; }
@@ -894,7 +886,7 @@ ul {
   padding-bottom: 1em;
   padding-left: 15px;
   position: relative;
-  border-bottom: 1px solid #e6d8d6; }
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); }
 
 .node__content .faculty-profile__works ul li:last-child {
   border-bottom: 0; }
