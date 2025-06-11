@@ -10,10 +10,19 @@
  * @see template_preprocess_image()
  */
 #}
-{%
-set classes = [
+{% set classes = [
   style_name ? 'image-style-' ~ style_name|clean_class,
   'img-fluid'|clean_class,
 ]
 %}
+{# {{ dump(_context) }} #}
+{% set src = attributes.src|render %}
+{% set data_src = attributes['data-src']|render %}
+{# Load the Blazy webp thumbnail instead of the svg empty placeholder.#}
+{% if src starts with 'data:image/svg+xml;' and data_src starts with 'data:image/webp;' %}
+  {% set attributes = attributes.setAttribute('src', attributes['data-src']) %}
+  {% set attributes = attributes.setAttribute('decoding', 'auto') %}
+  {% set attributes = attributes.removeAttribute('data-src') %}
+  {% set attributes = attributes.removeAttribute('data-b-blur') %}
+{% endif %}
 <img{{ attributes.addClass(classes) }} />

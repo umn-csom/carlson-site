@@ -13,10 +13,12 @@ dependencies:
     - field.field.node.email_page.field_meta_tags
     - field.field.node.email_page.field_section
     - image.style.basic_hero
+    - image.style.basic_hero_thumb
     - node.type.email_page
+    - responsive_image.styles.basic_hero
   module:
+    - blazy
     - entity_reference_revisions
-    - media
     - metatag
     - panelizer
     - text
@@ -65,13 +67,49 @@ content:
     weight: 2
     region: content
   field_hero_media:
-    type: media_thumbnail
+    type: blazy_media
     label: hidden
     settings:
-      image_link: ''
+      caption:
+        image: '0'
+        alt: '0'
+        title: '0'
+        field_media_category: '0'
+      class: ''
+      image: ''
+      link: ''
+      overlay: ''
+      title: ''
+      vanilla: false
+      by_delta: -1
+      layout: ''
+      view_mode: basic_hero
+      cache: 0
+      admin_uri: '/admin/structure/types/manage/email_page/display?ajax_form=1&_wrapper_format=drupal_ajax&_wrapper_format=drupal_ajax'
+      use_lb: false
+      background: false
+      box_caption: ''
+      box_caption_custom: ''
+      box_media_style: ''
+      loading: ''
+      preload: true
+      responsive_image_style: basic_hero
+      use_theme_field: false
+      box_style: ''
       image_style: basic_hero
-      image_loading:
-        attribute: eager
+      media_switch: ''
+      ratio: '4:1'
+      thumbnail_style: basic_hero_thumb
+      grid: ''
+      grid_medium: ''
+      grid_small: ''
+      style: ''
+      svg_inline: false
+      svg_fill: false
+      svg_sanitize: true
+      svg_sanitize_remote: false
+      svg_hide_caption: false
+      svg_attributes: ''
     third_party_settings: {  }
     weight: 3
     region: content

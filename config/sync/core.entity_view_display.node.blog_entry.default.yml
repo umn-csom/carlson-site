@@ -15,8 +15,12 @@ dependencies:
     - field.field.node.blog_entry.field_hub_topic
     - field.field.node.blog_entry.field_meta_tags
     - field.field.node.blog_entry.field_teaser
+    - image.style.basic_hero
+    - image.style.basic_hero_thumb
     - node.type.blog_entry
+    - responsive_image.styles.basic_hero
   module:
+    - blazy
     - entity_reference_revisions
     - panelizer
     - text
@@ -75,11 +79,49 @@ content:
     weight: 3
     region: content
   field_hero_media:
-    type: entity_reference_entity_view
+    type: blazy_media
     label: hidden
     settings:
-      view_mode: full_hero
-      link: false
+      caption:
+        image: '0'
+        alt: '0'
+        title: '0'
+        field_media_category: '0'
+      class: ''
+      image: ''
+      link: ''
+      overlay: ''
+      title: ''
+      vanilla: false
+      by_delta: -1
+      layout: ''
+      view_mode: basic_hero
+      cache: 0
+      admin_uri: '/admin/structure/types/manage/blog_entry/display?ajax_form=1&_wrapper_format=drupal_ajax&_wrapper_format=drupal_ajax'
+      use_lb: false
+      background: false
+      box_caption: ''
+      box_caption_custom: ''
+      box_media_style: ''
+      loading: ''
+      preload: true
+      responsive_image_style: basic_hero
+      use_theme_field: false
+      box_style: ''
+      image_style: basic_hero
+      media_switch: ''
+      ratio: '4:1'
+      thumbnail_style: basic_hero_thumb
+      grid: ''
+      grid_medium: ''
+      grid_small: ''
+      style: ''
+      svg_inline: false
+      svg_fill: false
+      svg_sanitize: true
+      svg_sanitize_remote: false
+      svg_hide_caption: false
+      svg_attributes: ''
     third_party_settings: {  }
     weight: 2
     region: content

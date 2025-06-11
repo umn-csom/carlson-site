@@ -1,6 +1,16 @@
 @import "../abstracts/import";
 
 .basic-hero {
+
+  .media--blazy {
+    padding-bottom: calc(334 / 725 * 100%);
+    overflow: visible; // ensure box-shadow is visible
+
+    @include media-breakpoint-up(lg) {
+      padding-bottom: calc( 400 / 1600 * 100% );
+    }
+  }
+
   &__img img {
     box-shadow: 0 15px 60px 0 rgba($black, 0.2);
     object-fit: cover;
