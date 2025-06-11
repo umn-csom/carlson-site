@@ -58,5 +58,19 @@
       // Prevent default link behavior
       return false;
     });
+
+    // Close dropdowns when clicking outside of them.
+    $(document).on("click", function (e) {
+      if (!$(e.target).closest(".dropdown").length) {
+        var $openDropdowns = $(".dropdown.show");
+        if ($openDropdowns.length) {
+          $openDropdowns.removeClass("show");
+          $openDropdowns.find(".show").removeClass("show");
+          $openDropdowns
+            .find(".dropdown-toggle")
+            .attr("aria-expanded", "false");
+        }
+      }
+    });
   });
 })(jQuery, Drupal);
