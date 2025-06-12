@@ -76,7 +76,10 @@
 <article{{ attributes.addClass(classes) }}>
   <header>
     {{ title_prefix }}
-    {% if not page %}
+    {% if page %}
+      {# Add visually hidden H1 for accessibility #}
+      <h1 class="sr-only">{{ label }}</h1>
+    {% else %}
       <h2{{ title_attributes.addClass('node__title') }}>
         <a href="{{ url }}" rel="bookmark">{{ label }}</a>
       </h2>

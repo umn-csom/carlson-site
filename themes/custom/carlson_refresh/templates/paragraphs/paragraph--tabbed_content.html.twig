@@ -48,12 +48,13 @@
 ] %}
 {% block paragraph %}
   {% block content %}
+    {# Check if paragraph has any tab items #}
+    {% if not paragraph.field_tab_accordion_item.isEmpty() %}
+      {% set items = content.field_tab_accordion_item|field_value %}
     <!-- Accordion for Mobile -->
     {{ attach_library('carlson_refresh/accordion') }}
     <div class="accordion d-block d-md-none">
       <div class="accordion__wrapper row component-paragraph">
-        {% if content.field_tab_accordion_item is not empty %}
-          {% set items = content.field_tab_accordion_item|field_value %}
           {% set paragraphId = paragraph.id() %}
 
           {% if
@@ -151,16 +152,12 @@
               {% set inc = inc + 1 %}
             {% endfor %}
           </div>
-        {% endif %}
       </div>
     </div>
 
     <!-- Tabs for Desktop -->
     <div class="tabbed-content d-none d-md-block">
       <div class="row component-paragraph tabbed-content">
-        {% if content.field_tab_accordion_item is not empty %}
-          {% set items = content.field_tab_accordion_item|field_value %}
-
           {% if
             content.field_heading is not empty
               or content.field_main_content is not empty %}
@@ -234,8 +231,8 @@
               {% endfor %}
             </div>
           </div>
-        {% endif %}
       </div>
     </div>
+    {% endif %}
   {% endblock %}
 {% endblock %}
