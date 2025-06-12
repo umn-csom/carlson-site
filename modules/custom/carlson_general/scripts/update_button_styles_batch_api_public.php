@@ -3,9 +3,9 @@
 /**
  * Comprehensive script to update button styles using Batch API
  * CSM-295: Replace old button styles with new consolidated ones
- * 
+ *
  * Modified version that saves CSV to public files directory
- * 
+ *
  * Usage:
  *   ddev drush scr docroot/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/update_button_styles_batch_api_public.php
  *   DRY_RUN=1 ddev drush scr docroot/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/update_button_styles_batch_api_public.php
@@ -44,7 +44,7 @@ function getButtonMappings() {
     'gold-outline-button' => 'btn btn-outline-secondary',
     'btn-cta' => '',
     'program-features__btn' => 'btn btn-primary',
-    
+
     // Compound class mappings
     'btn btn-link-primary' => 'btn btn-primary',
     'btn btn-link-secondary' => 'btn btn-primary',
@@ -61,7 +61,7 @@ function getButtonMappings() {
 function runButtonStyleUpdate($dry_run = FALSE) {
   // Configuration
   $batch_size = 50;
-  
+
   // Check if running in CLI or web context
   $is_cli = (PHP_SAPI === 'cli' && empty($_SERVER['HTTP_HOST']));
 
@@ -127,7 +127,7 @@ function runButtonStyleUpdate($dry_run = FALSE) {
   if (!file_exists($log_directory)) {
     mkdir($log_directory, 0755, TRUE);
   }
-  
+
   $log_file = $log_directory . '/button_update_batch_api_log_' . date('Y-m-d_H-i-s') . '.csv';
   $log_handle = fopen($log_file, 'w');
   fputcsv($log_handle, ['Entity Type', 'Bundle', 'Entity ID', 'Language', 'Node ID', 'Field Name', 'Replacements', 'Entity Label']);
@@ -136,16 +136,16 @@ function runButtonStyleUpdate($dry_run = FALSE) {
     if ($is_cli) {
       echo sprintf("Processing batch %d/%d...\n", $batch_index + 1, count($batches));
     }
-    
+
     $batch_result = processBatch($batch, $entity_type_manager, $entity_field_manager, getButtonMappings(), $dry_run);
-    
+
     $total_updated += $batch_result['updated_count'];
-    
+
     // Write log entries
     foreach ($batch_result['log_entries'] as $entry) {
       fputcsv($log_handle, $entry);
     }
-    
+
     if ($is_cli) {
       echo sprintf("  Updated %d entities in this batch\n", $batch_result['updated_count']);
     }
@@ -166,11 +166,11 @@ function runButtonStyleUpdate($dry_run = FALSE) {
     if ($is_cli) {
       echo "\nGenerating summary report...\n";
     }
-    
+
     $summary = [];
     $handle = fopen($log_file, 'r');
     $header = fgetcsv($handle); // Skip header
-    
+
     while (($row = fgetcsv($handle)) !== FALSE) {
       $key = $row[0] . '.' . $row[5]; // entity_type.field_name
       if (!isset($summary[$key])) {
@@ -179,7 +179,7 @@ function runButtonStyleUpdate($dry_run = FALSE) {
       $summary[$key]++;
     }
     fclose($handle);
-    
+
     if ($is_cli) {
       echo "\nSummary by entity type and field:\n";
       foreach ($summary as $key => $count) {
@@ -205,22 +205,22 @@ function runButtonStyleUpdate($dry_run = FALSE) {
  */
 function getFieldsWithHTML($entity_field_manager, $entity_type_manager) {
   $html_fields = [];
-  
+
   $entity_types = $entity_type_manager->getDefinitions();
-  
+
   foreach ($entity_types as $entity_type_id => $entity_type) {
     if (!$entity_type->entityClassImplements(\Drupal\Core\Entity\FieldableEntityInterface::class)) {
       continue;
     }
-    
+
     $bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type_id);
-    
+
     foreach ($bundles as $bundle_id => $bundle_info) {
       $field_definitions = $entity_field_manager->getFieldDefinitions($entity_type_id, $bundle_id);
-      
+
       foreach ($field_definitions as $field_name => $field_definition) {
         $field_type = $field_definition->getType();
-        
+
         if (in_array($field_type, ['text', 'text_long', 'text_with_summary', 'string', 'string_long'])) {
           if (!isset($html_fields[$entity_type_id])) {
             $html_fields[$entity_type_id] = [];
@@ -237,7 +237,7 @@ function getFieldsWithHTML($entity_field_manager, $entity_type_manager) {
       }
     }
   }
-  
+
   return $html_fields;
 }
 
@@ -247,32 +247,32 @@ function getFieldsWithHTML($entity_field_manager, $entity_type_manager) {
 function findEntitiesWithOldClasses($database, $html_fields, $button_mappings) {
   $entities_to_process = [];
   $old_classes = array_keys($button_mappings);
-  
+
   foreach ($html_fields as $entity_type_id => $bundles) {
     foreach ($bundles as $bundle_id => $fields) {
       foreach ($fields as $field_name => $field_info) {
         $table = $field_info['table'];
         $column = $field_info['column'];
-        
+
         if (!$database->schema()->tableExists($table)) {
           continue;
         }
-        
+
         // Build query to find entities with old classes
         $query = $database->select($table, 't');
         $query->fields('t', ['entity_id', 'langcode'])
           ->distinct();
-        
+
         // Add conditions for each old class
         $or = $query->orConditionGroup();
         foreach ($old_classes as $old_class) {
           $or->condition('t.' . $column, '%' . $database->escapeLike($old_class) . '%', 'LIKE');
         }
         $query->condition($or);
-        
+
         try {
           $results = $query->execute()->fetchAll();
-          
+
           foreach ($results as $result) {
             $key = $entity_type_id . ':' . $result->entity_id . ':' . $result->langcode;
             if (!isset($entities_to_process[$key])) {
@@ -292,7 +292,7 @@ function findEntitiesWithOldClasses($database, $html_fields, $button_mappings) {
       }
     }
   }
-  
+
   return array_values($entities_to_process);
 }
 
@@ -303,31 +303,31 @@ function updateHTMLWithDOM($html, $button_mappings) {
   if (empty($html) || !preg_match('/<[^>]+>/', $html)) {
     return ['content' => $html, 'changed' => false, 'replacements' => []];
   }
-  
+
   // Create DOM document
   $dom = new \DOMDocument();
   $libxml_previous = libxml_use_internal_errors(true);
-  
+
   // Wrap content to ensure proper parsing
   $wrapped_html = '<!DOCTYPE html><html><head><meta charset="UTF-8"></head><body>' . $html . '</body></html>';
   $dom->loadHTML($wrapped_html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-  
+
   libxml_clear_errors();
   libxml_use_internal_errors($libxml_previous);
-  
+
   $xpath = new \DOMXPath($dom);
   $changed = false;
   $replacements = [];
-  
+
   // Find all elements with class attributes
   $elements = $xpath->query('//*[@class]');
-  
+
   foreach ($elements as $element) {
     $class_attr = $element->getAttribute('class');
     $classes = array_filter(array_unique(explode(' ', $class_attr)));
     $new_classes = [];
     $element_changed = false;
-    
+
     foreach ($classes as $class) {
       if (isset($button_mappings[$class])) {
         // Single class replacement
@@ -376,19 +376,19 @@ function updateHTMLWithDOM($html, $button_mappings) {
             }
           }
         }
-        
+
         if (!$compound_found && !in_array($class, $new_classes)) {
           $new_classes[] = $class;
         }
       }
     }
-    
+
     if ($element_changed) {
       $element->setAttribute('class', implode(' ', array_unique($new_classes)));
       $changed = true;
     }
   }
-  
+
   if ($changed) {
     // Extract the body content
     $body = $dom->getElementsByTagName('body')->item(0);
@@ -396,14 +396,14 @@ function updateHTMLWithDOM($html, $button_mappings) {
     foreach ($body->childNodes as $child) {
       $updated_html .= $dom->saveHTML($child);
     }
-    
+
     return [
       'content' => $updated_html,
       'changed' => true,
       'replacements' => array_unique($replacements),
     ];
   }
-  
+
   return ['content' => $html, 'changed' => false, 'replacements' => []];
 }
 
@@ -413,47 +413,47 @@ function updateHTMLWithDOM($html, $button_mappings) {
 function processBatch($entities_info, $entity_type_manager, $entity_field_manager, $button_mappings, $dry_run) {
   $log_entries = [];
   $updated_count = 0;
-  
+
   foreach ($entities_info as $entity_info) {
     try {
       $storage = $entity_type_manager->getStorage($entity_info['entity_type']);
       $entity = $storage->load($entity_info['entity_id']);
-      
+
       if (!$entity) {
         continue;
       }
-      
+
       // Handle translations
       if ($entity->isTranslatable() && $entity->hasTranslation($entity_info['langcode'])) {
         $entity = $entity->getTranslation($entity_info['langcode']);
       }
-      
+
       $entity_changed = false;
       $entity_updates = [];
-      
+
       foreach ($entity_info['fields'] as $field_name) {
         if (!$entity->hasField($field_name)) {
           continue;
         }
-        
+
         $field = $entity->get($field_name);
         if ($field->isEmpty()) {
           continue;
         }
-        
+
         foreach ($field as $delta => $item) {
           $value = $item->value ?? '';
-          
+
           if (empty($value)) {
             continue;
           }
-          
+
           $result = updateHTMLWithDOM($value, $button_mappings);
-          
+
           if ($result['changed']) {
             $item->value = $result['content'];
             $entity_changed = true;
-            
+
             $entity_updates[] = [
               'field_name' => $field_name,
               'delta' => $delta,
@@ -462,14 +462,14 @@ function processBatch($entities_info, $entity_type_manager, $entity_field_manage
           }
         }
       }
-      
+
       if ($entity_changed) {
         if (!$dry_run) {
           $entity->save();
         }
-        
+
         $updated_count++;
-        
+
         // Find parent node if this is a paragraph
         $node_id = null;
         if ($entity_info['entity_type'] === 'paragraph') {
@@ -477,7 +477,7 @@ function processBatch($entities_info, $entity_type_manager, $entity_field_manage
         } elseif ($entity_info['entity_type'] === 'node') {
           $node_id = $entity->id();
         }
-        
+
         foreach ($entity_updates as $update) {
           $log_entries[] = [
             'entity_type' => $entity_info['entity_type'],
@@ -495,7 +495,7 @@ function processBatch($entities_info, $entity_type_manager, $entity_field_manage
       echo "Error processing entity {$entity_info['entity_type']} {$entity_info['entity_id']}: " . $e->getMessage() . "\n";
     }
   }
-  
+
   return [
     'log_entries' => $log_entries,
     'updated_count' => $updated_count,
@@ -509,11 +509,11 @@ function findParentNodeForParagraph($paragraph, $entity_type_manager) {
   if ($paragraph->hasField('parent_id') && $paragraph->hasField('parent_type')) {
     $parent_type = $paragraph->get('parent_type')->value;
     $parent_id = $paragraph->get('parent_id')->value;
-    
+
     if ($parent_type && $parent_id) {
       try {
         $parent_entity = $entity_type_manager->getStorage($parent_type)->load($parent_id);
-        
+
         if ($parent_entity) {
           if ($parent_type === 'node') {
             return $parent_entity->id();
@@ -526,7 +526,7 @@ function findParentNodeForParagraph($paragraph, $entity_type_manager) {
       }
     }
   }
-  
+
   return null;
 }
 
