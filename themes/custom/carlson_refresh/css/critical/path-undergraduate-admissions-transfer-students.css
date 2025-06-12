@@ -488,6 +488,65 @@ h6,
 .text-capitalize {
   text-transform: capitalize; }
 
+.b-lazy, .b-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  min-height: 1px; }
+
+html:not(.js) .b-lazy[data-src] {
+  display: none; }
+
+.media--blazy, .media--fx {
+  position: relative; }
+
+.media--fx {
+  overflow: hidden; }
+
+.media--fx img {
+  display: block;
+  width: 100%;
+  color: transparent; }
+
+.media--ratio .media__element {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 1px;
+  object-fit: cover; }
+
+.is-b-loading {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  position: relative;
+  min-height: 30px; }
+
+.is-b-loading::before {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  display: none;
+  width: 30px;
+  max-width: 30px;
+  height: 30px;
+  margin-top: -15px;
+  margin-left: -15px;
+  content: "";
+  background: #2eaae0;
+  font-size: 0; }
+
+.media.media--ratio {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  height: 0;
+  min-height: 1px; }
+
 .list-unstyled {
   padding-left: 0;
   list-style: none; }
@@ -521,7 +580,7 @@ h6,
   padding-right: 0;
   padding-left: 0; }
 
-.col, .col-12, .col-4, .col-6, .col-8, .col-lg-12, .col-lg-3 {
+.col, .col-12, .col-4, .col-6, .col-8, .col-lg-3 {
   position: relative;
   width: 100%;
   padding-right: 25px;
@@ -557,10 +616,7 @@ h6,
 @media (min-width: 992px) {
   .col-lg-3 {
     flex: 0 0 25%;
-    max-width: 25%; }
-  .col-lg-12 {
-    flex: 0 0 100%;
-    max-width: 100%; } }
+    max-width: 25%; } }
 
 .btn-group {
   position: relative;
@@ -586,14 +642,8 @@ h6,
   .d-lg-block {
     display: block !important; } }
 
-.flex-column {
-  flex-direction: column !important; }
-
 .flex-nowrap {
   flex-wrap: nowrap !important; }
-
-.flex-grow-1 {
-  flex-grow: 1 !important; }
 
 .justify-content-center {
   justify-content: center !important; }
@@ -726,13 +776,6 @@ ol, ul {
 .row::after, .row::before {
   display: inline-block; }
 
-.component-paragraph {
-  margin-bottom: 1rem; }
-
-@media (min-width: 992px) {
-  .component-paragraph {
-    margin-bottom: 2rem; } }
-
 .cta-link {
   padding: 1.5rem 2rem;
   font-weight: 600;
@@ -785,6 +828,10 @@ ol, ul {
   .cta-link__icon {
     font-size: 4.4rem; } }
 
+.basic-hero .media--blazy {
+  padding-bottom: calc(334 / 725 * 100%);
+  overflow: visible; }
+
 .basic-hero__img img {
   box-shadow: 0 15px 60px 0 rgba(0, 0, 0, 0.2);
   object-fit: cover; }
@@ -801,6 +848,8 @@ ol, ul {
     min-height: 42.85vw; } }
 
 @media (min-width: 992px) {
+  .basic-hero .media--blazy {
+    padding-bottom: calc(400 / 1600 * 100%); }
   .basic-hero__img img {
     min-height: initial; }
   .basic-hero__title {
@@ -810,81 +859,5 @@ ol, ul {
   .basic-hero__title-inner {
     margin: 0 3rem;
     padding: 3rem; } }
-
-.slick {
-  max-width: 100%;
-  position: relative; }
-
-.slick-prev {
-  left: 0;
-  z-index: 1; }
-
-.slick-next {
-  right: 0; }
-
-.slick__arrow {
-  bottom: auto;
-  height: 2px;
-  left: 0;
-  margin-top: -1px;
-  position: absolute;
-  top: 50%;
-  width: 100%;
-  z-index: 2; }
-
-.slick__arrow .slick-prev::before {
-  font-family: carlson-icons !important;
-  speak: none;
-  font-style: normal;
-  font-weight: 400;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  content: "\e92c"; }
-
-.slick__arrow .slick-next::before {
-  font-family: carlson-icons !important;
-  speak: none;
-  font-style: normal;
-  font-weight: 400;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  content: "\e92b"; }
-
-.stats__item {
-  text-align: center;
-  max-width: 290px;
-  margin: 0 auto; }
-
-.stats__item__inner {
-  padding: 1px;
-  margin: 1px; }
-
-.stats__item__number {
-  font-size: 5.5rem;
-  line-height: 1;
-  margin: 0; }
-
-.stats__item__description {
-  text-align: center;
-  margin: 0; }
-
-.stats__item__number + .stats__item__description {
-  margin-top: 3rem; }
-
-.stats .slick__slider {
-  display: flex;
-  flex-wrap: wrap;
-  margin-right: -25px;
-  margin-left: -25px;
-  justify-content: space-around; }
-
-.stats .slick__slide {
-  height: auto; }
 
 /*# sourceMappingURL=path-undergraduate-admissions-transfer-students.css.map */
