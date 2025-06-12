@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\element_class_formatter\Functional;
 
 use Drupal\entity_test\Entity\EntityTest;
@@ -18,7 +20,7 @@ class LinkAllyFormatterTest extends ElementClassFormatterTestBase {
    *
    * @dataProvider providerLinkText
    */
-  public function testLinkAllyFormatterLinkField(string $link_text = NULL, string $wrapper = '') {
+  public function testLinkAllyFormatterLinkField(?string $link_text = NULL, string $wrapper = '') {
     $field_config = $this->createEntityField('link_ally_class', 'link', [
       'class' => self::TEST_CLASS,
       'link_text' => $link_text,
@@ -53,7 +55,7 @@ class LinkAllyFormatterTest extends ElementClassFormatterTestBase {
    *
    * @dataProvider providerLinkText
    */
-  public function testLinkAllyFormatterStringField(string $link_text = NULL, string $wrapper = '') {
+  public function testLinkAllyFormatterStringField(?string $link_text = NULL, string $wrapper = '') {
     $field_config = $this->createEntityField('link_ally_class', 'string', [
       'class' => self::TEST_CLASS,
       'link_text' => $link_text,
@@ -84,7 +86,7 @@ class LinkAllyFormatterTest extends ElementClassFormatterTestBase {
    * @return array
    *   Test cases.
    */
-  public function providerLinkText() {
+  public static function providerLinkText() {
     return [
       'use field value' => [],
       'use custom' => ['Read more'],

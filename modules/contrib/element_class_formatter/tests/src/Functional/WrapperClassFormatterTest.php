@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\element_class_formatter\Functional;
 
 use Drupal\entity_test\Entity\EntityTest;
@@ -43,9 +45,8 @@ class WrapperClassFormatterTest extends ElementClassFormatterTestBase {
    * Tests summary formatter.
    *
    * @dataProvider providerSummaryFormatter
-   *
    */
-  public function testTextWithSummary(bool $summary, string $expected, int $trim = NULL) {
+  public function testTextWithSummary(bool $summary, string $expected, ?int $trim = NULL) {
     $format = FilterFormat::create([
       'format' => $this->randomMachineName(),
       'name' => $this->randomMachineName(),
@@ -80,7 +81,7 @@ class WrapperClassFormatterTest extends ElementClassFormatterTestBase {
    * @return array
    *   Test cases.
    */
-  public function providerSummaryFormatter() {
+  public static function providerSummaryFormatter() {
     return [
       'body' => [
         FALSE, 'I am a string',

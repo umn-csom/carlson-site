@@ -2,12 +2,12 @@
 
 namespace Drupal\user_expire\Controller;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Render\RendererInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Component\Datetime\TimeInterface;
 
 /**
  * Report controller of User Expire module.
@@ -16,31 +16,23 @@ class UserExpireReport extends ControllerBase {
 
   /**
    * The database service.
-   *
-   * @var \Drupal\Core\Database\Connection
    */
-  protected $database;
+  protected Connection $database;
 
   /**
    * The date formatter service.
-   *
-   * @var \Drupal\Core\Datetime\DateFormatterInterface
    */
-  protected $dateFormatter;
+  protected DateFormatterInterface $dateFormatter;
 
   /**
    * The time service.
-   *
-   * @var \Drupal\Component\Datetime\TimeInterface
    */
-  protected $time;
+  protected TimeInterface $time;
 
   /**
    * The renderer.
-   *
-   * @var \Drupal\Core\Render\RendererInterface
    */
-  protected $renderer;
+  protected RendererInterface $renderer;
 
   /**
    * Constructs a \Drupal\user_expire\Controller object.

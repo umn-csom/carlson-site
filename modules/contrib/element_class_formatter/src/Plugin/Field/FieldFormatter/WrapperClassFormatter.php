@@ -2,13 +2,15 @@
 
 namespace Drupal\element_class_formatter\Plugin\Field\FieldFormatter;
 
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Field\FormatterBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\Template\Attribute;
-use Drupal\Core\Link;
-use Drupal\Core\Entity\EntityInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * A field formatter for wrapping text with a class.
@@ -29,6 +31,43 @@ use Drupal\Core\Entity\EntityInterface;
 class WrapperClassFormatter extends FormatterBase {
 
   use ElementClassTrait;
+
+  public function __construct(
+    $plugin_id,
+    $plugin_definition,
+    FieldDefinitionInterface $field_definition,
+    array $settings,
+    $label,
+    $view_mode,
+    array $third_party_settings,
+    protected RendererInterface $renderer,
+  ) {
+    parent::__construct(
+      $plugin_id,
+      $plugin_definition,
+      $field_definition,
+      $settings,
+      $label,
+      $view_mode,
+      $third_party_settings
+    );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $plugin_id,
+      $plugin_definition,
+      $configuration['field_definition'],
+      $configuration['settings'],
+      $configuration['label'],
+      $configuration['view_mode'],
+      $configuration['third_party_settings'],
+      $container->get('renderer'),
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -138,8 +177,6 @@ class WrapperClassFormatter extends FormatterBase {
   public function viewElements(FieldItemListInterface $items, $langcode = NULL) {
     $elements = [];
     $attributes = new Attribute();
-    $renderer = \Drupal::service('renderer');
-    assert($renderer instanceof RendererInterface);
     $class = $this->getSetting('class');
     if (!empty($class)) {
       $attributes->addClass($class);
@@ -167,7 +204,7 @@ class WrapperClassFormatter extends FormatterBase {
           '#plain_text' => !empty($item->summary) ? strip_tags($item->summary) : text_summary(strip_tags($item->value), 'plain_text', $this->getSetting('trim')),
         ];
       }
-      $text = $renderer->render($text);
+      $text = $this->renderer->render($text);
 
       if ($this->getSetting('link') && $parent instanceof EntityInterface) {
         $link_attributes = new Attribute();
@@ -177,7 +214,7 @@ class WrapperClassFormatter extends FormatterBase {
         }
         $link = Link::fromTextAndUrl($text, $parent->toUrl())->toRenderable();
         $link['#attributes'] = $link_attributes->toArray();
-        $text = $renderer->render($link);
+        $text = $this->renderer->render($link);
       }
       $elements[$delta] = [
         '#type' => 'html_tag',

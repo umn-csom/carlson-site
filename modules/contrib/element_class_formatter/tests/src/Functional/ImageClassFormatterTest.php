@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\element_class_formatter\Functional;
 
 use Drupal\entity_test\Entity\EntityTest;

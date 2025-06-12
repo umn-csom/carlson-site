@@ -61,6 +61,7 @@ class ParagraphViewModeWidget extends StringTextfieldWidget {
       WidgetSettings::VIEW_MODES => self::getAvailableViewModes(),
       WidgetSettings::DEFAULT_VIEW_MODE => ViewModes::DEFAULT,
       WidgetSettings::FORM_MODE_BIND => TRUE,
+      WidgetSettings::APPLY_TO_PREVIEW => FALSE,
     ];
   }
 
@@ -100,11 +101,19 @@ class ParagraphViewModeWidget extends StringTextfieldWidget {
     $element[WidgetSettings::FORM_MODE_BIND] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Bind with the form mode'),
-      '#description' => $this->t('It will reload the paragraph form on change event using ajax only' .
-        ' if there is a form mode with exactly the same machine name as the view mode.'),
+      '#description' => $this->t('It will reload the paragraph form on change event using ajax only if there is a form mode with exactly the same machine name as the view mode.'),
       '#default_value' => $this->getSetting(WidgetSettings::FORM_MODE_BIND),
       '#required' => FALSE,
       '#weight' => 3,
+    ];
+
+    $element[WidgetSettings::APPLY_TO_PREVIEW] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Apply to preview mode'),
+      '#description' => $this->t('If the paragraphs preview view mode is in use, choose whether to apply the chosen view mode in this field to previews of this paragraph or not. This only has any effect if the preview view mode has been configured for use.'),
+      '#default_value' => $this->getSetting(WidgetSettings::APPLY_TO_PREVIEW),
+      '#required' => FALSE,
+      '#weight' => 4,
     ];
 
     return $element;
@@ -173,13 +182,13 @@ class ParagraphViewModeWidget extends StringTextfieldWidget {
       $element['value'] = [
         '#paragraph' => $items->getEntity(),
         '#ajax' => [
-          'callback' => [$this, 'reloadSubform'],
+          'callback' => [__CLASS__, 'reloadSubform'],
           'event' => 'change',
           'wrapper' => $wrapper_id,
         ],
       ] + $element['value'];
 
-      $form['#prefix'] =  '<div id="' . $wrapper_id . '">';
+      $form['#prefix'] = '<div id="' . $wrapper_id . '">';
       $form['#suffix'] = '</div>';
     }
 
@@ -201,7 +210,7 @@ class ParagraphViewModeWidget extends StringTextfieldWidget {
    * @return array
    *   The paragraph subform.
    */
-  public function reloadSubform(array &$form, FormStateInterface $form_state): array {
+  public static function reloadSubform(array &$form, FormStateInterface $form_state): array {
     $triggering_element = $form_state->getTriggeringElement();
     $element = NestedArray::getValue($form, $triggering_element['#array_parents']);
 
@@ -217,7 +226,6 @@ class ParagraphViewModeWidget extends StringTextfieldWidget {
     return NestedArray::getValue($form, $parents);
   }
 
-
   /**
    * Getter for available view modes in paragraph entity type.
    *
@@ -226,16 +234,16 @@ class ParagraphViewModeWidget extends StringTextfieldWidget {
    */
   protected static function getAvailableViewModes() {
     $request = \Drupal::request();
-    $entity_display_respository = \Drupal::service('entity_display.repository');
+    $entity_display_repository = \Drupal::service('entity_display.repository');
     $paragraph_type = self::getParagraphsTypeFromRequest($request);
 
     $entity_id = StorageManagerInterface::ENTITY_TYPE;
 
     if ($paragraph_type instanceof ParagraphsType) {
-      return $entity_display_respository->getViewModeOptionsByBundle($entity_id, $paragraph_type->id());
+      return $entity_display_repository->getViewModeOptionsByBundle($entity_id, $paragraph_type->id());
     }
 
-    return $entity_display_respository->getViewModeOptions($entity_id);
+    return $entity_display_repository->getViewModeOptions($entity_id);
   }
 
   /**
@@ -277,11 +285,14 @@ class ParagraphViewModeWidget extends StringTextfieldWidget {
   /**
    * Getter for 'view modes' field description.
    *
-   * @return \Drupal\Core\StringTranslation\TranslatableMarkup
-   *   Field description.
+   * @return null|\Drupal\Core\StringTranslation\TranslatableMarkup
+   *   return null|Field description.
    */
-  protected function getViewModesFieldDescription(): TranslatableMarkup {
+  protected function getViewModesFieldDescription(): ?TranslatableMarkup {
     $paragraphs_type = self::getParagraphsTypeFromRequest($this->request);
+    if (empty($paragraphs_type)) {
+      return NULL;
+    }
 
     $url_route = implode('.', [
       'entity.entity_view_display',

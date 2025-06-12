@@ -2,11 +2,14 @@
 
 namespace Drupal\element_class_formatter\Plugin\Field\FieldFormatter;
 
+use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\file\Plugin\Field\FieldFormatter\DescriptionAwareFileFormatterBase;
+use Drupal\Core\StringTranslation\ByteSizeMarkup;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
+use Drupal\file\IconMimeTypes;
+use Drupal\file\Plugin\Field\FieldFormatter\DescriptionAwareFileFormatterBase;
 
 /**
  * Plugin implementation of the 'file link with class' formatter.
@@ -28,6 +31,7 @@ class FileLinkClassFormatter extends DescriptionAwareFileFormatterBase {
    */
   public static function defaultSettings() {
     $default_settings = parent::defaultSettings() + [
+      'use_label_as_fallback' => '1',
       'show_filesize' => '0',
       'show_filetype' => '0',
     ];
@@ -41,6 +45,13 @@ class FileLinkClassFormatter extends DescriptionAwareFileFormatterBase {
   public function settingsForm(array $form, FormStateInterface $form_state) {
     $elements = parent::settingsForm($form, $form_state);
     $class = $this->getSetting('class');
+
+    $elements['use_label_as_fallback'] = [
+      '#title' => $this->t('Use entity label as link text'),
+      '#description' => $this->t('Replace the file name by the entity label when no description is available.'),
+      '#type' => 'checkbox',
+      '#default_value' => $this->getSetting('use_label_as_fallback'),
+    ];
 
     $elements['show_filesize'] = [
       '#title' => $this->t('Display the file size'),
@@ -63,10 +74,14 @@ class FileLinkClassFormatter extends DescriptionAwareFileFormatterBase {
   public function settingsSummary() {
     $summary = parent::settingsSummary();
     $class = $this->getSetting('class');
-    if ($size = $this->getSetting('show_filesize')) {
+
+    if (!empty($this->getSetting('use_label_as_fallback'))) {
+      $summary[] = $this->t('Use entity label as link text');
+    }
+    if (!empty($this->getSetting('show_filesize'))) {
       $summary[] = $this->t('Show file size');
     }
-    if ($type = $this->getSetting('show_filetype')) {
+    if (!empty($this->getSetting('show_filetype'))) {
       $summary[] = $this->t('Show file type');
     }
 
@@ -83,13 +98,20 @@ class FileLinkClassFormatter extends DescriptionAwareFileFormatterBase {
     foreach ($this->getEntitiesToView($items, $langcode) as $delta => $file) {
       $item = $file->_referringItem;
       // Get default link text.
-      $link_text = $this->getSetting('use_description_as_link_text') ? $item->description : $item->getEntity()->label();
+      $fallback_text = $this->getSetting('use_label_as_fallback') ? $item->getEntity()->label() : $file->getFilename();
+      $link_text = $this->getSetting('use_description_as_link_text') && !empty($item->description) ? $item->description : $fallback_text;
       $attributes = new Attribute();
       $attributes->setAttribute('title', $file->getFilename());
 
       // File meta data.
       $file_type = strtoupper(pathinfo($file->getFilename(), PATHINFO_EXTENSION));
-      $file_size = format_size($file->getSize());
+      $file_size = DeprecationHelper::backwardsCompatibleCall(
+        \Drupal::VERSION,
+        '10.2.0',
+        fn() => ByteSizeMarkup::create($file->getSize()),
+        // @phpstan-ignore-next-line
+        fn() => format_size($file->getSize())
+      );
       $mime_type = $file->getMimeType();
       $attributes->setAttribute('type', $mime_type . '; length=' . $file->getSize());
 
@@ -97,7 +119,13 @@ class FileLinkClassFormatter extends DescriptionAwareFileFormatterBase {
       $classes = [
         'file',
         'file--mime-' . strtr($mime_type, ['/' => '-', '.' => '-']),
-        'file--' . file_icon_class($mime_type),
+        'file--' . DeprecationHelper::backwardsCompatibleCall(
+          \Drupal::VERSION,
+          '10.3.0',
+          fn() => IconMimeTypes::getIconClass($mime_type),
+          // @phpstan-ignore-next-line
+          fn() => file_icon_class($mime_type)
+        ),
         $class,
       ];
       $attributes->addClass($classes);

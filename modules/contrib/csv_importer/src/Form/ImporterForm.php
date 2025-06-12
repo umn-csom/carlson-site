@@ -2,11 +2,11 @@
 
 namespace Drupal\csv_importer\Form;
 
+use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
-use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Render\RendererInterface;
 use Drupal\csv_importer\ParserInterface;
 use Drupal\csv_importer\Plugin\ImporterManager;
@@ -75,7 +75,7 @@ class ImporterForm extends FormBase {
    * @param \Drupal\csv_importer\Plugin\ImporterManager $importer
    *   The importer plugin manager service.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $entity_field_manager, EntityTypeBundleInfoInterface $entity_bundle_info, ParserInterface $parser, RendererInterface $renderer, ImporterManager $importer) {
+  final public function __construct(EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $entity_field_manager, EntityTypeBundleInfoInterface $entity_bundle_info, ParserInterface $parser, RendererInterface $renderer, ImporterManager $importer) {
     $this->entityTypeManager = $entity_type_manager;
     $this->entityFieldManager = $entity_field_manager;
     $this->entityBundleInfo = $entity_bundle_info;
@@ -130,7 +130,6 @@ class ImporterForm extends FormBase {
     ];
 
     if ($entity_type = $form_state->getValue('entity_type')) {
-
       if ($options = $this->getEntityTypeBundleOptions($entity_type)) {
         $form['importer']['entity_type_bundle'] = [
           '#type' => 'select',
@@ -138,24 +137,6 @@ class ImporterForm extends FormBase {
           '#options' => $options,
           '#required' => TRUE,
           '#weight' => 5,
-        ];
-
-      }
-
-      $options = $this->getEntityTypeImporterOptions($entity_type);
-
-      $form['importer']['plugin_id'] = [
-        '#type' => 'hidden',
-        '#value' => key($options),
-      ];
-
-      if (count($options) > 1) {
-        $form['importer']['plugin_id'] = [
-          '#type' => 'select',
-          '#title' => $this->t('Select importer'),
-          '#options' => $options,
-          '#default_value' => 0,
-          '#weight' => 25,
         ];
       }
 
@@ -179,7 +160,7 @@ class ImporterForm extends FormBase {
       '#title' => $this->t('Select CSV file'),
       '#required' => TRUE,
       '#autoupload' => TRUE,
-      '#upload_validators' => ['file_validate_extensions' => ['csv']],
+      '#upload_validators' => ['FileExtension' => ['extensions' => 'csv']],
       '#weight' => 10,
     ];
 
@@ -211,7 +192,7 @@ class ImporterForm extends FormBase {
     $plugin_definitions = $this->importer->getDefinitions();
 
     foreach ($plugin_definitions as $definition) {
-      $entity_type = $definition['entity_type'];
+      $entity_type = $definition['entity_type'] ?? '';
       if ($this->entityTypeManager->hasDefinition($entity_type)) {
         $entity = $this->entityTypeManager->getDefinition($entity_type);
         $options[$entity_type] = $entity->getLabel();
@@ -248,30 +229,6 @@ class ImporterForm extends FormBase {
   }
 
   /**
-   * Get entity importer plugin options.
-   *
-   * @param string $entity_type
-   *   Entity type.
-   *
-   * @return array
-   *   Entity importer plugin options.
-   */
-  protected function getEntityTypeImporterOptions(string $entity_type) {
-    $plugin_definitions = $this->importer->getDefinitions();
-    $entity_type_importers = array_keys(array_combine(array_keys($plugin_definitions), array_column($plugin_definitions, 'entity_type')), $entity_type);
-
-    if ($entity_type_importers && is_array($entity_type_importers)) {
-      $plugin_definitions = array_intersect_key($plugin_definitions, array_flip($entity_type_importers));
-
-      foreach ($plugin_definitions as $plugin_id => $plugin_defintion) {
-        $options[$plugin_id] = $plugin_defintion['label'];
-      }
-    }
-
-    return $options;
-  }
-
-  /**
    * Get entity type fields.
    *
    * @param string $entity_type
@@ -282,7 +239,7 @@ class ImporterForm extends FormBase {
    * @return array
    *   Entity type fields.
    */
-  protected function getEntityTypeFields(string $entity_type, string $entity_type_bundle = NULL) {
+  protected function getEntityTypeFields(string $entity_type, ?string $entity_type_bundle = NULL) {
     $fields = [];
 
     if (!$entity_type_bundle) {
@@ -350,7 +307,7 @@ class ImporterForm extends FormBase {
 
     $entity_fields = $this->getEntityTypeFields($entity_type, $entity_type_bundle);
 
-    if ($required = $this->getEntityTypeMissingFields($entity_type, $entity_fields['required'], $csv_parse)) {
+    if ($required = $this->getEntityTypeMissingFields($entity_type, $entity_fields['required'] ?? [], $csv_parse)) {
       $render = [
         '#theme' => 'item_list',
         '#items' => $required,
@@ -359,7 +316,7 @@ class ImporterForm extends FormBase {
       $this->messenger()->addError($this->t('Your CSV has missing required fields: @fields', ['@fields' => $this->renderer->render($render)]));
     }
     else {
-      $this->importer->createInstance($form_state->getUserInput()['plugin_id'], [
+      $this->importer->createInstance('importer:' . $entity_type, [
         'csv' => $csv_parse,
         'csv_entity' => $this->parser->getCsvEntity($csv),
         'entity_type' => $entity_type,

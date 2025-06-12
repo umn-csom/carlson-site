@@ -3,10 +3,10 @@
 namespace Drupal\Tests\user_expire\Functional;
 
 use Drupal\Core\Database\Database;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\user\Entity\Role;
 use Drupal\user\RoleInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Tests for User expire module.
@@ -29,12 +29,12 @@ class UserExpireTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['user_expire'];
+  protected static $modules = ['user_expire'];
 
   /**
    * Tests user expiration functionality.
    */
-  public function testUserExpire() {
+  public function testUserExpire(): void {
     $connection = Database::getConnection();
     $basic_account = $this->drupalCreateUser();
     $this->assertTrue($basic_account->isActive(), $this->t('User account is currently enabled.'));
@@ -61,15 +61,16 @@ class UserExpireTest extends BrowserTestBase {
     $edit['user_expiration'] = 1;
     $edit['user_expiration_date[date]'] = "2002-08-18";
 
-    $this->submitForm("user/" . $basic_account->id() . "/edit", $edit, $this->t('Save'));
+    $this->drupalGet("user/" . $basic_account->id() . "/edit");
+    $this->submitForm($edit, $this->t('Save')->render());
     // Ensure it was re-activated.
     $this->assertSession()->responseContains('type="radio" id="edit-status-1" name="status" value="1" checked="checked" class="form-radio"', $this->t('User account is currently enabled.'));
 
     // And the expiration was really really saved.
-    $this->assertSession()->responseContains('expiration date is set to Sun, 08/18/2002 - 00:00.');
+    $this->assertSession()->responseContains('expiration date is set to ' . \Drupal::service('date.formatter')->format(strtotime('2002-08-18')) . '.');
     $this->drupalGet('admin/reports/expiring-users');
     $this->assertSession()->responseContains('0 sec from now', 'Expiration shows in Expiring users report');
-    $this->drupalLogout($admin_user);
+    $this->drupalLogout();
 
     // User edits account, expiry is still set.
     $this->drupalLogin($basic_account);
@@ -78,9 +79,10 @@ class UserExpireTest extends BrowserTestBase {
     $edit['pass[pass2]'] = $new_pass;
 
     $edit['current_pass'] = $basic_account->pass_raw;
-    $this->submitForm("user/" . $basic_account->id() . "/edit", $edit, $this->t('Save'));
+    $this->drupalGet("user/" . $basic_account->id() . "/edit");
+    $this->submitForm($edit, $this->t('Save')->render());
     $this->assertSession()->responseContains($this->t("The changes have been saved."));
-    $this->drupalLogout($basic_account);
+    $this->drupalLogout();
 
     // Admin looks again and expiry is still set.
     $this->drupalLogin($admin_user);
@@ -98,8 +100,9 @@ class UserExpireTest extends BrowserTestBase {
     // Create a role.
     $rid = $this->drupalCreateRole([]);
     $edit = ['label' => $rid, 'id' => $rid . '_role'];
-    $this->submitForm('admin/people/roles/add', $edit, $this->t('Save'));
-    $this->assertSession()->responseContains($this->t('Role @name has been added.', ['@name' => $rid]), 'Role ' . $rid . ' has been added.');
+    $this->drupalGet('admin/people/roles/add');
+    $this->submitForm($edit, $this->t('Save')->render());
+    $this->assertSession()->statusMessageContains($this->t('Role @name has been added.', ['@name' => $rid]), 'status');
     $role = Role::load($rid);
     $this->assertTrue(is_object($role), 'The role was successfully retrieved from the database.');
 
@@ -109,7 +112,8 @@ class UserExpireTest extends BrowserTestBase {
     // And definitely unset the expiration.
     $edit['user_expiration'] = FALSE;
     $edit['roles[' . $rid . ']'] = $rid;
-    $this->submitForm("user/" . $basic_account->id() . "/edit", $edit, $this->t('Save'));
+    $this->drupalGet("user/" . $basic_account->id() . "/edit");
+    $this->submitForm($edit, $this->t('Save')->render());
     $this->assertSession()->responseContains('type="radio" id="edit-status-1" name="status" value="1" checked="checked" class="form-radio"', $this->t('User account is currently enabled.'));
 
     // Confirm there are no per-user expiration records.
@@ -126,7 +130,8 @@ class UserExpireTest extends BrowserTestBase {
 
     // Set it to expire after 90 days of inactivity.
     $edit = ['user_expire_' . $rid => 7776000];
-    $this->submitForm("admin/config/people/user-expire", $edit, $this->t('Save configuration'));
+    $this->drupalGet("admin/config/people/user-expire");
+    $this->submitForm($edit, $this->t('Save configuration')->render());
 
     // Process it.
     user_expire_expire_by_role();
@@ -140,7 +145,8 @@ class UserExpireTest extends BrowserTestBase {
 
     // Set auth users to expire after 90 days of inactivity.
     $edit = ['user_expire_' . RoleInterface::AUTHENTICATED_ID => 7776000];
-    $this->submitForm("admin/config/people/user-expire", $edit, $this->t('Save configuration'));
+    $this->drupalGet("admin/config/people/user-expire");
+    $this->submitForm($edit, $this->t('Save configuration'));
 
     // Process it.
     user_expire_expire_by_role();

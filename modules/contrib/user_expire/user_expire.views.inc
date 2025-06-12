@@ -7,6 +7,8 @@
 
 /**
  * Implements hook_views_data().
+ *
+ * {@inheritdoc}
  */
 function user_expire_views_data() {
   $data['user_expire']['table']['group'] = t('User');

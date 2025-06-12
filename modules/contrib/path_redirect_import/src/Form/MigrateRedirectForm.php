@@ -4,7 +4,7 @@ namespace Drupal\path_redirect_import\Form;
 
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\File\FileExists;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Session\AccountInterface;
@@ -77,7 +77,7 @@ class MigrateRedirectForm extends FormBase {
     MigrationPluginManagerInterface $migration_plugin_manager,
     PrivateTempStoreFactory $temp_store_factory,
     AccountInterface $current_user,
-    FileRepositoryInterface $file_repository
+    FileRepositoryInterface $file_repository,
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->migrationPluginManager = $migration_plugin_manager;
@@ -117,7 +117,7 @@ class MigrateRedirectForm extends FormBase {
       '#title' => $this->t('CSV File'),
       '#description' => $this->t('The CSV containing the redirect data in the expected format'),
       '#upload_validators' => [
-        'file_validate_extensions' => ['csv'],
+        'FileExtension' => ['csv'],
       ],
       '#upload_location' => 'temporary://path_redirect_import',
       '#weight' => 1,
@@ -284,7 +284,7 @@ class MigrateRedirectForm extends FormBase {
   protected function processSpreadsheet(int $fid) {
     /** @var \Drupal\file\Entity\File $file */
     $file = $this->entityTypeManager->getStorage('file')->load($fid);
-    return $this->fileRepository->move($file, self::MIGRATE_FILE_PATH, FileSystemInterface::EXISTS_REPLACE);
+    return $this->fileRepository->move($file, self::MIGRATE_FILE_PATH, FileExists::Replace);
   }
 
   /**

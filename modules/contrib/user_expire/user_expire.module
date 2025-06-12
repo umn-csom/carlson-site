@@ -5,13 +5,15 @@
  * Main module file for User expire module.
  */
 
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Database\Query\Condition;
+use Drupal\Core\Database\StatementInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
-use Drupal\user\RoleInterface;
-use Drupal\Core\Url;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
+use Drupal\user\RoleInterface;
+use Drupal\Component\Render\PlainTextOutput;
 
 /**
  * Implements hook_help().
@@ -36,7 +38,7 @@ function user_expire_help($route_name, RouteMatchInterface $route_match) {
 /**
  * Implements hook_user_load().
  */
-function user_expire_user_load($users) {
+function user_expire_user_load($users): void {
   foreach ($users as $uid => $user) {
     $query = \Drupal::database()->select('user_expire', 'ue');
 
@@ -53,21 +55,21 @@ function user_expire_user_load($users) {
 /**
  * Implements hook_user_login().
  */
-function user_expire_user_login($account) {
+function user_expire_user_login($account): void {
   user_expire_notify_user();
 }
 
 /**
  * Implements hook_user_cancel().
  */
-function user_expire_user_cancel($edit, $account, $method) {
+function user_expire_user_cancel($edit, $account, $method): void {
   user_expire_set_expiration($account);
 }
 
 /**
  * Implements hook_user_delete().
  */
-function user_expire_user_delete($account) {
+function user_expire_user_delete($account): void {
   user_expire_set_expiration($account);
 }
 
@@ -78,7 +80,7 @@ function user_expire_user_delete($account) {
  *
  * @see \Drupal\user\ProfileForm::form()
  */
-function user_expire_form_user_form_alter(&$form, FormStateInterface $form_state) {
+function user_expire_form_user_form_alter(&$form, FormStateInterface $form_state): void {
   if (\Drupal::currentUser()->hasPermission('set user expiration')) {
     $entity = $form_state->getFormObject()->getEntity();
 
@@ -121,7 +123,7 @@ function user_expire_form_user_form_alter(&$form, FormStateInterface $form_state
 /**
  * Submit callback for the user profile form to save the contact page setting.
  */
-function user_expire_user_profile_form_submit($form, FormStateInterface $form_state) {
+function user_expire_user_profile_form_submit($form, FormStateInterface $form_state): void {
   $account = $form_state->getFormObject()->getEntity();
   if ($account->id() && $form_state->hasValue('user_expiration_date')) {
     $account->user_expiration_date = $form_state->getValue('user_expiration_date');
@@ -135,7 +137,7 @@ function user_expire_user_profile_form_submit($form, FormStateInterface $form_st
 /**
  * Implements hook_user_insert().
  */
-function user_expire_user_insert(EntityInterface $entity) {
+function user_expire_user_insert(EntityInterface $entity): void {
   _user_expire_save($entity);
 }
 
@@ -145,7 +147,7 @@ function user_expire_user_insert(EntityInterface $entity) {
  * @param object $account
  *   A user object to modify.
  */
-function _user_expire_save($account) {
+function _user_expire_save(object $account): void {
   if (isset($account->user_expiration) && $account->user_expiration) {
     if (is_array($account->user_expiration_date) && isset($account->user_expiration_date['month'])) {
       $time_for_datetime = $account->user_expiration_date['year'] . '-' . $account->user_expiration_date['month'] . '-' . $account->user_expiration_date['day'];
@@ -168,28 +170,25 @@ function _user_expire_save($account) {
 /**
  * Implements hook_cron().
  */
-function user_expire_cron() {
-  $logger = \Drupal::logger('user_expire');
-  // Warn the per-role inactivity blocking first, in cases where they get
-  // blocked right after at least they will know why.
-  $logger->warning('Processing per role expiration warning.');
-  user_expire_expire_by_role_warning();
+function user_expire_cron(): void {
+  // Start with per-role warnings (if enabled).
+  $config = \Drupal::configFactory()->get('user_expire.settings');
+  $send_expiration_warnings = $config->get('send_expiration_warnings') ?? TRUE;
+  if ($send_expiration_warnings) {
+    user_expire_expire_by_role_warning();
+  }
 
   // Then do per-user blocking.
-  $logger->info('Processing per user expiration.');
   user_expire_process_per_user_expiration();
 
   // Then per-role inactivity blocking.
-  $logger->info('Processing per role expiration.');
   user_expire_expire_by_role();
-
-  $logger->info('Cron processing finished.');
 }
 
 /**
  * Expires users who have an expiration that has passed.
  */
-function user_expire_process_per_user_expiration() {
+function user_expire_process_per_user_expiration(): void {
   // Retrieve list of all users to be disabled.
   $query = \Drupal::database()->select('user_expire', 'ue');
 
@@ -214,11 +213,11 @@ function user_expire_process_per_user_expiration() {
  *   (Optional) An expiration time to set for the user. If this value is
  *   omitted, it will be used to reset a user's expiration time.
  */
-function user_expire_set_expiration($account, $expiration = NULL) {
+function user_expire_set_expiration(object $account, ?int $expiration = NULL): void {
   if (!empty($expiration)) {
     // If there's an expiration, save it.
     \Drupal::database()->merge('user_expire')
-      ->key(['uid' => $account->id()])
+      ->key('uid', $account->id())
       ->fields([
         'uid' => $account->id(),
         'expiration' => $expiration,
@@ -252,7 +251,7 @@ function user_expire_set_expiration($account, $expiration = NULL) {
  * @param array $accounts
  *   A set of user objects to expire.
  */
-function user_expire_expire_users(array $accounts) {
+function user_expire_expire_users(array $accounts): void {
   foreach ($accounts as $account) {
     if ($account) {
       // Block user's account.
@@ -272,7 +271,7 @@ function user_expire_expire_users(array $accounts) {
  * @param object $account
  *   A single user object to expire.
  */
-function user_expire_expire_user($account) {
+function user_expire_expire_user(object $account): void {
   user_expire_expire_users([$account]);
 }
 
@@ -282,7 +281,7 @@ function user_expire_expire_user($account) {
  * @param object $account
  *   (Optional) A user object on which to report.
  */
-function user_expire_notify_user($account = NULL) {
+function user_expire_notify_user(?object $account = NULL): void {
   $user = \Drupal::currentUser();
 
   if (is_null($account)) {
@@ -310,7 +309,7 @@ function user_expire_notify_user($account = NULL) {
 /**
  * Warns users with an upcoming expiration by roles.
  */
-function user_expire_expire_by_role_warning() {
+function user_expire_expire_by_role_warning(): void {
   $config = \Drupal::configFactory()->getEditable('user_expire.settings');
   $logger = \Drupal::logger('user_expire');
   $last_run = \Drupal::state()->get('user_expire_last_run', 0);
@@ -332,13 +331,14 @@ function user_expire_expire_by_role_warning() {
     if ($uids_to_warn) {
       foreach ($uids_to_warn as $uid) {
         $account = \Drupal::entityTypeManager()->getStorage('user')->load($uid->uid);
-        if ($account) {
+        if (!$account) {
           $logger->debug('Skipping warning @uid as it failed to load a valid user', [
             '@uid' => $uid->uid,
           ]);
         }
         else {
-          $logger->info('Warning about expiring account @name by role', ['@name' => $account->getAccountName()]);
+          // Send a notification email.
+          $logger->info('Sending warning about expiring account @name by role', ['@name' => $account->getAccountName()]);
           \Drupal::service('plugin.manager.mail')->mail('user_expire', 'expiration_warning', $account->getEmail(), $account->getPreferredLangcode(),
             [
               'account' => $account,
@@ -354,7 +354,7 @@ function user_expire_expire_by_role_warning() {
 /**
  * Expires user by roles according to rules in the database.
  */
-function user_expire_expire_by_role() {
+function user_expire_expire_by_role(): void {
   $rules = user_expire_get_role_rules();
   $logger = \Drupal::logger('user_expire');
 
@@ -380,7 +380,7 @@ function user_expire_expire_by_role() {
 /**
  * Finds users to expire by role and expiration period.
  *
- * @param int $role_id
+ * @param string $role_id
  *   The role ID to search for.
  * @param int $seconds_since_login
  *   Seconds since login. To find users *about* to expire, use a smaller number.
@@ -388,7 +388,7 @@ function user_expire_expire_by_role() {
  * @return \Drupal\Core\Database\StatementInterface|null
  *   Returns an iterator for use in a loop.
  */
-function user_expire_find_users_to_expire_by_role($role_id, $seconds_since_login) {
+function user_expire_find_users_to_expire_by_role(string $role_id, int $seconds_since_login): ?StatementInterface {
   // An inactivity period of zero means the rule is disabled for the role.
   if (empty($seconds_since_login)) {
     return NULL;
@@ -434,7 +434,7 @@ function user_expire_find_users_to_expire_by_role($role_id, $seconds_since_login
  * @return mixed
  *   An array of objects keyed by rid of rid and inactivity_period or FALSE.
  */
-function user_expire_get_role_rules() {
+function user_expire_get_role_rules(): mixed {
   $config_factory = \Drupal::configFactory();
   $config = $config_factory->get('user_expire.settings');
   return $config->get('user_expire_roles') ?: [];
@@ -443,22 +443,24 @@ function user_expire_get_role_rules() {
 /**
  * Implements hook_mail().
  */
-function user_expire_mail($key, &$message, $params) {
+function user_expire_mail($key, &$message, $params): void {
   if ($key == 'expiration_warning') {
-    $site_name = \Drupal::config('system.site')->get('name');
-    // The subject.
-    $message['subject'] = t('@site_name: Account expiration warning', ['@site_name' => $site_name]);
-    // The body.
-    $message['body'][] = t('Hello @user', ['@user' => $params['account']->getAccountName()]);
-    // An empty string gives a newline.
-    $message['body'][] = '';
-    $message['body'][] = t('Because you have not logged in recently, your account at @site_name will be blocked in the near future. If you still use this site, please log in @login_url to avoid having your account blocked.',
-      [
-        '@site_name' => $site_name,
-        '@login_url' => Url::fromRoute('entity.user.canonical', ['user' => \Drupal::currentUser()->id()], ['absolute' => TRUE]),
-      ]
-    );
-    $message['body'][] = '';
-    $message['body'][] = t('Thanks, @site_name', ['@site_name' => $site_name]);
+    $token_service = \Drupal::token();
+    $language_manager = \Drupal::languageManager();
+    $langcode = $message['langcode'];
+    $variables = ['user' => $params['account']];
+
+    $language = $language_manager->getLanguage($langcode);
+    $original_language = $language_manager->getConfigOverrideLanguage();
+    $language_manager->setConfigOverrideLanguage($language);
+
+    $config_factory = \Drupal::configFactory();
+    $config = $config_factory->get('user_expire.settings');
+
+    $token_options = ['langcode' => $langcode, 'callback' => 'user_mail_tokens', 'clear' => TRUE];
+    $message['subject'] .= PlainTextOutput::renderFromHtml($token_service->replace($config->get('expiration_warning_mail.subject'), $variables, $token_options));
+    $message['body'][] = $token_service->replace($config->get('expiration_warning_mail.body'), $variables, $token_options);
+
+    $language_manager->setConfigOverrideLanguage($original_language);
   }
 }

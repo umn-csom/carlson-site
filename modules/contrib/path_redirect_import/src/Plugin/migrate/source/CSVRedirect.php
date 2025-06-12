@@ -5,6 +5,8 @@ namespace Drupal\path_redirect_import\Plugin\migrate\source;
 use Drupal\migrate\Row;
 use Drupal\migrate_source_csv\Plugin\migrate\source\CSV;
 
+// cspell:ignore highwater Highwater
+
 /**
  * Class CSVRedirect. Reimplements source CSV.
  *
@@ -18,7 +20,7 @@ class CSVRedirect extends CSV {
   /**
    * {@inheritdoc}
    */
-  public function next() {
+  public function next(): void {
     $this->currentSourceIds = NULL;
     $this->currentRow = NULL;
 

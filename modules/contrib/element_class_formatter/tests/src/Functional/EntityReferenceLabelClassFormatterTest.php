@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\element_class_formatter\Functional;
 
 use Drupal\entity_test\Entity\EntityTest;
@@ -49,7 +51,7 @@ class EntityReferenceLabelClassFormatterTest extends ElementClassFormatterTestBa
    * @return array
    *   Test cases.
    */
-  public function providerFormatterCases() {
+  public static function providerFormatterCases() {
     return [
       'linked' => [],
       'not linked' => [FALSE, 'div'],

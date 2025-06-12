@@ -2,11 +2,11 @@
 
 namespace Drupal\http_cache_control\EventSubscriber;
 
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Site\Settings;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Drupal\Core\Site\Settings;
-use Drupal\Core\Config\ConfigFactory;
 
 /**
  * Subscriber for adding http cache control headers.
@@ -51,35 +51,47 @@ class CacheControlEventSubscriber implements EventSubscriberInterface {
       return;
     }
 
-    $ttl = $response->getMaxAge();
-
+    // Set the s-maxage directive.
     switch ($response->getStatusCode()) {
       case 404:
-        $ttl = $config->get('cache.http.404_max_age');
+        $sMaxAge = (int) $config->get('cache.http.404_max_age');
         break;
 
       case 302:
-        $ttl = $config->get('cache.http.302_max_age');
+        $sMaxAge = (int) $config->get('cache.http.302_max_age');
         break;
 
       case 301:
-        $ttl = $config->get('cache.http.301_max_age');
+        $sMaxAge = (int) $config->get('cache.http.301_max_age');
+        break;
+
+      default:
+        $sMaxAge = (int) $config->get('cache.http.s_maxage');
         break;
     }
 
-    if ($ttl != $response->getMaxAge()) {
-      $response->setClientTtl($ttl);
-      $response->setSharedMaxAge($ttl);
-    }
-    elseif ($ttl = $config->get('cache.http.s_maxage')) {
-      $response->setSharedMaxAge($ttl);
+    if ($response->getStatusCode() >= 500) {
+      $sMaxAge = (int) $config->get('cache.http.5xx_max_age');
     }
 
-    if ($response->getStatusCode() >= 500) {
-      $response->setSharedMaxAge($config->get('cache.http.5xx_max_age'));
+    if ($sMaxAge > 0 && $sMaxAge !== $response->getMaxAge() && !$response->headers->hasCacheControlDirective('s-maxage')) {
+      $response->setSharedMaxAge($sMaxAge);
     }
-    // All stale revalidation directives to be added to non-error responses.
-    elseif ($response->getStatusCode() < 400) {
+
+    // Add stale revalidation directives to non-error responses.
+    if ($response->getStatusCode() < 400) {
+      // Add must-revalidate directive.
+      if ($value = $config->get('cache.http.mustrevalidate')) {
+        $response->headers->addCacheControlDirective('must-revalidate', $value);
+      }
+      // Add no-cache directive.
+      if ($value = $config->get('cache.http.nocache')) {
+        $response->headers->addCacheControlDirective('no-cache', $value);
+      }
+      // Add no-store directive.
+      if ($value = $config->get('cache.http.nostore')) {
+        $response->headers->addCacheControlDirective('no-store', $value);
+      }
       // Add stale-if-error directive.
       if ($seconds = $config->get('cache.http.stale_if_error')) {
         $response->headers->addCacheControlDirective('stale-if-error', $seconds);
@@ -89,7 +101,7 @@ class CacheControlEventSubscriber implements EventSubscriberInterface {
         $response->headers->addCacheControlDirective('stale-while-revalidate', $seconds);
       }
 
-      // Surrogate Control.
+      // Set the Surrogate-Control header.
       $maxage = $config->get('cache.surrogate.maxage');
       $nostore = $config->get('cache.surrogate.nostore');
 
@@ -106,7 +118,7 @@ class CacheControlEventSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     // Response: set header content for security policy.
     $events[KernelEvents::RESPONSE][] = ['setHeaderCacheControl', -10];
     return $events;

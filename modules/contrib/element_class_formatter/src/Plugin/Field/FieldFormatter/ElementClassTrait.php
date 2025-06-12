@@ -6,9 +6,7 @@ use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Trait ElementClassTrait.
- *
- * @package Drupal\element_class_formatter\Plugin\Field\FieldFormatter
+ * Adds classes to #item_attributes for elements.
  */
 trait ElementClassTrait {
 
