@@ -11,6 +11,68 @@ use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
 use Drupal\Component\Utility\UrlHelper;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use kornrunner\Blurhash\Blurhash;
+
+/**
+ * Implements hook_preprocess_image().
+ */
+function carlson_refresh_preprocess_image(&$variables) {
+  $uri = $variables['uri'];
+  $src = $variables['attributes']['src'];
+  if (strpos($uri, 'http') === 0 && strpos($src, 'http') !== 0) {
+    $uri = $src;
+  }
+  // Remove 'itok' from the URI if present.
+  $parsed_url = parse_url($uri);
+  if (!empty($parsed_url['query'])) {
+    parse_str($parsed_url['query'], $query_params);
+    if (isset($query_params['itok'])) {
+      unset($query_params['itok']);
+      // Rebuild the query string without 'itok'.
+      $new_query = http_build_query($query_params);
+      $uri =
+        (isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '') .
+        (isset($parsed_url['host']) ? $parsed_url['host'] : '') .
+        (isset($parsed_url['path']) ? $parsed_url['path'] : '') .
+        (!empty($new_query) ? '?' . $new_query : '');
+    }
+  }
+  $uri = urldecode($uri);
+
+  // Remove leading slash if present to avoid issues with file_get_contents.
+  if (strpos($uri, '/') === 0 && strpos($uri, '//') !== 0) {
+    $uri = ltrim($uri, '/');
+  }
+
+  $image_data = @file_get_contents($uri);
+  $image = @imagecreatefromstring($image_data);
+
+  if (!$image instanceof \GdImage) {
+    return;
+  }
+
+  $width = imagesx($image);
+  $height = imagesy($image);
+
+  $pixels = [];
+  for ($y = 0; $y < $height; ++$y) {
+    $row = [];
+    for ($x = 0; $x < $width; ++$x) {
+      $index = imagecolorat($image, $x, $y);
+      $colors = imagecolorsforindex($image, $index);
+
+      $row[] = [$colors['red'], $colors['green'], $colors['blue']];
+    }
+    $pixels[] = $row;
+  }
+
+  $components_x = 4;
+  $components_y = 4;
+  $blurhash = Blurhash::encode($pixels, $components_x, $components_y);
+
+  $variables['attributes']['data-blurhash'] = [$blurhash];
+  $variables['#attached']['library'][] = 'carlson_refresh/blurhash';
+}
 
 /**
  * Implements hook_form_system_theme_settings_alter() for settings form.
