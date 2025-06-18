@@ -200,7 +200,7 @@ function carlson_general_update_100103() {
 
     // Create log in public files
     $public_scheme = \Drupal::service('stream_wrapper_manager')->getViaScheme('public');
-    $log_directory = $public_scheme->getDirectoryPath() . '/button_update_logs';
+    $log_directory = $public_scheme->getDirectoryPath() . '/script_logs';
 
     if (!file_exists($log_directory)) {
       mkdir($log_directory, 0755, TRUE);
@@ -215,7 +215,7 @@ function carlson_general_update_100103() {
     return t('Button style update complete. @total entities scanned, @updated entities updated. Log saved to: @log', [
       '@total' => $result['total_entities'],
       '@updated' => $result['total_updated'],
-      '@log' => $result['log_file'] ?? 'public://button_update_logs/',
+      '@log' => $result['log_file'] ?? 'public://script_logs/',
     ]);
 
   } catch (\Exception $e) {
@@ -242,7 +242,7 @@ function carlson_general_update_100104() {
 
   // Create log file in public files directory
   $public_scheme = \Drupal::service('stream_wrapper_manager')->getViaScheme('public');
-  $log_directory = $public_scheme->getDirectoryPath() . '/button_update_logs';
+  $log_directory = $public_scheme->getDirectoryPath() . '/script_logs';
 
   if (!file_exists($log_directory)) {
     mkdir($log_directory, 0755, TRUE);
