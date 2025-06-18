@@ -15,14 +15,19 @@
   'img-fluid'|clean_class,
 ]
 %}
-{# {{ dump(_context) }} #}
-{% set src = attributes.src|render %}
-{% set data_src = attributes['data-src']|render %}
-{# Load the Blazy webp thumbnail instead of the svg empty placeholder.#}
-{% if src starts with 'data:image/svg+xml;' and data_src starts with 'data:image/webp;' %}
-  {% set attributes = attributes.setAttribute('src', attributes['data-src']) %}
-  {% set attributes = attributes.setAttribute('decoding', 'auto') %}
-  {% set attributes = attributes.removeAttribute('data-src') %}
-  {% set attributes = attributes.removeAttribute('data-b-blur') %}
+{% if attributes.loading == 'eager' %}
+{% set attributes = attributes.setAttribute('fetchpriority', 'high') %}
 {% endif %}
+{% set lqip = attributes['data-lqip']|render %}
+{% if lqip %}
+<img{{ attributes.addClass(classes).removeAttribute('data-lqip') }}
+style="
+background-image: url({{ lqip }});
+background-size: cover;
+background-position: center;
+"
+onload="this.style.backgroundImage='none';"
+/>
+{% else %}
 <img{{ attributes.addClass(classes) }} />
+{% endif %}

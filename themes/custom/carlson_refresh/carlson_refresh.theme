@@ -17,61 +17,109 @@ use kornrunner\Blurhash\Blurhash;
  * Implements hook_preprocess_image().
  */
 function carlson_refresh_preprocess_image(&$variables) {
-  $uri = $variables['uri'];
-  $src = $variables['attributes']['src'];
-  if (strpos($uri, 'http') === 0 && strpos($src, 'http') !== 0) {
-    $uri = $src;
-  }
-  // Remove 'itok' from the URI if present.
-  $parsed_url = parse_url($uri);
-  if (!empty($parsed_url['query'])) {
-    parse_str($parsed_url['query'], $query_params);
-    if (isset($query_params['itok'])) {
-      unset($query_params['itok']);
-      // Rebuild the query string without 'itok'.
-      $new_query = http_build_query($query_params);
-      $uri =
-        (isset($parsed_url['scheme']) ? $parsed_url['scheme'] . '://' : '') .
-        (isset($parsed_url['host']) ? $parsed_url['host'] : '') .
-        (isset($parsed_url['path']) ? $parsed_url['path'] : '') .
-        (!empty($new_query) ? '?' . $new_query : '');
-    }
-  }
-  $uri = urldecode($uri);
 
-  // Remove leading slash if present to avoid issues with file_get_contents.
-  if (strpos($uri, '/') === 0 && strpos($uri, '//') !== 0) {
-    $uri = ltrim($uri, '/');
-  }
-
-  $image_data = @file_get_contents($uri);
-  $image = @imagecreatefromstring($image_data);
-
-  if (!$image instanceof \GdImage) {
+  // If we've already processed this image, return.
+  if (isset($variables['data_lqip'])) {
     return;
   }
 
-  $width = imagesx($image);
-  $height = imagesy($image);
-
-  $pixels = [];
-  for ($y = 0; $y < $height; ++$y) {
-    $row = [];
-    for ($x = 0; $x < $width; ++$x) {
-      $index = imagecolorat($image, $x, $y);
-      $colors = imagecolorsforindex($image, $index);
-
-      $row[] = [$colors['red'], $colors['green'], $colors['blue']];
-    }
-    $pixels[] = $row;
+  // Get the image source file URI from an arbitrary image URI.
+  $uri = $variables['uri'];
+  $source = _carlson_refresh_get_image_source_file_uri($uri);
+  if (empty($source)) {
+    return;
   }
 
-  $components_x = 4;
-  $components_y = 4;
-  $blurhash = Blurhash::encode($pixels, $components_x, $components_y);
+  // Load the 'lqip' version of the image and convert it to a data URI.
+  /** @var \Drupal\image\ImageStyleInterface $style */
+  $style = \Drupal::entityTypeManager()->getStorage('image_style')->load('lqip');
+  $destination = $style->buildUri($source);
+  // Create the derivative if it doesn't exist.
+  if (!file_exists($destination)) {
+    $style->createDerivative($source, $destination);
+  }
+  if (file_exists($destination)) {
+    $data = file_get_contents($destination);
+    $data_uri = 'data:image/webp;base64,' . base64_encode($data);
+    $variables['attributes']['data-lqip'] = [$data_uri];
+  }
+}
 
-  $variables['attributes']['data-blurhash'] = [$blurhash];
-  $variables['#attached']['library'][] = 'carlson_refresh/blurhash';
+/**
+ * Get the source file stream wrapper URI from an arbitrary image URI.
+ */
+function _carlson_refresh_get_image_source_file_uri($uri) {
+  // Remove querystring if present.
+  if (preg_match('/^([^?]+)\?/', $uri, $matches)) {
+    $uri = $matches[1];
+  }
+
+  // Strip host and base path if present.
+  if (preg_match('#^https?://[^/]+(/.*)$#', $uri, $matches)) {
+    $uri = $matches[1];
+  }
+
+  $base_path = \Drupal::request()->getBasePath();
+  if (!empty($base_path) && str_starts_with($uri, $base_path)) {
+    $uri = substr($uri, strlen($base_path));
+  }
+
+  // Remove leading slash if present.
+  if (str_starts_with($uri, '/')) {
+    $uri = substr($uri, strlen('/'));
+  }
+
+  // Extract stream wrapper scheme (public/private).
+  if (str_starts_with($uri, 'sites')) {
+    if (preg_match('#^sites/[^/]+/files/styles/[^/]+/(public|private)/#', $uri, $matches)) {
+      $scheme = $matches[1];
+      $uri = preg_replace('#^sites/[^/]+/files/styles/[^/]+/(public|private)/#', '', $uri);
+    }
+  }
+  // It is a styles path, so we extract the different parts.
+  elseif (str_starts_with($uri, 'styles')) {
+    // Then the path is like styles/[style_name]/[schema]/[original_path].
+    $uri = preg_replace('#^styles/.*/(.*)/(.*)#U', '$1://$2', $uri);
+  }
+
+  // Handle image derivative filetype conversions. Remove second of two
+  // extensions if both are image types.
+  if (preg_match('#\.(jpe?g|png|gif|webp|avif|svg)\.(webp|avif|jpe?g|png|gif|svg)$#i', $uri, $ext_matches)) {
+    // Strip the second extension
+    $uri = preg_replace('#\.(webp|avif|jpe?g|png|gif|svg)$#i', '', $uri);
+  }
+
+  // URL decode and return with stream wrapper
+  $uri = $scheme . '://' . urldecode($uri);
+
+  // Ensure the source file exists, or try to fetch via stage_file_proxy if available.
+  if (!file_exists($uri)) {
+    if (
+      \Drupal::moduleHandler()->moduleExists('stage_file_proxy') &&
+      \Drupal::config('stage_file_proxy.settings')->get('origin')
+    ) {
+      $url = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
+
+      // Use Guzzle to make a GET request to the file URL.
+      try {
+        $client = \Drupal::httpClient();
+        $client->get($url, [
+          'http_errors' => false,
+          'verify' => false,
+        ]);
+
+      } catch (\Exception $e) {
+        // Log or handle the exception as needed.
+        \Drupal::logger('carlson_refresh')->error('Error fetching file from stage_file_proxy: @message', ['@message' => $e->getMessage()]);
+        return;
+      }
+      if (file_exists($uri)) {
+        return $uri;
+      }
+    }
+    return;
+  }
+  return $uri;
 }
 
 /**
