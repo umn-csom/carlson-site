@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Drupal\Core\Url;
 use Drupal;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Drupal\Core\Extension\ModuleExtensionList;
 
 /**
  * Controller for the Carlson Scripts reports page.
@@ -25,13 +26,23 @@ class CarlsonScriptsController extends ControllerBase {
   protected $fileSystem;
 
   /**
+   * The module extension list service.
+   *
+   * @var \Drupal\Core\Extension\ModuleExtensionList
+   */
+  protected $moduleExtensionList;
+
+  /**
    * Constructs a CarlsonScriptsController object.
    *
    * @param \Drupal\Core\File\FileSystemInterface $file_system
    *   The file system service.
+   * @param \Drupal\Core\Extension\ModuleExtensionList $module_extension_list
+   *   The module extension list service.
    */
-  public function __construct(FileSystemInterface $file_system) {
+  public function __construct(FileSystemInterface $file_system, ModuleExtensionList $module_extension_list) {
     $this->fileSystem = $file_system;
+    $this->moduleExtensionList = $module_extension_list;
   }
 
   /**
@@ -39,7 +50,8 @@ class CarlsonScriptsController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('file_system')
+      $container->get('file_system'),
+      $container->get('extension.list.module')
     );
   }
 
@@ -50,7 +62,8 @@ class CarlsonScriptsController extends ControllerBase {
    *   The absolute path to the scripts directory.
    */
   protected function getScriptsDirectory() {
-    $path = \Drupal::root() . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/';
+    $module_path = $this->moduleExtensionList->getPath('carlson_general');
+    $path = $this->fileSystem->realpath($module_path . '/scripts/');
     \Drupal::logger('carlson_general')->notice('Scripts directory path: @path', ['@path' => $path]);
     return $path;
   }
@@ -76,7 +89,7 @@ class CarlsonScriptsController extends ControllerBase {
           }
           $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
           if (in_array($extension, $allowed_extensions)) {
-            $file_path = $directory . $file;
+            $file_path = "{$directory}/{$file}";
             $basename = pathinfo($file, PATHINFO_FILENAME);
             $files[] = [
               'name' => $file,
