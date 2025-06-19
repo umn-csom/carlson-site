@@ -10,6 +10,11 @@
  * - May be executed through the web interface at admin/reports/carlson-scripts
  */
 
+// --- Configuration ---
+// Set to 0 to process all rows, or set to a number > 0 to limit processing for debugging
+$debug_row_limit = 0;
+// --- End Configuration ---
+
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Path\AliasManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -91,10 +96,17 @@ $updated_entities_count = 0;
 $total_tags_converted = 0;
 $successful_replacements_for_report = [];
 $fields_checked_log = [];
+$rows_processed_in_this_run = 0;
 
 script_log("Processing " . count($csv_data) . " rows from CSV...", 'info');
 
 foreach ($csv_data as $row_index => $row) {
+    // Row limit check
+    if ($debug_row_limit > 0 && $updated_entities_count >= $debug_row_limit) {
+        script_log("Reached limit of " . $debug_row_limit . " updated entities. Stopping processing.", 'info');
+        break;
+    }
+
     if (empty($row[$url_index]) || empty($row[$html_index])) {
         script_log("Skipping CSV row " . ($row_index + 1) . " due to empty URL or HTML.", 'debug');
         continue;
@@ -200,6 +212,8 @@ foreach ($csv_data as $row_index => $row) {
     } catch (\Exception $e) {
         script_log("ERROR processing URL {$url}: " . $e->getMessage(), 'error');
     }
+
+    $rows_processed_in_this_run++;
 }
 
 /**
@@ -230,7 +244,9 @@ function convertHtmlTagsInValue($value, $html_to_find_normalized, callable $norm
             // Check if the normalized version of this found P tag matches what we are looking for
             if ($normalizeHtml($matched_p_tag_html) == $html_to_find_normalized) {
                 $actual_p_tag_html = $matched_p_tag_html; // This is the actual P tag we're replacing
-                $new_h2_tag = preg_replace('/^<p\\b([^>]*)>(.*?)</p>$/is', '<h2$1>$2</h2>', $actual_p_tag_html);
+                $new_h2_tag = preg_replace('/^<p\\b([^>]*)>(.*?)<\/p>$/is', '<h2$1>$2</h2>', $actual_p_tag_html);
+                // Replace &apos; with straight quote in the converted HTML
+                $new_h2_tag = str_replace('&apos;', "'", $new_h2_tag);
                 $output_value = substr_replace($output_value, $new_h2_tag, $actual_p_tag_start_in_output, strlen($actual_p_tag_html));
                 $replacements++;
                 $replaced_html_pairs[] = ['original' => $actual_p_tag_html, 'new' => $new_h2_tag];
@@ -276,52 +292,79 @@ if (!empty($successful_replacements_for_report)) {
         $by_url[$url_key][] = $report_item;
     }
 
+    // Start single table
+    $report_html .= "<table border='1' cellpadding='10' cellspacing='0' style='width:100%; margin-bottom:20px; border-collapse:collapse;'>\n";
+    $report_html .= "<thead>\n";
+    $report_html .= "<tr style='background:#f0f0f0;'>\n";
+    $report_html .= "<th style='width:8%;'>#</th>\n";
+    $report_html .= "<th style='width:22%;'>Field Info</th>\n";
+    $report_html .= "<th style='width:25%;'>Original HTML</th>\n";
+    $report_html .= "<th style='width:25%;'>Converted HTML</th>\n";
+    $report_html .= "<th style='width:20%;'>Rendered Content</th>\n";
+    $report_html .= "</tr>\n";
+    $report_html .= "</thead>\n";
+    $report_html .= "<tbody>\n";
+
     foreach ($by_url as $url_val => $replacements_in_url) {
-        $report_html .= "<h2>URL: " . htmlspecialchars($url_val) . "</h2>\n";
+        // Get the current domain from the request
+        $current_domain = \Drupal::request()->getHost();
+        $url_parts = parse_url($url_val);
+        $path = $url_parts['path'] ?? '';
+        $full_url = 'https://' . $current_domain . $path;
+
+        // URL row
+        $report_html .= "<tr style='background:#e6e6e6;'>\n";
+        $report_html .= "<td colspan='5'><a href='" . htmlspecialchars($full_url) . "' target='_blank'>" .
+                       htmlspecialchars($full_url) . "</a></td>\n";
+        $report_html .= "</tr>\n";
+
+        static $url_count = 0;
+        $url_count++;
+        $instance_count = 0; // Reset instance counter for each URL
+
         foreach ($replacements_in_url as $item_index => $report_item) {
-            $report_html .= "<h3>Field: " . htmlspecialchars($report_item['field_name']) . " (Entity: " . $report_item['entity_type'] . " #" . $report_item['entity_id'] . ($report_item['entity_type'] == 'paragraph' ? " Type: " . $report_item['paragraph_bundle'] : "") . ") - ".$report_item['replacements_count_in_field']." replacements</h3>\n";
-
             foreach($report_item['replaced_pairs'] as $pair_index => $pair) {
-                $report_html .= "<h4>Replacement Instance #" . ($pair_index + 1) . " in field</h4>\n";
-                // Before/After comparison with actual rendered HTML
-                $report_html .= "<div style='display:flex; margin-bottom:20px;'>\n";
+                $instance_count++; // Increment instance counter
+                $report_html .= "<tr>\n";
 
-                // BEFORE - original p tag (rendered as HTML)
-                $report_html .= "<div style='flex:1; padding:10px; background:#f5f5f5; border:1px solid #ddd; margin-right:10px;'>\n";
-                $report_html .= "<h5>Original HTML (rendered):</h5>\n";
-                $report_html .= $pair['original'] . "\n";
-                $report_html .= "</div>\n";
+                // Replacement number column with decimal system (URL.instance)
+                $report_html .= "<td style='text-align:center;'><strong>{$url_count}.{$instance_count}</strong></td>\n";
 
-                // AFTER - new h2 tag (rendered as HTML)
-                $report_html .= "<div style='flex:1; padding:10px; background:#e9f7e9; border:1px solid #cde6cd;'>\n";
-                $report_html .= "<h5>Replaced with (rendered):</h5>\n";
-                $report_html .= $pair['new'] . "\n";
-                $report_html .= "</div>\n";
-                $report_html .= "</div>\n";
+                // Field info column
+                $report_html .= "<td>";
+                // Format: entity_type.bundle[id].field
+                $report_html .= '<code class="nowrap">' . $report_item['entity_type'] . "</code><wbr/><code class='nowrap'>";
+                if ($report_item['entity_type'] == 'paragraph') {
+                    $report_html .= '.' . $report_item['paragraph_bundle'];
+                }
+                $report_html .= '[' . $report_item['entity_id'] . ']</code><wbr/>';
+                $report_html .= '<code class="nowrap">.' . $report_item['field_name'] . '</code>';
+                $report_html .= "</td>\n";
 
-                // Plain text version for comparison
-                $report_html .= "<details>\n";
-                $report_html .= "<summary>Show HTML code</summary>\n";
-                $report_html .= "<div style='display:flex; margin-bottom:20px;'>\n";
+                // Original HTML column
+                $report_html .= "<td>\n";
+                $report_html .= "<pre class='color-error'>" .
+                               htmlspecialchars($pair['original']) . "</pre>\n";
+                $report_html .= "</td>\n";
 
-                // BEFORE - original HTML as code
-                $report_html .= "<div style='flex:1; padding:10px; background:#f5f5f5; border:1px solid #ddd; margin-right:10px;'>\n";
-                $report_html .= "<h6>Original HTML (code):</h6>\n";
-                $report_html .= "<pre>" . htmlspecialchars($pair['original']) . "</pre>\n";
-                $report_html .= "</div>\n";
+                // Converted HTML column
+                $report_html .= "<td>\n";
+                $report_html .= "<pre class='color-success'>" .
+                               htmlspecialchars($pair['new']) . "</pre>\n";
+                $report_html .= "</td>\n";
 
-                // AFTER - new HTML as code
-                $report_html .= "<div style='flex:1; padding:10px; background:#e9f7e9; border:1px solid #cde6cd;'>\n";
-                $report_html .= "<h6>Replaced with (code):</h6>\n";
-                $report_html .= "<pre>" . htmlspecialchars($pair['new']) . "</pre>\n";
-                $report_html .= "</div>\n";
+                // Rendered content column
+                $report_html .= "<td>\n";
+                $report_html .= "<code>" . htmlspecialchars(strip_tags($pair['new'])) . "</code>\n";
+                $report_html .= "</td>\n";
 
-                $report_html .= "</div>\n";
-                $report_html .= "</details>\n";
+                $report_html .= "</tr>\n";
             }
-             $report_html .= "<hr>\n";
         }
     }
+
+    $report_html .= "</tbody>\n";
+    $report_html .= "</table>\n";
 
 } else {
     $report_html .= "<p>No p tags were converted or no replacements made it to the report.</p>";
