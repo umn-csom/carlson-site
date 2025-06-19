@@ -557,7 +557,7 @@ if ($total_updated > 0) {
 }
 
 $final_summary_message = sprintf(
-  "Button style update complete. Total entities scanned: %d. Total entities updated: %d.",
+  "CSM-295: Button style consolidation complete. Total entities scanned: %d. Total entities updated: %d.",
   $total_entities,
   $total_updated
 );

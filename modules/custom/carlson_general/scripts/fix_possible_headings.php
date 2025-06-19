@@ -370,7 +370,7 @@ $execution_time = microtime(true) - $start_time;
 script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 
 $final_summary_message = sprintf(
-    "Heading analysis script completed. URLs processed: %d. Nodes with fixes: %d. Total issues fixed: %d.",
+    "CSM-247: Fix skipped heading levels complete. URLs processed: %d. Nodes with fixes: %d. Total issues fixed: %d.",
     count($urls),
     $successful_fixes_nodes_count,
     $total_heading_issues_fixed

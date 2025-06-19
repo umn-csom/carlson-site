@@ -229,7 +229,7 @@ script_log("Image title attribute removal script finished.", 'info');
 script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 
 $final_summary_message = sprintf(
-    "Entities checked: %d. Entities updated: %d. Total title attributes removed: %d.",
+    "CSM-231: Removal of img title attributes complete. Entities checked: %d. Entities updated: %d. Total title attributes removed: %d.",
     $processed_entities_count,
     $updated_entities_count,
     $total_title_attributes_removed
