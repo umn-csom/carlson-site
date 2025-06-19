@@ -44,7 +44,7 @@ $report_file_uri = "public://script_logs/{$report_filename}";
 $report_file_path = \Drupal::service('file_system')->realpath($report_file_uri);
 // --- End Script Initialization ---
 
-script_log("Starting button style update script...", 'info');
+script_log("CSM-295: Starting button style update script...", 'info');
 script_log("Log: {$log_file_path}", 'info');
 script_log("Report: {$report_file_path}", 'info');
 

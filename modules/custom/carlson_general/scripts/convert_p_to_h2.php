@@ -32,7 +32,7 @@ $report_filename = "{$script_name}_{$datetime_suffix}_report.html";
 $report_file_uri = "public://script_logs/{$report_filename}";
 // --- End Script Initialization ---
 
-script_log("Starting P to H2 conversion script ({$script_name}).", 'info');
+script_log("CSM-248: Starting P to H2 conversion script ({$script_name}).", 'info');
 script_log("Log: {$log_file_uri}", 'info');
 script_log("Report: {$report_file_uri}", 'info');
 

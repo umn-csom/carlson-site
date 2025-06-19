@@ -43,7 +43,7 @@ $entity_type_manager = \Drupal::service('entity_type.manager');
 /** @var \Drupal\Core\File\FileSystemInterface $file_system */
 $file_system = \Drupal::service('file_system');
 
-script_log("Starting heading analysis script ({$script_name}).", 'info');
+script_log("CSM-247: Starting heading analysis script ({$script_name}).", 'info');
 script_log("Log: {$log_file_path}", 'info');
 
 // CSV Path and Fix Mode
