@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Comprehensive script to update ALL button styles across the entire Drupal site
- * CSM-295: Replace old button styles with new consolidated ones
+ * @file
+ * CSM-295: Consolidate button styles across all content types.
  *
- * This single script handles ALL cases including:
+ * This script handles ALL cases including:
  * - Fields with text formats
  * - Plain text_long fields
  * - String_long fields
@@ -13,8 +13,10 @@
  * - Any field that might contain HTML with button classes
  *
  * Usage:
- *   ddev drush scr docroot/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/update_all_button_styles_comprehensive.php
- *   DRY_RUN=1 ddev drush scr docroot/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/update_all_button_styles_comprehensive.php
+ * - drush scr path/to/update_all_button_styles_comprehensive.php
+ * - DRY_RUN=1 drush scr path/to/update_all_button_styles_comprehensive.php
+ * - May also be included by an update hook.
+ * - May be executed through the web interface at admin/reports/carlson-scripts
  */
 
 use Drupal\Core\Database\Database;

@@ -1,10 +1,13 @@
 <?php
 
 /**
- * Script to detect and fix heading structure issues from a CSV list of URLs.
+ * @file
+ * CSM-247: Fix skipped heading levels from a CSV list of URLs.
  *
- * Usage: drush scr fix_possible_headings.php [--dry-run]
- * The CSV path is currently hardcoded in this script.
+ * Usage:
+ * - drush scr path/to/fix_possible_headings.php [--dry-run]
+ * - May also be included by an update hook.
+ * - May be executed through the web interface at admin/reports/carlson-scripts
  */
 
 use Drupal\Core\File\FileSystemInterface;

@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Standalone Drupal script to remove title attributes from img tags in WYSIWYG fields.
+ * @file
+ * CSM-231: Remove title attributes from img tags in WYSIWYG fields.
  *
  * Usage:
- * - drush scr modules/custom/carlson_general/scripts/remove_img_title_attributes.php
+ * - drush scr path/to/remove_img_title_attributes.php
  * - May also be included by an update hook.
+ * - May be executed through the web interface at admin/reports/carlson-scripts
  */
 
 use Drupal\Core\Database\Connection;

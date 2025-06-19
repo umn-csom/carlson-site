@@ -2,11 +2,12 @@
 
 /**
  * @file
- * Script to update button classes in menu link attributes.
- * CSM-295: Replace old button styles with new consolidated ones in menu links.
+ * CSM-295: Update button classes in menu link attributes.
  *
  * Usage:
- *   ddev drush scr docroot/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/update_menu_link_button_styles.php
+ * - drush scr path/to/update_menu_link_button_styles.php
+ * - May also be included by an update hook.
+ * - May be executed through the web interface at admin/reports/carlson-scripts
  */
 
 use Drupal\Core\Database\Database;
