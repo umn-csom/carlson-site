@@ -163,7 +163,9 @@ foreach ($urls as $index => $item) {
 }
 
 // Summary logging
-script_log("\n--- SCRIPT SUMMARY ---", 'info');
+script_log(str_repeat('=', 80), 'info');
+script_log("--- SCRIPT SUMMARY ---", 'info');
+script_log(str_repeat('=', 80), 'info');
 script_log("Total URLs from CSV: " . count($urls), 'info');
 script_log("Nodes processed: {$processed_nodes_count}", 'info');
 script_log("Nodes where heading issues were fixed: {$successful_fixes_nodes_count}", 'info');
