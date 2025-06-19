@@ -6,12 +6,23 @@
  */
 
 /**
- * Get the path to a script in the carlson_general module.
+ * Execute a script in the carlson_general module.
+ *
+ * The script is expected to return a string like:
+ *     Summary of changes or error message.
+ *     Log: /path/to/[scriptname]_[datetime].log
+ *     Report: /path/to/[scriptname]_[datetime]_report.csv
  *
  * @param string $script_name
- * @return string|false
+ *   The name of the script to execute.
+ *
+ * @return string
+ *   The result string from the script.
+ *
+ * @throws \Exception
+ *   If the script fails, the update hook will fail.
  */
-function _carlson_general_get_script_path($script_name) {
+function _carlson_general_run_script($script_name) {
   $module_path = \Drupal::service('extension.list.module')->getPath('carlson_general');
   $script_path = $module_path . '/scripts/' . $script_name;
 
@@ -24,72 +35,27 @@ function _carlson_general_get_script_path($script_name) {
     throw new \Exception($error_message);
   }
 
-  return $script_path;
+  $result_string = include $script_path;
+
+  if (
+    strpos(strtolower($result_string), 'error') !== false
+    || strpos(strtolower($result_string), 'failed') !== false
+  ) {
+    throw new \Exception($result_string);
+  }
+
+  return $result_string;
 }
 
 /**
  * CSM-213: Copy missing alt text to media thumbnail from media image field.
  */
 function carlson_general_update_100101() {
-  // Set a longer execution time if needed, though this script should be relatively quick.
-  // ini_set('max_execution_time', 300);
+  // Set a longer execution time
+  // ini_set('max_execution_time', 300); // 5 minutes
 
   $script_name = 'alt_text_sync.php';
-  $script_path = _carlson_general_get_script_path($script_name);
-
-  $summary_message = '';
-  $log_file_path_message = '';
-
-  try {
-    \Drupal::logger('carlson_general')->notice('Starting execution of @script_name via update hook...', ['@script_name' => $script_name]);
-
-    $result_string = include $script_path;
-
-    \Drupal::logger('carlson_general')->notice('Finished running @script_name. Result: @result', [
-      '@script_name' => $script_name,
-      '@result' => $result_string,
-    ]);
-
-    if (is_string($result_string)) {
-        if (strpos($result_string, "Detailed log:") !== false) {
-            list($summary_message, $log_file_path_message) = explode("Detailed log:", $result_string, 2);
-            $summary_message = trim($summary_message);
-            $log_file_path_message = trim($log_file_path_message);
-        } else {
-            $summary_message = $result_string;
-        }
-    }
-
-    if (strpos(strtolower($summary_message), 'error') !== false || strpos(strtolower($summary_message), 'failed') !== false) {
-      \Drupal::logger('carlson_general')->error('Error reported by @script_name: @summary. Log: @log', [
-        '@script_name' => $script_name,
-        '@summary' => $summary_message,
-        '@log' => $log_file_path_message,
-      ]);
-      $ui_message = t('Error running @script: @summary. Check logs. Log: @log', [
-        '@script' => $script_name,
-        '@summary' => $summary_message,
-        '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-      ]);
-       return $ui_message;
-    }
-
-    $ui_message = t('Successfully executed @script. @summary. Log: @log', [
-      '@script' => $script_name,
-      '@summary' => $summary_message,
-      '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-    ]);
-    return $ui_message;
-
-  } catch (\Exception $e) {
-    $error_message = t('Exception while running @script: @error. Log: @log', [
-      '@script' => $script_name,
-      '@error' => $e->getMessage(),
-      '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-    ]);
-    \Drupal::logger('carlson_general')->error($error_message);
-    return $error_message;
-  }
+  return _carlson_general_run_script($script_name);
 }
 
 /**
@@ -97,72 +63,10 @@ function carlson_general_update_100101() {
  */
 function carlson_general_update_100102() {
   // Set a longer execution time
-  ini_set('max_execution_time', 1800);
+  ini_set('max_execution_time', 1800); // 30 minutes
 
   $script_name = 'fix_fragmented_links.php';
-  $script_path = _carlson_general_get_script_path($script_name);
-
-  $summary_message = '';
-  $log_file_path_message = '';
-
-  try {
-    $start_time = microtime(true);
-    \Drupal::logger('carlson_general')->notice('Starting execution of @script_name via update hook...', ['@script_name' => $script_name]);
-
-    // Include the script. It will handle its own detailed logging.
-    // The script is expected to return a string like: "Script completed. ... Detailed log: /path/to/log.txt"
-    $result_string = include $script_path;
-
-    $execution_time = microtime(true) - $start_time;
-    \Drupal::logger('carlson_general')->notice('Finished running @script_name in @time seconds. Result: @result', [
-      '@script_name' => $script_name,
-      '@time' => round($execution_time, 2),
-      '@result' => $result_string,
-    ]);
-
-    // Parse the result string to get summary and log file path
-    if (is_string($result_string)) {
-        if (strpos($result_string, "Detailed log:") !== false) {
-            list($summary_message, $log_file_path_message) = explode("Detailed log:", $result_string, 2);
-            $summary_message = trim($summary_message);
-            $log_file_path_message = trim($log_file_path_message);
-        } else {
-            // If the script failed very early, it might just return an error string
-            $summary_message = $result_string;
-        }
-    }
-
-    if (strpos(strtolower($summary_message), 'error') !== false || strpos(strtolower($summary_message), 'failed') !== false) {
-      \Drupal::logger('carlson_general')->error('Error reported by @script_name: @summary. Log: @log', [
-        '@script_name' => $script_name,
-        '@summary' => $summary_message,
-        '@log' => $log_file_path_message,
-      ]);
-      // Return a message suitable for the update UI
-      $ui_message = t('Error running @script: @summary. Check logs for details. Log file: @log', [
-        '@script' => $script_name,
-        '@summary' => $summary_message,
-        '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-      ]);
-       return $ui_message;
-    }
-
-    $ui_message = t('Successfully executed @script. @summary. Log file: @log', [
-      '@script' => $script_name,
-      '@summary' => $summary_message,
-      '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-    ]);
-    return $ui_message;
-
-  } catch (\Exception $e) {
-    $error_message = t('Exception while running @script: @error. Log: @log', [
-      '@script' => $script_name,
-      '@error' => $e->getMessage(),
-      '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-    ]);
-    \Drupal::logger('carlson_general')->error($error_message);
-    return $error_message;
-  }
+  return _carlson_general_run_script($script_name);
 }
 
 /**
@@ -172,60 +76,8 @@ function carlson_general_update_100103() {
   // Set a longer execution time
   ini_set('max_execution_time', 3600); // 1 hour
 
-  // Get the script path
   $script_name = 'update_button_styles_batch_api_public.php';
-  $script_path = _carlson_general_get_script_path($script_name);
-
-  try {
-    // Start timing
-    $start_time = microtime(true);
-
-    // Disable memory limit
-    ini_set('memory_limit', '-1');
-
-    \Drupal::logger('carlson_general')->notice('Starting button style update script...');
-
-    // Make sure the script functions are available
-    require_once $script_path;
-
-    // Run the update (not a dry run)
-    $result = runButtonStyleUpdate(FALSE);
-
-    $execution_time = microtime(true) - $start_time;
-
-    // Log results
-    \Drupal::logger('carlson_general')->notice('Finished button style update in @time seconds', [
-      '@time' => round($execution_time, 2),
-    ]);
-
-    // Create log in public files
-    $public_scheme = \Drupal::service('stream_wrapper_manager')->getViaScheme('public');
-    $log_directory = $public_scheme->getDirectoryPath() . '/script_logs';
-
-    if (!file_exists($log_directory)) {
-      mkdir($log_directory, 0755, TRUE);
-    }
-
-    \Drupal::logger('carlson_general')->notice('Button style update complete. @total entities scanned, @updated updated. Log file: @log', [
-      '@total' => $result['total_entities'],
-      '@updated' => $result['total_updated'],
-      '@log' => $result['log_file'] ?? 'Not generated',
-    ]);
-
-    return t('Button style update complete. @total entities scanned, @updated entities updated. Log saved to: @log', [
-      '@total' => $result['total_entities'],
-      '@updated' => $result['total_updated'],
-      '@log' => $result['log_file'] ?? 'public://script_logs/',
-    ]);
-
-  } catch (\Exception $e) {
-    \Drupal::logger('carlson_general')->error('Error running button update script: @error', [
-      '@error' => $e->getMessage(),
-    ]);
-    return t('Error occurred while running the button update script: @error', [
-      '@error' => $e->getMessage(),
-    ]);
-  }
+  return _carlson_general_run_script($script_name);
 }
 
 /**
@@ -235,228 +87,8 @@ function carlson_general_update_100104() {
   // Set a longer execution time
   ini_set('max_execution_time', 1800); // 30 minutes
 
-  // Get database connection
-  $database = \Drupal::database();
-
-  // Create log file in public files directory
-  $public_scheme = \Drupal::service('stream_wrapper_manager')->getViaScheme('public');
-  $log_directory = $public_scheme->getDirectoryPath() . '/script_logs';
-
-  if (!file_exists($log_directory)) {
-    mkdir($log_directory, 0755, TRUE);
-  }
-
-  $log_file = $log_directory . '/menu_link_class_update_' . date('Y-m-d_H-i-s') . '.log';
-
-  // Start timing
-  $start_time = microtime(true);
-
-  \Drupal::logger('carlson_general')->notice('Starting menu link button class update...');
-
-  // Get button style mappings from the existing update script
-  $button_mappings = [
-    // Original single class mappings
-    'button-link-primary' => 'btn btn-primary',
-    'button-link-secondary' => 'btn btn-primary',
-    'btn-link-primary' => 'btn btn-primary',
-    'btn-link-secondary' => 'btn btn-primary',
-    'maroon-solid-button' => 'btn btn-primary',
-    'btn-primary--maroon' => 'btn btn-primary',
-    'maroon-underline-button' => 'btn btn-primary',
-    'gold-solid-button' => 'btn btn-secondary',
-    'btn-primary--gold' => 'btn btn-secondary',
-    'btn-primary--yellow' => 'btn btn-secondary',
-    'btn-gold' => 'btn btn-secondary',
-    'gold-underline-button' => 'btn btn-secondary',
-    'maroon-outline-button' => 'btn btn-outline-primary',
-    'gold-outline-button' => 'btn btn-outline-secondary',
-    'btn-cta' => '',
-    'program-features__btn' => 'btn btn-primary',
-
-    // Compound class mappings
-    'btn btn-link-primary' => 'btn btn-primary',
-    'btn btn-link-secondary' => 'btn btn-primary',
-    'btn-sm btn-link-primary' => 'btn btn-sm btn-primary',
-    'btn-sm btn-link-secondary' => 'btn btn-sm btn-primary',
-    'btn-lg btn-link-primary' => 'btn btn-lg btn-primary',
-    'btn-lg btn-link-secondary' => 'btn btn-lg btn-primary',
-  ];
-
-  // Find menu links with button classes
-  $button_classes = array_keys($button_mappings);
-  $query = $database->select('menu_link_content_data', 'm')
-    ->fields('m', ['id', 'title', 'menu_name', 'link__options'])
-    ->condition('link__options', '%' . $database->escapeLike('class') . '%', 'LIKE');
-
-  $or_condition = $query->orConditionGroup();
-  foreach ($button_classes as $class) {
-    $or_condition->condition('link__options', '%' . $database->escapeLike($class) . '%', 'LIKE');
-  }
-  $query->condition($or_condition);
-  $results = $query->execute()->fetchAll();
-
-  $total_links = count($results);
-  $updated_count = 0;
-  $log_entries = [];
-
-  \Drupal::logger('carlson_general')->notice('Found @count menu links with potential button classes to update.', [
-    '@count' => $total_links,
-  ]);
-
-  // Get entity type manager to load/save entities properly
-  $entity_type_manager = \Drupal::entityTypeManager();
-  $menu_link_storage = $entity_type_manager->getStorage('menu_link_content');
-
-  foreach ($results as $link) {
-    $id = $link->id;
-    $title = $link->title;
-    $menu_name = $link->menu_name;
-    $options = unserialize($link->link__options);
-
-    $original_options = $options;
-    $updated = false;
-
-    // Check if there are classes in attributes
-    if (isset($options['attributes']['class']) && is_array($options['attributes']['class'])) {
-      $classes = $options['attributes']['class'];
-      $new_classes = [];
-
-      foreach ($classes as $idx => $class) {
-        // Check single classes
-        if (isset($button_mappings[$class])) {
-          $updated = true;
-          $mapping = $button_mappings[$class];
-
-          if (empty($mapping)) {
-            // Remove the class
-            unset($classes[$idx]);
-            $log_entries[] = sprintf(
-              'Menu link #%d "%s" (%s): Removed class "%s"',
-              $id,
-              $title,
-              $menu_name,
-              $class
-            );
-          } else {
-            // Replace with new class(es)
-            $new_class_parts = explode(' ', $mapping);
-            foreach ($new_class_parts as $new_class) {
-              if (!in_array($new_class, $new_classes)) {
-                $new_classes[] = $new_class;
-              }
-            }
-            unset($classes[$idx]);
-            $log_entries[] = sprintf(
-              'Menu link #%d "%s" (%s): Replaced "%s" with "%s"',
-              $id,
-              $title,
-              $menu_name,
-              $class,
-              $mapping
-            );
-          }
-        } else {
-          // Keep original class if no mapping
-          $new_classes[] = $class;
-        }
-      }
-
-      // Check compound classes (e.g., "btn btn-link-primary")
-      $combined_class = implode(' ', $classes);
-      foreach ($button_mappings as $old_compound => $new_compound) {
-        if (strpos($old_compound, ' ') !== false && strpos($combined_class, $old_compound) !== false) {
-          $updated = true;
-          $compound_parts = explode(' ', $old_compound);
-
-          // Remove all parts of the compound class
-          foreach ($compound_parts as $part) {
-            $key = array_search($part, $new_classes);
-            if ($key !== false) {
-              unset($new_classes[$key]);
-            }
-          }
-
-          // Add new compound class parts
-          if (!empty($new_compound)) {
-            $new_parts = explode(' ', $new_compound);
-            foreach ($new_parts as $new_part) {
-              if (!in_array($new_part, $new_classes)) {
-                $new_classes[] = $new_part;
-              }
-            }
-          }
-
-          $log_entries[] = sprintf(
-            'Menu link #%d "%s" (%s): Replaced compound "%s" with "%s"',
-            $id,
-            $title,
-            $menu_name,
-            $old_compound,
-            $new_compound
-          );
-        }
-      }
-
-      // Update the options with new classes
-      if ($updated) {
-        $options['attributes']['class'] = array_values($new_classes);
-
-        // Try both approaches: direct DB update and entity save
-        // 1. Direct DB update
-        $database->update('menu_link_content_data')
-          ->fields([
-            'link__options' => serialize($options),
-          ])
-          ->condition('id', $id)
-          ->execute();
-
-        // 2. Load and save the entity properly to ensure caches are cleared
-        try {
-          $menu_link_entity = $menu_link_storage->load($id);
-          if ($menu_link_entity) {
-            // Update the link options in the entity
-            $menu_link_entity->link->first()->options = $options;
-            $menu_link_entity->save();
-          }
-        }
-        catch (\Exception $e) {
-          \Drupal::logger('carlson_general')->error('Error updating menu link entity #@id: @error', [
-            '@id' => $id,
-            '@error' => $e->getMessage(),
-          ]);
-        }
-
-        $updated_count++;
-      }
-    }
-  }
-
-  // Write log entries to the log file
-  if (!empty($log_entries)) {
-    file_put_contents($log_file, implode("\n", $log_entries));
-  }
-
-  // For good measure, clear all relevant caches
-  \Drupal::service('cache_tags.invalidator')->invalidateTags(['menu', 'rendered']);
-
-  $execution_time = microtime(true) - $start_time;
-
-  // Log results
-  \Drupal::logger('carlson_general')->notice('Finished menu link button class update in @time seconds', [
-    '@time' => round($execution_time, 2),
-  ]);
-
-  \Drupal::logger('carlson_general')->notice('Menu link button class update complete. @total links processed, @updated updated. Log file: @log', [
-    '@total' => $total_links,
-    '@updated' => $updated_count,
-    '@log' => $log_file,
-  ]);
-
-  return t('Menu link button class update complete. @total links processed, @updated links updated. Log saved to: @log', [
-    '@total' => $total_links,
-    '@updated' => $updated_count,
-    '@log' => $log_file,
-  ]);
+  $script_name = 'update_menu_link_button_styles.php';
+  return _carlson_general_run_script($script_name);
 }
 
 /**
@@ -466,77 +98,7 @@ function carlson_general_update_100105() {
   ini_set('max_execution_time', 1800); // 30 minutes
 
   $script_name = 'fix_possible_headings.php';
-  $script_path = _carlson_general_get_script_path($script_name);
-
-  // The script now handles its own fix_mode detection if run from CLI.
-  // When included by the update hook, it defaults to fix_mode = true.
-  // $_SERVER['argv'] manipulation is no longer needed here.
-
-  $summary_message = '';
-  $log_file_path_message = '';
-  $report_file_path_message = '';
-
-  try {
-    \Drupal::logger('carlson_general')->notice('Starting execution of @script_name via update hook for heading analysis...', ['@script_name' => $script_name]);
-
-    // The script returns a string like: "Summary... Detailed operations log: /path/to/log.txt Fixes report: /path/to/report.csv"
-    $result_string = include $script_path;
-
-    \Drupal::logger('carlson_general')->notice('Finished running @script_name for heading analysis. Result: @result', [
-      '@script_name' => $script_name,
-      '@result' => $result_string,
-    ]);
-
-    // Parse the result string
-    if (is_string($result_string)) {
-        if (strpos($result_string, "Detailed operations log:") !== false) {
-            list($summary_part, $log_part) = explode("Detailed operations log:", $result_string, 2);
-            $summary_message = trim($summary_part);
-            if (strpos($log_part, "Fixes report:") !== false) {
-                list($log_file_path_message, $report_file_path_message) = explode("Fixes report:", $log_part, 2);
-                $log_file_path_message = trim($log_file_path_message);
-                $report_file_path_message = trim($report_file_path_message);
-            } else {
-                $log_file_path_message = trim($log_part);
-            }
-        } else {
-            $summary_message = $result_string; // Script might have failed early
-        }
-    }
-
-    if (strpos(strtolower($summary_message), 'error') !== false || strpos(strtolower($summary_message), 'failed') !== false) {
-      \Drupal::logger('carlson_general')->error('Error reported by @script_name: @summary. Log: @log. Report: @report', [
-        '@script_name' => $script_name,
-        '@summary' => $summary_message,
-        '@log' => $log_file_path_message,
-        '@report' => $report_file_path_message,
-      ]);
-      $ui_message = t('Error running @script: @summary. Check logs. Log: @log. Report: @report', [
-        '@script' => $script_name,
-        '@summary' => $summary_message,
-        '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-        '@report' => $report_file_path_message ? $report_file_path_message : '(not available)',
-      ]);
-       return $ui_message;
-    }
-
-    $ui_message = t('Successfully executed @script. @summary. Log: @log. Report: @report', [
-      '@script' => $script_name,
-      '@summary' => $summary_message,
-      '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-      '@report' => $report_file_path_message ? $report_file_path_message : '(not available)',
-    ]);
-    return $ui_message;
-
-  } catch (\Exception $e) {
-    $error_message = t('Exception while running @script for heading analysis: @error. Log: @log', [
-      '@script' => $script_name,
-      '@error' => $e->getMessage(),
-      '@log' => $log_file_path_message ? $log_file_path_message : '(details not available)',
-    ]);
-    \Drupal::logger('carlson_general')->error($error_message);
-    return $error_message;
-  }
+  return _carlson_general_run_script($script_name);
 }
 
 /**
@@ -547,63 +109,7 @@ function carlson_general_update_100106() {
   ini_set('max_execution_time', 1800);  // 30 minutes
 
   $script_name = 'remove_img_title_attributes.php';
-  $script_path = _carlson_general_get_script_path($script_name);
-
-  $summary_message = '';
-  $log_file_path_message = '';
-
-  try {
-    \Drupal::logger('carlson_general')->notice('Starting execution of @script_name via update hook...', ['@script_name' => $script_name]);
-
-    // Include the script. It will handle its own detailed logging and return a summary string.
-    $result_string = include $script_path;
-
-    \Drupal::logger('carlson_general')->notice('Finished running @script_name. Result: @result', [
-      '@script_name' => $script_name,
-      '@result' => $result_string,
-    ]);
-
-    // Parse the result string to get summary and log file path
-    if (is_string($result_string)) {
-        if (strpos($result_string, "Detailed log:") !== false) {
-            list($summary_message, $log_file_path_message) = explode("Detailed log:", $result_string, 2);
-            $summary_message = trim($summary_message);
-            $log_file_path_message = trim($log_file_path_message);
-        } else {
-            $summary_message = $result_string; // Script might have failed early or had an issue returning the log path
-        }
-    }
-
-    if (strpos(strtolower($summary_message), 'error') !== false || strpos(strtolower($summary_message), 'failed') !== false) {
-      \Drupal::logger('carlson_general')->error('Error reported by @script_name: @summary. Log: @log', [
-        '@script_name' => $script_name,
-        '@summary' => $summary_message,
-        '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-      ]);
-      $ui_message = t('Error running @script: @summary. Check logs. Log: @log', [
-        '@script' => $script_name,
-        '@summary' => $summary_message,
-        '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-      ]);
-       return $ui_message;
-    }
-
-    $ui_message = t('Successfully executed @script. @summary. Log: @log', [
-      '@script' => $script_name,
-      '@summary' => $summary_message,
-      '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-    ]);
-    return $ui_message;
-
-  } catch (\Exception $e) {
-    $error_message = t('Exception while running @script: @error. Log: @log', [
-      '@script' => $script_name,
-      '@error' => $e->getMessage(),
-      '@log' => $log_file_path_message ? $log_file_path_message : '(details not available)',
-    ]);
-    \Drupal::logger('carlson_general')->error($error_message);
-    return $error_message;
-  }
+  return _carlson_general_run_script($script_name);
 }
 
 /**
@@ -614,73 +120,5 @@ function carlson_general_update_100107() {
   ini_set('max_execution_time', 1800);
 
   $script_name = 'convert_p_to_h2.php';
-  $script_path = _carlson_general_get_script_path($script_name);
-
-  $summary_message = '';
-  $log_file_path_message = '';
-  $report_file_path_message = ''; // For the HTML report
-
-  try {
-    \Drupal::logger('carlson_general')->notice('Starting execution of @script_name via update hook for P to H2 conversion...', ['@script_name' => $script_name]);
-
-    // The script returns a string like:
-    // "Summary... Detailed operations log: /path/to/log.txt HTML Report: /path/to/report.html"
-    $result_string = include $script_path;
-
-    \Drupal::logger('carlson_general')->notice('Finished running @script_name for P to H2 conversion. Result: @result', [
-      '@script_name' => $script_name,
-      '@result' => $result_string,
-    ]);
-
-    // Parse the result string
-    if (is_string($result_string)) {
-        if (strpos($result_string, "Detailed operations log:") !== false) {
-            list($summary_part, $log_part) = explode("Detailed operations log:", $result_string, 2);
-            $summary_message = trim($summary_part);
-            if (strpos($log_part, "HTML Report:") !== false) {
-                list($log_file_path_message, $report_file_path_message) = explode("HTML Report:", $log_part, 2);
-                $log_file_path_message = trim($log_file_path_message);
-                $report_file_path_message = trim($report_file_path_message);
-            } else {
-                $log_file_path_message = trim($log_part); // HTML Report part might be missing if script errored early
-            }
-        } else {
-            $summary_message = $result_string; // Script might have failed early or not returned expected format
-        }
-    }
-
-    if (strpos(strtolower($summary_message), 'error') !== false || strpos(strtolower($summary_message), 'failed') !== false) {
-      \Drupal::logger('carlson_general')->error('Error reported by @script_name: @summary. Log: @log. Report: @report', [
-        '@script_name' => $script_name,
-        '@summary' => $summary_message,
-        '@log' => $log_file_path_message,
-        '@report' => $report_file_path_message,
-      ]);
-      $ui_message = t('Error running @script: @summary. Check logs. Log: @log. Report: @report', [
-        '@script' => $script_name,
-        '@summary' => $summary_message,
-        '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-        '@report' => $report_file_path_message ? $report_file_path_message : '(not available)',
-      ]);
-       return $ui_message;
-    }
-
-    $ui_message = t('Successfully executed @script. @summary. Log: @log. Report: @report', [
-      '@script' => $script_name,
-      '@summary' => $summary_message,
-      '@log' => $log_file_path_message ? $log_file_path_message : '(not available)',
-      '@report' => $report_file_path_message ? $report_file_path_message : '(not available)',
-    ]);
-    return $ui_message;
-
-  } catch (\Exception $e) {
-    $error_message = t('Exception while running @script for P to H2 conversion: @error. Log: @log. Report: @report', [
-      '@script' => $script_name,
-      '@error' => $e->getMessage(),
-      '@log' => $log_file_path_message ? $log_file_path_message : '(details not available)',
-      '@report' => $report_file_path_message ? $report_file_path_message : '(details not available)',
-    ]);
-    \Drupal::logger('carlson_general')->error($error_message);
-    return $error_message;
-  }
+  return _carlson_general_run_script($script_name);
 }

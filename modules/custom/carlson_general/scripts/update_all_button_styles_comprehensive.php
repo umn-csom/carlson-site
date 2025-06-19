@@ -40,6 +40,12 @@ script_log("Starting button style update script...", 'info');
 script_log("Log file will be: {$log_file_path}", 'info');
 script_log("Report file will be: {$report_file_path}", 'info');
 
+// Dry run option
+$dry_run = !empty($_ENV['DRY_RUN']);
+if ($dry_run) {
+  script_log("Running in DRY RUN mode - no changes will be made", 'info');
+}
+
 // Button style mappings - EXPANDED to include compound classes
 $button_mappings = [
   // Original single class mappings
@@ -60,7 +66,7 @@ $button_mappings = [
   'btn-cta' => '',
   'program-features__btn' => 'btn btn-primary',
 
-  // Compound class mappings (found on the page)
+  // Compound class mappings
   'btn btn-link-primary' => 'btn btn-primary',
   'btn btn-link-secondary' => 'btn btn-primary',
   'btn-sm btn-link-primary' => 'btn btn-sm btn-primary',
@@ -68,12 +74,6 @@ $button_mappings = [
   'btn-lg btn-link-primary' => 'btn btn-lg btn-primary',
   'btn-lg btn-link-secondary' => 'btn btn-lg btn-primary',
 ];
-
-// Dry run option
-$dry_run = !empty($_ENV['DRY_RUN']);
-if ($dry_run) {
-  script_log("Running in DRY RUN mode - no changes will be made to the database", 'info');
-}
 
 // Ensure Drupal services are available.
 if (
@@ -94,7 +94,7 @@ $database = Database::getConnection();
 
 $updated_count = 0;
 $tables_processed = [];
-$log_entries = [];
+$report_entries = [];
 $all_fields = [];
 
 // Helper function to find HTML content in arrays
@@ -467,7 +467,7 @@ foreach ($all_fields as $entity_type_id => $fields) {
             $updated_count++;
             $table_updates++;
 
-            $log_entries[] = [
+            $report_entries[] = [
               'table' => $table,
               'entity_type' => $entity_type_id,
               'field_name' => $field_name,
@@ -607,16 +607,16 @@ foreach ($all_tables as $table) {
 // Write detailed report.
 $report_handle = fopen($report_file_path, 'w');
 fputcsv($report_handle, ['Table', 'Entity Type', 'Field Name', 'Entity ID', 'Format', 'Replacements', 'Content Preview']);
-foreach ($log_entries as $entry) {
+foreach ($report_entries as $entry) {
   fputcsv($report_handle, $entry);
 }
 fclose($report_handle);
 
 // Summarize report in log.
-if (!empty($log_entries)) {
+if (!empty($report_entries)) {
   script_log("Summary by entity type and field:", 'info');
   $summary = [];
-  foreach ($log_entries as $entry) {
+  foreach ($report_entries as $entry) {
     $key = $entry['entity_type'] . '.' . $entry['field_name'];
     if (!isset($summary[$key])) {
       $summary[$key] = 0;
