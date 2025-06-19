@@ -9,101 +9,43 @@
  */
 
 use Drupal\Core\Database\Connection;
-use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 
 // --- Script Initialization ---
-$is_cli = (php_sapi_name() === 'cli');
-$log_messages = [];
 $start_time = microtime(true);
-$script_filename = basename(__FILE__, '.php');
-$datetime_suffix = date('Y-m-d_H-i-s');
-$log_filename = "{$script_filename}_{$datetime_suffix}.txt";
-$log_directory = 'public://script_logs';
-$log_file_uri = "{$log_directory}/{$log_filename}";
-
-/**
- * Helper function to write messages to the log array.
- */
-function script_log($message, $type = 'notice') {
-    global $log_messages, $is_cli;
-    $timestamp = date('Y-m-d H:i:s');
-    $log_entry = "[{$timestamp}] [{$type}] {$message}";
-    $log_messages[] = $log_entry;
-    if ($is_cli && in_array($type, ['error', 'warning', 'info'])) {
-        // Echo more types to console for this script as it has more direct user interaction steps.
-        echo $log_entry . PHP_EOL;
-    }
-}
-
-/**
- * Writes all accumulated log messages to the specified log file.
- */
-function write_log_file(FileSystemInterface $file_system, $log_uri, array $messages) {
-    try {
-        $log_dir_path = $file_system->realpath(dirname($log_uri));
-        if (!$file_system->prepareDirectory($log_dir_path, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS)) {
-            \Drupal::logger('carlson_general')->error("Failed to create or prepare log directory: @dir", ['@dir' => $log_dir_path]);
-            echo "ERROR: Failed to create or prepare log directory: {$log_dir_path}" . PHP_EOL;
-            return false;
-        }
-        $file_system->saveData(implode(PHP_EOL, $messages), $log_uri, FileSystemInterface::EXISTS_REPLACE);
-        return $log_uri;
-    } catch (\Exception $e) {
-        \Drupal::logger('carlson_general')->error("Failed to write log file @log_uri: @error", ['@log_uri' => $log_uri, '@error' => $e->getMessage()]);
-        echo "ERROR: Failed to write log file {$log_uri}: " . $e->getMessage() . PHP_EOL;
-        return false;
-    }
-}
+$script_name = basename(__FILE__, '.php');
+require_once __DIR__ . '/_script_logger.php';
+$log_file_path = init_log_file($script_name);
 // --- End Script Initialization ---
 
-script_log("Starting removal of img title attributes script ({$script_filename}).", 'info');
-script_log("Log file will be: {$log_file_uri}", 'info');
+script_log("Starting removal of img title attributes script ({$script_name}).", 'info');
+script_log("Log file will be: {$log_file_path}", 'info');
 
 // Set longer execution limits (especially if not CLI, though CLI might also need it)
 ini_set('max_execution_time', 1800);  // 30 minutes
 ini_set('memory_limit', '512M'); // Increase memory limit if processing many entities
 script_log("Set max_execution_time to 1800 seconds and memory_limit to 512M.", 'info');
 
-// Initialize $file_system early for potential error logging before full bootstrap check.
-// This is a bit of a special case for this script structure.
-if (class_exists('\Drupal') && \Drupal::hasService('file_system')) {
-    $file_system = \Drupal::service('file_system');
-} else {
-    $file_system = NULL; // Set to NULL if not available yet.
-}
-
-// Ensure Drupal services are available. Check for \Drupal class existence first.
-if (!class_exists('\Drupal') ||
-    !\Drupal::hasService('entity_field.manager') || !\Drupal::hasService('entity_type.manager') ||
-    !\Drupal::hasService('database') || !\Drupal::hasService('file_system') ||
-    !\Drupal::hasService('entity_type.bundle.info')) {
+// Ensure Drupal services are available.
+if (
+    !class_exists('\Drupal')
+    || !\Drupal::hasService('entity_field.manager')
+    || !\Drupal::hasService('entity_type.manager')
+    || !\Drupal::hasService('entity_type.bundle.info')
+) {
     $error_msg = "Required Drupal services not available. Ensure Drupal is bootstrapped or script is run in a Drupal environment.";
     script_log($error_msg, 'error');
-    // Attempt to write to log file even if some services are missing, $file_system might be one of them.
-    // This is a best-effort, might not always work if $file_system service itself failed.
-    if ($file_system instanceof FileSystemInterface) {
-         write_log_file($file_system, $log_file_uri, $log_messages);
-    }
-    // For update hooks, returning the error string is important.
-    // For CLI, the error is already echoed by script_log.
-    return "ERROR: {$error_msg} Detailed log: {$log_file_uri}";
-}
-
-// If $file_system was not initialized before, get it now (it's confirmed to be available).
-if (!$file_system instanceof FileSystemInterface) {
-    $file_system = \Drupal::service('file_system');
+    return "ERROR: {$error_msg} Detailed log: {$log_file_path}";
 }
 
 /** @var EntityFieldManagerInterface $entity_field_manager */
 $entity_field_manager = \Drupal::service('entity_field.manager');
 /** @var EntityTypeManagerInterface $entity_type_manager */
 $entity_type_manager = \Drupal::service('entity_type.manager');
-/** @var Connection $db */
-$db = \Drupal::service('database');
-/** @var \Drupal\Core\Entity\EntityTypeBundleInfoInterface $bundle_info_service */
+/** @var EntityTypeBundleInfoInterface $bundle_info_service */
 $bundle_info_service = \Drupal::service('entity_type.bundle.info');
 
 $fields_to_process = [];
@@ -279,23 +221,21 @@ foreach($summary_lines as $s_line) {
     script_log($s_line, 'info');
 }
 
+// --- Final Script Output & Return ---
 $execution_time = microtime(true) - $start_time;
-script_log(sprintf("Total script execution time: %.2f seconds.", $execution_time), 'info');
 script_log("Image title attribute removal script finished.", 'info');
+script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 
 $final_summary_message = sprintf(
-    "Script completed. Entities checked: %d. Entities updated: %d. Total title attributes removed: %d.",
+    "Entities checked: %d. Entities updated: %d. Total title attributes removed: %d.",
     $processed_entities_count,
     $updated_entities_count,
     $total_title_attributes_removed
 );
+$log_message = "Detailed log: {$log_file_path}";
 
-$log_file_written_path = write_log_file($file_system, $log_file_uri, $log_messages);
-$log_path_for_output = ($log_file_written_path && $file_system instanceof FileSystemInterface) ? $file_system->realpath($log_file_written_path) : "ERROR creating log file or file system service not available.";
+script_log($final_summary_message, 'info');
+script_log($log_message, 'info');
 
-if ($is_cli) {
-    echo PHP_EOL . $final_summary_message . PHP_EOL;
-    echo "Detailed log: {$log_path_for_output}" . PHP_EOL;
-}
-
-return "{$final_summary_message} Detailed log: {$log_path_for_output}";
+// Return value for update hooks or other includes
+return $final_summary_message . PHP_EOL . $log_message;

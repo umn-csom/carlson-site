@@ -14,6 +14,7 @@
 use Drupal\Core\Database\Database;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\node\Entity\Node;
 use Drupal\paragraphs\Entity\Paragraph;
 
@@ -21,6 +22,22 @@ use Drupal\paragraphs\Entity\Paragraph;
 if (PHP_SAPI === 'cli') {
   set_time_limit(0);
 }
+
+// --- Script Initialization ---
+$start_time = microtime(true);
+$script_name = basename(__FILE__, '.php');
+require_once __DIR__ . '/_script_logger.php';
+$log_file_path = init_log_file($script_name);
+
+$datetime_suffix = date('Y-m-d_H-i-s');
+$report_filename = "{$script_name}_{$datetime_suffix}_report.csv";
+$report_file_uri = "public://script_logs/{$report_filename}";
+$report_file_path = \Drupal::service('file_system')->realpath($report_file_uri);
+// --- End Script Initialization ---
+
+script_log("Starting button style update script...", 'info');
+script_log("Log file will be: {$log_file_path}", 'info');
+script_log("Report file will be: {$report_file_path}", 'info');
 
 /**
  * Get button style mappings
@@ -63,13 +80,9 @@ function runButtonStyleUpdate($dry_run = FALSE) {
   $batch_size = 50;
 
   // Check if running in CLI or web context
-  $is_cli = (PHP_SAPI === 'cli' && empty($_SERVER['HTTP_HOST']));
-
-  if ($is_cli) {
-    echo "Starting button style update using Batch API approach...\n";
-    if ($dry_run) {
-      echo "Running in DRY RUN mode - no changes will be made\n";
-    }
+  script_log("Starting button style update using Batch API approach...", 'info');
+  if ($dry_run) {
+    script_log("Running in DRY RUN mode - no changes will be made", 'info');
   }
 
   // Get services
@@ -78,9 +91,7 @@ function runButtonStyleUpdate($dry_run = FALSE) {
   $database = Database::getConnection();
 
   // Step 1 & 2: Get HTML fields
-  if ($is_cli) {
-    echo "Step 1: Identifying HTML fields...\n";
-  }
+  script_log("Step 1: Identifying HTML fields...", 'info');
   $html_fields = getFieldsWithHTML($entity_field_manager, $entity_type_manager);
   $field_count = 0;
   foreach ($html_fields as $bundles) {
@@ -88,24 +99,16 @@ function runButtonStyleUpdate($dry_run = FALSE) {
       $field_count += count($fields);
     }
   }
-  if ($is_cli) {
-    echo "Found $field_count HTML fields across all entity types\n\n";
-  }
+  script_log("Found $field_count HTML fields across all entity types", 'info');
 
   // Step 3: Find entities with old classes
-  if ($is_cli) {
-    echo "Step 2: Finding entities with old button classes...\n";
-  }
+  script_log("Step 2: Finding entities with old button classes...", 'info');
   $entities_to_process = findEntitiesWithOldClasses($database, $html_fields, getButtonMappings());
   $total_entities = count($entities_to_process);
-  if ($is_cli) {
-    echo "Found $total_entities entities to process\n\n";
-  }
+  script_log("Found $total_entities entities to process", 'info');
 
   if ($total_entities === 0) {
-    if ($is_cli) {
-      echo "No entities found with old button classes. Nothing to update.\n";
-    }
+    script_log("No entities found with old button classes. Nothing to update.", 'info');
     return [
       'total_entities' => 0,
       'total_updated' => 0,
@@ -114,28 +117,24 @@ function runButtonStyleUpdate($dry_run = FALSE) {
   }
 
   // Process in batches
-  if ($is_cli) {
-    echo "Step 3: Processing entities in batches...\n";
-  }
+  script_log("Step 3: Processing entities in batches...", 'info');
   $batches = array_chunk($entities_to_process, $batch_size);
   $total_updated = 0;
   $all_log_entries = [];
 
   // Create log file in public files directory
   $public_path = \Drupal::service('stream_wrapper_manager')->getViaScheme('public')->realpath();
-  $log_directory = $public_path . '/button_update_logs';
+  $log_directory = $public_path . '/script_logs';
   if (!file_exists($log_directory)) {
     mkdir($log_directory, 0755, TRUE);
   }
-
-  $log_file = $log_directory . '/button_update_batch_api_log_' . date('Y-m-d_H-i-s') . '.csv';
+  $script_name = basename(__FILE__, '.php');
+  $log_file = $log_directory . "/{$script_name}_" . date('Y-m-d_H-i-s') . '_report.csv';
   $log_handle = fopen($log_file, 'w');
   fputcsv($log_handle, ['Entity Type', 'Bundle', 'Entity ID', 'Language', 'Node ID', 'Field Name', 'Replacements', 'Entity Label']);
 
   foreach ($batches as $batch_index => $batch) {
-    if ($is_cli) {
-      echo sprintf("Processing batch %d/%d...\n", $batch_index + 1, count($batches));
-    }
+    script_log(sprintf("Processing batch %d/%d...", $batch_index + 1, count($batches)), 'info');
 
     $batch_result = processBatch($batch, $entity_type_manager, $entity_field_manager, getButtonMappings(), $dry_run);
 
@@ -146,26 +145,20 @@ function runButtonStyleUpdate($dry_run = FALSE) {
       fputcsv($log_handle, $entry);
     }
 
-    if ($is_cli) {
-      echo sprintf("  Updated %d entities in this batch\n", $batch_result['updated_count']);
-    }
+    script_log(sprintf("  Updated %d entities in this batch", $batch_result['updated_count']), 'info');
   }
 
   fclose($log_handle);
 
   // Summary
-  if ($is_cli) {
-    echo "\nButton style update complete.\n";
-    echo "Total entities scanned: $total_entities\n";
-    echo "Total entities updated: $total_updated\n";
-    echo "Log file: $log_file\n";
-  }
+  script_log("Button style update complete.", 'info');
+  script_log("Total entities scanned: $total_entities", 'info');
+  script_log("Total entities updated: $total_updated", 'info');
+  script_log("Log file: $log_file", 'info');
 
   // Generate summary
   if ($total_updated > 0) {
-    if ($is_cli) {
-      echo "\nGenerating summary report...\n";
-    }
+    script_log("Generating summary report...", 'info');
 
     $summary = [];
     $handle = fopen($log_file, 'r');
@@ -180,17 +173,15 @@ function runButtonStyleUpdate($dry_run = FALSE) {
     }
     fclose($handle);
 
-    if ($is_cli) {
-      echo "\nSummary by entity type and field:\n";
-      foreach ($summary as $key => $count) {
-        echo "  $key: $count updates\n";
-      }
+    script_log("Summary by entity type and field:", 'info');
+    foreach ($summary as $key => $count) {
+      script_log("  $key: $count updates", 'info');
     }
   }
 
-  if ($dry_run && $is_cli) {
-    echo "\nThis was a DRY RUN. No actual changes were made.\n";
-    echo "To execute the update, run the script without DRY_RUN=1\n";
+  if ($dry_run) {
+    script_log("This was a DRY RUN. No actual changes were made.", 'info');
+    script_log("To execute the update, run the script without DRY_RUN=1", 'info');
   }
 
   return [
@@ -209,7 +200,7 @@ function getFieldsWithHTML($entity_field_manager, $entity_type_manager) {
   $entity_types = $entity_type_manager->getDefinitions();
 
   foreach ($entity_types as $entity_type_id => $entity_type) {
-    if (!$entity_type->entityClassImplements(\Drupal\Core\Entity\FieldableEntityInterface::class)) {
+    if (!$entity_type->entityClassImplements(FieldableEntityInterface::class)) {
       continue;
     }
 
@@ -492,7 +483,7 @@ function processBatch($entities_info, $entity_type_manager, $entity_field_manage
         }
       }
     } catch (\Exception $e) {
-      echo "Error processing entity {$entity_info['entity_type']} {$entity_info['entity_id']}: " . $e->getMessage() . "\n";
+      script_log("Error processing entity {$entity_info['entity_type']} {$entity_info['entity_id']}: " . $e->getMessage(), 'error');
     }
   }
 

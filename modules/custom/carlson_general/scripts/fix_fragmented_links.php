@@ -14,64 +14,25 @@ use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\File\FileSystemInterface;
 
 // --- Script Initialization ---
-$is_cli = (php_sapi_name() === 'cli');
-$log_messages = [];
 $start_time = microtime(true);
-$script_filename = basename(__FILE__, '.php');
-$datetime_suffix = date('Y-m-d_H-i-s');
-$log_filename = "{$script_filename}_{$datetime_suffix}.txt";
-$log_directory = 'public://script_logs';
-$log_file_uri = "{$log_directory}/{$log_filename}";
+$script_name = basename(__FILE__, '.php');
+require_once __DIR__ . '/_script_logger.php';
+$log_file_path = init_log_file($script_name);
 $drupal_root = \Drupal::root();
-
-/**
- * Helper function to write messages to the log array.
- */
-function script_log($message, $type = 'notice') {
-    global $log_messages, $is_cli;
-    $timestamp = date('Y-m-d H:i:s');
-    $log_entry = "[{$timestamp}] [{$type}] {$message}";
-    $log_messages[] = $log_entry;
-    if ($is_cli && in_array($type, ['error', 'warning', 'info'])) {
-        // Echo more types to console for this script as it has more direct user interaction steps.
-        echo $log_entry . PHP_EOL;
-    }
-}
-
-/**
- * Writes all accumulated log messages to the specified log file.
- */
-function write_log_file(FileSystemInterface $file_system, $log_uri, array $messages) {
-    try {
-        $log_dir_path = $file_system->realpath(dirname($log_uri));
-        if (!$file_system->prepareDirectory($log_dir_path, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS)) {
-            \Drupal::logger('carlson_general')->error("Failed to create or prepare log directory: @dir", ['@dir' => $log_dir_path]);
-            echo "ERROR: Failed to create or prepare log directory: {$log_dir_path}" . PHP_EOL;
-            return false;
-        }
-        $file_system->saveData(implode(PHP_EOL, $messages), $log_uri, FileSystemInterface::EXISTS_REPLACE);
-        return $log_uri;
-    } catch (\Exception $e) {
-        \Drupal::logger('carlson_general')->error("Failed to write log file @log_uri: @error", ['@log_uri' => $log_uri, '@error' => $e->getMessage()]);
-        echo "ERROR: Failed to write log file {$log_uri}: " . $e->getMessage() . PHP_EOL;
-        return false;
-    }
-}
 // --- End Script Initialization ---
 
-script_log("RUNNING FRAGMENTED LINKS DETECTION AND REPAIR SCRIPT", 'info');
-script_log("Log file will be: {$log_file_uri}", 'info');
+script_log("Starting fragmented links detection and repair script ({$script_name}).", 'info');
+script_log("Log file will be: {$log_file_path}", 'info');
 
 // Ensure Drupal services are available
-if (!\Drupal::hasService('entity_type.manager') || !\Drupal::hasService('file_system')) {
+if (
+    !class_exists('\Drupal')
+    || !\Drupal::hasService('entity_type.manager')
+    || !\Drupal::hasService('file_system')
+) {
     $error_msg = "Required Drupal services (entity_type.manager, file_system) not available. Ensure Drupal is bootstrapped.";
     script_log($error_msg, 'error');
-    // If not CLI, this error needs to be surfaced differently or will be lost.
-    // For now, we assume drush scr handles bootstrap or it's included in a bootstrapped env.
-    if ($is_cli) {
-        echo "ERROR: {$error_msg}\n";
-    }
-    return "ERROR: {$error_msg}"; // For update hook
+    return "ERROR: {$error_msg}";
 }
 
 /** @var \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager */
@@ -88,22 +49,18 @@ try {
         ->accessCheck(FALSE)
         ->execute();
 } catch (\Exception $e) {
-    script_log("Error querying tabbed_content paragraphs: " . $e->getMessage(), 'error');
-    $final_summary = "Script failed: Error querying tabbed_content paragraphs.";
-    write_log_file($file_system, $log_file_uri, $log_messages);
-    if ($is_cli) echo "{$final_summary}\nDetailed log: {$log_file_uri}\n";
-    return $final_summary; // For update hook
+    $error_message = "Script error. Error querying tabbed_content paragraphs: " . $e->getMessage();
+    script_log($error_message, 'error');
+    return $error_message . PHP_EOL . "Detailed log: {$log_file_path}";
 }
 
 
 if (empty($tabbed_content_ids)) {
-    script_log("No tabbed_content paragraphs found.", 'info');
-    $final_summary = "Script completed: No tabbed_content paragraphs found.";
     $execution_time = microtime(true) - $start_time;
+    $final_summary = "Script complete. No tabbed_content paragraphs found.";
+    script_log($final_summary, 'info');
     script_log(sprintf("Total execution time: %.2f seconds.", $execution_time), 'info');
-    write_log_file($file_system, $log_file_uri, $log_messages);
-    if ($is_cli) echo "{$final_summary}\nDetailed log: {$log_file_uri}\n";
-    return $final_summary; // For update hook
+    return $final_summary . PHP_EOL . "Detailed log: {$log_file_path}";
 }
 
 script_log("Found " . count($tabbed_content_ids) . " tabbed_content paragraphs.", 'info');
@@ -467,11 +424,10 @@ function fixFragmentedLinks($content)
  */
 function fixAllFragmentedLinks($content, $max_passes = 3)
 {
-    global $is_cli; // Access global $is_cli
-    $original_content_for_fix_all = $content; // Renamed
+    $original_content_for_fix_all = $content;
     $pass_count = 0;
-    $total_fixes_in_all = 0; // Renamed
-    $changes_made_in_pass = true; // Renamed
+    $total_fixes_in_all = 0;
+    $changes_made_in_pass = true;
 
     script_log("Starting fixAllFragmentedLinks (max passes: {$max_passes})", 'info');
 
@@ -900,7 +856,7 @@ if (!empty($updated_nodes)) {
 // Validation step - verify links were actually fixed - only run in CLI mode for now
 // This section can be extensive and might be better as a separate diagnostic script
 // For now, logging the attempt.
-if ($is_cli && !empty($updated_nodes)) {
+if (php_sapi_name() === 'cli' && !empty($updated_nodes)) {
     script_log("\n--- VALIDATING FIXES (CLI ONLY) ---", 'info');
     script_log(str_repeat('=', 80), 'info');
 
@@ -1021,7 +977,7 @@ if ($is_cli && !empty($updated_nodes)) {
 }
 
 // Debug function to examine specific node with issues - only in CLI mode
-if (!empty($remaining_issues) && $is_cli) {
+if (!empty($remaining_issues) && php_sapi_name() === 'cli') {
     script_log("\nDEBUGGING REMAINING ISSUES:");
     script_log(str_repeat('=', 80));
 
@@ -1152,31 +1108,19 @@ if (!empty($remaining_issues) && $is_cli) {
     }
 }
 
-$execution_time = microtime(true) - $start_time;
-script_log(sprintf("Total script execution time: %.2f seconds.", $execution_time), 'info');
+// --- Final Script Output & Return ---
 script_log("Link detection and repair script finished.", 'info');
-
-// --- Final Output ---
+$execution_time = microtime(true) - $start_time;
+script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 $final_summary_message = sprintf(
-    "Script completed. Processed %d tabbed content paragraphs. Fixed %d fragmented links in %d nodes.",
+    "Processed %d tabbed content paragraphs. Fixed %d fragmented links in %d nodes.",
     count($tabbed_content_ids),
     $fixed_count,
     count($updated_nodes)
 );
+script_log($final_summary_message, 'info');
 
-// Write the log file
-$log_file_written_uri = write_log_file($file_system, $log_file_uri, $log_messages);
-$log_path_message = $log_file_written_uri ? $file_system->realpath($log_file_written_uri) : "ERROR creating log file.";
+$log_message = "Detailed log: {$log_file_path}";
 
-
-if ($is_cli) {
-    echo "{$final_summary_message}\n";
-    if ($log_file_written_uri) {
-        echo "Detailed log: {$log_path_message}\n";
-    } else {
-        echo "Failed to write detailed log file.\n";
-    }
-}
-
-// Return value for update hooks or other includers
-return "{$final_summary_message} Detailed log: {$log_path_message}";
+// Return value for update hooks or other includes
+return $final_summary_message . PHP_EOL . $log_message;

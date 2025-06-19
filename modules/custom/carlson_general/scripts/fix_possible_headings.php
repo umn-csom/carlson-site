@@ -12,62 +12,25 @@ use Drupal\node\Entity\Node;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 
 // --- Script Initialization ---
-$is_cli = (php_sapi_name() === 'cli');
-$log_messages = [];
 $start_time = microtime(true);
-$script_filename = basename(__FILE__, '.php');
+$script_name = basename(__FILE__, '.php');
+require_once __DIR__ . '/_script_logger.php';
+$log_file_path = init_log_file($script_name);
+
 $datetime_suffix = date('Y-m-d_H-i-s');
-$log_filename = "{$script_filename}_{$datetime_suffix}.txt";
-$log_directory = 'public://script_logs';
-$log_file_uri = "{$log_directory}/{$log_filename}";
-$drupal_root = \Drupal::root(); // Used for constructing default CSV path if needed.
-
-/**
- * Helper function to write messages to the log array.
- */
-function script_log($message, $type = 'notice') {
-    global $log_messages, $is_cli;
-    $timestamp = date('Y-m-d H:i:s');
-    $log_entry = "[{$timestamp}] [{$type}] {$message}";
-    $log_messages[] = $log_entry;
-    if ($is_cli && in_array($type, ['error', 'warning', 'info'])) {
-        // Echo more types to console for this script as it has more direct user interaction steps.
-        echo $log_entry . PHP_EOL;
-    }
-}
-
-/**
- * Writes all accumulated log messages to the specified log file.
- */
-function write_log_file(FileSystemInterface $file_system, $log_uri, array $messages) {
-    try {
-        $log_dir_path = $file_system->realpath(dirname($log_uri));
-        if (!$file_system->prepareDirectory($log_dir_path, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS)) {
-            \Drupal::logger('carlson_general')->error("Failed to create or prepare log directory: @dir", ['@dir' => $log_dir_path]);
-            echo "ERROR: Failed to create or prepare log directory: {$log_dir_path}" . PHP_EOL;
-            return false;
-        }
-        $file_system->saveData(implode(PHP_EOL, $messages), $log_uri, FileSystemInterface::EXISTS_REPLACE);
-        return $log_uri;
-    } catch (\Exception $e) {
-        \Drupal::logger('carlson_general')->error("Failed to write log file @log_uri: @error", ['@log_uri' => $log_uri, '@error' => $e->getMessage()]);
-        echo "ERROR: Failed to write log file {$log_uri}: " . $e->getMessage() . PHP_EOL;
-        return false;
-    }
-}
+$report_filename = "{$script_name}_{$datetime_suffix}_report.csv";
+$report_file_uri = "public://script_logs/{$report_filename}";
 // --- End Script Initialization ---
 
-script_log("Starting heading analysis script ({$script_filename}).", 'info');
-script_log("Log file will be: {$log_file_uri}", 'info');
-
 // Ensure Drupal services are available
-if (!\Drupal::hasService('path_alias.manager') || !\Drupal::hasService('entity_type.manager') || !\Drupal::hasService('file_system')) {
+if (
+    !class_exists('\Drupal')
+    || !\Drupal::hasService('path_alias.manager')
+    || !\Drupal::hasService('entity_type.manager')
+    || !\Drupal::hasService('file_system')
+) {
     $error_msg = "Required Drupal services not available. Ensure Drupal is bootstrapped.";
-    script_log($error_msg, 'error');
-    if (isset($file_system) && $file_system instanceof FileSystemInterface) {
-         write_log_file($file_system, $log_file_uri, $log_messages);
-    }
-    return "ERROR: {$error_msg}"; // For update hook
+    die("ERROR: {$error_msg}");
 }
 
 /** @var \Drupal\Core\Path\AliasManagerInterface $alias_manager */
@@ -77,13 +40,15 @@ $entity_type_manager = \Drupal::service('entity_type.manager');
 /** @var \Drupal\Core\File\FileSystemInterface $file_system */
 $file_system = \Drupal::service('file_system');
 
+script_log("Starting heading analysis script ({$script_name}).", 'info');
+script_log("Log file will be: {$log_file_path}", 'info');
 
 // CSV Path and Fix Mode
-$csv_path = $drupal_root . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/fix_possible_headings.csv';
+$csv_path = $file_system->realpath(__DIR__) . '/fix_possible_headings.csv';
 script_log("Using CSV file: {$csv_path}", 'info');
 
 $fix_mode = true; // Default to fix_mode when run from update hook.
-if ($is_cli && in_array('--dry-run', $_SERVER['argv'])) {
+if (php_sapi_name() === 'cli' && in_array('--dry-run', $_SERVER['argv'])) {
     $fix_mode = false;
 }
 $mode_text = $fix_mode ? "FIX MODE" : "DRY RUN MODE";
@@ -91,20 +56,18 @@ script_log("Running in {$mode_text}", 'info');
 
 // Check if CSV file exists
 if (!file_exists($csv_path)) {
-    $error_msg = "Error: CSV file not found at {$csv_path}";
+    $error_msg = "CSV file not found at {$csv_path}";
     script_log($error_msg, 'error');
-    write_log_file($file_system, $log_file_uri, $log_messages);
-    return "Script failed: {$error_msg}. Detailed log: " . $file_system->realpath($log_file_uri);
+    return "Script failed: {$error_msg}. Detailed log: {$log_file_path}";
 }
 
 // Read CSV file
 script_log("Reading URLs from {$csv_path}...", 'info');
 $handle = fopen($csv_path, 'r');
 if (!$handle) {
-    $error_msg = "Error: Could not open CSV file at {$csv_path}";
+    $error_msg = "Could not open CSV file at {$csv_path}";
     script_log($error_msg, 'error');
-    write_log_file($file_system, $log_file_uri, $log_messages);
-    return "Script failed: {$error_msg}. Detailed log: " . $file_system->realpath($log_file_uri);
+    return "Script failed: {$error_msg}. Detailed log: {$log_file_path}";
 }
 
 $headers = fgetcsv($handle);
@@ -208,11 +171,7 @@ script_log("Total heading structure issues fixed across all content: {$total_hea
 script_log("Nodes/URLs that failed to process (e.g., not found, path error): {$failed_to_process_nodes_count}", 'info');
 
 // Generate a CSV report file for detailed fixes
-$report_file_uri = '';
 if (!empty($detailed_fixes_report_data)) {
-    $report_base_filename = 'fix_possible_headings_' . $datetime_suffix . '_report.csv';
-    $report_file_uri = $log_directory . '/' . $report_base_filename;
-
     try {
         $report_dir_path = $file_system->realpath(dirname($report_file_uri));
         if (!$file_system->prepareDirectory($report_dir_path, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS)) {
@@ -241,7 +200,6 @@ if (!empty($detailed_fixes_report_data)) {
  * Process a single node to detect and fix heading structure issues.
  */
 function processNode($node_id, $fix_mode, EntityTypeManagerInterface $entity_type_manager) {
-    global $is_cli; // Allow script_log to use CLI specific echo
     $result = [
         'processed' => false,
         'fixed_count' => 0, // Changed from 'fixed' to 'fixed_count' for clarity
@@ -403,29 +361,21 @@ function fix_heading_structure_in_value($html_content, &$fixed_count) {
 }
 
 // --- Final Script Output & Return ---
+$execution_time = microtime(true) - $start_time;
+script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
+
 $final_summary_message = sprintf(
     "Heading analysis script completed. URLs processed: %d. Nodes with fixes: %d. Total issues fixed: %d.",
     count($urls),
     $successful_fixes_nodes_count,
     $total_heading_issues_fixed
 );
+$log_message = "Detailed log: {$log_file_path}";
+$report_message = "HTML Report: {$report_file_path}";
 
-$execution_time = microtime(true) - $start_time;
-script_log(sprintf("Total script execution time: %.2f seconds.", $execution_time), 'info');
-script_log("Heading analysis script finished: {$final_summary_message}", 'info');
+script_log($final_summary_message, 'info');
+script_log($log_message, 'info');
+script_log($report_message, 'info');
 
-$log_file_written_path = write_log_file($file_system, $log_file_uri, $log_messages);
-$log_path_for_output = $log_file_written_path ? $file_system->realpath($log_file_written_path) : "ERROR creating main log file.";
-
-$report_path_for_output = '';
-if ($report_file_uri && $file_system->realpath($report_file_uri)){
-    $report_path_for_output = $file_system->realpath($report_file_uri);
-    $final_summary_message .= " Fixes report: {$report_path_for_output}";
-}
-
-if ($is_cli) {
-    echo PHP_EOL . $final_summary_message . PHP_EOL;
-    echo "Detailed operations log: {$log_path_for_output}" . PHP_EOL;
-}
-
-return "{$final_summary_message} Detailed operations log: {$log_path_for_output}";
+// Return value for update hooks or other includes
+return $final_summary_message . PHP_EOL . $log_message . PHP_EOL . $report_message;

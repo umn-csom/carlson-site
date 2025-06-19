@@ -12,71 +12,23 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\File\FileSystemInterface;
 
 // --- Script Initialization ---
-$is_cli = (php_sapi_name() === 'cli');
-$log_messages = [];
 $start_time = microtime(true);
-$script_filename = basename(__FILE__, '.php');
-$datetime_suffix = date('Y-m-d_H-i-s');
-$log_filename = "{$script_filename}_{$datetime_suffix}.txt";
-$log_directory = 'public://script_logs';
-$log_file_uri = "{$log_directory}/{$log_filename}";
-
-/**
- * Helper function to write messages to the log array.
- */
-function script_log($message, $type = 'notice') {
-    global $log_messages, $is_cli;
-    $timestamp = date('Y-m-d H:i:s');
-    $log_entry = "[{$timestamp}] [{$type}] {$message}";
-    $log_messages[] = $log_entry;
-    if ($is_cli && in_array($type, ['error', 'warning', 'info'])) {
-        // Echo more types to console for this script as it has more direct user interaction steps.
-        echo $log_entry . PHP_EOL;
-    }
-}
-
-/**
- * Writes all accumulated log messages to the specified log file.
- */
-function write_log_file(FileSystemInterface $file_system, $log_uri, array $messages) {
-    try {
-        $log_dir_path = $file_system->realpath(dirname($log_uri));
-        if (!$file_system->prepareDirectory($log_dir_path, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS)) {
-            \Drupal::logger('carlson_general')->error("Failed to create or prepare log directory: @dir", ['@dir' => $log_dir_path]);
-            echo "ERROR: Failed to create or prepare log directory: {$log_dir_path}" . PHP_EOL;
-            return false;
-        }
-        $file_system->saveData(implode(PHP_EOL, $messages), $log_uri, FileSystemInterface::EXISTS_REPLACE);
-        return $log_uri;
-    } catch (\Exception $e) {
-        \Drupal::logger('carlson_general')->error("Failed to write log file @log_uri: @error", ['@log_uri' => $log_uri, '@error' => $e->getMessage()]);
-        echo "ERROR: Failed to write log file {$log_uri}: " . $e->getMessage() . PHP_EOL;
-        return false;
-    }
-}
-// --- End Script Initialization ---
-
-script_log("Starting alt text synchronization script.", 'info');
-script_log("Log file will be: {$log_file_uri}", 'info');
+$script_name = basename(__FILE__, '.php');
+require_once __DIR__ . '/_script_logger.php';
+$log_file_path = init_log_file($script_name);
 
 // Ensure Drupal services are available
-if (!\Drupal::hasService('database') || !\Drupal::hasService('file_system')) {
-    $error_msg = "Required Drupal services (database, file_system) not available. Ensure Drupal is bootstrapped.";
+if (
+    !class_exists('\Drupal')
+    || !\Drupal::hasService('database')
+) {
+    $error_msg = "Required Drupal services (database) not available. Ensure Drupal is bootstrapped.";
     script_log($error_msg, 'error');
-    if ($is_cli) {
-        echo "ERROR: {$error_msg}\\n";
-    }
-    // Attempt to write any existing logs before exiting if file_system is somewhat available.
-    if (isset($file_system) && $file_system instanceof FileSystemInterface) {
-         write_log_file($file_system, $log_file_uri, $log_messages);
-    }
     return "ERROR: {$error_msg}";
 }
 
-/** @var \\Drupal\\Core\\Database\\Connection $database */
+/** @var Connection $database */
 $database = \Drupal::service('database');
-/** @var \\Drupal\\Core\\File\\FileSystemInterface $file_system */
-$file_system = \Drupal::service('file_system');
 
 $updated_thumbnails_count = 0;
 $processed_media_count = 0;
@@ -119,30 +71,26 @@ try {
              script_log("Skipped Media ID: {$media_id} ('{$media_name}') - Thumbnail alt text already matches main image.", 'debug');
         }
     }
-
-    $summary_message = sprintf("Alt text synchronization completed. Processed %d media items. Updated %d thumbnail alt texts.",
-        $processed_media_count,
-        $updated_thumbnails_count
-    );
-    script_log($summary_message, 'info');
-
-} catch (\\Exception $e) {
+} catch (\Exception $e) {
     $error_message = "Exception during alt text synchronization: " . $e->getMessage();
     script_log($error_message, 'error');
     $summary_message = "Script failed: " . $error_message;
 }
 
+// --- Final Script Output & Return ---
 $execution_time = microtime(true) - $start_time;
-script_log(sprintf("Total script execution time: %.2f seconds.", $execution_time), 'info');
 script_log("Alt text sync script finished.", 'info');
+script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 
-// Write the log file
-$log_file_written_uri = write_log_file($file_system, $log_file_uri, $log_messages);
-$log_path_for_output = $log_file_written_uri ? $file_system->realpath($log_file_written_uri) : "ERROR creating log file.";
+$summary_message = sprintf(
+    "Alt text synchronization completed. Processed %d media items. Updated %d thumbnail alt texts.",
+    $processed_media_count,
+    $updated_thumbnails_count
+);
+$log_message = "Detailed log: {$log_file_path}";
 
-if ($is_cli) {
-    echo "{$summary_message}\\n";
-    echo "Detailed log: {$log_path_for_output}\\n";
-}
+script_log($summary_message, 'info');
+script_log($log_message, 'info');
 
-return "{$summary_message} Detailed log: {$log_path_for_output}";
+// Return value for update hooks or other includes
+return $summary_message . PHP_EOL . $log_message;
