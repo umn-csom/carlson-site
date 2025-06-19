@@ -20,8 +20,25 @@
 use Drupal\Core\Database\Database;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
+
+// --- Script Initialization ---
+$start_time = microtime(true);
+$script_name = basename(__FILE__, '.php');
+require_once __DIR__ . '/_script_logger.php';
+$log_file_path = init_log_file($script_name);
+
+$datetime_suffix = date('Y-m-d_H-i-s');
+$report_filename = "{$script_name}_{$datetime_suffix}_report.csv";
+$report_file_uri = "public://script_logs/{$report_filename}";
+$report_file_path = \Drupal::service('file_system')->realpath($report_file_uri);
+// --- End Script Initialization ---
+
+script_log("Starting button style update script...", 'info');
+script_log("Log file will be: {$log_file_path}", 'info');
+script_log("Report file will be: {$report_file_path}", 'info');
 
 // Button style mappings - EXPANDED to include compound classes
 $button_mappings = [
@@ -55,7 +72,19 @@ $button_mappings = [
 // Dry run option
 $dry_run = !empty($_ENV['DRY_RUN']);
 if ($dry_run) {
-  echo "Running in DRY RUN mode - no changes will be made to the database\n\n";
+  script_log("Running in DRY RUN mode - no changes will be made to the database", 'info');
+}
+
+// Ensure Drupal services are available.
+if (
+  !class_exists('\Drupal')
+  || !\Drupal::hasService('database')
+  || !\Drupal::hasService('entity_field.manager')
+  || !\Drupal::hasService('entity_type.manager')
+) {
+  $error_msg = "Required Drupal services not available. Ensure Drupal is bootstrapped or script is run in a Drupal environment.";
+  script_log($error_msg, 'error');
+  return "ERROR: {$error_msg} Detailed log: {$log_file_path}";
 }
 
 // Get services
@@ -221,14 +250,14 @@ function updateButtonClasses($content, $button_mappings) {
   ];
 }
 
-echo "Phase 1: Discovering ALL fields that might contain HTML...\n";
+script_log("Phase 1: Discovering ALL fields that might contain HTML...", 'info');
 
 // Get all entity types
 $entity_types = $entity_type_manager->getDefinitions();
 
 foreach ($entity_types as $entity_type_id => $entity_type) {
   // Skip if entity type doesn't support fields
-  if (!$entity_type->entityClassImplements(\Drupal\Core\Entity\FieldableEntityInterface::class)) {
+  if (!$entity_type->entityClassImplements(FieldableEntityInterface::class)) {
     continue;
   }
 
@@ -286,10 +315,10 @@ foreach ($special_tables as $table => $fields) {
   }
 }
 
-echo "Found " . count($all_fields) . " entity types with potential HTML fields\n\n";
+script_log("Found " . count($all_fields) . " entity types with potential HTML fields", 'info');
 
 // Phase 2: Process all discovered fields
-echo "Phase 2: Processing all fields...\n";
+script_log("Phase 2: Processing all fields...", 'info');
 
 $total_fields = 0;
 foreach ($all_fields as $entity_type_id => $fields) {
@@ -303,7 +332,7 @@ foreach ($all_fields as $entity_type_id => $fields) {
         continue;
       }
 
-      echo "Processing special table: $table\n";
+      script_log("Processing special table: $table", 'info');
 
       try {
         $query = $database->select($table, 't')->fields('t');
@@ -356,11 +385,11 @@ foreach ($all_fields as $entity_type_id => $fields) {
         }
 
         if ($table_updates > 0) {
-          echo "  Updated $table_updates records\n";
+          script_log("Updated $table_updates records", 'info');
         }
 
       } catch (\Exception $e) {
-        echo "  Error: " . $e->getMessage() . "\n";
+        script_log($e->getMessage(), 'error');
       }
 
       continue;
@@ -384,7 +413,7 @@ foreach ($all_fields as $entity_type_id => $fields) {
       $tables_processed[] = $table;
       $value_column = $field_info['value_column'];
 
-      echo "Processing $table ($entity_type_id.$field_name)...\n";
+      script_log("Processing $table ($entity_type_id.$field_name)...", 'info');
 
       try {
         // Build query
@@ -453,18 +482,18 @@ foreach ($all_fields as $entity_type_id => $fields) {
         }
 
         if ($table_updates > 0) {
-          echo "  Updated $table_updates records\n";
+          script_log("Updated $table_updates records", 'info');
         }
 
       } catch (\Exception $e) {
-        echo "  Error: " . $e->getMessage() . "\n";
+        script_log($e->getMessage(), 'error');
       }
     }
   }
 }
 
 // Phase 3: Direct database search for any tables we might have missed
-echo "\nPhase 3: Final sweep for missed button classes...\n";
+script_log("Phase 3: Final sweep for missed button classes...", 'info');
 
 $all_tables = $database->query("SHOW TABLES")->fetchCol();
 $search_patterns = [
@@ -515,7 +544,7 @@ foreach ($all_tables as $table) {
           if (preg_match('/<[^>]+>/', $sample_content)) {
             foreach (array_keys($button_mappings) as $old_class) {
               if (stripos($sample_content, $old_class) !== FALSE) {
-                echo "Found old button classes in $table.$column\n";
+                script_log("Found old button classes in $table.$column", 'info');
 
                 // Process all rows
                 $process_query = $database->select($table, 't')
@@ -549,7 +578,7 @@ foreach ($all_tables as $table) {
                       if ($id_column_found) {
                         $update_query->execute();
                       } else {
-                        echo "  Warning: No ID column found for $table\n";
+                        script_log("No ID column found for $table", 'warning');
                       }
                     }
 
@@ -559,7 +588,7 @@ foreach ($all_tables as $table) {
                 }
 
                 if ($table_updates > 0) {
-                  echo "  Updated $table_updates records\n";
+                  script_log("Updated $table_updates records", 'info');
                 }
 
                 $tables_processed[] = $table;
@@ -575,25 +604,17 @@ foreach ($all_tables as $table) {
   }
 }
 
-// Summary
-echo "\nButton style update complete.\n";
-echo "Total fields updated: $updated_count\n";
-echo "Tables processed: " . count($tables_processed) . "\n\n";
-
-// Write detailed log file
-$log_file = __DIR__ . '/comprehensive_button_update_log_' . date('Y-m-d_H-i-s') . '.csv';
-$log_handle = fopen($log_file, 'w');
-fputcsv($log_handle, ['Table', 'Entity Type', 'Field Name', 'Entity ID', 'Format', 'Replacements', 'Content Preview']);
+// Write detailed report.
+$report_handle = fopen($report_file_path, 'w');
+fputcsv($report_handle, ['Table', 'Entity Type', 'Field Name', 'Entity ID', 'Format', 'Replacements', 'Content Preview']);
 foreach ($log_entries as $entry) {
-  fputcsv($log_handle, $entry);
+  fputcsv($report_handle, $entry);
 }
-fclose($log_handle);
+fclose($report_handle);
 
-echo "Log file written to: $log_file\n";
-
-// Summary report
+// Summarize report in log.
 if (!empty($log_entries)) {
-  echo "\nSummary by entity type and field:\n";
+  script_log("Summary by entity type and field:", 'info');
   $summary = [];
   foreach ($log_entries as $entry) {
     $key = $entry['entity_type'] . '.' . $entry['field_name'];
@@ -604,11 +625,31 @@ if (!empty($log_entries)) {
   }
 
   foreach ($summary as $key => $count) {
-    echo "  $key: $count updates\n";
+    script_log("  $key: $count updates", 'info');
   }
 }
 
+// --- Final Script Output & Return ---
+$execution_time = microtime(true) - $start_time;
+script_log("Button style update complete.", 'info');
+script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
+
+$final_summary_message = sprintf(
+  "Total fields updated: %d. Tables processed: %d.",
+  $updated_count,
+  count($tables_processed)
+);
 if ($dry_run) {
-  echo "\nThis was a DRY RUN. No actual changes were made to the database.\n";
-  echo "To execute the update, run the script without DRY_RUN=1\n";
+  $final_summary_message .= " This was a DRY RUN. No actual changes were made to the database.";
+  $final_summary_message .= " To execute the update, run the script without DRY_RUN=1";
 }
+$log_message = "Detailed log: {$log_file}";
+$report_message = "Report: {$report_file_path}";
+
+script_log($final_summary_message, 'info');
+script_log($log_message, 'info');
+script_log($report_message, 'info');
+
+// Return value for update hooks or other includes
+return $final_summary_message . PHP_EOL . $log_message . PHP_EOL . $report_message;
+

@@ -15,81 +15,38 @@ use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\node\Entity\Node;
 
 // --- Script Initialization ---
-$is_cli = (php_sapi_name() === 'cli');
-$log_messages = [];
 $start_time = microtime(true);
-$script_filename = basename(__FILE__, '.php');
+$script_name = basename(__FILE__, '.php');
+require_once __DIR__ . '/_script_logger.php';
+$log_file_path = init_log_file($script_name);
+
 $datetime_suffix = date('Y-m-d_H-i-s');
-$log_filename = "{$script_filename}_{$datetime_suffix}.txt";
-$report_filename = "{$script_filename}_{$datetime_suffix}_report.html";
-$log_directory = 'public://script_logs';
-$log_file_uri = "{$log_directory}/{$log_filename}";
-$report_file_uri = "{$log_directory}/{$report_filename}";
-$drupal_root = \Drupal::root();
-
-/**
- * Helper function to write messages to the log array.
- */
-function script_log($message, $type = 'notice') {
-    global $log_messages, $is_cli;
-    $timestamp = date('Y-m-d H:i:s');
-    $log_entry = "[{$timestamp}] [{$type}] {$message}";
-    $log_messages[] = $log_entry;
-    if ($is_cli && in_array($type, ['error', 'warning', 'info'])) {
-        echo $log_entry . PHP_EOL;
-    }
-}
-
-/**
- * Writes all accumulated log messages to the specified log file.
- */
-function write_log_file(FileSystemInterface $file_system, $log_uri, array $messages) {
-    try {
-        $log_dir_path = $file_system->realpath(dirname($log_uri));
-        if (!$file_system->prepareDirectory($log_dir_path, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS)) {
-          \Drupal::logger('carlson_general')->error("Failed to create or prepare log directory: @dir", ['@dir' => $log_dir_path]);
-          echo "ERROR: Failed to create or prepare log directory: {$log_dir_path}" . PHP_EOL;
-          return false;
-        }
-        $file_system->saveData(implode(PHP_EOL, $messages), $log_uri, FileSystemInterface::EXISTS_REPLACE);
-        return $log_uri;
-    } catch (\Exception $e) {
-        \Drupal::logger('carlson_general')->error("Failed to write log file @log_uri: @error", ['@log_uri' => $log_uri, '@error' => $e->getMessage()]);
-        echo "ERROR: Failed to write log file {$log_uri}: " . $e->getMessage() . PHP_EOL;
-        return false;
-    }
-}
+$report_filename = "{$script_name}_{$datetime_suffix}_report.html";
+$report_file_uri = "public://script_logs/{$report_filename}";
 // --- End Script Initialization ---
 
-script_log("Starting P to H2 conversion script ({$script_filename}).", 'info');
+script_log("Starting P to H2 conversion script ({$script_name}).", 'info');
 script_log("Log file will be: {$log_file_uri}", 'info');
 script_log("Report file will be: {$report_file_uri}", 'info');
 
 ini_set('max_execution_time', 1800);
 script_log("Set max_execution_time to 1800 seconds.", 'info');
 
-// Initialize $file_system early for potential error logging.
-$file_system = NULL;
-if (class_exists('\Drupal') && \Drupal::hasService('file_system')) {
-    $file_system = \Drupal::service('file_system');
-}
-
-if (!class_exists('\Drupal') ||
-    !\Drupal::hasService('path_alias.manager') || !\Drupal::hasService('entity_type.manager') ||
-    !\Drupal::hasService('entity_field.manager') || !\Drupal::hasService('file_system')) {
+// Ensure Drupal services are available
+if (
+    !class_exists('\Drupal')
+    || !\Drupal::hasService('file_system')
+    || !\Drupal::hasService('path_alias.manager')
+    || !\Drupal::hasService('entity_type.manager')
+    || !\Drupal::hasService('entity_field.manager')
+) {
     $error_msg = "Required Drupal services not available. Ensure Drupal is bootstrapped.";
     script_log($error_msg, 'error');
-    if ($file_system instanceof FileSystemInterface) {
-        write_log_file($file_system, $log_file_uri, $log_messages);
-    }
     return "ERROR: {$error_msg} Detailed log: {$log_file_uri}";
 }
 
-// Ensure $file_system is set if it wasn't before.
-if (!$file_system instanceof FileSystemInterface) {
-    $file_system = \Drupal::service('file_system');
-}
-
+/** @var FileSystemInterface $file_system */
+$file_system = \Drupal::service('file_system');
 /** @var AliasManagerInterface $alias_manager */
 $alias_manager = \Drupal::service('path_alias.manager');
 /** @var EntityTypeManagerInterface $entity_type_manager */
@@ -107,14 +64,13 @@ $normalizeHtml = function ($html) {
     return trim($html);
 };
 
-$csv_file_path = $drupal_root . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/alerts_possible_heading.csv';
-script_log("Using CSV input file: {$csv_file_path}", 'info');
+$csv_file_path = $file_system->realpath(__DIR__) . '/fix_possible_headings.csv';
+script_log("Using CSV file: {$csv_file_path}", 'info');
 
 if (!file_exists($csv_file_path)) {
     $error_msg = "Error: CSV file not found at {$csv_file_path}.";
     script_log($error_msg, 'error');
-    write_log_file($file_system, $log_file_uri, $log_messages);
-    return "Script failed: {$error_msg} Detailed log: " . $file_system->realpath($log_file_uri);
+    return "Script failed: {$error_msg} Detailed log: {$log_file_path}";
 }
 
 $csv_data = array_map('str_getcsv', file($csv_file_path));
@@ -125,8 +81,7 @@ $html_index = array_search('html', $header);
 if ($url_index === false || $html_index === false) {
     $error_msg = "Error: CSV format incorrect. Must contain 'uri' and 'html' columns.";
     script_log($error_msg, 'error');
-    write_log_file($file_system, $log_file_uri, $log_messages);
-    return "Script failed: {$error_msg} Detailed log: " . $file_system->realpath($log_file_uri);
+    return "Script failed: {$error_msg} Detailed log: {$log_file_path}";
 }
 
 $processed_nodes_count = 0;
@@ -371,11 +326,11 @@ if (!empty($successful_replacements_for_report)) {
 }
 
 if ($file_system->saveData($report_html, $report_file_uri, FileSystemInterface::EXISTS_REPLACE)) {
-    script_log("HTML report saved to: " . $file_system->realpath($report_file_uri), 'info');
-    $report_path_for_output = $file_system->realpath($report_file_uri);
+    $report_file_path = $file_system->realpath($report_file_uri);
+    script_log("HTML report saved to: {$report_file_path}", 'info');
 } else {
     script_log("Failed to save HTML report to: {$report_file_uri}", 'error');
-    $report_path_for_output = "ERROR creating HTML report.";
+    $report_file_path = "ERROR creating HTML report.";
 }
 
 // Final Summary
@@ -389,9 +344,10 @@ foreach ($fields_checked_log as $field_key => $type) {
     script_log("- {$field_key} (type: {$type})", 'info');
 }
 
+// --- Final Script Output & Return ---
 $execution_time = microtime(true) - $start_time;
-script_log(sprintf("Total script execution time: %.2f seconds.", $execution_time), 'info');
 script_log("P to H2 conversion script finished.", 'info');
+script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 
 $final_summary_message = sprintf(
     "Script completed. CSV rows: %d. Nodes checked: %d. Entities updated: %d. Tags converted: %d.",
@@ -400,14 +356,12 @@ $final_summary_message = sprintf(
     $updated_entities_count,
     $total_tags_converted
 );
+$log_message = "Detailed operations log: {$log_file_path}";
+$report_message = "HTML Report: {$report_file_path}";
 
-$log_file_written_path = write_log_file($file_system, $log_file_uri, $log_messages);
-$log_path_for_output = ($log_file_written_path && $file_system instanceof FileSystemInterface) ? $file_system->realpath($log_file_written_path) : "ERROR creating log file.";
+script_log($final_summary_message, 'info');
+script_log($log_message, 'info');
+script_log($report_message, 'info');
 
-$output_message = "{$final_summary_message} Detailed operations log: {$log_path_for_output} HTML Report: {$report_path_for_output}";
-
-if ($is_cli) {
-    echo PHP_EOL . $output_message . PHP_EOL;
-}
-
-return $output_message;
+// Return value for update hooks or other includes
+return $final_summary_message . PHP_EOL . $log_message . PHP_EOL . $report_message;
