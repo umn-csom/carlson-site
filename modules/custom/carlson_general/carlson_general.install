@@ -1,14 +1,19 @@
 <?php
 
 /**
- * CSM-213 - Copy missing alt text to media thumbnail from media image field.
+ * @file
+ * Contains carlson_general.install.
  */
-function carlson_general_update_100101() {
-  // Set a longer execution time if needed, though this script should be relatively quick.
-  // ini_set('max_execution_time', 300);
 
-  $script_name = 'alt_text_sync.php';
-  $script_path = \Drupal::root() . '/' . drupal_get_path('module', 'carlson_general') . '/scripts/' . $script_name;
+/**
+ * Get the path to a script in the carlson_general module.
+ *
+ * @param string $script_name
+ * @return string|false
+ */
+function _carlson_general_get_script_path($script_name) {
+  $module_path = \Drupal::service('extension.list.module')->getPath('carlson_general');
+  $script_path = $module_path . '/scripts/' . $script_name;
 
   if (!file_exists($script_path)) {
     $error_message = t('Script file @script_name not found at @path. Update failed.', [
@@ -16,8 +21,21 @@ function carlson_general_update_100101() {
       '@path' => $script_path,
     ]);
     \Drupal::logger('carlson_general')->error($error_message);
-    return $error_message;
+    throw new \Exception($error_message);
   }
+
+  return $script_path;
+}
+
+/**
+ * CSM-213 - Copy missing alt text to media thumbnail from media image field.
+ */
+function carlson_general_update_100101() {
+  // Set a longer execution time if needed, though this script should be relatively quick.
+  // ini_set('max_execution_time', 300);
+
+  $script_name = 'alt_text_sync.php';
+  $script_path = _carlson_general_get_script_path($script_name);
 
   $summary_message = '';
   $log_file_path_message = '';
@@ -82,17 +100,7 @@ function carlson_general_update_100102() {
   ini_set('max_execution_time', 1800);
 
   $script_name = 'fix_fragmented_links.php';
-  // Use a relative path from the Drupal root for consistency.
-  $script_path = \Drupal::root() . '/' . drupal_get_path('module', 'carlson_general') . '/scripts/' . $script_name;
-
-  if (!file_exists($script_path)) {
-    $error_message = t('Script file @script_name not found at @path. Fix failed.', [
-      '@script_name' => $script_name,
-      '@path' => $script_path,
-    ]);
-    \Drupal::logger('carlson_general')->error($error_message);
-    return $error_message;
-  }
+  $script_path = _carlson_general_get_script_path($script_name);
 
   $summary_message = '';
   $log_file_path_message = '';
@@ -167,14 +175,8 @@ function carlson_general_update_100103() {
   ini_set('max_execution_time', 3600); // 1 hour
 
   // Get the script path
-  $script_path = DRUPAL_ROOT . '/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/update_button_styles_batch_api_public.php';
-
-  if (!file_exists($script_path)) {
-    \Drupal::logger('carlson_general')->error('Could not find script file at @path', [
-      '@path' => $script_path,
-    ]);
-    return t('Script file not found. Button update failed.');
-  }
+  $script_name = 'update_button_styles_batch_api_public.php';
+  $script_path = _carlson_general_get_script_path($script_name);
 
   try {
     // Start timing
@@ -468,17 +470,7 @@ function carlson_general_update_100105() {
   ini_set('max_execution_time', 1800); // 30 minutes
 
   $script_name = 'fix_possible_headings.php';
-  // Path relative to Drupal root.
-  $script_path = \Drupal::root() . '/' . drupal_get_path('module', 'carlson_general') . '/scripts/' . $script_name;
-
-  if (!file_exists($script_path)) {
-    $error_message = t('Script file @script_name not found at @path. Update failed.', [
-      '@script_name' => $script_name,
-      '@path' => $script_path,
-    ]);
-    \Drupal::logger('carlson_general')->error($error_message);
-    return $error_message;
-  }
+  $script_path = _carlson_general_get_script_path($script_name);
 
   // The script now handles its own fix_mode detection if run from CLI.
   // When included by the update hook, it defaults to fix_mode = true.
@@ -559,16 +551,7 @@ function carlson_general_update_100106() {
   ini_set('max_execution_time', 1800);  // 30 minutes
 
   $script_name = 'remove_img_title_attributes.php';
-  $script_path = \Drupal::root() . '/' . drupal_get_path('module', 'carlson_general') . '/scripts/' . $script_name;
-
-  if (!file_exists($script_path)) {
-    $error_message = t('Script file @script_name not found at @path. Update failed.', [
-      '@script_name' => $script_name,
-      '@path' => $script_path,
-    ]);
-    \Drupal::logger('carlson_general')->error($error_message);
-    return $error_message;
-  }
+  $script_path = _carlson_general_get_script_path($script_name);
 
   $summary_message = '';
   $log_file_path_message = '';
@@ -635,16 +618,7 @@ function carlson_general_update_100107() {
   ini_set('max_execution_time', 1800);
 
   $script_name = 'convert_p_to_h2.php';
-  $script_path = \Drupal::root() . '/' . drupal_get_path('module', 'carlson_general') . '/scripts/' . $script_name;
-
-  if (!file_exists($script_path)) {
-    $error_message = t('Script file @script_name not found at @path. Update failed.', [
-      '@script_name' => $script_name,
-      '@path' => $script_path,
-    ]);
-    \Drupal::logger('carlson_general')->error($error_message);
-    return $error_message;
-  }
+  $script_path = _carlson_general_get_script_path($script_name);
 
   $summary_message = '';
   $log_file_path_message = '';
