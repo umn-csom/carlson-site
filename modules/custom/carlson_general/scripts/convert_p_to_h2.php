@@ -393,11 +393,11 @@ foreach ($fields_checked_log as $field_key => $type) {
 
 // --- Final Script Output & Return ---
 $execution_time = microtime(true) - $start_time;
-script_log("P to H2 conversion script finished.", 'info');
+script_log("P to H2 heading conversion complete.", 'info');
 script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 
 $final_summary_message = sprintf(
-    "Script completed. CSV rows: %d. Nodes checked: %d. Entities updated: %d. Tags converted: %d.",
+    "CSM-248: P to H2 heading conversion complete. CSV rows: %d. Nodes checked: %d. Entities updated: %d. Tags converted: %d.",
     count($csv_data),
     $processed_nodes_count,
     $updated_entities_count,
