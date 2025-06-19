@@ -13,6 +13,8 @@ carlson_general.carlson_scripts:
     _title: 'Carlson scripts'
   requirements:
     _permission: 'view reports'
+  options:
+    _admin_route: TRUE
 
 carlson_general.view_file:
   path: '/admin/reports/carlson-scripts/view/{basename}'
@@ -27,5 +29,39 @@ carlson_general.execute_script:
   defaults:
     _controller: '\Drupal\carlson_general\Controller\CarlsonScriptsController::executeScript'
     _title: 'Execute Script'
+  requirements:
+    _permission: 'view reports'
+
+carlson_general.carlson_scripts_logs:
+  path: '/admin/reports/carlson-scripts/logs'
+  defaults:
+    _controller: '\Drupal\carlson_general\Controller\CarlsonScriptsLogsController::content'
+    _title: 'Logs'
+  requirements:
+    _permission: 'view reports'
+  options:
+    _admin_route: TRUE
+
+carlson_general.logs_view_file:
+  path: '/admin/reports/carlson-scripts/logs/view/{filename}'
+  defaults:
+    _controller: '\Drupal\carlson_general\Controller\CarlsonScriptsLogsController::viewFile'
+    _title: 'View Log File'
+  requirements:
+    _permission: 'view reports'
+
+carlson_general.logs_download_file:
+  path: '/admin/reports/carlson-scripts/logs/download/{filename}'
+  defaults:
+    _controller: '\Drupal\carlson_general\Controller\CarlsonScriptsLogsController::downloadFile'
+    _title: 'Download Log File'
+  requirements:
+    _permission: 'view reports'
+
+carlson_general.download_csv:
+  path: '/admin/reports/carlson-scripts/download/{basename}'
+  defaults:
+    _controller: '\Drupal\carlson_general\Controller\CarlsonScriptsController::downloadCsv'
+    _title: 'Download CSV'
   requirements:
     _permission: 'view reports'
