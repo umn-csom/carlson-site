@@ -33,8 +33,8 @@ $report_file_uri = "public://script_logs/{$report_filename}";
 // --- End Script Initialization ---
 
 script_log("Starting P to H2 conversion script ({$script_name}).", 'info');
-script_log("Log file will be: {$log_file_uri}", 'info');
-script_log("Report file will be: {$report_file_uri}", 'info');
+script_log("Log: {$log_file_uri}", 'info');
+script_log("Report: {$report_file_uri}", 'info');
 
 ini_set('max_execution_time', 1800);
 script_log("Set max_execution_time to 1800 seconds.", 'info');
@@ -403,8 +403,8 @@ $final_summary_message = sprintf(
     $updated_entities_count,
     $total_tags_converted
 );
-$log_message = "Log: {$log_file_path}";
-$report_message = "Report: {$report_file_path}";
+$log_message = "Log: " . get_log_viewer_url($log_file_path);
+$report_message = "Report: " . get_log_viewer_url($report_file_path);
 
 script_log($final_summary_message, 'info');
 script_log($log_message, 'info');
