@@ -13,8 +13,8 @@
  * - Any field that might contain HTML with button classes
  *
  * Usage:
- * - drush scr path/to/update_button_styles_batch_api_public.php
- * - DRY_RUN=1 drush scr path/to/update_button_styles_batch_api_public.php
+ * - drush scr path/to/update_content_button_styles.php
+ * - DRY_RUN=1 drush scr path/to/update_content_button_styles.php
  * - May also be included by an update hook.
  * - May be executed through the web interface at admin/reports/carlson-scripts
  */
@@ -187,7 +187,7 @@ foreach ($batches as $batch_index => $batch) {
       $entry['node_id'],
       $entry['replacements'],
       $entry['entity_label'],
-      $entity_link
+      str_replace('update.php/', '', $entity_link),
     ];
 
     fputcsv($report_handle, $csv_row);

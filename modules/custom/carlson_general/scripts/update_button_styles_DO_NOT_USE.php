@@ -13,8 +13,8 @@
  * - Any field that might contain HTML with button classes
  *
  * Usage:
- * - drush scr path/to/update_all_button_styles_comprehensive.php
- * - DRY_RUN=1 drush scr path/to/update_all_button_styles_comprehensive.php
+ * - drush scr path/to/update_button_styles_DO_NOT_USE.php
+ * - DRY_RUN=1 drush scr path/to/update_button_styles_DO_NOT_USE.php
  * - May also be included by an update hook.
  * - May be executed through the web interface at admin/reports/carlson-scripts
  */
