@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Standalone Drupal script to convert P tags to H2 tags based on CSV data.
+ * @file
+ * CSM-248: Convert P tags to H2 tags based on PopeTech Alert data in CSV.
  *
  * Usage:
- * - drush scr modules/custom/carlson_general/scripts/convert_p_to_h2.php
+ * - drush scr path/to/convert_p_to_h2.php
  * - May also be included by an update hook.
+ * - May be executed through the web interface at admin/reports/carlson-scripts
  */
 
 use Drupal\Core\File\FileSystemInterface;

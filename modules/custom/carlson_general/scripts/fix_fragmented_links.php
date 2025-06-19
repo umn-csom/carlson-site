@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Drupal script to detect and fix fragmented links in tabbed_content paragraphs.
+ * @file
+ * CSM-232: Fix fragmented links in tabbed content in tabbed_content paragraphs.
  *
  * Usage:
- * - drush scr modules/custom/carlson_general/scripts/fix_fragmented_links.php
+ * - drush scr path/to/fix_fragmented_links.php
  * - May also be included by an update hook.
+ * - May be executed through the web interface at admin/reports/carlson-scripts
  */
 
 use Drupal\paragraphs\Entity\Paragraph;

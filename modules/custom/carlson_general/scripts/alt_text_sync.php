@@ -1,11 +1,13 @@
 <?php
 
 /**
- * Standalone Drupal script to synchronize alt text from main media images to their thumbnails.
+ * @file
+ * CSM-213: Copy missing alt text to media thumbnail from media image field.
  *
  * Usage:
- * - drush scr modules/custom/carlson_general/scripts/alt_text_sync.php
+ * - drush scr path/to/alt_text_sync.php
  * - May also be included by an update hook.
+ * - May be executed through the web interface at admin/reports/carlson-scripts
  */
 
 use Drupal\Core\Database\Connection;

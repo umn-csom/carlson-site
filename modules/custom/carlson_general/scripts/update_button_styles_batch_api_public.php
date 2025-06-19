@@ -1,10 +1,8 @@
 <?php
 
 /**
- * Comprehensive script to update button styles using Batch API
- * CSM-295: Replace old button styles with new consolidated ones
- *
- * Modified version that saves CSV to public files directory
+ * @file
+ * CSM-295: Consolidate button styles across all content types in batches.
  *
  * This script handles ALL cases including:
  * - Fields with text formats
@@ -15,8 +13,10 @@
  * - Any field that might contain HTML with button classes
  *
  * Usage:
- *   ddev drush scr docroot/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/update_button_styles_batch_api_public.php
- *   DRY_RUN=1 ddev drush scr docroot/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/update_button_styles_batch_api_public.php
+ * - drush scr path/to/update_button_styles_batch_api_public.php
+ * - DRY_RUN=1 drush scr path/to/update_button_styles_batch_api_public.php
+ * - May also be included by an update hook.
+ * - May be executed through the web interface at admin/reports/carlson-scripts
  */
 
 use Drupal\Core\Database\Database;
