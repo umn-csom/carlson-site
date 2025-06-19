@@ -132,7 +132,7 @@ function get_log_viewer_url($log_file_uri) {
     ['filename' => $url_filename],
     ['absolute' => TRUE]
   )->toString();
-  return str_replace('update.php', '', $url);
+  return str_replace('update.php/', '', $url);
 }
 
 /**
