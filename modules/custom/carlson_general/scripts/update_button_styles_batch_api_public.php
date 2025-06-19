@@ -6,6 +6,14 @@
  *
  * Modified version that saves CSV to public files directory
  *
+ * This script handles ALL cases including:
+ * - Fields with text formats
+ * - Plain text_long fields
+ * - String_long fields
+ * - Config entities
+ * - Webforms
+ * - Any field that might contain HTML with button classes
+ *
  * Usage:
  *   ddev drush scr docroot/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/update_button_styles_batch_api_public.php
  *   DRY_RUN=1 ddev drush scr docroot/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/update_button_styles_batch_api_public.php
@@ -19,7 +27,7 @@ use Drupal\node\Entity\Node;
 use Drupal\paragraphs\Entity\Paragraph;
 
 // Initialize Drupal environment for Drush
-if (PHP_SAPI === 'cli') {
+if (php_sapi_name() === 'cli') {
   set_time_limit(0);
 }
 
@@ -39,160 +47,112 @@ script_log("Starting button style update script...", 'info');
 script_log("Log file will be: {$log_file_path}", 'info');
 script_log("Report file will be: {$report_file_path}", 'info');
 
-/**
- * Get button style mappings
- */
-function getButtonMappings() {
-  return [
-    // Original single class mappings
-    'button-link-primary' => 'btn btn-primary',
-    'button-link-secondary' => 'btn btn-primary',
-    'btn-link-primary' => 'btn btn-primary',
-    'btn-link-secondary' => 'btn btn-primary',
-    'maroon-solid-button' => 'btn btn-primary',
-    'btn-primary--maroon' => 'btn btn-primary',
-    'maroon-underline-button' => 'btn btn-primary',
-    'gold-solid-button' => 'btn btn-secondary',
-    'btn-primary--gold' => 'btn btn-secondary',
-    'btn-primary--yellow' => 'btn btn-secondary',
-    'btn-gold' => 'btn btn-secondary',
-    'gold-underline-button' => 'btn btn-secondary',
-    'maroon-outline-button' => 'btn btn-outline-primary',
-    'gold-outline-button' => 'btn btn-outline-secondary',
-    'btn-cta' => '',
-    'program-features__btn' => 'btn btn-primary',
-
-    // Compound class mappings
-    'btn btn-link-primary' => 'btn btn-primary',
-    'btn btn-link-secondary' => 'btn btn-primary',
-    'btn-sm btn-link-primary' => 'btn btn-sm btn-primary',
-    'btn-sm btn-link-secondary' => 'btn btn-sm btn-primary',
-    'btn-lg btn-link-primary' => 'btn btn-lg btn-primary',
-    'btn-lg btn-link-secondary' => 'btn btn-lg btn-primary',
-  ];
+// Dry run option
+$dry_run = !empty($_ENV['DRY_RUN']);
+if ($dry_run) {
+  script_log("Running in DRY RUN mode - no changes will be made", 'info');
 }
 
-/**
- * Main function to run the button style update
- */
-function runButtonStyleUpdate($dry_run = FALSE) {
-  // Configuration
-  $batch_size = 50;
+// Button style mappings - EXPANDED to include compound classes
+$button_mappings = [
+  // Original single class mappings
+  'button-link-primary' => 'btn btn-primary',
+  'button-link-secondary' => 'btn btn-primary',
+  'btn-link-primary' => 'btn btn-primary',
+  'btn-link-secondary' => 'btn btn-primary',
+  'maroon-solid-button' => 'btn btn-primary',
+  'btn-primary--maroon' => 'btn btn-primary',
+  'maroon-underline-button' => 'btn btn-primary',
+  'gold-solid-button' => 'btn btn-secondary',
+  'btn-primary--gold' => 'btn btn-secondary',
+  'btn-primary--yellow' => 'btn btn-secondary',
+  'btn-gold' => 'btn btn-secondary',
+  'gold-underline-button' => 'btn btn-secondary',
+  'maroon-outline-button' => 'btn btn-outline-primary',
+  'gold-outline-button' => 'btn btn-outline-secondary',
+  'btn-cta' => '',
+  'program-features__btn' => 'btn btn-primary',
 
-  // Check if running in CLI or web context
-  script_log("Starting button style update using Batch API approach...", 'info');
-  if ($dry_run) {
-    script_log("Running in DRY RUN mode - no changes will be made", 'info');
-  }
+  // Compound class mappings
+  'btn btn-link-primary' => 'btn btn-primary',
+  'btn btn-link-secondary' => 'btn btn-primary',
+  'btn-sm btn-link-primary' => 'btn btn-sm btn-primary',
+  'btn-sm btn-link-secondary' => 'btn btn-sm btn-primary',
+  'btn-lg btn-link-primary' => 'btn btn-lg btn-primary',
+  'btn-lg btn-link-secondary' => 'btn btn-lg btn-primary',
+];
 
-  // Get services
-  $entity_field_manager = \Drupal::service('entity_field.manager');
-  $entity_type_manager = \Drupal::service('entity_type.manager');
-  $database = Database::getConnection();
-
-  // Step 1 & 2: Get HTML fields
-  script_log("Step 1: Identifying HTML fields...", 'info');
-  $html_fields = getFieldsWithHTML($entity_field_manager, $entity_type_manager);
-  $field_count = 0;
-  foreach ($html_fields as $bundles) {
-    foreach ($bundles as $fields) {
-      $field_count += count($fields);
-    }
-  }
-  script_log("Found $field_count HTML fields across all entity types", 'info');
-
-  // Step 3: Find entities with old classes
-  script_log("Step 2: Finding entities with old button classes...", 'info');
-  $entities_to_process = findEntitiesWithOldClasses($database, $html_fields, getButtonMappings());
-  $total_entities = count($entities_to_process);
-  script_log("Found $total_entities entities to process", 'info');
-
-  if ($total_entities === 0) {
-    script_log("No entities found with old button classes. Nothing to update.", 'info');
-    return [
-      'total_entities' => 0,
-      'total_updated' => 0,
-      'log_file' => null,
-    ];
-  }
-
-  // Process in batches
-  script_log("Step 3: Processing entities in batches...", 'info');
-  $batches = array_chunk($entities_to_process, $batch_size);
-  $total_updated = 0;
-  $all_log_entries = [];
-
-  // Create log file in public files directory
-  $public_path = \Drupal::service('stream_wrapper_manager')->getViaScheme('public')->realpath();
-  $log_directory = $public_path . '/script_logs';
-  if (!file_exists($log_directory)) {
-    mkdir($log_directory, 0755, TRUE);
-  }
-  $script_name = basename(__FILE__, '.php');
-  $log_file = $log_directory . "/{$script_name}_" . date('Y-m-d_H-i-s') . '_report.csv';
-  $log_handle = fopen($log_file, 'w');
-  fputcsv($log_handle, ['Entity Type', 'Bundle', 'Entity ID', 'Language', 'Node ID', 'Field Name', 'Replacements', 'Entity Label']);
-
-  foreach ($batches as $batch_index => $batch) {
-    script_log(sprintf("Processing batch %d/%d...", $batch_index + 1, count($batches)), 'info');
-
-    $batch_result = processBatch($batch, $entity_type_manager, $entity_field_manager, getButtonMappings(), $dry_run);
-
-    $total_updated += $batch_result['updated_count'];
-
-    // Write log entries
-    foreach ($batch_result['log_entries'] as $entry) {
-      fputcsv($log_handle, $entry);
-    }
-
-    script_log(sprintf("  Updated %d entities in this batch", $batch_result['updated_count']), 'info');
-  }
-
-  fclose($log_handle);
-
-  // Summary
-  script_log("Button style update complete.", 'info');
-  script_log("Total entities scanned: $total_entities", 'info');
-  script_log("Total entities updated: $total_updated", 'info');
-  script_log("Log file: $log_file", 'info');
-
-  // Generate summary
-  if ($total_updated > 0) {
-    script_log("Generating summary report...", 'info');
-
-    $summary = [];
-    $handle = fopen($log_file, 'r');
-    $header = fgetcsv($handle); // Skip header
-
-    while (($row = fgetcsv($handle)) !== FALSE) {
-      $key = $row[0] . '.' . $row[5]; // entity_type.field_name
-      if (!isset($summary[$key])) {
-        $summary[$key] = 0;
-      }
-      $summary[$key]++;
-    }
-    fclose($handle);
-
-    script_log("Summary by entity type and field:", 'info');
-    foreach ($summary as $key => $count) {
-      script_log("  $key: $count updates", 'info');
-    }
-  }
-
-  if ($dry_run) {
-    script_log("This was a DRY RUN. No actual changes were made.", 'info');
-    script_log("To execute the update, run the script without DRY_RUN=1", 'info');
-  }
-
-  return [
-    'total_entities' => $total_entities,
-    'total_updated' => $total_updated,
-    'log_file' => $log_file,
-  ];
+// Ensure Drupal services are available.
+if (
+  !class_exists('\Drupal')
+  || !\Drupal::hasService('database')
+  || !\Drupal::hasService('entity_field.manager')
+  || !\Drupal::hasService('entity_type.manager')
+) {
+  $error_msg = "Required Drupal services not available. Ensure Drupal is bootstrapped or script is run in a Drupal environment.";
+  script_log($error_msg, 'error');
+  return "ERROR: {$error_msg} Log: {$log_file_path}";
 }
 
+// Get services
+$entity_field_manager = \Drupal::service('entity_field.manager');
+$entity_type_manager = \Drupal::service('entity_type.manager');
+$database = Database::getConnection();
+
+
+// Configuration
+$batch_size = 50;
+
+// Step 1: Get HTML fields
+script_log("Step 1: Identifying HTML fields...", 'info');
+$html_fields = getFieldsWithHTML($entity_field_manager, $entity_type_manager);
+$field_count = 0;
+foreach ($html_fields as $bundles) {
+  foreach ($bundles as $fields) {
+    $field_count += count($fields);
+  }
+}
+script_log("Found $field_count HTML fields across all entity types", 'info');
+
+// Step 2: Find entities with old classes
+script_log("Step 2: Finding entities with old button classes...", 'info');
+$entities_to_process = findEntitiesWithOldClasses($database, $html_fields, $button_mappings);
+$total_entities = count($entities_to_process);
+script_log("Found $total_entities entities to process", 'info');
+
+if ($total_entities === 0) {
+  $error_msg = "No entities found with old button classes. Nothing to update.";
+  script_log($error_msg, 'error');
+  return "ERROR: {$error_msg} Log: {$log_file_path}";
+}
+
+// Step 3:Process in batches and save updates to report file
+script_log("Step 3: Processing entities in batches...", 'info');
+$batches = array_chunk($entities_to_process, $batch_size);
+$total_updated = 0;
+
+$report_handle = fopen($report_file_path, 'w');
+fputcsv($report_handle, ['Entity Type', 'Bundle', 'Entity ID', 'Language', 'Node ID', 'Field Name', 'Replacements', 'Entity Label']);
+
+foreach ($batches as $batch_index => $batch) {
+  script_log(sprintf("Processing batch %d/%d...", $batch_index + 1, count($batches)), 'info');
+
+  $batch_result = processBatch($batch, $entity_type_manager, $entity_field_manager, $button_mappings, $dry_run);
+
+  $total_updated += $batch_result['updated_count'];
+
+  // Write log entries
+  foreach ($batch_result['log_entries'] as $entry) {
+    fputcsv($report_handle, $entry);
+  }
+
+  script_log(sprintf("  Updated %d entities in this batch", $batch_result['updated_count']), 'info');
+}
+
+fclose($report_handle);
+
 /**
- * Step 1 & 2: Identify entity types, bundles, and fields that might contain HTML
+ * Step 1: Identify entity types, bundles, and fields that might contain HTML
  */
 function getFieldsWithHTML($entity_field_manager, $entity_type_manager) {
   $html_fields = [];
@@ -233,7 +193,7 @@ function getFieldsWithHTML($entity_field_manager, $entity_type_manager) {
 }
 
 /**
- * Step 3: Find entities containing old button classes
+ * Step 2: Find entities containing old button classes
  */
 function findEntitiesWithOldClasses($database, $html_fields, $button_mappings) {
   $entities_to_process = [];
@@ -288,7 +248,102 @@ function findEntitiesWithOldClasses($database, $html_fields, $button_mappings) {
 }
 
 /**
- * Step 5: Update HTML using DOM parser
+ * Step 3:Process a batch of entities
+ */
+function processBatch($entities_info, $entity_type_manager, $entity_field_manager, $button_mappings, $dry_run) {
+  $log_entries = [];
+  $updated_count = 0;
+
+  foreach ($entities_info as $entity_info) {
+    try {
+      $storage = $entity_type_manager->getStorage($entity_info['entity_type']);
+      $entity = $storage->load($entity_info['entity_id']);
+
+      if (!$entity) {
+        continue;
+      }
+
+      // Handle translations
+      if ($entity->isTranslatable() && $entity->hasTranslation($entity_info['langcode'])) {
+        $entity = $entity->getTranslation($entity_info['langcode']);
+      }
+
+      $entity_changed = false;
+      $entity_updates = [];
+
+      foreach ($entity_info['fields'] as $field_name) {
+        if (!$entity->hasField($field_name)) {
+          continue;
+        }
+
+        $field = $entity->get($field_name);
+        if ($field->isEmpty()) {
+          continue;
+        }
+
+        foreach ($field as $delta => $item) {
+          $value = $item->value ?? '';
+
+          if (empty($value)) {
+            continue;
+          }
+
+          $result = updateHTMLWithDOM($value, $button_mappings);
+
+          if ($result['changed']) {
+            $item->value = $result['content'];
+            $entity_changed = true;
+
+            $entity_updates[] = [
+              'field_name' => $field_name,
+              'delta' => $delta,
+              'replacements' => $result['replacements'],
+            ];
+          }
+        }
+      }
+
+      if ($entity_changed) {
+        if (!$dry_run) {
+          $entity->save();
+        }
+
+        $updated_count++;
+
+        // Find parent node if this is a paragraph
+        $node_id = null;
+        if ($entity_info['entity_type'] === 'paragraph') {
+          $node_id = findParentNodeForParagraph($entity, $entity_type_manager);
+        } elseif ($entity_info['entity_type'] === 'node') {
+          $node_id = $entity->id();
+        }
+
+        foreach ($entity_updates as $update) {
+          $log_entries[] = [
+            'entity_type' => $entity_info['entity_type'],
+            'bundle' => $entity_info['bundle'],
+            'entity_id' => $entity->id(),
+            'langcode' => $entity_info['langcode'],
+            'node_id' => $node_id,
+            'field_name' => $update['field_name'],
+            'replacements' => implode(', ', $update['replacements']),
+            'entity_label' => method_exists($entity, 'label') ? substr($entity->label() ?? 'N/A', 0, 100) : 'N/A',
+          ];
+        }
+      }
+    } catch (\Exception $e) {
+      script_log("Error processing entity {$entity_info['entity_type']} {$entity_info['entity_id']}: " . $e->getMessage(), 'error');
+    }
+  }
+
+  return [
+    'log_entries' => $log_entries,
+    'updated_count' => $updated_count,
+  ];
+}
+
+/**
+ * Step 3.1: Update HTML using DOM parser
  */
 function updateHTMLWithDOM($html, $button_mappings) {
   if (empty($html) || !preg_match('/<[^>]+>/', $html)) {
@@ -399,102 +454,7 @@ function updateHTMLWithDOM($html, $button_mappings) {
 }
 
 /**
- * Process a batch of entities
- */
-function processBatch($entities_info, $entity_type_manager, $entity_field_manager, $button_mappings, $dry_run) {
-  $log_entries = [];
-  $updated_count = 0;
-
-  foreach ($entities_info as $entity_info) {
-    try {
-      $storage = $entity_type_manager->getStorage($entity_info['entity_type']);
-      $entity = $storage->load($entity_info['entity_id']);
-
-      if (!$entity) {
-        continue;
-      }
-
-      // Handle translations
-      if ($entity->isTranslatable() && $entity->hasTranslation($entity_info['langcode'])) {
-        $entity = $entity->getTranslation($entity_info['langcode']);
-      }
-
-      $entity_changed = false;
-      $entity_updates = [];
-
-      foreach ($entity_info['fields'] as $field_name) {
-        if (!$entity->hasField($field_name)) {
-          continue;
-        }
-
-        $field = $entity->get($field_name);
-        if ($field->isEmpty()) {
-          continue;
-        }
-
-        foreach ($field as $delta => $item) {
-          $value = $item->value ?? '';
-
-          if (empty($value)) {
-            continue;
-          }
-
-          $result = updateHTMLWithDOM($value, $button_mappings);
-
-          if ($result['changed']) {
-            $item->value = $result['content'];
-            $entity_changed = true;
-
-            $entity_updates[] = [
-              'field_name' => $field_name,
-              'delta' => $delta,
-              'replacements' => $result['replacements'],
-            ];
-          }
-        }
-      }
-
-      if ($entity_changed) {
-        if (!$dry_run) {
-          $entity->save();
-        }
-
-        $updated_count++;
-
-        // Find parent node if this is a paragraph
-        $node_id = null;
-        if ($entity_info['entity_type'] === 'paragraph') {
-          $node_id = findParentNodeForParagraph($entity, $entity_type_manager);
-        } elseif ($entity_info['entity_type'] === 'node') {
-          $node_id = $entity->id();
-        }
-
-        foreach ($entity_updates as $update) {
-          $log_entries[] = [
-            'entity_type' => $entity_info['entity_type'],
-            'bundle' => $entity_info['bundle'],
-            'entity_id' => $entity->id(),
-            'langcode' => $entity_info['langcode'],
-            'node_id' => $node_id,
-            'field_name' => $update['field_name'],
-            'replacements' => implode(', ', $update['replacements']),
-            'entity_label' => method_exists($entity, 'label') ? substr($entity->label() ?? 'N/A', 0, 100) : 'N/A',
-          ];
-        }
-      }
-    } catch (\Exception $e) {
-      script_log("Error processing entity {$entity_info['entity_type']} {$entity_info['entity_id']}: " . $e->getMessage(), 'error');
-    }
-  }
-
-  return [
-    'log_entries' => $log_entries,
-    'updated_count' => $updated_count,
-  ];
-}
-
-/**
- * Find parent node for a paragraph
+ * Step 3.2: Find parent node for a paragraph.
  */
 function findParentNodeForParagraph($paragraph, $entity_type_manager) {
   if ($paragraph->hasField('parent_id') && $paragraph->hasField('parent_type')) {
@@ -521,11 +481,48 @@ function findParentNodeForParagraph($paragraph, $entity_type_manager) {
   return null;
 }
 
-// Main execution for CLI - only run if called directly, not via include/require
-if (PHP_SAPI === 'cli' && realpath($_SERVER['SCRIPT_FILENAME']) === realpath(__FILE__)) {
-  $dry_run = !empty($_ENV['DRY_RUN']);
-  runButtonStyleUpdate($dry_run);
+// --- Final Script Output & Return ---
+$execution_time = microtime(true) - $start_time;
+script_log("Button style update complete.", 'info');
+script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
+
+// Generate report
+if ($total_updated > 0) {
+  script_log("Generating summary report...", 'info');
+
+  $summary = [];
+  $report_handle = fopen($report_file_path, 'r');
+  $header = fgetcsv($report_handle); // Skip header
+
+  while (($row = fgetcsv($report_handle)) !== FALSE) {
+    $key = $row[0] . '.' . $row[5]; // entity_type.field_name
+    if (!isset($summary[$key])) {
+      $summary[$key] = 0;
+    }
+    $summary[$key]++;
+  }
+  fclose($report_handle);
+
+  script_log("Summary by entity type and field:", 'info');
+  foreach ($summary as $key => $count) {
+    script_log("  $key: $count updates", 'info');
+  }
 }
 
-// Return true to indicate the script was loaded successfully
-return TRUE;
+$final_summary_message = sprintf(
+  "Button style update complete. Total entities scanned: %d. Total entities updated: %d.",
+  $total_entities,
+  $total_updated
+);
+if ($dry_run) {
+  $final_summary_message .= " This was a DRY RUN. No actual changes were made to the database. To execute the update, run the script without DRY_RUN=1";
+}
+$log_message = "Log: {$log_file_path}";
+$report_message = "Report: {$report_file_path}";
+
+script_log($final_summary_message, 'info');
+script_log($log_message, 'info');
+script_log($report_message, 'info');
+
+// Return a summary message that will be shown in the update hook
+return $final_summary_message . PHP_EOL . $log_message . PHP_EOL . $report_message;
