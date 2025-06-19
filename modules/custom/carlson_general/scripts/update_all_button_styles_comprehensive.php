@@ -40,7 +40,7 @@ $report_file_path = \Drupal::service('file_system')->realpath($report_file_uri);
 
 script_log("Starting button style update script...", 'info');
 script_log("Log: {$log_file_path}", 'info');
-script_log("Report file will be: {$report_file_path}", 'info');
+script_log("Report: {$report_file_path}", 'info');
 
 // Dry run option
 $dry_run = !empty($_ENV['DRY_RUN']);

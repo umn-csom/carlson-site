@@ -23,6 +23,7 @@ use Drupal\Core\Database\Database;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
 use Drupal\paragraphs\Entity\Paragraph;
 
@@ -45,7 +46,7 @@ $report_file_path = \Drupal::service('file_system')->realpath($report_file_uri);
 
 script_log("Starting button style update script...", 'info');
 script_log("Log: {$log_file_path}", 'info');
-script_log("Report file will be: {$report_file_path}", 'info');
+script_log("Report: {$report_file_path}", 'info');
 
 // Dry run option
 $dry_run = !empty($_ENV['DRY_RUN']);
@@ -103,6 +104,12 @@ $database = Database::getConnection();
 // Configuration
 $batch_size = 50;
 
+// Limit number of rows to process for debugging. 0 = processes all rows.
+$debug_row_limit = 0;
+if ($debug_row_limit > 0) {
+  script_log("Debug limit: {$debug_row_limit}", 'info');
+}
+
 // Step 1: Get HTML fields
 script_log("Step 1: Identifying HTML fields...", 'info');
 $html_fields = getFieldsWithHTML($entity_field_manager, $entity_type_manager);
@@ -118,7 +125,16 @@ script_log("Found $field_count HTML fields across all entity types", 'info');
 script_log("Step 2: Finding entities with old button classes...", 'info');
 $entities_to_process = findEntitiesWithOldClasses($database, $html_fields, $button_mappings);
 $total_entities = count($entities_to_process);
-script_log("Found $total_entities entities to process", 'info');
+
+// Apply debug limit if set
+if ($debug_row_limit > 0) {
+  $original_count = $total_entities;
+  $entities_to_process = array_slice($entities_to_process, 0, $debug_row_limit);
+  $total_entities = count($entities_to_process);
+  script_log("Debug limit active: Processing {$total_entities} out of {$original_count} entities", 'info');
+} else {
+  script_log("Found {$total_entities} entities to process", 'info');
+}
 
 if ($total_entities === 0) {
   $error_msg = "No entities found with old button classes. Nothing to update.";
@@ -132,7 +148,7 @@ $batches = array_chunk($entities_to_process, $batch_size);
 $total_updated = 0;
 
 $report_handle = fopen($report_file_path, 'w');
-fputcsv($report_handle, ['Entity Type', 'Bundle', 'Entity ID', 'Language', 'Node ID', 'Field Name', 'Replacements', 'Entity Label']);
+fputcsv($report_handle, ['Entity Path', 'Node ID', 'Replacements', 'Entity Label', 'Link']);
 
 foreach ($batches as $batch_index => $batch) {
   script_log(sprintf("Processing batch %d/%d...", $batch_index + 1, count($batches)), 'info');
@@ -143,7 +159,38 @@ foreach ($batches as $batch_index => $batch) {
 
   // Write log entries
   foreach ($batch_result['log_entries'] as $entry) {
-    fputcsv($report_handle, $entry);
+    // Format the entity path as entity_type.bundle[id].field
+    $entity_path = sprintf(
+      '%s.%s[%s].%s',
+      $entry['entity_type'],
+      $entry['bundle'],
+      $entry['entity_id'],
+      $entry['field_name']
+    );
+
+    // Generate the entity link
+    $entity_link = '';
+    if ($entry['entity_type'] === 'node') {
+      $entity_link = Url::fromRoute('entity.node.canonical', ['node' => $entry['entity_id']], ['absolute' => TRUE])->toString();
+    } elseif ($entry['entity_type'] === 'block_content') {
+      $entity_link = Url::fromRoute('entity.block_content.edit_form', ['block_content' => $entry['entity_id']], ['absolute' => TRUE])->toString();
+    } elseif ($entry['entity_type'] === 'paragraph') {
+      // For paragraphs, link to the parent node if available
+      if (!empty($entry['node_id'])) {
+        $entity_link = Url::fromRoute('entity.node.canonical', ['node' => $entry['node_id']], ['absolute' => TRUE])->toString();
+      }
+    }
+
+    // Create the new CSV row with our updated format
+    $csv_row = [
+      $entity_path,
+      $entry['node_id'],
+      $entry['replacements'],
+      $entry['entity_label'],
+      $entity_link
+    ];
+
+    fputcsv($report_handle, $csv_row);
   }
 
   script_log(sprintf("  Updated %d entities in this batch", $batch_result['updated_count']), 'info');
