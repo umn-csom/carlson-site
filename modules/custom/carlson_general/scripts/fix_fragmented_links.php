@@ -748,7 +748,8 @@ foreach ($fragmented_links_by_node as $node_data) { // Iterate over $node_data
 }
 
 // 1. SUMMARY REPORT (for log file)
-script_log("\n--- SUMMARY REPORT ---", 'info');
+script_log(str_repeat('=', 80), 'info');
+script_log("--- SCRIPT SUMMARY ---", 'info');
 script_log(str_repeat('=', 80), 'info');
 script_log("Total tabbed content paragraphs processed: " . count($tabbed_content_ids), 'info');
 script_log("Total tabs checked: {$total_tabs}", 'info');
@@ -770,7 +771,7 @@ script_log(str_repeat('=', 80), 'info');
 
 // 2. UPDATED NODES REPORT (for log file)
 if (!empty($updated_nodes)) {
-    script_log("\n--- NODES UPDATED ---", 'info');
+    script_log("--- NODES UPDATED ---", 'info');
     script_log(str_repeat('=', 80), 'info');
 
     foreach ($updated_nodes as $node_id => $data) {
@@ -798,7 +799,7 @@ if (!empty($updated_nodes)) {
 
 // 3. DETAILED FRAGMENTED LINKS REPORT (Initial state, for log file)
 if (!empty($fragmented_links_by_node)) {
-    script_log("\n--- INITIAL FRAGMENTED LINKS DETAIL (Before Fixes) ---", 'info');
+    script_log("--- INITIAL FRAGMENTED LINKS DETAIL (Before Fixes) ---", 'info');
     script_log(str_repeat('=', 80), 'info');
 
     foreach ($fragmented_links_by_node as $node_id => $data) {
@@ -820,7 +821,7 @@ if (!empty($fragmented_links_by_node)) {
 
 // Save parent nodes to register the changes
 if (!empty($updated_nodes)) {
-    script_log("\nSaving parent nodes to register changes...", 'info');
+    script_log("Saving parent nodes to register changes...", 'info');
     /** @var \Drupal\node\NodeStorageInterface $node_storage */
     $node_storage = $entity_type_manager->getStorage('node');
 
@@ -857,7 +858,7 @@ if (!empty($updated_nodes)) {
 // This section can be extensive and might be better as a separate diagnostic script
 // For now, logging the attempt.
 if (php_sapi_name() === 'cli' && !empty($updated_nodes)) {
-    script_log("\n--- VALIDATING FIXES (CLI ONLY) ---", 'info');
+    script_log("--- VALIDATING FIXES (CLI ONLY) ---", 'info');
     script_log(str_repeat('=', 80), 'info');
 
     $remaining_issues = [];
@@ -953,7 +954,7 @@ if (php_sapi_name() === 'cli' && !empty($updated_nodes)) {
         }
     }
 
-    script_log("\nVALIDATION RESULTS:");
+    script_log("VALIDATION RESULTS:");
     script_log(str_repeat('-', 80));
     script_log("Nodes validated: {$validated_nodes}");
     script_log("Nodes fully fixed: {$fully_fixed_nodes}");
@@ -978,7 +979,7 @@ if (php_sapi_name() === 'cli' && !empty($updated_nodes)) {
 
 // Debug function to examine specific node with issues - only in CLI mode
 if (!empty($remaining_issues) && php_sapi_name() === 'cli') {
-    script_log("\nDEBUGGING REMAINING ISSUES:");
+    script_log("DEBUGGING REMAINING ISSUES:");
     script_log(str_repeat('=', 80));
 
     // Ask user which node to examine
@@ -1074,7 +1075,7 @@ if (!empty($remaining_issues) && php_sapi_name() === 'cli') {
                                                     PREG_SET_ORDER
                                                 );
 
-                                                script_log("\nAll links in the content:");
+                                                script_log("All links in the content:");
                                                 foreach ($all_links as $i => $link) {
                                                     script_log("Link #{$i}: " . htmlspecialchars($link[0]));
                                                     script_log("  URL: {$link[1]}");

@@ -334,7 +334,9 @@ if ($file_system->saveData($report_html, $report_file_uri, FileSystemInterface::
 }
 
 // Final Summary
+script_log(str_repeat('=', 80), 'info');
 script_log("--- SCRIPT SUMMARY ---", 'info');
+script_log(str_repeat('=', 80), 'info');
 script_log("Total CSV rows processed: " . count($csv_data), 'info');
 script_log("Nodes checked: {$processed_nodes_count}", 'info');
 script_log("Total entities updated (nodes/paragraphs saved): {$updated_entities_count}", 'info');
