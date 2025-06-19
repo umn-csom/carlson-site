@@ -38,7 +38,7 @@ if (
 ) {
     $error_msg = "Required Drupal services not available. Ensure Drupal is bootstrapped or script is run in a Drupal environment.";
     script_log($error_msg, 'error');
-    return "ERROR: {$error_msg} Detailed log: {$log_file_path}";
+    return "ERROR: {$error_msg} Log: {$log_file_path}";
 }
 
 /** @var EntityFieldManagerInterface $entity_field_manager */
@@ -232,7 +232,7 @@ $final_summary_message = sprintf(
     $updated_entities_count,
     $total_title_attributes_removed
 );
-$log_message = "Detailed log: {$log_file_path}";
+$log_message = "Log: {$log_file_path}";
 
 script_log($final_summary_message, 'info');
 script_log($log_message, 'info');

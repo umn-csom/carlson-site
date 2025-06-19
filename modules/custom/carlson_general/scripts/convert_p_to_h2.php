@@ -42,7 +42,7 @@ if (
 ) {
     $error_msg = "Required Drupal services not available. Ensure Drupal is bootstrapped.";
     script_log($error_msg, 'error');
-    return "ERROR: {$error_msg} Detailed log: {$log_file_uri}";
+    return "ERROR: {$error_msg} Log: {$log_file_uri}";
 }
 
 /** @var FileSystemInterface $file_system */
@@ -70,7 +70,7 @@ script_log("Using CSV file: {$csv_file_path}", 'info');
 if (!file_exists($csv_file_path)) {
     $error_msg = "Error: CSV file not found at {$csv_file_path}.";
     script_log($error_msg, 'error');
-    return "Script failed: {$error_msg} Detailed log: {$log_file_path}";
+    return "Script failed: {$error_msg} Log: {$log_file_path}";
 }
 
 $csv_data = array_map('str_getcsv', file($csv_file_path));
@@ -81,7 +81,7 @@ $html_index = array_search('html', $header);
 if ($url_index === false || $html_index === false) {
     $error_msg = "Error: CSV format incorrect. Must contain 'uri' and 'html' columns.";
     script_log($error_msg, 'error');
-    return "Script failed: {$error_msg} Detailed log: {$log_file_path}";
+    return "Script failed: {$error_msg} Log: {$log_file_path}";
 }
 
 $processed_nodes_count = 0;
@@ -244,7 +244,7 @@ function convertHtmlTagsInValue($value, $html_to_find_normalized, callable $norm
 }
 
 /**
- * Creates an entry for the HTML report.
+ * Creates an entry for the Report.
  */
 function createReportEntry($url, $entity_type, $entity_id, $field_name, $replacements_made_in_field, $replaced_pairs_array, $paragraph_bundle = 'N/A') {
     // This function will now return a structure that holds all replacements for a given field.
@@ -259,7 +259,7 @@ function createReportEntry($url, $entity_type, $entity_id, $field_name, $replace
     ];
 }
 
-// Generate HTML Report
+// Generate Report
 $report_html = "<h1>P to H2 Conversion Report - {$datetime_suffix}</h1>";
 $report_html .= "<p>Processed " . count($csv_data) . " CSV rows. Found {$total_tags_converted} p tags converted in {$updated_entities_count} entities (nodes/paragraphs).</p>";
 
@@ -327,10 +327,10 @@ if (!empty($successful_replacements_for_report)) {
 
 if ($file_system->saveData($report_html, $report_file_uri, FileSystemInterface::EXISTS_REPLACE)) {
     $report_file_path = $file_system->realpath($report_file_uri);
-    script_log("HTML report saved to: {$report_file_path}", 'info');
+    script_log("Report saved to: {$report_file_path}", 'info');
 } else {
-    script_log("Failed to save HTML report to: {$report_file_uri}", 'error');
-    $report_file_path = "ERROR creating HTML report.";
+    script_log("Failed to save Report to: {$report_file_uri}", 'error');
+    $report_file_path = "ERROR creating report.";
 }
 
 // Final Summary
@@ -358,8 +358,8 @@ $final_summary_message = sprintf(
     $updated_entities_count,
     $total_tags_converted
 );
-$log_message = "Detailed operations log: {$log_file_path}";
-$report_message = "HTML Report: {$report_file_path}";
+$log_message = "Log: {$log_file_path}";
+$report_message = "Report: {$report_file_path}";
 
 script_log($final_summary_message, 'info');
 script_log($log_message, 'info');

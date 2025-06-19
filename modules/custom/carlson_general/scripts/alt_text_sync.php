@@ -87,7 +87,7 @@ $summary_message = sprintf(
     $processed_media_count,
     $updated_thumbnails_count
 );
-$log_message = "Detailed log: {$log_file_path}";
+$log_message = "Log: {$log_file_path}";
 
 script_log($summary_message, 'info');
 script_log($log_message, 'info');
