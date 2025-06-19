@@ -13,7 +13,7 @@ use Drupal\Core\File\FileSystemInterface;
 function init_log_file($script_name) {
   global $log_file_uri;
   $datetime_suffix = date('Y-m-d_H-i-s');
-  $log_filename = "{$script_name}_{$datetime_suffix}.txt";
+  $log_filename = "{$script_name}_{$datetime_suffix}.log";
   $log_file_uri = "public://script_logs/{$log_filename}";
 
   try {
