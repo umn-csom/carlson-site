@@ -44,7 +44,7 @@ $entity_type_manager = \Drupal::service('entity_type.manager');
 $file_system = \Drupal::service('file_system');
 
 script_log("Starting heading analysis script ({$script_name}).", 'info');
-script_log("Log file will be: {$log_file_path}", 'info');
+script_log("Log: {$log_file_path}", 'info');
 
 // CSV Path and Fix Mode
 $csv_path = $file_system->realpath(__DIR__) . '/fix_possible_headings.csv';
@@ -375,8 +375,8 @@ $final_summary_message = sprintf(
     $successful_fixes_nodes_count,
     $total_heading_issues_fixed
 );
-$log_message = "Log: {$log_file_path}";
-$report_message = "Report: {$report_file_path}";
+$log_message = "Log: " . get_log_viewer_url($log_file_path);
+$report_message = "Report: " . get_log_viewer_url($report_file_path);
 
 script_log($final_summary_message, 'info');
 script_log($log_message, 'info');

@@ -24,7 +24,7 @@ $drupal_root = \Drupal::root();
 // --- End Script Initialization ---
 
 script_log("Starting fragmented links detection and repair script ({$script_name}).", 'info');
-script_log("Log file will be: {$log_file_path}", 'info');
+script_log("Log: {$log_file_path}", 'info');
 
 // Ensure Drupal services are available
 if (
@@ -1123,7 +1123,7 @@ $final_summary_message = sprintf(
 );
 script_log($final_summary_message, 'info');
 
-$log_message = "Log: {$log_file_path}";
+$log_message = "Log: " . get_log_viewer_url($log_file_path);
 
 // Return value for update hooks or other includes
 return $final_summary_message . PHP_EOL . $log_message;

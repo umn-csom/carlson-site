@@ -24,7 +24,7 @@ $log_file_path = init_log_file($script_name);
 // --- End Script Initialization ---
 
 script_log("Starting removal of img title attributes script ({$script_name}).", 'info');
-script_log("Log file will be: {$log_file_path}", 'info');
+script_log("Log: {$log_file_path}", 'info');
 
 // Set longer execution limits (especially if not CLI, though CLI might also need it)
 ini_set('max_execution_time', 1800);  // 30 minutes
@@ -234,7 +234,7 @@ $final_summary_message = sprintf(
     $updated_entities_count,
     $total_title_attributes_removed
 );
-$log_message = "Log: {$log_file_path}";
+$log_message = "Log: " . get_log_viewer_url($log_file_path);
 
 script_log($final_summary_message, 'info');
 script_log($log_message, 'info');

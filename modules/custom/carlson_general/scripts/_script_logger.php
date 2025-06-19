@@ -9,12 +9,13 @@
  */
 
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Url;
 
 function init_log_file($script_name) {
   global $log_file_uri;
   $datetime_suffix = date('Y-m-d_H-i-s');
-  $log_filename = "{$script_name}_{$datetime_suffix}.log";
-  $log_file_uri = "public://script_logs/{$log_filename}";
+  $log_file_uri = "public://script_logs/{$script_name}_{$datetime_suffix}.log";
+  $log_file_path = get_root_relative_path($log_file_uri);
 
   try {
     /** @var FileSystemInterface $file_system */
@@ -33,12 +34,10 @@ function init_log_file($script_name) {
       }
       return FALSE;
     }
-    $timestamp = date('Y-m-d H:i:s');
-    $log_entry = "[{$timestamp}] [INFO] Log file created: {$log_file_uri}" . PHP_EOL;
-    append_to_log_file($log_entry, 'info');
-    return $file_system->realpath($log_file_uri);
+    append_to_log_file("Log: " . get_log_viewer_url($log_file_path), 'info');
+    return $log_file_path;
   } catch (\Exception $e) {
-    $message = "Failed to write log file {$log_file_uri}: " . $e->getMessage();
+    $message = "Failed to write log file {$log_file_path}: " . $e->getMessage();
     \Drupal::logger('carlson_general')->error($message);
     if (php_sapi_name() === 'cli') {
       fwrite(STDERR, "ERROR: $message" . PHP_EOL);
@@ -110,4 +109,47 @@ function append_to_log_file($message, $type = 'notice') {
     // Handle error (log, throw, etc.)
     return false;
   }
+}
+
+/**
+ * Get the URL of the log file.
+ *
+ * @param string $log_file_uri
+ *   The path or URI to the log file on disk.
+ *
+ * @return string
+ *   The URL of the log file.
+ */
+function get_log_viewer_url($log_file_uri) {
+  $filename = str_replace('.', '_', basename($log_file_uri));
+  $url = Url::fromRoute(
+    'carlson_general.logs_view_file',
+    ['filename' => $filename],
+    ['absolute' => TRUE]
+  )->toString();
+  return $url;
+}
+
+/**
+ * Get a path relative to Drupal root.
+ *
+ * @param string $path
+ *   The path to make relative to Drupal root.
+ *
+ * @return string
+ *   The path relative to Drupal root, with leading slash.
+ */
+function get_root_relative_path($path) {
+  $file_system = \Drupal::service('file_system');
+  $drupal_root = \Drupal::root();
+
+  // Get real path
+  $real_path = $file_system->realpath($path);
+
+  // If path is within Drupal root, make it relative
+  if (strpos($real_path, $drupal_root) === 0) {
+    return str_replace($drupal_root, '', $real_path);
+  }
+
+  return $real_path;
 }

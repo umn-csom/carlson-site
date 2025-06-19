@@ -44,7 +44,7 @@ $report_file_path = \Drupal::service('file_system')->realpath($report_file_uri);
 // --- End Script Initialization ---
 
 script_log("Starting button style update script...", 'info');
-script_log("Log file will be: {$log_file_path}", 'info');
+script_log("Log: {$log_file_path}", 'info');
 script_log("Report file will be: {$report_file_path}", 'info');
 
 // Dry run option
@@ -517,8 +517,8 @@ $final_summary_message = sprintf(
 if ($dry_run) {
   $final_summary_message .= " This was a DRY RUN. No actual changes were made to the database. To execute the update, run the script without DRY_RUN=1";
 }
-$log_message = "Log: {$log_file_path}";
-$report_message = "Report: {$report_file_path}";
+$log_message = "Log: " . get_log_viewer_url($log_file_path);
+$report_message = "Report: " . get_log_viewer_url($report_file_path);
 
 script_log($final_summary_message, 'info');
 script_log($log_message, 'info');
