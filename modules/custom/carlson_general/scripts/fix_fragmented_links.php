@@ -51,7 +51,7 @@ try {
 } catch (\Exception $e) {
     $error_message = "Script error. Error querying tabbed_content paragraphs: " . $e->getMessage();
     script_log($error_message, 'error');
-    return $error_message . PHP_EOL . "Detailed log: {$log_file_path}";
+    return $error_message . PHP_EOL . "Log: {$log_file_path}";
 }
 
 
@@ -60,7 +60,7 @@ if (empty($tabbed_content_ids)) {
     $final_summary = "Script complete. No tabbed_content paragraphs found.";
     script_log($final_summary, 'info');
     script_log(sprintf("Total execution time: %.2f seconds.", $execution_time), 'info');
-    return $final_summary . PHP_EOL . "Detailed log: {$log_file_path}";
+    return $final_summary . PHP_EOL . "Log: {$log_file_path}";
 }
 
 script_log("Found " . count($tabbed_content_ids) . " tabbed_content paragraphs.", 'info');
@@ -1121,7 +1121,7 @@ $final_summary_message = sprintf(
 );
 script_log($final_summary_message, 'info');
 
-$log_message = "Detailed log: {$log_file_path}";
+$log_message = "Log: {$log_file_path}";
 
 // Return value for update hooks or other includes
 return $final_summary_message . PHP_EOL . $log_message;

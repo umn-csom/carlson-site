@@ -84,7 +84,7 @@ if (
 ) {
   $error_msg = "Required Drupal services not available. Ensure Drupal is bootstrapped or script is run in a Drupal environment.";
   script_log($error_msg, 'error');
-  return "ERROR: {$error_msg} Detailed log: {$log_file_path}";
+  return "ERROR: {$error_msg} Log: {$log_file_path}";
 }
 
 // Get services
@@ -643,7 +643,7 @@ if ($dry_run) {
   $final_summary_message .= " This was a DRY RUN. No actual changes were made to the database.";
   $final_summary_message .= " To execute the update, run the script without DRY_RUN=1";
 }
-$log_message = "Detailed log: {$log_file}";
+$log_message = "Log: {$log_file}";
 $report_message = "Report: {$report_file_path}";
 
 script_log($final_summary_message, 'info');

@@ -58,7 +58,7 @@ script_log("Running in {$mode_text}", 'info');
 if (!file_exists($csv_path)) {
     $error_msg = "CSV file not found at {$csv_path}";
     script_log($error_msg, 'error');
-    return "Script failed: {$error_msg}. Detailed log: {$log_file_path}";
+    return "Script failed: {$error_msg}. Log: {$log_file_path}";
 }
 
 // Read CSV file
@@ -67,7 +67,7 @@ $handle = fopen($csv_path, 'r');
 if (!$handle) {
     $error_msg = "Could not open CSV file at {$csv_path}";
     script_log($error_msg, 'error');
-    return "Script failed: {$error_msg}. Detailed log: {$log_file_path}";
+    return "Script failed: {$error_msg}. Log: {$log_file_path}";
 }
 
 $headers = fgetcsv($handle);
@@ -372,8 +372,8 @@ $final_summary_message = sprintf(
     $successful_fixes_nodes_count,
     $total_heading_issues_fixed
 );
-$log_message = "Detailed log: {$log_file_path}";
-$report_message = "HTML Report: {$report_file_path}";
+$log_message = "Log: {$log_file_path}";
+$report_message = "Report: {$report_file_path}";
 
 script_log($final_summary_message, 'info');
 script_log($log_message, 'info');
