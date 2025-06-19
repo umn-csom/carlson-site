@@ -52,7 +52,7 @@ $button_mappings = [
   'btn-lg btn-link-secondary' => 'btn btn-lg btn-primary',
 ];
 
-script_log("Starting menu link button class update...", 'info');
+script_log("CSM-295: Starting menu link button class update...", 'info');
 
 // Get database connection
 $database = Database::getConnection();

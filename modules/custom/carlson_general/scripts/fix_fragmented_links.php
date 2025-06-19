@@ -23,7 +23,7 @@ $log_file_path = init_log_file($script_name);
 $drupal_root = \Drupal::root();
 // --- End Script Initialization ---
 
-script_log("Starting fragmented links detection and repair script ({$script_name}).", 'info');
+script_log("CSM-232: Starting fragmented links detection and repair script ({$script_name}).", 'info');
 script_log("Log: {$log_file_path}", 'info');
 
 // Ensure Drupal services are available

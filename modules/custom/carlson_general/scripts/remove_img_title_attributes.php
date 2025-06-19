@@ -23,7 +23,7 @@ require_once __DIR__ . '/_script_logger.php';
 $log_file_path = init_log_file($script_name);
 // --- End Script Initialization ---
 
-script_log("Starting removal of img title attributes script ({$script_name}).", 'info');
+script_log("CSM-231: Starting removal of img title attributes script ({$script_name}).", 'info');
 script_log("Log: {$log_file_path}", 'info');
 
 // Set longer execution limits (especially if not CLI, though CLI might also need it)
