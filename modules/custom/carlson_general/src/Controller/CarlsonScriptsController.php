@@ -70,6 +70,10 @@ class CarlsonScriptsController extends ControllerBase {
       $handle = opendir($directory);
       while (($file = readdir($handle)) !== FALSE) {
         if ($file != '.' && $file != '..') {
+          // Exclude files that start with underscore
+          if (strpos($file, '_') === 0) {
+            continue;
+          }
           $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
           if (in_array($extension, $allowed_extensions)) {
             $file_path = $directory . $file;
@@ -88,9 +92,9 @@ class CarlsonScriptsController extends ControllerBase {
       closedir($handle);
     }
 
-    // Sort files by modification time, newest first
+    // Sort files alphabetically by filename
     usort($files, function($a, $b) {
-      return strtotime($b['modified']) - strtotime($a['modified']);
+      return strcmp($a['name'], $b['name']);
     });
 
     $build['files_table'] = [
@@ -116,6 +120,20 @@ class CarlsonScriptsController extends ControllerBase {
             ],
           ],
         ];
+
+        // Add download link for CSV files
+        if ($file['extension'] === 'csv') {
+          $actions[] = [
+            'data' => [
+              '#type' => 'link',
+              '#title' => $this->t('Download'),
+              '#url' => Url::fromRoute('carlson_general.download_csv', ['basename' => $file['basename']]),
+              '#attributes' => [
+                'class' => ['button', 'button--primary', 'button--small'],
+              ],
+            ],
+          ];
+        }
 
         // Add execute link for PHP files
         if ($file['extension'] === 'php') {
@@ -150,8 +168,8 @@ class CarlsonScriptsController extends ControllerBase {
    * @param string $basename
    *   The basename of the file to view (without extension).
    *
-   * @return \Symfony\Component\HttpFoundation\Response
-   *   The file response.
+   * @return array
+   *   A render array for the file view.
    */
   public function viewFile($basename) {
     // Sanitize the basename to prevent directory traversal
@@ -176,29 +194,81 @@ class CarlsonScriptsController extends ControllerBase {
       throw new NotFoundHttpException('File not found.');
     }
 
-    $response = new BinaryFileResponse($file_path);
-    $response->setContentDisposition(
-      ResponseHeaderBag::DISPOSITION_INLINE,
-      $basename . '.' . $extension
-    );
+    // File name markup
+    $file_name_markup = [
+      '#markup' => '<strong>' . $this->t('File:') . ' ' . htmlspecialchars($basename . '.' . $extension) . '</strong>',
+    ];
 
-    // Set appropriate content type based on file extension
+    $download_button = NULL;
+    $content = NULL;
     switch ($extension) {
       case 'txt':
-        $response->headers->set('Content-Type', 'text/plain');
-        break;
-      case 'csv':
-        $response->headers->set('Content-Type', 'text/csv');
-        break;
       case 'log':
-        $response->headers->set('Content-Type', 'text/plain');
+        $contents = file_get_contents($file_path);
+        $content = [
+          '#type' => 'html_tag',
+          '#tag' => 'pre',
+          '#value' => $contents,
+          '#attributes' => [
+            'style' => 'background: #f5f5f5; padding: 15px; border-radius: 5px; overflow: auto;',
+          ],
+        ];
         break;
       case 'php':
-        $response->headers->set('Content-Type', 'text/plain');
+        $contents = file_get_contents($file_path);
+        $content = [
+          '#type' => 'html_tag',
+          '#tag' => 'pre',
+          '#value' => $contents,
+          '#attributes' => [
+            'style' => 'background: #f5f5f5; padding: 15px; border-radius: 5px; overflow: auto;',
+          ],
+        ];
         break;
+      case 'csv':
+        $rows = [];
+        if (($handle = fopen($file_path, 'r')) !== FALSE) {
+          while (($data = fgetcsv($handle)) !== FALSE) {
+            $rows[] = $data;
+          }
+          fclose($handle);
+        }
+        if (empty($rows)) {
+          $header = [];
+        } else {
+          $header = array_shift($rows);
+        }
+        $content = [
+          '#type' => 'table',
+          '#header' => $header,
+          '#rows' => $rows,
+          '#attributes' => [
+            'class' => ['csv-script-table'],
+            'style' => 'margin-top: 1em;',
+          ],
+        ];
+        $download_button = [
+          '#type' => 'link',
+          '#title' => $this->t('Download'),
+          '#url' => \Drupal\Core\Url::fromRoute('carlson_general.download_csv', ['basename' => $basename]),
+          '#attributes' => [
+            'class' => ['button', 'button--primary', 'button--small'],
+            'style' => 'margin-left: 1em;',
+          ],
+        ];
+        break;
+      default:
+        throw new NotFoundHttpException('Unsupported file type.');
     }
 
-    return $response;
+    $build = [
+      'file_name' => $file_name_markup,
+    ];
+    if ($download_button) {
+      $build['download_button'] = $download_button;
+    }
+    $build['content'] = $content;
+    return $build;
   }
 
   /**
@@ -318,6 +388,31 @@ class CarlsonScriptsController extends ControllerBase {
     $pow = min($pow, count($units) - 1);
     $bytes /= pow(1024, $pow);
     return round($bytes, 2) . ' ' . $units[$pow];
+  }
+
+  /**
+   * Download a CSV file from the scripts directory.
+   *
+   * @param string $basename
+   *   The basename of the file to download (without extension).
+   *
+   * @return \Symfony\Component\HttpFoundation\Response
+   *   The file response.
+   */
+  public function downloadCsv($basename) {
+    $basename = $this->sanitizeBasename($basename);
+    $scripts_dir = $this->getScriptsDirectory();
+    $file_path = $scripts_dir . $basename . '.csv';
+    if (!file_exists($file_path) || !is_readable($file_path)) {
+      throw new NotFoundHttpException('File not found.');
+    }
+    $response = new \Symfony\Component\HttpFoundation\BinaryFileResponse($file_path);
+    $response->setContentDisposition(
+      \Symfony\Component\HttpFoundation\ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+      $basename . '.csv'
+    );
+    $response->headers->set('Content-Type', 'text/csv');
+    return $response;
   }
 
 }
