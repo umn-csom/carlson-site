@@ -186,13 +186,25 @@ foreach ($results as $link) {
 // For good measure, clear all relevant caches
 \Drupal::service('cache_tags.invalidator')->invalidateTags(['menu', 'rendered']);
 
+// --- Final Script Output & Return ---
 $execution_time = microtime(true) - $start_time;
+script_log("Menu link button class update complete.", 'info');
+script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 
 // Log final results
-script_log("Menu link button class update complete.", 'info');
 script_log("Total links processed: {$total_links}", 'info');
 script_log("Total links updated: {$updated_count}", 'info');
-script_log("Execution time: " . round($execution_time, 2) . " seconds", 'info');
 
 // Return a summary message that will be shown in the update hook
-$result_string = "Menu link button class update complete. {$total_links} links processed, {$updated_count} links updated.";
+$final_summary_message = sprintf(
+  "Menu link button class update complete. Total links processed: %d. Total links updated: %d.",
+  $total_links,
+  $updated_count
+);
+$log_message = "Log: " . get_log_viewer_url($log_file_path);
+
+script_log($final_summary_message, 'info');
+script_log($log_message, 'info');
+
+// Return a summary message that will be shown in the update hook
+return $final_summary_message . PHP_EOL . $log_message;
