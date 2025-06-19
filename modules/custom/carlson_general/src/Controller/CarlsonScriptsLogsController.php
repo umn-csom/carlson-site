@@ -3,11 +3,11 @@
 namespace Drupal\carlson_general\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Drupal\Core\Url;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -229,6 +229,30 @@ class CarlsonScriptsLogsController extends ControllerBase {
           $header = [];
         } else {
           $header = array_shift($rows);
+          foreach ($rows as &$row) {
+            foreach ($row as &$cell) {
+              if (filter_var($cell, FILTER_VALIDATE_URL)) {
+                $parsed_url = parse_url($cell);
+                $display_url = ltrim($parsed_url['path'], '/');
+                if (!empty($parsed_url['query'])) {
+                  $display_url .= '?' . $parsed_url['query'];
+                }
+                if (!empty($parsed_url['fragment'])) {
+                  $display_url .= '#' . $parsed_url['fragment'];
+                }
+                $cell = [
+                  'data' => [
+                    '#type' => 'inline_template',
+                    '#template' => '<a href="{{ url }}" target="_blank">{{ display_url }}</a>',
+                    '#context' => [
+                      'url' => htmlspecialchars($cell),
+                      'display_url' => htmlspecialchars($display_url),
+                    ],
+                  ],
+                ];
+              }
+            }
+          }
         }
         $content = [
           '#type' => 'table',
@@ -322,12 +346,22 @@ class CarlsonScriptsLogsController extends ControllerBase {
   }
 
   protected function urlToRealFilename($url_filename, $allowed_extensions) {
+    // First try the direct filename in case it wasn't converted
+    if (file_exists($this->getLogsDirectory() . $url_filename)) {
+      return $url_filename;
+    }
+
     // Try each allowed extension, replace last _ext with .ext
     foreach ($allowed_extensions as $ext) {
       if (preg_match('/_' . preg_quote($ext, '/') . '$/', $url_filename)) {
-        return preg_replace('/_' . preg_quote($ext, '/') . '$/', '.' . $ext, $url_filename);
+        $real_filename = preg_replace('/_' . preg_quote($ext, '/') . '$/', '.' . $ext, $url_filename);
+        if (file_exists($this->getLogsDirectory() . $real_filename)) {
+          return $real_filename;
+        }
       }
     }
+
+    // If no match found, return the original filename
     return $url_filename;
   }
 

@@ -121,13 +121,18 @@ function append_to_log_file($message, $type = 'notice') {
  *   The URL of the log file.
  */
 function get_log_viewer_url($log_file_uri) {
-  $filename = str_replace('.', '_', basename($log_file_uri));
+  $filename = basename($log_file_uri);
+  if (empty($filename)) {
+    return '';
+  }
+  // Convert dots to underscores in the filename for URL-safe format
+  $url_filename = str_replace('.', '_', $filename);
   $url = Url::fromRoute(
     'carlson_general.logs_view_file',
-    ['filename' => $filename],
+    ['filename' => $url_filename],
     ['absolute' => TRUE]
   )->toString();
-  return $url;
+  return str_replace('update.php', '', $url);
 }
 
 /**
