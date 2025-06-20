@@ -557,12 +557,12 @@ if ($total_updated > 0) {
 }
 
 $final_summary_message = sprintf(
-  "CSM-295: Button style consolidation complete. Total entities scanned: %d. Total entities updated: %d.",
+  "CSM-295: Button style consolidation complete. \nTotal entities scanned: %d. \nTotal entities updated: %d.",
   $total_entities,
   $total_updated
 );
 if ($dry_run) {
-  $final_summary_message .= " This was a DRY RUN. No actual changes were made to the database. To execute the update, run the script without DRY_RUN=1";
+  $final_summary_message .= " \nThis was a DRY RUN. No actual changes were made to the database. \nTo execute the update, run the script without DRY_RUN=1";
 }
 $log_message = "Log: " . get_log_viewer_url($log_file_path);
 $report_message = "Report: " . get_log_viewer_url($report_file_path);

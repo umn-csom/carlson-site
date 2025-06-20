@@ -370,17 +370,17 @@ $execution_time = microtime(true) - $start_time;
 script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 
 $final_summary_message = sprintf(
-    "CSM-247: Fix skipped heading levels complete. URLs processed: %d. Nodes with fixes: %d. Total issues fixed: %d.",
+    "CSM-247: Fix skipped heading levels complete. \nURLs processed: %d. \nNodes with fixes: %d. \nTotal issues fixed: %d.",
     count($urls),
     $successful_fixes_nodes_count,
     $total_heading_issues_fixed
 );
 $log_message = "Log: " . get_log_viewer_url($log_file_path);
-$report_message = "Report: " . get_log_viewer_url($report_file_path);
+//$report_message = "Report: " . get_log_viewer_url($report_file_path);
 
 script_log($final_summary_message, 'info');
 script_log($log_message, 'info');
-script_log($report_message, 'info');
+//script_log($report_message, 'info');
 
 // Return value for update hooks or other includes
 return $final_summary_message . PHP_EOL . $log_message . PHP_EOL . $report_message;

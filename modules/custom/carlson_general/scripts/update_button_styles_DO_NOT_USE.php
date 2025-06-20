@@ -633,17 +633,17 @@ if (!empty($report_entries)) {
 
 // --- Final Script Output & Return ---
 $execution_time = microtime(true) - $start_time;
-script_log("Button style update complete.", 'info');
+script_log("CSM-295: Button style update complete.", 'info');
 script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 
 $final_summary_message = sprintf(
-  "Total fields updated: %d. Tables processed: %d.",
+  "CSM-295: Button style update complete. \nTotal fields updated: %d. \nTables processed: %d.",
   $updated_count,
   count($tables_processed)
 );
 if ($dry_run) {
-  $final_summary_message .= " This was a DRY RUN. No actual changes were made to the database.";
-  $final_summary_message .= " To execute the update, run the script without DRY_RUN=1";
+  $final_summary_message .= " \nThis was a DRY RUN. No actual changes were made to the database.";
+  $final_summary_message .= " \nTo execute the update, run the script without DRY_RUN=1";
 }
 $log_message = "Log: " . get_log_viewer_url($log_file_path);
 $report_message = "Report: " . get_log_viewer_url($report_file_path);

@@ -197,7 +197,7 @@ script_log("Total links updated: {$updated_count}", 'info');
 
 // Return a summary message that will be shown in the update hook
 $final_summary_message = sprintf(
-  "CSM-295: Menu link button class update complete. Total links processed: %d. Total links updated: %d.",
+  "CSM-295: Menu link button class update complete. \nTotal links processed: %d. \nTotal links updated: %d.",
   $total_links,
   $updated_count
 );
