@@ -373,20 +373,26 @@ if ($file_system->saveData($report_html, $report_file_uri, FileSystemInterface::
 
 function get_entity_link($entity) {
     if (method_exists($entity, 'getParentEntity') && $entity->getParentEntity()) {
-        return get_entity_link($entity->getParentEntity());
+        $url = get_entity_link($entity->getParentEntity());
     } else if (method_exists($entity, 'getParent') && $entity->getParent()) {
-        return get_entity_link($entity->getParent());
+        $url = get_entity_link($entity->getParent());
+    }
+    else {
+        try {
+            if ($entity->hasLinkTemplate('canonical')) {
+                $url = $entity->toUrl('canonical', ['absolute' => true])->toString();
+            }
+        } catch (\Exception $e) {
+            // Fallback if URL generation fails.
+            $url = '';
+        }
     }
 
-    $entity_type_id = $entity->getEntityTypeId();
-    try {
-        if ($entity->hasLinkTemplate('canonical')) {
-            return $entity->toUrl('canonical', ['absolute' => true])->toString();
-        }
-    } catch (\Exception $e) {
-        // Fallback if URL generation fails.
+    if ($url) {
+        $url = str_replace('update.php/', '', $url);
     }
-    return '';
+
+    return $url;
 }
 
 // === STEP 3: Create summary and log file ===
