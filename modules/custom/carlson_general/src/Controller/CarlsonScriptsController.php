@@ -313,7 +313,7 @@ class CarlsonScriptsController extends ControllerBase {
     $basename = $this->sanitizeBasename($basename);
 
     $scripts_dir = $this->getScriptsDirectory();
-    $file_path = $scripts_dir . $basename . '.php';
+    $file_path = "{$scripts_dir}/{$basename}.php";
 
     // Log the file path for debugging
     \Drupal::logger('carlson_general')->notice('Attempting to execute script: @path', ['@path' => $file_path]);
@@ -328,15 +328,9 @@ class CarlsonScriptsController extends ControllerBase {
       throw new NotFoundHttpException('File is not readable.');
     }
 
-    // Load the script content
-    $script_content = file_get_contents($file_path);
-
-    // Start output buffering
-    ob_start();
     try {
       // Include the script directly
-      include $file_path;
-      $output = ob_get_clean();
+      $result_string = include $file_path;
     }
     catch (\Exception $e) {
       ob_end_clean();
@@ -352,25 +346,40 @@ class CarlsonScriptsController extends ControllerBase {
 
     // Log the result and output
     \Drupal::logger('carlson_general')->notice('Script execution result: Output length: @length', [
-      '@length' => strlen($output)
+      '@length' => strlen($result_string)
     ]);
 
-    if (empty($output)) {
+    if (empty($result_string)) {
       \Drupal::logger('carlson_general')->warning('Script executed: @path', ['@path' => $file_path]);
-      $output = "Script executed successfully but produced no output.";
+      $result_string = "Script executed successfully but produced no output.";
 
       // Add log message link if dblog is enabled
       if (\Drupal::moduleHandler()->moduleExists('dblog')) {
         $log_url = Url::fromRoute('dblog.overview', ['type' => ['carlson_general']]);
-        $output .= "\n\nCheck the <a href=\"" . $log_url->toString() . "\">Recent log messages</a> for more details.";
+        $result_string .= "\n\nCheck the <a href=\"" . $log_url->toString() . "\">Recent log messages</a> for more details.";
       }
     }
+
+    // Convert URLs to links with basename as text
+    $result_string = preg_replace_callback(
+      '/(https?:\/\/[^\s<>]+)/i',
+      function ($matches) {
+        $url = $matches[1];
+        $basename = basename(parse_url($url, PHP_URL_PATH));
+        // If basename is empty (e.g., root URL), use the domain
+        if (empty($basename)) {
+          $basename = parse_url($url, PHP_URL_HOST);
+        }
+        return '<a href="' . htmlspecialchars($url) . '" target="_blank">' . htmlspecialchars($basename) . '</a>';
+      },
+      $result_string
+    );
 
     // Create a response with the script output
     $build = [
       '#type' => 'html_tag',
       '#tag' => 'pre',
-      '#value' => $output,
+      '#value' => $result_string,
       '#attributes' => [
         'style' => 'background: #f5f5f5; padding: 15px; border-radius: 5px; overflow: auto;',
       ],
