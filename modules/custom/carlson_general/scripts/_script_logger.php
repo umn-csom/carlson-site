@@ -66,9 +66,9 @@ function script_log($message, $type = 'notice') {
   \Drupal::logger('carlson_general')->log($type, $message);
 
   // Add all messages to log file.
-  if ($type !== 'debug') {
+  //if ($type !== 'debug') {
     append_to_log_file($message, $type);
-  }
+  //}
 
   // Show all messages in CLI (drush updb).
   if (php_sapi_name() === 'cli') {
