@@ -188,7 +188,7 @@ foreach ($results as $link) {
 
 // --- Final Script Output & Return ---
 $execution_time = microtime(true) - $start_time;
-script_log("Menu link button class update complete.", 'info');
+script_log("CSM-295: Menu link button class update complete.", 'info');
 script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 
 // Log final results
@@ -197,7 +197,7 @@ script_log("Total links updated: {$updated_count}", 'info');
 
 // Return a summary message that will be shown in the update hook
 $final_summary_message = sprintf(
-  "Menu link button class update complete. Total links processed: %d. Total links updated: %d.",
+  "CSM-295: Menu link button class update complete. Total links processed: %d. Total links updated: %d.",
   $total_links,
   $updated_count
 );
