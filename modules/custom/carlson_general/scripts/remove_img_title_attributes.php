@@ -15,229 +15,414 @@ use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Url;
 
 // --- Script Initialization ---
 $start_time = microtime(true);
 $script_name = basename(__FILE__, '.php');
 require_once __DIR__ . '/_script_logger.php';
 $log_file_path = init_log_file($script_name);
+
+$datetime_suffix = date('Y-m-d_H-i-s');
+$report_filename = "{$script_name}_{$datetime_suffix}_report.html";
+$report_file_uri = "public://script_logs/{$report_filename}";
 // --- End Script Initialization ---
 
 script_log("CSM-231: Starting removal of img title attributes script ({$script_name}).", 'info');
 script_log("Log: {$log_file_path}", 'info');
+script_log("Report: {$report_file_uri}", 'info');
 
 // Set longer execution limits (especially if not CLI, though CLI might also need it)
 ini_set('max_execution_time', 1800);  // 30 minutes
-ini_set('memory_limit', '512M'); // Increase memory limit if processing many entities
-script_log("Set max_execution_time to 1800 seconds and memory_limit to 512M.", 'info');
+script_log('Setting max execution time to 30 minutes', 'info');
 
-// Ensure Drupal services are available.
-if (
-    !class_exists('\Drupal')
-    || !\Drupal::hasService('entity_field.manager')
-    || !\Drupal::hasService('entity_type.manager')
-    || !\Drupal::hasService('entity_type.bundle.info')
-) {
-    $error_msg = "Required Drupal services not available. Ensure Drupal is bootstrapped or script is run in a Drupal environment.";
-    script_log($error_msg, 'error');
-    return "ERROR: {$error_msg} Log: {$log_file_path}";
-}
-
-/** @var EntityFieldManagerInterface $entity_field_manager */
 $entity_field_manager = \Drupal::service('entity_field.manager');
-/** @var EntityTypeManagerInterface $entity_type_manager */
 $entity_type_manager = \Drupal::service('entity_type.manager');
-/** @var EntityTypeBundleInfoInterface $bundle_info_service */
-$bundle_info_service = \Drupal::service('entity_type.bundle.info');
-
-$fields_to_process = [];
-$processed_entities_count = 0;
-$updated_entities_count = 0;
-$total_title_attributes_removed = 0;
-$updated_entity_details = []; // To store info for the log summary
+$db = \Drupal::database();
+/** @var FileSystemInterface $file_system */
+$file_system = \Drupal::service('file_system');
 
 // === STEP 1: Find all text fields ===
-script_log("Step 1: Finding all relevant text fields...", 'info');
+$fields_to_process = [];
 
-// APPROACH 1: Get configured fields (non-base fields)
+// APPROACH 1: Get configured fields
 $field_configs = $entity_type_manager->getStorage('field_config')->loadByProperties([
     'field_type' => ['text', 'text_long', 'text_with_summary'],
 ]);
+
 foreach ($field_configs as $field_config) {
+    $entity_type = $field_config->getTargetEntityTypeId();
+    $bundle = $field_config->getTargetBundle();
+    $field_name = $field_config->getName();
+
     $fields_to_process[] = [
-        'entity_type' => $field_config->getTargetEntityTypeId(),
-        'bundle' => $field_config->getTargetBundle(), // Specific bundle
-        'field_name' => $field_config->getName(),
+        'entity_type' => $entity_type,
+        'bundle' => $bundle,
+        'field_name' => $field_name,
     ];
 }
-script_log("Found " . count($fields_to_process) . " configured text fields.", 'debug');
 
-// APPROACH 2: Get base fields for all content entity types
-$all_entity_types = $entity_type_manager->getDefinitions();
-foreach ($all_entity_types as $entity_type_id => $entity_type_definition) {
-    if ($entity_type_definition->entityClassImplements(ContentEntityInterface::class)) {
+// APPROACH 2: Get base fields for all entity types
+$entity_types = $entity_type_manager->getDefinitions();
+foreach ($entity_types as $entity_type_id => $entity_type) {
+    if ($entity_type->entityClassImplements('\Drupal\Core\Entity\ContentEntityInterface')) {
+        // Get all base fields for this entity type
         $base_fields = $entity_field_manager->getBaseFieldDefinitions($entity_type_id);
+
         foreach ($base_fields as $field_name => $field_definition) {
-            if (in_array($field_definition->getType(), ['text', 'text_long', 'text_with_summary'])) {
-                $fields_to_process[] = [
-                    'entity_type' => $entity_type_id,
-                    'bundle' => '*', // Indicate all bundles for this base field
-                    'field_name' => $field_name,
-                ];
+            $field_type = $field_definition->getType();
+
+            // Only include text fields
+            if (in_array($field_type, ['text', 'text_long', 'text_with_summary'])) {
+                // For node body fields, we need one entry per bundle
+                if ($entity_type_id == 'node' && $field_name == 'body') {
+                    $bundles = \Drupal::service('entity_type.bundle.info')->getBundleInfo($entity_type_id);
+                    foreach (array_keys($bundles) as $bundle) {
+                        $fields_to_process[] = [
+                            'entity_type' => $entity_type_id,
+                            'bundle' => $bundle,
+                            'field_name' => $field_name,
+                        ];
+                    }
+                } else {
+                    $fields_to_process[] = [
+                        'entity_type' => $entity_type_id,
+                        'bundle' => $entity_type_id,
+                        'field_name' => $field_name,
+                    ];
+                }
             }
         }
     }
 }
-script_log("After adding base fields, total potential field definitions: " . count($fields_to_process) . ".", 'debug');
 
-$unique_fields_map = [];
+// APPROACH 3: Directly scan database tables for field tables
+$tables = $db->query("SHOW TABLES LIKE '%\\_\\_%'")->fetchCol();
+
+foreach ($tables as $table) {
+    // Only look for field data tables, not revision tables
+    if (strpos($table, '__') !== FALSE && strpos($table, 'revision') === FALSE) {
+        list($entity_type, $field_name) = explode('__', $table, 2);
+
+        // Check if table has a value column (text fields should)
+        $schema = $db->query("DESCRIBE `{$table}`")->fetchAllAssoc('Field');
+        $value_column = $field_name . '_value';
+
+        if (isset($schema[$value_column])) {
+            // This appears to be a text field table
+            $fields_to_process[] = [
+                'entity_type' => $entity_type,
+                'bundle' => 'all',  // We don't know the bundle but don't need it
+                'field_name' => $field_name,
+                'table' => $table,
+                'value_column' => $value_column,
+            ];
+        }
+    }
+}
+
+// Remove any duplicates (by entity_type and field_name)
+$unique_fields = [];
 foreach ($fields_to_process as $field) {
     $key = $field['entity_type'] . '|' . $field['field_name'];
-    if (!isset($unique_fields_map[$key]) || $field['bundle'] !== '*') {
-        $unique_fields_map[$key] = $field;
-    }
+    $unique_fields[$key] = $field;
 }
-$fields_to_process = array_values($unique_fields_map);
-script_log("Found " . count($fields_to_process) . " unique text field definitions to process (entity_type|field_name).", 'info');
+$fields_to_process = array_values($unique_fields);
 
-script_log("Step 2: Processing entities for each field definition...", 'info');
+script_log(sprintf('Found %d text fields to process', count($fields_to_process)), 'info');
 
-foreach ($fields_to_process as $field_index => $field_info) {
-    $entity_type_id = $field_info['entity_type'];
-    $field_name = $field_info['field_name'];
-    $bundle = $field_info['bundle'];
+// === STEP 2: Process all fields directly ===
+$processed_entities = 0;
+$updated_entities = 0;
+$updated_by_type = [];
+$updated_field_values = [];
 
-    script_log("Processing field definition " . ($field_index + 1) . "/" . count($fields_to_process) . ": {$entity_type_id}->{$field_name} (Bundle: {$bundle})", 'debug');
+// Process each field directly
+foreach ($fields_to_process as $field_index => $field) {
+    $entity_type = $field['entity_type'];
+    $field_name = $field['field_name'];
+
+    // Get table name for the field
+    if (isset($field['table']) && isset($field['value_column'])) {
+        $table_name = $field['table'];
+        $value_column = $field['value_column'];
+    } else {
+        $table_name = $entity_type . '__' . $field_name;
+        $value_column = $field_name . '_value';
+    }
+    $entity_id_column = 'entity_id';
+
+    // Check if table exists before proceeding
+    $table_exists = $db->schema()->tableExists($table_name);
+    if (!$table_exists) {
+        script_log(sprintf('Skip field %d of %d (%s:%s): Table %s does not exist', $field_index + 1, count($fields_to_process), $field_name, $entity_type, $table_name), 'notice');
+        continue;
+    }
+    script_log(sprintf('Process field %d of %d (%s:%s)', $field_index + 1, count($fields_to_process), $entity_type, $field_name), 'info');
+
+    // Load entity storage
+    $entity_storage = \Drupal::entityTypeManager()->getStorage($entity_type);
 
     try {
-        $entity_storage = $entity_type_manager->getStorage($entity_type_id);
-        $query = $entity_storage->getQuery()
-            ->accessCheck(FALSE)
-            ->condition($field_name . '.value', '%<img%title=%', 'LIKE');
+        // Query without batching - get all entities with title attributes
+        $query = \Drupal::database()->select($table_name, 't')
+            ->fields('t', [$entity_id_column])
+            ->condition('t.' . $value_column, '%<img%title=%', 'LIKE');
 
-        if ($bundle !== '*') {
-            $entity_type_definition = $entity_type_manager->getDefinition($entity_type_id);
-            $bundle_key = $entity_type_definition->getKey('bundle');
-            if ($bundle_key) {
-                 $query->condition($bundle_key, $bundle);
-            }
-        }
+        $result = $query->execute()->fetchCol();
 
-        $entity_ids = $query->execute();
+        // Process all results at once
+        if (!empty($result)) {
+            $entities = $entity_storage->loadMultiple($result);
 
-        if (empty($entity_ids)) {
-            script_log("No entities found with img title attributes in {$entity_type_id}->{$field_name} (Bundle: {$bundle}).", 'debug');
-            continue;
-        }
-
-        script_log("Found " . count($entity_ids) . " entities for {$entity_type_id}->{$field_name} (Bundle: {$bundle}) with potential titles.", 'info');
-
-        // Process in chunks to manage memory for large sets of entities
-        $chunk_size = 50;
-        $entity_id_chunks = array_chunk($entity_ids, $chunk_size);
-
-        foreach ($entity_id_chunks as $chunk_of_ids) {
-            $entities = $entity_storage->loadMultiple($chunk_of_ids);
             foreach ($entities as $entity) {
-                $processed_entities_count++;
-                if (!$entity->hasField($field_name)) {
-                    script_log("Entity ID {$entity->id()} of type {$entity_type_id} unexpectedly missing field {$field_name}. Skipping.", 'warning');
-                    continue;
-                }
-
                 $field_items = $entity->get($field_name);
-                $field_updated_for_this_entity = false;
-                $title_attrs_removed_this_entity = 0;
+                $field_updated = false;
+                $title_attrs_removed = 0;
 
+                script_log(sprintf('Processing %s:%s %d', $entity_type, $field_name, $entity->id()), 'info');
+                // Process all values in multi-value fields
                 foreach ($field_items as $delta => $item) {
                     $field_value = $item->value;
-                    if (
-                        !empty($field_value)
-                        && strpos($field_value, '<img') !== false
-                        && strpos($field_value, 'title=') !== false
-                    ) {
-                        $original_value = $field_value;
-                        $new_value = preg_replace_callback(
-                            '/(<img\s)([^>]*?)(\s?title\s*=\s*(["\'])(?:(?!\4).)*\4)([^>]*>)/i',
-                            function ($matches) {
-                                return $matches[1] . trim($matches[2] . ' ' . $matches[5]);
-                            },
-                            $field_value
-                        );
 
-                        $removed_now = substr_count(strtolower($original_value), ' title=') - substr_count(strtolower($new_value), ' title=');
+                    // Only process if the field has content and contains img tags with title attributes
+                    if (!empty($field_value) && strpos($field_value, '<img') !== false && strpos($field_value, 'title=') !== false) {
+                        // Count how many title attributes before changes
+                        $title_count_before = preg_match_all('/<img[^>]*title=["\'](.*?)["\'][^>]*>/i', $field_value, $matches);
 
-                        if ($new_value !== $original_value && $removed_now > 0) {
-                            $item->value = $new_value;
-                            $field_updated_for_this_entity = true;
-                            $title_attrs_removed_this_entity += $removed_now;
-                            script_log("Removed {$removed_now} title attributes from {$entity_type_id} ID {$entity->id()}, field {$field_name}[{$delta}].", 'debug');
+                        // Use regex to find and remove title attributes from img tags
+                        $pattern = '/<img\b([^>]*)\btitle\s*=\s*(["\'])(.*?)\2([^>]*)>/is';
+                        $replacement = '<img$1$3>';
+                        $new_value = preg_replace($pattern, $replacement, $field_value);
+
+                        // Count how many title attributes after changes
+                        $title_count_after = preg_match_all('/<img[^>]*title=["\'](.*?)["\'][^>]*>/i', $new_value, $matches);
+                        $removed_count = $title_count_before - $title_count_after;
+
+                        // If content was changed, update the entity
+                        if ($new_value !== $field_value) {
+                            $entity->get($field_name)->set($delta, ['value' => $new_value, 'format' => $item->format]);
+                            $field_updated = true;
+                            $title_attrs_removed += $removed_count;
+                            $updated_field_values[] = [
+                                'entity_type' => $entity_type,
+                                'entity_id' => $entity->id(),
+                                'field_name' => $field_name,
+                                'delta' => $delta,
+                                'old' => $field_value,
+                                'new' => $new_value,
+                                'removed' => $removed_count,
+                                'link' => get_entity_link($entity),
+                            ];
                         }
                     }
                 }
 
-                if ($field_updated_for_this_entity) {
-                    try {
-                        $entity->save();
-                        $updated_entities_count++;
-                        $total_title_attributes_removed += $title_attrs_removed_this_entity;
+                // Save entity if any field values were updated
+                if ($field_updated) {
+                    $entity->save();
+                    $updated_entities++;
 
-                        $entity_label_str = (method_exists($entity, 'label') && $entity->label()) ? $entity->label() : "ID: " . $entity->id();
-                        $updated_entity_details[] = "Updated {$entity_type_id} '{$entity_label_str}' (ID: {$entity->id()}), Field: {$field_name}. Removed {$title_attrs_removed_this_entity} title(s).";
-                        script_log("Successfully saved {$entity_type_id} ID {$entity->id()} after removing {$title_attrs_removed_this_entity} title attributes from field {$field_name}.", 'info');
-                    } catch (\Exception $e) {
-                        script_log("Error saving {$entity_type_id} ID {$entity->id()}: " . $e->getMessage(), 'error');
+                    // Get entity label or ID
+                    $entity_label = '';
+                    if (method_exists($entity, 'label') && $entity->label()) {
+                        $entity_label = $entity->label();
+                    } else {
+                        $entity_label = "ID: " . $entity->id();
                     }
+
+                    // Find parent node for paragraphs
+                    $parent_info = '';
+                    if ($entity_type == 'paragraph') {
+                        try {
+                            // Get the parent entity
+                            $parent_field = $entity->get('parent_field_name')->value;
+                            $parent_type = $entity->get('parent_type')->value;
+                            $parent_id = $entity->get('parent_id')->value;
+
+                            if ($parent_type && $parent_id) {
+                                // Try to load the parent entity
+                                $parent_entity = \Drupal::entityTypeManager()
+                                    ->getStorage($parent_type)
+                                    ->load($parent_id);
+
+                                if ($parent_entity) {
+                                    $parent_label = method_exists($parent_entity, 'label') ? $parent_entity->label() : "ID: $parent_id";
+                                    $parent_info = " (in $parent_type: \"$parent_label\", ID: $parent_id)";
+                                } else {
+                                    $parent_info = " (in $parent_type ID: $parent_id)";
+                                }
+                            }
+                        } catch (\Exception $e) {
+                            $parent_info = " (parent lookup failed: {$e->getMessage()})";
+                        }
+                    }
+
+                    // Track by entity type for summary
+                    if (!isset($updated_by_type[$entity_type])) {
+                        $updated_by_type[$entity_type] = [];
+                    }
+                    $updated_by_type[$entity_type][] = [
+                        'id' => $entity->id(),
+                        'label' => $entity_label,
+                        'attributes_removed' => $title_attrs_removed,
+                        'parent_info' => $parent_info
+                    ];
+
+                    // Add detailed log entry with parent info for paragraphs
+                    script_log(sprintf(
+                        'Updated %s "%s" (ID: %s)%s: Removed %d title attributes from %s field',
+                        $entity_type,
+                        $entity_label,
+                        $entity->id(),
+                        $parent_info,
+                        $title_attrs_removed,
+                        $field_name
+                    ));
                 }
+
+                $processed_entities++;
             }
-            // Release memory by unsetting entities in the chunk if possible, and clearing static cache
-            unset($entities);
-            $entity_storage->resetCache($chunk_of_ids);
         }
     } catch (\Exception $e) {
-        script_log("Error processing field definition {$entity_type_id}->{$field_name}: " . $e->getMessage(), 'error');
+        script_log(sprintf('Error processing field %s for entity type %s: %s', $field_name, $entity_type, $e->getMessage()), 'error');
     }
 }
 
-script_log("Step 3: Finalizing and creating summary...", 'info');
+// === REPORT GENERATION ===
+$total_title_attributes_removed_in_report = 0;
+foreach ($updated_field_values as $update) {
+    $total_title_attributes_removed_in_report += $update['removed'];
+}
 
-$summary_lines = [
-    "=== Title Attribute Removal Summary ===",
-    "Total unique field definitions checked: " . count($fields_to_process),
-    "Total entities whose fields were checked: {$processed_entities_count}",
-    "Total entities updated (saved): {$updated_entities_count}",
-    "Total title attributes removed: {$total_title_attributes_removed}",
-    "",
-    "Details of updated entities:"
-];
+$report_html = "<h1>Image Title Attribute Removal Report - {$datetime_suffix}</h1>";
+$report_html .= "<p>Found {$total_title_attributes_removed_in_report} title attributes removed in {$updated_entities} entities.</p>";
 
-if (!empty($updated_entity_details)) {
-    foreach($updated_entity_details as $detail_line) {
-        $summary_lines[] = "- " . $detail_line;
+if (!empty($updated_field_values)) {
+    // Group by entity for better organization
+    $by_entity = [];
+    foreach ($updated_field_values as $update) {
+        $entity_key = $update['entity_type'] . '-' . $update['entity_id'];
+        if (!isset($by_entity[$entity_key])) {
+            $by_entity[$entity_key] = [
+                'link' => $update['link'],
+                'updates' => []
+            ];
+        }
+        $by_entity[$entity_key]['updates'][] = $update;
     }
+
+    $report_html .= "<table border='1' cellpadding='10' cellspacing='0' style='width:100%; margin-bottom:20px; border-collapse:collapse;'>\n";
+    $report_html .= "<thead>\n";
+    $report_html .= "<tr style='background:#f0f0f0;'>\n";
+    $report_html .= "<th style='width:5%;'>#</th>\n";
+    $report_html .= "<th style='width:15%;'>Field Info</th>\n";
+    $report_html .= "<th style='width:35%;'>Original HTML</th>\n";
+    $report_html .= "<th style='width:35%;'>Updated HTML</th>\n";
+    $report_html .= "<th style='width:10%;'>Removed</th>\n";
+    $report_html .= "</tr>\n";
+    $report_html .= "</thead>\n";
+    $report_html .= "<tbody>\n";
+
+    $entity_count = 0;
+    foreach ($by_entity as $entity_key => $entity_data) {
+        $entity_count++;
+
+        // Entity URL row
+        $report_html .= "<tr style='background:#e6e6e6;'>\n";
+        $report_html .= "<td colspan='5'><strong>{$entity_count}. Entity:</strong> ";
+
+        $link_url = $entity_data['link'];
+
+        $report_html .= "<a href='" . htmlspecialchars($link_url) . "' target='_blank'>" . htmlspecialchars($link_url) . "</a></td>\n";
+        $report_html .= "</tr>\n";
+
+        foreach ($entity_data['updates'] as $update) {
+            $report_html .= "<tr>\n";
+            $report_html .= "<td style='text-align:center;'>{$entity_count}.{$update['delta']}</td>\n";
+            $report_html .= "<td>";
+            $report_html .= '<code>' . $update['entity_type'] . '[' . $update['entity_id'] . '].' . $update['field_name'] . '</code>';
+            $report_html .= "</td>\n";
+            $highlighted_old = htmlspecialchars($update['old']);
+            $highlighted_old = preg_replace('/(title=&quot;[^&]*?&quot;)/', '<strong>$1</strong>', $highlighted_old);
+            $highlighted_old = preg_replace('/(alt=&quot;[^&]*?&quot;)/', '<strong>$1</strong>', $highlighted_old);
+            $report_html .= "<td><pre class='color-error'>" . $highlighted_old . "</pre></td>\n";
+            $highlighted_new = htmlspecialchars($update['new']);
+            $highlighted_new = preg_replace('/(title=&quot;[^&]*?&quot;)/', '<strong>$1</strong>', $highlighted_new);
+            $highlighted_new = preg_replace('/(alt=&quot;[^&]*?&quot;)/', '<strong>$1</strong>', $highlighted_new);
+            $report_html .= "<td><pre class='color-success'>" . $highlighted_new . "</pre></td>\n";
+            $report_html .= "<td style='text-align:center;'>{$update['removed']}</td>\n";
+            $report_html .= "</tr>\n";
+        }
+    }
+
+    $report_html .= "</tbody>\n";
+    $report_html .= "</table>\n";
 } else {
-    $summary_lines[] = "- No entities had title attributes removed.";
+    $report_html .= "<p>No image title attributes were removed.</p>";
 }
 
-foreach($summary_lines as $s_line) {
-    script_log($s_line, 'info');
+if ($file_system->saveData($report_html, $report_file_uri, FileSystemInterface::EXISTS_REPLACE)) {
+    $report_file_path = $file_system->realpath($report_file_uri);
+    script_log("Report saved to: {$report_file_path}", 'info');
+} else {
+    script_log("Failed to save Report to: {$report_file_uri}", 'error');
+    $report_file_path = "ERROR creating report.";
 }
 
-// --- Final Script Output & Return ---
-$execution_time = microtime(true) - $start_time;
-script_log("Image title attribute removal script finished.", 'info');
-script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
+function get_entity_link($entity) {
+    if (method_exists($entity, 'getParentEntity') && $entity->getParentEntity()) {
+        return get_entity_link($entity->getParentEntity());
+    } else if (method_exists($entity, 'getParent') && $entity->getParent()) {
+        return get_entity_link($entity->getParent());
+    }
 
-$final_summary_message = sprintf(
-    "CSM-231: Removal of img title attributes complete. Entities checked: %d. Entities updated: %d. Total title attributes removed: %d.",
-    $processed_entities_count,
-    $updated_entities_count,
-    $total_title_attributes_removed
-);
+    $entity_type_id = $entity->getEntityTypeId();
+    try {
+        if ($entity->hasLinkTemplate('canonical')) {
+            return $entity->toUrl('canonical', ['absolute' => true])->toString();
+        }
+    } catch (\Exception $e) {
+        // Fallback if URL generation fails.
+    }
+    return \Drupal\Core\Url::fromRoute('entity.' . $entity_type_id . '.canonical', ['entity' => $entity->id(), 'absolute' => true])->toString();
+}
+
+// === STEP 3: Create summary and log file ===
+// Create a summary of entities updated by type
+$summary = [];
+$total_removed = 0;
+foreach ($updated_by_type as $type => $entities) {
+    $type_total = count($entities);
+    $entity_list = [];
+    $removed_attrs = 0;
+    foreach ($entities as $entity_data) {
+        $entity_list[] = $entity_data['label'] . ' (ID: ' . $entity_data['id'] . ')' .
+            (!empty($entity_data['parent_info']) ? $entity_data['parent_info'] : '');
+        $removed_attrs += $entity_data['attributes_removed'];
+    }
+    $total_removed += $removed_attrs;
+    script_log("$type ($type_total): " . implode(', ', $entity_list), 'info');
+}
+
 $log_message = "Log: " . get_log_viewer_url($log_file_path);
+$report_message = "Report: " . get_log_viewer_url($report_file_path);
 
-script_log($final_summary_message, 'info');
-script_log($log_message, 'info');
+// Add summary to log file
+script_log("=== SUMMARY ===", 'info');
+script_log("Total entities processed: {$processed_entities}", 'info');
+script_log("Total entities updated: {$updated_entities}", 'info');
+script_log("Total title attributes removed: {$total_removed}", 'info');
+script_log("Updated entities by type:\n" . implode("\n", $summary), 'info');
+script_log($report_message, 'info');
+
+$execution_time = microtime(true) - $start_time;
+script_log("Completed image title removal in @time seconds", 'info', [
+    '@time' => round($execution_time, 2)
+]);
+
+$final_summary_message = "CSM-231: Removed title attributes from images in WYSIWYG fields. Entities processed: {$processed_entities}, Entities updated: {$updated_entities}, Title attributes removed: {$total_removed}.";
 
 // Return value for update hooks or other includes
-return $final_summary_message . PHP_EOL . $log_message;
+return $final_summary_message . PHP_EOL . $log_message . PHP_EOL . $report_message;
