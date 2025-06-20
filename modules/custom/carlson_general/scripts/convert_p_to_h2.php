@@ -397,7 +397,7 @@ script_log("P to H2 heading conversion complete.", 'info');
 script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 
 $final_summary_message = sprintf(
-    "CSM-248: P to H2 heading conversion complete. CSV rows: %d. Nodes checked: %d. Entities updated: %d. Tags converted: %d.",
+    "CSM-248: P to H2 heading conversion complete. \nCSV rows: %d. \nNodes checked: %d. \nEntities updated: %d. \nTags converted: %d.",
     count($csv_data),
     $processed_nodes_count,
     $updated_entities_count,

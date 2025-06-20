@@ -36,7 +36,7 @@ $updated_thumbnails_count = 0;
 $processed_media_count = 0;
 
 try {
-    script_log("Selecting main images with non-empty alt text.", 'info');
+    script_log("CSM-213: Selecting main images with non-empty alt text.", 'info');
     $query = $database->select('media__image', 'main')
         ->fields('main', ['entity_id', 'image_alt'])
         ->condition('main.image_alt', '', '!=') // Ensure alt is not empty
@@ -81,11 +81,11 @@ try {
 
 // --- Final Script Output & Return ---
 $execution_time = microtime(true) - $start_time;
-script_log("Alt text sync script finished.", 'info');
+script_log("CSM-213: Alt text sync script finished.", 'info');
 script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 
 $summary_message = sprintf(
-    "Alt text synchronization completed. Processed %d media items. Updated %d thumbnail alt texts.",
+    "CSM-213: Alt text synchronization completed. \nProcessed %d media items. \nUpdated %d thumbnail alt texts.",
     $processed_media_count,
     $updated_thumbnails_count
 );

@@ -37,6 +37,26 @@ function _carlson_general_run_script($script_name) {
 
   $result_string = include $script_path;
 
+  if (php_sapi_name() !== 'cli') {
+    // Convert newlines to <br> tags
+    $result_string = str_replace(["\r\n", "\r", "\n"], '<br>', $result_string);
+
+    // Convert URLs to links with basename as text
+    $result_string = preg_replace_callback(
+      '/(https?:\/\/[^\s<>]+)/i',
+      function($matches) {
+        $url = $matches[1];
+        $basename = basename(parse_url($url, PHP_URL_PATH));
+        // If basename is empty (e.g., root URL), use the domain
+        if (empty($basename)) {
+          $basename = parse_url($url, PHP_URL_HOST);
+        }
+        return '<a href="' . htmlspecialchars($url) . '" target="_blank">' . htmlspecialchars($basename) . '</a>';
+      },
+      $result_string
+    );
+  }
+
   if (
     strpos(strtolower($result_string), 'error') !== false
     || strpos(strtolower($result_string), 'failed') !== false

@@ -1116,7 +1116,7 @@ script_log("Link detection and repair script finished.", 'info');
 $execution_time = microtime(true) - $start_time;
 script_log(sprintf("Execution time: %.2f seconds.", $execution_time), 'info');
 $final_summary_message = sprintf(
-    "Processed %d tabbed content paragraphs. Fixed %d fragmented links in %d nodes.",
+    "CSM-249: Fragmented link detection and repair script finished. \nProcessed %d tabbed content paragraphs. \nFixed %d fragmented links in %d nodes.",
     count($tabbed_content_ids),
     $fixed_count,
     count($updated_nodes)

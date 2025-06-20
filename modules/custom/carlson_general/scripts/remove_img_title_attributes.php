@@ -422,7 +422,7 @@ script_log("Completed image title removal in @time seconds", 'info', [
     '@time' => round($execution_time, 2)
 ]);
 
-$final_summary_message = "CSM-231: Removed title attributes from images in WYSIWYG fields. Entities processed: {$processed_entities}, Entities updated: {$updated_entities}, Title attributes removed: {$total_removed}.";
+$final_summary_message = "CSM-231: Removed title attributes from images in WYSIWYG fields. \nEntities processed: {$processed_entities}, \nEntities updated: {$updated_entities}, \nTitle attributes removed: {$total_removed}.";
 
 // Return value for update hooks or other includes
 return $final_summary_message . PHP_EOL . $log_message . PHP_EOL . $report_message;
