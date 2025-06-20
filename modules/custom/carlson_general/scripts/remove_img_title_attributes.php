@@ -386,7 +386,7 @@ function get_entity_link($entity) {
     } catch (\Exception $e) {
         // Fallback if URL generation fails.
     }
-    return \Drupal\Core\Url::fromRoute('entity.' . $entity_type_id . '.canonical', ['entity' => $entity->id(), 'absolute' => true])->toString();
+    return '';
 }
 
 // === STEP 3: Create summary and log file ===
