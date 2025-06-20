@@ -156,10 +156,10 @@ foreach ($fields_to_process as $field_index => $field) {
     // Check if table exists before proceeding
     $table_exists = $db->schema()->tableExists($table_name);
     if (!$table_exists) {
-        script_log(sprintf('Skip field %d of %d (%s:%s): Table %s does not exist', $field_index + 1, count($fields_to_process), $field_name, $entity_type, $table_name), 'notice');
+        script_log(sprintf('Skipping [%d/%d] (%s:%s): Table %s does not exist', $field_index + 1, count($fields_to_process), $field_name, $entity_type, $table_name), 'notice');
         continue;
     }
-    script_log(sprintf('Process field %d of %d (%s:%s)', $field_index + 1, count($fields_to_process), $entity_type, $field_name), 'info');
+    script_log(sprintf('Processing [%d/%d] (%s:%s)', $field_index + 1, count($fields_to_process), $entity_type, $field_name), 'info');
 
     // Load entity storage
     $entity_storage = \Drupal::entityTypeManager()->getStorage($entity_type);

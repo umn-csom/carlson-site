@@ -102,7 +102,8 @@ foreach ($urls as $index => $item) {
     $html_snippet_from_csv = $item['html'];
 
     $current_item_num = $index + 1;
-    script_log("Processing [{$current_item_num}/" . count($urls) . "]: Page title '{$title}' URL: {$url}", 'info');
+    script_log("Processing [{$current_item_num}/" . count($urls) . "]: Page title '{$title}'", 'info');
+    script_log("URL: {$url}", 'info');
 
     if (!empty($html_snippet_from_csv)) {
         script_log("Problematic HTML from CSV: " . htmlspecialchars($html_snippet_from_csv), 'debug');
