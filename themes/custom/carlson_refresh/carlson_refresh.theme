@@ -33,6 +33,9 @@ function carlson_refresh_preprocess_image(&$variables) {
   // Load the 'lqip' version of the image and convert it to a data URI.
   /** @var \Drupal\image\ImageStyleInterface $style */
   $style = \Drupal::entityTypeManager()->getStorage('image_style')->load('lqip');
+  if (!$style) {
+    return;
+  }
   $destination = $style->buildUri($source);
   // Create the derivative if it doesn't exist.
   if (!file_exists($destination)) {
