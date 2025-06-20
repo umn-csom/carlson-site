@@ -33,11 +33,11 @@ $report_file_uri = "public://script_logs/{$report_filename}";
 // --- End Script Initialization ---
 
 script_log("CSM-248: Starting P to H2 conversion script ({$script_name}).", 'info');
-script_log("Log: {$log_file_uri}", 'info');
+script_log("Log: {$log_file_path}", 'info');
 script_log("Report: {$report_file_uri}", 'info');
 
-ini_set('max_execution_time', 1800);
-script_log("Set max_execution_time to 1800 seconds.", 'info');
+ini_set('max_execution_time', 1800); // 30 minutes
+script_log("Set max_execution_time to 30 minutes.", 'info');
 
 // Ensure Drupal services are available
 if (
