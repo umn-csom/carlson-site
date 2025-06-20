@@ -77,6 +77,8 @@ function _carlson_refresh_get_image_source_file_uri($uri) {
     if (preg_match('#^sites/[^/]+/files/styles/[^/]+/(public|private)/#', $uri, $matches)) {
       $scheme = $matches[1];
       $uri = preg_replace('#^sites/[^/]+/files/styles/[^/]+/(public|private)/#', '', $uri);
+      // URL decode and return with stream wrapper
+      $uri = $scheme . '://' . urldecode($uri);
     }
   }
   // It is a styles path, so we extract the different parts.
@@ -91,9 +93,6 @@ function _carlson_refresh_get_image_source_file_uri($uri) {
     // Strip the second extension
     $uri = preg_replace('#\.(webp|avif|jpe?g|png|gif|svg)$#i', '', $uri);
   }
-
-  // URL decode and return with stream wrapper
-  $uri = $scheme . '://' . urldecode($uri);
 
   // Ensure the source file exists, or try to fetch via stage_file_proxy if available.
   if (!file_exists($uri)) {
