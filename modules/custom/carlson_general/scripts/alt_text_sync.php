@@ -54,7 +54,7 @@ try {
         $thumbnail_fid = $record->thumbnail__target_id;
         $current_thumbnail_alt = $record->thumbnail__alt;
 
-        script_log("Processing Media ID: {$media_id} ('{$media_name}'). Thumbnail FID: {$thumbnail_fid}. Main Alt: '{$main_image_alt}'. Current Thumb Alt: '{$current_thumbnail_alt}'", 'debug');
+        script_log("--------------------------------", 'info');
 
         if (!empty($main_image_alt) && $main_image_alt !== $current_thumbnail_alt) {
             $database->update('media_field_data')
@@ -64,13 +64,24 @@ try {
                 // ->condition('thumbnail__target_id', $thumbnail_fid)
                 ->execute();
             $updated_thumbnails_count++;
-            script_log("Updated thumbnail for Media ID: {$media_id} ('{$media_name}'). New Alt: '{$main_image_alt}'. (Was: '{$current_thumbnail_alt}')", 'info');
+            script_log("Updated Media ID: {$media_id} ('{$media_name}')", 'info');
+            script_log("  Thumbnail File ID: {$thumbnail_fid}", 'info');
+            script_log("  New Thumbnail Alt: '{$main_image_alt}'", 'info');
+            script_log("  Old Thumbnail Alt: '{$current_thumbnail_alt}'", 'info');
         }
         elseif (empty($main_image_alt)) {
-             script_log("Skipped Media ID: {$media_id} ('{$media_name}') - Main image alt text is empty.", 'debug');
+            script_log("Skipped Media ID: {$media_id} ('{$media_name}')", 'info');
+            script_log("  Thumbnail File ID: {$thumbnail_fid}", 'info');
+            script_log("  Main Image Alt: '{$main_image_alt}'", 'info');
+            script_log("  Thumbnail Alt:  '{$current_thumbnail_alt}'", 'info');
+            script_log("  Reason:         Main image alt text is empty.", 'info');
         }
         else if ($main_image_alt === $current_thumbnail_alt) {
-             script_log("Skipped Media ID: {$media_id} ('{$media_name}') - Thumbnail alt text already matches main image.", 'debug');
+             script_log("Skipped Media ID: {$media_id} ('{$media_name}')", 'info');
+             script_log("  Thumbnail File ID: {$thumbnail_fid}", 'info');
+             script_log("  Main Image Alt: '{$main_image_alt}'", 'info');
+             script_log("  Thumbnail Alt:  '{$current_thumbnail_alt}'", 'info');
+             script_log("  Reason:         Thumbnail alt text already matches main image.", 'info');
         }
     }
 } catch (\Exception $e) {
