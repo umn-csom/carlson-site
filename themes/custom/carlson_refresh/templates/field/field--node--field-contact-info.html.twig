@@ -62,10 +62,10 @@
     <div class="contact-cta__contact--subheading fs-18">{{ item.content.field_block_subheading }}</div>
     {% endif %}
     {% if item.content.field_email|field_value is not empty %}
-    <div class="contact-cta__contact--email fs-18"><span class="font-weight-semi-bold">Email:</span> <a class="font-weight-normal text-black" href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></div>
+    <div class="contact-cta__contact--email fs-18"><span class="font-weight-semi-bold">Email:</span> <a href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></div>
     {% endif %}
     {% if item.content.field_phone|field_value is not empty %}
-    <div class="contact-cta__contact--phone fs-18"><span class="font-weight-semi-bold">Phone:</span> <a class="font-weight-normal text-black" href="{{ item.content.field_phone[0]['#url'] }}">{{ item.content.field_phone[0]['#title'] }}</a></div>
+    <div class="contact-cta__contact--phone fs-18"><span class="font-weight-semi-bold">Phone:</span> <a href="{{ item.content.field_phone[0]['#url'] }}">{{ item.content.field_phone[0]['#title'] }}</a></div>
     {% endif %}
     {% if item.content.field_request_link|render %}
     <div class="btn btn-primary mt-4 unb-cta-icon-request">{{ item.content.field_request_link }}</div>
