@@ -3,21 +3,35 @@
 namespace Drupal\Tests\csv_importer\FunctionalJavascript;
 
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
-use Drupal\user\Entity\User;
 use Drupal\node\Entity\Node;
-use Drupal\taxonomy\Entity\Term;
+use Drupal\node\Entity\NodeType;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\Tests\language\Traits\LanguageTestTrait;
 
 /**
- * Tests CSV importer.
+ * Tests the CSV Importer functionality using JavaScript.
  *
  * @group csv_importer
  */
 class ImporterTest extends WebDriverTestBase {
 
+  use LanguageTestTrait;
+
   /**
-   * {@inheritdoc}
+   * Modules to enable.
+   *
+   * @var array
    */
-  protected static $modules = ['csv_importer', 'csv_importer_test'];
+  protected static $modules = [
+    'csv_importer',
+    'node',
+    'field',
+    'text',
+    'file',
+    'user',
+    'language',
+  ];
 
   /**
    * {@inheritdoc}
@@ -33,129 +47,201 @@ class ImporterTest extends WebDriverTestBase {
     $account = $this->drupalCreateUser([
       'administer site configuration',
       'administer users',
+      'administer nodes',
       'access user profiles',
       'access csv importer',
     ]);
 
     $this->drupalLogin($account);
 
-    Node::create([
-      'nid' => 1111,
-      'title' => 'CSV importer reference node',
-      'type' => 'csv_importer_test_content',
+    $content_type = [
+      'type' => 'page',
+      'name' => 'Basic page',
+      'description' => 'A page content type.',
+    ];
+
+    NodeType::create($content_type)->save();
+
+    FieldStorageConfig::create([
+      'field_name' => 'field_text',
+      'entity_type' => 'node',
+      'type' => 'text_long',
+      'cardinality' => FieldStorageConfig::CARDINALITY_UNLIMITED,
     ])->save();
 
-    User::create([
-      'uid' => 1111,
-      'name' => 'John Doe',
-      'roles' => [$this->createAdminRole()],
+    FieldConfig::create([
+      'field_storage' => FieldStorageConfig::loadByName('node', 'field_text'),
+      'bundle' => 'page',
+      'label' => 'Text',
+      'settings' => ['display_summary' => TRUE],
     ])->save();
 
-    Term::create([
-      'tid' => 1111,
-      'name' => 'CSV importer taxonomy reference',
-      'vid' => 'csv_importer_taxonomy',
-    ]);
+    \Drupal::service('entity_display.repository')->getFormDisplay('node', 'page', 'default')->save();
+    \Drupal::service('entity_display.repository')->getViewDisplay('node', 'page', 'default')->save();
+
+    static::createLanguageFromLangcode('fr');
+    static::enableBundleTranslation('node', 'page');
+    static::setFieldTranslatable('node', 'page', 'field_text', TRUE);
   }
 
   /**
-   * Test node importer.
+   * Tests that the CSV Importer page is accessible.
    */
-  public function testNodeCsvImporter() {
-    $assert = $this->assertSession();
-
-    $this->processForm('node', 'csv_importer_test_content');
-
-    $this->drupalGet('/csv-importer-node-1');
-
-    $assert->elementTextContains('css', '.field--name-title', 'CSV importer node 1');
-    $this->assertFields();
+  public function testPageLoad() {
+    $this->drupalGet('/admin/content/csv-importer');
+    $this->assertSession()->pageTextContains('Import CSV');
+    $this->assertSession()->fieldExists('Select entity type');
+    $this->getSession()->getPage()->selectFieldOption('Select entity type', 'Content');
+    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->assertSession()->fieldExists('Select entity bundle');
+    $this->assertSession()->fieldExists('Select delimiter');
+    $this->assertSession()->fieldExists('Select CSV file');
   }
 
   /**
-   * Test taxonomy term importer.
+   * Tests the CSV file upload (add) process.
    */
-  public function testTaxonomyTermCsvImporter() {
-    $assert = $this->assertSession();
+  public function testFileUploadAddProcess() {
+    $this->drupalGet('/admin/content/csv-importer');
+    $this->getSession()->getPage()->selectFieldOption('Select entity type', 'Content');
+    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->getSession()->getPage()->selectFieldOption('Select entity bundle', 'Basic page');
+    $this->getSession()->getPage()->selectFieldOption('Select delimiter', ',');
 
-    $this->processForm('taxonomy_term', 'csv_importer_taxonomy');
+    $module_path = \Drupal::service('extension.list.module')->getPath('csv_importer');
+    $file_path = $this->root . '/' . $module_path . '/tests/files/sample.csv';
+    $this->assertFileExists($file_path, 'The CSV file exists and is accessible.');
+    $this->getSession()->getPage()->attachFileToField('Select CSV file', $file_path);
+    $this->getSession()->getPage()->pressButton('Import');
 
-    $this->drupalGet('/csv-importer-term-1');
-
-    $assert->elementTextContains('css', '.field--name-name', 'CSV importer term 1');
-    $this->assertFields();
-  }
-
-  /**
-   * Test user importer.
-   */
-  public function testUserCsvImporter() {
-    $assert = $this->assertSession();
-
-    $this->processForm('user');
-
-    $this->drupalGet('/user/7');
-
-    $assert->elementTextContains('css', '.page-title', 'CSV importer user 1');
-    $this->assertFields();
-
-  }
-
-  /**
-   * Process form.
-   *
-   * @param string $entity_type
-   *   Entity type.
-   * @param string|null $entity_type_bundle
-   *   Entity type bundle.
-   */
-  protected function processForm(string $entity_type, string $entity_type_bundle = NULL) {
-    $assert = $this->assertSession();
-    $this->drupalGet('admin/config/development/csv-importer');
-
-    $page = $this->getSession()->getPage();
-    $page->selectFieldOption('entity_type', $entity_type);
-    $assert->assertWaitOnAjaxRequest();
-
-    if ($entity_type_bundle) {
-      $page->selectFieldOption('entity_type_bundle', $entity_type_bundle);
+    if ($this->getSession()->wait(5000)) {
+      $this->assertSession()->pageTextContains('3 new content added, 0 updated and translations created for 0 content.');
     }
-
-    $page->attachFileToField('files[csv]', \Drupal::service('extension.list.module')->getPath('csv_importer_test') . "/content/csv_example_{$entity_type}_test.csv");
-    $assert->assertWaitOnAjaxRequest();
-
-    $page->pressButton('Import');
-    $assert->assertWaitOnAjaxRequest();
   }
 
   /**
-   * Assert fields.
+   * Tests the CSV file upload (update) process.
    */
-  protected function assertFields() {
-    $assert = $this->assertSession();
+  public function testFileUploadUpdateProcess() {
+    // Create a node.
+    $node = Node::create([
+      'nid' => 1010,
+      'type' => 'page',
+      'title' => 'Original page 1',
+      'field_text' => [
+        ['value' => 'Original body value 1'],
+        ['value' => 'Original body value 2'],
+      ],
+    ]);
+    $node->enforceIsNew(TRUE);
+    $node->save();
 
-    $assert->elementTextContains('css', '.field--name-field-boolean', 'On');
-    $assert->elementTextContains('css', '.field--name-field-email', 'example@example.com');
-    $assert->elementContains('css', '.field--name-field-link', '<a href="http://example.com">CSV importer link title</a>');
-    $assert->elementTextContains('css', '.field--name-field-timestamp', 'Fri, 01/12/2018 - 21:45');
+    // Assert the node is created correctly.
+    $created_node = Node::load(1010);
+    $this->assertEquals('Original page 1', $created_node->getTitle());
+    $this->assertEquals('Original body value 1', $created_node->get('field_text')->get(0)->value);
+    $this->assertEquals('Original body value 2', $created_node->get('field_text')->get(1)->value);
 
-    $assert->elementTextContains('css', '.field--name-field-list-float', '17.1');
-    $assert->elementTextContains('css', '.field--name-field-list-integer', '18');
-    $assert->elementTextContains('css', '.field--name-field-list-text', 'List text 3');
+    $this->drupalGet('/admin/content/csv-importer');
+    $this->getSession()->getPage()->selectFieldOption('Select entity type', 'Content');
+    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->getSession()->getPage()->selectFieldOption('Select entity bundle', 'Basic page');
+    $this->getSession()->getPage()->selectFieldOption('Select delimiter', ',');
 
-    $assert->elementTextContains('css', '.field--name-field-number-decimal', '17.10');
-    $assert->elementTextContains('css', '.field--name-field-float-number', '17.20');
-    $assert->elementTextContains('css', '.field--name-field-integer-number', '17');
+    $module_path = \Drupal::service('extension.list.module')->getPath('csv_importer');
+    $file_path = $this->root . '/' . $module_path . '/tests/files/sample.csv';
+    $this->assertFileExists($file_path, 'The CSV file exists and is accessible.');
+    $this->getSession()->getPage()->attachFileToField('Select CSV file', $file_path);
+    $this->getSession()->getPage()->pressButton('Import');
 
-    $assert->elementTextContains('css', '.field--name-field-text-plain', 'Plain text');
-    $assert->elementTextContains('css', '.field--name-field-text-plain-long', 'Plain text long');
+    if ($this->getSession()->wait(5000)) {
+      $this->assertSession()->pageTextContains('2 new content added, 1 updated and translations created for 0 content.');
 
-    $assert->elementTextContains('css', '.field--name-field-content-reference', 'CSV importer reference node');
-    $assert->elementTextContains('css', '.field--name-field-user-reference', 'John Doe');
+      \Drupal::entityTypeManager()->getStorage('node')->resetCache([1010]);
 
-    $assert->elementTextContains('css', '.field--name-field-text-formatted', 'Formatted text');
-    $assert->elementTextContains('css', '.field--name-field-text-formatted-long', 'Formatted text long');
-    $assert->elementTextContains('css', '.field--name-field-text-formatted-summary', 'Formatted text summary');
+      $updated_node = Node::load(1010);
+      $this->assertEquals('Test page 3 updated', $updated_node->getTitle());
+      $this->assertEquals('Text 5 value', $updated_node->get('field_text')->get(0)->value);
+      $this->assertEquals('Text 6 value', $updated_node->get('field_text')->get(1)->value);
+    }
+  }
+
+  /**
+   * Tests the CSV file upload process for multiple fields.
+   */
+  public function testFileUploadWithMultipleField() {
+    $this->drupalGet('/admin/content/csv-importer');
+    $this->getSession()->getPage()->selectFieldOption('Select entity type', 'Content');
+    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->getSession()->getPage()->selectFieldOption('Select entity bundle', 'Basic page');
+    $this->getSession()->getPage()->selectFieldOption('Select delimiter', ',');
+
+    $module_path = \Drupal::service('extension.list.module')->getPath('csv_importer');
+    $file_path = $this->root . '/' . $module_path . '/tests/files/sample.csv';
+    $this->assertFileExists($file_path, 'The CSV file exists and is accessible.');
+    $this->getSession()->getPage()->attachFileToField('Select CSV file', $file_path);
+    $this->getSession()->getPage()->pressButton('Import');
+
+    if ($this->getSession()->wait(5000)) {
+      $this->assertSession()->pageTextContains('3 new content added, 0 updated and translations created for 0 content.');
+
+      $entity_storage = \Drupal::entityTypeManager();
+      $node = $entity_storage->getStorage('node')->load(1000);
+      $body_values = $node->get('field_text')->getValue();
+      $this->assertEquals('Text 1 value', $body_values[0]['value']);
+      $this->assertEquals('Text 2 value', $body_values[1]['value']);
+
+      $node = $entity_storage->getStorage('node')->load(1001);
+      $body_values = $node->get('field_text')->getValue();
+      $this->assertEquals('Text 3 value', $body_values[0]['value']);
+      $this->assertEquals('Text 4 value', $body_values[1]['value']);
+    }
+  }
+
+  /**
+   * Tests the CSV Importer translation functionality.
+   */
+  public function testTranslationImport() {
+    $node = Node::create([
+      'nid' => 1011,
+      'type' => 'page',
+      'title' => 'Original page 1',
+      'field_text' => [
+        ['value' => 'Original body value 1'],
+        ['value' => 'Original body value 2'],
+      ],
+    ]);
+    $node->enforceIsNew(TRUE);
+    $node->save();
+
+    $this->assertNotEmpty(
+      \Drupal::languageManager()->getLanguage('fr'),
+      'Failed to add the French language (fr).'
+    );
+
+    $this->drupalGet('/admin/content/csv-importer');
+    $this->getSession()->getPage()->selectFieldOption('Select entity type', 'Content');
+    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->getSession()->getPage()->selectFieldOption('Select entity bundle', 'Basic page');
+    $this->getSession()->getPage()->selectFieldOption('Select delimiter', ',');
+
+    $module_path = \Drupal::service('extension.list.module')->getPath('csv_importer');
+    $file_path = $this->root . '/' . $module_path . '/tests/files/sample_translation.csv';
+    $this->assertFileExists($file_path, 'The CSV file exists and is accessible.');
+    $this->getSession()->getPage()->attachFileToField('Select CSV file', $file_path);
+    $this->getSession()->getPage()->pressButton('Import');
+
+    if ($this->getSession()->wait(5000)) {
+      $this->assertSession()->pageTextContains('0 new content added, 1 updated and translations created for 1 content.');
+
+      \Drupal::entityTypeManager()->getStorage('node')->resetCache([1011]);
+      $original_node = Node::load(1011);
+      $translated_node = $original_node->getTranslation('fr');
+
+      $this->assertEquals('Titre français traduit', $translated_node->getTitle());
+      $this->assertEquals('Valeur du texte 7', $translated_node->get('field_text')->get(0)->value);
+      $this->assertEquals('Valeur du texte 8', $translated_node->get('field_text')->get(1)->value);
+    }
   }
 
 }

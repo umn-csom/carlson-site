@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\paragraphs_admin\Functional;
 
-use Drupal\Tests\BrowserTestBase;
 use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\Tests\paragraphs\Functional\WidgetStable\ParagraphsTestBase;
 use Drupal\Tests\paragraphs\FunctionalJavascript\ParagraphsTestBaseTrait;
 
 /**
@@ -11,7 +11,7 @@ use Drupal\Tests\paragraphs\FunctionalJavascript\ParagraphsTestBaseTrait;
  *
  * @group file
  */
-class ParagraphListingTest extends BrowserTestBase {
+class ParagraphListingTest extends ParagraphsTestBase {
 
   use ParagraphsTestBaseTrait;
 
@@ -21,32 +21,14 @@ class ParagraphListingTest extends BrowserTestBase {
    * @var array
    */
   protected static $modules = [
+    'paragraphs',
     'paragraphs_admin',
   ];
 
   /**
-   * An authenticated user.
-   *
-   * @var \Drupal\user\UserInterface
-   */
-  protected $baseUser;
-
-  /**
-   * User with privileges.
-   *
-   * @var \Drupal\user\UserInterface
-   */
-  protected $adminUser;
-
-  /**
    * {@inheritdoc}
    */
-  protected function setUp(): void {
-    parent::setUp();
-
-    $this->adminUser = $this->drupalCreateUser(['administer paragraphs']);
-    $this->baseUser = $this->drupalCreateUser();
-  }
+  protected $defaultTheme = 'stark';
 
   /**
    * Tests file overview with different user permissions.
@@ -55,13 +37,15 @@ class ParagraphListingTest extends BrowserTestBase {
     $this->addParagraphsType('paragraphed_test');
 
     // Users without sufficient permissions should not see paragraph listing.
-    $this->drupalLogin($this->baseUser);
+    $basicUser = $this->drupalCreateUser();
+    $admin = $this->drupalCreateUser(['administer paragraphs']);
+
+    $this->drupalLogin($basicUser);
     $this->drupalGet('admin/content/paragraphs');
     $this->assertSession()->statusCodeEquals(403);
 
     // Log in with user with right permissions and test listing.
-    $this->drupalLogin($this->adminUser);
-
+    $this->loginAsAdmin($admin);
     $this->drupalGet('admin/content/paragraphs');
     $this->assertSession()->pageTextContains('Paragraphs');
 

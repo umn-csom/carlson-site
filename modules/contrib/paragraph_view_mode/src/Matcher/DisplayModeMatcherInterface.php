@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Drupal\paragraph_view_mode\Matcher;
 
-
 use Drupal\Core\Entity\EntityInterface;
 
 /**
@@ -25,7 +24,7 @@ interface DisplayModeMatcherInterface {
    */
   public function matchViewForModeAndEntity(
     string $mode,
-    EntityInterface $entity
+    EntityInterface $entity,
   ): ?string;
 
   /**
@@ -41,7 +40,7 @@ interface DisplayModeMatcherInterface {
    */
   public function matchFormForModeAndEntity(
     string $mode,
-    EntityInterface $entity
+    EntityInterface $entity,
   ): ?string;
 
 }

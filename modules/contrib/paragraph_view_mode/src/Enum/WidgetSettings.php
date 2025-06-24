@@ -17,4 +17,6 @@ final class WidgetSettings {
 
   public const VIEW_MODES = 'view_modes';
 
+  public const APPLY_TO_PREVIEW = 'apply_to_preview';
+
 }

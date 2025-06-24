@@ -36,7 +36,7 @@ class SimpleMegaMenuAccessCanonicalPageSubscriber implements EventSubscriberInte
   /**
    * {@inheritdoc}
    */
-  public static function getSubscribedEvents() {
+  public static function getSubscribedEvents(): array {
     $events[KernelEvents::REQUEST] = ['onRequestCheckAccess'];
     return $events;
   }

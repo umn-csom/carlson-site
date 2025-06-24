@@ -3,6 +3,7 @@
 namespace Drupal\path_redirect_import;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
@@ -10,6 +11,8 @@ use Drupal\file\Entity\File;
 use Drupal\file\FileRepositoryInterface;
 use Drupal\migrate\Plugin\MigrationPluginManagerInterface;
 use League\Csv\Writer;
+
+// cspell:ignore redirections
 
 /**
  * Service that manages the redirect export batch operations.
@@ -58,7 +61,7 @@ class RedirectExport {
     FileSystemInterface $file_system,
     EntityTypeManagerInterface $entity_type_manager,
     MigrationPluginManagerInterface $migration_plugin_manager,
-    FileRepositoryInterface $file_repository
+    FileRepositoryInterface $file_repository,
   ) {
     $this->fileSystem = $file_system;
     $this->entityTypeManager = $entity_type_manager;
@@ -86,7 +89,7 @@ class RedirectExport {
     $uri = self::MIGRATE_FOLDER . $filename;
     $directory = self::MIGRATE_FOLDER;
     $this->fileSystem->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
-    return $this->fileRepository->writeData('', $uri, FileSystemInterface::EXISTS_REPLACE);
+    return $this->fileRepository->writeData('', $uri, FileExists::Replace);
   }
 
   /**

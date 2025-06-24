@@ -2,15 +2,16 @@
 
 namespace Drupal\csv_importer\Plugin;
 
-use Drupal\Core\Plugin\PluginBase;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\Core\Logger\LoggerChannelFactoryInterface;
-use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\Core\File\FileSystemInterface;
-use Drupal\file\FileRepositoryInterface;
 use Drupal\Component\Utility\Unicode;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\File\FileExists;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\Plugin\PluginBase;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\file\FileRepositoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -61,6 +62,13 @@ abstract class ImporterBase extends PluginBase implements ImporterInterface {
   protected $loggerFactory;
 
   /**
+   * The language manager service.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * Constructs ImporterBase object.
    *
    * @param array $configuration
@@ -79,14 +87,17 @@ abstract class ImporterBase extends PluginBase implements ImporterInterface {
    *   The module handler service.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
    *   The logger factory service.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   *   The language manager service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ConfigFactoryInterface $config, FileRepositoryInterface $file_repository, ModuleHandlerInterface $module_handler, LoggerChannelFactoryInterface $logger_factory) {
+  final public function __construct(array $configuration, $plugin_id, $plugin_definition, EntityTypeManagerInterface $entity_type_manager, ConfigFactoryInterface $config, FileRepositoryInterface $file_repository, ModuleHandlerInterface $module_handler, LoggerChannelFactoryInterface $logger_factory, LanguageManagerInterface $language_manager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->entityTypeManager = $entity_type_manager;
     $this->config = $config;
     $this->fileRepository = $file_repository;
     $this->moduleHandler = $module_handler;
     $this->loggerFactory = $logger_factory;
+    $this->languageManager = $language_manager;
   }
 
   /**
@@ -102,6 +113,7 @@ abstract class ImporterBase extends PluginBase implements ImporterInterface {
       $container->get('file.repository'),
       $container->get('module_handler'),
       $container->get('logger.factory'),
+      $container->get('language_manager')
     );
   }
 
@@ -117,9 +129,19 @@ abstract class ImporterBase extends PluginBase implements ImporterInterface {
       unset($csv[0]);
       foreach ($csv as $index => $data) {
         foreach ($data as $key => $content) {
+          if (empty($content)) {
+            continue;
+          }
+
           if (isset($csv_fields[$key])) {
             $content = Unicode::convertToUtf8($content, mb_detect_encoding($content));
             $fields = explode('|', $csv_fields[$key]);
+
+            if (preg_match(static::REGEX_MULTIPLE, $content, $matches)) {
+              if (isset($matches[2])) {
+                $content = explode('+', $matches[2]);
+              }
+            }
 
             $field = $fields[0];
             if (count($fields) > 1) {
@@ -151,6 +173,8 @@ abstract class ImporterBase extends PluginBase implements ImporterInterface {
         }
       }
     }
+
+    $this->moduleHandler->invokeAll('csv_importer_pre_import', [&$return]);
 
     return $return;
   }
@@ -186,7 +210,7 @@ abstract class ImporterBase extends PluginBase implements ImporterInterface {
 
     foreach ($content as $key => $item) {
       if (is_string($item) && file_exists($item)) {
-        $created = $this->fileRepository->writeData(file_get_contents($item), $this->config->get('system.file')->get('default_scheme') . '://' . basename($item), FileSystemInterface::EXISTS_REPLACE);
+        $created = $this->fileRepository->writeData(file_get_contents($item), $this->config->get('system.file')->get('default_scheme') . '://' . basename($item), FileExists::Replace);
         $content[$key] = $created->id();
       }
     }
@@ -194,51 +218,83 @@ abstract class ImporterBase extends PluginBase implements ImporterInterface {
     /** @var \Drupal\Core\Entity\Sql\SqlContentEntityStorage $entity_storage  */
     $entity_storage = $this->entityTypeManager->getStorage($this->configuration['entity_type']);
 
-    $this->moduleHandler->invokeAll('csv_importer_pre_save', [&$content]);
-
     try {
-      if (isset($content[$entity_definition->getKeys()['id']]) && $entity = $entity_storage->load($content[$entity_definition->getKeys()['id']])) {
-        /** @var \Drupal\Core\Entity\ContentEntityInterface $entity  */
-        foreach ($content as $id => $set) {
-          $entity->set($id, $set);
+      $entity = NULL;
+
+      if (!empty($content[$entity_definition->getKey('id')])) {
+        $entity = $entity_storage->load($content[$entity_definition->getKey('id')]);
+      }
+
+      $languages = $this->languageManager->getLanguages();
+      $langcode_default = $this->languageManager->getDefaultLanguage()->getId();
+      $langcode = $this->languageManager->isMultilingual() && isset($languages[$content['langcode']]) ? $content['langcode'] : $langcode_default;
+
+      if ($entity) {
+        if ($entity->hasTranslation($langcode)) {
+          $translation = $entity->getTranslation($langcode);
+        }
+        else {
+          $translation = $entity->addTranslation($langcode);
         }
 
-        if ($entity->save()) {
-          $context['results']['updated'][] = $entity->id();
+        foreach ($content as $field => $value) {
+          if ($field !== 'langcode') {
+            $translation->set($field, $value);
+          }
+        }
+
+        if ($translation->save()) {
+          $id = $entity->id();
+          $context['results']['updated'][] = $id;
+
+          if ($langcode_default !== $langcode) {
+            $context['results']['translations'][] = $id;
+          }
         }
       }
       else {
-        /** @var \Drupal\Core\Entity\ContentEntityInterface $entity  */
-        $entity = $this->entityTypeManager->getStorage($this->configuration['entity_type'])->create($content);
-
+        $entity = $entity_storage->create($content);
         if ($entity->save()) {
-          $context['results']['added'][] = $entity->id();
+          $id = $entity->id();
+          $context['results']['added'][] = $id;
+
+          if ($langcode_default !== $langcode) {
+            $context['results']['translations'][] = $id;
+          }
         }
       }
     }
-    catch (\Exception $e) {
-      $this->loggerFactory->get('csv_importer')->error($e->getMessage());
+    catch (\Throwable $exception) {
+      $this->messenger()->addError($this->t('The import process encountered errors.'));
+      $this->loggerFactory->get('csv_importer')->error($exception->getMessage());
     }
 
-    if ($context['sandbox']['progress'] != $context['sandbox']['max']) {
+    if ($context['sandbox']['progress'] !== $context['sandbox']['max']) {
       $context['finished'] = $context['sandbox']['progress'] / $context['sandbox']['max'];
     }
+    return $context;
   }
 
   /**
    * {@inheritdoc}
    */
   public function finished($success, array $results, array $operations) {
-    $message = '';
-
     if ($success) {
-      $message = $this->t('@count_added content added and @count_updated updated', [
-        '@count_added' => isset($results['added']) ? count($results['added']) : 0,
-        '@count_updated' => isset($results['updated']) ? count($results['updated']) : 0,
-      ]);
-    }
+      $added_count = isset($results['added']) ? count($results['added']) : 0;
+      $updated_count = isset($results['updated']) ? count($results['updated']) : 0;
+      $translation_count = isset($results['translations']) ? count($results['translations']) : 0;
 
-    $this->messenger()->addMessage($message);
+      $this->messenger()->addMessage(
+        $this->t('@added_count new content added, @updated_count updated and translations created for @translations_count content.', [
+          '@added_count' => $added_count,
+          '@updated_count' => $updated_count,
+          '@translations_count' => $translation_count,
+        ]),
+      );
+    }
+    else {
+      $this->messenger()->addError($this->t('The import process encountered errors.'));
+    }
   }
 
   /**
@@ -250,10 +306,13 @@ abstract class ImporterBase extends PluginBase implements ImporterInterface {
         [$this, 'add'],
         [$data['content']],
       ];
-    }
 
-    $process['finished'] = [$this, 'finished'];
-    batch_set($process);
+      $process['finished'] = [$this, 'finished'];
+      batch_set($process);
+    }
+    else {
+      $this->messenger()->addError($this->t('The import process encountered errors. No data is available for processing. Please check the CSV file and ensure it is saved in UTF-8 format.'));
+    }
   }
 
 }

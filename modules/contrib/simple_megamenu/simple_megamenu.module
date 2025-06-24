@@ -159,22 +159,14 @@ function simple_megamenu_menu_link_content_form_submit($form, FormStateInterface
   $menu_link = $form_state->getFormObject()->getEntity();
   $menu_link_options = $menu_link->link->first()->options;
 
-  if ($form_state->getValue('simple_mega_menu')) {
-    $data_simple_mega_menu = [
-      'attributes' => [
-        'data-simple-mega-menu' => $form_state->getValue('simple_mega_menu'),
-      ],
-    ];
-    $menu_link->link->first()->options = array_merge_recursive($menu_link_options, $data_simple_mega_menu);
-  }
-
-  else {
+  if (!$form_state->getValue('simple_mega_menu')) {
     if (isset($menu_link_options['attributes']['data-simple-mega-menu'])) {
       unset($menu_link_options['attributes']['data-simple-mega-menu']);
     }
-    $menu_link->link->first()->options = $menu_link_options;
+  } else {
+    $menu_link_options['attributes']['data-simple-mega-menu'] = $form_state->getValue('simple_mega_menu');
   }
-
+  $menu_link->link->first()->options = $menu_link_options;
   $menu_link->save();
 }
 

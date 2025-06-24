@@ -7,7 +7,7 @@
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use \Drupal\Component\Utility\UrlHelper;
+use Drupal\Core\Site\Settings;
 
 /**
  * Implements hook_help().
@@ -25,6 +25,23 @@ function http_cache_control_help($route_name, RouteMatchInterface $route_match) 
   }
 }
 
+/**
+ * Implements hook_module_implements_alter().
+ */
+function http_cache_control_module_implements_alter(array &$implementations, string|int $hook) {
+  if (!isset($implementations['http_cache_control'])) {
+    return;
+  }
+
+  if ($hook == 'form_system_performance_settings_alter' || $hook == 'form_alter') {
+    // Move http_cache_control_form_system_performance_settings_alter() to the
+    // end of the list so we can override the changes done by
+    // purge_form_system_performance_settings_alter().
+    $group = $implementations['http_cache_control'];
+    unset($implementations['http_cache_control']);
+    $implementations['http_cache_control'] = $group;
+  }
+}
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -32,16 +49,6 @@ function http_cache_control_help($route_name, RouteMatchInterface $route_match) 
 function http_cache_control_form_system_performance_settings_alter(&$form, FormStateInterface $form_state, $form_id) {
   /** @var \Drupal\Core\Config\ImmutableConfig $config */
   $config = \Drupal::service('config.factory')->get('http_cache_control.settings');
-
-  // Add more options to the page_cache_maximum_age setting.
-  $form['caching']['page_cache_maximum_age']['#options'][1] = t("1 second");
-  $form['caching']['page_cache_maximum_age']['#options'][30] = t("30 seconds");
-  $form['caching']['page_cache_maximum_age']['#options'][604800] = t("1 week");
-  $form['caching']['page_cache_maximum_age']['#options'][1209600] = t("2 weeks");
-  $form['caching']['page_cache_maximum_age']['#options'][2628000] = t("1 month");
-  $form['caching']['page_cache_maximum_age']['#options'][7884000] = t("3 months");
-  $form['caching']['page_cache_maximum_age']['#options'][16588800] = t("6 months");
-  $form['caching']['page_cache_maximum_age']['#options'][31536000] = t("1 year");
 
   // Regardless to whether s-maxage is used or not, this control will always
   // dictate the cache lifetime shared by proxies and sometimes browsers.
@@ -68,51 +75,150 @@ function http_cache_control_form_system_performance_settings_alter(&$form, FormS
     '#default_value' => $config->get('cache.http.nostore'),
     '#description' => t('Used to tell a public or private cache to never cache. Not recommended.'),
   ];
+
+  $options = &$form['caching']['page_cache_maximum_age']['#options'];
+  $sharedOptions = $options;
+  $purgeRecommendation = ' (recommended for external cache invalidation)';
+  $newRecommendation = ' (recommended)';
+
+  // Remove the Purge module recommendation from the options.
+  if (isset($options[31536000]) && strpos($options[31536000], $purgeRecommendation) !== FALSE) {
+    $options[31536000] = $sharedOptions[31536000] = str_replace($purgeRecommendation, '', $options[31536000]);
+  }
+
+  // Add the new recommendations to the options.
+  if (isset($options[300])) {
+    $options[300] .= $newRecommendation;
+  }
+  if (isset($sharedOptions[31536000])) {
+    $sharedOptions[31536000] .= $newRecommendation;
+  }
+  else {
+    $highestMaxAge = max(array_keys($options));
+    $sharedOptions[$highestMaxAge] .= $newRecommendation;
+  }
+
+  $notes = [
+    '#theme' => 'item_list',
+    '#items' => [
+      t('This is used as the value for s-maxage in Cache-Control headers.'),
+      t('If set to &lt;no caching&gt;, browsers will inherit the browser cache maximum age.'),
+    ],
+  ];
+
   $form['caching']['http_s_maxage'] = [
     '#type' => 'select',
     '#title' => t('Shared cache max age'),
     '#default_value' => $config->get('cache.http.s_maxage'),
-    '#options' => $form['caching']['page_cache_maximum_age']['#options'],
-    '#description' => t('The maximum time a page can be cached by proxies. This is used as the value for s-maxage in Cache-Control headers.'),
+    '#options' => $sharedOptions,
+    '#description' => [
+      ['#markup' => t('The maximum time a page can be cached by proxies.')],
+      $notes,
+    ],
   ];
 
   $form['caching']['404_max_age'] = [
     '#type' => 'select',
     '#title' => t('404 cache maximum age'),
     '#default_value' => $config->get('cache.http.404_max_age'),
-    '#options' => $form['caching']['page_cache_maximum_age']['#options'],
-    '#description' => t('The maximum time a 404 page can be cached by proxies. Browsers will inherit the browser cache maximum age.'),
+    '#options' => $sharedOptions,
+    '#description' => [
+      [
+        '#markup' => t('The maximum time a @response_code response can be cached by proxies.', [
+          '@response_code' => '404 Not Found',
+        ]),
+      ],
+      $notes,
+    ],
   ];
 
   $form['caching']['302_max_age'] = [
     '#type' => 'select',
     '#title' => t('302 cache maximum age'),
     '#default_value' => $config->get('cache.http.302_max_age'),
-    '#options' => $form['caching']['page_cache_maximum_age']['#options'],
-    '#description' => t('The maximum time a 302 Temporary Redirect can be cached by proxies. Browsers will inherit the browser cache maximum age.'),
+    '#options' => $sharedOptions,
+    '#description' => [
+      [
+        '#markup' => t('The maximum time a @response_code response can be cached by proxies.', [
+          '@response_code' => '302 Temporary Redirect',
+        ]),
+      ],
+      $notes,
+    ],
   ];
 
   $form['caching']['301_max_age'] = [
     '#type' => 'select',
     '#title' => t('301 cache maximum age'),
     '#default_value' => $config->get('cache.http.301_max_age'),
-    '#options' => $form['caching']['page_cache_maximum_age']['#options'],
-    '#description' => t('The maximum time a 301 Permanent Redirect can be cached by proxies. Browsers will inherit the browser cache maximum age.'),
+    '#options' => $sharedOptions,
+    '#description' => [
+      [
+        '#markup' => t('The maximum time a @response_code response can be cached by proxies.', [
+          '@response_code' => '301 Permanent Redirect',
+        ]),
+      ],
+      $notes,
+    ],
   ];
+
+  $notes['#items'][] = t('This is subject to Drupal being able to render the response.');
 
   $form['caching']['5xx_max_age'] = [
     '#type' => 'select',
     '#title' => t('5xx cache maximum age'),
     '#default_value' => $config->get('cache.http.5xx_max_age'),
-    '#options' => $form['caching']['page_cache_maximum_age']['#options'],
-    '#description' => t('The maximum time a 500 level response can be cached by proxies. Note: this is subject to Drupal being able to render the response.'),
+    '#options' => $sharedOptions,
+    '#description' => [
+      [
+        '#markup' => t('The maximum time a @response_code response can be cached by proxies.', [
+          '@response_code' => '500 Internal Server Error',
+        ]),
+      ],
+      $notes,
+    ],
   ];
 
+  $form['caching']['expert_mode'] = [
+    '#type' => 'checkbox',
+    '#title' => t('Expert mode'),
+    '#description' => t('Enable expert mode to allow more granular control of Cache-Control headers.'),
+    '#ajax' => [
+      'event' => 'change',
+      'callback' => '_http_cache_control_set_expert_mode_caching',
+      'wrapper' => 'expert-mode-wrapper',
+      'disable-refocus' => TRUE,
+    ],
+  ];
+
+  $isExpertMode = !empty($form_state->getUserInput()['expert_mode']);
+  $maxAgeFields = [
+    'http_s_maxage',
+    '404_max_age',
+    '302_max_age',
+    '301_max_age',
+    '5xx_max_age',
+  ];
+
+  foreach ($maxAgeFields as $field) {
+    $value = (int) ($form_state->getValue($field)
+        ?? $form['caching'][$field]['#default_value']);
+    $isPresetValue = isset($form['caching'][$field]['#options'][$value]);
+
+    if ($isExpertMode || !$isPresetValue) {
+      $form['caching'][$field]['#type'] = 'number';
+      unset($form['caching'][$field]['#options']);
+    }
+  }
+
+  $form['caching']['#prefix'] = '<div id="expert-mode-wrapper">';
+  $form['caching']['#suffix'] = '</div>';
+
   $form['surrogate'] = [
-      '#type' => 'details',
-      '#title' => t('Surrogate Control'),
-      '#open' => FALSE,
-    ];
+    '#type' => 'details',
+    '#title' => t('Surrogate Control'),
+    '#open' => FALSE,
+  ];
 
   $form['surrogate']['surrogate_maxage'] = [
     '#type' => 'select',
@@ -130,10 +236,10 @@ function http_cache_control_form_system_performance_settings_alter(&$form, FormS
   ];
 
   $form['revalidation'] = [
-      '#type' => 'details',
-      '#title' => t('Revalidation'),
-      '#open' => TRUE,
-    ];
+    '#type' => 'details',
+    '#title' => t('Revalidation'),
+    '#open' => TRUE,
+  ];
 
   $form['revalidation']['stale_if_error'] = [
     '#type' => 'select',
@@ -152,19 +258,35 @@ function http_cache_control_form_system_performance_settings_alter(&$form, FormS
   ];
 
   $form['variation'] = [
-      '#type' => 'details',
-      '#title' => t('Variation'),
-      '#open' => TRUE,
-    ];
+    '#type' => 'details',
+    '#title' => t('Variation'),
+    '#open' => TRUE,
+  ];
 
   $form['variation']['vary'] = [
     '#type' => 'textfield',
     '#title' => t('Header variation'),
     '#default_value' => $config->get('cache.http.vary'),
-    '#description' => t('Comma separated list of headers to vary cache globally.'),
+    '#description' => t('A comma-separated list of request header names that could have influenced the generation of this response.'),
   ];
 
+  if (!Settings::get('omit_vary_cookie')) {
+    $form['variation']['vary']['#description'] .= ' ' . t("The 'Cookie' header is automatically added.");
+  }
+
   $form['#submit'][] = 'http_cache_control_form_system_performance_settings_submit';
+}
+
+/**
+ * Ajax callback to update the form when expert mode is enabled.
+ *
+ * @param array $form
+ *   The form.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The form state.
+ */
+function _http_cache_control_set_expert_mode_caching(array &$form, FormStateInterface $form_state) {
+  return $form['caching'];
 }
 
 /**
@@ -186,6 +308,5 @@ function http_cache_control_form_system_performance_settings_submit(&$form, Form
     ->set('cache.http.mustrevalidate', $form_state->getValue('mustrevalidate'))
     ->set('cache.http.nocache', $form_state->getValue('nocache'))
     ->set('cache.http.nostore', $form_state->getValue('nostore'))
-    ->set('cache.http.cookieextra', $form_state->getValue('cookieextra'))
     ->save();
 }
