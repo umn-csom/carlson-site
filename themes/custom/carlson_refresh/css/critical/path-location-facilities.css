@@ -496,65 +496,6 @@ h6,
 .text-capitalize {
   text-transform: capitalize; }
 
-.b-lazy, .b-responsive {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  min-height: 1px; }
-
-html:not(.js) .b-lazy[data-src] {
-  display: none; }
-
-.media--blazy, .media--fx {
-  position: relative; }
-
-.media--fx {
-  overflow: hidden; }
-
-.media--fx img {
-  display: block;
-  width: 100%;
-  color: transparent; }
-
-.media--fx .b-blur, .media--ratio .media__element {
-  position: absolute;
-  z-index: 0;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  min-height: 1px;
-  object-fit: cover; }
-
-.is-b-loading {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  position: relative;
-  min-height: 30px; }
-
-.is-b-loading::before {
-  position: absolute;
-  z-index: -1;
-  top: 50%;
-  left: 50%;
-  display: none;
-  width: 30px;
-  max-width: 30px;
-  height: 30px;
-  margin-top: -15px;
-  margin-left: -15px;
-  content: "";
-  background: #2eaae0;
-  font-size: 0; }
-
-.media.media--ratio {
-  position: relative;
-  display: block;
-  overflow: hidden;
-  width: 100%;
-  max-width: 100%;
-  height: 0;
-  min-height: 1px; }
-
 .icon-plus:before {
   content: "\e900"; }
 
@@ -597,7 +538,15 @@ strong {
   margin-right: -25px;
   margin-left: -25px; }
 
-.col, .col-12, .col-4, .col-8 {
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0; }
+
+.no-gutters > [class*=col-] {
+  padding-right: 0;
+  padding-left: 0; }
+
+.col, .col-12, .col-4, .col-8, .col-lg-12, .col-md-6 {
   position: relative;
   width: 100%;
   padding-right: 25px;
@@ -626,6 +575,16 @@ strong {
 .order-2 {
   order: 2; }
 
+@media (min-width: 768px) {
+  .col-md-6 {
+    flex: 0 0 50%;
+    max-width: 50%; } }
+
+@media (min-width: 992px) {
+  .col-lg-12 {
+    flex: 0 0 100%;
+    max-width: 100%; } }
+
 .collapse:not(.show) {
   display: none; }
 
@@ -634,9 +593,15 @@ strong {
   display: inline-flex;
   vertical-align: middle; }
 
+.accordion {
+  overflow-anchor: none; }
+
 .media {
   display: flex;
   align-items: flex-start; }
+
+.bg-ivory {
+  background-color: #e6e0d2 !important; }
 
 .d-none {
   display: none !important; }
@@ -656,11 +621,41 @@ strong {
   .d-lg-block {
     display: block !important; } }
 
+.embed-responsive {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden; }
+
+.embed-responsive::before {
+  display: block;
+  content: ""; }
+
+.embed-responsive img {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover; }
+
+.embed-responsive-16by9::before {
+  padding-top: 56.25%; }
+
 .flex-nowrap {
   flex-wrap: nowrap !important; }
 
 .mb-3 {
   margin-bottom: 1.5rem !important; }
+
+.mt-4 {
+  margin-top: 2rem !important; }
+
+.mb-4 {
+  margin-bottom: 2rem !important; }
 
 .my-5 {
   margin-top: 2.5rem !important;
@@ -668,6 +663,9 @@ strong {
 
 .mt-6 {
   margin-top: 3rem !important; }
+
+.p-6 {
+  padding: 3rem !important; }
 
 .pt-6 {
   padding-top: 3rem !important; }
@@ -683,6 +681,9 @@ strong {
 
 .font-weight-bold {
   font-weight: 700 !important; }
+
+.text-body {
+  color: #212529 !important; }
 
 ol, ul {
   margin-top: 0;
@@ -756,8 +757,15 @@ ol, ul {
 #main {
   margin-top: 1rem; }
 
+.position-static {
+  position: static !important; }
+
+.position-relative {
+  position: relative !important; }
+
 .umnhf-f a {
-  color: #363230; }
+  color: #363230;
+  text-decoration: none; }
 
 .umnhf-f svg {
   vertical-align: baseline; }
@@ -778,8 +786,17 @@ ol, ul {
 .row::after, .row::before {
   display: inline-block; }
 
+.font-weight-semi-bold {
+  font-weight: 600; }
+
+.fs-24 {
+  font-size: 2.4rem; }
+
+@media (max-width: 1339px) {
+  .fs-24 {
+    font-size: calc(1.365rem + 1.23674vw); } }
+
 .accordion {
-  overflow-anchor: none;
   margin-bottom: 3rem; }
 
 .accordion-item:not(:last-child) {
@@ -870,15 +887,9 @@ ol, ul {
 .component-paragraph {
   margin-bottom: 1rem; }
 
-.basic-hero .media--blazy {
-  padding-bottom: calc(334 / 725 * 100%);
-  overflow: visible; }
-
 @media (min-width: 992px) {
   .component-paragraph {
-    margin-bottom: 2rem; }
-  .basic-hero .media--blazy {
-    padding-bottom: calc(400 / 1600 * 100%); } }
+    margin-bottom: 2rem; } }
 
 .basic-hero__img img {
   box-shadow: 0 15px 60px 0 rgba(0, 0, 0, 0.2);
