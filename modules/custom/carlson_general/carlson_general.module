@@ -283,3 +283,21 @@ function carlson_general_preprocess_image(array &$variables) {
     }
   }
 }
+
+/**
+ * Implements hook_blazy_settings_alter().
+ */
+function carlson_general_blazy_settings_alter(&$build, $object) {
+  $blazies = $build['#settings']['blazies'];
+  $blazies->set('css.ratio', ['4:1'], TRUE);
+}
+
+/**
+ * Implements hook_blazy_form_element_alter().
+ */
+function carlson_general_blazy_form_element_alter(array &$form, array $definition, $scopes) {
+  if (isset($form['ratio']['#options'])) {
+    // Add the custom aspect ratio.
+    $form['ratio']['#options']['4:1'] = '4:1';
+  }
+}

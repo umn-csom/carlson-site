@@ -1,25 +1,30 @@
-@import "../../abstracts/variables";
-@import "node_modules/bootstrap/scss/vendor/rfs";
-@import "node_modules/bootstrap/scss/mixins";
+@import "../../abstracts/import";
+@import "bootstrap/scss/vendor/rfs";
+@import "bootstrap/scss/mixins";
 
 .events {
   &__item {
     box-shadow: 0 4px 4px rgba($black, 0.25);
+
     &__date {
       &__month {
         @include rfs(3.2rem);
       }
+
       &__day {
         @include rfs(7.6rem);
       }
     }
+
     &__title {
       @include rfs(3.2rem);
     }
+
     .embed-responsive {
       height: fit-content;
     }
   }
+
   @include media-breakpoint-up(lg) {
     &__item {
       &__date {
@@ -29,6 +34,11 @@
   }
 }
 
+.event-items__item--location svg {
+  margin-bottom: 3px;
+  vertical-align: middle;
+}
+
 #register_date_string + span {
-  color: #363230 !important;
+  color: $slate !important;
 }

@@ -1,0 +1,204 @@
+@import "../abstracts/import";
+
+.accordion {
+  margin-bottom: 3rem;
+
+  &--child {
+    margin-bottom: 0;
+  }
+
+  &__wrapper {
+    &:not(:first-child) {
+      margin-top: 3rem;
+    }
+
+    table {
+      max-width: max-content;
+      width: unset !important;
+    }
+  }
+
+  &__heading {
+    margin-top: 2.2rem;
+    margin-bottom: 2.2rem;
+  }
+
+  &-item {
+    &:not(:last-child) {
+      margin-bottom: 1px;
+    }
+
+    *[id] {
+      scroll-margin-top: 200px;
+    }
+  }
+
+  &-button {
+    cursor: pointer;
+    border: 0;
+    display: flex;
+    gap: 1.5rem;
+    padding: 2rem 2.4rem;
+    width: 100%;
+    position: relative;
+    word-break: break-word;
+    font-family: $font-family-sans-serif;
+    font-weight: 400;
+    font-size: 2rem;
+    letter-spacing: 0.04em;
+    text-align: left;
+    white-space: normal;
+    text-transform: none;
+
+    @include media-breakpoint-down(md) {
+      padding: 1.5rem;
+    }
+
+    &:hover,
+    &:focus,
+    &:active,
+    &:visited {
+      text-decoration: none;
+      outline: none;
+    }
+
+    &:focus-visible {
+      background: darken($ivory, 7.5%);
+      border-radius: 2px;
+      z-index: 1;
+      position: relative;
+    }
+
+    svg {
+      margin: 0.5rem 0;
+      stroke: $maroon;
+      flex: 0 0 auto;
+    }
+
+    &.collapsed {
+      background: $ivory;
+      color: $body-color;
+
+      &:hover,
+      &:focus {
+        background: $ivory;
+        color: $maroon;
+      }
+
+      .icon-chevron-up-sm,
+      .icon-minus {
+        display: none;
+      }
+    }
+
+    &:not(.collapsed) {
+      &,
+      &:hover,
+      &:focus {
+        background: $maroon;
+        color: $white;
+        font-weight: 700;
+        letter-spacing: normal;
+      }
+
+      svg {
+        stroke: $white;
+      }
+
+      .icon-chevron-down-sm,
+      .icon-plus {
+        display: none;
+      }
+    }
+  }
+
+  &-content {
+    transition: all 0.26s ease-in-out;
+    position: relative;
+
+    &-inner {
+      padding: 3rem 3rem 5rem;
+      border-bottom: 0.5rem solid $maroon;
+      overflow: auto;
+
+      @include media-breakpoint-down(md) {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+
+    .container.session {
+      padding: 0;
+      max-width: none;
+      width: 100%;
+    }
+  }
+
+  // Edge-to-edge support:
+  &-item--edge-expand-mobile {
+    @include media-breakpoint-down(md) {
+      overflow: visible; // edge-to-edge
+
+      > .accordion-button {
+        padding: 1.5rem 0;
+
+        &::before,
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          right: 100%;
+          top: 0;
+          width: 100%;
+          background-color: $maroon;
+          height: 100%;
+        }
+
+        &[aria-expanded="false"] {
+          &::before,
+          &::after {
+            background-color: $ivory;
+          }
+        }
+
+        &::after {
+          left: 100%;
+          right: initial;
+        }
+      }
+
+      > .accordion-content {
+        &::before,
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          right: 100%;
+          bottom: 0;
+          width: 100%;
+          background-color: $maroon;
+          height: 0.5rem;
+        }
+
+        &::after {
+          left: 100%;
+          right: initial;
+        }
+      }
+    }
+  }
+
+  // Fix for EE menu Dropdowns
+  &#block-executiveedcation-menu-link {
+    .card {
+      overflow: visible;
+    }
+  }
+}
+
+@media print {
+  .accordion > .card > .inner.collapse {
+    display: block;
+    opacity: 1;
+  }
+}

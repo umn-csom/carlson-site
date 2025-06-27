@@ -181,29 +181,44 @@
         <h2 class="mb-4">Find the MBA program <br class="d-inline-block d-md-none">that’s right for you</h2>
         <a name="mba--cta-collapse-link"></a>
         <div class="row mb-4 justify-content-center">
-          <div class="col-10 mb-3 col-md-6 col-lg-4 mb-md-0 cta-link">
-            <a class="cta-link__anchor use-ajax btn btn-lg btn-block mba--btn" data-dialog-type="modal" href="/lp/summer-rush-ptmba" data-dialog-options="{&quot;width&quot;:600}">Get more info about<br><span class="btn-bigtext">Part-time MBA</span></a>
+          {{ attach_library('carlson_refresh/cta-link') }}
+          <div class="col-10 mb-3 col-md-6 col-lg-4 mb-md-0 cta-link__wrapper">
+            {{ attach_library('carlson_refresh/ui-dialog') }}
+            <a
+              class="btn btn-lg cta-link use-ajax btn-block mba--btn"
+              data-dialog-type="modal"
+              href="/lp/summer-rush-ptmba"
+              data-dialog-options="{&quot;width&quot;:600}">
+              Get more info about<br>
+              <span class="btn-bigtext">Part-time MBA</span>
+            </a>
           </div>
-          <div class="col-10 mb-3 col-md-6 col-lg-4 mb-md-0 cta-link">
-            <a  class="btn btn-lg btn-block mba--btn cta-link__anchor use-ajax" data-dialog-type="modal" href="/lp/summer-rush-omba" data-dialog-options="{&quot;width&quot;:600}">Get more info about<br><span class="btn-bigtext">Online MBA</span></a>
-
-
-
-
-<!--
-            <div class="cta-link">
+          <div class="col-10 mb-3 col-md-6 col-lg-4 mb-md-0 cta-link__wrapper">
+            <a
+              class="cta-link__anchor use-ajax btn btn-lg btn-block mba--btn"
+              data-dialog-type="modal"
+              href="/lp/summer-rush-omba"
+              data-dialog-options="{&quot;width&quot;:600}">
+              Get more info about<br>
+              <span class="btn-bigtext">Online MBA</span>
+            </a>
+          </div>
+{#
+          <div class="col-10 mb-3 col-md-6 col-lg-4 mb-md-0 cta-link__wrapper">
+            <a
+              class="cta-link use-ajax"
+              href="/request-information-full-time-mba"
+              data-dialog-type="modal"
+              data-dialog-options="{&quot;width&quot;:600}">
                 <div class="cta-link__icon">
-                  <i class="icon icon-request"></i>
+                  {{ source('@carlson_refresh/../images/svg/cta-link/icon-request.svg') }}
                 </div>
-                      <a class="cta-link__anchor use-ajax" data-dialog-type="modal" href="/request-information-full-time-mba" data-dialog-options="{&quot;width&quot;:600}">Request Information</a>
+                <div class="cta-link__anchor">
+                  Request Information
                 </div>
-
-
--->
-
-
-
-
+            </a>
+          </div>
+#}
           </div>
           <div class="col-10 mb-3 col-md-6 col-lg-4 mb-md-0 mt-md-3 mt-lg-0">
             <a href="https://choose.umn.edu/apply/" class="btn btn-lg btn-block mba--btn2" target="_blank">Ready to get started?<br><span class="btn-bigtext">Apply now</span></a>
@@ -216,15 +231,8 @@
         <a href="https://carlsonschool.umn.edu/"><img src="/{{ directory }}/images/svg/logo.svg" class="img-fluid" alt="Carlson School of Management"></a>
       </div>
     </div>
-    <footer id="umnhf-f" role="contentinfo" class="pt-4 pb-5 mb-4 mb-md-0 pb-md-0 mba--topborder">
-      <nav id="umnhf-f-myu">
-        <h3 class="umnhf-f-title visually-hidden">For Students, Faculty, and Staff</h3>
-        <ul>
-          <li><a href="http://onestop.umn.edu/">One Stop</a></li>
-          <li><a href="https://www.myu.umn.edu/">My U <span></span></a></li>
-        </ul>
-      </nav>
-      <small>&copy; <span id="cdate">2019</span> Regents of the University of Minnesota. All rights reserved. The University of Minnesota is an equal opportunity educator and employer. <a href="http://privacy.umn.edu">Privacy Statement</a></small>
+    <footer role="contentinfo" class="pt-4 pb-5 mb-4 mb-md-0 pb-md-0 mba--topborder">
+      {% include '@carlson_refresh/partials/umn-footer.html.twig' %}
     </footer>
   </div>
 </section>

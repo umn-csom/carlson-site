@@ -1,0 +1,270 @@
+@charset "UTF-8";
+blockquote {
+  font-size: 1.8rem;
+  line-height: 1.5;
+  quotes: "“" "”";
+  width: 100%; }
+  @media (max-width: 991px) {
+    blockquote:has(.media) .media {
+      margin: -6rem -6rem 6rem; } }
+  blockquote,
+  blockquote a {
+    color: #1a1a1a; }
+  blockquote a {
+    text-decoration: underline; }
+  blockquote img {
+    background: #fff; }
+  blockquote.bg-primary {
+    color: #fff; }
+    blockquote.bg-primary,
+    blockquote.bg-primary .media::after {
+      background-color: #7a0019; }
+    blockquote.bg-primary a {
+      color: #fff; }
+  blockquote.bg-gold {
+    color: #1a1a1a; }
+    blockquote.bg-gold,
+    blockquote.bg-gold .media::after {
+      background-color: #fc3; }
+    blockquote.bg-gold a {
+      color: #1a1a1a; }
+  blockquote.bg-ivory {
+    color: #1a1a1a; }
+    blockquote.bg-ivory,
+    blockquote.bg-ivory .media::after {
+      background-color: #e6e0d2; }
+    blockquote.bg-ivory a {
+      color: #7a0019; }
+  blockquote.bg-light-blue {
+    color: #1a1a1a; }
+    blockquote.bg-light-blue,
+    blockquote.bg-light-blue .media::after {
+      background-color: #73b5b2; }
+    blockquote.bg-light-blue a {
+      color: #1a1a1a; }
+  blockquote, blockquote.blockquote--text-left, blockquote.blockquote.blockquote--text-left {
+    text-align: left; }
+  blockquote.blockquote--text-center, blockquote.blockquote.blockquote--text-center {
+    text-align: center; }
+  blockquote:not(.blockquote).blockquote--has-quote-mark > p:first-of-type {
+    position: relative; }
+    blockquote:not(.blockquote).blockquote--has-quote-mark > p:first-of-type::before {
+      position: absolute;
+      background: none;
+      content: open-quote;
+      font-family: "Newsreader", serif;
+      font-size: 4rem;
+      font-weight: 400;
+      line-height: 1.2;
+      right: calc(100% + 0.25rem);
+      margin: 0;
+      padding: 0; }
+  blockquote:not(.blockquote).blockquote--has-quote-mark.blockquote--text-center > p:first-of-type::before {
+    position: initial;
+    line-height: 1rem;
+    vertical-align: bottom; }
+  blockquote.blockquote.blockquote--has-quote-mark > p:first-of-type::before {
+    position: initial;
+    background: none;
+    display: block;
+    content: open-quote;
+    font-family: "Newsreader", serif;
+    font-size: 5rem;
+    font-weight: 700;
+    line-height: 0.5;
+    margin: 0 auto;
+    text-align: center; }
+  blockquote.blockquote--no-quote-mark > p:first-of-type::before {
+    content: "";
+    display: none !important; }
+  blockquote footer {
+    font-weight: 400;
+    font-size: 1.8rem; }
+  blockquote .blockquote__author {
+    font-style: italic;
+    font-family: "Newsreader", serif;
+    margin: 2rem auto 0;
+    font-size: 2.2rem; }
+    blockquote .blockquote__author::before {
+      content: "–"; }
+    blockquote .blockquote__author:has(+ .blockquote__organization)::before {
+      content: ""; }
+  blockquote .blockquote__organization {
+    font-size: 1.4rem;
+    font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
+    text-transform: uppercase; }
+  blockquote .blockquote__link {
+    margin: 2rem auto 0;
+    font-size: 1.4rem;
+    font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif; }
+  blockquote:not(.blockquote) {
+    margin: 4rem 0;
+    padding: 4rem 4rem 4rem 10rem;
+    background-color: #e6e0d2;
+    position: relative; }
+    blockquote:not(.blockquote)::before, blockquote:not(.blockquote)::after {
+      content: "";
+      left: 0;
+      top: 0;
+      width: 6rem;
+      height: 100%;
+      position: absolute; }
+    blockquote:not(.blockquote)::before {
+      background: #fc3; }
+    blockquote:not(.blockquote)::after {
+      background: #7a0019;
+      clip-path: polygon(0 25%, 100% calc(25% + 30px), 100% 100%, 0 100%); }
+    @media (min-width: 992px) {
+      blockquote:not(.blockquote):has(.media) {
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 41.66667%;
+        padding-right: 6rem;
+        position: relative;
+        overflow: hidden; }
+        blockquote:not(.blockquote):has(.media) > .drupal-media,
+        blockquote:not(.blockquote):has(.media) > .media {
+          position: absolute;
+          top: 0;
+          left: 6rem;
+          height: 100%;
+          width: calc(41.66667% - 10rem);
+          margin: 0; }
+          blockquote:not(.blockquote):has(.media) > .drupal-media div:has(img),
+          blockquote:not(.blockquote):has(.media) > .media div:has(img) {
+            width: 100%;
+            height: 100%; }
+          blockquote:not(.blockquote):has(.media) > .drupal-media img,
+          blockquote:not(.blockquote):has(.media) > .media img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            object-position: center; } }
+    @media (max-width: 991px) {
+      blockquote:not(.blockquote):has(.media) > .drupal-media,
+      blockquote:not(.blockquote):has(.media) > .media {
+        margin: -4rem -4rem 6rem; } }
+  blockquote.blockquote {
+    margin: 4rem 0;
+    padding: 6rem; }
+    blockquote.blockquote::before, blockquote.blockquote::after {
+      content: "" !important;
+      display: none !important; }
+    blockquote.blockquote, blockquote.blockquote.blockquote--notch-left {
+      clip-path: polygon(0 60px, 60px 0, 100% 0, 100% 100%, 0 100%);
+      padding: 6rem; }
+      blockquote.blockquote:has(.media), blockquote.blockquote.blockquote--notch-left:has(.media) {
+        clip-path: none; }
+        @media (min-width: 992px) {
+          blockquote.blockquote:has(.media), blockquote.blockquote.blockquote--notch-left:has(.media) {
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 41.66667%;
+            padding-right: 6rem;
+            position: relative;
+            overflow: hidden; }
+            blockquote.blockquote:has(.media) > .drupal-media,
+            blockquote.blockquote:has(.media) > .media, blockquote.blockquote.blockquote--notch-left:has(.media) > .drupal-media,
+            blockquote.blockquote.blockquote--notch-left:has(.media) > .media {
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: initial;
+              height: 100%;
+              width: 41.66667%; }
+              blockquote.blockquote:has(.media) > .drupal-media div:has(img),
+              blockquote.blockquote:has(.media) > .media div:has(img), blockquote.blockquote.blockquote--notch-left:has(.media) > .drupal-media div:has(img),
+              blockquote.blockquote.blockquote--notch-left:has(.media) > .media div:has(img) {
+                width: 100%;
+                height: 100%; }
+              blockquote.blockquote:has(.media) > .drupal-media img,
+              blockquote.blockquote:has(.media) > .media img, blockquote.blockquote.blockquote--notch-left:has(.media) > .drupal-media img,
+              blockquote.blockquote.blockquote--notch-left:has(.media) > .media img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center; }
+              blockquote.blockquote:has(.media) > .drupal-media::after,
+              blockquote.blockquote:has(.media) > .media::after, blockquote.blockquote.blockquote--notch-left:has(.media) > .drupal-media::after,
+              blockquote.blockquote.blockquote--notch-left:has(.media) > .media::after {
+                content: "";
+                position: absolute;
+                right: -0.5px;
+                top: 0;
+                height: 100%;
+                width: 6rem;
+                z-index: 1;
+                clip-path: polygon(0 60px, 100% 0, 100% 60px, 100% 100%, 0 100%); } }
+    blockquote.blockquote.blockquote--notch-right {
+      clip-path: polygon(0 0, calc(100% - 60px) 0, 100% 60px, 100% 100%, 0 100%);
+      padding: 6rem; }
+      blockquote.blockquote.blockquote--notch-right:has(.media) {
+        clip-path: none; }
+        @media (min-width: 992px) {
+          blockquote.blockquote.blockquote--notch-right:has(.media) {
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 6rem;
+            padding-right: 41.66667%;
+            position: relative;
+            overflow: hidden; }
+            blockquote.blockquote.blockquote--notch-right:has(.media) > .drupal-media,
+            blockquote.blockquote.blockquote--notch-right:has(.media) > .media {
+              position: absolute;
+              top: 0;
+              left: initial;
+              right: 0;
+              height: 100%;
+              width: 41.66667%; }
+              blockquote.blockquote.blockquote--notch-right:has(.media) > .drupal-media div:has(img),
+              blockquote.blockquote.blockquote--notch-right:has(.media) > .media div:has(img) {
+                width: 100%;
+                height: 100%; }
+              blockquote.blockquote.blockquote--notch-right:has(.media) > .drupal-media img,
+              blockquote.blockquote.blockquote--notch-right:has(.media) > .media img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center; }
+              blockquote.blockquote.blockquote--notch-right:has(.media) > .drupal-media::after,
+              blockquote.blockquote.blockquote--notch-right:has(.media) > .media::after {
+                content: "";
+                position: absolute;
+                left: -0.5px;
+                top: 0;
+                height: 100%;
+                width: 6rem;
+                z-index: 1;
+                clip-path: polygon(0 0, calc(100% - 60px) 0, 100% 60px, 100% 100%, 0 100%); } }
+    blockquote.blockquote.blockquote--notch-none {
+      clip-path: none; }
+    blockquote.blockquote, blockquote.blockquote.blockquote--text-serif {
+      font-size: 2.4rem;
+      font-family: "Newsreader", serif;
+      line-height: 1.5; }
+      blockquote.blockquote .blockquote__author, blockquote.blockquote.blockquote--text-serif .blockquote__author {
+        font-style: normal;
+        font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
+        font-size: 2.2rem; }
+      blockquote.blockquote .blockquote__organization, blockquote.blockquote.blockquote--text-serif .blockquote__organization {
+        font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
+        font-size: 1.6rem; }
+      blockquote.blockquote .blockquote__link, blockquote.blockquote.blockquote--text-serif .blockquote__link {
+        font-size: 1.6rem;
+        font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif; }
+    blockquote.blockquote.blockquote--text-sans-serif {
+      font-size: 2rem;
+      font-weight: 700;
+      font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif; }
+      blockquote.blockquote.blockquote--text-sans-serif em {
+        font-family: "Newsreader", serif; }
+      blockquote.blockquote.blockquote--text-sans-serif .blockquote__author {
+        font-family: "Newsreader", serif;
+        font-size: 3rem;
+        font-style: italic; }
+      blockquote.blockquote.blockquote--text-sans-serif .blockquote__organization {
+        font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif; }
+      blockquote.blockquote.blockquote--text-sans-serif .blockquote__link {
+        font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif; }
+
+/*# sourceMappingURL=blockquote.css.map */

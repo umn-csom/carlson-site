@@ -97,10 +97,12 @@
     <section class="row landing-page__top">
       <div class="col-12">
         {# Program Hero #}
+        {{ attach_library('carlson_refresh/hero-program') }}
         <div class="row component-paragraph hero-program {{ webform ? 'hero-program-webform' : '' }}">
           <div class="col-12 col-lg-6 col-xl-7 px-0">
             <div class="embed-responsive embed-responsive-3by2 hero-program__image-overlay">
               <img alt="{{ content.field_hero_media|field_target_entity.image.alt }}" src={{ file_url(content.field_hero_media|field_target_entity.image.entity.uri.value ?: '') }} >
+              {{ source('@carlson_refresh/images/pattern.svg') }}
             </div>
           </div>
           <div class="col-12 col-lg-6 col-xl-5 d-flex flex-column align-items-start hero-program-text">
@@ -113,16 +115,14 @@
             </div>
             {# {% if content.field_link|field_value is not empty %} #}
             {% if ((content.field_link[0]['#url'].toString() is not empty) and (content.field_link[0]['#title'] is not empty)) %}
-              <a class="btn btn-gold px-6 py-4 p-lg-7 fs-20 lh-13 landing-page-cta d-inline-flex justify-content-end align-items-center mt-6 mt-lg-10 mb-lg-8 ml-lg-n24 ml-xl-n31 w-100" href="{{ content.field_link[0]['#url'] }}" {{ content.field_link[0]['#options']['external'] == true ? 'target="_blank"' }}>
+              <a class="btn btn-secondary px-6 py-4 p-lg-7 fs-20 lh-13 landing-page-cta d-inline-flex justify-content-end align-items-center mt-6 mt-lg-10 mb-lg-8 ml-lg-n24 ml-xl-n31 w-100" href="{{ content.field_link[0]['#url'] }}" {{ content.field_link[0]['#options']['external'] == true ? 'target="_blank"' }}>
                 {{ content.field_link[0]['#title'] }}
-                <span class="ml-5 icon icon-arrow-right-3">
-                </span>
+                <span class="ml-5">{{ source('@carlson_refresh/../images/svg/arrow-right-cta.svg')}}</span>
               </a>
             {% elseif content.field_link[0]['#title'] is not empty %}
-              <button class="btn btn-gold px-6 py-4 p-lg-7 fs-20 lh-13 landing-page-cta d-inline-flex justify-content-end align-items-center mt-6 mt-lg-10 mb-lg-8 ml-lg-n24 ml-xl-n31 w-100">
+              <button class="btn btn-secondary px-6 py-4 p-lg-7 fs-20 lh-13 landing-page-cta d-inline-flex justify-content-end align-items-center mt-6 mt-lg-10 mb-lg-8 ml-lg-n24 ml-xl-n31 w-100">
                 {{ content.field_link[0]['#title'] }}
-                <span class="ml-5 icon icon-arrow-right-3">
-                </span>
+                <span class="ml-5">{{ source('@carlson_refresh/../images/svg/arrow-right-cta.svg')}}</span>
               </button>
             {% endif %}
           </div>
@@ -133,6 +133,7 @@
     {# Render hero with hero-basic component #}
     {% elseif content.field_hero_media|field_value is empty %}
       <section>
+        {{ attach_library('carlson_refresh/hero-basic') }}
         <div class="row basic-hero">
           <div class="col-12 basic-hero__title">
             {% if not webform %}
@@ -143,6 +144,7 @@
       </section>
     {% else %}
       <section>
+        {{ attach_library('carlson_refresh/hero-basic') }}
         <div class="row basic-hero">
           <div class="col-12 basic-hero__img {% if inner_nav %}has-inner-nav{% endif %}">
             {{ content.field_hero_media }}
@@ -161,6 +163,7 @@
 
         {# Course brochure link #}
         {% if content.field_ee_catalog_link|field_value is not empty %}
+        {{ attach_library('carlson_refresh/basic-page__catalog') }}
         <div class="row basic-page__catalog">
           <div class="col-12 text-center">
             {{ content.field_ee_catalog_link }}
@@ -199,6 +202,7 @@
 
             {# inner_nav region #}
             {% if inner_nav | render %}
+            {{ attach_library('carlson_refresh/inner-nav') }}
             <div class="row">
               <div class="col-12 inner_nav body_inner_nav">
                 {{ inner_nav }}
@@ -209,9 +213,7 @@
             {# Inner node region for blocks #}
             {{ node_content }}
 
-            <div class="row">
             {{ content.field_flexible_features }}
-            </div>
 
             {{ node_middle }}
 
@@ -220,6 +222,7 @@
             {{ node_bottom }}
 
             {# Bottom node region for blocks #}
+            {{ attach_library('carlson_refresh/node__bottom') }}
             <div class="row node__bottom">
               {% apply spaceless %}
               <div class="node__bottom__col">

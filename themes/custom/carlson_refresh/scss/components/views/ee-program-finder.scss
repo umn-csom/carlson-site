@@ -1,0 +1,59 @@
+@import "../../abstracts/import";
+
+.view-executive-ed-program-finder {
+  .view-header {
+    margin: 1.5rem 0 3rem;
+  }
+
+  .view-filters {
+    .form-row {
+      > fieldset,
+      .form-actions {
+        @include make-col(12);
+
+        @include media-breakpoint-up(md) {
+          @include make-col(6);
+        }
+      }
+
+      .form-item-field-ee-business-topic-target-id,
+      .form-item-field-ee-level-target-id {
+        @include media-breakpoint-up(lg) {
+          @include make-col(6);
+        }
+
+        @include media-breakpoint-up(md) {
+          @include make-col(6);
+        }
+      }
+
+      .form-item-sort-bef-combine,
+      .form-item-field-ee-course-location-value,
+      div[id^="edit-actions"] {
+        @include media-breakpoint-up(lg) {
+          @include make-col(4);
+        }
+
+        @include media-breakpoint-up(md) {
+          @include make-col(4);
+        }
+      }
+    }
+
+    label {
+      @include sr-only;
+    }
+  }
+
+  .view-content,
+  nav {
+    background: $white;
+  }
+
+  @include media-breakpoint-up(lg) {
+    .form-actions {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}

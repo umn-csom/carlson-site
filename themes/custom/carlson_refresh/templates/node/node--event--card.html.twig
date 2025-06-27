@@ -60,6 +60,8 @@
  * @see template_preprocess_node()
  */
 #}
+{{ attach_library('carlson_refresh/hub-card') }}
+
 {# Set the hero image to be used as a background image #}
 {% set image = file_url((content.field_hero_media|field_target_entity.image.entity.uri.value | image_style('hub_teaser'))  ?: '') %}
 

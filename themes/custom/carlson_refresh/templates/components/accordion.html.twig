@@ -1,3 +1,4 @@
+{{ attach_library('carlson_refresh/accordion') }}
 {%
     set accordion_data_sample = [
         {
@@ -20,21 +21,27 @@
 <div class="accordion" id="accordion-list">
     {% set inc = 0 %}
     {% for item in accordion_data %}
-        <div class="card">
-            <div class="card-header">
-                <span class="mb-0">
-
-                    {% set collapsed = 'collapsed' %}
-                    {% set expanded = 'false' %}
-                    {% set show = '' %}
-
-                    <button class="btn btn-link {{ collapsed }}" type="button" data-toggle="collapse" data-target="#collapse{{ inc }}" aria-expanded="{{ expanded }}" aria-controls="collapse{{ inc }}" id="heading{{ inc }}">
-                        {{ item.label }}
-                    </button>
-                </span>
-            </div>
-            <div id="collapse{{ inc }}" class="collapse {{ show }} inner" aria-labelledby="heading{{ inc }}" data-parent="#accordion-list">
-                <div class="card-body">
+        {% set collapsed = 'collapsed' %}
+        {% set expanded = 'false' %}
+        {% set show = '' %}
+        <div class="accordion-item">
+            <button id="heading{{ inc }}"
+                class="accordion-button {{ collapsed }}"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapse{{ inc }}"
+                aria-expanded="{{ expanded }}"
+                aria-controls="collapse{{ inc }}">
+                {{ source('@carlson_refresh/../images/svg/plus.svg') }}
+                {{ source('@carlson_refresh/../images/svg/minus.svg') }}
+                {{ item.label }}
+            </button>
+            <div id="collapse{{ inc }}"
+                class="accordion-content collapse {{ show }}"
+                aria-labelledby="heading{{ inc }}"
+                data-parent="#accordion-list"
+                role="region">
+                <div class="accordion-content-inner">
                     {{ item.wrapper|raw }}
                     {{ item.markup|raw }}
                 </div>

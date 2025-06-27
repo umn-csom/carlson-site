@@ -25,11 +25,11 @@
 We call a macro which calls itself to render the full tree.
 @see http://twig.sensiolabs.org/doc/tags/macro.html
 #}
-
+{{ attach_library('carlson_refresh/inner-menu') }}
 <div class="inner-menu">
-  <button class="btn btn-block text-left px-3 py-2 inner-menu__collapsed-trigger" aria-expanded="false">
-    <svg class="open-icon mr-1" fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><path d="M15 4H1V2h14v2Zm0 5H1V7h14v2ZM1 14h14v-2H1v2Z"></path></svg>
-    <svg class="close-icon mr-1" fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><path d="m3.5 2.086 4.5 4.5 4.5-4.5L13.914 3.5 9.414 8l4.5 4.5-1.414 1.414-4.5-4.5-4.5 4.5L2.086 12.5l4.5-4.5-4.5-4.5L3.5 2.086Z"></path></svg>
+  <button class="inner-menu__collapsed-trigger" aria-expanded="false">
+    <svg class="inner-menu__open-icon" fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><path d="M15 4H1V2h14v2Zm0 5H1V7h14v2ZM1 14h14v-2H1v2Z"></path></svg>
+    <svg class="inner-menu__close-icon" fill="currentColor" width="16" height="16" viewBox="0 0 16 16"><path d="m3.5 2.086 4.5 4.5 4.5-4.5L13.914 3.5 9.414 8l4.5 4.5-1.414 1.414-4.5-4.5-4.5 4.5L2.086 12.5l4.5-4.5-4.5-4.5L3.5 2.086Z"></path></svg>
     <span>In this section</span>
   </button>
   <div class="inner-menu__collapsed-target">
@@ -48,12 +48,11 @@ We call a macro which calls itself to render the full tree.
     {% for item in items %}
       {%
         set classes = [
-        'nav-item',
+        'inner-menu__item',
         item.is_expanded ? 'menu-item--expanded',
         item.is_collapsed ? 'menu-item--collapsed',
         item.in_active_trail ? 'menu-item--active-trail',
         menu_level == 0 ? 'pt-lg-2 mb-0' : 'pt-lg-1 mb-0',
-        'inner-menu__item'
       ]
       %}
       <li{{ item.attributes.addClass(classes) }}>
@@ -61,17 +60,22 @@ We call a macro which calls itself to render the full tree.
           set link_classes = [
           'nav-link',
           item.in_active_trail ? 'active',
-          item.url.getOption('attributes').class ? item.url.getOption('attributes').class | join(''),
+          item.url.getOption('attributes').class|default([])|join(' '),
           'nav-link-' ~ item.url.toString() | clean_class,
           menu_level == 0 ? 'fs-18' : 'text-body',
-          'pl-3 py-1',
           'text-underline-hover',
           item.in_active_trail and menu_level == 0 ? 'font-weight-bold' : 'font-weight-normal',
           item.in_active_trail and menu_level != 0 ? 'font-weight-semi-bold' : '',
           'inner-menu__link',
         ]
         %}
-        {{ link(item.title, item.url, {'class': link_classes}) }}
+        {% set title = item.title %}
+        {% if 'secure' in link_classes %}
+          {% set title %}
+            {{ item.title }}&nbsp;{{ source('@carlson_refresh/../images/svg/lock-search.svg') }}
+          {% endset %}
+        {% endif %}
+        {{ link(title, item.url, {'class': link_classes}) }}
         {% if item.below is not empty and item.in_active_trail %}
           {{ menus.menu_links(item.below, attributes, menu_level + 1) }}
         {% endif %}

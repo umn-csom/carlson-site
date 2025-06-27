@@ -107,7 +107,7 @@
 
         if (url) {
             link += '<a href="' + url.replace(/^(entity\:)/,"/") + '" target="_blank" data-dialog-options="{&quot;width&quot;:800}"'
-            link += 'class = "btn maroon-solid-button d-block py-3 py-lg-4 mb-3 mb-lg-4 quiz-results--result--req-info result--req-info use-ajax"'
+            link += 'class = "btn btn-primary d-block py-3 py-lg-4 mb-3 mb-lg-4 quiz-results--result--req-info result--req-info use-ajax"'
             link += 'data-dialog-type="modal" data-ajax-progress="fullscreen">';
             link += 'Request Info';
             link += '</a>';
@@ -121,7 +121,7 @@
         let link = '';
 
         link += '<a href="' + url.replace(/^(entity\:)/,"/") + '" target="_blank" data-dialog-options="{&quot;width&quot;:800}"'
-        link += 'class = "btn maroon-outline-button d-block py-3 py-lg-4 quiz-results--result--learn-more result--learn-more"'
+        link += 'class = "btn btn-outline-primary d-block py-3 py-lg-4 quiz-results--result--learn-more result--learn-more"'
         link += '>';
         link += 'Learn More';
         link += '</a>';

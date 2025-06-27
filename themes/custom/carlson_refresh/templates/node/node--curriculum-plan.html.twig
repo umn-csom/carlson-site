@@ -60,6 +60,7 @@
  */
 #}
 {#{{ attach_library('bootstrap_barrio/node') }}#}
+{{ attach_library('carlson_refresh/curriculum-plan') }}
 {{ attach_library('carlson_refresh/print_page') }}
 
 {%
@@ -89,31 +90,25 @@
     {# Render hero with hero-basic component #}
 
     <section class="row basic-page__content">
+      {# inner_nav region #}
+      {% if inner_nav %}
+        {{ attach_library('carlson_refresh/inner-nav') }}
+        <div class="col-12 inner_nav">
+          {{ inner_nav }}
+        </div>
+      {% endif %}
+
       <div class="col-lg-10 offset-lg-1 main-content basic-page__content--inner">
-        {# inner_nav region #}
-		    {% if inner_nav %}
-		    <div class="row inner_nav">
-		      <div class="col-12">
-            <div class="row">
-		          {{ inner_nav }}
-            </div>
-		      </div>
-		    </div>
-		  	{% endif %}
-
         <div class="row">
-
           <div class="col-12 basic-page__content-components">
-
             {# Inner node region for blocks #}
-              {{ node_top }}
+            {{ node_top }}
 
             {# Home Flexible feature paragraphs #}
             <div class="component-paragraph curriculum-plan__header">
               <div class="curriculum-plan__header-text">
                 {{ content.body }}
               </div>
-              <img class="print-logo" src="/{{ directory }}/images/svg/logo.svg" alt="Carlson School of Management (home)">
             </div>
 
             {# Inner node region for blocks #}
@@ -126,6 +121,7 @@
             {{ node_bottom }}
 
             {# Bottom node region for blocks #}
+            {{ attach_library('carlson_refresh/node__bottom') }}
             <div class="row node__bottom">
               {% apply spaceless %}
               <div class="node__bottom__col">

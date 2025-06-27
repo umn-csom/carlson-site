@@ -59,7 +59,7 @@
  * @see template_preprocess_node()
  */
 #}
-{#{{ attach_library('bootstrap_barrio/node') }}#}
+{{ attach_library('carlson_refresh/conference') }}
 
 {%
   set classes = [
@@ -87,6 +87,7 @@
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'conference') }}>
     <h1 class="sr-only">{{ label }}</h1>
     <section>
+      {{ attach_library('carlson_refresh/hero-basic') }}
       <div class="row basic-hero">
         <div class="col-12 basic-hero__img {% if inner_nav %}has-inner-nav{% endif %}">
           {{ content.field_hero_media }}
@@ -98,6 +99,7 @@
       <div class="col-12 main-content conference__content--inner">
         {# inner_nav region #}
         {% if inner_nav %}
+        {{ attach_library('carlson_refresh/inner-nav') }}
         <div class="row inner_nav">
           <div class="col-12">
             <div class="mx-lg-6">
@@ -149,6 +151,7 @@
             {{ node_bottom }}
 
             {# Bottom node region for blocks #}
+            {{ attach_library('carlson_refresh/node__bottom') }}
             <div class="row node__bottom">
               {% apply spaceless %}
               <div class="node__bottom__col">

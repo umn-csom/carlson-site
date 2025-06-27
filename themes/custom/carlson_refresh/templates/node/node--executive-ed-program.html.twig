@@ -1,0 +1,260 @@
+{#
+/**
+ * @file
+ * Bootstrap Barrio's theme implementation to display a node.
+ *
+ * Available variables:
+ * - node: The node entity with limited access to object properties and methods.
+     Only "getter" methods (method names starting with "get", "has", or "is")
+     and a few common methods such as "id" and "label" are available. Calling
+     other methods (such as node.delete) will result in an exception.
+ * - label: The title of the node.
+ * - content: All node items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}. Use
+ *   {{ content|without('field_example') }} to temporarily suppress the printing
+ *   of a given child element.
+ * - author_picture: The node author user entity, rendered using the "compact"
+ *   view mode.
+ * - metadata: Metadata for this node.
+ * - date: Themed creation date field.
+ * - author_name: Themed author name field.
+ * - url: Direct URL of the current node.
+ * - display_submitted: Whether submission information should be displayed.
+ * - attributes: HTML attributes for the containing element.
+ *   The attributes.class element may contain one or more of the following
+ *   classes:
+ *   - node: The current template type (also known as a "theming hook").
+ *   - node--type-[type]: The current node type. For example, if the node is an
+ *     "Article" it would result in "node--type-article". Note that the machine
+ *     name will often be in a short form of the human readable label.
+ *   - node--view-mode-[view_mode]: The View Mode of the node; for example, a
+ *     teaser would result in: "node--view-mode-teaser", and
+ *     full: "node--view-mode-full".
+ *   The following are controlled through the node publishing options.
+ *   - node--promoted: Appears on nodes promoted to the front page.
+ *   - node--sticky: Appears on nodes ordered above other non-sticky nodes in
+ *     teaser listings.
+ *   - node--unpublished: Appears on unpublished nodes visible only to site
+ *     admins.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - content_attributes: Same as attributes, except applied to the main
+ *   content tag that appears in the template.
+ * - author_attributes: Same as attributes, except applied to the author of
+ *   the node tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ * - view_mode: View mode; for example, "teaser" or "full".
+ * - teaser: Flag for the teaser state. Will be true if view_mode is 'teaser'.
+ * - page: Flag for the full page state. Will be true if view_mode is 'full'.
+ * - readmore: Flag for more state. Will be true if the teaser content of the
+ *   node cannot hold the main body content.
+ * - logged_in: Flag for authenticated user status. Will be true when the
+ *   current user is a logged-in member.
+ * - is_admin: Flag for admin user status. Will be true when the current user
+ *   is an administrator.
+ *
+ * @see template_preprocess_node()
+ */
+#}
+{{ attach_library('carlson_refresh/ee-program') }}
+
+{%
+  set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'clearfix',
+  ]
+%}
+
+<article{{ attributes.addClass(classes) }}>
+  <header>
+    {{ title_prefix }}
+    {% if not page %}
+      <h2{{ title_attributes.addClass('node__title') }}>
+        <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+      </h2>
+    {% endif %}
+    {{ title_suffix }}
+  </header>
+
+  <div {{ content_attributes.addClass('node__content', 'clearfix', 'ee-program') }}>
+    <section class="hero ee-program__top row">
+      {# Program Hero #}
+      {{ attach_library('carlson_refresh/hero-program') }}
+      <div class="hero-program__content container">
+        <div class="component-paragraph hero-program col-12 col-sm-12 col-xl-8">
+          <h1 class="hero-program__title text-center text-xl-left" >{{ node.label }}</h1>
+
+          <div class="order-lg-1 hero-program__teaser text-center text-xl-left">
+            {{ content.field_ee_program_teaser }}
+          </div>
+
+          <div class="hero-program__img">
+            {{ content.field_hero_media }}
+          </div>
+        </div>
+
+        <div class="ee-program__details col-12 col-sm-12 col-xl-4 px-0 bg-ivory d-flex mt-6 mt-xl-0">
+          <div class="ee-program__details-bg bg-primary d-flex">
+            <div class="ee-program__details-bg-inner bg-gold px-3" style="clip-path: polygon(-1% 25%, 101% calc(25% + 30px), 101% 101%, -1% 101%);"></div>
+          </div>
+          <div class="p-6 w-100">
+            <h3 class="details-title fs-24 font-weight-semi-bold text-uppercase ff-sans-serif mb-5">Program Details</h3>
+            <div class="d-flex flex-column">
+              {{ content.field_ee_course_dates }}
+              <div class="ee-program__details--location course_details">
+                <span class="field-label">Location:</span>
+                {{ content.field_ee_course_location[0]['#options'].entity.name.value }}
+              </div>
+              <div class="ee-program__details--cost course_details">
+                <span class="field-label">Cost:</span>
+                {{ content.field_ee_cost }}
+              </div>
+              {% if (content.field_ee_course_location is not empty) %}{{ content.field_ee_course_location[0]['#options'].entity.field_teaser_view.value|raw }}{% endif %}
+            </div>
+            <div class="ee-program__details--brochure">
+              {# Course brochure link #}
+              {% if content.field_ee_course_brochure[0]['#url'].toString() is not empty %}
+              <a href="{{ content.field_ee_course_brochure.0['#url'] }}" class="btn btn-secondary">Request Brochure</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+    <section class="container ee-program__content mb-12">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-xl-8">
+          <div class="component-paragraph">
+            {{ content.body }}
+          </div>
+        </div>
+        <div class="col-12 col-sm-12 col-xl-4">
+          {# inner_nav region #}
+          {% if inner_nav %}
+          {{ attach_library('carlson_refresh/inner-nav') }}
+          <div class="row inner_nav">
+            <div class="col-12">
+              <div class="row">
+                {{ inner_nav }}
+              </div>
+            </div>
+          </div>
+          {% endif %}
+
+          {{ content.field_contact_info }}
+
+          {{ content.field_sidebar_content }}
+        </div>
+      </div>
+    </section>
+    <section class="ee-course_info my-12 row">
+      {# Course Info paragraphs #}
+      {{ attach_library('carlson_refresh/accordion') }}
+      <div class="ee-course_container container">
+        <div class="row component-paragraph accordion-content">
+          <div class="accordion col-12" id="accordion-list-ee-course-info">
+            <h2 class="h3 text-center mb-8">Who Should Take This Course &amp; Why</h2>
+            {{ content.field_course_audi }}
+            {{ content.field_course_ben }}
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="ee-flexible_features mx-n3 my-8 bg-white">
+      {# Home Flexible feature paragraphs #}
+      <div class="container-fluid container-xl">
+        <div class="row justify-content-center align-items-center">
+          {# Home Flexible feature paragraphs #}
+          {{ content.field_flexible_features }}
+        </div>
+      </div>
+    </section>
+    <section class="ee-field_course_schedule ee-tabs mx-n3 my-8">
+      <div class="container-fluid container-xl">
+        <div class="row">
+          <div class="col-12">
+            {% if content.field_course_schedule|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
+              <h2 class="text-center mb-8">Schedule</h2>
+              <div class="course_schedule">
+                {{ content.field_course_schedule }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </section>
+    {% if content.field_accordion|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
+    <section class="ee-field_accordion ee-tabs mx-n3 my-12">
+      <div class="container-fluid container-xl">
+        <div class="row">
+          <div class="col-12 accordion-content">
+            {{ content.field_accordion }}
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+    {% if content.field_ee_faculty|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
+    <section class="ee-field_accordion ee-tabs mx-n3 my-10">
+      <div class="container-fluid container-xl">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-12">
+              <h2 class="text-center mb-8">Faculty</h2>
+              {{ content.field_ee_faculty|field_value }}
+            </div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+    <section class="ee-program__details-bottom mx-n6 my-0">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-6 ee-program__content mt-0 mb-6 mb-md-0">
+            <h3 class="details-title">Register Today!</h3>
+            {{ content.field_ee_course_dates }}
+            <div class="ee-program__details--location course_details">
+              <strong class="field-label">Location:</strong>
+              {{ content.field_ee_course_location }}
+            </div>
+            <div class="ee-program__details--cost course_details">
+              <strong class="field-label">Cost:</strong>
+              {{ content.field_ee_cost }}
+            </div>
+          </div>
+          <div class="col-12 col-md-6 ee-program__actions mt-0">
+            {{ content.field_ee_course_dates }}
+          </div>
+        </div>
+      </div>
+    </section>
+    {#
+    <div class="row ee-program__bottom">
+      {% if content.field_ee_bottom_first|field_value is not empty %}
+      <div class="col-12 col-lg ee-program__bottom--item">
+        {{ content.field_ee_bottom_first|field_value }}
+      </div>
+      {% endif %}
+
+      {% if content.field_ee_bottom_second|field_value is not empty %}
+      <div class="col-12 col-lg ee-program__bottom--item">
+        {{ content.field_ee_bottom_second|field_value }}
+      </div>
+      {% endif %}
+
+      <div class="col-12 col-lg ee-program__bottom--item">
+        {{ node_bottom_right }}
+      </div>
+    </div>
+    #}
+  </div>
+</article>

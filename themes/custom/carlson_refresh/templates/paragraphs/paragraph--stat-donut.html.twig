@@ -1,3 +1,22 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a stat donut paragraph.
+ *
+ * Available variables:
+ * - paragraph: Full paragraph entity.
+ * - content: All paragraph items. Use {{ content }} to print them all,
+ *   or print a subset such as {{ content.field_example }}. Use
+ *   {{ content|without('field_example') }} to temporarily suppress the printing
+ *   of a given child element.
+ *
+ * @see template_preprocess_paragraph()
+ *
+ * @ingroup themeable
+ */
+#}
+{{ attach_library('carlson_refresh/stat-donut') }}
+
 {% set position = paragraph.field_stat_donut_position.value %}
 {% set has_dark_bg = paragraph.field_stat_donut_dark_bg.value == '1' %}
 {% set section_classes = [

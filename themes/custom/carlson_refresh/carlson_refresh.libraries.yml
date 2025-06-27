@@ -6,28 +6,14 @@ global-scripts:
     js/bootstrap.min.js: {}
     js/underscore.min.js: {}
     js/jquery.sticky.js: {}
-    js/global.js: {}
-    js/carlson-nav.js: {}
+    js/table-empty-cell.js: {}
+    js/dropdown-toggle.js: {}
     js/responsive-menu-tweak.js: {}
-    js/tabbed-content.js: {}
-    js/ee-program.js: {}
     js/accordion-hash.js: {}
-    js/program-finder.js: {}
-    js/sticky-menu.js: {}
-    js/sticky-menu__collapsed-trigger.js: {}
-    js/centennial.js: {}
-    js/faculty.js: {}
-    js/multicol-list.js: {}
-    js/stat-donut.js: {}
-    js/state-map.js: {}
-    js/figure-with-datatable.js: {}
-    js/datatable--column-chart.js: {}
     js/external-link-accessibility.js: {}
-    # js/comparison-table.js: {}
 
   dependencies:
     - core/jquery
-    - core/drupal.dialog.ajax
     - core/drupal
     - extlink/drupal.extlink
     - responsive_menu/responsive_menu.mmenu
@@ -36,40 +22,595 @@ global-scripts:
 global-styling:
   css:
     component:
-      css/boxicons.min.css: {}
-      '//fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700;1,900&display=swap': {}
+      'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap': {}
+      css/style.css: {}
     theme:
-      css/style.css: {weight: 2000}
+      css/print.css: { media: print, weight: 2001 }
+
+blurhash:
+  remote: https://github.com/woltapp/blurhash
+  version: 2.0.4
+  license:
+    name: MIT
+    url: https://raw.githubusercontent.com/woltapp/blurhash/master/License.md
+    gpl-compatible: true
+  css:
+    layout:
+      css/vendor/blurhash.css: {}
+  js:
+    js/blurhash.js: { attributes: { type: module } }
+
+
+accordion:
+  css:
+    theme:
+      css/components/accordion.css: { }
+  js:
+    js/accordion.js: { }
+  dependencies:
+    - core/jquery
+    - core/drupal
 
 bootstrap_grid:
   css:
     component:
       css/components/bootstrap-grid.css: { }
 
+site-branding:
+  css:
+    theme:
+      css/components/site-branding.css: { }
+
+site-name-slogan:
+  css:
+    theme:
+      css/components/site-name-slogan.css: { }
+
+site-nav:
+  css:
+    theme:
+      css/components/site-nav.css: { }
+
+crumbs:
+  css:
+    theme:
+      css/components/crumbs.css: { }
+
+contextual:
+  css:
+    theme:
+      css/components/contextual.css: { }
+
+ui-dialog:
+  css:
+    theme:
+      css/components/ui-dialog.css: { }
+  # js:
+  #   js/ui-dialog.js: { }
+  dependencies:
+    - core/drupal.dialog
+    - core/drupal.dialog.ajax
+
+hero-basic:
+  css:
+    theme:
+      css/components/hero-basic.css: { }
+
+hero-program:
+  css:
+    theme:
+      css/components/hero-program.css: { }
+
+inner-menu:
+  css:
+    theme:
+      css/components/inner-menu.css: { }
+  js:
+    js/inner-menu__collapsed-trigger.js: { }
+
+inner-nav:
+  css:
+    theme:
+      css/components/inner-nav.css: { }
+
+pagination:
+  css:
+    theme:
+      css/components/pagination.css: { }
+
+sticky-menu:
+  css:
+    theme:
+      css/components/sticky-menu.css: { }
+  js:
+    js/sticky-menu.js: { }
+    js/sticky-menu__collapsed-trigger.js: { }
+
+tabs:
+  css:
+    theme:
+      css/components/tabs.css: { }
+
+share-this:
+  css:
+    theme:
+      css/components/share-this.css: { }
+
 slick:
   css:
-    component:
-      css/slick.css: {}
+    theme:
+      css/vendor/slick.css: {}
   js:
     js/slick.min.js: {}
     js/slick.config.js: {}
 
+# Components.
+
+card-flip:
+  css:
+    theme:
+      css/components/card-flip.css: {}
+  js:
+    js/card-flip.js: {}
+
+full-width:
+  css:
+    theme:
+      css/components/full-width.css: {}
+
+home-hero:
+  css:
+    theme:
+      css/components/home-hero.css: {}
+
+hub-card:
+  css:
+    theme:
+      css/components/hub-card.css: {}
+
+hub-post-items:
+  css:
+    theme:
+      css/components/hub-post-items.css: {}
+
+news-item:
+  css:
+    theme:
+      css/components/news-item.css: { }
+  dependencies:
+    - carlson_refresh/jquery-match-height
+
+news-items:
+  css:
+    theme:
+      css/components/news-items.css: { }
+
+page-links:
+  css:
+    theme:
+      css/components/page-links.css: {}
+
+program-finder:
+  css:
+    theme:
+      css/components/program-finder.css: {}
+  js:
+    js/program-finder.js: {}
+
+video-items:
+  css:
+    theme:
+      css/components/video-items.css: {}
+
+webform.element.help:
+  css:
+    theme:
+      css/components/webform.element.help.css: {}
+
+# Ctas
+
+cta-link:
+  css:
+    theme:
+      css/components/ctas/cta-link.css: {}
+
+contact-cta:
+  css:
+    theme:
+      css/components/ctas/contact-cta.css: { }
+
+sidebar-cta:
+  css:
+    theme:
+      css/components/ctas/sidebar-cta.css: { }
+
+inner-cta:
+  css:
+    theme:
+      css/components/ctas/inner-cta.css: { }
+
+cta1:
+  css:
+    theme:
+      css/components/ctas/cta1.css: { }
+
+# Paragraphs.
+blockquote:
+  css:
+    theme:
+      css/components/paragraphs/blockquote.css: { }
+
+carlson-advantages:
+  css:
+    theme:
+      css/components/paragraphs/carlson-advantages.css: { }
+
 course-grid:
   css:
-    component:
-      css/course-grid.css: {}
+    theme:
+      css/components/paragraphs/course-grid.css: {}
+  dependencies:
+    - carlson_refresh/card-flip
+
+featured-link-grid:
+  css:
+    theme:
+      css/components/paragraphs/featured-link-grid.css: { }
+
+fluid-columns:
+  css:
+    theme:
+      css/components/paragraphs/fluid-columns.css: { }
+
+half-and-half:
+  css:
+    theme:
+      css/components/paragraphs/half-and-half.css: { }
+
+link-list:
+  css:
+    theme:
+      css/components/paragraphs/link-list.css: { }
+
+multicol-list:
+  css:
+    theme:
+      css/components/paragraphs/multicol-list.css: { }
+  js:
+    js/multicol-list.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery
+
+program-cta:
+  css:
+    theme:
+      css/components/paragraphs/program-cta.css: { }
+
+program-promo:
+  css:
+    theme:
+      css/components/paragraphs/program-promo.css: { }
+
+schedule:
+  css:
+    theme:
+      css/components/paragraphs/schedule.css: { }
+
+speaker:
+  css:
+    theme:
+      css/components/paragraphs/speaker.css: { }
+
+staff-faculty:
+  css:
+    theme:
+      css/components/paragraphs/staff-faculty.css: { }
+
+stat-icon:
+  css:
+    theme:
+      css/components/paragraphs/stat-icon.css: { }
+
+state-map:
+  css:
+    theme:
+      css/components/paragraphs/state-map.css: { }
+  js:
+    js/state-map.js: { }
+
+demo-component-container:
+  css:
+    theme:
+      css/components/paragraphs/demo-component-container.css: { }
+
+component-paragraph:
+  css:
+    theme:
+      css/components/paragraphs/component-paragraph.css: { }
+
+range-slider:
+  css:
+    theme:
+      css/components/paragraphs/range-slider.css: { }
+
+videos:
+  css:
+    theme:
+      css/components/paragraphs/videos.css: { }
+
+slideshow:
+  css:
+    theme:
+      css/components/paragraphs/slideshow.css: {}
+  dependencies:
+    - carlson_refresh/slick
+
+stat-donut:
+  css:
+    theme:
+      css/components/paragraphs/stat-donut.css: { }
+  js:
+    js/stat-donut.js: { }
+
+figure-with-datatable:
+  css:
+    theme:
+      css/components/paragraphs/figure-with-datatable.css: { }
+  js:
+    js/figure-with-datatable.js: { }
+
+charts-highchart:
+  css:
+    theme:
+      css/components/paragraphs/charts-highchart.css: { }
+  dependencies:
+    - charts_highcharts/highcharts
+
+requirement-section:
+  css:
+    theme:
+      css/components/paragraphs/requirement-section.css: { }
+
+sponsor-logos:
+  css:
+    theme:
+      css/components/paragraphs/sponsor-logos.css: { }
+
+# Page regions.
+node__bottom:
+  css:
+    theme:
+      css/components/content/node__bottom.css: { }
+  js:
+    js/node__bottom.js: { }
+
+node--unpublished:
+  css:
+    theme:
+      css/components/content/node--unpublished.css: { }
+
+drupal.node.preview:
+  css:
+    theme:
+      css/components/content/node-preview.css: {}
+
+# Views
+blog-roll:
+  css:
+    theme:
+      css/components/views/blog-roll.css: { }
+
+ed-abroad-program-finder:
+  css:
+    theme:
+      css/components/views/ed-abroad-program-finder.css: { }
+
+ee-program-finder:
+  css:
+    theme:
+      css/components/views/ee-program-finder.css: { }
+
+event-finder:
+  css:
+    theme:
+      css/components/views/event-finder.css: { }
+
+faculty-directory:
+  css:
+    theme:
+      css/components/views/faculty-directory.css: { }
+
+front-stats:
+  css:
+    theme:
+      css/components/views/front-stats.css: { }
+
+news-events:
+  css:
+    theme:
+      css/components/views/news-events.css: { }
+
+news-featured:
+  css:
+    theme:
+      css/components/views/news-featured.css: { }
+
+news-hub-block:
+  css:
+    theme:
+      css/components/views/news-hub-block.css: { }
+
+news-hub-search:
+  css:
+    theme:
+      css/components/views/news-hub-search.css: { }
+
+program-filter:
+  css:
+    theme:
+      css/components/views/program-filter.css: { }
+
+student-ambassadors:
+  css:
+    theme:
+      css/components/views/student-ambassadors.css: { }
+
+views-ui:
+  css:
+    theme:
+      css/components/views/views-ui.css: { }
+
+# Data Visualization components.
+csom-banner:
+  css:
+    theme:
+      css/components/dataviz/csom-banner.css: { }
+
+csom-datatable:
+  css:
+    theme:
+      css/components/dataviz/csom-datatable.css: { }
+
+csom-datatable--column-chart:
+  css:
+    theme:
+      css/components/dataviz/csom-datatable--column-chart.css: { }
+  js:
+    js/datatable--column-chart.js: { }
+
+list-legend:
+  css:
+    theme:
+      css/components/dataviz/list-legend.css: { }
+
+# Pages
+
+basic-page__catalog:
+  css:
+    theme:
+      css/pages/basic-page__catalog.css: { }
+
+blog:
+  css:
+    theme:
+      css/pages/blog.css: { }
+
+centennial:
+  css:
+    theme:
+      css/pages/centennial.css: { }
+  js:
+    js/centennial.js: {}
+
+comparison-table:
+  css:
+    theme:
+      css/pages/comparison-table.css: { }
+
+conference:
+  css:
+    theme:
+      css/pages/conference.css: { }
+
+curriculum-plan:
+  css:
+    theme:
+      css/pages/curriculum-plan.css: { }
+
+ed-abroad:
+  css:
+    theme:
+      css/pages/ed-abroad.css: { }
+
+ee-landing:
+  css:
+    theme:
+      css/pages/ee-landing.css: { }
+
+ee-program:
+  css:
+    theme:
+      css/pages/ee-program.css: { }
+  js:
+    js/ee-program.js: { }
+
+event:
+  css:
+    theme:
+      css/pages/event.css: { }
+
+faculty-profile:
+  css:
+    theme:
+      css/pages/faculty-profile.css: { }
+  js:
+    js/faculty-profile-modal.js: { }
+
+faculty-profile-teaser:
+  css:
+    theme:
+      css/pages/faculty-profile-teaser.css: { }
+
+hub-landing-page:
+  css:
+    theme:
+      css/pages/hub-landing-page.css: { }
+
+student:
+  css:
+    theme:
+      css/pages/student.css: { }
+
+iframe-view:
+  css:
+    theme:
+      css/pages/iframe-view.css: { }
+
+# Carlson Centennial Twin Cities Celebration
+node-101591:
+  css:
+    theme:
+      css/pages/node-101591.css: { }
+
+news:
+  css:
+    theme:
+      css/pages/news.css: { }
+
+news-teaser:
+  css:
+    theme:
+      css/pages/news-teaser.css: { }
+
+paid-media:
+  css:
+    theme:
+      css/pages/paid-media.css: { }
+  js:
+    js/paid-media.js: {}
 
 strategic-plan:
   css:
     component:
-      css/strategic-plan.css: {}
+      css/pages/strategic-plan.css: {}
   js:
     js/strategic-plan.js: {}
 
 magazine:
   css:
-    component:
-      css/magazine.css: {}
+    theme:
+      css/pages/magazine.css: {}
+
+user-login:
+  css:
+    theme:
+      css/pages/user-login.css: { }
+
+webform:
+  css:
+    theme:
+      css/pages/webform.css: { }
 
 iframe-library:
   js:
@@ -77,19 +618,19 @@ iframe-library:
 
 alumni-landing-page:
   css:
-    component:
-      css/alumni-landing-page.css: {}
+    theme:
+      css/pages/alumni-landing-page.css: {}
 
 carlson_quiz:
   css:
     theme:
-      css/quiz.css: {}
+      css/pages/quiz.css: {}
 
 print_page:
   js:
     js/print-prompt.js: {}
 
-# New Libraries
+# Front Page
 front-top-features:
   css:
     theme:
@@ -99,6 +640,16 @@ front-statistics:
   css:
     theme:
       css/components/paragraphs/front-statistics.css: { }
+
+front-advantage:
+  css:
+    theme:
+      css/components/paragraphs/front-advantage.css: { }
+
+front-deadlines:
+  css:
+    theme:
+      css/components/paragraphs/front-deadlines.css: { }
 
 jquery-match-height:
   js:
@@ -111,12 +662,6 @@ events:
   dependencies:
     - carlson_refresh/jquery-match-height
 
-news:
-  css:
-    theme:
-      css/components/views/news.css: { }
-  dependencies:
-    - carlson_refresh/jquery-match-height
 
 programs:
   css:
@@ -127,6 +672,8 @@ quote:
   css:
     theme:
       css/components/paragraphs/quote.css: { }
+  dependencies:
+    - carlson_refresh/blockquote
 
 card:
   css:
@@ -139,16 +686,31 @@ stats:
       css/components/paragraphs/stats.css: { }
 
 # Fee Table Libraries
-fee-table:
+fees-table:
   css:
-    component:
-      css/education-abroad.css: {}
+    theme:
+      css/pages/fees-table.css: {}
   js:
     //cdn.jsdelivr.net/npm/foundation-sites@6.8.1/dist/js/foundation.min.js: {type: external, minified: true}
-    js/education-abroad.js: {}
+    js/fees-table.js: {}
   dependencies:
     - core/jquery
 
 unbounce:
   js:
     js/unbounce.js: {}
+
+tabbed-content:
+  css:
+    theme:
+      css/components/paragraphs/tabbed-content.css: { }
+  js:
+    js/tabbed-content.js: { }
+  dependencies:
+    - core/drupal
+    - core/jquery
+
+slide:
+  css:
+    theme:
+      css/components/paragraphs/slide.css: { }

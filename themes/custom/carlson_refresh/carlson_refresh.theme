@@ -2,27 +2,127 @@
 
 /**
  * @file
- * Functions to support theming in the SASS Starterkit subtheme.
+ * Functions to support theming in the Carlson Refresh theme.
  */
 
 use Drupal\block\Entity\Block;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
+use Drupal\Component\Utility\UrlHelper;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
+use kornrunner\Blurhash\Blurhash;
 
-/*
-function paragraphs_theme_suggestions_paragraph(array $variables) {
-  $suggestions = array();
-  $paragraph = $variables['elements']['#paragraph'];
-  $sanitized_view_mode = strtr($variables['elements']['#view_mode'], '.', '_');
+/**
+ * Implements hook_preprocess_image().
+ */
+function carlson_refresh_preprocess_image(&$variables) {
 
-  $suggestions[] = 'paragraph__' . $sanitized_view_mode;
-  $suggestions[] = 'paragraph__' . $paragraph->bundle();
-  $suggestions[] = 'paragraph__' . $paragraph->bundle() . '__' . $sanitized_view_mode;
+  // If we've already processed this image, return.
+  if (isset($variables['data_lqip'])) {
+    return;
+  }
 
-  return $suggestions;
-}*/
+  // Get the image source file URI from an arbitrary image URI.
+  $uri = $variables['uri'];
+  $source = _carlson_refresh_get_image_source_file_uri($uri);
+  if (empty($source)) {
+    return;
+  }
+
+  // Load the 'lqip' version of the image and convert it to a data URI.
+  /** @var \Drupal\image\ImageStyleInterface $style */
+  $style = \Drupal::entityTypeManager()->getStorage('image_style')->load('lqip');
+  if (!$style) {
+    return;
+  }
+  $destination = $style->buildUri($source);
+  // Create the derivative if it doesn't exist.
+  if (!file_exists($destination)) {
+    $style->createDerivative($source, $destination);
+  }
+  if (file_exists($destination)) {
+    $data = file_get_contents($destination);
+    $data_uri = 'data:image/webp;base64,' . base64_encode($data);
+    $variables['attributes']['data-lqip'] = [$data_uri];
+  }
+}
+
+/**
+ * Get the source file stream wrapper URI from an arbitrary image URI.
+ */
+function _carlson_refresh_get_image_source_file_uri($uri) {
+  // Remove querystring if present.
+  if (preg_match('/^([^?]+)\?/', $uri, $matches)) {
+    $uri = $matches[1];
+  }
+
+  // Strip host and base path if present.
+  if (preg_match('#^https?://[^/]+(/.*)$#', $uri, $matches)) {
+    $uri = $matches[1];
+  }
+
+  $base_path = \Drupal::request()->getBasePath();
+  if (!empty($base_path) && str_starts_with($uri, $base_path)) {
+    $uri = substr($uri, strlen($base_path));
+  }
+
+  // Remove leading slash if present.
+  if (str_starts_with($uri, '/')) {
+    $uri = substr($uri, strlen('/'));
+  }
+
+  // Extract stream wrapper scheme (public/private).
+  if (str_starts_with($uri, 'sites')) {
+    if (preg_match('#^sites/[^/]+/files/styles/[^/]+/(public|private)/#', $uri, $matches)) {
+      $scheme = $matches[1];
+      $uri = preg_replace('#^sites/[^/]+/files/styles/[^/]+/(public|private)/#', '', $uri);
+      // URL decode and return with stream wrapper
+      $uri = $scheme . '://' . urldecode($uri);
+    }
+  }
+  // It is a styles path, so we extract the different parts.
+  elseif (str_starts_with($uri, 'styles')) {
+    // Then the path is like styles/[style_name]/[schema]/[original_path].
+    $uri = preg_replace('#^styles/.*/(.*)/(.*)#U', '$1://$2', $uri);
+  }
+
+  // Handle image derivative filetype conversions. Remove second of two
+  // extensions if both are image types.
+  if (preg_match('#\.(jpe?g|png|gif|webp|avif|svg)\.(webp|avif|jpe?g|png|gif|svg)$#i', $uri, $ext_matches)) {
+    // Strip the second extension
+    $uri = preg_replace('#\.(webp|avif|jpe?g|png|gif|svg)$#i', '', $uri);
+  }
+
+  // Ensure the source file exists, or try to fetch via stage_file_proxy if available.
+  if (!file_exists($uri)) {
+    if (
+      \Drupal::moduleHandler()->moduleExists('stage_file_proxy') &&
+      \Drupal::config('stage_file_proxy.settings')->get('origin')
+    ) {
+      $url = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
+
+      // Use Guzzle to make a GET request to the file URL.
+      try {
+        $client = \Drupal::httpClient();
+        $client->get($url, [
+          'http_errors' => false,
+          'verify' => false,
+        ]);
+
+      } catch (\Exception $e) {
+        // Log or handle the exception as needed.
+        \Drupal::logger('carlson_refresh')->error('Error fetching file from stage_file_proxy: @message', ['@message' => $e->getMessage()]);
+        return;
+      }
+      if (file_exists($uri)) {
+        return $uri;
+      }
+    }
+    return;
+  }
+  return $uri;
+}
 
 /**
  * Implements hook_form_system_theme_settings_alter() for settings form.
@@ -31,20 +131,20 @@ function paragraphs_theme_suggestions_paragraph(array $variables) {
  */
 function carlson_refresh_form_system_theme_settings_alter(&$form, FormStateInterface $form_state) {
   $form['components']['navbar']['carlson_refresh_navbar_top_background']['#options'] = array(
-      'bg-primary' => t('Primary'),
-      'bg-secondary' => t('Secondary'),
-      'bg-light' => t('Light'),
-      'bg-dark' => t('Dark'),
-      'bg-white' => t('White'),
-      'bg-transparent' => t('Transparent'),
+    'bg-primary' => t('Primary'),
+    'bg-secondary' => t('Secondary'),
+    'bg-light' => t('Light'),
+    'bg-dark' => t('Dark'),
+    'bg-white' => t('White'),
+    'bg-transparent' => t('Transparent'),
   );
   $form['components']['navbar']['carlson_refresh_navbar_background']['#options'] = array(
-      'bg-primary' => t('Primary'),
-      'bg-secondary' => t('Secondary'),
-      'bg-light' => t('Light'),
-      'bg-dark' => t('Dark'),
-      'bg-white' => t('White'),
-      'bg-transparent' => t('Transparent'),
+    'bg-primary' => t('Primary'),
+    'bg-secondary' => t('Secondary'),
+    'bg-light' => t('Light'),
+    'bg-dark' => t('Dark'),
+    'bg-white' => t('White'),
+    'bg-transparent' => t('Transparent'),
   );
 
   // Work-around for a core bug affecting admin themes. See issue #943212.
@@ -150,6 +250,7 @@ function carlson_refresh_form_system_theme_settings_alter(&$form, FormStateInter
 function carlson_refresh_preprocess(&$variables) {
   $handler = \Drupal::service('theme_handler');
   $variables['theme_directory'] = $handler->getTheme('carlson_refresh')->getPath();
+  $variables['is_front'] = \Drupal::service('path.matcher')->isFrontPage();
 }
 
 function carlson_refresh_preprocess_html(&$variables) {
@@ -178,6 +279,7 @@ function carlson_refresh_preprocess_html(&$variables) {
     'google_static_preconnect'
   ];
 }
+
 /**
  * Implements hook_theme_suggestions_HOOK_alter().
  *
@@ -191,13 +293,13 @@ function carlson_refresh_preprocess_html(&$variables) {
 function carlson_refresh_theme_suggestions_page_alter(array &$suggestions, array $variables) {
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
     $content_type = $node->bundle();
-    $suggestions[] = 'page__'.$content_type;
+    $suggestions[] = 'page__' . $content_type;
   }
 }
 
 /**
-* Implements hook_preprocess_node() for NODE document templates.
-*/
+ * Implements hook_preprocess_node() for NODE document templates.
+ */
 function carlson_refresh_preprocess_node(&$variables) {
 
   /** @var \Drupal\node\NodeInterface $node */
@@ -206,47 +308,51 @@ function carlson_refresh_preprocess_node(&$variables) {
   // Check the type
   $bundle = $node->bundle();
 
+  if ($node->isPublished() == FALSE) {
+      $variables['#attached']['library'][] = 'carlson_refresh/node--unpublished';
+  }
+
   // Allowed view modes
   $view_mode = $variables['view_mode']; // Retrieve view mode
   $allowed_view_modes = ['full']; // Array of allowed view modes (for performance so as to not execute on unneeded nodes)
 
   // If view mode is in allowed view modes list, pass to THEME_add_regions_to_node()
-  if(in_array($view_mode, $allowed_view_modes)) {
+  if (in_array($view_mode, $allowed_view_modes)) {
     // Allowed regions (for performance so as to not execute for unneeded region)
-    $allowed_regions = ['sticky_sidebar', 'inner_nav','node_content','node_middle','node_bottom_left','node_bottom_right','node_bottom','node_top'];
+    $allowed_regions = ['sticky_sidebar', 'inner_nav', 'node_content', 'node_middle', 'node_bottom_left', 'node_bottom_right', 'node_bottom', 'node_top'];
     carlson_refresh_add_regions_to_node($allowed_regions, $variables);
   }
-  switch($bundle) {
+  switch ($bundle) {
     case 'news':
       // Check if there is a sidebar so we can add the right classes
       $sidebar = $node->field_sidebar_content->getValue();
-      if(!empty($sidebar)) {
+      if (!empty($sidebar)) {
         $variables['has_sidebar'] = TRUE;
       }
 
-      if(!$node->get('field_in_the_media')->isEmpty() && !$node->get('field_featured_media_faculty')->isEmpty()) {
+      if (!$node->get('field_in_the_media')->isEmpty() && !$node->get('field_featured_media_faculty')->isEmpty()) {
         $referenceItem = $node->get('field_featured_media_faculty')->first();
         $entityReference = $referenceItem->get('entity');
         $entityAdapter = $entityReference->getTarget();
-        if(!is_null($entityAdapter)) {
+        if (!is_null($entityAdapter)) {
           $referencedEntity = $entityAdapter->getValue();
           $variables['faculty_member'] = $referencedEntity->getTitle();
           $variables['faculty_member_link'] = $referencedEntity->toUrl();
           $variables['faculty_published'] = $referencedEntity->isPublished();
         }
       }
-    break;
+      break;
     case 'blog_entry':
       // Check if there is a sidebar so we can add the right classes
       $sidebar = $node->field_blog_categories->getValue();
-      if(!empty($sidebar)) {
+      if (!empty($sidebar)) {
         $variables['has_sidebar'] = TRUE;
       }
       $byline = $node->field_blog_by_line->getString();
-      if(!empty($sidebar)) {
-        $variables['byline'] = '<span class="basic-hero__title--byline"> — by '.$byline."</span>";
+      if (!empty($sidebar)) {
+        $variables['byline'] = $byline;
       }
-    break;
+      break;
     case 'executive_ed_program':
       if ($node->get('field_ee_course_dates')->first()) {
         $referenceItem = $node->get('field_ee_course_dates')->first();
@@ -257,13 +363,13 @@ function carlson_refresh_preprocess_node(&$variables) {
         $variables['register_link'] = $referencedEntity->get('field_ee_register')->view();
         $variables['invoice_link'] = $referencedEntity->get('field_ee_request_invoice')->view();
       }
-    break;
+      break;
   }
 }
 
 /**
-* THEME_add_regions_to_node
-*/
+ * THEME_add_regions_to_node
+ */
 
 function carlson_refresh_add_regions_to_node($allowed_regions, &$variables) {
   // Retrieve active theme
@@ -280,7 +386,7 @@ function carlson_refresh_add_regions_to_node($allowed_regions, &$variables) {
 
     // Load region blocks
     $blocks = \Drupal::entityTypeManager()->getStorage('block')->loadByProperties(array('theme' => $theme, 'region' => $region));
-    // Sort ‘em
+    // Sort blocks by weight.
     uasort($blocks, 'Drupal\block\Entity\Block::sort');
 
     // Capture viewable blocks and their settings to $build
@@ -316,12 +422,24 @@ function carlson_refresh_theme_suggestions_block_alter(array &$suggestions, arra
 
   // Normal blocks.
   if ($id) {
-    $name = $id;
+    $name = str_replace('-', '_', $id);
   }
 
   // Custom block content blocks.
   if (is_object($block_content)) {
-    $name = $block_content->bundle();
+    $name = str_replace('-', '_', $block_content->bundle());
+  }
+
+  if ($derivative) {
+    $derivative = str_replace('-', '_', $derivative);
+  }
+
+  if ($suggestion) {
+    $suggestion = str_replace('-', '_', $suggestion);
+  }
+
+  if ($region) {
+    $region = str_replace('-', '_', $region);
   }
 
   // @todo layout builder blocks
@@ -482,12 +600,18 @@ function _carlson_refresh_region_has_simple_megamenu($menu_name, $region) {
   return FALSE;
 }
 
+/**
+ * Implements hook_preprocess_views_exposed_form().
+ */
 function carlson_refresh_preprocess_views_exposed_form(&$variables) {
   $form = $variables['form'];
   $id = $form['#id'];
   // Do code here
 }
 
+/**
+ * Implements hook_preprocess_page().
+ */
 function carlson_refresh_preprocess_page(&$variables) {
 
   $home_link = [
@@ -503,7 +627,7 @@ function carlson_refresh_preprocess_page(&$variables) {
   $variables['campus_links'] = theme_get_setting('campus_links');
   $dtd_select = theme_get_setting('dtd_select');
   $variables['myu_text'] = theme_get_setting('myu_text');
-  $header_color = theme_get_setting('header_color');
+  $header_color = str_replace('umnhf-background-', 'bg-', theme_get_setting('header_color'));
   $variables['campus_header'] = theme_get_setting('campus_select');
 
   $campus_select = theme_get_setting('campus_select') ?? 'umnhf-campus-tc';
@@ -527,12 +651,11 @@ function carlson_refresh_preprocess_page(&$variables) {
   $variables['accessibility_reporting_text'] = \Drupal::config('system.site')->get('accessibility_reporting_text');
   $variables['onestop_link'] = 'https://onestop.umn.edu';
 
-  $header_class_array = array($variables['campus_header'], $dtd_select, $header_color, $variables['mobile_search'], $variables['campus_links']
-  );
+  $header_class_array = array($variables['campus_header'], $dtd_select, $header_color);
   $variables['umn_header_classes'] = implode(' ', $header_class_array);
 
   // Embed the SVG logo in the mandatory header.
-  $logo_color = str_replace('umnhf-background-', '', $header_color);
+  $logo_color = str_replace('bg-', '', $header_color);
   $variables['svg_logo'] = "{$campus_select}-{$dtd_select}-{$logo_color}.svg";
 
   $block_manager = \Drupal::service('plugin.manager.block');
@@ -541,6 +664,9 @@ function carlson_refresh_preprocess_page(&$variables) {
   $variables['search_block'] = $block_output;
 }
 
+/**
+ * Implements hook_preprocess_pager().
+ */
 function carlson_refresh_preprocess_pager(&$variables) {
   $element = $variables['pager']['#element'];
   $parameters = $variables['pager']['#parameters'];
@@ -637,7 +763,7 @@ function carlson_refresh_preprocess_pager(&$variables) {
     if (isset($tags[3])) {
       $items['next']['text'] = $tags[3];
     }
-    if ($pager_page_array[$element] < $pager_max - $pager_middle){
+    if ($pager_page_array[$element] < $pager_max - $pager_middle) {
       $items['last'] = array();
       $options = array(
         'query' => $pager_manager->getUpdatedParameters($parameters, $element, $pager_max - 1),
@@ -670,27 +796,73 @@ function carlson_refresh_preprocess_pager(&$variables) {
  *   - paragraph: The paragraph object.
  *   - view_mode: View mode; e.g., 'full', 'teaser'...
  */
-
 function carlson_refresh_preprocess_paragraph(&$variables) {
   /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
   $paragraph = $variables['paragraph'];
   $bundle = $paragraph->bundle();
 
-  switch($bundle) {
+  switch ($bundle) {
     case 'carlson_staff_faculty':
       // kint($paragraph);
-    break;
+      break;
   }
   // Add Page Type as variable - needed for execuitve_ed
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
-      $variables['node'] = $node;
+    $variables['node'] = $node;
   }
 }
 
+/**
+ * Implements hook_preprocess_field().
+ */
 function carlson_refresh_preprocess_field(&$variables, $hook) {
   // Add Page Type as variable - needed for execuitve_ed
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
-      $variables['node'] = $node;
+    $variables['node'] = $node;
+  }
+
+  // Define field types that can contain HTML content.
+  $html_field_types = [
+    'text_long',
+    'text_with_summary',
+    'text',
+    'string_long',
+  ];
+
+  // Check if this is a field type that might contain HTML content
+  if (in_array($variables['element']['#field_type'], $html_field_types)) {
+    // Get the field value - handle different field structures
+    $field_value = '';
+    if (isset($variables['items'][0]['content']['#text'])) {
+      $field_value = $variables['items'][0]['content']['#text'];
+    }
+    elseif (isset($variables['items'][0]['content']['#markup'])) {
+      $field_value = $variables['items'][0]['content']['#markup'];
+    }
+    elseif (isset($variables['items'][0]['content']['#value'])) {
+      $field_value = $variables['items'][0]['content']['#value'];
+    }
+
+    $classname_library = [
+      'figure-with-datatable' => ['carlson_refresh/figure-with-datatable'],
+      'csom-datatable' => ['carlson_refresh/csom-datatable'],
+      'csom-datatable--column-chart' => ['carlson_refresh/csom-datatable--column-chart'],
+      'blockquote' => ['carlson_refresh/blockquote'],
+      'list-legend' => ['carlson_refresh/list-legend'],
+      'csom-multicol-list' => ['carlson_refresh/multicol-list'],
+      'component-paragraph' => ['carlson_refresh/component-paragraph'],
+      'cta1' => ['carlson_refresh/cta1'],
+      'use-ajax' => ['carlson_refresh/ui-dialog'],
+    ];
+
+    // Check if the content contains classnames that should trigger a library.
+    foreach ($classname_library as $classname => $libraries) {
+      if (strpos($field_value, $classname) !== FALSE) {
+        foreach ($libraries as $library) {
+          $variables['#attached']['library'][] = $library;
+        }
+      }
+    }
   }
 }
 
@@ -698,34 +870,104 @@ function carlson_refresh_preprocess_field(&$variables, $hook) {
  * Implements hook_preprocess_slick().
  */
 function carlson_refresh_preprocess_slick(&$variables) {
-//  if ($node = \Drupal::routeMatch()->getParameter('node')) {
-//    $variables['node'] = $node;
-//    $bundle = $node->bundle();
-//    switch ($bundle) {
-//      case 'landing_page':
-//        if($variables["settings"]["optionset"] == 'new_front_stats' && $variables['content_attributes']->hasAttribute('data-slick')) {
-//          $data_slick = json_decode($variables['content_attributes']->toArray()['data-slick']);
-//          foreach ($data_slick->responsive as $key => $responsive_item) {
-//            if($responsive_item->breakpoint == 992) {
-//              $data_slick->responsive[$key]->settings->slidesPerRow = 2;
-//              $data_slick->responsive[$key]->settings->slidesToShow = 2;
-//              $data_slick->responsive[$key]->settings->slidesToScroll = 2;
-//            }
-//          }
-//          $variables['content_attributes']->setAttribute('data-slick', json_encode($data_slick));
-//        }
-//        break;
-//    }
-//  }
-  if(isset($variables["settings"]) && $variables["settings"]["optionset"] == 'new_front_stats' && count($variables["items"]) < 3) {
+  //  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+  //    $variables['node'] = $node;
+  //    $bundle = $node->bundle();
+  //    switch ($bundle) {
+  //      case 'landing_page':
+  //        if($variables["settings"]["optionset"] == 'new_front_stats' && $variables['content_attributes']->hasAttribute('data-slick')) {
+  //          $data_slick = json_decode($variables['content_attributes']->toArray()['data-slick']);
+  //          foreach ($data_slick->responsive as $key => $responsive_item) {
+  //            if($responsive_item->breakpoint == 992) {
+  //              $data_slick->responsive[$key]->settings->slidesPerRow = 2;
+  //              $data_slick->responsive[$key]->settings->slidesToShow = 2;
+  //              $data_slick->responsive[$key]->settings->slidesToScroll = 2;
+  //            }
+  //          }
+  //          $variables['content_attributes']->setAttribute('data-slick', json_encode($data_slick));
+  //        }
+  //        break;
+  //    }
+  //  }
+  if (isset($variables["settings"]) && $variables["settings"]["optionset"] == 'new_front_stats' && count($variables["items"]) < 3) {
     $data_slick = json_decode($variables['content_attributes']->toArray()['data-slick']);
     foreach ($data_slick->responsive as $key => $responsive_item) {
-      if($responsive_item->breakpoint == 992) {
+      if ($responsive_item->breakpoint == 992) {
         $data_slick->responsive[$key]->settings->slidesPerRow = count($variables["items"]);
         $data_slick->responsive[$key]->settings->slidesToShow = count($variables["items"]);
         $data_slick->responsive[$key]->settings->slidesToScroll = count($variables["items"]);
       }
     }
     $variables['content_attributes']->setAttribute('data-slick', json_encode($data_slick));
+  }
+}
+
+function carlson_refresh_preprocess_table(&$variables) {
+  // Adding table sort indicator CSS class for inactive sort link.
+  // @todo Revisit after https://www.drupal.org/node/3025726 or
+  //   https://www.drupal.org/node/1973418 is in.
+  if (!empty($variables['header'])) {
+    foreach ($variables['header'] as &$header_cell) {
+      if ($header_cell['content'] instanceof Link) {
+        $query = $header_cell['content']->getUrl()->getOption('query') ?: [];
+
+        if (isset($query['order']) && isset($query['sort'])) {
+          $header_cell['attributes']->addClass('tablesort-heading');
+        }
+      }
+    }
+  }
+}
+
+function carlson_refresh_preprocess_views_view_table(&$variables) {
+  // Adding table sort indicator CSS class for inactive sort link.
+  // @todo Revisit after https://www.drupal.org/node/3025726 or
+  //   https://www.drupal.org/node/1973418 is in.
+  if (!empty($variables['header'])) {
+    foreach ($variables['header'] as &$header_cell) {
+      if (!empty($header_cell['url'])) {
+        $parsed_url = UrlHelper::parse($header_cell['url']);
+        $query = !empty($parsed_url['query']) ? $parsed_url['query'] : [];
+
+        if (isset($query['order']) && isset($query['sort'])) {
+          $header_cell['attributes']->addClass('tablesort-heading');
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function carlson_refresh_theme() {
+  return [
+    'test_buttons' => [
+      'template' => 'tests/test-buttons',
+      'variables' => [],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function carlson_refresh_views_pre_render(\Drupal\views\ViewExecutable $view) {
+  // Map CSS classes to libraries for view attachment
+  $class_library_map = [
+    'news-hub-search' => 'carlson_refresh/news-hub-search',
+    'news-events' => 'carlson_refresh/news-events',
+  ];
+
+  if (!empty($view->style_plugin->options['css_class'])) {
+    $view_classes = $view->style_plugin->options['css_class'];
+
+    // Check each mapping to see if the view has the class
+    foreach ($class_library_map as $class => $library) {
+      if (strpos($view_classes, $class) !== FALSE) {
+        // Attach the corresponding library
+        $view->element['#attached']['library'][] = $library;
+      }
+    }
   }
 }

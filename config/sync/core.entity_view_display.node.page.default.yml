@@ -19,27 +19,18 @@ dependencies:
     - field.field.node.page.field_program_finder_type
     - field.field.node.page.field_section
     - field.field.node.page.layout_selection
-    - field.field.node.page.panelizer
     - field.field.node.page.webform
-    - image.style.basic_hero
     - node.type.page
   module:
     - entity_reference_revisions
     - layout_builder
     - layout_library
     - link
-    - media
     - metatag
-    - panelizer
     - text
     - user
     - webform
 third_party_settings:
-  panelizer:
-    enable: false
-    custom: false
-    allow: false
-    default: default
   layout_builder:
     enabled: false
     allow_custom: false
@@ -52,11 +43,6 @@ targetEntityType: node
 bundle: page
 mode: default
 content:
-  addtoany:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 8
-    region: content
   body:
     type: text_default
     label: hidden
@@ -132,13 +118,11 @@ content:
     weight: 5
     region: content
   field_hero_media:
-    type: media_thumbnail
+    type: entity_reference_entity_view
     label: hidden
     settings:
-      image_link: ''
-      image_style: basic_hero
-      image_loading:
-        attribute: lazy
+      view_mode: basic_hero
+      link: false
     third_party_settings: {  }
     weight: 4
     region: content
@@ -199,5 +183,4 @@ hidden:
   field_breadcrumb_title: true
   langcode: true
   layout_selection: true
-  panelizer: true
   search_api_excerpt: true

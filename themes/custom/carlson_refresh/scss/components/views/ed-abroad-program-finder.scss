@@ -1,0 +1,47 @@
+@import "../../abstracts/import";
+.view-ed-abroad-program-finder {
+  .view-header {
+    padding: 3rem;
+  }
+
+  .view-filters {
+    padding: 0 3rem 4rem;
+
+    .form-row {
+      margin-left: 0;
+      margin-right: 0;
+
+      --row-gap: 1.6rem;
+
+      gap: var(--row-gap);
+
+      > details,
+      > fieldset,
+      .form-actions {
+        @include make-col(12);
+
+        padding-left: 0;
+        padding-right: 0;
+        margin-bottom: 0;
+
+        @include media-breakpoint-up(md) {
+          @include make-col(6);
+
+          flex: 0 0 calc(50% - var(--row-gap));
+          max-width: calc(50% - var(--row-gap));
+        }
+
+        @include media-breakpoint-up(lg) {
+          //@include make-col(4);
+          flex: 0 0 calc(33.33333% - var(--row-gap));
+          max-width: calc(33.33333% - var(--row-gap));
+        }
+      }
+    }
+  }
+
+  .view-content,
+  nav {
+    background: $white;
+  }
+}

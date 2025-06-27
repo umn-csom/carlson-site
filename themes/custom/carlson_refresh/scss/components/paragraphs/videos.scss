@@ -1,0 +1,98 @@
+@import "../../abstracts/import";
+@import "../../abstracts/extensions";
+
+// Visual styles for Videos in Barrio.
+
+.video {
+  position: relative;
+
+  &__link {
+    position: absolute;
+    inset: 0;
+
+    svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      background: rgba($slate, 0.8);
+      border-radius: 50%;
+      border: solid 2px $gold;
+      color: $white;
+      transition: all 0.3s ease-in-out;
+    }
+
+    &:hover,
+    &:active,
+    &:focus {
+      svg {
+        color: $slate;
+        background: $gold;
+      }
+    }
+
+    + .ajax-progress {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+.video--textright {
+  @include media-breakpoint-up(lg) {
+    &__link--left {
+      &::after {
+        height: 2px;
+        background: $gold;
+        width: 30%;
+        top: 50%;
+        left: 0;
+      }
+    }
+  }
+}
+
+.video--textbelow {
+  img {
+    width: 100%;
+  }
+
+  .video__media,
+  .video__details {
+    max-width: 800px;
+    width: 100%;
+  }
+}
+
+.video--fullwidth {
+  display: flex;
+  justify-content: center;
+
+  &__image {
+    height: 100%;
+    width: 100%;
+  }
+
+  img {
+    width: 100%;
+    height: auto;
+  }
+
+  .video__caption {
+    @extend %figcaption;
+    margin-top: 1.5rem;
+
+    @include media-breakpoint-up(md) {
+      max-width: 80%;
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}

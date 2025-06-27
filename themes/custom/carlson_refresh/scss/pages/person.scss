@@ -1,0 +1,59 @@
+@import "../abstracts/import";
+
+// Top Profile - Block.
+.person-profile {
+
+  &__contact {
+    &--address {
+      &::before {
+        @include carlson-icons($icon-map-pin);
+
+        color: $maroon;
+        width: 2rem;
+        margin-right: 1.5rem;
+        display: inline-block;
+        text-align: center;
+        font-size: 2rem;
+        vertical-align: middle;
+        font-weight: 700;
+      }
+    }
+
+    &--phone,
+    &--email {
+      a::before {
+        @include carlson-icons($icon-link);
+
+        font-size: 1.6rem;
+        color: $maroon;
+        width: 2rem;
+        margin-right: 1.5rem;
+        display: inline-block;
+        text-align: center;
+        font-weight: 700;
+      }
+    }
+
+    &--phone {
+      a::before {
+        content: $icon-mobile-phone;
+        font-size: 2rem;
+      }
+    }
+
+    &--email {
+      a::before {
+        content: $icon-envelope;
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__sidebar {
+      > div {
+        padding: 30px 20px;
+      }
+    }
+  }
+}

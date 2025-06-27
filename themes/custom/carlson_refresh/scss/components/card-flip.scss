@@ -1,0 +1,102 @@
+@import "../abstracts/import";
+
+// Card flipping styles
+.card-flip {
+  perspective: 1000px;
+
+  &,
+  &__front,
+  &__back {
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .card {
+    border: 0;
+    background: transparent;
+    width: 100%;
+  }
+
+  .flip {
+    transition: 0.6s;
+    transform-style: preserve-3d;
+    position: relative;
+  }
+
+  &__front,
+  &__back {
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: solid 1px $maroon;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1px;
+  }
+
+  &__front {
+    z-index: 2;
+    transform: rotateY(0deg);
+  }
+
+  &__back {
+    transform: rotateY(180deg);
+  }
+
+  @media not all and (min-resolution: 0.001dpcm) {
+    //target Safari
+    @supports (-webkit-appearance: none) {
+      &__back {
+        display: none;
+      }
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &.focus {
+    .flip {
+      transform: rotateY(180deg);
+
+      @media not all and (min-resolution: 0.001dpcm) {
+        //target Safari
+        @supports (-webkit-appearance: none) {
+          .card-flip {
+            &__front {
+              transform: rotateY(180deg);
+              display: none;
+            }
+
+            &__back {
+              transform: rotateY(0deg);
+              display: flex;
+
+              .card {
+                transform: rotateY(180deg);
+              }
+            }
+          }
+        }
+      }
+
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        //target IE11
+        .card-flip {
+          &__front {
+            transform: rotateY(180deg);
+          }
+
+          &__back {
+            transform: rotateY(0deg);
+
+            .card {
+              transform: rotateY(180deg);
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,37 @@
+@import "bootstrap/scss/vendor/rfs";
+@import "../../abstracts/import";
+@import "../../abstracts/extensions";
+
+// Visual styles for Program CTA in Barrio.
+.program-cta {
+  text-align: center;
+
+  &__link {
+    font-size: 2rem;
+    text-decoration: none;
+    color: $dark-dark-gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    text-transform: uppercase;
+
+    svg {
+      width: 2.25rem;
+      height: auto;
+    }
+
+    &:hover {
+      color: $soft-black;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    text-align: left;
+
+    &__link {
+      text-align: right;
+      max-width: 18em;
+    }
+  }
+}

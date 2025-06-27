@@ -37,6 +37,8 @@
  * @see template_preprocess_field()
  */
 #}
+{{ attach_library('carlson_refresh/component-paragraph') }}
+{{ attach_library('carlson_refresh/contact-cta') }}
 {%
   set classes = [
   'field',
@@ -48,7 +50,7 @@
 {%
   set title_classes = [
   'field__label',
-  label_display == 'visually_hidden' ? 'visually-hidden',
+  label_display == 'visually_hidden' ? 'sr-only',
 ]
 %}
 
@@ -58,10 +60,10 @@
       <div class="col-12 col-xl-6 contact-cta__contact px-8 px-xl-12 mb-8 mb-xl-0">
         <h2 class="contact-cta__contact--heading">{{ item.content.field_block_heading }}</h2>
         {% if item.content.field_email|field_value is not empty %}
-          <div class="contact-cta__contact--email fs-18"><span class="font-weight-semi-bold">Email:</span> <a class="font-weight-normal text-black" href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></div>
+          <div class="contact-cta__contact--email fs-18"><span class="font-weight-semi-bold">Email:</span> <a href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></div>
         {% endif %}
         {% if item.content.field_phone|field_value is not empty %}
-          <div class="contact-cta__contact--phone fs-18"><span class="font-weight-semi-bold">Phone:</span> <a class="font-weight-normal text-black" href="{{ item.content.field_phone[0]['#url'] }}">{{ item.content.field_phone[0]['#title'] }}</a></div>
+          <div class="contact-cta__contact--phone fs-18"><span class="font-weight-semi-bold">Phone:</span> <a href="{{ item.content.field_phone[0]['#url'] }}">{{ item.content.field_phone[0]['#title'] }}</a></div>
         {% endif %}
         {% if item.content.field_request_link|render %}
           <div class="btn btn-primary mt-4 unb-cta-icon-request">{{ item.content.field_request_link }}</div>
@@ -70,25 +72,25 @@
       <div class="col-12 col-xl-6 contact-cta__social px-8 px-xl-12 d-flex align-items-end">
         <div>
           <p class="contact-cta__social--heading text-uppercase font-weight-semi-bold mb-4 mb-lg-4">{{ item.content.field_social_heading }}</p>
-          <div class="row mx-n3 align-items-center">
+          <div>
             {% if item.content.field_link_facebook.0['#url'] is not empty %}
-              <div class="col-auto px-3 fs-32 contact-cta__social--list-item"><a title="Facebook" class="text-decoration-none" alt="Facebook" href="{{ item.content.field_link_facebook.0['#url'] }}"><i class="icon icon-facebook"></i><span class="sr-only">Facebook</span></a></div>
-            {% endif %}
-
-            {# {% if item.content.field_link_twitter.0['#url'] is not empty %}
-              <div class="col-auto px-3 fs-32 contact-cta__social--list-item"><a title="Twitter" class="text-decoration-none" alt="Twitter" href="{{ item.content.field_link_twitter.0['#url'] }}"><i class="icon icon-twitter"></i></a></div>
-            {% endif %} #}
-
-            {% if item.content.field_link_instagram.0['#url'] is not empty %}
-              <div class="col-auto px-3 fs-32 contact-cta__social--list-item"><a title="Instagram" class="text-decoration-none" alt="Instagram" href="{{ item.content.field_link_instagram.0['#url'] }}"><i class="icon icon-instagram"></i><span class="sr-only">Instagram</span></a></div>
+              <a href="{{ item.content.field_link_facebook.0['#url'] }}" target="_blank">{{ source('@carlson_refresh/../images/svg/social-facebook.svg') }}<span class="sr-only">Facebook</span></a>
             {% endif %}
 
             {% if item.content.field_link_linkedin.0['#url'] is not empty %}
-              <div class="col-auto px-3 fs-32 contact-cta__social--list-item"><a title="LinkedIn" class="text-decoration-none" alt="LinkedIn" href="{{ item.content.field_link_linkedin.0['#url'] }}"><i class="icon icon-linkedin"></i><span class="sr-only">LinkedIn</span></a></div>
+              <a href="{{ item.content.field_link_linkedin.0['#url'] }}" target="_blank">{{ source('@carlson_refresh/../images/svg/social-linkedin.svg') }}<span class="sr-only">LinkedIn</span></a>
+            {% endif %}
+
+            {# {% if item.content.field_link_twitter.0['#url'] is not empty %}
+              <a href="{{ item.content.field_link_twitter.0['#url'] }}" target="_blank">{{ source('@carlson_refresh/../images/svg/social-twitter.svg') }}<span class="sr-only">Twitter</span></a>
+            {% endif %} #}
+
+            {% if item.content.field_link_instagram.0['#url'] is not empty %}
+              <a href="{{ item.content.field_link_instagram.0['#url'] }}" target="_blank">{{ source('@carlson_refresh/../images/svg/social-instagram.svg') }}<span class="sr-only">Instagram</span></a>
             {% endif %}
 
             {% if item.content.field_link_youtube.0['#url'] is not empty %}
-              <div class="col-auto px-3 fs-32 contact-cta__social--list-item"><a title="YouTube" class="text-decoration-none" alt="YouTube" href="{{ item.content.field_link_youtube.0['#url'] }}"><i class="icon icon-youtube"></i><span class="sr-only">YouTube</span></a></div>
+              <a href="{{ item.content.field_link_youtube.0['#url'] }}" target="_blank">{{ source('@carlson_refresh/../images/svg/social-youtube.svg') }}<span class="sr-only">YouTube</span></a>
             {% endif %}
           </div>
         </div>

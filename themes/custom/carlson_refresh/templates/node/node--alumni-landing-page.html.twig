@@ -89,6 +89,7 @@
     <section class="row landing-page__top">
       <div class="col-lg-12">
         {# Program Hero #}
+        {{ attach_library('carlson_refresh/hero-program') }}
         <div class="row component-paragraph hero-program">
           {% if content.field_video|field_value is empty %}
             <!-- Got here -->
@@ -100,7 +101,7 @@
             <div class="col-lg hero-program__img--alumni d-flex flex-column-reverse">
           {% endif %}
           <div class="col-12 hero-program__content hero-program__content--alumni">
-          
+
             <div class="row hero-program__content--wrapper d-lg-flex">
               <!-- TODO: rewrite block to hide if description empty? -->
               <div class="container-lg d-flex flex-column-reverse pl-0 pr-0">
@@ -109,11 +110,7 @@
                     <div class="hero-program__link-inner hero-program__link-inner--alumni">
                       <h1 class="hero-program__title--no-bar">{{ node.label }}</h1>
                       {{ content.field_description }}
-                      {% if content.field_link.0['#url'].toString()  %}
-                      <div class="hero-program__link hero-program__link--link-only">
-                        {{ content.field_link }}
-                      </div>
-                      {% endif %}
+                      {{ content.field_link }}
                     </div>
                   </div>
                 </div>
@@ -136,6 +133,7 @@
             {% endif %}
 
             {% if inner_nav | render %}
+            {{ attach_library('carlson_refresh/inner-nav') }}
             <div class="container-lg">
               <div class="col-12 inner_nav body_inner_nav">
                 {{ inner_nav }}
@@ -161,6 +159,7 @@
               {{ node_bottom }}
             {% endif %}
 
+            {{ attach_library('carlson_refresh/node__bottom') }}
             <div class="row node__bottom">
               {% apply spaceless %}
               <div class="node__bottom__col">

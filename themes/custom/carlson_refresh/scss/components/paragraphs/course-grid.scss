@@ -1,0 +1,123 @@
+@import "../../abstracts/import";
+
+// Course grid paragraph
+.course-grid {
+  .card-flip,
+  .card-flip__front,
+  .card-flip__back {
+    min-height: 400px;
+  }
+
+  .card-flip {
+    .card-block::before {
+      content: " ";
+      font-size: 4rem;
+      border: 1px solid $maroon;
+      border-radius: 4rem;
+      padding: 2rem 0;
+      width: 8rem;
+      height: 8rem;
+      display: inline-block;
+      margin-bottom: 2.6rem;
+      color: $maroon;
+    }
+
+    &__front,
+    &__back {
+      &--title {
+        margin-left: 20px;
+        margin-right: 20px;
+        font-weight: 600;
+        letter-spacing: 1.78px;
+        color: $maroon;
+        text-transform: uppercase;
+        font-size: 1.9rem;
+      }
+    }
+
+    &__back {
+      background: $maroon;
+      color: $white;
+
+      &--text {
+        margin: 1rem 3.2rem;
+        line-height: 3rem;
+      }
+
+      &--title {
+        color: $white;
+      }
+
+      &--link {
+        @include bold_link(1.9rem, $white);
+
+        padding: 0.5rem 0;
+        border-bottom: 0.2rem solid $gold;
+      }
+
+      .card-block::before {
+        color: $gold;
+        border: 0;
+        padding-top: 1rem;
+        margin-bottom: 0;
+      }
+    }
+
+    &.icon {
+      // data icon
+      &-1 {
+        .card-block::before {
+          @include carlson-icons($icon-data-line);
+        }
+      }
+      // monitor icon
+      &-2 {
+        .card-block::before {
+          @include carlson-icons($icon-monitor);
+        }
+      }
+      // target icon
+      &-3 {
+        .card-block::before {
+          @include carlson-icons($icon-rotate-arrow);
+        }
+      }
+      // dollar icon
+      &-4 {
+        .card-block::before {
+          @include carlson-icons($icon-dollar-sign);
+        }
+      }
+      // navigation icon
+      &-5 {
+        .card-block::before {
+          @include carlson-icons($icon-location-arrow);
+        }
+      }
+      // hands icon
+      &-6 {
+        .card-block::before {
+          @include carlson-icons($icon-hands);
+        }
+      }
+      // lightbulb icon
+      &-7 {
+        .card-block::before {
+          @include carlson-icons($icon-lightbulb);
+        }
+      }
+      // squares icon
+      &-8 {
+        .card-block::before {
+          @include carlson-icons($icon-grids);
+        }
+      }
+      // arrow icon
+      &-9 {
+        .card-block::before {
+          @include carlson-icons($icon-arrow-right);
+        }
+      }
+    }
+  }
+}

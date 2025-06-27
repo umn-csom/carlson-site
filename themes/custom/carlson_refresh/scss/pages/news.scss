@@ -1,0 +1,67 @@
+@import "../abstracts/import";
+@import "../abstracts/extensions";
+
+// News Page styles
+.news {
+  .program-cta,
+  .video--fullwidth,
+  .program-promo {
+    @include page-inset($inset-wide);
+  }
+
+  &__body,
+  .basic-paragraph,
+  .carlson-slideshow,
+  .quote,
+  .quote-group {
+    @include page-inset($inset-narrow);
+
+    max-width: 100rem;
+
+    &--sidebar {
+      margin-bottom: 3rem;
+
+      > div {
+        border: solid 1px $line-gray;
+        padding: 20px;
+      }
+    }
+  }
+
+  &__body {
+
+    &--sidebar {
+      // float: right;
+      z-index: 10;
+    }
+  }
+
+  .label-border {
+    font-size: 3.4rem;
+    line-height: 3.4rem;
+    font-weight: 400;
+
+    &::after {
+      margin: 1.6rem 0 0;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__body {
+      &--sidebar {
+        > div {
+          padding: 30px 35px;
+        }
+      }
+    }
+  }
+
+  .card__tag {
+    padding: 10px;
+    background-color: $lightgray;
+    color: $soft-black;
+    margin: 10px;
+    white-space: nowrap;
+    line-height: 45px;
+  }
+}

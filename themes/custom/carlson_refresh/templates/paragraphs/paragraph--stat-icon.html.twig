@@ -1,3 +1,5 @@
+{{ attach_library('carlson_refresh/component-paragraph') }}
+
 {% set position = paragraph.field_stat_icon_position.value ?: 'above' %}
 {% set style = paragraph.field_stat_icon_style.value ?: '' %}
 {% set has_image = paragraph.field_stat_icon_image.value is not empty %}
@@ -10,6 +12,8 @@
   position ? 'csom-stat-icon--position-' ~ position,
   style ? 'csom-stat-icon--style-' ~ style,
 ] %}
+
+{{ attach_library('carlson_refresh/stat-icon') }}
 
 <section class="component-paragraph component-paragraph--narrow component-paragraph--centered">
   <div {{ create_attribute({class: classes|join(' ')}) }}>

@@ -10,10 +10,24 @@
  * @see template_preprocess_image()
  */
 #}
-{%
-set classes = [
+{% set classes = [
   style_name ? 'image-style-' ~ style_name|clean_class,
   'img-fluid'|clean_class,
 ]
 %}
+{% if attributes.loading == 'eager' %}
+{% set attributes = attributes.setAttribute('fetchpriority', 'high') %}
+{% endif %}
+{% set lqip = attributes['data-lqip']|render %}
+{% if lqip %}
+<img{{ attributes.addClass(classes).removeAttribute('data-lqip') }}
+style="
+background-image: url({{ lqip }});
+background-size: cover;
+background-position: center;
+"
+onload="this.style.backgroundImage='none';"
+/>
+{% else %}
 <img{{ attributes.addClass(classes) }} />
+{% endif %}

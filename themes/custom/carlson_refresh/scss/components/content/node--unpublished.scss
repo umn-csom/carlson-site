@@ -1,0 +1,38 @@
+@import "../../abstracts/import";
+
+.node--unpublished {
+  padding: $spacer $spacer 0;
+  position: relative;
+  border: 4px dashed rgba($maroon, 0.2);
+  background-color: rgba($maroon, 0.1);
+
+  &::before {
+    content: "Unpublished";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    font-size: 3rem;
+    font-weight: bold;
+    color: rgba($maroon, 0.1);
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba($white, 0.7);
+    z-index: 0;
+  }
+
+  > * {
+    position: relative;
+    z-index: 2;
+  }
+}

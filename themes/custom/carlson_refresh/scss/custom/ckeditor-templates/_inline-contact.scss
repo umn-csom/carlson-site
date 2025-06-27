@@ -1,0 +1,55 @@
+.inline-contact {
+  @include make-row(0);
+
+  background-color: $ivory;
+
+  &__img {
+    @include make-col(12);
+
+    position: relative;
+
+    &__inner {
+      @extend .embed-responsive;
+      @extend .embed-responsive-4by3;
+
+      position: static;
+
+      .contextual-region {
+        position: static;
+      }
+    }
+
+    + .inline-contact__content {
+      text-align: left;
+    }
+  }
+
+  &__content {
+    @include make-col(12);
+
+    padding: 6rem;
+    text-align: center;
+  }
+
+  &__btn {
+    @extend %btn-base;
+    @extend %btn-primary;
+
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+
+    &-wrapper {
+      margin-top: 3rem;
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    &__img {
+      @include make-col(5);
+
+      + .inline-contact__content {
+        @include make-col(7);
+      }
+    }
+  }
+}

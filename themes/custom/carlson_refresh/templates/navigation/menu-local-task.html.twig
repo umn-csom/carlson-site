@@ -1,0 +1,22 @@
+{#
+/**
+ * @file
+ * Override Bootstrap Barrio's local task link.
+ *
+ * Add aria-current="page" to active links.
+ */
+#}
+{%
+  set classes = [
+    'nav-link',
+    is_active ? 'active',
+    item.url.getOption('attributes').class ? item.url.getOption('attributes').class | join(' '),
+  ]
+%}
+{% set item_attributes = create_attribute() %}
+{% set item_attributes = item_attributes.addClass(classes) %}
+{% if is_active %}
+{% set item_attributes = item_attributes.setAttribute('aria-current', 'page') %}
+{% endif %}
+<li{{attributes.addClass(is_active?'active','nav-item')}}>{{ link(item.text, item.url, item_attributes) }}</li>
+

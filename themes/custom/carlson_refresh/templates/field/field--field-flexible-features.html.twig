@@ -37,6 +37,8 @@
  * @see template_preprocess_field()
  */
 #}
+{{ attach_library('carlson_refresh/component-paragraph') }}
+
 {%-
   set classes = [
     'field',
@@ -48,11 +50,12 @@
 {%-
   set title_classes = [
     'field__label',
-    label_display == 'visually_hidden' ? 'visually-hidden',
+    label_display == 'visually_hidden' ? 'sr-only',
   ]
 -%}
 {% if label_hidden %}
   {% set count = items|length %}
+  <div class="row component-paragraph flexible-features">
   {% for item in items %}
     {% set type = item.content['#paragraph'].type.0.target_id %}
     {# {% if node.gettype == 'executive_ed_program' %}
@@ -82,6 +85,7 @@
       {% if type != 'hero' and type != 'gray_background' and type != 'quote_group' and type != 'fluid_columns' and type != 'quote' %}
         <div class="container-fluid container-xl">
       {% elseif type == 'fluid_columns' %}
+        {{ attach_library('carlson_refresh/fluid-columns') }}
         <div class="container-fluid container-xl fluid-columns-container">
       {% endif %}
       {% if type == 'quote_group' %}
@@ -119,12 +123,8 @@
         {% else %}
           <div class="col-12 quote-group__wrap">{{ item.content }}</div>
         {% endif %}
-      {% elseif type == 'video_text_below' or type == 'video_text_right' %}
-        {% if count == 1 %}
-          <div class="col-12 align-items-center video-textbelow mt-10 mb-10">{{ item.content }}</div>
-        {% else %}
-          <div class="col-12 align-items-center video-textbelow mt-10 mb-10">{{ item.content }}</div>
-        {% endif %}
+      {% elseif type in ['video_text_below', 'video_text_right', 'video_text_left'] %}
+        <div class="col-12 align-items-center video__wrapper my-10">{{ item.content }}</div>
       {% elseif type == 'hero' %}
         {% if count == 1 %}
           <div class="col-12 hero">{{ item.content }}</div>
@@ -136,6 +136,7 @@
       {% endif %}
     {% endif %}
   {% endfor %}
+  </div>
 {% else %}
   <div{{ attributes.addClass(classes) }}>
     <div{{ title_attributes.addClass(title_classes) }}>{{ label }}</div>

@@ -60,8 +60,11 @@
  * @see template_preprocess_node()
  */
 #}
+{{ attach_library('carlson_refresh/hub-card') }}
+
 <div class="card hub-card--video">
   <div class="card__body">
+    {{ attach_library('carlson_refresh/ui-dialog') }}
     <a class="use-ajax card__title--link" data-dialog-type="modal" href="/media/{{ content.field_video.0 }}" data-dialog-options="{&quot;width&quot;:800}">
       <div class="card__img">
         {{ content.field_video_thumb|field_value }}

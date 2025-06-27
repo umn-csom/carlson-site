@@ -1,30 +1,17 @@
 <!-- Begin UMN Header -->
-<div id="mandatory-header-wrapper" class="{{ umn_header_classes }}">
-  <div id="umnhf-h" class="container-fluid container-xl">
-    <div id="umnhf-h-mast">
-      <a id="umnhf-h-wm-svg" href="{{ home_link }}">
-        <span class="visually-hidden">Go to the U of M home page</span>
-        <!-- {{ svg_logo }} -->
-        {{ source(directory ~ '/images/branding/wordmarks/' ~ svg_logo) }}
-      </a>
-      {% if campus_links == 'links' %}
-      <ul class="umnhf" id="umnhf-h-cl" role="presentation">
-        <li><a href="http://www1.crk.umn.edu/" class="umnhf-campus-c">Crookston</a></li>
-        <li><a href="http://www.d.umn.edu/" class="umnhf-campus-d">Duluth</a></li>
-        <li><a href="http://www.morris.umn.edu/" class="umnhf-campus-m">Morris</a></li>
-        <li><a href="https://r.umn.edu/" class="umnhf-campus-r">Rochester</a></li>
-        <li><a href="http://twin-cities.umn.edu/" class="umnhf-campus-tc">Twin Cities</a></li>
-      </ul>
-      {% endif %}
-      {% if campus_header != 'umnhf-campus-e' %}
-      <ul id="umnhf-h-ql" role="presentation" class="d-none d-md-block">
-        <li id="umnhf-h-myu"><a href="http://www.myu.umn.edu">MyU{{ source(directory ~ '/images/svg/lock-search.svg') }}{% if myu_text == 'sfs' %}: For Students, Faculty, and Staff{% endif %}</a></li>
-        <li id="umnhf-h-onestop"><a href="{{ onestop_link }}">One Stop</a></li>
-        <li id="umnhf-h-give"><a href="/give">Give</a></li>
-        <li id="umnhf-h-contact"><a href="/contact">Contact</a></li>
-      </ul>
-      {% endif %}
-    </div>
+<div class="umnhf-h">
+  <div class="umnhf-h-mast">
+    <a class="umnhf-h-wm" href="{{ home_link }}">
+      <span class="sr-only">Go to the U of M home page</span>
+      <!-- {{ svg_logo }} -->
+      {{ source('@carlson_refresh/../images/branding/wordmarks/' ~ svg_logo) }}
+    </a>
+    <nav class="umnhf-h-ql" aria-label="Campus quick links">
+      <a href="https://www.myu.umn.edu" target="_blank">MyU{{ source('@carlson_refresh/../images/svg/lock-search.svg') }}<span class="external-link-text sr-only">(this link opens in a new browser window or tab)</span></a>
+      <a href="{{ onestop_link }}" target="_blank">One Stop{{ source('@carlson_refresh/../images/svg/external-link.svg') }}<span class="external-link-text sr-only">(this link opens in a new browser window or tab)</span></a>
+      <a href="/give" aria-label="Give to the Carlson School">Give</a>
+      <a href="/contact" aria-label="Contact the Carlson School">Contact    </a>
+    </nav>
   </div>
 </div>
 <!-- End UMN Header -->

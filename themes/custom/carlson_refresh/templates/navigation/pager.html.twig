@@ -30,12 +30,15 @@
  */
 #}
 {% if items %}
+  {{ attach_library('carlson_refresh/pagination') }}
   <nav aria-label="Page navigation">
     <ul class="pagination full-pagination">
       {# Print previous item #}
         <li class="page-item {{ items.previous ? '' : 'disabled' }} page-item--go-to-previous">
           <a href="{{ items.previous.href }}" title="{{ 'Go to previous page'|t }}" rel="prev"{{ items.previous.attributes|without('href', 'title', 'rel') }} class="page-link">
-            <span aria-hidden="true"><i class="icon icon-arrow-left"></i></span>
+            <span aria-hidden="true">
+              {{ source('@carlson_refresh/../images/svg/long-arrow-left.svg') }}
+            </span>
             <span class="sr-only">{{ items.previous.text|default('Previous'|t) }}</span>
           </a>
         </li>
@@ -80,7 +83,9 @@
       {# Print next item #}
       <li class="page-item {{ items.next ? '' : 'disabled' }} page-item--go-to-next">
         <a href="{{ items.next.href }}" title="{{ 'Go to next page'|t }}" rel="next"{{ items.next.attributes|without('href', 'title', 'rel') }} class="page-link">
-          <span aria-hidden="true"><i class="icon icon-arrow-right"></i></span>
+          <span aria-hidden="true">
+            {{ source('@carlson_refresh/../images/svg/long-arrow-right.svg') }}
+          </span>
           <span class="sr-only">{{ items.next.text|default('Next'|t) }}</span>
         </a>
       </li>

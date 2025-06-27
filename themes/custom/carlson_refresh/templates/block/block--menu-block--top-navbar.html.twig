@@ -27,10 +27,12 @@
  * @ingroup themeable
  */
 #}
-<nav role="navigation" id="navbar-primary" class="bg-primary navbar navbar-dark navbar-expand d-none d-lg-block">
-<div class="container-fluid container-xl flex-row align-items-start px-0">
-  {% block content %}
-    {{ content }}
-  {% endblock %}
-</div>
-</nav>
+{{ attach_library('carlson_refresh/site-nav') }}
+{% if content %}
+<nav role="navigation" aria-label="Primary menu links" class="site-nav__p">
+<div class="site-nav__i">
+{% block content %}
+  {{ content }}
+{% endblock %}
+</div></nav>
+{% endif %}

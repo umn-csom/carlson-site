@@ -1,0 +1,212 @@
+@import "../abstracts/import";
+
+.inner_nav {
+  .block {
+    width: 100%;
+
+    > label {
+      @include sr-only;
+    }
+
+    .nav {
+      justify-content: space-between;
+      width: 100%;
+
+      @include media-breakpoint-up(lg) {
+        border-bottom: 1px solid $warm-gray;
+      }
+
+      .nav-item {
+        width: 100%;
+        position: relative;
+        border-top: 1px solid transparent;
+        margin-bottom: 0;
+
+        @include media-breakpoint-up(lg) {
+          flex: 1 1;
+        }
+
+        .nav-link {
+          padding: 1.6rem 2.8rem;
+          text-transform: uppercase;
+          color: $slate;
+          font-size: 1.3rem;
+          line-height: 1.6rem;
+          letter-spacing: 1.39px;
+          border-top: 1px solid $warm-gray;
+
+          @include media-breakpoint-up(lg) {
+            padding: 2.8rem;
+            height: 100%;
+            text-align: center;
+            border-top-width: 0;
+            border-right: 1px solid $warm-gray;
+          }
+
+          &:hover,
+          &:focus {
+            color: $maroon;
+            background-color: transparent;
+          }
+        }
+
+        &.menu-item--active-trail {
+          .nav-link {
+            background-color: $lightergray;
+            color: $maroon;
+            border-bottom: 3px solid $maroon;
+          }
+        }
+
+        &:last-child .nav-link {
+          border-right-width: 0;
+        }
+
+        &.menu-item--expanded {
+          > .nav-link {
+            padding-right: 4.8rem;
+
+            &::after {
+              position: absolute;
+              right: 3rem;
+              top: calc(50% - 0.7rem);
+              color: $maroon;
+
+              @include media-breakpoint-up(lg) {
+                top: calc(50% - 1.4rem);
+              }
+            }
+          }
+
+          .menu {
+            list-style-type: none;
+            padding-left: 2.8rem;
+
+            .nav-item {
+              .nav-link {
+                text-transform: none;
+                letter-spacing: initial;
+                font-weight: 700;
+              }
+            }
+          }
+
+          @include media-breakpoint-up(lg) {
+            .menu {
+              .nav-item {
+                display: none;
+              }
+            }
+
+            &:hover,
+            &:focus {
+              position: relative;
+              border-style: solid;
+              border-color: $warm-gray;
+              border-width: 1px 0 0;
+
+              > .nav-link {
+                &::after {
+                  transform: rotate(180deg);
+                }
+              }
+
+              .menu {
+                position: absolute;
+                background: $white;
+                left: -1px;
+                width: calc(100% + 1px);
+                z-index: 1;
+                padding-left: 0;
+                border-style: solid;
+                border-color: $warm-gray;
+                border-width: 0 1px 1px;
+                padding: 0 2.8rem;
+
+                .nav-item {
+                  display: inline-block;
+                  width: 100%;
+                  border-top: 1px solid $warm-gray;
+
+                  .nav-link {
+                    width: 100%;
+                    display: inline-block;
+                    padding: 2rem 0;
+                    border: 0;
+                  }
+                }
+              }
+            }
+          }
+
+          &.menu-item--active-trail {
+            @include media-breakpoint-up(lg) {
+              &:hover,
+              &:focus {
+                .menu {
+                  background: $lightergray;
+                }
+              }
+            }
+          }
+        }
+
+        &:first-child {
+          &.menu-item--expanded {
+            &:hover,
+            &:focus {
+              border-left-width: 1px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &--accordion {
+    border-bottom: 1px solid $warm-gray;
+
+    @include media-breakpoint-up(lg) {
+      border-bottom-width: 0;
+    }
+
+    .accordion {
+      margin-bottom: 0;
+
+      &-item {
+        overflow: visible;
+      }
+
+      &-button {
+        background: transparent;
+        color: $slate;
+
+        @include bold_link(1.6rem, $maroon);
+
+        line-height: 2rem;
+
+        svg {
+          height: 2rem;
+        }
+
+        @include media-breakpoint-up(lg) {
+          display: none;
+        }
+      }
+
+
+      &-content {
+        background-image: none;
+
+        @include media-breakpoint-up(lg) {
+          opacity: 1;
+          display: block;
+        }
+      }
+
+      &-content-inner {
+        padding: 0 1.25rem;
+      }
+    }
+  }
+}

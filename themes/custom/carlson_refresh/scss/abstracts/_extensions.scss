@@ -1,0 +1,254 @@
+
+// Focus visible styles.
+%focus-visible {
+  outline: 0;
+  box-shadow:
+    0 0 0 1px $white,
+    0 0 0 2px $cyan,
+    0 0 0 calc(2px + 0.35rem) rgba($cyan, 0.4);
+}
+
+// For button containers that have inner links.
+%has-focus-visible {
+  &:has(:focus-visible) {
+    @extend %focus-visible;
+
+    :focus-visible {
+      outline: 0;
+      box-shadow: none;
+    }
+  }
+}
+
+//
+// Button styles
+//
+
+%btn-base {
+  cursor: pointer;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  text-align: center;
+  text-decoration: none;
+  line-height: 1.5;
+  vertical-align: middle;
+  border-radius: 0;
+  transition:
+    color 0.15s ease-in-out,
+    background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out;
+
+  color: $body-color;
+  background-color: transparent;
+  border: 1px solid transparent;
+  font-size: 1.6rem;
+  font-weight: 600;
+
+  padding: 1rem 4rem;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &.disabled,
+  &:disabled {
+    opacity: $btn-disabled-opacity;
+    box-shadow: none;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  svg {
+    display: inline-block;
+    height: .85em;
+    width: auto;
+    vertical-align: -0.08em;
+  }
+}
+
+
+// Solid button styles.
+%btn-primary {
+  background-color: $maroon;
+  border-color: $maroon;
+  color: $white;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+
+  // @todo lighten on hover instead of darken?
+  &:not(:disabled):hover,
+  .show>&.dropdown-toggle {
+    background-color: darken($maroon, 7.5%);
+    border-color: darken($maroon, 12.5%);
+    color: $white;
+  }
+
+  &:not(:disabled):active {
+    background-color: darken($maroon, 12.5%);
+    border-color: darken($maroon, 12.5%);
+    color: $white;
+  }
+}
+
+%btn-secondary {
+  background-color: $gold;
+  border-color: $gold;
+  color: $dark-dark-gray;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+
+  &:not(:disabled):hover,
+  .show>&.dropdown-toggle {
+    background-color: darken($gold, 7.5%);
+    border-color: darken($gold, 12.5%);
+    color: $black;
+  }
+
+  &:not(:disabled):active {
+    background-color: darken($gold, 12.5%);
+    border-color: darken($gold, 12.5%);
+    color: $black;
+  }
+}
+
+%btn-ivory {
+  color: $dark-dark-gray;
+  background-color: $ivory;
+  border-color: $ivory;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+
+  &:not(:disabled):hover {
+    background-color: darken($ivory, 7.5%);
+    border-color: darken($ivory, 12.5%);
+    color: $black;
+  }
+
+  &:not(:disabled):active {
+    background-color: darken($ivory, 12.5%);
+    border-color: darken($ivory, 12.5%);
+    color: $black;
+  }
+}
+
+// Outline button styles
+%btn-outline-primary {
+  color: $maroon;
+  border-color: $maroon;
+  background-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+
+  &:not(:disabled):hover,
+  &:not(:disabled):active,
+  .show>&.dropdown-toggle {
+    color: $white;
+    background-color: $maroon;
+    border-color: $maroon;
+  }
+}
+
+%btn-outline-secondary {
+  color: $body-color;
+  border-color: $gold;
+  background-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-width: 2px;
+  font-weight: 650;
+
+  &:not(:disabled):hover,
+  &:not(:disabled):active,
+  .show>&.dropdown-toggle {
+    color: $body-color;
+    background-color: $gold;
+    border-color: $gold;
+  }
+}
+
+%btn-block {
+  display: block;
+  width: 100%;
+}
+
+%btn-link {
+  color: $link-color;
+  text-decoration: $link-decoration;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+
+  &:hover {
+    color: $link-hover-color;
+    text-decoration: $link-hover-decoration;
+  }
+
+  &:disabled,
+  &.disabled {
+    color: $btn-link-disabled-color;
+    pointer-events: none;
+  }
+}
+
+%btn-lg {
+  padding: 0.7rem 3rem;
+  font-size: 2rem;
+  line-height: 1.5;
+  letter-spacing: 0.03em;
+
+  letter-spacing: normal;
+  text-transform: initial;
+
+  svg {
+    width: auto;
+    vertical-align: -0.125em;
+  }
+}
+
+%btn-md {
+  padding: .6rem 1.5rem;
+  font-size: 1em;
+
+  line-height: 1.5;
+  letter-spacing: 0.05em;
+}
+
+%btn-sm {
+  padding: $btn-padding-y-sm $btn-padding-x-sm;
+  font-size: $btn-font-size-sm;
+  line-height: $btn-line-height-sm;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: initial;
+
+  svg {
+    height: 1em;
+    vertical-align: -0.15em
+  }
+
+  [stroke-width="1.75"] {
+    stroke-width: 1.5;
+  }
+}
+
+%figcaption {
+  color: $mid-gray;
+
+  @include font-sans-serif-base();
+
+  font-size: 1.5rem;
+  font-weight: 400;
+  font-style: italic;
+
+  .inline-contact &,
+  .bg-light-blue &,
+  .bg-ivory &,
+  .bg-gold & {
+    color: $soft-black;
+  }
+
+  .bg-light & {
+    color: $darkmedgray;
+  }
+}
