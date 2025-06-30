@@ -372,6 +372,7 @@ if ($file_system->saveData($report_html, $report_file_uri, FileSystemInterface::
 }
 
 function get_entity_link($entity) {
+    $url = '';
     if (method_exists($entity, 'getParentEntity') && $entity->getParentEntity()) {
         $url = get_entity_link($entity->getParentEntity());
     } else if (method_exists($entity, 'getParent') && $entity->getParent()) {

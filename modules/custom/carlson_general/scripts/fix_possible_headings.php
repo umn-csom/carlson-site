@@ -376,12 +376,13 @@ $final_summary_message = sprintf(
     $successful_fixes_nodes_count,
     $total_heading_issues_fixed
 );
+$report_file_path = $file_system->realpath($report_file_uri);
 $log_message = "Log: " . get_log_viewer_url($log_file_path);
-//$report_message = "Report: " . get_log_viewer_url($report_file_path);
+$report_message = "Report: " . get_log_viewer_url($report_file_path);
 
 script_log($final_summary_message, 'info');
 script_log($log_message, 'info');
-//script_log($report_message, 'info');
+script_log($report_message, 'info');
 
 // Return value for update hooks or other includes
 return $final_summary_message . PHP_EOL . $log_message . PHP_EOL . $report_message;
