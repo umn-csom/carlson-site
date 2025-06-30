@@ -1,0 +1,68 @@
+@import "bootstrap/scss/_functions";
+@import "bootstrap/scss/_variables";
+@import "bootstrap/scss/mixins/_breakpoints";
+@import "bootstrap/scss/mixins/_grid";
+//@import "bootstrap/scss/utilities/_spacing";
+@import "../abstracts/variables";
+
+@import "../base/html";
+
+.dropdown-menu,
+.mm-menu,
+:where(#off-canvas),
+.off-canvas-wrapper {
+  display: none;
+}
+
+.skip-link,
+.sr-only,
+.visually-hidden {
+  @include sr-only;
+}
+
+@import "../base/typography";
+@import "../base/umn-branding";
+@import "../components/site-branding";
+@import "../components/site-nav";
+@import "../components/crumbs";
+
+.clearfix::after {
+  display: block;
+  clear: both;
+  content: ""
+}
+
+.align-center {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
+.list-inline,
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
+.list-inline li,
+.list-inline-item {
+  display: inline-block;
+}
+
+.list-inline-item:not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.img-fluid {
+  max-width: 100%;
+  height: auto;
+}
+
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}

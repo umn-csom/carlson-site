@@ -1,0 +1,52 @@
+@import "../../abstracts/import";
+
+.program-promo {
+  &__info {
+    border-bottom: 1px solid $white;
+
+    a {
+      font-style: italic;
+      line-height: 3rem;
+
+      &::after {
+        font-style: normal;
+        content: "|";
+        color: $body-color;
+        margin: 0 1.5rem;
+      }
+
+      &:last-child {
+        &::after {
+          content: "";
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  &__link {
+    padding: 1.5rem 0;
+    text-align: center;
+  }
+
+  @include media-breakpoint-up(md) {
+    &__info {
+      border-right: 1px solid $white;
+      border-bottom: 0;
+    }
+
+    &__link {
+      .cta-link {
+        &__wrapper {
+          flex-basis: 0;
+          flex-grow: 1;
+          max-width: 100%;
+        }
+
+        &__icon {
+          display: block !important;
+        }
+      }
+    }
+  }
+}

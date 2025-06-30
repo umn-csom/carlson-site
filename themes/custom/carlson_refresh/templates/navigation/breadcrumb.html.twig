@@ -7,8 +7,6 @@
  * - breadcrumb: Breadcrumb trail items.
  */
 #}
-{#{{ attach_library('bootstrap_barrio/breadcrumb') }}#}
-
 {% if breadcrumb %}
   {% if breadcrumb|length == 1 and breadcrumb[0].url == '/' %}
     {% set breadcrumb = breadcrumb|merge([{'text': drupal_token('current-page:title'), 'url': path('<current>')}]) %}
@@ -46,17 +44,20 @@
   {% endfor %}
 
   {% if has_url %}
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        {% for item in breadcrumb %}
-          <li class="breadcrumb-item">
+    {{ attach_library('carlson_refresh/crumbs') }}
+    <nav class="crumbs" aria-label="breadcrumb">
+      <ol>
+        {% apply spaceless %}
+          {% for item in breadcrumb %}
+          <li>
             {% if item.url %}
               <a href="{{ item.url }}">{{ item.text|raw }}</a>
             {% else %}
               <span>{{ item.text|raw }}</span>
             {% endif %}
           </li>
-        {% endfor %}
+          {% endfor %}
+        {% endapply %}
       </ol>
     </nav>
   {% endif %}

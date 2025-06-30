@@ -12,21 +12,12 @@ dependencies:
     - field.field.node.email_page.field_menu_rule
     - field.field.node.email_page.field_meta_tags
     - field.field.node.email_page.field_section
-    - image.style.basic_hero
     - node.type.email_page
   module:
     - entity_reference_revisions
-    - media
     - metatag
-    - panelizer
     - text
     - user
-third_party_settings:
-  panelizer:
-    enable: false
-    custom: false
-    allow: false
-    default: default
 id: node.email_page.default
 targetEntityType: node
 bundle: email_page
@@ -65,13 +56,11 @@ content:
     weight: 2
     region: content
   field_hero_media:
-    type: media_thumbnail
+    type: entity_reference_entity_view
     label: hidden
     settings:
-      image_link: ''
-      image_style: basic_hero
-      image_loading:
-        attribute: lazy
+      view_mode: basic_hero
+      link: false
     third_party_settings: {  }
     weight: 3
     region: content
@@ -104,7 +93,6 @@ content:
     weight: 0
     region: content
 hidden:
-  addtoany: true
   field_breadcrumb_title: true
   langcode: true
   search_api_excerpt: true

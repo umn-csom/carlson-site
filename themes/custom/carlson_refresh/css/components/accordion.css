@@ -1,0 +1,121 @@
+.accordion {
+  margin-bottom: 3rem; }
+  .accordion--child {
+    margin-bottom: 0; }
+  .accordion__wrapper:not(:first-child) {
+    margin-top: 3rem; }
+  .accordion__wrapper table {
+    max-width: max-content;
+    width: unset !important; }
+  .accordion__heading {
+    margin-top: 2.2rem;
+    margin-bottom: 2.2rem; }
+  .accordion-item:not(:last-child) {
+    margin-bottom: 1px; }
+  .accordion-item *[id] {
+    scroll-margin-top: 200px; }
+  .accordion-button {
+    cursor: pointer;
+    border: 0;
+    display: flex;
+    gap: 1.5rem;
+    padding: 2rem 2.4rem;
+    width: 100%;
+    position: relative;
+    word-break: break-word;
+    font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
+    font-weight: 400;
+    font-size: 2rem;
+    letter-spacing: 0.04em;
+    text-align: left;
+    white-space: normal;
+    text-transform: none; }
+    @media (max-width: 991.98px) {
+      .accordion-button {
+        padding: 1.5rem; } }
+    .accordion-button:hover, .accordion-button:focus, .accordion-button:active, .accordion-button:visited {
+      text-decoration: none;
+      outline: none; }
+    .accordion-button:focus-visible {
+      background: #d8cfb9;
+      border-radius: 2px;
+      z-index: 1;
+      position: relative; }
+    .accordion-button svg {
+      margin: 0.5rem 0;
+      stroke: #7a0019;
+      flex: 0 0 auto; }
+    .accordion-button.collapsed {
+      background: #e6e0d2;
+      color: #212529; }
+      .accordion-button.collapsed:hover, .accordion-button.collapsed:focus {
+        background: #e6e0d2;
+        color: #7a0019; }
+      .accordion-button.collapsed .icon-chevron-up-sm,
+      .accordion-button.collapsed .icon-minus {
+        display: none; }
+    .accordion-button:not(.collapsed), .accordion-button:not(.collapsed):hover, .accordion-button:not(.collapsed):focus {
+      background: #7a0019;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: normal; }
+    .accordion-button:not(.collapsed) svg {
+      stroke: #fff; }
+    .accordion-button:not(.collapsed) .icon-chevron-down-sm,
+    .accordion-button:not(.collapsed) .icon-plus {
+      display: none; }
+  .accordion-content {
+    transition: all 0.26s ease-in-out;
+    position: relative; }
+    .accordion-content-inner {
+      padding: 3rem 3rem 5rem;
+      border-bottom: 0.5rem solid #7a0019;
+      overflow: auto; }
+      @media (max-width: 991.98px) {
+        .accordion-content-inner {
+          padding-left: 0;
+          padding-right: 0; } }
+    .accordion-content .container.session {
+      padding: 0;
+      max-width: none;
+      width: 100%; }
+  @media (max-width: 991.98px) {
+    .accordion-item--edge-expand-mobile {
+      overflow: visible; }
+      .accordion-item--edge-expand-mobile > .accordion-button {
+        padding: 1.5rem 0; }
+        .accordion-item--edge-expand-mobile > .accordion-button::before, .accordion-item--edge-expand-mobile > .accordion-button::after {
+          content: "";
+          display: block;
+          position: absolute;
+          right: 100%;
+          top: 0;
+          width: 100%;
+          background-color: #7a0019;
+          height: 100%; }
+        .accordion-item--edge-expand-mobile > .accordion-button[aria-expanded="false"]::before, .accordion-item--edge-expand-mobile > .accordion-button[aria-expanded="false"]::after {
+          background-color: #e6e0d2; }
+        .accordion-item--edge-expand-mobile > .accordion-button::after {
+          left: 100%;
+          right: initial; }
+      .accordion-item--edge-expand-mobile > .accordion-content::before, .accordion-item--edge-expand-mobile > .accordion-content::after {
+        content: "";
+        display: block;
+        position: absolute;
+        right: 100%;
+        bottom: 0;
+        width: 100%;
+        background-color: #7a0019;
+        height: 0.5rem; }
+      .accordion-item--edge-expand-mobile > .accordion-content::after {
+        left: 100%;
+        right: initial; } }
+  .accordion#block-executiveedcation-menu-link .card {
+    overflow: visible; }
+
+@media print {
+  .accordion > .card > .inner.collapse {
+    display: block;
+    opacity: 1; } }
+
+/*# sourceMappingURL=accordion.css.map */

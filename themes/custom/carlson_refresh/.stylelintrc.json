@@ -1,0 +1,50 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-prettier/recommended",
+    "stylelint-config-recommended-scss",
+    "stylelint-config-sass-guidelines"
+  ],
+  "rules": {
+    "@stylistic/string-quotes": "double",
+    "@stylistic/number-leading-zero": "always",
+    "alpha-value-notation": "number",
+    "color-function-notation": "legacy",
+    "custom-property-pattern": "^[a-z][-_a-z0-9IE]*$",
+    "declaration-property-value-no-unknown": null,
+    "declaration-property-value-allowed-list": {
+      "appearance": ["button", "none", "auto"]
+    },
+    "font-family-name-quotes": null,
+    "function-name-case": [
+      "lower",
+      {
+        "ignoreFunctions": ["Min"]
+      }
+    ],
+    "import-notation": null,
+    "max-nesting-depth": 4,
+    "media-feature-range-notation": "prefix",
+    "number-max-precision": 6,
+    "selector-class-pattern": "^[a-z][-a-z0-9]*(?:__[-a-z0-9]+)*(?:--[-a-z0-9]+)*$",
+    "selector-max-id": 1,
+    "selector-no-qualifying-type": [
+      true,
+      {
+        "ignore": ["class"]
+      }
+    ],
+    "no-descending-specificity": null,
+    "selector-not-notation": "simple",
+    "scss/dollar-variable-colon-space-after": "always",
+    "value-keyword-case": [
+      "lower",
+      {
+        "ignoreKeywords": ["currentColor"],
+        "ignoreProperties": ["currentColor"]
+      }
+    ]
+  },
+  "plugins": ["stylelint-scss"],
+  "ignoreFiles": ["css/*.css", "css/**/*.css"]
+}

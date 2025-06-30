@@ -88,6 +88,7 @@
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'landing-page', 'alumni-landing-page') }}>
     <section class="row landing-page__top">
     <div class="container">
+      {{ attach_library('carlson_refresh/hero-basic') }}
       <div class="row basic-hero">
         <div class="col-12 basic-hero__title">
           <div class="basic-hero__title-inner mx-2">
@@ -108,6 +109,7 @@
             {% endif %}
 
             {% if inner_nav | render %}
+              {{ attach_library('carlson_refresh/inner-nav') }}
             <div class="container-lg">
               <div class="col-12 inner_nav body_inner_nav">
                 {{ inner_nav }}
@@ -133,6 +135,7 @@
               {{ node_bottom }}
             {% endif %}
 
+            {{ attach_library('carlson_refresh/node__bottom') }}
             <div class="row node__bottom">
               {% apply spaceless %}
               <div class="node__bottom__col">

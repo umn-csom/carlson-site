@@ -1,0 +1,36 @@
+@import "../../abstracts/import";
+
+.requirement-section {
+  border: 3px solid $black;
+  padding: 5px 0 10px;
+  break-inside: avoid;
+
+  &.row {
+    margin: 0 0 2.5rem;
+  }
+
+  .requirement-header {
+    margin: auto;
+  }
+
+  .requirement-columns {
+    display: flex;
+    gap: 2.5rem;
+
+    .component-paragraph.basic-paragraph {
+      font-size: 1.5rem;
+      flex-basis: 50%;
+      margin-bottom: 0;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .requirement-columns {
+      flex-direction: column;
+
+      .component-paragraph.basic-paragraph {
+        margin-bottom: 15px;
+      }
+    }
+  }
+}

@@ -218,8 +218,5 @@
 		if (typeof mlink !== "undefined" && mlink !== null && mlink.value !== '') {
 			mlink.addEventListener('click', headerClick);
 		}
-
-		// Set the current year as copyright date.
-		document.getElementById('cdate').innerHTML = new Date().getFullYear();
 	});
 })();

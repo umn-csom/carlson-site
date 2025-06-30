@@ -1,0 +1,87 @@
+@import "../../abstracts/import";
+
+.csom-multicol-list {
+  height: 240px;
+  background: $white;
+  display: flex;
+  flex-direction: column;
+
+  // Disable scrollability when the height lies within a specific threshold.
+  // @see multicol-list.js
+  &.is-fully-visible {
+    height: auto;
+  }
+
+  &__wrapper {
+    margin: 5rem auto;
+  }
+
+  &__heading {
+    text-align: center;
+    font-family: $font-family-sans-serif;
+    font-weight: 800;
+    font-size: 2.1rem;
+    margin-bottom: 1.6rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 2rem 0;
+    column-width: 16rem;
+    column-gap: 2.5rem;
+    overflow-y: auto;
+    position: relative;
+    border-radius: 4px;
+    margin: 0 auto;
+    width: 100%;
+    background: $white;
+    // stylelint-disable-next-line property-no-vendor-prefix
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      $black var(--top-mask-size, 5rem),
+      $black calc(100% - var(--bottom-mask-size, 5rem)),
+      transparent 100%
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      $black var(--top-mask-size, 5rem),
+      $black calc(100% - var(--bottom-mask-size, 5rem)),
+      transparent 100%
+    );
+
+    --top-mask-size: 5rem;
+    --bottom-mask-size: 5rem;
+
+    &.is-scrolled-to-top {
+      // Note: rem units are required here for this to work.
+      --top-mask-size: 0;
+    }
+
+    &.is-scrolled-to-bottom {
+      // Note: rem units are required here for this to work.
+      --bottom-mask-size: 0;
+    }
+  }
+
+  li {
+    margin: 0 0 1rem;
+    line-height: 1.25;
+  }
+
+  // Hide legacy collapse/expand approach.
+  ul + *,
+  .more-less {
+    display: none;
+  }
+
+  .ck-widget {
+    display: block;
+
+    .more-less {
+      position: relative;
+      display: flex;
+    }
+  }
+}

@@ -1,45 +1,62 @@
 @import "../../abstracts/variables";
-@import "node_modules/bootstrap/scss/vendor/rfs";
-@import "node_modules/bootstrap/scss/mixins/grid";
-@import "node_modules/bootstrap/scss/mixins/breakpoints";
+@import "bootstrap/scss/vendor/rfs";
+@import "bootstrap/scss/mixins/grid";
+@import "bootstrap/scss/mixins/breakpoints";
 
 .front-statistics {
   &__container {
     clip-path: polygon(15% 0, 100% 0, 100% 100%, 0 100%, 0 20%);
   }
+
   &__item {
     max-width: 290px;
-    clip-path: polygon(0 0, calc(100% - 96.66666px) 0, 100% 55.81052px, 100% 100%, 0 100%);
+    clip-path: polygon(
+      0 0,
+      calc(100% - 96.66666px) 0,
+      100% 55.81052px,
+      100% 100%,
+      0 100%
+    );
+
     &__number {
       @include rfs(9rem);
+
       line-height: 1;
     }
   }
+
   .slick__slider {
     @include make-row();
-    justify-content: center;
+
+    justify-content: space-around;
   }
+
   .slick-list {
     @include make-col(12);
     @include make-col-ready();
   }
+
   .slick-track {
     display: flex;
     align-items: stretch;
   }
+
   .slick__slide {
     height: auto;
     cursor: auto;
   }
+
   .slick-dots {
     @include make-col(12);
     @include make-col-ready();
   }
+
   @include media-breakpoint-up(md) {
     .slick-list {
       @include make-col(11);
     }
   }
+
   @include media-breakpoint-up(xl) {
     .slick-list {
       @include make-col(10);

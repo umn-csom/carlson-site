@@ -1,7 +1,7 @@
 name: "Carlson Refresh"
 type: theme
 description: "Carlson Refresh theme"
-core_version_requirement: ^8 || ^9 || ^10
+core_version_requirement: ^8 || ^9 || ^10 || ^11
 base theme: bootstrap_barrio
 
 libraries:
@@ -10,7 +10,88 @@ libraries:
   - carlson_refresh/global-scripts
   - carlson_refresh/unbounce
 
+libraries-extend:
+  contextual/drupal.contextual-links:
+    - carlson_refresh/contextual
+  views_ui/admin.styling:
+    - carlson_refresh/views-ui
+  charts_highcharts/highcharts:
+    - carlson_refresh/charts-highcharts
+  node/drupal.node.preview:
+    - carlson_refresh/drupal.node.preview
+  course_comparison_table/course_comparison_table_code:
+    - carlson_refresh/comparison-table
+  webform/webform.element.help:
+    - carlson_refresh/webform.element.help
+
 libraries-override:
+  core/jquery:
+    js:
+      assets/vendor/jquery/jquery.min.js: js/jquery.min.js
+  core/drupal.dropbutton:
+    css:
+      component:
+        misc/dropbutton/dropbutton.css: false
+  bootstrap_barrio/global-styling:
+    js:
+      js/barrio.js: false
+      js/affix.js: false
+    css:
+      component:
+        # Disable all components from base theme.
+        css/components/affix.css: false
+        css/components/book.css: false
+        css/components/contextual.css: false
+        css/components/feed-icon.css: false
+        css/components/field.css: false
+        css/components/header.css: false
+        css/components/help.css: false
+        css/components/icons.css: false
+        css/components/image-button.css: false
+        css/components/item-list.css: false
+        css/components/list-group.css: false
+        css/components/media.css: false
+        css/components/page.css: false
+        css/components/search-form.css: false
+        css/components/shortcut.css: false
+        css/components/sidebar.css: false
+        css/components/site-footer.css: false
+        css/components/skip-link.css: false
+        css/components/table.css: false
+        css/components/tabledrag.css: false
+        css/components/tableselect.css: false
+        css/components/tablesort-indicator.css: false
+        css/components/ui.widget.css: false
+        css/components/tabs.css: false
+        css/components/toolbar.css: false
+        css/components/user.css: false
+        css/components/vertical-tabs.css: false
+        css/components/views.css: false
+        css/components/ui-dialog.css: false
+        css/components/progress.css: false
+      theme:
+        css/print.css: false
+  bootstrap_barrio/dropbutton:
+    css:
+      component:
+        css/components/dropbutton.component.css: false
+        css/components/dropbutton.css: css/components/dropbutton.css
+  bootstrap_barrio/drupal.node.preview:
+    css:
+      component:
+        css/components/node-preview.css: false
+  bootstrap_barrio/comments:
+    css:
+      component:
+        css/components/comments.css: css/components/comments.scss
+  bootstrap_barrio/book-navigation:
+    css:
+      component:
+        css/components/book-navigation.css: css/components/book-navigation.scss
+  bootstrap_barrio/tabs:
+    css:
+      component:
+        css/components/tabs.css: false
   responsive_menu/responsive_menu.styling:
     css:
       theme:
@@ -18,20 +99,21 @@ libraries-override:
   responsive_menu/responsive_menu.mmenu:
     css:
       theme:
-        /libraries/mmenu/dist/mmenu.css: css/mmenu.css
+        /libraries/mmenu/dist/mmenu.css: css/vendor/mmenu.css
   datatables/datatables_core:
     css:
       component:
-        /libraries/datatables/media/css/jquery.dataTables.css: css/jquery.dataTables.css
-
-ckeditor_stylesheets:
-  - css/boxicons.min.css
-  - //fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700;1,900&display=swap
-  - css/style.css
-  - css/components/ckeditor.css
+        /libraries/datatables/media/css/jquery.dataTables.css: css/vendor/jquery.dataTables.css
+  umn_search/cse_library:
+    css:
+      theme:
+        css/umn-search-form.css: false
 
 ckeditor5-stylesheets:
-  - css/ckeditor/ckeditor-style.css
+  - https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap
+  - css/ckeditor-style.css
+  - css/components/ckeditor.css
+  - css/components/ctas/cta1.css
 
 regions:
   top_header: "Top Header"
@@ -63,3 +145,7 @@ regions:
 version: "8.x-1.6"
 project: "barrio_refresh"
 datestamp: 1528736598
+
+# Add our test template
+templates:
+  - templates/test-buttons

@@ -1,0 +1,98 @@
+@import "../../abstracts/import";
+
+.csom-range-slider {
+  width: max-content;
+  margin: 0 auto;
+  line-height: 1.5;
+
+  .label {
+    text-transform: uppercase;
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .value {
+    font-size: 1.6rem;
+    font-weight: 700;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+
+    li {
+      padding: 0;
+      margin: 0 0 1.6rem;
+    }
+
+    li:nth-child(1) {
+      display: flex;
+      position: relative;
+
+      .label {
+        font-weight: 700;
+        font-style: italic;
+        text-transform: none;
+      }
+
+      .value {
+        padding: 0.8rem 5rem 0.8rem 1.6rem;
+        border-radius: 60px 0 0 60px;
+        background: $darkmedgray;
+        color: $white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: 700;
+        position: relative;
+
+        + .value {
+          padding: 0.8rem 1.6rem 0.8rem 5rem;
+          background: $ivory;
+          color: $black;
+          margin: 0;
+          border-radius: 0 60px 60px 0;
+        }
+
+        &:last-child::after {
+          content: "";
+          width: 5px;
+          height: 150%;
+          left: -2.5px;
+          top: -25%;
+          bottom: 0;
+          margin: 0 auto;
+          position: absolute;
+          background: $maroon;
+        }
+      }
+    }
+
+    li:nth-child(2) {
+      order: -1;
+    }
+  }
+
+  &__heading {
+    text-align: center;
+    font-family: $font-family-sans-serif;
+    font-weight: 800;
+    font-size: 2.1rem;
+    margin-bottom: 1.6rem;
+  }
+
+  p {
+    margin: 0 auto;
+  }
+}

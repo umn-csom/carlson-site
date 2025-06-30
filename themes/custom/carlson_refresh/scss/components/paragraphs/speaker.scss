@@ -1,0 +1,49 @@
+@import "../../abstracts/import";
+
+.speaker {
+  &__bio {
+    &--name {
+      @include serif-font(3.4rem);
+    }
+
+    &--title {
+      @include font-sans-serif-base();
+
+      letter-spacing: 1.39px;
+      text-transform: uppercase;
+
+      @include media-breakpoint-up(lg) {
+        margin-bottom: 2rem;
+      }
+    }
+  }
+
+  &__social {
+    margin-top: 1rem;
+    font-weight: 700;
+    line-height: 2.4rem;
+
+    a {
+      background: $gray-200;
+      border-radius: 50%;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+      text-decoration: none;
+
+      &:hover,
+      &:focus {
+        background: $light-gray;
+      }
+
+      &:focus-visible {
+        position: relative;
+        z-index: 1;
+      }
+    }
+
+    svg {
+      vertical-align: bottom;
+    }
+  }
+}

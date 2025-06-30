@@ -26,6 +26,7 @@ class DisplayModeMatcher implements DisplayModeMatcherInterface {
    * Creates the matcher instance.
    *
    * @param \Drupal\paragraph_view_mode\Checker\WidgetSettingsCheckerInterface $settings_checker
+   *   The settings checker.
    */
   public function __construct(WidgetSettingsCheckerInterface $settings_checker) {
     $this->settingsChecker = $settings_checker;
@@ -52,16 +53,16 @@ class DisplayModeMatcher implements DisplayModeMatcherInterface {
    * {@inheritdoc}
    */
   public function matchViewForModeAndEntity(string $mode, EntityInterface $entity): ?string {
-    if (
-      FALSE === $this->isAllowedMode($mode)
-      || FALSE === $this->isSupportedEntity($entity)
-    ) {
+    if (FALSE === $this->isSupportedEntity($entity)) {
       return NULL;
     }
 
-    /** @var ParagraphInterface $paragraph */
+    /** @var \Drupal\paragraphs\ParagraphInterface $paragraph */
     $paragraph = $entity;
-    if (FALSE === $this->hasViewModeField($paragraph)) {
+    if (
+      FALSE === $this->isAllowedMode($mode, $paragraph)
+      || FALSE === $this->hasViewModeField($paragraph)
+    ) {
       return NULL;
     }
 
@@ -88,6 +89,7 @@ class DisplayModeMatcher implements DisplayModeMatcherInterface {
    *   The paragraph.
    *
    * @return bool
+   *   TRUE in case field is exist in paragraph object, FALSE otherwise.
    */
   private function hasViewModeField(ParagraphInterface $paragraph): bool {
     return $paragraph->hasField(StorageManagerInterface::FIELD_NAME);
@@ -98,12 +100,14 @@ class DisplayModeMatcher implements DisplayModeMatcherInterface {
    *
    * @param string $mode
    *   The mode to be checked.
+   * @param \Drupal\paragraphs\ParagraphInterface $paragraph
+   *   The paragraph.
    *
    * @return bool
    *   True if the mode is allowed, false otherwise.
    */
-  private function isAllowedMode(string $mode): bool {
-    return ViewModes::PREVIEW !== $mode;
+  private function isAllowedMode(string $mode, ParagraphInterface $paragraph): bool {
+    return ViewModes::PREVIEW !== $mode || $this->settingsChecker->hasApplyToPreviewEnabled($paragraph);
   }
 
 }

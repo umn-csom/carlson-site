@@ -59,7 +59,7 @@
  * @see template_preprocess_node()
  */
 #}
-{#{{ attach_library('bootstrap_barrio/node') }}#}
+{{ attach_library('carlson_refresh/webform') }}
 
 {%
   set classes = [
@@ -76,9 +76,11 @@
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'webform') }}>
    <div class="row">
       <div class="col-12">
-        <div class="webform__body">
+        {% if content.body|render|striptags('<img>')|trim is not empty %}
+          <div class="webform__body">
             {{ content.body }}
-        </div>
+          </div>
+        {% endif %}
         <div class="row justify-content-center webform__form">{{ content.webform }}</div>
       </div>
     </div>

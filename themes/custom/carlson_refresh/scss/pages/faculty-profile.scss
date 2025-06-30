@@ -1,0 +1,174 @@
+@import "../abstracts/import";
+
+.faculty-profile {
+  // Top Profile - Block.
+  &__top {
+    &--headshot {
+      img {
+        object-position: top;
+      }
+    }
+  }
+
+  // Contact - Block.
+  &__contact {
+    span.icon {
+      max-width: 25px;
+      width: 100%;
+      text-align: center;
+    }
+
+    &--address {
+      span.icon::before {
+        font-size: 1.8rem;
+      }
+    }
+
+    &--phone {
+      span.icon::before {
+        //content: $icon-mobile-phone;
+        font-size: 1.8rem;
+      }
+    }
+
+    &--email {
+      span.icon::before {
+        //content: $icon-envelope;
+        font-size: 1.2rem;
+      }
+    }
+
+    &--cvc {
+      span.icon::before {
+        //content: $icon-download;
+        font-size: 1.8rem;
+      }
+    }
+  }
+
+  // Education Degrees - Block.
+  &__expertise--item,
+  &__education--item {
+    line-height: 2.5rem;
+
+    &--type {
+      font-weight: 700;
+    }
+  }
+
+  &__experience {
+    &__bg {
+      &__inner {
+        clip-path: polygon(0 25%, 100% calc(25% + 30px), 100% 100%, 0 100%);
+      }
+    }
+  }
+
+  &__edit {
+    text-align: center;
+    padding: 1rem;
+    line-height: 23px;
+    font-size: 23px;
+    float: right;
+    margin-bottom: 5rem;
+    box-shadow: 0 4px 10px 0 rgba($black, 0.1);
+    color: $maroon;
+    border: 0;
+    background: $white;
+
+    &::before {
+      @include carlson-icons($icon-edit);
+    }
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+
+      &::before {
+        color: $slate;
+      }
+    }
+
+    &.modal-show {
+      display: none;
+    }
+  }
+
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 600px;
+
+    @include media-breakpoint-up(md) {
+      flex-wrap: nowrap;
+    }
+  }
+
+  &__column {
+    padding-bottom: 10px;
+    flex-basis: 100%;
+
+    @include media-breakpoint-up(md) {
+      flex-basis: 50%;
+    }
+  }
+
+  &__close {
+    color: $maroon;
+    float: right;
+    cursor: pointer;
+  }
+
+  &__confirm {
+    // TODO: remove once dialog is in browser support
+    display: none;
+    position: static;
+    left: 0;
+    right: 0;
+    width: fit-content;
+    height: fit-content;
+    color: -internal-light-dark($black, $white);
+    margin: 0 0 0 auto;
+    border-width: initial;
+    border-style: solid;
+    border-color: initial;
+    border-image: initial;
+    padding: 1em;
+    background: -internal-light-dark($white, $black);
+    z-index: 9999999;
+
+    &.modal-show {
+      display: block;
+    }
+  }
+}
+
+.node__content .faculty-profile__works {
+  ul {
+    list-style: none;
+    margin-bottom: 0;
+    padding: 0;
+
+    @include media-breakpoint-up(md) {
+      margin-left: 40px;
+      margin-right: 50px;
+    }
+
+    li {
+      margin: 0;
+      padding-bottom: 1em;
+      margin-bottom: 1em;
+      padding-left: 15px;
+      position: relative;
+      border-bottom: 1px solid $line-gray;
+
+      &:last-child {
+        border-bottom: 0;
+      }
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+}

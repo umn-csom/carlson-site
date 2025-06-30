@@ -1,0 +1,29 @@
+@import "../../abstracts/import";
+
+.tab-content > .tab-pane {
+  display: none;
+}
+
+.tab-content > .active {
+  display: block;
+}
+
+.tabbed-content {
+  &__nav {
+    border-bottom: $nav-tabs-border-width solid $nav-tabs-border-color;
+
+    .nav-item {
+      margin-bottom: 0;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    &__nav {
+      border-bottom: 0;
+
+      .nav-item {
+        width: 100%;
+      }
+    }
+  }
+}

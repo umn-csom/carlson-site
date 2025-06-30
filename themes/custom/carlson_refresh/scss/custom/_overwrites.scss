@@ -1,0 +1,57 @@
+// Bootstrap overrides.
+
+// This fixes some Safari issues, though uncertain if this is needed in 2025.
+.row::before,
+.row::after {
+  display: inline-block;
+}
+
+.embed-responsive {
+  img {
+    @extend .embed-responsive-item;
+  }
+
+  img,
+  video {
+    object-fit: cover;
+  }
+
+  .contextual-region {
+    position: static;
+  }
+}
+
+.text-white {
+  a {
+    color: inherit;
+  }
+}
+
+.text-black {
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+}
+
+.card-group img {
+  margin: 0;
+  width: 100%;
+  height: auto;
+}
+
+.card-group .field--type-image {
+  margin: 0;
+}
+
+#icons {
+  display: none;
+}
+
+.list-inline li {
+  display: inline-block;
+}
+
+a:has(sub) {
+  text-underline-offset: 0.2em;
+}

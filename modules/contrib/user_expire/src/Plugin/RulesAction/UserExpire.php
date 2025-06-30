@@ -2,9 +2,12 @@
 
 namespace Drupal\user_expire\Plugin\RulesAction;
 
-use Drupal\rules\Core\RulesActionBase;
 use Drupal\Core\Database\Connection;
+use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\rules\Core\RulesActionBase;
+use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 
 /**
  * Provides "Expire User" action.
@@ -18,14 +21,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *       label = @Translation("User"),
  *       description = @Translation("Specifies the user, that should be expired.")
  *     ),
- *    "expiration" = @ContextDefinition("date",
- *       label = @Translation("Date"),
- *       description = @Translation("Specifies the date, when user should be expired.")
+ *    "expiration" = @ContextDefinition("timestamp",
+ *       label = @Translation("Expiration timestamp"),
+ *       description = @Translation("Specifies the Unix timestamp when the user should be expired.")
  *     )
  *   }
  * )
  */
-class UserExpire extends RulesActionBase {
+class UserExpire extends RulesActionBase implements ContainerFactoryPluginInterface {
 
   /**
    * The database service.
@@ -35,31 +38,57 @@ class UserExpire extends RulesActionBase {
   protected $database;
 
   /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * Constructs a \Drupal\user_expire\Plugin\RulesAction\UserExpire object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
    * @param string $plugin_id
    *   The plugin ID for the plugin instance.
-   * @param mixed $plugin_definition
+   * @param string[] $plugin_definition
    *   The plugin implementation definition.
    * @param \Drupal\Core\Database\Connection $database
    *   The database service.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, Connection $database) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
+  public function __construct(
+    array $configuration,
+    string $plugin_id,
+    mixed $plugin_definition,
+    Connection $database,
+    MessengerInterface $messenger,
+  ) {
+    parent::__construct(
+      $configuration,
+      $plugin_id,
+      $plugin_definition
+    );
     $this->database = $database;
+    $this->messenger = $messenger;
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(
+    ContainerInterface $container,
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+  ) {
     return new static(
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('database')
+      $container->get('database'),
+      $container->get('messenger')
     );
   }
 
@@ -71,11 +100,11 @@ class UserExpire extends RulesActionBase {
    * @param mixed $expiration
    *   User expiration date.
    */
-  protected function doExecute(UserInterface $user, $expiration = NULL) {
+  protected function doExecute(UserInterface $user, mixed $expiration = NULL): void {
     if (!empty($expiration)) {
       // If there's an expiration, save it.
       $this->database->merge('user_expire')
-        ->key(['uid' => $user->id()])
+        ->key('uid', $user->id())
         ->fields([
           'uid' => $user->id(),
           'expiration' => $expiration,
@@ -97,7 +126,7 @@ class UserExpire extends RulesActionBase {
 
         // Notify user that expiration time has been deleted.
         if ($deleted) {
-          \Drupal::messenger()->addMessage($this->t("%name's expiration date has been reset.", ['%name' => $user->getAccountName()]));
+          $this->messenger->addMessage($this->t("%name's expiration date has been reset.", ['%name' => $user->getAccountName()]));
         }
       }
     }

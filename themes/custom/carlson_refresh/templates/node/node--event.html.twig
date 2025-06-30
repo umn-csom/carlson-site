@@ -60,6 +60,7 @@
  */
 #}
 {#{{ attach_library('bootstrap_barrio/node') }}#}
+{{ attach_library('carlson_refresh/event') }}
 {{ attach_library('carlson_refresh/events') }}
 
 {%
@@ -95,6 +96,7 @@
     {# Render hero with hero-basic component #}
     {% if node.field_hero_media.isEmpty %}
       <section>
+        {{ attach_library('carlson_refresh/hero-basic') }}
         <div class="row justify-content-center basic-hero">
           <div class="col-12 basic-hero__title">
             <h1>{{ label }}</h1>
@@ -103,6 +105,7 @@
       </section>
     {% else %}
       <section>
+        {{ attach_library('carlson_refresh/hero-basic') }}
         <div class="row justify-content-center basic-hero">
           <div class="col-12 basic-hero__img">
             {{ content.field_hero_media }}
@@ -116,7 +119,7 @@
       </section>
     {% endif %}
     {# Event Details #}
-    <section class="row align-items-center border-top border-bottom py-4 py-lg-6 component-paragraph event__details">
+    <section class="row align-items-center pb-8 component-paragraph event__details">
       {% if content.field_event_date|field_value is not empty %}
         <div class="col-auto px-lg-6 text-center events__item__date d-flex align-items-center justify-content-center">
           {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
@@ -162,12 +165,13 @@
     </section>
 
     {% if content.field_google_map|field_value is not empty %}
-    <section class="row event__map">
+    <section class="event__map pt-8">
       {{ content.field_google_map }}
     </section>
     {% endif %}
 
-    <div class="row component-paragraph contact-cta">
+    {{ attach_library('carlson_refresh/contact-cta') }}
+    <div class="row component-paragraph contact-cta pt-8">
     {% set has_contact_info = content.field_full_name|field_value is not empty and content.field_email|field_value is not empty and content.field_phone|field_value is not empty %}
     {% if has_contact_info %}
       <div class="col-lg-6 contact-cta__contact">
@@ -188,7 +192,7 @@
       {% endif %}
       <div class="col-12 {{ has_contact_info ? 'col-lg-6' : '' }} text-center contact-cta__social">
         <h2 class="contact-cta__social--heading h5">Share This Event</h2>
-        <div>{{ content.addtoany }}</div>
+        {% include '@carlson_refresh/includes/share-this.html.twig' with { heading: '' } %}
       </div>
     </div>
   </div>

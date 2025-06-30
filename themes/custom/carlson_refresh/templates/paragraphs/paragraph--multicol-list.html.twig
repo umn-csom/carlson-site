@@ -1,3 +1,12 @@
+{#
+/**
+ * @file
+ * Template override to display a multicol list paragraph.
+ */
+#}
+{{ attach_library('carlson_refresh/component-paragraph') }}
+{{ attach_library('carlson_refresh/multicol-list') }}
+
 {% set has_heading = paragraph.field_multicol_list_heading.value and paragraph.field_multicol_list_heading.value|trim is not empty %}
 
 {% set has_list = paragraph.field_multicol_list_text.value and paragraph.field_multicol_list_text.value|trim is not empty %}

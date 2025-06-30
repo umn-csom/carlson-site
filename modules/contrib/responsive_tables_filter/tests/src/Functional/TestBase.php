@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\responsive_tables_filter\Tests\TestBase.
- */
-
 namespace Drupal\Tests\responsive_tables_filter\Functional;
 
 use Drupal\filter\Entity\FilterFormat;
@@ -48,7 +43,7 @@ abstract class TestBase extends BrowserTestBase {
     // Create a page content type.
     $this->drupalCreateContentType([
       'type' => 'page',
-      'name' => 'Basic page'
+      'name' => 'Basic page',
     ]);
 
     // Create a text format and enable the responsive_tables_filter filter.

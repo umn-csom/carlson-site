@@ -23,6 +23,7 @@
  * @see template_preprocess_taxonomy_term()
  */
 #}
+{{ attach_library('carlson_refresh/program-filter') }}
 {%
   set classes = [
   'd-md-flex',
@@ -33,7 +34,6 @@
   'result',
   'quiz-results--result',
   'p-4 pl-lg-0',
-  'bg-white',
   'result--' ~ term.id,
   'result--' ~ name[0]['#context'].value|clean_class
 ]
@@ -43,7 +43,7 @@
 {% set learn_more_title = content.field_quiz_result_set_learn_more[0]['#title']|render %}
 
 
-<a {{ attributes.setAttribute('id', 'result--' ~ term.id).setAttribute('data-name', name[0]['#context'].value|clean_class).addClass(classes) }} {% if learn_more_url is not empty %}href="{{ learn_more_url }}"{% endif %} target="_blank">
+<a {{ attributes.setAttribute('id', 'result--' ~ term.id).setAttribute('data-name', name[0]['#context'].value|clean_class).addClass(classes) }} {% if learn_more_url is not empty %} href="{{ learn_more_url }}" title="opens in a new browser window or tab" {% endif %} target=" _blank">
 
   <div class="program-filter-card--content-wrapper px-3">
     <div class="program-filter-card--category">
@@ -51,12 +51,16 @@
     </div>
 
     <div class="program-filter-card--content">
-      <h2 class="program-filter-card--title column__heading">{{ content.field_quiz_result_set_title }}</h2>
+      <h2 class="program-filter-card--title column__heading">
+      {{ content.field_quiz_result_set_title }}
+      {{ source('@carlson_refresh/images/svg/external-link.svg') }}
+      <span class="external-link-text sr-only">(this link opens in a new browser window or tab)</span>
+      </h2>
       <div class="program-filter-card--description">
         {{ content.description }}
       </div>
     </div>
-    
+
     <hr />
 
     <div class="program-filter-card--info-wrapper">

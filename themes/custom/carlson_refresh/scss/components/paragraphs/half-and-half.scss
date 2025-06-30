@@ -1,0 +1,70 @@
+@import "../../abstracts/import";
+
+.half-and-half {
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  .basic-paragraph {
+    margin-bottom: 0;
+    text-align: left;
+
+    @include media-breakpoint-up(md) {
+      //padding-left: $grid-padding-x;
+      padding-right: $grid-padding-x;
+    }
+  }
+
+  .left,
+  .right {
+    .background {
+      top: 30px;
+      z-index: -1;
+    }
+  }
+
+  .left {
+    .image-with-offset-back {
+      padding-left: 30px;
+    }
+
+    .background {
+      flex-direction: row-reverse;
+      left: -30px;
+
+      &__inner {
+        clip-path: polygon(0 65%, 100% 75%, 100% 100%, 0 100%);
+      }
+    }
+
+    .basic-paragraph {
+      @include media-breakpoint-up(md) {
+        padding-right: $grid-padding-x;
+      }
+    }
+  }
+
+  .right {
+    .image-with-offset-back {
+      padding-right: 30px;
+    }
+
+    .background {
+      left: 30px;
+
+      &__inner {
+        clip-path: polygon(0 75%, 100% 65%, 100% 100%, 0 100%);
+      }
+    }
+
+    .basic-paragraph {
+      @include media-breakpoint-up(md) {
+        padding-left: $grid-padding-x;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

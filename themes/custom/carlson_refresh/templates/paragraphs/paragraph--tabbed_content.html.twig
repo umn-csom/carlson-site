@@ -38,6 +38,7 @@
  * @ingroup themeable
  */
 #}
+{{ attach_library('carlson_refresh/tabbed-content') }}
 
 {% set classes = [
   'component-paragraph',
@@ -47,17 +48,19 @@
 ] %}
 {% block paragraph %}
   {% block content %}
+    {# Check if paragraph has any tab items #}
+    {% if not paragraph.field_tab_accordion_item.isEmpty() %}
+      {% set items = content.field_tab_accordion_item|field_value %}
     <!-- Accordion for Mobile -->
+    {{ attach_library('carlson_refresh/accordion') }}
     <div class="accordion d-block d-md-none">
-      <div class="row component-paragraph accordion-content">
-        {% if content.field_tab_accordion_item is not empty %}
-          {% set items = content.field_tab_accordion_item|field_value %}
+      <div class="accordion__wrapper row component-paragraph">
           {% set paragraphId = paragraph.id() %}
 
           {% if
             content.field_heading|field_value is not empty
               or content.field_main_content|field_value is not empty %}
-            <div class="col-12 accordion-content__heading">
+            <div class="accordion__heading col-12">
               <h3 class="label-border yellow">
                 {{ content.field_heading }}
               </h3>
@@ -69,29 +72,26 @@
             {% set inc = 0 %}
             {% for item in items %}
               {% set paragraph = item['#paragraph'] %}
-              <div class="card">
-                <div class="card-header">
-                  <span class="mb-0">
-                    {% set collapsed = 'collapsed' %}
-                    {% set expanded = 'false' %}
-                    {% set show = '' %}
-
-                    <button id="heading{{ paragraphId }}-{{ inc }}"
-                      class="btn btn-link {{ collapsed }}"
-                      type="button"
-                      data-toggle="collapse"
-                      data-target="#collapse{{ paragraphId }}-{{ inc }}"
-                      aria-expanded="{{ expanded }}"
-                      aria-controls="collapse{{ paragraphId }}-{{ inc }}">
-                      {{ paragraph.field_heading[0].value }}
-                    </button>
-                  </span>
-                </div>
+              {% set collapsed = 'collapsed' %}
+              {% set expanded = 'false' %}
+              {% set show = '' %}
+              <div class="accordion-item accordion-item--edge-expand-mobile">
+                <button id="heading{{ paragraphId }}-{{ inc }}"
+                  class="accordion-button {{ collapsed }}"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#collapse{{ paragraphId }}-{{ inc }}"
+                  aria-expanded="{{ expanded }}"
+                  aria-controls="collapse{{ paragraphId }}-{{ inc }}">
+                  {{ paragraph.field_heading[0].value }}
+                  {{ source('@carlson_refresh/../images/svg/plus.svg') }}
+                  {{ source('@carlson_refresh/../images/svg/minus.svg') }}
+                </button>
                 <div id="collapse{{ paragraphId }}-{{ inc }}"
-                  class="collapse {{ show }} inner"
+                  class="accordion-content collapse {{ show }}"
                   aria-labelledby="heading{{ paragraphId }}-{{ inc }}"
                   data-parent="#accordion-list-{{ paragraphId }}">
-                  <div class="card-body">
+                  <div class="accordion-content-inner">
                     {% set body = {
                       '#type': 'processed_text',
                       '#text': paragraph.field_main_content[0].value,
@@ -101,51 +101,36 @@
 
                     {# subaccordion #}
                     {% if paragraph.field_tab_accordion_subitem is not empty %}
-                      <div class="row component-paragraph accordion-content">
+                      <div class="accordion__wrapper row component-paragraph">
                         {% set subitems =
                           paragraph.field_tab_accordion_subitem
                         %}
 
-                        <div class="accordion sub-accordion col-12"
+                        <div class="accordion accordion--child col-12"
                           id="accordion-list-{{ paragraphId }}-{{ inc }}">
                           {% set subinc = 0 %}
                           {% for subitem in subitems %}
                             {% set subparagraph = subitem.entity %}
-                            <div class="card">
-                              <div class="card-header">
-                                <span class="mb-0">
-                                  {% set collapsed = 'collapsed' %}
-                                  {% set expanded = 'false' %}
-                                  {% set show = '' %}
-
-                                  <button id="heading{{ paragraphId }}-{{
-                                    inc
-                                    }}-{{ subinc }}"
-                                    class="btn btn-link {{ collapsed }}"
-                                    type="button"
-                                    data-toggle="collapse"
-                                    data-target="#collapse{{ paragraphId }}-{{
-                                    inc
-                                    }}-{{ subinc }}"
-                                    aria-expanded="{{ expanded }}"
-                                    aria-controls="collapse{{ paragraphId }}-{{
-                                    inc
-                                    }}-{{ subinc }}">
-                                    {{ subparagraph.field_heading[0].value }}
-                                  </button>
-                                </span>
-                              </div>
-                              <div id="collapse{{ paragraphId }}-{{ inc }}-{{
-                                subinc
-                                }}"
-                                class="collapse {{ show }} inner"
-                                aria-labelledby="heading{{ paragraphId }}-{{
-                                inc
-                                }}-{{ subinc }}"
-                                data-parent="#accordion-list-{{
-                                paragraphId
-                                }}-{{ inc }}">
-                                <div class="card-body">
+                            {% set collapsed = 'collapsed' %}
+                            {% set expanded = 'false' %}
+                            {% set show = '' %}
+                            <div class="accordion-item">
+                              <button id="heading{{ paragraphId }}-{{ inc }}-{{ subinc }}"
+                                class="accordion-button {{ collapsed }}"
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#collapse{{ paragraphId }}-{{ inc }}-{{ subinc }}"
+                                aria-expanded="{{ expanded }}"
+                                aria-controls="collapse{{ paragraphId }}-{{ inc }}-{{ subinc }}">
+                                {{ source('@carlson_refresh/../images/svg/plus.svg') }}
+                                {{ source('@carlson_refresh/../images/svg/minus.svg') }}
+                                {{ subparagraph.field_heading[0].value }}
+                              </button>
+                              <div id="collapse{{ paragraphId }}-{{ inc }}-{{ subinc }}"
+                                class="accordion-content collapse {{ show }}"
+                                aria-labelledby="heading{{ paragraphId }}-{{ inc }}-{{ subinc }}"
+                                data-parent="#accordion-list-{{ paragraphId }}-{{ inc }}">
+                                <div class="accordion-item">
                                   {% set body = {
                                     '#type': 'processed_text',
                                     '#text': subparagraph.field_main_content[0].value,
@@ -167,16 +152,12 @@
               {% set inc = inc + 1 %}
             {% endfor %}
           </div>
-        {% endif %}
       </div>
     </div>
 
     <!-- Tabs for Desktop -->
     <div class="tabbed-content d-none d-md-block">
       <div class="row component-paragraph tabbed-content">
-        {% if content.field_tab_accordion_item is not empty %}
-          {% set items = content.field_tab_accordion_item|field_value %}
-
           {% if
             content.field_heading is not empty
               or content.field_main_content is not empty %}
@@ -192,6 +173,7 @@
             {# Create the tabs #}
             <div class="tabbed-content__nav--container">
               <div class="tabbed-content__nav--positioner">
+                {{ attach_library('carlson_refresh/tabs') }}
                 <ul class="tabbed-content__nav nav nav-tabs" role="tablist">
                   {% set inc = 0 %}
                   {% for item in items %}
@@ -249,8 +231,8 @@
               {% endfor %}
             </div>
           </div>
-        {% endif %}
       </div>
     </div>
+    {% endif %}
   {% endblock %}
 {% endblock %}

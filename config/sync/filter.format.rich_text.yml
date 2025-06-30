@@ -84,7 +84,7 @@ filters:
     status: false
     weight: -43
     settings:
-      allowed_html: '<h2 class="label-border yellow"> <h3 class="label-border yellow"> <p class="label-border red yellow"> <a class="btn btn-primary btn-gold maroon-underline-button gold-underline-button">'
+      allowed_html: '<h2 class="h1 h3 h4 h5"> <h3 class="h1 h2 h4 h5"> <h4 class="h1 h2 h3 h5"> <h5 class="h1 h2 h3 h4"> <p class="label-border red yellow"> <a class="btn btn-primary btn-secondary btn-outline-primary btn-outline-secondary btn-md btn-sm">'
       filter_html_help: true
       filter_html_nofollow: false
   filter_html_escape:
@@ -118,7 +118,7 @@ filters:
     weight: -38
     settings:
       tablesaw_type: stack
-      tablesaw_persist: '1'
+      tablesaw_persist: true
   filter_url:
     id: filter_url
     provider: filter
@@ -143,6 +143,8 @@ filters:
       allowed_view_modes:
         default: default
         3_4_hero: 3_4_hero
+        circle_crop: circle_crop
+        embedded: embedded
         featured_video_thumb: featured_video_thumb
         feature_one: feature_one
         feature_search_image: feature_search_image
@@ -156,8 +158,6 @@ filters:
         square: square
         thumbnail: thumbnail
         thumbnail_profile: thumbnail_profile
-        circle_crop: circle_crop
-        embedded: embedded
       allowed_media_types: {  }
   slick_filter:
     id: slick_filter
@@ -170,6 +170,7 @@ filters:
         title: '0'
       optionset: default
       layout: ''
+      admin_uri: '/admin/config/content/formats/manage/rich_text?destination=/admin/config/content/formats&ajax_form=1&_wrapper_format=drupal_ajax'
       background: false
       box_caption: ''
       box_caption_custom: ''

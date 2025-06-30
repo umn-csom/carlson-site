@@ -1,0 +1,218 @@
+@import "../../abstracts/import";
+@import "../../abstracts/extensions";
+// URL: /graduate
+.program-filter {
+  margin-top: 1rem;
+
+  .sticky-menu::after {
+    content: none;
+  }
+
+  .card-columns,
+  .card-columns .views-infinite-scroll-content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .card {
+      box-sizing: border-box;
+      margin: 0 0.25rem 2rem;
+      flex: 100%;
+      flex-basis: 100%;
+      flex-grow: 0;
+      border: 1px solid $warm-gray;
+      border-bottom-width: 5px;
+      transition: border-color 120ms ease-in-out;
+
+      &:active,
+      &:hover,
+      &:focus {
+        border-color: $maroon;
+      }
+
+      // TEMP STYLING TEST
+      a {
+        color: unset;
+
+        h2 {
+          color: $maroon;
+        }
+
+        &:active,
+        &:hover,
+        &:focus {
+          color: unset;
+          text-decoration: none;
+        }
+      }
+
+      // END TEST
+    }
+
+    @include media-breakpoint-up(lg) {
+      .card {
+        flex-basis: calc(50% - 1.2rem);
+      }
+    }
+  }
+
+  // Header
+  header {
+    h1 {
+      font-size: $font-medium-mobile;
+
+      @include media-breakpoint-up(lg) {
+        font-size: $font-medium;
+      }
+    }
+  }
+
+  &__link {
+    font-size: 1.5rem;
+    padding: 1.5rem 1rem;
+    text-transform: uppercase;
+  }
+
+  // Filters
+  &__filter {
+    padding: 0 10px;
+
+    .form-group input[type="submit"] {
+      transition: none;
+
+      &:hover,
+      &:focus {
+        transition: all 0.3s ease-in-out;
+      }
+
+      margin-bottom: 5px;
+    }
+
+    .form-item-search-api-fulltext,
+    .form-item-keyword {
+      width: 100%;
+    }
+
+    #edit-search-api-fulltext,
+    #edit-keyword {
+      background-image: url("../images/svg/spy-glass-maroon.svg");
+      background-repeat: no-repeat;
+      padding-left: 40px;
+      background-position: 10px;
+    }
+
+    fieldset.form-type-select {
+      width: 100%;
+    }
+
+    @include media-breakpoint-up(md) {
+      fieldset.form-type-select {
+        width: 100%;
+      }
+    }
+
+    @include media-breakpoint-up(lg) {
+      fieldset.form-type-select {
+        width: 100%;
+      }
+    }
+
+    #edit-actions {
+      border-bottom: 1px solid $line-gray;
+      padding-bottom: 20px;
+
+      @include media-breakpoint-up(lg) {
+        width: 100%;
+      }
+    }
+
+    #edit-submit-hub-search-page {
+      @extend %btn-base;
+      @extend %btn-outline-primary;
+
+      background: $white;
+      width: 100%;
+    }
+
+    #edit-keyword,
+    select.form-control {
+      color: $dark-gray;
+      font-family: $font-family-sans-serif;
+    }
+
+    #edit-topic {
+      display: none;
+    }
+
+    details.form-item {
+      width: 100%;
+
+      summary {
+        text-transform: uppercase;
+        font-weight: 700;
+        min-height: 44px;
+        min-width: 44px;
+      }
+    }
+  }
+  // Content
+  &__results {
+    margin-top: 0;
+
+    @include media-breakpoint-up(md) {
+      margin-top: 0;
+    }
+
+    nav {
+      width: 100%;
+    }
+  }
+
+  &-card {
+    &--category {
+      padding-bottom: 10px;
+    }
+
+    &--title {
+      svg {
+        stroke-width: 1.5;
+      }
+    }
+
+    &--info-wrapper {
+      display: flex;
+      padding: 15px 0 10px;
+      flex-flow: wrap;
+    }
+
+    &--info-block {
+      width: 50%;
+      text-align: center;
+      padding-bottom: 10px;
+    }
+
+    &--label {
+      font-size: 1.6rem;
+    }
+
+    &--value {
+      font-size: 1.4rem;
+      color: $maroon;
+    }
+  }
+
+  legend {
+    text-transform: uppercase;
+  }
+
+  .form-check {
+    display: flex;
+    vertical-align: middle;
+    padding-bottom: 5px;
+  }
+
+  .form-check-label {
+    font-size: 1.5rem;
+    text-transform: none;
+  }
+}

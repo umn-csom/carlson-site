@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\element_class_formatter\Functional;
 
-use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\Tests\BrowserTestBase;
 use Drupal\Tests\node\Traits\ContentTypeCreationTrait;
 use Drupal\Tests\node\Traits\NodeCreationTrait;
-use Drupal\Tests\user\Traits\UserCreationTrait;
 use Drupal\Tests\TestFileCreationTrait;
-use Drupal\Tests\BrowserTestBase;
+use Drupal\Tests\user\Traits\UserCreationTrait;
 
 /**
  * Defines a base class for testing element_class_formatter functionality.
@@ -22,7 +24,10 @@ abstract class ElementClassFormatterTestBase extends BrowserTestBase {
   use NodeCreationTrait;
   use TestFileCreationTrait;
 
-  protected $defaultTheme = 'classy';
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stable9';
 
   /**
    * {@inheritdoc}

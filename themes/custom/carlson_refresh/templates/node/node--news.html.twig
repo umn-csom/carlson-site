@@ -59,7 +59,7 @@
  * @see template_preprocess_node()
  */
 #}
-{#{{ attach_library('bootstrap_barrio/node') }}#}
+{{ attach_library('carlson_refresh/news') }}
 
 {%
   set classes = [
@@ -90,15 +90,18 @@
     {# Render hero with hero-basic component #}
     {% if node.field_hero_media.isEmpty %}
       <section>
+        {{ attach_library('carlson_refresh/hero-basic') }}
         <div class="row justify-content-center basic-hero">
           <div class="col-12 basic-hero__title">
-            <h1>{{ label }}</h1>
-            <div class="row">
-              <div class="col-12 col-lg basic-hero__pub mb-6 mb-lg-0">
-                <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
-              </div>
-              <div class="col-12 col-lg-auto basic-hero__share">
-                <p class="share-this">Share This {{ content.addtoany }}</p>
+            <div class="basic-hero__title-inner">
+              <h1>{{ label }}</h1>
+              <div class="row">
+                <div class="col-12 col-lg basic-hero__pub mb-6 mb-lg-0">
+                  <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
+                </div>
+                <div class="col-12 col-lg-auto basic-hero__share">
+                  {% include '@carlson_refresh/includes/share-this.html.twig' %}
+                </div>
               </div>
             </div>
           </div>
@@ -106,6 +109,7 @@
       </section>
     {% else %}
       <section>
+        {{ attach_library('carlson_refresh/hero-basic') }}
         <div class="row justify-content-center basic-hero">
           <div class="col-12 basic-hero__img">
             {{ content.field_hero_media }}
@@ -118,7 +122,7 @@
                   <p><span class="date">{{ node.getCreatedTime|date('l, F j, Y') }}</span></p>
                 </div>
                 <div class="col-12 col-lg-auto basic-hero__share">
-                  <p class="share-this">Share This {{ content.addtoany }}</p>
+                  {% include '@carlson_refresh/includes/share-this.html.twig' %}
                 </div>
               </div>
             </div>
@@ -127,22 +131,28 @@
       </section>
     {% endif %}
     {# Body and side bar #}
-    <section class="row news__body">
-
-      <div class="col-12">
-        {% if content.field_sidebar_content|field_value is not empty %}
+    {% set has_sidebar = content.field_sidebar_content|field_value is not empty %}
+    {% if has_sidebar %}
+      <section class="news__body news__body--has-sidebar">
+        <div class="row">
+          <div class="col-md-8">
+            {{ content.body }}
+          </div>
           <div class="col-md-4 news__body--sidebar">
             <div>
               {{ content.field_sidebar_content }}
             </div>
           </div>
-        {% endif %}
+        </div>
+      </section>
+    {% else %}
+      <section class="news__body">
         {{ content.body }}
-      </div>
+      </section>
+    {% endif %}
 
-      {# Flexible features are rendered through the paragraph templates specific to the feature #}
-      {{ content.field_flexible_features }}
-    </section>
+    {# Flexible features are rendered through the paragraph templates specific to the feature #}
+    {{ content.field_flexible_features }}
 
     {% if (node.id == 104056) %}
       {{ drupal_view('faces', 'block_1') }} <!-- block only for the Faces 100 -->
@@ -150,20 +160,22 @@
 
     {{ drupal_view('magazine_for_news', 'block_1') }}
 
-    <div class="row justify-content-center page-links mb-10">
-      <div class="col-12">
-        <div class="row">
-          {% if (content.field_news_channels|field_value is not empty) or (content.field_hub_topic|field_value is not empty)%}
-          <div class="col-lg page-links__tags">
-            <span class="page-links__tags-label">Tags</span>
-            {{ content.field_news_channels }}
-            {{ content.field_hub_topic }}
+    {% if (content.field_news_channels|field_value is not empty) or (content.field_hub_topic|field_value is not empty)%}
+      {{ attach_library('carlson_refresh/page-links') }}
+      <div class="row justify-content-center page-links mb-10">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-lg page-links__tags">
+              <span class="page-links__tags-label">Tags</span>
+              {{ content.field_news_channels }}
+              {{ content.field_hub_topic }}
+            </div>
           </div>
-          {% endif %}
         </div>
       </div>
-    </div>
+    {% endif %}
 
+    {{ attach_library('carlson_refresh/node__bottom') }}
     <div class="row node__bottom">
       {% apply spaceless %}
       <div class="node__bottom__col">

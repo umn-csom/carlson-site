@@ -7,10 +7,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Template\Attribute;
 
 /**
- * The ElementListClassTrait is used to turn multi-cardinality fields
- * into lists with a class.
- *
- * @package Drupal\element_class_formatter\Plugin\Field\FieldFormatter
+ * Turns multi-cardinality fields into lists with a class.
  */
 trait ElementListClassTrait {
 

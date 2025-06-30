@@ -1,0 +1,46 @@
+@import "../../abstracts/import";
+@import "../../abstracts/extensions";
+
+.slideshow__main-caption {
+  @extend %figcaption;
+  margin-top: -15px;
+}
+
+.carlson-slideshow {
+  .slick-arrow {
+    background: $white;
+
+    &::before {
+      color: $maroon;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+  }
+
+  .slick-prev {
+    margin-left: 5px;
+
+    &::before {
+      @include carlson-icons($icon-arrow-left2);
+    }
+  }
+
+  .slick-next {
+    margin-right: 5px;
+
+    &::before {
+      @include carlson-icons($icon-arrow-right2);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    .slick-arrow {
+      width: 60px;
+      height: 60px;
+
+      &::before {
+        font-size: 2.6rem;
+      }
+    }
+  }
+}

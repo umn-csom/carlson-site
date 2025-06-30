@@ -1,0 +1,29 @@
+{#
+/**
+ * @file
+ * Template for the Group Operations block.
+ */
+#}
+<style>
+  .block-group-operations .dropbutton-wrapper {
+    width: 200px;
+  }
+</style>
+{%
+  set classes = [
+    'block-group-operations',
+    'my-4',
+  ]
+%}
+<div{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {% if label %}
+    <h2 class="sr-only">{{ label }}</h2>
+  {% endif %}
+  {{ title_suffix }}
+  {% block content %}
+    <div{{ content_attributes.addClass('content') }}>
+      {{ content }}
+    </div>
+  {% endblock %}
+</div>

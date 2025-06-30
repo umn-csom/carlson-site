@@ -80,7 +80,7 @@ class StorageManager implements StorageManagerInterface {
       }
       catch (EntityStorageException $exception) {
         $this->messenger()
-          ->addMessage($this->t('Unable to craete %label for %type bundle %bundle', [
+          ->addMessage($this->t('Unable to create %label for %type bundle %bundle', [
             '%label' => StorageManagerInterface::FIELD_LABEL,
             '%type' => StorageManagerInterface::ENTITY_TYPE,
             '%bundle' => $bundle,

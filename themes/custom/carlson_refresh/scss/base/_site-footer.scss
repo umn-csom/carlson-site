@@ -1,0 +1,106 @@
+// Visual styles for comments in Barrio.
+.footer {
+  font-size: $font-size-default * 1.7;
+  font-weight: 400;
+  color: $white;
+  background-color: $maroon;
+
+  a {
+    color: $white;
+    font-weight: 400;
+    text-decoration-thickness: 1.25px;
+    text-underline-position: from-font;
+    text-decoration: none;
+
+    &:focus-visible {
+      box-shadow: 0 0 0px 2px $maroon, 0 0 0 4px $white;
+      outline: none;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    a {
+      text-underline-offset: 0.25rem;
+      text-decoration: underline 0.1rem;
+    }
+  }
+
+  &__connect {
+    p {
+      font-size: 1.4rem;
+      letter-spacing: 1px;
+      font-weight: 400;
+      margin: 0 0 20px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+
+      li {
+        margin: 0;
+        display: inline-block;
+      }
+
+      a {
+        display: block;
+        background-color: $maroon-dark;
+        border-radius: 50%;
+        transition: background-color 0.15s ease;
+
+        &:hover {
+          background-color: $light-maroon;
+        }
+      }
+    }
+  }
+
+  &__info {
+    line-height: 1.8;
+
+    p {
+      line-height: 1.5;
+
+      a {
+        display: inline-block;
+        margin-top: 15px;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  &__links {
+    line-height: 1.5;
+
+    .nav-item {
+      margin: 0 0 1.6rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .nav-link {
+      margin: 0;
+      padding: 0.15rem 0;
+      min-width: 44px;
+      min-height: 44px;
+      font-weight: 400;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &.in-active-trail,
+      &.is-active {
+        font-weight: 600; //semi-bold
+      }
+    }
+  }
+}

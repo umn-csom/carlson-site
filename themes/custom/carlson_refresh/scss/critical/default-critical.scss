@@ -1,0 +1,165 @@
+@import "base-critical";
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -25px;
+  margin-left: -25px;
+
+  &::after,
+  &::before {
+    display: inline-block;
+  }
+
+  @media (min-width: 576px) {
+    margin-right: -15px;
+    margin-left: -15px;
+  }
+}
+
+.col {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+}
+
+:where(.col, [class*="col-"]) {
+  position: relative;
+  width: 100%;
+  padding-right: 25px;
+  padding-left: 25px;
+  min-height: 1px;
+
+  @media (min-width: 576px) {
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+
+.col-auto {
+  flex: 0 0 auto;
+  width: auto;
+  max-width: 100%;
+  min-height: 1px;
+}
+
+.no-gutters > [class*="col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.container,
+.container-sm,
+.container-md,
+.container-lg,
+.container-xl
+.container-fluid {
+  width: 100%;
+  padding-right: 25px;
+  padding-left: 25px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .container {
+    width: 540px;
+    max-width: 576px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 720px;
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container,
+  .container-lg {
+    max-width: 992px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    width: 960px;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    width: 1140px;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1340px) {
+  .container,
+  .container-sm,
+  .container-md,
+  .container-lg,
+  .container-xl,
+  .container-xxl {
+    max-width: 1340px;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-lg-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-xl-5 {
+    flex: 0 0 41.666667%;
+    max-width: 41.666667%;
+  }
+}
+
+.col-3 {
+  flex: 0 0 25%;
+  max-width: 25%;
+}
+
+.col-4 {
+  flex: 0 0 33.33333%;
+  max-width: 33.33333%;
+}
+
+.col-8 {
+  flex: 0 0 66.66667%;
+  max-width: 66.66667%;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.order-1 {
+  order: 1;
+}
+
+.order-2 {
+  order: 2;
+}
+
+@media (min-width: 992px) {
+  .basic-hero__title {
+    text-align: left;
+  }
+}
+
+.basic-hero__title {
+  margin-bottom: 3rem;
+
+  h1 {
+    padding-bottom: 2rem;
+    border-bottom: solid 1px $line-gray;
+  }
+}

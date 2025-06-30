@@ -1,0 +1,83 @@
+@import "../abstracts/import";
+
+.basic-hero {
+
+  .media--blazy {
+    padding-bottom: calc(334 / 725 * 100%);
+    overflow: visible; // ensure box-shadow is visible
+
+    @include media-breakpoint-up(lg) {
+      padding-bottom: calc( 400 / 1600 * 100% );
+    }
+  }
+
+  &__img img {
+    box-shadow: 0 15px 60px 0 rgba($black, 0.2);
+    object-fit: cover;
+  }
+
+  &__title {
+    margin-bottom: 3rem;
+
+    &--byline {
+      font-weight: 400;
+    }
+
+    h1 {
+      padding-bottom: 2rem;
+      border-bottom: solid 1px $line-gray;
+    }
+  }
+
+  &__title-inner {
+    padding: 2rem;
+    background: $white;
+  }
+
+  &__pub {
+    text-align: center;
+    font-weight: 700;
+    font-style: italic;
+
+    @include media-breakpoint-up(lg) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &__img img {
+      min-height: 42.85vw;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__img img {
+      min-height: initial;
+    }
+
+    &__title {
+      text-align: left;
+    }
+
+    &__pub {
+      text-align: left;
+    }
+
+    &__share {
+      text-align: left;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__title-inner {
+      margin: 0 3rem;
+      padding: 3rem;
+
+      h1 {
+        margin: 0;
+      }
+    }
+  }
+}

@@ -126,6 +126,7 @@ https://it.umn.edu/services-technologies/how-tos/drupal-9-set-local-environment
     // Configure stage file proxy origin.
     $config['stage_file_proxy.settings']['origin'] = 'https://carlsonschool.dev.umn.edu';
     $config['stage_file_proxy.settings']['origin_dir'] = 'sites/carlsonschool.umn.edu/files';
+    $config['stage_file_proxy.settings']['proxy_headers'] = '';
     ```
 
 8.  Login as admin:

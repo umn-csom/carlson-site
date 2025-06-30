@@ -2,9 +2,9 @@
 
 namespace Drupal\Tests\path_redirect_import\Kernel\Plugin\migrate\source;
 
+use Drupal\Tests\migrate\Kernel\MigrateTestBase;
 use Drupal\path_redirect_import_test\Form\MigrateRedirectForm;
 use Drupal\redirect\Entity\Redirect;
-use Drupal\Tests\migrate\Kernel\MigrateTestBase;
 
 /**
  * @coversDefaultClass \Drupal\path_redirect_import\Plugin\migrate\source\CSVRedirect
@@ -38,6 +38,7 @@ class CSVRedirectTest extends MigrateTestBase {
    */
   public function testMigrate(): void {
     $this->installEntitySchema('redirect');
+    $this->installEntitySchema('path_alias');
     $this->installConfig(['path_redirect_import', 'path_redirect_import_test']);
 
     /** @var \Drupal\migrate\Plugin\MigrationPluginManagerInterface $migrationManager */
@@ -76,6 +77,7 @@ class CSVRedirectTest extends MigrateTestBase {
   public function testDeleteDetection(string $path, int $count): void {
     $path = \Drupal::service('extension.list.module')->getPath('path_redirect_import_test') . $path;
     $this->installEntitySchema('redirect');
+    $this->installEntitySchema('path_alias');
     $this->installConfig(['path_redirect_import', 'path_redirect_import_test']);
 
     /** @var \Drupal\migrate\Plugin\MigrationPluginManagerInterface $migrationManager */

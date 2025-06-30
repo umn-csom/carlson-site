@@ -1,0 +1,108 @@
+@import "../abstracts/import";
+
+.sticky-menu {
+  // NOTE: sticky-menu must appear inside sticky-sidebar, and all inner divs
+  // sticky-sidebar and sticky-menu must have height: 100% (i.e. class h-100)
+  // for the stickiness to take effect on scroll.
+
+  &.is-stuck {
+    position: sticky;
+    top: 0; // overridden by inline styles from sticky-menu.js
+    padding-top: 20px;
+  }
+
+  &__collapsed-trigger {
+    display: none;
+  }
+
+  &__label {
+    font-family: $font-family-serif;
+    font-weight: 300;
+    line-height: 1.2;
+    color: $maroon;
+    padding-left: 2rem;
+    font-size: 3.2rem;
+    display: block;
+    border-bottom: 2px solid $line-gray;
+    margin-bottom: 2.5rem;
+    padding-bottom: 0.8rem;
+
+    &:hover {
+      color: $maroon;
+      text-decoration: none;
+    }
+  }
+
+  &__nav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__link {
+    display: block;
+    border-left: 6px solid transparent;
+    padding: 0.8rem 1.5rem;
+    transition: border-left 300ms ease-out;
+
+    &.is-active {
+      border-left-color: $gold;
+    }
+
+    svg {
+      margin-bottom: 3px;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    margin: 0 0 3rem;
+    background-color: $light-warm-ivory;
+
+    &:has([aria-expanded="true"]) {
+      background: $light-light-ivory;
+    }
+
+    &__label {
+      margin: 0 0 1.5rem;
+      padding: 1rem 0;
+      font-size: 2rem;
+    }
+
+    &__collapsed-target {
+      background: $light-light-ivory;
+      padding: 0 2rem 1.5rem;
+    }
+
+    &__collapsed-trigger {
+      background: none;
+      border: 0;
+      color: $dark-dark-gray;
+      display: flex;
+      font-weight: 600;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      text-align: left;
+      width: 100%;
+    }
+
+    [aria-expanded="false"] > &__close-icon {
+      display: none;
+    }
+
+    [aria-expanded="false"] + &__collapsed-target {
+      display: none;
+    }
+
+    [aria-expanded="true"] > &__open-icon {
+      display: none;
+    }
+
+    [aria-expanded="true"] + &__collapsed-target {
+      display: block;
+    }
+  }
+}

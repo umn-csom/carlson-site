@@ -12,7 +12,8 @@ CONTENTS OF THIS FILE
 INTRODUCTION
 ------------
 
-HTTP Cache Control module helps fine tune control of Drupal's Cache Control headers.
+HTTP Cache Control module helps fine tune control of
+Drupal's Cache Control headers.
 
 ## Features
 * Support for shared cache max age (s-maxage)
@@ -34,16 +35,17 @@ No special requirements. Simply add and install the module.
 RECOMMENDED MODULES
 -------------------
 
-The Purge module (https://www.drupal.org/project/http_cache_control) enables Drupal to
-purge cached pages stored in reverse proxies such as Varnish. This module can be
-used to ensure reverse proxies contain long cache lifetimes while ensuring browsers
-do not cache pages for too long.
+The Purge module (https://www.drupal.org/project/http_cache_control)
+enables Drupal to purge cached pages stored in reverse proxies such
+as Varnish. This module can be used to ensure reverse proxies contain
+long cache lifetimes while ensuring browsers do not cache pages for too long.
 
 INSTALLATION
 ------------
 
  * Install as you would normally install a contributed Drupal module.
-   See: https://www.drupal.org/docs/8/extending-drupal-8/installing-drupal-8-modules for further information.
+   See: https://www.drupal.org/docs/8/extending-drupal-8/installing-drupal-8-modules
+   for further information.
 
 
 CONFIGURATION

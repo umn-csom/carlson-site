@@ -85,18 +85,27 @@
   </header>
 
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'blog') }}>
+    {{ attach_library('carlson_refresh/blog') }}
     {# Render hero with hero-basic component #}
     {% if node.field_hero_media.isEmpty %}
       <section>
+        {{ attach_library('carlson_refresh/hero-basic') }}
         <div class="row justify-content-center basic-hero">
           <div class="col-12 basic-hero__title">
-            <h1>{{ label }}</h1>
-            <div class="row align-items-center">
-              <div class="col-12 col-lg post-col">
-                <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span>{{ byline|raw }}</p>
-              </div>
-              <div class="col-12 col-lg-auto share-col">
-                <p class="share-this">Share This: {{ content.addtoany }}</p>
+            <div class="basic-hero__title-inner">
+              <h1>{{ label }}</h1>
+              <div class="row align-items-center">
+                <div class="col-12 col-lg basic-hero__pub">
+                  <p>
+                    <span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span>
+                    {% if byline|trim is not empty %}
+                      <span class="basic-hero__title--byline"> — by {{ byline }}</span>
+                    {% endif %}
+                  </p>
+                </div>
+                <div class="col-12 col-lg-auto basic-hero__share">
+                  {% include '@carlson_refresh/includes/share-this.html.twig' %}
+                </div>
               </div>
             </div>
           </div>
@@ -104,6 +113,7 @@
       </section>
     {% else %}
       <section>
+        {{ attach_library('carlson_refresh/hero-basic') }}
         <div class="row justify-content-center basic-hero">
           <div class="basic-hero__img">
             {{ content.field_hero_media }}
@@ -116,7 +126,7 @@
                   <p><span class="date">{{ node.getCreatedTime|format_date('published_date') }}</span>{{ byline|raw }}</p>
                 </div>
                 <div class="col-12 col-lg-auto basic-hero__share">
-                  <p class="share-this">Share This: {{ content.addtoany }}</p>
+                  {% include '@carlson_refresh/includes/share-this.html.twig' %}
                 </div>
               </div>
             </div>
@@ -125,22 +135,9 @@
       </section>
     {% endif %}
     {# Body and side bar #}
-    {% if content.body|render %}
-      <section class="row blog__body mb-10">
-        <div class="col-12">
-          {{ content.body }}
-        </div>
-  {#       <div class="{{ (has_sidebar == TRUE) ? 'col-lg-8' : 'col-12' }}">
-          {{ content.body }}
-        </div> #}
-
-        {# {% if content.field_blog_categories|field_value is not empty %}
-          <div class="col-lg-4 blog__body--sidebar">
-            <div>
-              {{ content.field_blog_categories }}
-            </div>
-          </div>
-        {% endif %} #}
+    {% if content.body|render|striptags|trim is not empty %}
+      <section class="blog__body mb-10">
+        {{ content.body }}
       </section>
     {% endif %}
 

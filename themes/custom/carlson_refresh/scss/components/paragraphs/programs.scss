@@ -1,19 +1,29 @@
 @import "../../abstracts/variables";
-@import "node_modules/bootstrap/scss/vendor/rfs";
-@import "node_modules/bootstrap/scss/mixins";
+@import "bootstrap/scss/vendor/rfs";
+@import "bootstrap/scss/mixins";
 
 .programs {
   &__item {
     position: relative;
+
     &__link {
-      clip-path: polygon(0 0, calc(100% - 45px) 0%, 100% 25px, 100% 100%, 0 100%);
+      clip-path: polygon(
+        0 0,
+        calc(100% - 45px) 0%,
+        100% 25px,
+        100% 100%,
+        0 100%
+      );
+
+      &,
       &:hover {
         text-decoration: none;
       }
     }
+
     @include media-breakpoint-down(lg) {
       .embed-responsive {
-        &:before {
+        &::before {
           padding-top: 56.25%;
         }
       }

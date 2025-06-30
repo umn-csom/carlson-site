@@ -1,0 +1,6 @@
+services:
+  edit_media_modal.response_subscriber:
+    class: Drupal\edit_media_modal\ResponseSubscriber
+    arguments: ['@current_route_match']
+    tags:
+      - { name: event_subscriber }

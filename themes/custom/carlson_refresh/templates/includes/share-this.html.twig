@@ -1,0 +1,16 @@
+{{ attach_library('carlson_refresh/share-this')|render|url_encode }}
+{% set url = url('entity.node.canonical', {'node': node.id}) %}
+{% set title = node.title.value|url_encode %}
+{% set heading = heading is defined ? heading : 'Share This:' %}
+<div class="share-this">
+  {% if heading %}<span class="share-this__heading">{{ heading }}</span>{% endif %}
+  <a href="https://www.facebook.com/sharer/sharer.php?u={{ url }}">
+    {{ source('@carlson_refresh/../images/svg/social-facebook.svg') }}
+  </a>
+  <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ url }}">
+    {{ source('@carlson_refresh/../images/svg/social-linkedin.svg') }}
+  </a>
+  <a href="mailto:?body={{ url }}&amp;subject={{ title }}">
+    {{ source('@carlson_refresh/../images/svg/social-email.svg') }}
+  </a>
+</div>

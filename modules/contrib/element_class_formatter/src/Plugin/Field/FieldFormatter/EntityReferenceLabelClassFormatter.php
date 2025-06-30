@@ -3,8 +3,8 @@
 namespace Drupal\element_class_formatter\Plugin\Field\FieldFormatter;
 
 use Drupal\Core\Field\FieldItemListInterface;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Field\Plugin\Field\FieldFormatter\EntityReferenceLabelFormatter;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Template\Attribute;
 
 /**

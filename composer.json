@@ -3,6 +3,10 @@
   "type": "project",
   "description": "Override package versions from upstream https://github.umn.edu/drupalplatform/d8-composer",
   "repositories": {
+    "drupal": {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    },
     "highcharts_3d": {
       "type": "package",
       "package": {
@@ -130,8 +134,14 @@
         "type:drupal-library",
         "type:bower-asset",
         "type:npm-asset"
+      ],
+      "modules/contrib/{$name}": [
+        "type:drupal-module"
       ]
     }
+  },
+  "replace": {
+    "drupal/core": "*"
   },
   "config": {
     "sort-packages": true,

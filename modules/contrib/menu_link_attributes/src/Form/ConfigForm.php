@@ -2,12 +2,13 @@
 
 namespace Drupal\menu_link_attributes\Form;
 
-use Drupal\Core\Form\ConfigFormBase;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Component\Serialization\Exception\InvalidDataTypeException;
 use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Config\TypedConfigManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Form\ConfigFormBase;
+use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -33,9 +34,11 @@ class ConfigForm extends ConfigFormBase {
    *   The factory for configuration objects.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The handle of module objects.
+   * @param \Drupal\Core\Config\TypedConfigManagerInterface|null $typedConfigManager
+   *   The typed configuration manager or null for older drupal versions.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler) {
-    parent::__construct($config_factory);
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, ?TypedConfigManagerInterface $typedConfigManager = NULL) {
+    parent::__construct($config_factory, $typedConfigManager);
     $this->moduleHandler = $module_handler;
   }
 
@@ -45,7 +48,8 @@ class ConfigForm extends ConfigFormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-      $container->get('module_handler')
+      $container->get('module_handler'),
+      $container->get('config.typed') ?? NULL,
     );
   }
 
