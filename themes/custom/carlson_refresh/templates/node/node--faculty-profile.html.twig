@@ -112,8 +112,8 @@
                         {% if content.field_profile_url|field_value is not empty %}
                           <div class="faculty-profile__contact--link d-flex align-items-center mb-1">
                             {{ source('@carlson_refresh/images/svg/external-link.svg') }}&nbsp;
-                            <a href="{{ content.field_profile_url|field_value }}">
-                              {{ content.field_profile_url|field_value }}
+                            <a href="{{ node.field_profile_url.value.0.uri }}">
+                              {{ node.field_profile_url.value.0.title }}
                             </a>
                           </div>
                         {% endif %}
