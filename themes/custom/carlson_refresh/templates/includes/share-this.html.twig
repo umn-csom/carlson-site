@@ -5,12 +5,15 @@
 <div class="share-this">
   {% if heading %}<span class="share-this__heading">{{ heading }}</span>{% endif %}
   <a href="https://www.facebook.com/sharer/sharer.php?u={{ url }}">
+    <span class="sr-only">Share on Facebook</span>
     {{ source('@carlson_refresh/../images/svg/social-facebook.svg') }}
   </a>
   <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ url }}">
+    <span class="sr-only">Share on LinkedIn</span>
     {{ source('@carlson_refresh/../images/svg/social-linkedin.svg') }}
   </a>
   <a href="mailto:?body={{ url }}&amp;subject={{ title }}">
+    <span class="sr-only">Share via email</span>
     {{ source('@carlson_refresh/../images/svg/social-email.svg') }}
   </a>
 </div>
