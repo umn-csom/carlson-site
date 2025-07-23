@@ -364,6 +364,13 @@ function carlson_refresh_preprocess_node(&$variables) {
       }
       break;
   }
+
+  // TODO: special case for using centennial library on the timeline about page
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    if ($node->id() == 109431) {
+        $variables['#attached']['library'][] = 'carlson_refresh/centennial';
+    }
+  }
 }
 
 /**
