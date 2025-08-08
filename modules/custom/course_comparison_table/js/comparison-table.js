@@ -70,16 +70,6 @@
         )
 
 
-        $(".quiz-results--result--compare-checkbox").each(
-            function (index, element) {
-                if (render_array.includes($(this).val()) ) {
-                    $(this).prop("checked", true);
-                } else {
-                    $(this).prop("checked", false);
-                }
-            }
-        )
-
         $("#comparison-select > option").each(
             function (index, element) {
                 if (render_array.includes($(this).val())) {
@@ -208,38 +198,6 @@
                             '<td class="column-no-content">-</td>' +
                             '<td class="column-no-content">-</td>' +
                             '</tr>'
-                        )
-
-    
-                        $(".quiz-results--result--compare-checkbox").each(
-                            function (index, element) {
-                                let select_code = $(this).val();
-    
-                                let select_value = table_array.findIndex(
-                                    (element) => {
-                                        return element['code'] == select_code;
-                                    }
-                                )
-    
-                                $(this).val(select_value.toString());
-                                add_table_val(select_value.toString());
-                            }
-                        )
-    
-                        $(".quiz-results--result--compare-checkbox").on(
-                            "click", function () {
-                                let render_array_index = render_array.findIndex(
-                                    (element) => {
-                                    return element == $(this).val();
-                                    }
-                                )
-    
-                                if (render_array_index >= 0) {
-                                    delete_table(render_array_index);
-                                } else {
-                                    add_table_val($(this).val());
-                                }
-                            }
                         )
     
                         $('#comparison-add').on("click", add_table);

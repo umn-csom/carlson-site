@@ -155,7 +155,7 @@
             {% endfor %}
 
             {% if show_default_cond_body == false %}
-              {{ _self.preprocess_text(node_body[0]['#text'], results_to_show, numbers) }}
+              {{ _self.preprocess_text(node_body[0]['#text'] ?: '', results_to_show, numbers) }}
             {% endif %}
 
           </div>
@@ -187,13 +187,6 @@
             {{ node.field_quiz_results_add_comps|view('quiz_results') }}
           </div>
         </div>
-      {% endif %}
-    </div>
-  </div>
-  <div id="comparison-table" class="row align-items-center justify-content-center pt-2 pb-2 mb-2 mt-lg-2">
-    <div class="col-12 col-xl-10">
-      {% if drupal_block('course_comparison_table_block') %}
-        {{ drupal_block('course_comparison_table_block') }}
       {% endif %}
     </div>
   </div>
