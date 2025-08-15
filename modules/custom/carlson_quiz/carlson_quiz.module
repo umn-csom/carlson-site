@@ -275,13 +275,31 @@ function carlson_quiz_node_presave(EntityInterface $entity) {
       '#required' => false
     ];
 
-    $elements['allow_sms_content'] = [
-      '#type' => 'checkbox',
-      '#title' => 'Allow SMS Content',
-      '#description' => '<p>&nbsp;I authorize the Carlson School of Management and its representatives to contact me via SMS text message.</p>',
-      '#title_display' => 'invisible',
-      '#description_display' => 'after'
+    $elements['student_type'] = [
+      '#type' => 'select',
+      '#title'=> 'I am an',
+      '#options' => [
+        'international' => 'International student',
+        'military' => 'U.S. military member or veteran'
+      ]
+
     ];
+
+    $elements['work_experience'] = [
+      '#type' => 'select',
+      '#title'=> 'Work Experience',
+      '#options'=> [
+        'undergraduate' => 'Current undergraduate student',
+        '0-2' => '0-2 years full-time experience',
+        '2+' => '2+ years full-time experience'
+      ]
+    ];
+    
+    $elements['disclosure'] = [
+      '#type' => 'webform_markup',
+      '#markup' => '<p><sup>By submitting this form, I am agreeing that Minnesota Carlson and its agent, </sup><a href="https://carlsonschool.umn.edu/risepoint-partnership"><sup>Risepoint</sup></a><sup>, may email me or contact me regarding educational services by telephone and/or text message utilizing automated technology or a pre-recorded message at the telephone number provided above. I understand this consent is not a condition to attend Minnesota Carlson. </sup><a href="https://privacy.umn.edu/"><sup>University of Minnesota privacy statement</sup></a><sup>. </sup><a href="https://policies.risepoint.com/privacy-main/"><sup>Risepoint privacy policy.</sup></a><sup> </sup><a href="/node/129371"><sup>Minnesota Carlson Privacy notice.</sup></a></p>'
+    ];
+
 
     // utm fields
 
