@@ -7,7 +7,8 @@
   <div class="magazine col-12 col-md-8 col-lg-9 pr-md-5">
     <header class="mb-5 pl-lg-4">
       {% if magazine == "discovery" %}
-      <div class="row magazine--discovery-header">
+        <h1 class="mt-0 pt-0 text-black">Discovery at Carlson <em style="color:#575757;" class="text-nowrap">{{ label }}</em></h1>
+      {# <div class="row magazine--discovery-header">
         <div class="col-12 magazine--discovery-header-bg">
         <div class="row justify-content-center">
           <div class="col-12 d-block d-md-none pt-3 pb-1 pt-md-0 pb-md-0">
@@ -22,7 +23,7 @@
             <h1 class="text-center text-lg-right p-0 m-0">{{ label }}</h1>
           </div>
         </div>
-      </div></div>
+      </div></div> #}
 
       {% elseif magazine == "alumni" %}
         <h1 class="mt-0 pt-0 text-black">The Carlson School Magazine <em style="color:#575757;" class="text-nowrap">{{ label }}</em></h1>
@@ -48,7 +49,7 @@
         {% endif %} #}
         <div class="col-12 col-lg-12 order-2 order-lg-1">
           <h2 class="magazine--section-heading mb-3">Cover story</h2>
-          <div class="magazine--featured">{{ content.field_magazine_story_cover }}</div>
+          <div class="px-3 magazine--featured">{{ content.field_magazine_story_cover }}</div>
         </div>
       </section>
 
@@ -58,7 +59,7 @@
 
     {% elseif magazine == "discovery" %}
       <section class="row mb-4 magazine--section-top pl-lg-4">
-        {% if content.field_introduction_copy|render is not empty %}
+        {# {% if content.field_introduction_copy|render is not empty %}
         <article class="col-12 order-1 mb-4 col-lg-5 order-lg-2 mb-lg-0 px-lg-5 magazine--intro">
           <h2 class="magazine--section-heading bg-light-blue text-black">Introduction Letter</h2>
           <h3>{{ content.field_magazine_intro_head }}</h3>
@@ -70,8 +71,8 @@
           </div>
           <a class="magazine--intro-collapse-link collapsed" data-toggle="collapse" href="#magazine--intro-collapse" aria-expanded="false" aria-controls="magazine--intro-collapse" aria-label="Read more Introduction Letter"></a>
         </article>
-        {% endif %}
-        <div class="col-12 col-lg-7 order-2 order-lg-1">
+        {% endif %} #}
+        <div class="col-12 col-lg-12 order-2 order-lg-1">
           <h2 class="magazine--section-heading mb-3">Featured story</h2>
           {% set nid = node.id %}
           <div class="px-3 magazine--featured">{{ drupal_view('magazine_discovery_feature', 'feature', nid) }}</div>
@@ -89,7 +90,7 @@
     <div class="col-12 col-md-4 col-lg-3 magazine--sidebar">
 
 
-    {% if content.field_magazine_pdf|render %}
+    {% if (content.field_magazine_pdf|render) and (magazine == "alumni") %}
     <section class="magazine--pdf pb-5 mb-4">
       {% if content.field_magazine_cover_image|render %}
         <div class="row justify-content-center">
