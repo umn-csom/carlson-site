@@ -49,7 +49,10 @@
             <strong class="field-label">Dates Pending</strong>
           </div>
         {% endif %}
-  			{{ content.field_ee_program_dates }}
+  			<strong class="field-label">
+          {{ content.field_ee_date_label|field_value is not empty ? content.field_ee_date_label : 'Dates' }}:
+        </strong>
+        {{ content.field_ee_program_dates }}
       </div>
     </div>
     <div class="ee-program__details--actions">
