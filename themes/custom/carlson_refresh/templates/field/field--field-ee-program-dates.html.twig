@@ -23,15 +23,30 @@
   {% set start_timestamp = item.content.start_date['#attributes']['datetime'] %}
   {% set end_timestamp = item.content.end_date['#attributes']['datetime'] %}
 
+  {% if loop.first == false  %}&nbsp;|&nbsp;{% endif %}
   <div class="date-cal">
     <div class="date-wrapper">
+    {% if ( start_timestamp|date('M d, Y') == end_timestamp|date('M d, Y') ) %}
+      <time datetime="{{ start_timestamp|date('U') }}">
+        <span class="date-cal__item--date">{{ start_timestamp|date('M d, Y') }}</span>
+      </time>
+    {% else %}
+      {% if ( start_timestamp|date('M Y') == end_timestamp|date('M Y') ) %}
       <time datetime="{{ start_timestamp|date('U') }}">
         <span class="date-cal__item--date">{{ start_timestamp|date('M d') }}</span>
       </time>
-    {% if not ( start_timestamp|date('M d') == end_timestamp|date('M d') ) %}
+      {% elseif ( start_timestamp|date('Y') == end_timestamp|date('Y') ) %}
+      <time datetime="{{ start_timestamp|date('U') }}">
+        <span class="date-cal__item--date">{{ start_timestamp|date('M d') }}</span>
+      </time>
+      {% else %}
+      <time datetime="{{ start_timestamp|date('U') }}">
+        <span class="date-cal__item--date">{{ start_timestamp|date('M d, Y') }}</span>
+      </time>
+      {% endif %}
       -
       <time datetime="{{ end_timestamp|date('U') }}">
-        <span class="date-cal__item--date">{{ end_timestamp|date('M d') }}</span>
+        <span class="date-cal__item--date">{{ end_timestamp|date('M d, Y') }}</span>
       </time>
     {% endif %}
     </div>
