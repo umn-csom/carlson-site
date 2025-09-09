@@ -26,12 +26,12 @@
   <div class="date-cal">
     <div class="date-wrapper">
       <time datetime="{{ start_timestamp|date('U') }}">
-        <span class="date-cal__item--date">{{ start_timestamp|date('M d') }}</span>
+        <span class="date-cal__item--date">{{ start_timestamp|date('M d, Y') }}</span>
       </time>
-    {% if not ( start_timestamp|date('M d') == end_timestamp|date('M d') ) %}
+    {% if not ( start_timestamp|date('M d') == end_timestamp|date('M d, Y') ) %}
       -
       <time datetime="{{ end_timestamp|date('U') }}">
-        <span class="date-cal__item--date">{{ end_timestamp|date('M d') }}</span>
+        <span class="date-cal__item--date">{{ end_timestamp|date('M d, Y') }}</span>
       </time>
     {% endif %}
     </div>
