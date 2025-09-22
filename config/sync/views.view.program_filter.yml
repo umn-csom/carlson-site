@@ -13,6 +13,7 @@ dependencies:
     - options
     - taxonomy
     - user
+    - views_custom_cache_tag
 id: program_filter
 label: 'Browse Programs (program filter)'
 module: views
@@ -98,6 +99,7 @@ display:
               autosubmit: false
               autosubmit_exclude_textfield: false
               autosubmit_textfield_delay: 500
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -115,6 +117,7 @@ display:
                   collapsible: true
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -128,6 +131,7 @@ display:
                   collapsible: true
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -141,6 +145,7 @@ display:
                   collapsible: true
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -154,6 +159,7 @@ display:
                   collapsible: true
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -167,6 +173,7 @@ display:
                   collapsible: true
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
                 select_all_none: false
                 select_all_none_nested: false
                 display_inline: false
@@ -175,8 +182,9 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: 'taxonomy_term_list:quiz_result_set'
       empty:
         area:
           id: area
@@ -248,37 +256,6 @@ display:
             multiple: true
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              moderator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
-              alumni_default_page_creator: '0'
-              alumni_default_page_reviewer: '0'
-              alumni_landing_page_creator: '0'
-              alumni_landing_page_reviewer: '0'
-              quiz_creator: '0'
-              quiz_reviewer: '0'
-              curriculum_plan_creator: '0'
-              curriculum_plan_reviewer: '0'
-              wiley_partnership: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -324,37 +301,6 @@ display:
             multiple: true
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              moderator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
-              alumni_default_page_creator: '0'
-              alumni_default_page_reviewer: '0'
-              alumni_landing_page_creator: '0'
-              alumni_landing_page_reviewer: '0'
-              quiz_creator: '0'
-              quiz_reviewer: '0'
-              curriculum_plan_creator: '0'
-              curriculum_plan_reviewer: '0'
-              wiley_partnership: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -410,37 +356,6 @@ display:
             multiple: true
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              moderator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
-              alumni_default_page_creator: '0'
-              alumni_default_page_reviewer: '0'
-              alumni_landing_page_creator: '0'
-              alumni_landing_page_reviewer: '0'
-              quiz_creator: '0'
-              quiz_reviewer: '0'
-              curriculum_plan_creator: '0'
-              curriculum_plan_reviewer: '0'
-              wiley_partnership: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -486,37 +401,6 @@ display:
             multiple: true
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              moderator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
-              alumni_default_page_creator: '0'
-              alumni_default_page_reviewer: '0'
-              alumni_landing_page_creator: '0'
-              alumni_landing_page_reviewer: '0'
-              quiz_creator: '0'
-              quiz_reviewer: '0'
-              curriculum_plan_creator: '0'
-              curriculum_plan_reviewer: '0'
-              wiley_partnership: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -562,37 +446,6 @@ display:
             multiple: true
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              moderator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
-              alumni_default_page_creator: '0'
-              alumni_default_page_reviewer: '0'
-              alumni_landing_page_creator: '0'
-              alumni_landing_page_reviewer: '0'
-              quiz_creator: '0'
-              quiz_reviewer: '0'
-              curriculum_plan_creator: '0'
-              curriculum_plan_reviewer: '0'
-              wiley_partnership: '0'
             reduce: false
           is_grouped: false
           group_info:

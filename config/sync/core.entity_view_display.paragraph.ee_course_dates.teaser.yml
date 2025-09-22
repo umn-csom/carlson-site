@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.paragraph.teaser
+    - field.field.paragraph.ee_course_dates.field_ee_date_label
     - field.field.paragraph.ee_course_dates.field_ee_days
     - field.field.paragraph.ee_course_dates.field_ee_program_dates
     - field.field.paragraph.ee_course_dates.field_ee_register
@@ -23,14 +24,22 @@ targetEntityType: paragraph
 bundle: ee_course_dates
 mode: teaser
 content:
+  field_ee_date_label:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
+    region: content
   field_ee_program_dates:
     type: daterange_default
     label: hidden
     settings:
       timezone_override: ''
       format_type: medium
-      separator: '-'
       from_to: both
+      separator: '-'
     third_party_settings: {  }
     weight: 0
     region: content

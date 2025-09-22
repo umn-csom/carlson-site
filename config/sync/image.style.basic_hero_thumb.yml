@@ -1,0 +1,32 @@
+uuid: bb41128a-66d4-4227-9d73-c51ef4e146a1
+langcode: en
+status: true
+dependencies:
+  config:
+    - crop.type.full_hero
+  module:
+    - crop
+name: basic_hero_thumb
+label: 'Cropped: Basic Hero (16x4)'
+effects:
+  266eba5a-2a1f-4994-a39e-2a970b9b762b:
+    uuid: 266eba5a-2a1f-4994-a39e-2a970b9b762b
+    id: crop_crop
+    weight: 1
+    data:
+      crop_type: full_hero
+      automatic_crop_provider: null
+  65e05690-a4e5-4511-8ff6-73583a3d1834:
+    uuid: 65e05690-a4e5-4511-8ff6-73583a3d1834
+    id: image_scale_and_crop
+    weight: 2
+    data:
+      width: 16
+      height: 4
+      anchor: center-center
+  840ab4c7-e8cd-4196-ad35-5d3b38306796:
+    uuid: 840ab4c7-e8cd-4196-ad35-5d3b38306796
+    id: image_convert
+    weight: 3
+    data:
+      extension: webp

@@ -3,6 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.ckeditor_media_browser
+    - entity_browser.browser.image_browser
+    - entity_browser.browser.media_browser
     - filter.format.datatable
     - filter.format.rich_text
     - media.type.audio_file
@@ -39,7 +42,6 @@ dependencies:
   module:
     - admin_toolbar_search
     - block_content
-    - carlson_general
     - ckeditor_templates
     - contact
     - content_moderation
@@ -48,12 +50,12 @@ dependencies:
     - entity_browser
     - field_ui
     - file
+    - file_delete
     - filter
     - group
     - lightning_core
     - media
     - node
-    - panelizer
     - paragraphs
     - path
     - quick_node_clone
@@ -97,8 +99,6 @@ permissions:
   - 'administer menu'
   - 'administer node display'
   - 'administer node form display'
-  - 'administer panelizer node page content'
-  - 'administer panelizer node page layout'
   - 'administer paragraph display'
   - 'administer paragraph form display'
   - 'administer taxonomy_term display'
@@ -118,6 +118,8 @@ permissions:
   - 'create video media'
   - 'create video_file media'
   - 'create webform'
+  - 'delete files immediately'
+  - 'delete files override usage'
   - 'delete own files'
   - 'delete own landing_page content'
   - 'delete own page content'
@@ -145,16 +147,6 @@ permissions:
   - 'revert webform revisions'
   - 'update media'
   - 'use admin toolbar search'
-  - 'use ckeditor_template datatable_basic1'
-  - 'use ckeditor_template datatable_basic2'
-  - 'use ckeditor_template datatable_basic3'
-  - 'use ckeditor_template datatable_column_chart'
-  - 'use ckeditor_template datatable_map_data'
-  - 'use ckeditor_template list_legend'
-  - 'use ckeditor_template multicol_list'
-  - 'use ckeditor_template stat'
-  - 'use ckeditor_template stay_connected'
-  - 'use ckeditor_template stay_connected_without_image'
   - 'use text format advanced'
   - 'use text format datatable'
   - 'use text format rich_text'

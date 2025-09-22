@@ -3,6 +3,9 @@ langcode: en
 status: true
 dependencies:
   config:
+    - entity_browser.browser.ckeditor_media_browser
+    - entity_browser.browser.image_browser
+    - entity_browser.browser.media_browser
     - filter.format.rich_text
     - media.type.document
     - media.type.image
@@ -13,19 +16,18 @@ dependencies:
     - taxonomy.vocabulary.executive_ed_program_times
     - workflows.workflow.editorial
   module:
-    - carlson_general
     - ckeditor_templates
     - content_moderation
     - contextual
     - entity_browser
     - file
+    - file_delete
     - filter
     - lightning_core
     - lightning_scheduler
     - media
     - moderation_sidebar
     - node
-    - panelizer
     - panels_ipe
     - paragraphs
     - path
@@ -52,21 +54,6 @@ permissions:
   - 'access toolbar'
   - 'addrow tablefield'
   - 'administer menu'
-  - 'administer panelizer node executive_ed_landing_page content'
-  - 'administer panelizer node executive_ed_landing_page layout'
-  - 'administer panelizer node executive_ed_landing_page revert'
-  - 'administer panelizer node executive_ed_program content'
-  - 'administer panelizer node executive_ed_program defaults'
-  - 'administer panelizer node executive_ed_program layout'
-  - 'administer panelizer node executive_ed_program revert'
-  - 'administer panelizer taxonomy_term executive_ed_program_days content'
-  - 'administer panelizer taxonomy_term executive_ed_program_days defaults'
-  - 'administer panelizer taxonomy_term executive_ed_program_days layout'
-  - 'administer panelizer taxonomy_term executive_ed_program_days revert'
-  - 'administer panelizer taxonomy_term executive_ed_program_times content'
-  - 'administer panelizer taxonomy_term executive_ed_program_times defaults'
-  - 'administer panelizer taxonomy_term executive_ed_program_times layout'
-  - 'administer panelizer taxonomy_term executive_ed_program_times revert'
   - 'create document media'
   - 'create executive_ed_landing_page content'
   - 'create executive_ed_program content'
@@ -82,6 +69,8 @@ permissions:
   - 'delete any video media'
   - 'delete executive_ed_landing_page revisions'
   - 'delete executive_ed_program revisions'
+  - 'delete files immediately'
+  - 'delete files override usage'
   - 'delete own executive_ed_landing_page content'
   - 'delete own executive_ed_program content'
   - 'delete own files'
@@ -101,7 +90,6 @@ permissions:
   - 'schedule editorial transition create_new_draft'
   - 'schedule editorial transition publish'
   - 'schedule editorial transition ready_to_publish'
-  - 'use ckeditor_template session'
   - 'use editorial transition create_new_draft'
   - 'use editorial transition review'
   - 'use moderation sidebar'

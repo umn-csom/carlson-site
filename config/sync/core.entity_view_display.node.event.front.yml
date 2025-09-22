@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.event.field_event_location
     - field.field.node.event.field_event_location_category
     - field.field.node.event.field_event_teaser
+    - field.field.node.event.field_flexible_features
     - field.field.node.event.field_full_name
     - field.field.node.event.field_google_map
     - field.field.node.event.field_hero_media
@@ -28,15 +29,9 @@ dependencies:
   module:
     - datetime_range
     - layout_builder
-    - panelizer
     - text
     - user
 third_party_settings:
-  panelizer:
-    enable: false
-    custom: false
-    allow: false
-    default: default
   layout_builder:
     enabled: false
     allow_custom: false
@@ -61,8 +56,8 @@ content:
     settings:
       timezone_override: ''
       format_type: ampm
-      separator: '-'
       from_to: both
+      separator: '-'
     third_party_settings: {  }
     weight: 4
     region: content
@@ -96,7 +91,6 @@ content:
     weight: 0
     region: content
 hidden:
-  addtoany: true
   field_breadcrumb_title: true
   field_email: true
   field_event_address: true
@@ -106,6 +100,7 @@ hidden:
   field_event_image: true
   field_event_location: true
   field_event_location_category: true
+  field_flexible_features: true
   field_full_name: true
   field_google_map: true
   field_link: true

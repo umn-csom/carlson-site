@@ -17,6 +17,7 @@ dependencies:
     - field.field.node.executive_ed_program.field_ee_business_topic
     - field.field.node.executive_ed_program.field_ee_catalog_link
     - field.field.node.executive_ed_program.field_ee_cost
+    - field.field.node.executive_ed_program.field_ee_cost_body
     - field.field.node.executive_ed_program.field_ee_course_brochure
     - field.field.node.executive_ed_program.field_ee_course_dates
     - field.field.node.executive_ed_program.field_ee_course_location
@@ -30,6 +31,7 @@ dependencies:
     - field.field.node.executive_ed_program.field_ee_program_type
     - field.field.node.executive_ed_program.field_ee_related_courses
     - field.field.node.executive_ed_program.field_flexible_features
+    - field.field.node.executive_ed_program.field_flexible_features_bottom
     - field.field.node.executive_ed_program.field_force_single_column
     - field.field.node.executive_ed_program.field_hero_media
     - field.field.node.executive_ed_program.field_menu_rule
@@ -39,7 +41,6 @@ dependencies:
     - field.field.node.executive_ed_program.field_sidebar_content
     - node.type.executive_ed_program
   module:
-    - chosen_field
     - content_moderation
     - field_group
     - link
@@ -89,6 +90,7 @@ third_party_settings:
     group_cost_registration:
       children:
         - field_ee_cost
+        - field_ee_cost_body
         - field_ee_course_brochure
       label: 'Cost & Brochure'
       region: content
@@ -104,10 +106,10 @@ third_party_settings:
     group_administrative:
       children:
         - field_section
-        - field_ee_related_courses
         - field_menu_rule
         - field_ee_level
         - field_ee_business_topic
+        - field_ee_related_courses
       label: Administrative
       region: content
       parent_name: group_content
@@ -142,6 +144,7 @@ third_party_settings:
       children:
         - field_course_schedule
         - field_accordion
+        - field_flexible_features_bottom
         - field_ee_faculty
       label: 'Course Details'
       region: content
@@ -382,9 +385,17 @@ content:
     settings:
       placeholder: ''
     third_party_settings: {  }
+  field_ee_cost_body:
+    type: text_textarea
+    weight: 31
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
   field_ee_course_brochure:
     type: link_default
-    weight: 31
+    weight: 32
     region: content
     settings:
       placeholder_url: ''
@@ -449,8 +460,8 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_ee_related_courses:
-    type: chosen_select
-    weight: 8
+    type: options_select
+    weight: 43
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -471,6 +482,26 @@ content:
       features:
         add_above: '0'
         collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
+  field_flexible_features_bottom:
+    type: paragraphs
+    weight: 39
+    region: content
+    settings:
+      title: 'featured people'
+      title_plural: 'feature people'
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: select
+      form_display_mode: default
+      default_paragraph_type: featured_people
+      features:
+        add_above: '0'
+        collapse_edit_all: collapse_edit_all
+        convert: '0'
         duplicate: duplicate
     third_party_settings: {  }
   field_force_single_column:

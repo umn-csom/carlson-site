@@ -48,6 +48,7 @@ dependencies:
     - taxonomy
     - user
     - views_bulk_operations
+    - views_custom_cache_tag
 id: event_channels
 label: 'Event Channels'
 module: views
@@ -147,8 +148,9 @@ display:
         options:
           perm: 'access content'
       cache:
-        type: tag
-        options: {  }
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       empty:
         area:
           id: area
@@ -345,6 +347,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: true
         title: false
         css_class: false
         use_more: false
@@ -436,6 +439,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -454,6 +458,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -465,6 +470,11 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       arguments: {  }
       filters:
         status:
@@ -663,15 +673,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -719,19 +720,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              layout_manager: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              blog_entry_reviewer: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
-              placeholder_creator: '0'
-              placeholder_reviewer: '0'
             placeholder: Keyword
           is_grouped: false
           group_info:
@@ -758,6 +746,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -848,6 +837,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -866,6 +856,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -877,6 +868,11 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:events'
       arguments: {  }
       filters:
         status:
@@ -1075,15 +1071,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -1131,19 +1118,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              layout_manager: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              blog_entry_reviewer: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
-              placeholder_creator: '0'
-              placeholder_reviewer: '0'
             placeholder: Keyword
           is_grouped: false
           group_info:
@@ -1170,6 +1144,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -1245,6 +1220,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -1263,6 +1239,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -1274,6 +1251,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -1424,15 +1402,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -1536,6 +1505,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -1554,6 +1524,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -1565,6 +1536,11 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       arguments: {  }
       filters:
         status:
@@ -1714,15 +1690,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -1772,15 +1739,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              editor: '0'
-              sr_editor: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -1828,15 +1786,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              editor: '0'
-              sr_editor: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -1863,6 +1812,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -1954,6 +1904,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -1972,6 +1923,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -1983,6 +1935,11 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       sorts:
         sticky:
           id: sticky
@@ -2113,15 +2070,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -2171,15 +2119,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              editor: '0'
-              sr_editor: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -2227,15 +2166,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              editor: '0'
-              sr_editor: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -2262,6 +2192,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -2352,6 +2283,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -2370,6 +2302,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -2381,6 +2314,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -2579,15 +2513,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -2635,19 +2560,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              layout_manager: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              blog_entry_reviewer: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
-              placeholder_creator: '0'
-              placeholder_reviewer: '0'
             placeholder: Keyword
           is_grouped: false
           group_info:
@@ -2764,6 +2676,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -2782,6 +2695,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -2793,6 +2707,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_location_category_target_id_1:
                 plugin_id: default
                 advanced:
@@ -2804,6 +2719,11 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       arguments: {  }
       filters:
         status:
@@ -2905,19 +2825,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              layout_manager: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              blog_entry_reviewer: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
-              placeholder_creator: '0'
-              placeholder_reviewer: '0'
             placeholder: Keyword
           is_grouped: false
           group_info:
@@ -2962,27 +2869,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -3028,27 +2914,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -3096,21 +2961,7 @@ display:
             required: false
             remember: false
             multiple: false
-            remember_roles:
-              anonymous: '0'
-              authenticated: '0'
-              administrator: '0'
-              layout_manager: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              blog_entry_reviewer: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
-              placeholder_creator: '0'
-              placeholder_reviewer: '0'
+            remember_roles: {  }
             min_placeholder: 'Date Range Start'
             max_placeholder: 'Date Range End'
             placeholder: ''
@@ -3139,6 +2990,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         use_ajax: false
         pager: false
@@ -3170,7 +3022,9 @@ display:
             format: rich_text
           tokenize: false
       display_extenders:
-        metatag_display_extender: {  }
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
         simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
@@ -3225,6 +3079,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -3243,6 +3098,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -3254,6 +3110,11 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       arguments: {  }
       filters:
         status:
@@ -3438,6 +3299,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -3535,6 +3397,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -3553,6 +3416,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -3564,6 +3428,11 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
+      cache:
+        type: custom_tag
+        options:
+          custom_tag: 'node_list:event'
       arguments: {  }
       filters:
         status:
@@ -3664,15 +3533,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -3705,6 +3565,7 @@ display:
           relationship: none
           view_mode: teaser_compact
       defaults:
+        cache: false
         title: false
         css_class: false
         use_ajax: false
@@ -3738,7 +3599,9 @@ display:
             format: rich_text
           tokenize: false
       display_extenders:
-        metatag_display_extender: {  }
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
         simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
@@ -3792,6 +3655,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -3810,6 +3674,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -3821,6 +3686,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -3970,15 +3836,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -4028,15 +3885,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              editor: '0'
-              sr_editor: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -4084,15 +3932,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              editor: '0'
-              sr_editor: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -4209,6 +4048,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -4227,6 +4067,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -4238,6 +4079,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -4338,19 +4180,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              layout_manager: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              blog_entry_reviewer: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
-              placeholder_creator: '0'
-              placeholder_reviewer: '0'
             placeholder: Keyword
           is_grouped: false
           group_info:
@@ -4392,21 +4221,7 @@ display:
             required: false
             remember: false
             multiple: false
-            remember_roles:
-              anonymous: '0'
-              authenticated: '0'
-              administrator: '0'
-              layout_manager: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              blog_entry_reviewer: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
-              placeholder_creator: '0'
-              placeholder_reviewer: '0'
+            remember_roles: {  }
             min_placeholder: 'Date Range Start'
             max_placeholder: 'Date Range End'
             placeholder: ''
@@ -4519,6 +4334,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -4537,6 +4353,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -4548,6 +4365,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -4648,15 +4466,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -4706,15 +4515,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              editor: '0'
-              sr_editor: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -4762,15 +4562,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              editor: '0'
-              sr_editor: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -4885,6 +4676,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -4903,6 +4695,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -4914,6 +4707,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -5015,15 +4809,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -5073,15 +4858,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              editor: '0'
-              sr_editor: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -5129,15 +4905,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              editor: '0'
-              sr_editor: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -5254,6 +5021,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -5272,6 +5040,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -5283,6 +5052,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -5383,15 +5153,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -5441,27 +5202,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -5509,27 +5249,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -5646,6 +5365,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -5664,6 +5384,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -5675,6 +5396,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -5775,15 +5497,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -5833,27 +5546,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -5901,27 +5593,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -6024,6 +5695,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -6042,6 +5714,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -6053,6 +5726,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -6154,15 +5828,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -6324,6 +5989,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -6342,6 +6008,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -6353,6 +6020,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -6453,15 +6121,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -6670,6 +6329,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -6688,6 +6348,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -6699,6 +6360,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -6851,15 +6513,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -6907,19 +6560,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              layout_manager: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              blog_entry_reviewer: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
-              placeholder_creator: '0'
-              placeholder_reviewer: '0'
             placeholder: Keyword
           is_grouped: false
           group_info:
@@ -7036,6 +6676,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -7054,6 +6695,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -7065,6 +6707,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -7214,15 +6857,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -7272,15 +6906,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              editor: '0'
-              sr_editor: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -7328,15 +6953,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              editor: '0'
-              sr_editor: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -7453,6 +7069,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -7471,6 +7088,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -7482,6 +7100,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -7582,15 +7201,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -7712,6 +7322,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -7730,6 +7341,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -7741,6 +7353,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -7890,15 +7503,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -8020,6 +7624,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -8038,6 +7643,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -8049,6 +7655,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -8149,15 +7756,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -8279,6 +7877,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -8297,6 +7896,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -8308,6 +7908,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       arguments: {  }
       filters:
         status:
@@ -8408,15 +8009,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -8466,27 +8058,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
             reduce: true
           is_grouped: false
           group_info:
@@ -8534,27 +8105,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              faculty_profile_creator: '0'
-              blog_entry_creator: '0'
-              executive_ed_landing_page_creator: '0'
-              news_editor: '0'
-              ed_abroad_editor: '0'
-              editor: '0'
-              sr_editor: '0'
-              administrator: '0'
-              video_creator: '0'
-              video_reviewer: '0'
-              magazine_creator: '0'
-              magazine_reviewer: '0'
-              email_page_creator: '0'
-              email_page_reviewer: '0'
-              faces_creator: '0'
-              faces_reviewer: '0'
-              front_page_creator: '0'
-              front_page_reviewer: '0'
-              news_landing_creator: '0'
-              news_landing_reviewer: '0'
             placeholder: ''
           is_grouped: false
           group_info:
@@ -8947,19 +8497,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              layout_manager: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              blog_entry_reviewer: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
-              placeholder_creator: '0'
-              placeholder_reviewer: '0'
             reduce: false
           is_grouped: false
           group_info:
@@ -9006,6 +8543,7 @@ display:
           empty_table: false
           caption: ''
           description: ''
+          class: ''
       row:
         type: fields
         options:
@@ -9094,6 +8632,7 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
@@ -9112,6 +8651,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
               field_event_date_value_1:
                 plugin_id: bef_datepicker
                 advanced:
@@ -9123,6 +8663,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   is_secondary: false
+                  hide_label: false
       access:
         type: none
         options: {  }
@@ -9168,19 +8709,6 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-              anonymous: '0'
-              administrator: '0'
-              layout_manager: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              blog_entry_reviewer: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
-              placeholder_creator: '0'
-              placeholder_reviewer: '0'
             placeholder: Keyword
           is_grouped: false
           group_info:
@@ -9222,21 +8750,7 @@ display:
             required: false
             remember: false
             multiple: false
-            remember_roles:
-              anonymous: '0'
-              authenticated: '0'
-              administrator: '0'
-              layout_manager: '0'
-              media_creator: '0'
-              media_manager: '0'
-              faculty_profile_creator: '0'
-              faculty_profile_reviewer: '0'
-              blog_entry_creator: '0'
-              blog_entry_reviewer: '0'
-              executive_ed_landing_page_creator: '0'
-              executive_ed_landing_page_reviewer: '0'
-              placeholder_creator: '0'
-              placeholder_reviewer: '0'
+            remember_roles: {  }
             min_placeholder: 'Date Range Start'
             max_placeholder: 'Date Range End'
             placeholder: ''

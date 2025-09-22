@@ -16,6 +16,7 @@ dependencies:
     - field.field.node.event.field_event_location
     - field.field.node.event.field_event_location_category
     - field.field.node.event.field_event_teaser
+    - field.field.node.event.field_flexible_features
     - field.field.node.event.field_full_name
     - field.field.node.event.field_google_map
     - field.field.node.event.field_hero_media
@@ -34,6 +35,7 @@ dependencies:
     - link
     - media_library
     - metatag
+    - paragraphs
     - path
     - telephone
     - text
@@ -79,6 +81,7 @@ third_party_settings:
         - field_event_location
         - field_location_type
         - field_link
+        - field_flexible_features
       label: Details
       region: content
       parent_name: group_content
@@ -247,6 +250,25 @@ content:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
+  field_flexible_features:
+    type: paragraphs
+    weight: 108
+    region: content
+    settings:
+      title: Component
+      title_plural: Components
+      edit_mode: open
+      closed_mode: summary
+      autocollapse: none
+      closed_mode_threshold: 0
+      add_mode: select
+      form_display_mode: default
+      default_paragraph_type: _none
+      features:
+        add_above: '0'
+        collapse_edit_all: collapse_edit_all
+        duplicate: duplicate
+    third_party_settings: {  }
   field_full_name:
     type: string_textfield
     weight: 14
@@ -290,6 +312,7 @@ content:
     region: content
     settings:
       sidebar: true
+      use_details: true
     third_party_settings: {  }
   field_phone:
     type: telephone_default

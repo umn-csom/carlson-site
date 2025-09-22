@@ -15,6 +15,7 @@ dependencies:
     - field.field.node.event.field_event_location
     - field.field.node.event.field_event_location_category
     - field.field.node.event.field_event_teaser
+    - field.field.node.event.field_flexible_features
     - field.field.node.event.field_full_name
     - field.field.node.event.field_google_map
     - field.field.node.event.field_hero_media
@@ -23,24 +24,19 @@ dependencies:
     - field.field.node.event.field_meta_tags
     - field.field.node.event.field_phone
     - field.field.node.event.field_section
+    - image.style.oo_webp
     - node.type.event
   module:
     - address
     - datetime_range
     - element_class_formatter
+    - entity_reference_revisions
     - image
     - options
-    - panelizer
     - simple_gmap
     - telephone
     - text
     - user
-third_party_settings:
-  panelizer:
-    enable: false
-    custom: false
-    allow: false
-    default: default
 _core:
   default_config_hash: CifYQV9SRaHd4ExYEFpl5r-lRvwNirlCyYNZoMtpFh0
 id: node.event.default
@@ -48,11 +44,6 @@ targetEntityType: node
 bundle: event
 mode: default
 content:
-  addtoany:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 14
-    region: content
   body:
     type: text_default
     label: hidden
@@ -98,8 +89,8 @@ content:
     settings:
       timezone_override: ''
       format_type: ampm
-      separator: '-'
       from_to: both
+      separator: '-'
     third_party_settings: {  }
     weight: 6
     region: content
@@ -117,7 +108,7 @@ content:
     label: hidden
     settings:
       image_link: ''
-      image_style: ''
+      image_style: oo_webp
       image_loading:
         attribute: lazy
     third_party_settings: {  }
@@ -145,6 +136,15 @@ content:
     third_party_settings: {  }
     weight: 8
     region: content
+  field_flexible_features:
+    type: entity_reference_revisions_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    weight: 2
+    region: content
   field_full_name:
     type: string
     label: hidden
@@ -170,6 +170,7 @@ content:
       map_type: m
       langcode: en
       apikey: ''
+      alt_text: 'Map location: %address'
     third_party_settings: {  }
     weight: 13
     region: content
@@ -186,7 +187,7 @@ content:
     type: link_class
     label: hidden
     settings:
-      class: 'btn .btn-secondary'
+      class: 'btn btn-secondary'
       trim_length: 80
       url_only: false
       url_plain: false
