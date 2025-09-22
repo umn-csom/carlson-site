@@ -1,19 +1,19 @@
 {{ attach_library('carlson_refresh/news-featured') }}
-<article class="row justify-content-center">
+<article class="row justify-content-center stretched-link-container">
   <div class="col-12 col-lg-7 mb-6">
     <div class="col-12">
       <h2 class="news-featured__header h4">Featured News</h2>
       <hr class="news-featured__line">
     </div>
     <figure class="col-12">
-      <a href="{{ url }}">{{ content.field_hero_media }}</a>
+      {{ content.field_hero_media }}
     </figure>
     <div class="col-12">
-      <a href="{{ url }}">
+      <a href="{{ url }}" class="stretched-link">
         <h3><em>{{ label }}</em></h3>
       </a>
       <section>{{ content.body }}</section>
-      <a href="{{ url }}"><p class="mt-4 mb-0"><span class="btn btn-sm btn-secondary">Read more</span></p></a>
+      <p class="mt-4 mb-0"><span class="btn btn-sm btn-secondary">Read more</span></p>
     </div>
   </div>
   <div class="col-12 col-lg-5 news-featured__links bg-ivory justify-content-center p-5">

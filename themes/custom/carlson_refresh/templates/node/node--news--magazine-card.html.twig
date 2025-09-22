@@ -1,9 +1,9 @@
 {{ attach_library('carlson_refresh/magazine') }}
 
-<article class="row no-gutters magazine--section-item justify-content-center">
+<article class="row no-gutters magazine--section-item justify-content-center stretched-link-container">
   {% if content.field_hero_media|field_value is not empty %}
   <div class="col-4 col-md-4 col-lg-5 col-xl-4 pr-4">
-    <a href="{{ url }}">{{ content.field_hero_media }}</a>
+    {{ content.field_hero_media }}
   </div>
   <div class="col-8 col-md-8 col-lg-7 col-xl-8 magazine--section-item--summary">
   {% else %}
@@ -11,7 +11,7 @@
   {% endif %}
     <h3 class="position-relative magazine--section-item--title {% if content.field_hero_media|field_value is not empty %}magazine--section-item--title--alumni-position{% endif %}">
 {#      <div style="left:{% if content.field_hero_media|field_value is not empty %}-3{% endif %}0px;" class="magazine--line"></div>#}
-      <a href="{{ url }}">{{ label }}</a>
+      <a href="{{ url }}" class="stretched-link">{{ label }}</a>
     </h3>
 
   </div>

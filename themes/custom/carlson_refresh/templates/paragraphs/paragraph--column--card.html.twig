@@ -3,20 +3,22 @@
 {% set bg_color = content.field_background_color|render ? content.field_background_color[0]['#markup'] : 'bg-ivory' %}
 {% set color = bg_color == 'bg-primary' ? 'text-white' : bg_color == 'bg-light-blue' ? 'text-black' : 'text-body' %}
 {% set arrow_color =  bg_color == 'bg-ivory' ? 'text-primary'  %}
-{% set element = content.field_link|render ? 'a' : 'div' %}
+{% set has_link = content.field_link|render %}
+{% set link_url = has_link ? content.field_link.0['#url'] : '' %}
+{% set content_element = has_link ? 'a' : 'div' %}
 
 {% block paragraph %}
   {% block content %}
-    <div class="carlson-card flex-grow-1 d-flex flex-column">
+    <div class="carlson-card flex-grow-1 d-flex flex-column {{ has_link ? 'stretched-link-container' }}">
       {% if content.field_image|render %}
-        <{{ element }} class="carlson-card__img embed-responsive embed-responsive-4by3" href="{{ content.field_link.0['#url'] }}">
+        <div class="carlson-card__img embed-responsive embed-responsive-4by3">
           {{ content.field_image|field_value }}
-        </{{ element }}>
+        </div>
       {% endif %}
-      <{{ element }} class="carlson-card__content flex-grow-1 d-block px-6 py-6 text-decoration-none {{ content.field_image|render ? 'mt-n5' }} {{ bg_color}} {{ color }}" {% if content.field_link|render %}href="{{ content.field_link.0['#url'] }}"{% endif %}>
-        <div class="text-uppercase font-weight-semi-bold mb-4">{{ content.field_heading }}{% if content.field_link|render %}&nbsp;<span class="{{ arrow_color }}">{{ source('@carlson_refresh/../images/svg/arrow-right-cta.svg')}}</span>{% endif %}</div>
+      <{{ content_element }} class="carlson-card__content flex-grow-1 d-block px-6 py-6 text-decoration-none {{ content.field_image|render ? 'mt-n5' }} {{ bg_color}} {{ color }}{{ has_link ? ' stretched-link' }}"{% if has_link %} href="{{ link_url }}"{% endif %}>
+        <div class="text-uppercase font-weight-semi-bold mb-4">{{ content.field_heading }}{% if has_link %}&nbsp;<span class="{{ arrow_color }}">{{ source('@carlson_refresh/../images/svg/arrow-right-cta.svg') }}</span>{% endif %}</div>
         {{ content.field_main_content }}
-      </{{ element }}>
+      </{{ content_element }}>
     </div>
   {% endblock %}
 {% endblock paragraph %}
