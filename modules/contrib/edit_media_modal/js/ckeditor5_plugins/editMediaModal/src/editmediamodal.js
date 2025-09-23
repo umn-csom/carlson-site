@@ -1,4 +1,5 @@
-import { Plugin, icons } from 'ckeditor5/src/core';
+import { Plugin } from 'ckeditor5/src/core';
+import { IconPencil } from 'ckeditor5/src/icons';
 import { ButtonView } from 'ckeditor5/src/ui';
 
 export default class EditMediaModal extends Plugin {
@@ -33,7 +34,7 @@ export default class EditMediaModal extends Plugin {
 
       view.set({
         label: Drupal.t('Edit media'),
-        icon: icons.pencil,
+        icon: IconPencil,
         tooltip: true,
       });
 
