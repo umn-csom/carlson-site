@@ -61,9 +61,15 @@
  */
 #}
 {{ attach_library('carlson_refresh/staff-faculty') }}
+{% set aria_label = node.title.value|trim ~ ' - click to view full bio' %}
+{% set profile_title = node.field_profile_title.value %}
+{% if profile_title is not empty %}
+  {% set aria_label = profile_title ~ ' - ' ~ aria_label %}
+{% endif %}
+
 <div class="staff-faculty__wrapper">
   <div class="col-12 staff-faculty__item stretched-link-container">
-    <div class="row">
+    <a href="{{ url }}" class="row staff-faculty__item--link py-3 stretched-link" aria-label="{{ aria_label }}">
       <div class="col-12 col-lg-3 col-xl-2 offset-lg-1 staff-faculty__item--image">
         <div class="embed-responsive embed-responsive-1by1">
           {% if content.field_profile_img|field_value is not empty %}
@@ -76,7 +82,7 @@
       <div class="col-12 col-lg-8 col-xl-9">
         <div class="row">
           <div class="col-12 col-lg-12 col-xl-6">
-            <a href="{{ url }}" class="h3 staff-faculty__item--name stretched-link">{{ label }}</a>
+            <div class="h3 staff-faculty__item--name">{{ label }}</div>
              {% if content.field_profile_title|field_value is not empty %}
               <div class="staff-faculty__item--position">
                   {{ content.field_profile_title|field_value }}
@@ -87,12 +93,12 @@
             {# <div class="staff-faculty__item--bio">
               {{ content.body }}
             </div> #}
-            <div class="staff-faculty__item--bio-link stretched-link-ignore">
-              <a href="{{ url }}" class="btn btn-secondary">Full Bio</a>
+            <div class="staff-faculty__item--bio-link">
+              <span class="btn btn-secondary" aria-hidden="true">Full Bio</span>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </a>
   </div>
 </div>
