@@ -1,20 +1,19 @@
 {{ attach_library('carlson_refresh/staff-faculty') }}
-<div class="faculty-profile-card stretched-link-container">
-  <div class="row">
-    <div class="col-12 staff-faculty__item--image pb-2">
-      <div>
-        {% if content.field_profile_img | field_value is not empty %}
-          {{ content.field_profile_img }}
-        {% else %}
-          <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
-        {% endif %}
-      </div>
-    </div>
+<div class="row">
+  <div class="col-12 staff-faculty__item--image pb-2">
+    <a href="{{ url }}">
+      {% if content.field_profile_img | field_value is not empty %}
+        {{ content.field_profile_img }}
+      {% else %}
+        <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
+      {% endif %}
+    </a>
   </div>
-  <div class="row">
-    <div class="col-12">
-      <a href="{{ url }}" class="staff-faculty__item--name stretched-link">{{ label }}</a>
-      <div class="pl-5">
+</div>
+<div class="row">
+  <div class="col-12">
+    <a href="{{ url }}" class="staff-faculty__item--name">{{ label }}</a>
+    <div class="pl-5">
     {% if content.field_profile_title | field_value is not empty %}
       <div class="staff-faculty__item--position mb-5">
         {{ content.field_profile_title|field_value }}
@@ -22,7 +21,7 @@
     {% endif %}
 
     {% if content.field_office_phone | field_value is not empty %}
-      <div class="staff-faculty__item--phone stretched-link-ignore">
+      <div class="staff-faculty__item--phone">
         <a href="tel:{{ content.field_office_phone|field_value }}">
           {{ content.field_office_phone|field_value }}
         </a>
@@ -30,19 +29,18 @@
     {% endif %}
 
     {% if content.field_profile_address | field_value is not empty %}
-      <div class="staff-faculty__item--address stretched-link-ignore">
+      <div class="staff-faculty__item--address">
         {{ content.field_profile_address|field_value }}
       </div>
     {% endif %}
 
     {% if content.field_email | field_value is not empty %}
-      <div class="staff-faculty__item--email stretched-link-ignore">
+      <div class="staff-faculty__item--email">
         <a href="mailto:{{ content.field_email|field_value }}">
           {{ content.field_email|field_value }}
         </a>
       </div>
     {% endif %}
-    </div>
-    </div>
+  </div>
   </div>
 </div>
