@@ -827,6 +827,20 @@ function carlson_refresh_preprocess_field(&$variables, $hook) {
     $variables['node'] = $node;
   }
 
+  $element = $variables['element'] ?? [];
+  if (($element['#field_name'] ?? '') === 'field_hero_media' && ($element['#bundle'] ?? '') === 'news' && ($element['#view_mode'] ?? '') === 'teaser') {
+    // The teaser template already provides a stretched-link overlay; remove the
+    // formatter's anchor so the hero image doesn't create a duplicate link.
+    foreach ($variables['items'] as &$item) {
+      if (is_array($item['content'])) {
+        unset($item['content']['#url']);
+        if (isset($item['content']['#options']['attributes']['class'])) {
+          $item['content']['#options']['attributes']['class'][] = 'stretched-link-ignore';
+        }
+      }
+    }
+  }
+
   // Define field types that can contain HTML content.
   $html_field_types = [
     'text_long',
