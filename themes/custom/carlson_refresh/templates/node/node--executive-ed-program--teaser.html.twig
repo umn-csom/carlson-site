@@ -61,7 +61,8 @@
  */
 #}
 {{ attach_library('carlson_refresh/ee-program') }}
-<div class="ee-program__teaser border box-shadow px-6 mb-6">
+<div class="ee-program__teaser border box-shadow px-6 mb-6 stretched-link-container position-relative">
+  <a href="{{ url }}" class="stretched-link"><span class="sr-only">{{ label }}</span></a>
   <div class="row">
     {% if content.field_hero_media|field_value is not empty %}
     <div class="col-12 col-md-4 mb-6 mb-md-0 ee-program__teaser--image">
@@ -75,7 +76,7 @@
       {% else %}
       <div class="col-12">
         {% endif %}
-        <a href="{{ url }}"><h3 class="ee-program__teaser--title text-body">{{ label }}</h3></a>
+        <h3 class="ee-program__teaser--title text-body">{{ label }}</h3>
         <span>{{ content.field_ee_course_dates }}</span>
         {% if (content.field_ee_course_location is not empty) %}{{ content.field_ee_course_location[0]['#options'].entity.field_teaser_view.value|raw }}{% endif %}
         {% if (register_desc is not empty) %}<span>{{ register_desc[0] }}</span>{% endif %} {# register description here #}
@@ -83,20 +84,19 @@
         {{ content.field_ee_program_teaser }}
         <div class="ee-program__register-buttons row">
           <div class="col-12 col-md-auto">
-            <a href="{{ url }}" class="btn btn-primary btn-md mb-1">Learn More</a>
+            <span class="btn btn-primary btn-md mb-1" aria-hidden="true">Learn More</span>
           </div>
           {% if (register_link is not empty) %}
             <div class="col-12 col-md-auto">
-              <a href="{{ register_link.0['#url'] }}" class="btn btn-ivory btn-md mb-1">Register by Credit Card</a>
+              <a href="{{ register_link.0['#url'] }}" class="btn btn-ivory btn-md mb-1 stretched-link-ignore">Register by Credit Card</a>
             </div>
           {% endif %}
           {% if (invoice_link is not empty) %}
             <div class="col-12 col-md-auto">
-              <a href="{{ invoice_link.0['#url'] }}" class="btn btn-secondary btn-md mb-1">Register by Invoice</a>
+              <a href="{{ invoice_link.0['#url'] }}" class="btn btn-secondary btn-md mb-1 stretched-link-ignore">Register by Invoice</a>
             </div>
           {% endif %}
         </div>
       </div>
     </div>
 </div>
-
