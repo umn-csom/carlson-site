@@ -6,23 +6,33 @@
   {% set img = NULL %}
 {% endif %}
 
+{% set link_item = content.field_link.0 ?? NULL %}
+{% set has_link = link_item is not null %}
+{% set link_url = has_link ? attribute(link_item['#url'], 'toString') : '' %}
+{% set link_title = has_link ? link_item['#title']|default('Learn More') : '' %}
+{% set is_external = has_link ? attribute(link_item['#url'], 'isExternal') : false %}
+
+{% set overlay_attributes = has_link ? create_attribute({'class': ['stretched-link']}) : create_attribute() %}
+{% if has_link and is_external %}
+  {% set overlay_attributes = overlay_attributes.setAttribute('target', '_blank') %}
+  {% set overlay_attributes = overlay_attributes.setAttribute('rel', 'noopener noreferrer') %}
+  {% set overlay_attributes = overlay_attributes.setAttribute('data-extlink', '') %}
+  {% set overlay_attributes = overlay_attributes.setAttribute('title', '(opens in a new window)') %}
+{% endif %}
+
 {% block paragraph %}
   {% block content %}
-    <div class="column__inner h-100">
+    <div class="column__inner h-100{% if has_link %} stretched-link-container position-relative{% endif %}">
+      {% if has_link %}
+        <a href="{{ link_url }}"{{ overlay_attributes }}>
+          <span class="sr-only">{{ link_title }}{% if is_external %} (opens in a new window){% endif %}</span>
+        </a>
+      {% endif %}
+
       {% if img|field_value is not empty %}
-        {% if content.field_link|field_value is not empty %}
-          <a class="column__img mb-3 d-block" href="{{ content.field_link.0['#url'] }}">
-        {% else %}
-          <div class="column__img mb-3">
-        {% endif %}
-
-        {{ img|field_value }}
-
-        {% if content.field_link|field_value is not empty %}
-          </a>
-        {% else %}
-          </div>
-        {% endif %}
+        <div class="column__img mb-3 d-block">
+          {{ img|field_value }}
+        </div>
       {% endif %}
 
       <div class="column__content flex-grow-1 d-flex flex-column">
@@ -36,16 +46,18 @@
           </div>
         {% endif %}
 
-        {% if content.field_link|field_value is not empty %}
+        {% if has_link %}
           <div class="column__link mt-6 text-center">
-            {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
-              <a class="btn btn-primary px-6 d-flex align-items-center justify-content-center" data-mh="columns-btn-{{ paragraph.parent_id.value }}" href="{{ content.field_link.0['#url'] }}">{{ content.field_link.0['#title'] }}</a>
-            {% else %}
-              <a class="btn btn-primary px-6 d-flex align-items-center justify-content-center" data-mh="columns-btn-{{ paragraph.parent_id.value }}" href="{{ content.field_link.0['#url'] }}">{{ content.field_link.0['#title'] }}</a>
-              {#          {{ content.field_link|field_value }}#}
-            {% endif %}
+            <span class="btn btn-primary px-6 d-flex align-items-center justify-content-center stretched-link-ignore" data-mh="columns-btn-{{ paragraph.parent_id.value }}" aria-hidden="true">
+              {{ link_title }}
+              {% if is_external %}
+                <svg class="external-link-icon" aria-hidden="true" focusable="false" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="1.75" style="width:0.8em;height:0.8em;margin-left:0.2em;vertical-align:middle;">
+                  <path d="M16 11L16 16.5L2.5 16.5L2.5 3.5L8 3.5 M9 9.5L17.5 1.5 M11.5 1.5L17.5 1.5L17.5 7.5"></path>
+                </svg>
+                <span class="external-link-text sr-only">(this link opens in a new browser window or tab)</span>
+              {% endif %}
+            </span>
           </div>
-
         {% endif %}
       </div>
     </div>
