@@ -86,6 +86,6 @@
       {% set text = content.body|render|striptags %}
       <p>{{ text|length > 200 ? text|slice(0, 200) ~ '...' : text }}</p>
     {% endif %}
-    <a href="{{ url }}" class="btn btn-primary mt-2 stretched-link-ignore" {% if is_external %} target="_blank"{% endif %} rel="{{ rel_attr }}">Learn More</a>
+    <span class="btn btn-primary mt-2" aria-hidden="true">Learn More</span>
   </div>
 </div>
