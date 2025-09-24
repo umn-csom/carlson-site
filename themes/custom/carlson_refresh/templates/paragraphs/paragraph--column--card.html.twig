@@ -1,37 +1,22 @@
 {{ attach_library('carlson_refresh/card') }}
 
-{% set has_link = content.field_link is not empty %}
-{% set link_url = has_link ? content.field_link.0['#url'] : '' %}
-{% set heading_text = content.field_heading|field_value %}
-{% set heading_text = heading_text is iterable ? heading_text|join(' ') : heading_text %}
-{% set heading_text = heading_text is not empty ? heading_text|striptags|trim : '' %}
-{% set has_image = content.field_image is not empty %}
 {% set bg_color = content.field_background_color|render ? content.field_background_color[0]['#markup'] : 'bg-ivory' %}
 {% set color = bg_color == 'bg-primary' ? 'text-white' : bg_color == 'bg-light-blue' ? 'text-black' : 'text-body' %}
 {% set arrow_color =  bg_color == 'bg-ivory' ? 'text-primary'  %}
+{% set element = content.field_link|render ? 'a' : 'div' %}
 
 {% block paragraph %}
   {% block content %}
-    <div class="carlson-card flex-grow-1 d-flex flex-column {{ has_link ? 'stretched-link-container position-relative' }}">
-      {% if has_link %}
-        <a href="{{ link_url }}" class="stretched-link">
-          <span class="sr-only">{{ heading_text ?: 'Learn more' }}</span>
-        </a>
-      {% endif %}
-
-      {% if has_image %}
-        <div class="carlson-card__img embed-responsive embed-responsive-4by3">
+    <div class="carlson-card flex-grow-1 d-flex flex-column">
+      {% if content.field_image|render %}
+        <{{ element }} class="carlson-card__img embed-responsive embed-responsive-4by3" href="{{ content.field_link.0['#url'] }}">
           {{ content.field_image|field_value }}
-        </div>
+        </{{ element }}>
       {% endif %}
-
-      <div class="carlson-card__content flex-grow-1 d-block px-6 py-6 {{ has_image ? 'mt-n5' }} {{ bg_color }} {{ color }}">
-        <div class="text-uppercase font-weight-semi-bold mb-4">
-          {{ content.field_heading }}
-          {% if has_link %}&nbsp;<span class="{{ arrow_color }}">{{ source('@carlson_refresh/../images/svg/arrow-right-cta.svg') }}</span>{% endif %}
-        </div>
+      <{{ element }} class="carlson-card__content flex-grow-1 d-block px-6 py-6 text-decoration-none {{ content.field_image|render ? 'mt-n5' }} {{ bg_color}} {{ color }}" {% if content.field_link|render %}href="{{ content.field_link.0['#url'] }}"{% endif %}>
+        <div class="text-uppercase font-weight-semi-bold mb-4">{{ content.field_heading }}{% if content.field_link|render %}&nbsp;<span class="{{ arrow_color }}">{{ source('@carlson_refresh/../images/svg/arrow-right-cta.svg')}}</span>{% endif %}</div>
         {{ content.field_main_content }}
-      </div>
+      </{{ element }}>
     </div>
   {% endblock %}
 {% endblock paragraph %}
