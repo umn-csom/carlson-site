@@ -6,19 +6,11 @@
   {% set img = NULL %}
 {% endif %}
 
-{% set link_item = content.field_link.0 ?? NULL %}
-{% set has_link = link_item is not null %}
-{% set link_url = has_link ? attribute(link_item['#url'], 'toString') : '' %}
-{% set link_title = has_link ? link_item['#title']|default('Learn More') : '' %}
-{% set is_external = has_link ? attribute(link_item['#url'], 'isExternal') : false %}
-
-{% set overlay_attributes = has_link ? create_attribute({'class': ['stretched-link']}) : create_attribute() %}
-{% if has_link and is_external %}
-  {% set overlay_attributes = overlay_attributes.setAttribute('target', '_blank') %}
-  {% set overlay_attributes = overlay_attributes.setAttribute('rel', 'noopener noreferrer') %}
-  {% set overlay_attributes = overlay_attributes.setAttribute('data-extlink', '') %}
-  {% set overlay_attributes = overlay_attributes.setAttribute('title', '(opens in a new window)') %}
-{% endif %}
+{% set has_link = has_link|default(false) %}
+{% set link_url = link_url|default('') %}
+{% set link_title = link_title|default('Learn More') %}
+{% set is_external = is_external|default(false) %}
+{% set overlay_attributes = overlay_attributes|default(create_attribute({'class': ['stretched-link']})) %}
 
 {% block paragraph %}
   {% block content %}
