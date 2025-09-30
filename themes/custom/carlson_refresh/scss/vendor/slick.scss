@@ -2,6 +2,18 @@
 @import "../abstracts/extensions";
 
 // Base styles
+.slick-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .slick {
   &,
   &-wrapper {
@@ -124,21 +136,18 @@
   width: 42px;
 
   &:focus-visible {
-    box-shadow:
-      0 0 0 1px $white,
-      0 0 0 2px $cyan,
-      0 0 0 calc(2px + 0.35rem) rgba($cyan, 0.4);
+    outline: 2px solid $gold;
+    outline-offset: 2px;
+    box-shadow: none;
   }
 }
 
-.slick-arrow:active,
-.slick-arrow:focus {
+.slick-arrow:active {
   box-shadow: none;
-  outline: 0;
 }
 
-.slick-arrow::before,
-.slick-arrow::after {
+.slick-prev-icon::before,
+.slick-next-icon::before {
   pointer-events: none;
 }
 
@@ -164,24 +173,47 @@
 
   .slick-arrow {
     background: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    &::before {
-      color: $maroon;
-      font-size: 1.8rem;
-      font-weight: 700;
+    &:focus-visible {
+      outline: 2px solid $gold;
+      outline-offset: 2px;
     }
   }
 
-  .slick-prev {
-    &::before {
-      @include carlson-icons($icon-arrow-left2);
-    }
+  .slick-prev-icon,
+  .slick-next-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $maroon;
+    font-size: 1.8rem;
+    font-weight: 700;
+    width: 100%;
+    height: 100%;
   }
 
-  .slick-next {
-    &::before {
-      @include carlson-icons($icon-arrow-right2);
-    }
+  .slick-prev-icon::before,
+  .slick-next-icon::before {
+    font-family: "carlson-icons" !important;
+    speak: none;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .slick-prev-icon::before {
+    @include carlson-icons($icon-arrow-left2);
+  }
+
+  .slick-next-icon::before {
+    @include carlson-icons($icon-arrow-right2);
   }
 
   @include media-breakpoint-up(lg) {
@@ -189,7 +221,8 @@
       width: 60px;
       height: 60px;
 
-      &::before {
+      .slick-prev-icon,
+      .slick-next-icon {
         font-size: 2.6rem;
       }
     }
@@ -273,10 +306,11 @@
     }
   }
 
-  .slide.slick-slide {
+  .slick-slide {
     min-width: 177px;
     max-width: 177px;
     margin: 0 7px;
+    cursor: pointer;
 
     img {
       border-bottom: 9px solid transparent;
