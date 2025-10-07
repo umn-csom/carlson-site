@@ -2,12 +2,15 @@
 
 namespace Drupal\path_redirect_import\Form;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\File\FileExists;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\StringTranslation\TranslationManager;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\file\FileRepositoryInterface;
 use Drupal\migrate\MigrateMessage;
@@ -59,31 +62,45 @@ class MigrateRedirectForm extends FormBase {
   protected $fileRepository;
 
   /**
-   * Constructs a MigrateRedirectForm object.
+   * The key value.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
-   * @param \Drupal\migrate\Plugin\MigrationPluginManagerInterface $migration_plugin_manager
-   *   The plugin manager for config entity-based migrations.
-   * @param \Drupal\Core\TempStore\PrivateTempStoreFactory $temp_store_factory
-   *   The tempstore factory.
-   * @param \Drupal\Core\Session\AccountInterface $current_user
-   *   Current user.
-   * @param \Drupal\file\FileRepositoryInterface $file_repository
-   *   The file repository.
+   * @var \Drupal\Core\KeyValueStore\KeyValueFactoryInterface
    */
+  protected $keyValue;
+
+  /**
+   * The time service.
+   *
+   * @var \Drupal\Component\Datetime\TimeInterface
+   */
+  protected $time;
+
+  /**
+   * The translation manager.
+   *
+   * @var \Drupal\Core\StringTranslation\TranslationManager
+   */
+  protected $translation;
+
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
     MigrationPluginManagerInterface $migration_plugin_manager,
     PrivateTempStoreFactory $temp_store_factory,
     AccountInterface $current_user,
     FileRepositoryInterface $file_repository,
+    KeyValueFactoryInterface $key_value,
+    TimeInterface $time,
+    TranslationManager $translation,
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->migrationPluginManager = $migration_plugin_manager;
     $this->privateTempStore = $temp_store_factory->get('redirect_multiple_delete_confirm');
     $this->currentUser = $current_user;
     $this->fileRepository = $file_repository;
+
+    $this->keyValue = $key_value;
+    $this->time = $time;
+    $this->translation = $translation;
   }
 
   /**
@@ -95,7 +112,10 @@ class MigrateRedirectForm extends FormBase {
       $container->get('plugin.manager.migration'),
       $container->get('tempstore.private'),
       $container->get('current_user'),
-      $container->get('file.repository')
+      $container->get('file.repository'),
+      $container->get('keyvalue'),
+      $container->get('datetime.time'),
+      $container->get('string_translation'),
     );
   }
 
@@ -244,7 +264,15 @@ class MigrateRedirectForm extends FormBase {
       'force' => 0,
     ];
 
-    $executable = new MigrateBatchExecutable($migration, $migrateMessage, $options);
+    $executable = new MigrateBatchExecutable(
+      $migration,
+      $migrateMessage,
+      $this->keyValue,
+      $this->time,
+      $this->translation,
+      $this->migrationPluginManager,
+      $options,
+    );
     $executable->batchImport();
   }
 

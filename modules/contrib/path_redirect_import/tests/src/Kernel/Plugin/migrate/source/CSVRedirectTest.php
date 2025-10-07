@@ -97,7 +97,7 @@ class CSVRedirectTest extends MigrateTestBase {
    * @return array
    *   Test cases for ::testDrupalStaticResetDeprecation().
    */
-  public function providerTestRedirectDeleteCount(): array {
+  public static function providerTestRedirectDeleteCount(): array {
     return [
       ['/artifacts/redirect_2.csv', 2],
       ['/artifacts/redirect.csv', 4],
