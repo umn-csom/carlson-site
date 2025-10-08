@@ -2,6 +2,7 @@
 
 namespace Drupal\path_redirect_import\Drush\Commands;
 
+use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\Batch\BatchBuilder;
 use Drupal\Core\Datetime\DateFormatter;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
@@ -10,8 +11,10 @@ use Drupal\Core\File\FileExists;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslationManager;
 use Drupal\migrate\Plugin\MigrationPluginManager;
 use Drupal\migrate_tools\Drush\Commands\MigrateToolsCommands;
+use Drupal\migrate_tools\EventSubscriber\MigrationDrushCommandProgress;
 use Drupal\path_redirect_import\Form\MigrateRedirectForm;
 use Drupal\path_redirect_import\RedirectExport;
 use Drush\Attributes as CLI;
@@ -35,51 +38,40 @@ class PathRedirectImportCommands extends MigrateToolsCommands {
   use DependencySerializationTrait;
   use StringTranslationTrait;
 
-  /**
-   * The file system service.
-   *
-   * @var \Drupal\Core\File\FileSystem
-   */
-  protected $fileSystem;
-
-  /**
-   * The redirect export service.
-   *
-   * @var \Drupal\path_redirect_import\RedirectExport
-   */
-  protected $redirectExport;
-
-  /**
-   * PathRedirectImportCommands constructor.
-   *
-   * @param \Drupal\migrate\Plugin\MigrationPluginManager $migrationPluginManager
-   *   Migration Plugin Manager service.
-   * @param \Drupal\Core\Datetime\DateFormatter $dateFormatter
-   *   Date formatter service.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
-   *   Entity type manager service.
-   * @param \Drupal\Core\KeyValueStore\KeyValueFactoryInterface $keyValue
-   *   Key-value store service.
-   * @param \Drupal\Core\File\FileSystemInterface $fileSystem
-   *   File System service.
-   * @param \Drupal\path_redirect_import\RedirectExport $redirectExport
-   *   The redirect export service.
-   */
-  public function __construct(MigrationPluginManager $migrationPluginManager, DateFormatter $dateFormatter, EntityTypeManagerInterface $entityTypeManager, KeyValueFactoryInterface $keyValue, FileSystemInterface $fileSystem, RedirectExport $redirectExport) {
-    parent::__construct($migrationPluginManager, $dateFormatter, $entityTypeManager, $keyValue);
-    $this->fileSystem = $fileSystem;
-    $this->redirectExport = $redirectExport;
+  public function __construct(
+    MigrationPluginManager $migrationPluginManager,
+    DateFormatter $dateFormatter,
+    EntityTypeManagerInterface $entityTypeManager,
+    KeyValueFactoryInterface $keyValue,
+    TimeInterface $time,
+    TranslationManager $translation,
+    MigrationDrushCommandProgress $commandProgress,
+    protected FileSystemInterface $fileSystem,
+    protected RedirectExport $redirectExport,
+  ) {
+    parent::__construct(
+      $migrationPluginManager,
+      $dateFormatter,
+      $entityTypeManager,
+      $keyValue,
+      $time,
+      $translation,
+      $commandProgress,
+    );
   }
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container): MigrateToolsCommands {
+  public static function create(ContainerInterface $container): static {
     return new static(
       $container->get('plugin.manager.migration'),
       $container->get('date.formatter'),
       $container->get('entity_type.manager'),
       $container->get('keyvalue'),
+      $container->get('datetime.time'),
+      $container->get('string_translation'),
+      $container->get('migrate_tools.migration_drush_command_progress'),
       $container->get('file_system'),
       $container->get('path_redirect_import.redirect_export'),
     );

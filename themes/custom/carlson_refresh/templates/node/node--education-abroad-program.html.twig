@@ -144,109 +144,109 @@
               <div class="col-12">
                 {% set accordion_data = [] %}
 
-                {% if content.field_ea_program_objective|field_value is not empty %}
+                {% if content.field_ea_program_objective is not empty and content.field_ea_program_objective|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Objective',
-                        'markup': content.field_ea_program_objective|field_value,
+                        'markup': content.field_ea_program_objective|render,
                         'wrapper':'<ul class="ed-abroad__content--objective">'
                       }
                     ])
                   %}
                 {% endif %}
-                {% if content.field_ea_program_location_info|field_value is not empty %}
+                {% if content.field_ea_program_location_info is not empty and content.field_ea_program_location_info|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Location Details',
-                        'markup': content.field_ea_program_location_info|field_value,
+                        'markup': content.field_ea_program_location_info|render,
                         'wrapper':'<ul class="ed-abroad__content--location-details">'
                       }
                     ])
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_housing_food|field_value is not empty %}
+                {% if content.field_ea_program_housing_food is not empty  and content.field_ea_program_housing_food|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Accommodations',
-                        'markup': content.field_ea_program_housing_food|field_value,
+                        'markup': content.field_ea_program_housing_food|render,
                         'wrapper':'<ul class="ed-abroad__content--accomodations">'
                       }
                     ])
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_academics|field_value is not empty %}
+                {% if content.field_ea_program_academics is not empty  and content.field_ea_program_academics|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Academics & Credits',
-                        'markup': content.field_ea_program_academics|field_value,
+                        'markup': content.field_ea_program_academics|render,
                         'wrapper':'<ul class="ed-abroad__content--academics">'
                       }
                     ])
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_internship|field_value is not empty %}
+                {% if content.field_ea_program_internship is not empty  and content.field_ea_program_internship|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Optional Internship Information',
-                        'markup': content.field_ea_program_internship|field_value,
+                        'markup': content.field_ea_program_internship|render,
                         'wrapper':'<ul class="ed-abroad__content--internship">'
                       }
                     ])
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_eligibility|field_value is not empty %}
+                {% if content.field_ea_program_eligibility is not empty  and content.field_ea_program_eligibility|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Eligibility',
-                        'markup': content.field_ea_program_eligibility|field_value,
+                        'markup': content.field_ea_program_eligibility|render,
                         'wrapper':'<ul class="ed-abroad__content--eligibility">'
                       }
                     ])
                   %}
                 {% endif %}
 
-                {% if content.field_visa_and_passport|field_value is not empty %}
+                {% if content.field_visa_and_passport is not empty  and content.field_visa_and_passport|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Visa & Passport',
-                        'markup': content.field_visa_and_passport|field_value,
+                        'markup': content.field_visa_and_passport|render,
                         'wrapper':'<ul class="ed-abroad__content--visa">'
                       }
                     ])
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_app_admission|field_value is not empty %}
+                {% if content.field_ea_program_app_admission is not empty and content.field_ea_program_app_admission|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Application & Admissions',
-                        'markup': content.field_ea_program_app_admission|field_value,
+                        'markup': content.field_ea_program_app_admission|render,
                         'wrapper':'<ul class="ed-abroad__content--application">'
                       }
                     ])
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_aid_scholarhips|field_value is not empty %}
+                {% if content.field_ea_program_aid_scholarhips is not empty  and content.field_ea_program_aid_scholarhips|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Financial Aid & Scholarship',
-                        'markup': content.field_ea_program_aid_scholarhips|field_value,
+                        'markup': content.field_ea_program_aid_scholarhips|render,
                         'wrapper':'<ul class="ed-abroad__content--aid">'
                       }
                     ])
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_business_exch|field_value is not empty %}
+                {% if content.field_ea_program_business_exch is not empty and content.field_ea_program_business_exch|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Business Exchange',
-                        'markup': content.field_ea_program_business_exch|field_value,
+                        'markup': content.field_ea_program_business_exch|render,
                         'wrapper':'<ul class="ed-abroad__content--business-exchange">'
                       }
                     ])
@@ -254,33 +254,33 @@
                 {% endif %}
 
 
-                {% if content.field_ea_program_audience|field_value is not empty %}
+                {% if content.field_ea_program_audience is not empty and content.field_ea_program_audience|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Audience',
-                        'markup': content.field_ea_program_audience|field_value,
+                        'markup': content.field_ea_program_audience|render,
                         'wrapper':'<ul class="ed-abroad__content--audience">'
                       }
                     ])
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_predep_classes|field_value is not empty %}
+                {% if content.field_ea_program_predep_classes is not empty and content.field_ea_program_predep_classes|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Pre-departure Classes',
-                        'markup': content.field_ea_program_predep_classes|field_value,
+                        'markup': content.field_ea_program_predep_classes|render,
                         'wrapper':'<ul class="ed-abroad__content--pre-departure-classes">'
                       }
                     ])
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_schedule|field_value is not empty %}
+                {% if content.field_ea_program_schedule is not empty and content.field_ea_program_schedule|render|striptags|trim %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Schedule',
-                        'markup': content.field_ea_program_schedule|field_value,
+                        'markup': content.field_ea_program_schedule|render,
                         'wrapper':'<ul class="ed-abroad__content--schedule">'
                       }
                     ])
