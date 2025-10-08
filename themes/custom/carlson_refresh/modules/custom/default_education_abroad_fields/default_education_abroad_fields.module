@@ -1,0 +1,43 @@
+<?php
+
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_entity_view().
+ */
+function default_education_abroad_fields_entity_view(array &$build, EntityInterface $entity, $view_mode, $langcode) {
+  if ($entity->getEntityTypeId() !== 'node' || $entity->bundle() !== 'education_abroad_program') {
+    return;
+  }
+
+  $config = \Drupal::config('default_education_abroad_fields.settings');
+  $fields = [
+    'field_ea_program_objective',
+    'field_ea_program_housing_food',
+    'field_ea_program_academics',
+    'field_visa_and_passport',
+    'field_ea_program_app_admission',
+    'field_ea_program_aid_scholarships',
+  ];
+
+  foreach ($fields as $field_name) {
+    // Only continue if the node field exists and is empty.
+    if ($entity->hasField($field_name) && $entity->get($field_name)->isEmpty()) {
+      $value = $config->get($field_name);
+
+      // Inject the render array ONLY if the config has actual text.
+      if (!empty($value['value'])) {
+        $build[$field_name] = [
+          '#type' => 'processed_text',
+          '#text' => $value['value'],
+          '#format' => $value['format'] ?? 'rich_text',
+        ];
+      }
+      else {
+        // If config is empty, ensure field is removed so Twig sees nothing.
+        unset($build[$field_name]);
+      }
+    }
+  }
+}
+
