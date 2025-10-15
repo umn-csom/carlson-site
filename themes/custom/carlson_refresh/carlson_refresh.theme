@@ -938,15 +938,9 @@ function carlson_refresh_preprocess_field(&$variables, $hook) {
   if (($element['#field_name'] ?? '') === 'field_hero_media' && ($element['#bundle'] ?? '') === 'news' && ($element['#view_mode'] ?? '') === 'teaser') {
     // The teaser template already provides a stretched-link overlay; remove the
     // formatter's anchor so the hero image doesn't create a duplicate link.
-    // Adding the helper class ensures the media wrapper sits above the overlay
-    // (so video controls/links keep working) while the main stretched link
-    // remains the sole interactive anchor for the card.
     foreach ($variables['items'] as &$item) {
       if (is_array($item['content'])) {
         unset($item['content']['#url']);
-        if (isset($item['content']['#options']['attributes']['class'])) {
-          $item['content']['#options']['attributes']['class'][] = 'stretched-link-ignore';
-        }
       }
     }
   }

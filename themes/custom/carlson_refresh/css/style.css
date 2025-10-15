@@ -9373,13 +9373,6 @@ button.bg-black:focus {
   content: "";
   background-color: rgba(0, 0, 0, 0); }
 
-.stretched-link-ignore {
-  position: relative;
-  z-index: 2; }
-
-.stretched-link-ignore[aria-hidden="true"] {
-  pointer-events: none; }
-
 .text-monospace {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important; }
 
@@ -9815,7 +9808,7 @@ div[data-sitewide-alert] {
   width: 100%;
   z-index: 100; }
 
-.btn:has(:focus-visible), :root :focus-visible {
+.btn:has(:focus-visible), :root :focus-visible, .stretched-link-container:has(.stretched-link:focus-visible) {
   outline: 0;
   box-shadow: 0 0 0 1px #fff, 0 0 0 2px #17a2b8, 0 0 0 calc(2px + 0.35rem) rgba(23, 162, 184, 0.4); }
 
@@ -11486,6 +11479,20 @@ a:has(sub) {
 
 .border-2 {
   border-width: 2px !important; }
+
+.stretched-link-container :where(a:not(.stretched-link), iframe, object, button) {
+  z-index: 2;
+  position: relative; }
+
+.stretched-link-container :where([aria-hidden="true"]) {
+  pointer-events: none; }
+
+.stretched-link-container:has(.stretched-link:focus-visible) {
+  border-radius: 2px; }
+
+:root .stretched-link:focus-visible {
+  outline: 0;
+  box-shadow: none; }
 
 .ckeditor-template-wrapper + .ckeditor-template-wrapper {
   margin-top: 4rem; }
