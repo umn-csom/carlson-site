@@ -1,5 +1,15 @@
 // MIXINS
 
+@mixin focus-visible() {
+  outline: 0;
+  box-shadow: $focus-visible-box-shadow;
+}
+
+@mixin focus-visible-rounded() {
+  @include focus-visible();
+  border-radius: 2px;
+}
+
 @mixin sr-only {
   position: absolute;
   width: 1px;

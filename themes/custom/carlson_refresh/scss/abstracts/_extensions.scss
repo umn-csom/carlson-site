@@ -2,16 +2,29 @@
 // Focus visible styles.
 %focus-visible {
   outline: 0;
-  box-shadow:
-    0 0 0 1px $white,
-    0 0 0 2px $cyan,
-    0 0 0 calc(2px + 0.35rem) rgba($cyan, 0.4);
+  box-shadow: $focus-visible-box-shadow;
+}
+
+%focus-visible-rounded {
+  @extend %focus-visible;
+  border-radius: $focus-visible-border-radius;
 }
 
 // For button containers that have inner links.
 %has-focus-visible {
   &:has(:focus-visible) {
     @extend %focus-visible;
+
+    :focus-visible {
+      outline: 0;
+      box-shadow: none;
+    }
+  }
+}
+
+%has-focus-visible-rounded {
+  &:has(:focus-visible) {
+    @extend %focus-visible-rounded;
 
     :focus-visible {
       outline: 0;

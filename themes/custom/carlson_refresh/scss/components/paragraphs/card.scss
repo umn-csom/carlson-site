@@ -1,5 +1,18 @@
+@import "../../abstracts/import";
+@import "../../abstracts/extensions";
+
 .carlson-card {
+
+  &:has(a.carlson-card__content:focus-visible) {
+    @include focus-visible-rounded();
+  }
+
   &__content {
     clip-path: polygon(0 0, calc(100% - 45px) 0%, 100% 25px, 100% 100%, 0 100%);
+
+    &:focus-visible {
+      outline: 0;
+      box-shadow: none;
+    }
   }
 }
