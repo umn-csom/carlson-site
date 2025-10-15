@@ -12,8 +12,10 @@ dependencies:
     - field.field.node.education_abroad_program.field_ea_faculty
     - field.field.node.education_abroad_program.field_ea_office
     - field.field.node.education_abroad_program.field_ea_program_academics
+    - field.field.node.education_abroad_program.field_ea_program_academics_hide
     - field.field.node.education_abroad_program.field_ea_program_aid_scholarhips
     - field.field.node.education_abroad_program.field_ea_program_app_admission
+    - field.field.node.education_abroad_program.field_ea_program_app_admission_h
     - field.field.node.education_abroad_program.field_ea_program_audience
     - field.field.node.education_abroad_program.field_ea_program_business_exch
     - field.field.node.education_abroad_program.field_ea_program_city
@@ -25,9 +27,11 @@ dependencies:
     - field.field.node.education_abroad_program.field_ea_program_eligibility
     - field.field.node.education_abroad_program.field_ea_program_host_school
     - field.field.node.education_abroad_program.field_ea_program_housing_food
+    - field.field.node.education_abroad_program.field_ea_program_housing_food_tf
     - field.field.node.education_abroad_program.field_ea_program_internship
     - field.field.node.education_abroad_program.field_ea_program_location_info
     - field.field.node.education_abroad_program.field_ea_program_objective
+    - field.field.node.education_abroad_program.field_ea_program_objective_hide
     - field.field.node.education_abroad_program.field_ea_program_predep_classes
     - field.field.node.education_abroad_program.field_ea_program_region
     - field.field.node.education_abroad_program.field_ea_program_schedule
@@ -43,9 +47,11 @@ dependencies:
     - field.field.node.education_abroad_program.field_logo
     - field.field.node.education_abroad_program.field_meta_tags
     - field.field.node.education_abroad_program.field_program_details_intro
+    - field.field.node.education_abroad_program.field_scholarships_hide
     - field.field.node.education_abroad_program.field_section
     - field.field.node.education_abroad_program.field_short_sub_heading
     - field.field.node.education_abroad_program.field_visa_and_passport
+    - field.field.node.education_abroad_program.field_visa_and_passport_hide
     - node.type.education_abroad_program
   module:
     - datetime_range
@@ -127,6 +133,16 @@ content:
     third_party_settings: {  }
     weight: 24
     region: content
+  field_ea_program_academics_hide:
+    type: boolean
+    label: hidden
+    settings:
+      format: true-false
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 44
+    region: content
   field_ea_program_aid_scholarhips:
     type: text_default
     label: hidden
@@ -140,6 +156,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 27
+    region: content
+  field_ea_program_app_admission_h:
+    type: boolean
+    label: hidden
+    settings:
+      format: true-false
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 46
     region: content
   field_ea_program_audience:
     type: text_default
@@ -227,6 +253,16 @@ content:
     third_party_settings: {  }
     weight: 28
     region: content
+  field_ea_program_housing_food_tf:
+    type: boolean
+    label: hidden
+    settings:
+      format: true-false
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 43
+    region: content
   field_ea_program_internship:
     type: text_default
     label: hidden
@@ -236,7 +272,7 @@ content:
     region: content
   field_ea_program_location_info:
     type: text_default
-    label: above
+    label: hidden
     settings: {  }
     third_party_settings: {  }
     weight: 22
@@ -247,6 +283,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 25
+    region: content
+  field_ea_program_objective_hide:
+    type: boolean
+    label: hidden
+    settings:
+      format: true-false
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 42
     region: content
   field_ea_program_predep_classes:
     type: text_default
@@ -365,6 +411,16 @@ content:
     third_party_settings: {  }
     weight: 36
     region: content
+  field_scholarships_hide:
+    type: boolean
+    label: hidden
+    settings:
+      format: true-false
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 47
+    region: content
   field_section:
     type: entity_reference_label
     label: hidden
@@ -387,6 +443,16 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 31
+    region: content
+  field_visa_and_passport_hide:
+    type: boolean
+    label: hidden
+    settings:
+      format: true-false
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 45
     region: content
   links:
     settings: {  }
