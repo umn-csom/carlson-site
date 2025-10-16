@@ -1,0 +1,24 @@
+{% set count = site_urls|length %}
+
+{% if people_search_selection == true %}
+    <h2>Web Search Results</h2>
+{% endif %}
+
+{% if count > 0 %}
+    <div id="cse-redirect-link">
+        <a rel="noopener" target="_blank" href="https://usearch.umn.edu/{{ redirect_path }}?query={{ search_query }}">
+           Search all University of Minnesota {{ link_display }} sites
+        </a>
+    </div>
+{% endif %}
+
+<div class="umn-search-form">
+  <div
+      class="gcse-searchresults-only"
+      {% if count == 1 %}
+          data-as_sitesearch="{{ site_urls|first }}"
+      {% elseif count > 1 %}
+          data-as_oq="{% for url in site_urls %}site:{{ url }} {% endfor %}"
+      {% endif %}
+  ></div>
+</div>
