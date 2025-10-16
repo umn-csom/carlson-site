@@ -66,7 +66,6 @@
   {% set url = node.field_in_the_media.value.0.uri %}
 {% endif %}
 {% set has_hero_media = content.field_hero_media|field_value is not empty %}
-{% set rel_attr = is_external ? 'bookmark noopener noreferrer' : 'bookmark' %}
 <div class="row news__teaser mx-0 mx-xl-n3 px-3 mb-6 border box-shadow flex-grow-1 stretched-link-container">
   {% if has_hero_media %}
     <div class="col-12 col-md-4 news__teaser--image mb-3 mb-md-0">
@@ -78,7 +77,7 @@
     </div>
   {% endif %}
   <div class="col-12{% if has_hero_media %} col-md-8{% endif %}">
-    <h3 class="news__teaser--heading"><a href="{{ url }}" class="stretched-link"{% if is_external %} target="_blank"{% endif %} rel="{{ rel_attr }}">{{ label }}</a></h3>
+    <h3 class="news__teaser--heading"><a href="{{ url }}" class="stretched-link"{% if is_external %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ label }}</a></h3>
     <p><span class="news__teaser--created">{{ node.getCreatedTime|format_date('published_date') }}</span></p>
     {% if content.body.summary|field_value is not empty %}
       {{ content.body.summary }}

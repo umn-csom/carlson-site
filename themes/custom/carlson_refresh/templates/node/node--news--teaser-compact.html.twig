@@ -68,7 +68,7 @@
 {% set has_hero_media = content.field_hero_media|field_value is not empty %}
 <div {{ attributes.addClass('news__item row border no-gutters mb-6 p-5 flex-grow-1') }}>
   <div class="col-auto d-none d-md-block mr-5 position-relative">
-    <a class="embed-responsive embed-responsive-1by1 news__item__img position-static" href="{{ url }}"{% if is_external %} target="_blank"{% endif %}>
+    <a class="embed-responsive embed-responsive-1by1 news__item__img position-static" href="{{ url }}"{% if is_external %} target="_blank" rel="noopener noreferrer"{% else %} rel="bookmark"{% endif %}>
       {% if has_hero_media %}
         {{ content.field_hero_media }}
       {% else %}
