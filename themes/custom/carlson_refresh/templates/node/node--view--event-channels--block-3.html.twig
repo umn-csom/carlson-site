@@ -69,7 +69,7 @@
   ]
 %}
 {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
-<div class="row border no-gutters events__item mb-6 flex-grow-1">
+<div class="row border no-gutters events__item mb-6 flex-grow-1 stretched-link-container">
 
     <div class="col-auto px-4 px-lg-6 py-4 py-lg-6 text-center events__item__date d-flex align-items-center justify-content-center">
       <time datetime="{{ timestamp|date('U') }}">
@@ -78,11 +78,11 @@
       </time>
     </div>
 
-    <div class="col px-4 px-lg-6 py-4 py-lg-6 events__item__details d-flex flex-column align-items-start">
+    <div class="col px-4 px-lg-6 py-4 py-lg-6 events__item__details d-flex flex-column align-items-start position-static">
         <div class="event-items__details">
 
             <span class="event-items__item--featured {{ node.isSticky() ? '' : 'd-none' }}">Featured</span>
-            <a class="events__item__title mb-3 flex-grow-1 ff-serif font-weight-light" href="{{ url }}">{{ label }}</a>
+            <a class="events__item__title mb-3 flex-grow-1 ff-serif font-weight-light stretched-link" href="{{ url }}">{{ label }}</a>
             {% if node.field_location_type is not empty %}
                 {% set list_value = node.field_location_type.value %}
                 <span class="event-items__item--location d-none d-lg-block">{{ source('@carlson_refresh/../images/svg/map-pin-solid.svg') }}{{ node.field_location_type.getSetting('allowed_values')[list_value] }}</span>
