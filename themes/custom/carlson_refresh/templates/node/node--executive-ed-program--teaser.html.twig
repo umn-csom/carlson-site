@@ -62,7 +62,6 @@
 #}
 {{ attach_library('carlson_refresh/ee-program') }}
 <div class="ee-program__teaser border box-shadow px-6 mb-6 stretched-link-container">
-  <a href="{{ url }}" class="stretched-link"><span class="sr-only">{{ label }}</span></a>
   <div class="row">
     {% if content.field_hero_media|field_value is not empty %}
     <div class="col-12 col-md-4 mb-6 mb-md-0 ee-program__teaser--image">
@@ -76,7 +75,9 @@
       {% else %}
       <div class="col-12">
         {% endif %}
-        <h3 class="ee-program__teaser--title text-body">{{ label }}</h3>
+        <h3 class="ee-program__teaser--title text-body">
+          <a href="{{ url }}" class="stretched-link">{{ label }}</a>
+        </h3>
         <span>{{ content.field_ee_course_dates }}</span>
         {% if (content.field_ee_course_location is not empty) %}{{ content.field_ee_course_location[0]['#options'].entity.field_teaser_view.value|raw }}{% endif %}
         {% if (register_desc is not empty) %}<span>{{ register_desc[0] }}</span>{% endif %} {# register description here #}
