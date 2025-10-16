@@ -62,7 +62,10 @@
 {{ attach_library('carlson_refresh/news-teaser') }}
 {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
 {% set has_hero_media = content.field_hero_media|field_value is not empty %}
-<div class="row news__teaser mx-0 mx-xl-n3 px-3 mb-6 border box-shadow flex-grow-1">
+<div class="row news__teaser mx-0 mx-xl-n3 px-3 mb-6 border box-shadow flex-grow-1 stretched-link-container">
+  <a href="{{ url }}" class="stretched-link" rel="bookmark">
+    <span class="sr-only">{{ label }}</span>
+  </a>
   {% if has_hero_media %}
     <div class="col-12 col-md-4 news__teaser--image mb-3 mb-md-0">
       <div class="position-relative h-100 w-100">
@@ -81,7 +84,7 @@
 
   <div class="col px-4 px-lg-6 py-4 py-lg-6">
     <h3 class="news__teaser--heading">
-      <a href="{{ url }}" rel="bookmark">{{ label }}</a>
+      <span>{{ label }}</span>
     </h3>
     <p>
     <span class="news__teaser--created">{{ timestamp|date('U')|format_date('published_date') }}</span>
@@ -92,6 +95,6 @@
       {% set text = content.body|render|striptags %}
       <p>{{ text|length > 200 ? text|slice(0, 200) ~ '...' : text }}</p>
     {% endif %}
-    <a href="{{ url }}" class="btn btn-primary mt-2">Learn More</a>
+    <span class="btn btn-primary mt-2" aria-hidden="true">Learn More</span>
   </div>
 </div>

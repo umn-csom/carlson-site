@@ -60,20 +60,20 @@
  * @see template_preprocess_node()
  */
 #}
-<div class="row blog-items__item">
+<div class="row blog-items__item stretched-link-container">
   {{ attach_library('carlson_refresh/blog') }}
   {% if content.field_hero_media|field_value is not empty %}
     <div class="col-3 blog-items__item--image">
       {{ content.field_hero_media }}
     </div>
-    <div class="col-9">
-      <h2 class="blog-items__item--title h4">{{ label }}</h2>
-      <a href="{{ url }}" class="blog-items__item--link">Read More</a>
+    <div class="col-9 position-static">
+      <h2 class="blog-items__item--title h4"><a href="{{ url }}" class="stretched-link">{{ label }}</a></h2>
+      <span class="blog-items__item--link">Read More</span>
     </div>
   {% else %}
-    <div class="col-12">
-      <h2 class="blog-items__item--title h4">{{ label }}</h2>
-      <a href="{{ url }}" class="blog-items__item--link">Read More</a>
+    <div class="col-12 position-static">
+      <h2 class="blog-items__item--title h4"><a href="{{ url }}" class="stretched-link">{{ label }}</a></h2>
+      <span class="blog-items__item--link">Read More</span>
     </div>
   {% endif %}
 </div>

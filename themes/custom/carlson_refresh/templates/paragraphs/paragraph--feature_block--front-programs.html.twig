@@ -2,13 +2,25 @@
 
 {% set bg_color = content.field_background_color|render ? content.field_background_color[0]['#markup'] : 'bg-primary' %}
 {% set color = bg_color == 'bg-primary' ? 'text-white' : bg_color == 'bg-light-blue' ? 'text-black' : 'text-body' %}
+{% set url = content.field_link.0['#url'] %}
+{% set program_title = paragraph.field_heading.value %}
+
+{% set btn_style = [
+  bg_color == 'bg-primary' ? 'btn-primary',
+  bg_color == 'bg-gold' ? 'btn-secondary',
+  bg_color == 'bg-ivory' ? 'btn-ivory',
+  bg_color == 'bg-light-blue' ? 'bg-light-blue text-black',
+] %}
 
 {% block paragraph %}
   {% block content %}
         <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-3 mb-5 mb-xl-0">
-          <div class="programs__item">
-            <a class="embed-responsive embed-responsive-4by3" href="{{ content.field_link.0['#url'] }}">{{ content.field_image|field_value }}</a>
-            <a class="programs__item__link d-block px-3 py-5 text-uppercase font-weight-semi-bold mt-n5 fs-22 {{ bg_color}} {{ color }}" href="{{ content.field_link.0['#url'] }}">{{ content.field_heading }}&nbsp;{{ source('@carlson_refresh/../images/svg/arrow-right-cta.svg')}}</a>
+          <div class="programs__item stretched-link-container">
+            <a href="{{ url }}" class="stretched-link">
+              <span class="sr-only">{{ program_title }} program</span>
+            </a>
+            <div class="embed-responsive embed-responsive-4by3 z-n1">{{ content.field_image|field_value }}</div>
+            <div class="programs__item__link d-block px-3 py-5 text-uppercase text-left font-weight-semi-bold mt-n5 fs-22 btn {{ btn_style|join(' ') }} btn-lg" aria-hidden="true">{{ program_title }}&nbsp;{{ source('@carlson_refresh/../images/svg/arrow-right-cta.svg')}}</div>
           </div>
         </div>
   {% endblock %}
