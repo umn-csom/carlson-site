@@ -60,10 +60,11 @@
  */
 #}
 {{ attach_library('carlson_refresh/staff-faculty') }}
-{% set aria_label = node.title.value|trim ~ ' - click to view full bio' %}
-{% set profile_title = node.field_profile_title.value %}
+{% set profile_title = node.field_profile_title.value|trim %}
+{% set person_label = node.title.value|trim %}
+{% set aria_label = 'Full Bio - ' ~ person_label %}
 {% if profile_title is not empty %}
-{% set aria_label = profile_title ~ ' - ' ~ aria_label %}
+  {% set aria_label = 'Full Bio - ' ~ profile_title ~ ' - ' ~ person_label %}
 {% endif %}
 
 <div class="staff-faculty__wrapper my-3">
@@ -82,7 +83,7 @@
       <div class="col-7 col-lg-9 position-static">
         <div class="row">
           <div class="col-12 col-lg-8 position-static">
-            <div class="h3 staff-faculty__item--name"><a href="{{ url }}" class="stretched-link">{{ label }}</a></div>
+            <div class="h3 staff-faculty__item--name"><a href="{{ url }}" class="stretched-link" aria-label="{{ aria_label }}">{{ label }}</a></div>
             {% if content.field_profile_title|field_value is not empty %}
               <div class="staff-faculty__item--position">
                 {{ content.field_profile_title|field_value }}
