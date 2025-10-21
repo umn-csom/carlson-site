@@ -61,7 +61,7 @@
 #}
 {{ attach_library('carlson_refresh/staff-faculty') }}
 {% set profile_title = node.field_profile_title.value|trim %}
-{% set person_label = label|striptags|trim %}
+{% set person_label = node.title.value|trim %}
 {% set aria_label = 'Full Bio - ' ~ person_label %}
 {% if profile_title is not empty %}
   {% set aria_label = 'Full Bio - ' ~ profile_title ~ ' - ' ~ person_label %}
