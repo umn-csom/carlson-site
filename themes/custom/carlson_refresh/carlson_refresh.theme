@@ -6,6 +6,7 @@
  */
 
 use Drupal\block\Entity\Block;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Template\Attribute;
@@ -987,6 +988,46 @@ function carlson_refresh_preprocess_field(&$variables, $hook) {
         }
       }
     }
+  }
+}
+
+/**
+ * Implements hook_preprocess_menu().
+ */
+function carlson_refresh_preprocess_menu(array &$variables): void {
+  // Strip title attributes that duplicate the visible label to satisfy Popetech/Axe,
+  // mutating the Url so Twig renders the cleaned attributes while leaving descriptive titles intact.
+  $clean_items = static function (array &$items) use (&$clean_items): void {
+    foreach ($items as &$item) {
+      $url = $item['url'] ?? NULL;
+      if ($url instanceof Url) {
+        // Plain-text comparison keeps case/HTML quirks from blocking the match.
+        $link_text = trim(Html::decodeEntities(strip_tags((string) ($item['title'] ?? ''))));
+        $attributes = $url->getOption('attributes') ?? [];
+
+        if (
+          $link_text !== '' &&
+          is_array($attributes) &&
+          array_key_exists('title', $attributes) &&
+          !is_array($attributes['title'])
+        ) {
+          // Decode the tooltip and drop it when it exactly matches the label.
+          $title_value = trim(Html::decodeEntities((string) $attributes['title']));
+          if ($title_value !== '' && mb_strtolower($title_value) === mb_strtolower($link_text)) {
+            unset($attributes['title']);
+            $url->setOption('attributes', $attributes);
+          }
+        }
+      }
+
+      if (!empty($item['below']) && is_array($item['below'])) {
+        $clean_items($item['below']);
+      }
+    }
+  };
+
+  if (!empty($variables['items']) && is_array($variables['items'])) {
+    $clean_items($variables['items']);
   }
 }
 
