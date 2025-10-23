@@ -1,9 +1,9 @@
 services:
-  my_import.commands:
-    class: \Drupal\carlson_general\Commands\MyImportsCommands
-    arguments: ['@menu.link_tree', '@plugin.manager.menu.link', '@entity_type.manager', '@pathauto.alias_storage_helper']
-    tags:
-      - { name: drush.command }
+  carlson_general.redundant_link_title_cleaner:
+    class: Drupal\carlson_general\Service\RedundantLinkTitleCleaner
+    arguments:
+      - '@entity_type.manager'
+
   carlson_general.event_subscriber:
     class: Drupal\carlson_general\EventSubscriber\CloudflareCacheControlResponseEventSubscriber
     arguments:
