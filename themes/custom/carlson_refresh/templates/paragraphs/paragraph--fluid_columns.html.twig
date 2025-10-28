@@ -5,7 +5,7 @@
       <div class="row mb-8 mb-lg-12 fluid-columns {{ paragraph_parent.field_hex_color.0.value is defined ? 'gray-bg' : '' }}">
 		{% if content.field_column_item is not empty %}
 			{% set data = content.field_column_item|field_value %}
-			{% set len = data|length %}
+			{% set len = (data|length == 0 ? 1 : data|length) %}
 			{% set divide = 12/len %}
 
 			{% for key,value in data %}
