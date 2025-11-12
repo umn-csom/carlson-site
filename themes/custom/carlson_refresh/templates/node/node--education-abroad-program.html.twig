@@ -143,8 +143,8 @@
             <div class="row">
               <div class="col-12">
                 {% set accordion_data = [] %}
-
-                {% if content.field_ea_program_objective is not empty and content.field_ea_program_objective|render|striptags|trim %}
+                
+                {% if content.field_ea_program_objective is not empty and content.field_ea_program_objective|render|striptags|trim and not content.field_ea_program_objective_hide.value %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Objective',
@@ -165,7 +165,7 @@
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_housing_food is not empty  and content.field_ea_program_housing_food|render|striptags|trim %}
+                {% if content.field_ea_program_housing_food is not empty  and content.field_ea_program_housing_food|render|striptags|trim and not content.field_ea_program_housing_food_tf.value %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Accommodations',
@@ -176,7 +176,7 @@
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_academics is not empty  and content.field_ea_program_academics|render|striptags|trim %}
+                {% if content.field_ea_program_academics is not empty  and content.field_ea_program_academics|render|striptags|trim and not content.field_ea_program_academics_hide.value %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Academics & Credits',
@@ -209,7 +209,7 @@
                   %}
                 {% endif %}
 
-                {% if content.field_visa_and_passport is not empty  and content.field_visa_and_passport|render|striptags|trim %}
+                {% if content.field_visa_and_passport is not empty  and content.field_visa_and_passport|render|striptags|trim and not content.field_visa_and_passport_hide.value %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Visa & Passport',
@@ -220,7 +220,7 @@
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_app_admission is not empty and content.field_ea_program_app_admission|render|striptags|trim %}
+                {% if content.field_ea_program_app_admission is not empty and content.field_ea_program_app_admission|render|striptags|trim and not content.field_ea_program_app_admission_h.value %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Application & Admissions',
@@ -231,7 +231,7 @@
                   %}
                 {% endif %}
 
-                {% if content.field_ea_program_aid_scholarhips is not empty  and content.field_ea_program_aid_scholarhips|render|striptags|trim %}
+                {% if content.field_ea_program_aid_scholarhips is not empty  and content.field_ea_program_aid_scholarhips|render|striptags|trim and not content.field_scholarships_hide.value %}
                   {% set accordion_data = accordion_data|merge([
                       {
                         'label': 'Financial Aid & Scholarship',

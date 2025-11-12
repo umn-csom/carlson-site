@@ -5,8 +5,10 @@
       document
         .querySelectorAll('a[target="_blank"]', context)
         .forEach((link, index) => {
-          // Skip if already processed.
+          // Ignore overlay anchors and any link that already exposes external cues.
           if (
+            link.classList.contains('stretched-link') ||
+            link.dataset.extlink === 'processed' ||
             link.querySelector(".icon") ||
             link.querySelector("img") ||
             link.querySelector("svg") ||

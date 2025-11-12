@@ -6,7 +6,10 @@
  */
 
 use Drupal\block\Entity\Block;
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Template\Attribute;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Url;
 use Drupal\Component\Utility\UrlHelper;
@@ -819,12 +822,128 @@ function carlson_refresh_preprocess_paragraph(&$variables) {
 }
 
 /**
+ * Builds normalized stretched-link data for entities exposing a link field.
+ *
+ * Use this whenever a template renders a whole-card stretched link fed by an
+ * editor-controlled field. We normalize the URL in PHP—where we can cheaply
+ * consult extlink’s whitelist and rewrite Carlson hostnames to relative paths—
+ * before Twig/JS ever see it. The helper returns the standard variables
+ * (`has_link`, `link_url`, `link_title`, `is_external`, `overlay_attributes`),
+ * with true externals flagged and annotated (target/rel/title) so StretchLink
+ * and Extlink both behave correctly across bundles.
+ */
+function carlson_refresh_build_stretched_link_data(ContentEntityInterface $entity, string $field_name = 'field_link'): array {
+  $defaults = [
+    'has_link' => FALSE,
+    'link_url' => '',
+    'link_title' => '',
+    'is_external' => FALSE,
+    'overlay_attributes' => new Attribute(),
+  ];
+
+  if (!$entity->hasField($field_name) || $entity->get($field_name)->isEmpty()) {
+    return $defaults;
+  }
+
+  $link_item = $entity->get($field_name)->first();
+  if (!$link_item) {
+    return $defaults;
+  }
+
+  try {
+    $url = $link_item->getUrl();
+  }
+  catch (\InvalidArgumentException $exception) {
+    return $defaults;
+  }
+
+  if (!$url instanceof Url) {
+    return $defaults;
+  }
+
+  $raw_url = trim($url->toString());
+  $link_title = $link_item->title ?? '';
+  if ($link_title === '') {
+    $link_title = $raw_url;
+  }
+
+  $is_external = $url->isExternal();
+
+  $whitelist = \Drupal::config('extlink.settings')->get('whitelisted_domains') ?: [];
+  if (!is_array($whitelist)) {
+    $whitelist = [];
+  }
+
+  $normalized_whitelist = array_unique(array_filter(array_map('strtolower', $whitelist)));
+  $current_host = strtolower(\Drupal::request()->getHost());
+  $normalized_whitelist[] = $current_host;
+
+  $parsed = parse_url($raw_url) ?: [];
+  $link_host = strtolower($parsed['host'] ?? '');
+
+  // Whitelisted hostnames are treated as on-site links and rewritten
+  // to relative paths so Extlink (and our overlay) do not flag them as external.
+  if ($link_host !== '' && in_array($link_host, $normalized_whitelist, TRUE)) {
+    $is_external = FALSE;
+    $path = '/' . ltrim($parsed['path'] ?? '', '/');
+    $query = isset($parsed['query']) && $parsed['query'] !== '' ? '?' . $parsed['query'] : '';
+    $fragment = isset($parsed['fragment']) && $parsed['fragment'] !== '' ? '#' . $parsed['fragment'] : '';
+    $raw_url = $path . $query . $fragment;
+  }
+
+  if (!$is_external && !str_starts_with($raw_url, '/')) {
+    $raw_url = '/' . ltrim($raw_url, '/');
+  }
+
+  $attributes = new Attribute([
+    'class' => ['stretched-link'],
+    'data-extlink' => 'processed',
+  ]);
+
+  if ($is_external) {
+    $attributes->setAttribute('target', '_blank');
+    $attributes->setAttribute('rel', 'noopener noreferrer');
+    $attributes->setAttribute('title', '(opens in a new window)');
+  }
+
+  return [
+    'has_link' => TRUE,
+    'link_url' => $raw_url,
+    'link_title' => $link_title ?: t('Learn More'),
+    'is_external' => $is_external,
+    'overlay_attributes' => $attributes,
+  ];
+}
+
+/**
+ * Ensures column cards expose a single normalized link for accessibility.
+ *
+ * We convert whitelisted absolute URLs to relative paths, carry through
+ * external-target attributes only when needed, and hand Twig the overlay
+ * attributes so the stretched-link pattern keeps one functional anchor.
+ */
+function carlson_refresh_preprocess_paragraph__column(array &$variables): void {
+  $variables += carlson_refresh_build_stretched_link_data($variables['paragraph'], 'field_link');
+}
+
+/**
  * Implements hook_preprocess_field().
  */
 function carlson_refresh_preprocess_field(&$variables, $hook) {
   // Add Page Type as variable - needed for execuitve_ed
   if ($node = \Drupal::routeMatch()->getParameter('node')) {
     $variables['node'] = $node;
+  }
+
+  $element = $variables['element'] ?? [];
+  if (($element['#field_name'] ?? '') === 'field_hero_media' && ($element['#bundle'] ?? '') === 'news' && ($element['#view_mode'] ?? '') === 'teaser') {
+    // The teaser template already provides a stretched-link overlay; remove the
+    // formatter's anchor so the hero image doesn't create a duplicate link.
+    foreach ($variables['items'] as &$item) {
+      if (is_array($item['content'])) {
+        unset($item['content']['#url']);
+      }
+    }
   }
 
   // Define field types that can contain HTML content.
@@ -869,6 +988,46 @@ function carlson_refresh_preprocess_field(&$variables, $hook) {
         }
       }
     }
+  }
+}
+
+/**
+ * Implements hook_preprocess_menu().
+ */
+function carlson_refresh_preprocess_menu(array &$variables): void {
+  // Strip title attributes that duplicate the visible label to satisfy Popetech/Axe,
+  // mutating the Url so Twig renders the cleaned attributes while leaving descriptive titles intact.
+  $clean_items = static function (array &$items) use (&$clean_items): void {
+    foreach ($items as &$item) {
+      $url = $item['url'] ?? NULL;
+      if ($url instanceof Url) {
+        // Plain-text comparison keeps case/HTML quirks from blocking the match.
+        $link_text = trim(Html::decodeEntities(strip_tags((string) ($item['title'] ?? ''))));
+        $attributes = $url->getOption('attributes') ?? [];
+
+        if (
+          $link_text !== '' &&
+          is_array($attributes) &&
+          array_key_exists('title', $attributes) &&
+          !is_array($attributes['title'])
+        ) {
+          // Decode the tooltip and drop it when it exactly matches the label.
+          $title_value = trim(Html::decodeEntities((string) $attributes['title']));
+          if ($title_value !== '' && mb_strtolower($title_value) === mb_strtolower($link_text)) {
+            unset($attributes['title']);
+            $url->setOption('attributes', $attributes);
+          }
+        }
+      }
+
+      if (!empty($item['below']) && is_array($item['below'])) {
+        $clean_items($item['below']);
+      }
+    }
+  };
+
+  if (!empty($variables['items']) && is_array($variables['items'])) {
+    $clean_items($variables['items']);
   }
 }
 

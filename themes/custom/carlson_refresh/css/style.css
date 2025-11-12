@@ -11480,6 +11480,34 @@ a:has(sub) {
 .border-2 {
   border-width: 2px !important; }
 
+.stretched-link-container {
+  position: relative; }
+  .stretched-link-container :where(a:not(.stretched-link), iframe, object, button) {
+    z-index: 2;
+    position: relative; }
+  .stretched-link-container :where([aria-hidden="true"]) {
+    pointer-events: none; }
+  .stretched-link-container:has(.stretched-link:focus-visible) {
+    outline: 0;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 2px #17a2b8, 0 0 0 calc(2px + 0.35rem) rgba(23, 162, 184, 0.4);
+    border-radius: 2px; }
+  .stretched-link-container:has(.stretched-link:hover) .btn-primary[aria-hidden="true"] {
+    background-color: #540011;
+    border-color: #3a000c; }
+  .stretched-link-container:has(.stretched-link:hover) .btn-secondary[aria-hidden="true"] {
+    background-color: #ffc20d;
+    border-color: #f2b600; }
+  .stretched-link-container:has(.stretched-link:hover) .btn.bg-light-blue[aria-hidden="true"] {
+    background-color: #3c8481 !important;
+    border-color: #3c8481; }
+  .stretched-link-container:has(.stretched-link:hover) .btn.btn-ivory[aria-hidden="true"] {
+    background-color: #d8cfb9;
+    border-color: #cfc4a9; }
+
+.stretched-link:focus-visible {
+  outline: 0;
+  box-shadow: none; }
+
 .ckeditor-template-wrapper + .ckeditor-template-wrapper {
   margin-top: 4rem; }
 

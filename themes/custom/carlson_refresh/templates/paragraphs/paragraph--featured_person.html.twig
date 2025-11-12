@@ -52,7 +52,7 @@
 {% block paragraph %}
   {% block content %}
     <div class="col-12 col-md-6 col-xl-3 featured-people__person px-3 d-flex mb-6">
-      <div class="bg-white border box-shadow w-100 d-flex flex-column">
+      <div class="bg-white border box-shadow w-100 d-flex flex-column stretched-link-container">
 
         <div class="embed-responsive embed-responsive-5by7">
           {% if content.field_person_headshot|field_value is not empty %}
@@ -64,7 +64,7 @@
 
         <div class="bg-white px-3 py-4 border-top flex-grow-1">
           {% if content.field_link|field_value is not empty %}
-            <a href="{{ content.field_link.0['#url'] }}" alt="{{ content.field_person_name }}" class="featured-people__person--name text-uppercase fs-18">{{ content.field_person_name }}</a>
+            <a href="{{ content.field_link.0['#url'] }}" alt="{{ content.field_person_name }}" class="featured-people__person--name text-uppercase fs-18 stretched-link">{{ content.field_person_name }}</a>
           {% else %}
             <p class="featured-people__person--name text-uppercase fs-18">{{ content.field_person_name }}</p>
           {% endif %}
