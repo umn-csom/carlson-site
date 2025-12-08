@@ -124,7 +124,7 @@
         <div class="col-auto px-lg-6 text-center events__item__date d-flex align-items-center justify-content-center">
           {% set timestamp = content.field_event_date.0.start_date['#attributes']['datetime'] %}
           <time datetime="{{ timestamp|date('U') }}">
-            <span class="d-block events__item__date__month font-weight-semi-bold lh-1 text-primary text-uppercase mb-4">{{ timestamp|date('M') }}</span>
+            <span class="d-block events__item__date__month font-weight-semi-bold lh-1 text-primary text-capitalize mb-4">{{ timestamp|date('M') }}</span>
             <span class="d-block events__item__date__day ff-serif font-weight-light lh-1 text-primary">{{ timestamp|date('j') }}</span>
           </time>
         </div>
@@ -134,17 +134,17 @@
           <div class="col-12 col-sm pr-lg-6 mb-3 mb-sm-0">
             {% if content.field_event_date|field_value is not empty %}
               <div class="d-flex flex-wrap d-lg-block mb-2">
-                <div class="event__details--label font-weight-semi-bold text-uppercase mr-1">Time: </div><div>{{ content.field_event_date }}</div>
+                <div class="event__details--label font-weight-semi-bold text-capitalize mr-1">Time: </div><div>{{ content.field_event_date }}</div>
               </div>
             {% endif %}
             {% if content.field_event_cost|field_value is not empty %}
               <div class="d-flex flex-wrap d-lg-block mb-2">
-                <div class="event__details--label font-weight-semi-bold text-uppercase mr-1">Cost: </div><div>{{ content.field_event_cost }}</div>
+                <div class="event__details--label font-weight-semi-bold text-capitalize mr-1">Cost: </div><div>{{ content.field_event_cost }}</div>
               </div>
             {% endif %}
             {% if content.field_event_location|field_value is not empty %}
               <div class="d-flex flex-wrap d-lg-block">
-                <div class="event__details--label font-weight-semi-bold text-uppercase mr-1">Location: </div><div>{{ content.field_event_location }}</div>
+                <div class="event__details--label font-weight-semi-bold text-capitalize mr-1">Location: </div><div>{{ content.field_event_location }}</div>
               </div>
             {% endif %}
           </div>
