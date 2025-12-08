@@ -64,9 +64,9 @@
 
         <div class="bg-white px-3 py-4 border-top flex-grow-1">
           {% if content.field_link|field_value is not empty %}
-            <a href="{{ content.field_link.0['#url'] }}" alt="{{ content.field_person_name }}" class="featured-people__person--name text-uppercase fs-18 stretched-link">{{ content.field_person_name }}</a>
+            <a href="{{ content.field_link.0['#url'] }}" alt="{{ content.field_person_name }}" class="featured-people__person--name text-capitalize fs-18 stretched-link">{{ content.field_person_name }}</a>
           {% else %}
-            <p class="featured-people__person--name text-uppercase fs-18">{{ content.field_person_name }}</p>
+            <p class="featured-people__person--name text-capitalize fs-18">{{ content.field_person_name }}</p>
           {% endif %}
 
           {% if content.field_person_title|field_value is not empty %}
