@@ -6,16 +6,37 @@
 (function (Drupal, once) {
   'use strict';
 
+  // Stable ID for the single shared dialog instance (prevents duplicates when
+  // Drupal behaviors re-attach via AJAX/BigPipe).
   const DIALOG_ID = 'csm-dialog-modal';
 
+  /**
+   * Feature-detect native <dialog> support.
+   *
+   * We only want to run the replacement behavior when the browser
+   * supports `dialog.showModal()`. If unsupported, we gracefully fall back to
+   * normal link navigation instead of partially broken modals.
+   */
   function supportsDialog() {
     return typeof HTMLDialogElement !== 'undefined' && typeof HTMLDialogElement.prototype.showModal === 'function';
   }
 
+  /**
+   * Coerce common legacy query param values into a boolean.
+   *
+   * Existing Colorbox-style links often use `iframe=true` / `iframe=1`
+   * semantics; URLSearchParams returns strings, so we normalize.
+   */
   function toBool(value) {
     return value === true || value === 'true' || value === '1' || value === 1;
   }
 
+  /**
+   * Parse legacy `?width=` / `?height=` query params.
+   *
+   * Some legacy Colorbox links store desired modal dimensions in the URL.
+   * We map them to CSS variables used by the dialog styles.
+   */
   function parseSizeFromUrl(url) {
     const width = parseInt(url.searchParams.get('width') || '', 10);
     const height = parseInt(url.searchParams.get('height') || '', 10);
@@ -25,6 +46,12 @@
     };
   }
 
+  /**
+   * Determine whether a link should open in an iframe modal.
+   *
+   * Colorbox was frequently used to open embedded videos and internal
+   * "node/123" content in an iframe. Non-iframe links should behave normally.
+   */
   function isLikelyIframe(triggerEl, url) {
     const iframeParam = url.searchParams.get('iframe');
     if (toBool(iframeParam)) return true;
@@ -38,11 +65,24 @@
     return false;
   }
 
+  /**
+   * Toggle background scroll lock while the dialog is open.
+   *
+   * Native <dialog> does not automatically prevent background scrolling.
+   * We mimic typical modal behavior by applying an `overflow: hidden` class.
+   */
   function setBodyScrollLocked(locked) {
     document.documentElement.classList.toggle('csm-dialog-modal--open', locked);
     document.body.classList.toggle('csm-dialog-modal--open', locked);
   }
 
+  /**
+   * Create the shared dialog element once (or return it if it already exists).
+   *
+   * Drupal behaviors can attach multiple times (AJAX/BigPipe). A single
+   * reusable dialog avoids duplicate DOM, stacking issues, and duplicated
+   * event handlers.
+   */
   function buildDialogIfMissing() {
     let dialog = document.getElementById(DIALOG_ID);
     if (dialog) return dialog;
@@ -62,6 +102,12 @@
     return dialog;
   }
 
+  /**
+   * Populate the dialog with an iframe pointing at the requested URL.
+   *
+   * This is the closest drop-in replacement for Colorbox's iframe mode.
+   * We also map legacy width/height to CSS variables for sizing.
+   */
   function openDialogWithIframe(dialog, href, opts) {
     const content = dialog.querySelector('[data-csm-dialog-content]');
     if (!content) return;
@@ -89,6 +135,13 @@
     content.replaceChildren(iframe);
   }
 
+  /**
+   * Populate the dialog with inline DOM content referenced by an anchor hash.
+   *
+   * Some legacy "Colorbox" links are really "open this hidden markup" via
+   * `href="#some-id"`. We temporarily move the element into the dialog and
+   * restore it when the dialog closes.
+   */
   function openDialogWithInline(dialog, targetEl) {
     const content = dialog.querySelector('[data-csm-dialog-content]');
     if (!content) return;
@@ -123,6 +176,11 @@
     };
   }
 
+  /**
+   * Open the dialog modally.
+   *
+   * Centralizes `showModal()` call and ensures the scroll lock is applied.
+   */
   function openDialog(dialog) {
     if (!supportsDialog()) return false;
     if (dialog.open) return true;
@@ -135,12 +193,24 @@
     }
   }
 
+  /**
+   * Close the dialog.
+   *
+   * Keeps closing behavior consistent across close button, backdrop click,
+   * and other callers.
+   */
   function closeDialog(dialog) {
     try {
       if (dialog.open) dialog.close();
     } catch (e) {}
   }
 
+  /**
+   * Reset dialog state after it closes.
+   *
+   * Ensures subsequent opens start clean (no leftover iframe, sizing, or
+   * moved inline content) and restores page scrolling.
+   */
   function cleanupDialog(dialog) {
     setBodyScrollLocked(false);
     dialog.style.removeProperty('--csm-dialog-width');
@@ -157,6 +227,12 @@
     dialog.__csmInlineRestore = null;
   }
 
+  /**
+   * Bind one-time shell event handlers to the shared dialog.
+   *
+   * We only want to wire close/backdrop behavior once, even if Drupal
+   * behaviors re-run.
+   */
   function bindDialogShell(dialog) {
     if (dialog.__csmBound) return;
     dialog.__csmBound = true;
@@ -175,6 +251,12 @@
     dialog.addEventListener('close', () => cleanupDialog(dialog));
   }
 
+  /**
+   * Detect legacy Colorbox trigger links based on known classes.
+   *
+   * Existing content already has these classes in WYSIWYG HTML; we use
+   * them as the signal to open a dialog instead of navigating.
+   */
   function isLegacyColorboxTrigger(el) {
     if (!el || el.tagName !== 'A') return false;
     if (el.classList.contains('colorbox')) return true;
@@ -184,6 +266,12 @@
     return false;
   }
 
+  /**
+   * Choose a best-effort title for accessibility.
+   *
+   * The iframe needs a title, and we want a reasonable label derived from
+   * the link (aria-label > title attribute > text).
+   */
   function getTriggerTitle(el) {
     const aria = el.getAttribute('aria-label');
     if (aria) return aria;
@@ -193,6 +281,14 @@
     return text || 'Dialog content';
   }
 
+  /**
+   * Handle a legacy trigger click and open the dialog.
+   *
+   * This is the "replacement" for Colorbox's click behavior.
+   * - Inline `#id` links open the referenced DOM in the dialog.
+   * - Video/iframe-ish links open an iframe in the dialog.
+   * - Everything else is left alone to behave as a normal link.
+   */
   function handleTriggerClick(e, dialog, triggerEl) {
     const hrefAttr = triggerEl.getAttribute('href') || '';
     if (!hrefAttr) return;
