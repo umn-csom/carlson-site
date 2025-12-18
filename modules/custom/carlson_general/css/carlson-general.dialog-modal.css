@@ -1,0 +1,68 @@
+/**
+ * @file
+ * Base styling for native <dialog>-based modals.
+ */
+
+/* Prevent background scroll while a modal dialog is open. */
+html.csm-dialog-modal--open,
+body.csm-dialog-modal--open {
+  overflow: hidden;
+}
+
+.csm-dialog-modal {
+  border: 0;
+  padding: 0;
+  max-width: min(92vw, var(--csm-dialog-width, 900px));
+  max-height: min(92vh, var(--csm-dialog-height, 85vh));
+  width: 100%;
+  color: inherit;
+  background: transparent;
+}
+
+.csm-dialog-modal::backdrop {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.csm-dialog-modal__surface {
+  position: relative;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.csm-dialog-modal__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.csm-dialog-modal__close::before {
+  content: "×";
+  display: block;
+  font-size: 28px;
+  line-height: 40px;
+  text-align: center;
+  color: #000;
+}
+
+.csm-dialog-modal__content {
+  padding: 24px;
+  max-height: min(92vh, var(--csm-dialog-height, 85vh));
+  overflow: auto;
+}
+
+.csm-dialog-modal__iframe {
+  display: block;
+  width: 100%;
+  height: min(80vh, var(--csm-dialog-height, 70vh));
+  border: 0;
+}
+

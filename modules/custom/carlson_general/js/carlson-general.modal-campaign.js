@@ -3,10 +3,15 @@
  * Modal Campaign behavior (ported from DIG SHD8-757).
  */
 
-(function ($, Drupal, drupalSettings, once) {
+(function (Drupal, drupalSettings, once) {
   'use strict';
 
   const DEFAULT_DISMISS_DAYS = 7;
+  const OPEN_CLASS = 'csm-dialog-modal--open';
+
+  function supportsDialog(dialogEl) {
+    return dialogEl && typeof dialogEl.showModal === 'function';
+  }
 
   function getConfig() {
     const settings = drupalSettings.csmModalCampaign || {};
@@ -85,7 +90,7 @@
   Drupal.behaviors.csmModalCampaign = {
     attach: function (context) {
       once('csm-modal-campaign', '#csm-modal-campaign', context).forEach((modalEl) => {
-        const $modal = $(modalEl);
+        const dialogEl = modalEl;
         const config = getConfig();
         const storageKey = config.sessionKey;
 
@@ -105,56 +110,84 @@
           return;
         }
 
-        // Bootstrap 4 modal plugin is required (provided by the site theme).
-        if (!$.fn || typeof $.fn.modal !== 'function') {
+        if (!supportsDialog(dialogEl)) {
           return;
         }
 
         // Initialize action flag before opening the modal.
         let actionTaken = false;
 
-        // Ensure handlers are scoped to this modal only.
-        $modal
-          .off('.csm-modal-campaign')
-          .on('hidden.bs.modal.csm-modal-campaign', function () {
-            if (!actionTaken) {
-              setModalState(storageKey, 'dismissed');
-            }
-            actionTaken = false;
-          });
+        const lockScroll = function (locked) {
+          document.documentElement.classList.toggle(OPEN_CLASS, locked);
+          document.body.classList.toggle(OPEN_CLASS, locked);
+        };
 
-        // Dismiss on "Maybe Later".
-        $modal
-          .find('.js-csm-modal-campaign-decline')
-          .off('click.csm-modal-campaign')
-          .on('click.csm-modal-campaign', function () {
-            actionTaken = true;
+        const onClose = function () {
+          lockScroll(false);
+          if (!actionTaken) {
             setModalState(storageKey, 'dismissed');
+          }
+          actionTaken = false;
+        };
+
+        // Ensure we don't double-bind if this markup is re-rendered.
+        if (!dialogEl.__csmModalCampaignBound) {
+          dialogEl.__csmModalCampaignBound = true;
+
+          dialogEl.addEventListener('close', onClose);
+          dialogEl.addEventListener('cancel', function () {
+            // Allow ESC to close; dismissed will be recorded on "close".
           });
 
-        // Acknowledge on CTA: open link in new tab and record action.
-        $modal
-          .find('.js-csm-modal-campaign-cta')
-          .off('click.csm-modal-campaign')
-          .on('click.csm-modal-campaign', function (e) {
-            e.preventDefault();
-            actionTaken = true;
-
-            const href = $(this).attr('href');
-            if (href) {
-              window.open(href, '_blank', 'noopener');
+          // Click outside closes.
+          dialogEl.addEventListener('click', function (e) {
+            if (e.target === dialogEl) {
+              dialogEl.close();
             }
+          });
 
-            setModalState(storageKey, 'acknowledged', function () {
-              $modal.modal('hide');
+          // Close button.
+          dialogEl.querySelectorAll('.js-csm-modal-campaign-close').forEach((btn) => {
+            btn.addEventListener('click', function () {
+              dialogEl.close();
             });
           });
 
+          // Dismiss on "Maybe Later".
+          dialogEl.querySelectorAll('.js-csm-modal-campaign-decline').forEach((btn) => {
+            btn.addEventListener('click', function () {
+              actionTaken = true;
+              setModalState(storageKey, 'dismissed', function () {
+                dialogEl.close();
+              });
+            });
+          });
+
+          // Acknowledge on CTA: open link in new tab and record action.
+          dialogEl.querySelectorAll('.js-csm-modal-campaign-cta').forEach((link) => {
+            link.addEventListener('click', function (e) {
+              e.preventDefault();
+              actionTaken = true;
+
+              const href = link.getAttribute('href');
+              if (href) {
+                window.open(href, '_blank', 'noopener');
+              }
+
+              setModalState(storageKey, 'acknowledged', function () {
+                dialogEl.close();
+              });
+            });
+          });
+        }
+
         setTimeout(function () {
-          $modal.modal('show');
+          if (!dialogEl.open) {
+            lockScroll(true);
+            dialogEl.showModal();
+          }
         }, 1000);
       });
     },
   };
-})(jQuery, Drupal, drupalSettings, once);
-
+})(Drupal, drupalSettings, once);

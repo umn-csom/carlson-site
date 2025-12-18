@@ -5,58 +5,51 @@
  */
 #}
 
-<div
+<dialog
   id="csm-modal-campaign"
-  class="modal fade csm-modal-campaign"
-  tabindex="-1"
-  role="dialog"
-  aria-modal="true"
+  class="csm-dialog-modal csm-modal-campaign"
   aria-labelledby="csm-modal-campaign__title"
   aria-describedby="csm-modal-campaign__body"
 >
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="csm-modal-campaign__heading">
-          {% if eyebrow %}
-            <p class="csm-modal-campaign__eyebrow mb-1">{{ eyebrow }}</p>
-          {% endif %}
-          <h2 class="modal-title" id="csm-modal-campaign__title">{{ title }}</h2>
-        </div>
-        <button type="button" class="close" data-dismiss="modal" aria-label="{{ 'Close'|t }}">
-          <span aria-hidden="true">&times;</span>
-        </button>
+  <div class="csm-dialog-modal__surface" role="document">
+    <button type="button" class="csm-dialog-modal__close js-csm-modal-campaign-close" aria-label="{{ 'Close'|t }}"></button>
+
+    <div class="csm-modal-campaign__header">
+      <div class="csm-modal-campaign__heading">
+        {% if eyebrow %}
+          <p class="csm-modal-campaign__eyebrow mb-1">{{ eyebrow }}</p>
+        {% endif %}
+        <h2 class="csm-modal-campaign__title" id="csm-modal-campaign__title">{{ title }}</h2>
       </div>
+    </div>
 
-      <div class="modal-body" id="csm-modal-campaign__body">
-        {{ body }}
+    <div class="csm-modal-campaign__body" id="csm-modal-campaign__body">
+      {{ body }}
+    </div>
+
+    {% if cta_url or show_decline %}
+      <div class="csm-modal-campaign__footer">
+        {% if cta_url %}
+          <a
+            href="{{ cta_url }}"
+            class="btn btn-primary js-csm-modal-campaign-cta"
+            target="_blank"
+            rel="noopener"
+          >
+            {{ cta_text }}
+          </a>
+        {% endif %}
+
+        {% if show_decline %}
+          <button
+            type="button"
+            class="btn btn-secondary js-csm-modal-campaign-decline"
+          >
+            {{ decline_text }}
+          </button>
+        {% endif %}
       </div>
-
-      {% if cta_url or show_decline %}
-        <div class="modal-footer">
-          {% if cta_url %}
-            <a
-              href="{{ cta_url }}"
-              class="btn btn-primary js-csm-modal-campaign-cta"
-              target="_blank"
-              rel="noopener"
-            >
-              {{ cta_text }}
-            </a>
-          {% endif %}
-
-          {% if show_decline %}
-            <button
-              type="button"
-              class="btn btn-secondary js-csm-modal-campaign-decline"
-              data-dismiss="modal"
-            >
-              {{ decline_text }}
-            </button>
-          {% endif %}
-        </div>
-      {% endif %}
+    {% endif %}
     </div>
   </div>
-</div>
-
+</dialog>
