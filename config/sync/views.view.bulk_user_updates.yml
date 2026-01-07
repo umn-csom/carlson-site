@@ -80,6 +80,8 @@ display:
           buttons: false
           action_title: Action
           clear_on_exposed: false
+          show_multipage_selection_box: default
+          show_select_all: default
           selected_actions:
             -
               action_id: user_add_role_action
@@ -335,6 +337,7 @@ display:
         type: full
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 30
           total_pages: null
           id: 0
@@ -352,7 +355,6 @@ display:
             offset: false
             offset_label: Offset
           quantity: 9
-          pagination_heading_level: h4
       exposed_form:
         type: bef
         options:
@@ -370,13 +372,15 @@ display:
             general:
               autosubmit: false
               autosubmit_exclude_textfield: false
+              autosubmit_textfield_minimum_length: 3
               autosubmit_hide: false
               input_required: false
               allow_secondary: false
               secondary_label: 'Advanced options'
               text_input_required: 'Select any filter and click on Apply to see results'
               text_input_required_format: basic_html
-              autosubmit_textfield_minimum_length: 3
+              autosubmit_breakpoint: ''
+              auto_submit_sort_only: false
             filter:
               roles_target_id:
                 plugin_id: bef
@@ -387,11 +391,18 @@ display:
                     filter_rewrite_values: ''
                     filter_rewrite_values_key: false
                   collapsible: false
-                  is_secondary: false
                   collapsible_disable_automatic_open: false
+                  is_secondary: false
                   hide_label: false
+                  field_classes: ''
+                  open_by_default: false
+                  sort_options_method: alphabetical_asc
+                  sort_options_natural: true
                 select_all_none: false
                 select_all_none_nested: false
+                soft_limit: 0
+                soft_limit_label_less: 'Show less'
+                soft_limit_label_more: 'Show more'
       access:
         type: role
         options:
