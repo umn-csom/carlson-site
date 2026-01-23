@@ -182,42 +182,15 @@
               <div class="row">
                 <div class="col-12">
                     {% set accordion_data = [] %}
-                    {% if node.id == 100151 %}
+                    {% if content.field_profile_works|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
                       {% set accordion_data = accordion_data|merge([
                           {
-                            'label': 'Selected Works, 2014–present',
-                            'markup': drupal_view('faculty_profile_works_additional', 'block_1', '100151'),
+                            'label': 'Selected Works',
+                            'markup': content.field_profile_works|field_value,
                             'wrapper':'<ul class="faculty-profile__works--selected">'
                           }
                         ])
                       %}
-                      {% set accordion_data = accordion_data|merge([
-                          {
-                            'label': 'Selected Works, 2010–2013',
-                            'markup': drupal_view('faculty_profile_works_additional', 'block_1', '99906'),
-                            'wrapper':'<ul class="faculty-profile__works--selected">'
-                          }
-                        ])
-                      %}
-                      {% set accordion_data = accordion_data|merge([
-                          {
-                            'label': 'Selected Works, 1999–2009',
-                            'markup': drupal_view('faculty_profile_works_additional', 'block_1', '99921'),
-                            'wrapper':'<ul class="faculty-profile__works--selected">'
-                          }
-                        ])
-                      %}
-                    {% else %}
-                      {% if content.field_profile_works|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
-                        {% set accordion_data = accordion_data|merge([
-                            {
-                              'label': 'Selected Works',
-                              'markup': content.field_profile_works|field_value,
-                              'wrapper':'<ul class="faculty-profile__works--selected">'
-                            }
-                          ])
-                        %}
-                      {% endif %}
                     {% endif %}
 
                     {% if content.field_profile_activities|render|striptags|replace({"\n": "", "\r": "", "\t": "", " ": ""}) is not empty %}
