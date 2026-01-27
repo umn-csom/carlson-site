@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.profile_selected_works.field_pub_citation
     - field.field.paragraph.profile_selected_works.field_pub_file
     - field.field.paragraph.profile_selected_works.field_pub_title
     - field.field.paragraph.profile_selected_works.field_pub_type
@@ -18,6 +19,14 @@ targetEntityType: paragraph
 bundle: profile_selected_works
 mode: default
 content:
+  field_pub_citation:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 4
+    region: content
   field_pub_file:
     type: file_default
     label: hidden

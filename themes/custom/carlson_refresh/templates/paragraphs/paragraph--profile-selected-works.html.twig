@@ -7,17 +7,31 @@
                 </div>
             {% endif %}
 
-            {% if content.field_pub_title|field_value is not empty %}
+            {# {% if content.field_pub_title|field_value is not empty %}
                 <div class="faculty-profile__selected-works--title">
                     {{ content.field_pub_title|field_value }}
                 </div>
-            {% endif %}
+            {% endif %} #}
 
             {% if content.field_pub_url|field_value is not empty %}
+                {% if content.field_pub_title|field_value is not empty %}
+                <div class="faculty-profile__selected-works--title">
+                    <a href="{{ content.field_pub_url[0]['#url']|render }}" target="_blank">{{ content.field_pub_title|field_value }}</a> {{ content.field_pub_citation|field_value }}
+                </div>
+                {% endif %}
+            {% else %}
+                {% if content.field_pub_title|field_value is not empty %}
+                <div class="faculty-profile__selected-works--title">
+                    {{ content.field_pub_title|field_value }} {{ content.field_pub_citation|field_value }}
+                </div>
+                {% endif %}
+            {% endif %}
+
+            {# {% if content.field_pub_url|field_value is not empty %}
                 <div class="faculty-profile__selected-works--url">
                     {{ content.field_pub_url|field_value }}
                 </div>
-            {% endif %}
+            {% endif %} #}
 
             {% if content.field_pub_file|field_value is not empty %}
                 <div class="faculty-profile__selected-works--file">
