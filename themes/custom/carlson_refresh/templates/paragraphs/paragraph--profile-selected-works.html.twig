@@ -1,37 +1,37 @@
 {% block paragraph %}
     <li class="faculty-profile__selected-works">
         {% block content %}
-            {% if content.field_pub_type|field_value is not empty %}
-                <div class="faculty-profile__selected-works--type">
-                    <em>{{ content.field_pub_type|field_value }}</em>
-                </div>
-            {% endif %}
 
-            {# {% if content.field_pub_title|field_value is not empty %}
-                <div class="faculty-profile__selected-works--title">
-                    {{ content.field_pub_title|field_value }}
-                </div>
-            {% endif %} #}
-
-            {% if content.field_pub_url|field_value is not empty %}
+            <div class="faculty-profile__selected-works--title">
+            {# author first #}
+            {% if content.field_pub_format|render == 'author_first'%}
                 {% if content.field_pub_title|field_value is not empty %}
-                <div class="faculty-profile__selected-works--title">
-                    <a href="{{ content.field_pub_url[0]['#url']|render }}" target="_blank">{{ content.field_pub_title|field_value }}</a> {{ content.field_pub_citation|field_value }}
-                </div>
+                    {{ content.field_pub_author }}
+                    {% if content.field_pub_url|field_value is not empty %}
+                        <a href="{{ content.field_pub_url[0]['#url']|render }}" target="_blank">{{ content.field_pub_title|field_value }}</a>
+                    {% else %}
+                        {{ content.field_pub_title }}
+                    {% endif %}
+
+                    {% if content.field_pub_date_year|field_value is not empty %} ({{ content.field_pub_date_year }}). {% endif %}
+                    {% if content.field_pub_name|field_value is not empty %} {{ content.field_pub_name }}: {% endif %}
+                    {{ content.field_pub_citation }}
                 {% endif %}
+            {# title first #}
             {% else %}
                 {% if content.field_pub_title|field_value is not empty %}
-                <div class="faculty-profile__selected-works--title">
-                    {{ content.field_pub_title|field_value }} {{ content.field_pub_citation|field_value }}
-                </div>
+                    {% if content.field_pub_url|field_value is not empty %}
+                        <a href="{{ content.field_pub_url[0]['#url']|render }}" target="_blank">{{ content.field_pub_title|field_value }}</a>, 
+                    {% else %}
+                        {{ content.field_pub_title|field_value }}, 
+                    {% endif %}
+                    {% if content.field_pub_author|field_value is not empty %}{{ content.field_pub_author }}, {% endif %}
+                    {% if content.field_pub_date_year|field_value is not empty %} ({{ content.field_pub_date_year }}), {% endif %}
+                    {% if content.field_pub_name|field_value is not empty %} {{ content.field_pub_name }}: {% endif %}
+                    {{ content.field_pub_citation }}
                 {% endif %}
             {% endif %}
-
-            {# {% if content.field_pub_url|field_value is not empty %}
-                <div class="faculty-profile__selected-works--url">
-                    {{ content.field_pub_url|field_value }}
-                </div>
-            {% endif %} #}
+            </div>
 
             {% if content.field_pub_file|field_value is not empty %}
                 <div class="faculty-profile__selected-works--file">

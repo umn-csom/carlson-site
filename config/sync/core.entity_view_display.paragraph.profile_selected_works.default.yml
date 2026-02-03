@@ -3,8 +3,12 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.paragraph.profile_selected_works.field_pub_author
     - field.field.paragraph.profile_selected_works.field_pub_citation
+    - field.field.paragraph.profile_selected_works.field_pub_date_year
     - field.field.paragraph.profile_selected_works.field_pub_file
+    - field.field.paragraph.profile_selected_works.field_pub_format
+    - field.field.paragraph.profile_selected_works.field_pub_name
     - field.field.paragraph.profile_selected_works.field_pub_title
     - field.field.paragraph.profile_selected_works.field_pub_type
     - field.field.paragraph.profile_selected_works.field_pub_url
@@ -12,6 +16,7 @@ dependencies:
   module:
     - file
     - link
+    - options
 _core:
   default_config_hash: aY43ecSl5lw-yMZlDRwULu8lOuxmSjFWmTApSDc6LJU
 id: paragraph.profile_selected_works.default
@@ -19,13 +24,29 @@ targetEntityType: paragraph
 bundle: profile_selected_works
 mode: default
 content:
-  field_pub_citation:
+  field_pub_author:
     type: string
-    label: above
+    label: hidden
     settings:
       link_to_entity: false
     third_party_settings: {  }
     weight: 4
+    region: content
+  field_pub_citation:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 7
+    region: content
+  field_pub_date_year:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 5
     region: content
   field_pub_file:
     type: file_default
@@ -34,6 +55,21 @@ content:
       use_description_as_link_text: true
     third_party_settings: {  }
     weight: 2
+    region: content
+  field_pub_format:
+    type: list_key
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 8
+    region: content
+  field_pub_name:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 6
     region: content
   field_pub_title:
     type: string
