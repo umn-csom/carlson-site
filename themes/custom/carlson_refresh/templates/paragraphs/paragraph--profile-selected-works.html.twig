@@ -3,31 +3,38 @@
         {% block content %}
 
             <div class="faculty-profile__selected-works--title">
+
+            {% set title_exists = content.field_pub_title|field_value is not empty %}
+            {% set url_exists = content.field_url_title|field_value is not empty %}
+            {% set author_exists = content.field_pub_author|field_value is not empty %}
+            {% set date_exists = content.field_pub_date_year|field_value is not empty %}
+            {% set name_exists = content.field_pub_name|field_value is not empty %}
+            {% set citation_exists = content.field_pub_citation|field_value is not empty %}
             {# author first #}
             {% if content.field_pub_format|render == 'author_first'%}
-                {% if content.field_pub_title|field_value is not empty %}
+                {% if title_exists %}
                     {{ content.field_pub_author }}
-                    {% if content.field_pub_url|field_value is not empty %}
+                    {% if url_exists %}
                         <a href="{{ content.field_pub_url[0]['#url']|render }}" target="_blank">{{ content.field_pub_title|field_value }}</a>
                     {% else %}
                         {{ content.field_pub_title }}
                     {% endif %}
 
-                    {% if content.field_pub_date_year|field_value is not empty %} ({{ content.field_pub_date_year }}). {% endif %}
-                    {% if content.field_pub_name|field_value is not empty %} {{ content.field_pub_name }}: {% endif %}
+                    {% if date_exists %} ({{ content.field_pub_date_year }}). {% endif %}
+                    {% if name_exists %} {{ content.field_pub_name }}{% if citation_exists %}:{% endif %} {% endif %}
                     {{ content.field_pub_citation }}
                 {% endif %}
             {# title first #}
             {% else %}
-                {% if content.field_pub_title|field_value is not empty %}
-                    {% if content.field_pub_url|field_value is not empty %}
-                        <a href="{{ content.field_pub_url[0]['#url']|render }}" target="_blank">{{ content.field_pub_title|field_value }}</a>, 
+                {% if title_exists %}
+                    {% if url_exists %}
+                        <a href="{{ content.field_pub_url[0]['#url']|render }}" target="_blank">{{ content.field_pub_title|field_value }}</a>{% if author_exists or date_exists or name_exists or citation_exists %},{% endif %} 
                     {% else %}
-                        {{ content.field_pub_title|field_value }}, 
+                        {{ content.field_pub_title|field_value }}{% if author_exists or date_exists or name_exists or citation_exists %},{% endif %} 
                     {% endif %}
-                    {% if content.field_pub_author|field_value is not empty %}{{ content.field_pub_author }}, {% endif %}
-                    {% if content.field_pub_date_year|field_value is not empty %} ({{ content.field_pub_date_year }}), {% endif %}
-                    {% if content.field_pub_name|field_value is not empty %} {{ content.field_pub_name }}: {% endif %}
+                    {% if author_exists %}{{ content.field_pub_author }}{% if date_exists or name_exists or citation_exists %},{% endif %} {% endif %}
+                    {% if date_exists %} ({{ content.field_pub_date_year }}){% if name_exists or citation_exists %},{% endif %} {% endif %}
+                    {% if name_exists %} {{ content.field_pub_name }}{% if citation_exists %}:{% endif %} {% endif %}
                     {{ content.field_pub_citation }}
                 {% endif %}
             {% endif %}
