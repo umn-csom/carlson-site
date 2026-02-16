@@ -10910,10 +10910,24 @@ header #search-block-form {
         font-weight: 600; }
 
 .skip-link {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0; }
+
+.skip-link:focus {
+  position: absolute;
+  clip: unset;
+  width: auto;
+  height: auto;
   left: 50%;
   transform: translateX(-50%);
   z-index: 50;
-  background: #495057;
   background: rgba(0, 0, 0, 0.6);
   color: #fff;
   font-size: 1.6rem;
@@ -10921,10 +10935,11 @@ header #search-block-form {
   padding: 1px 1rem 2px;
   border-radius: 0 0 0.3rem 0.3rem;
   border-bottom-width: 0;
-  outline: 0; }
+  outline: 0;
+  text-decoration: none; }
 
-.skip-link.visually-hidden.focusable:focus {
-  position: absolute !important; }
+.skip-link:hover {
+  background: #000; }
 
 .sr-only {
   position: absolute;

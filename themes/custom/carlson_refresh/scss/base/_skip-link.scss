@@ -1,10 +1,14 @@
 // Styles for the skip link.
 
 .skip-link {
+  @include sr-only;
+}
+
+.skip-link:focus {
+  @include sr-only-off;
   left: 50%;
   transform: translateX(-50%);
   z-index: 50;
-  background: $gray-700;
   background: rgba($black, 0.6);
   color: $white;
   font-size: $font-size-base;
@@ -13,8 +17,9 @@
   border-radius: 0 0 $border-radius-lg $border-radius-lg;
   border-bottom-width: 0;
   outline: 0;
+  text-decoration: none;
 }
 
-.skip-link.visually-hidden.focusable:focus {
-  position: absolute !important;
+.skip-link:hover {
+  background: $black;
 }

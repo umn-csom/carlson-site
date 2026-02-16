@@ -12,6 +12,8 @@ use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\user\Entity\Role;
+use Drupal\Core\Render\BubbleableMetadata;
+use Drupal\Component\Utility\Html;
 
 /**
  * Implements hook_system_breadcrumb_alter().
@@ -300,4 +302,55 @@ function carlson_general_blazy_form_element_alter(array &$form, array $definitio
     // Add the custom aspect ratio.
     $form['ratio']['#options']['4:1'] = '4:1';
   }
+}
+
+function carlson_general_token_info() {
+  $node['faq_pivoted_questions'] = [
+    'name' => t('FAQ Pivoted Questions'),
+    'description' => t('Pivots Question/Answer paragraphs into a serialized array for Metatag Schema.'),
+  ];
+  $node['faq_pivoted_answers'] = [
+    'name' => t('FAQ Pivoted Answers'),
+    'description' => t('Pivots Question/Answer paragraphs into a serialized array for Metatag Schema.'),
+  ];
+  return [
+    'types' => ['node' => $node],
+    'tokens' => ['node' => $node],
+  ];
+}
+
+/**
+ * Implements hook_tokens().
+ */
+function carlson_general_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
+  $replacements = [];
+
+  if ($type == 'node' && !empty($data['node'])) {
+    $node = $data['node'];
+
+    foreach ($tokens as $name => $original) {
+      $items = [];
+      if ($node->hasField('field_questions')) {
+        foreach ($node->get('field_questions')->referencedEntities() as $p) {
+          $q = $p->hasField('field_question') ? $p->get('field_question')->value : '';
+          $a = $p->hasField('field_answer') ? $p->get('field_answer')->value : '';
+          if (!empty($q) && !empty($a)) {
+            $items[] = ['q' => $q, 'a' => $a];
+          }
+          $bubbleable_metadata->addCacheableDependency($p);
+        }
+      }
+
+      if ($name == 'faq_pivoted_questions') {
+        $questions = array_map(fn($i) => Html::decodeEntities(strip_tags($i['q'])), $items);
+        $replacements[$original] = !empty($questions) ? implode(',', $questions): '';
+      }
+
+      if ($name == 'faq_pivoted_answers') {
+        $answers = array_map(fn($i) => Html::decodeEntities(strip_tags($i['a'])), $items);
+        $replacements[$original] = !empty($answers) ? implode(',',$answers) : '';
+      }
+    }
+  }
+  return $replacements;
 }
