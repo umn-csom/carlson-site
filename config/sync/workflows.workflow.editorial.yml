@@ -5,12 +5,14 @@ dependencies:
   config:
     - node.type.alumni_default_page
     - node.type.alumni_landing_page
+    - node.type.conference
     - node.type.curriculum_plan
-    - node.type.faq
+    - node.type.event
     - node.type.landing_page
     - node.type.magazine
     - node.type.news
     - node.type.page
+    - node.type.faq
   module:
     - content_moderation
 _core:
@@ -49,6 +51,7 @@ type_settings:
     archive:
       label: Archive
       from:
+        - draft
         - published
       to: archived
       weight: 1
@@ -93,8 +96,9 @@ type_settings:
     node:
       - alumni_default_page
       - alumni_landing_page
+      - conference
       - curriculum_plan
-      - faq
+      - event
       - landing_page
       - magazine
       - news
