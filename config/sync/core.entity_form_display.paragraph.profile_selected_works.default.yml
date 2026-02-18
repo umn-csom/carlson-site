@@ -3,12 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.field.paragraph.profile_selected_works.field_pub_author
-    - field.field.paragraph.profile_selected_works.field_pub_citation
-    - field.field.paragraph.profile_selected_works.field_pub_date_year
     - field.field.paragraph.profile_selected_works.field_pub_file
-    - field.field.paragraph.profile_selected_works.field_pub_format
-    - field.field.paragraph.profile_selected_works.field_pub_name
     - field.field.paragraph.profile_selected_works.field_pub_title
     - field.field.paragraph.profile_selected_works.field_pub_type
     - field.field.paragraph.profile_selected_works.field_pub_url
@@ -22,22 +17,20 @@ third_party_settings:
     group_selected_work:
       children:
         - field_pub_title
-        - field_pub_author
-        - field_pub_date_year
-        - field_pub_name
-        - field_pub_citation
+        - field_pub_type
         - field_pub_url
         - field_pub_file
-      label: 'Selected Work'
-      region: content
       parent_name: ''
-      weight: 0
+      weight: 1
       format_type: details
       format_settings:
-        classes: ''
-        id: ''
+        label: 'Selected Work'
         open: true
         required_fields: true
+        id: ''
+        classes: ''
+      label: 'Selected Work'
+      region: content
 _core:
   default_config_hash: T57b4gMPFR4dsIO3sCWpKwS19QzbyLsF2beiRR43jAM
 id: paragraph.profile_selected_works.default
@@ -45,75 +38,45 @@ targetEntityType: paragraph
 bundle: profile_selected_works
 mode: default
 content:
-  field_pub_author:
-    type: string_textfield
-    weight: 3
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_pub_citation:
-    type: string_textfield
-    weight: 6
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_pub_date_year:
-    type: string_textfield
-    weight: 4
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_pub_file:
-    type: file_generic
-    weight: 9
-    region: content
+    weight: 5
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
-  field_pub_format:
-    type: options_select
-    weight: 10
+    type: file_generic
     region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_pub_name:
-    type: string_textfield
-    weight: 5
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_pub_title:
-    type: string_textfield
     weight: 2
-    region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_pub_url:
-    type: link_default
-    weight: 8
+    type: string_textfield
     region: content
+  field_pub_type:
+    weight: 3
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_pub_url:
+    weight: 4
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
+    type: link_default
+    region: content
   moderation_state:
     type: moderation_state_default
     weight: 0
-    region: content
     settings: {  }
+    region: content
     third_party_settings: {  }
 hidden:
   created: true
-  field_pub_type: true
   status: true
   uid: true

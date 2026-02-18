@@ -11,6 +11,7 @@ dependencies:
     - taxonomy.vocabulary.department_codes
     - taxonomy.vocabulary.faculty_status
   content:
+    - 'taxonomy_term:faculty_status:243911dd-2f78-49dd-81ad-bcc8a097a841'
     - 'taxonomy_term:faculty_status:4ab4ef26-a969-481e-86b4-968740d13baa'
     - 'taxonomy_term:faculty_status:4dd8d029-18f8-4b1e-a2e5-fb896c5829ca'
     - 'taxonomy_term:faculty_status:6a2f868a-1d9d-4b38-85c1-e0ea6161fe69'
@@ -453,6 +454,16 @@ display:
     display_plugin: block
     position: 1
     display_options:
+      exposed_form:
+        type: basic
+        options:
+          submit_button: Apply
+          reset_button: false
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          expose_sort_order: true
+          sort_asc_label: Asc
+          sort_desc_label: Desc
       filters:
         status:
           id: status
@@ -521,51 +532,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_profile_programs_target_id:
-          id: field_profile_programs_target_id
-          table: node__field_profile_programs
-          field: field_profile_programs_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: taxonomy_index_tid
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_profile_programs_target_id_op
-            label: 'Degree Program'
-            description: ''
-            use_operator: false
-            operator: field_profile_programs_target_id_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_profile_programs_target_id
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          vid: degree_program_codes
-          type: select
-          hierarchy: true
-          limit: true
-          error_message: true
         field_profile_admin_dept_target_id:
           id: field_profile_admin_dept_target_id
           table: node__field_profile_admin_dept
@@ -611,11 +577,103 @@ display:
           hierarchy: true
           limit: true
           error_message: true
+        field_profile_status_target_id:
+          id: field_profile_status_target_id
+          table: node__field_profile_status
+          field: field_profile_status_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_profile_status_target_id_op
+            label: 'Faculty Status'
+            description: ''
+            use_operator: false
+            operator: field_profile_status_target_id_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_status
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: faculty_status
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
+        field_profile_status_target_id_1:
+          id: field_profile_status_target_id_1
+          table: node__field_profile_status
+          field: field_profile_status_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: taxonomy_index_tid
+          operator: not
+          value:
+            3626: 3626
+          group: 1
+          exposed: false
+          expose:
+            operator_id: ''
+            label: ''
+            description: ''
+            use_operator: false
+            operator: ''
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: ''
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+          vid: faculty_status
+          type: select
+          hierarchy: false
+          limit: true
+          error_message: true
       filter_groups:
         operator: AND
         groups:
           1: AND
       defaults:
+        exposed_form: false
         filters: false
         filter_groups: false
       display_description: 'A filterable faculty directory'
@@ -710,51 +768,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_profile_programs_target_id:
-          id: field_profile_programs_target_id
-          table: node__field_profile_programs
-          field: field_profile_programs_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: taxonomy_index_tid
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_profile_programs_target_id_op
-            label: 'Degree Program'
-            description: ''
-            use_operator: false
-            operator: field_profile_programs_target_id_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_profile_programs_target_id
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          vid: degree_program_codes
-          type: select
-          hierarchy: true
-          limit: true
-          error_message: true
         field_profile_admin_dept_target_id:
           id: field_profile_admin_dept_target_id
           table: node__field_profile_admin_dept
@@ -846,98 +859,6 @@ display:
           hierarchy: false
           limit: true
           error_message: true
-        nid:
-          id: nid
-          table: node_field_data
-          field: nid
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          entity_field: nid
-          plugin_id: numeric
-          operator: '!='
-          value:
-            min: ''
-            max: ''
-            value: '99906'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-        nid_1:
-          id: nid_1
-          table: node_field_data
-          field: nid
-          relationship: none
-          group_type: group
-          admin_label: ''
-          entity_type: node
-          entity_field: nid
-          plugin_id: numeric
-          operator: '!='
-          value:
-            min: ''
-            max: ''
-            value: '99921'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            min_placeholder: ''
-            max_placeholder: ''
-            placeholder: ''
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -1034,51 +955,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_profile_programs_target_id:
-          id: field_profile_programs_target_id
-          table: node__field_profile_programs
-          field: field_profile_programs_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: taxonomy_index_tid
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_profile_programs_target_id_op
-            label: 'Degree Program'
-            description: ''
-            use_operator: false
-            operator: field_profile_programs_target_id_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_profile_programs_target_id
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          vid: degree_program_codes
-          type: select
-          hierarchy: true
-          limit: true
-          error_message: true
         field_profile_admin_dept_target_id:
           id: field_profile_admin_dept_target_id
           table: node__field_profile_admin_dept
@@ -1266,51 +1142,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_profile_programs_target_id:
-          id: field_profile_programs_target_id
-          table: node__field_profile_programs
-          field: field_profile_programs_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: taxonomy_index_tid
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_profile_programs_target_id_op
-            label: 'Degree Program'
-            description: ''
-            use_operator: false
-            operator: field_profile_programs_target_id_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_profile_programs_target_id
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          vid: degree_program_codes
-          type: select
-          hierarchy: true
-          limit: true
-          error_message: true
         field_profile_admin_dept_target_id:
           id: field_profile_admin_dept_target_id
           table: node__field_profile_admin_dept
@@ -1498,51 +1329,6 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-        field_profile_programs_target_id:
-          id: field_profile_programs_target_id
-          table: node__field_profile_programs
-          field: field_profile_programs_target_id
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: taxonomy_index_tid
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_profile_programs_target_id_op
-            label: 'Degree Program'
-            description: ''
-            use_operator: false
-            operator: field_profile_programs_target_id_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_profile_programs_target_id
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-          vid: degree_program_codes
-          type: select
-          hierarchy: true
-          limit: true
-          error_message: true
         field_profile_admin_dept_target_id:
           id: field_profile_admin_dept_target_id
           table: node__field_profile_admin_dept
