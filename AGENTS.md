@@ -35,8 +35,8 @@ This project is part of a larger multisite instance hosted on Acquia. The DDEV p
 | Drush Alias         | URL                       | Description             | Pinned branch      | Upstream branch ([composer upstream][]) |
 |---------------------|---------------------------|-------------------------|--------------------|-----------------------------------------|
 | @carlsonschool.ddev | carlsonschool.ddev.site   | Local development       | `dev` or *feature* | `11.x-prod` or `11.x-dev`               |
-| (no drush access)   | dev.carlsonschool.umn.edu | Development environment | `dev` or *feature* | `11.x-dev`                              |
-| (no drush access)   | stg.carlsonschool.umn.edu | Staging environment     | `master`           | `11.x-build`                            |
+| (no drush access)   | carlsonschool.dev.umn.edu | Development environment | `dev` or *feature* | `11.x-dev`                              |
+| (no drush access)   | carlsonschool.stg.umn.edu | Staging environment     | `master`           | `11.x-build`                            |
 | (no drush access)   | carlsonschool.umn.edu     | Production environment  | `master`           | `11.x-prod`                             |
 
 **Remote Environment Constraints**: See [ADR-0002](docs/adr/0002-remote-environment-management.md) for complete details on remote environment management, deployment workflows, and constraints. Key points: no CLI access to remote environments, config sync via admin UI only, all database changes via `hook_update_N` functions.
