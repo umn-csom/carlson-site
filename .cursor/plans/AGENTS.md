@@ -1,6 +1,4 @@
----
-alwaysApply: true
----
+# Cursor Plans
 
 Please find and save cross-agent planning docs into the `docs/plan/` folder.
 
