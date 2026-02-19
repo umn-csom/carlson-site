@@ -1,0 +1,405 @@
+<?php
+
+/**
+ * @file
+ * Campaign functionality for modal campaigns and unbounce behavior.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\Core\Cache\Cache;
+use Drupal\node\Entity\Node;
+
+/**
+ * Implements hook_theme().
+ */
+function carlson_campaign_theme(
+  $existing,
+  $type,
+  $theme,
+  $path,
+): array {
+  return [
+    'csm_modal_campaign' => [
+      'variables' => [
+        'eyebrow' => '',
+        'title' => '',
+        'body' => NULL,
+        'cta_url' => '',
+        'cta_text' => '',
+        'decline_text' => '',
+        'show_decline' => TRUE,
+      ],
+      'template' => 'csm-modal-campaign',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function carlson_campaign_page_attachments(array &$attachments): void {
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+
+  $attachments['#attached']['library'][] =
+    'carlson_campaign/carlson-campaign.unbounce';
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function carlson_campaign_preprocess_block(array &$variables): void {
+  $block_content = $variables['content']['#block_content']
+    ?? $variables['elements']['content']['#block_content']
+    ?? NULL;
+  if (
+    $block_content &&
+    method_exists($block_content, 'bundle') &&
+    $block_content->bundle() === 'modal_campaign'
+  ) {
+    // Use placed block visibility rules, but render in page bottom.
+    $variables['attributes']['hidden'] = 'hidden';
+  }
+}
+
+/**
+ * Implements hook_page_bottom().
+ */
+function carlson_campaign_page_bottom(array &$page_bottom): void {
+  $route_match = \Drupal::routeMatch();
+  if ($route_match->getRouteName() === 'carlson_campaign.modal_campaign_demo') {
+    return;
+  }
+
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+
+  $build = _carlson_campaign_build_modal_campaign();
+  if ($build) {
+    $page_bottom['csm_modal_campaign'] = $build;
+  }
+}
+
+/**
+ * Pick a safe, existing text format.
+ */
+function _carlson_campaign_pick_text_format(?string $candidate): string {
+  static $available = NULL;
+
+  if ($available === NULL) {
+    try {
+      $available = array_keys(
+        \Drupal::entityTypeManager()
+          ->getStorage('filter_format')
+          ->loadMultiple(),
+      );
+    }
+    catch (\Throwable $t) {
+      $available = [];
+    }
+  }
+
+  $candidate = $candidate ?: 'full_html';
+  if (in_array($candidate, $available, TRUE)) {
+    return $candidate;
+  }
+  if (in_array('full_html', $available, TRUE)) {
+    return 'full_html';
+  }
+  if (in_array('basic', $available, TRUE)) {
+    return 'basic';
+  }
+  return 'plain_text';
+}
+
+/**
+ * Build the modal campaign render array from placed block visibility.
+ */
+function _carlson_campaign_build_modal_campaign(): ?array {
+  try {
+    $block_content_storage = \Drupal::entityTypeManager()
+      ->getStorage('block_content');
+    $modal_campaigns = $block_content_storage->loadByProperties([
+      'type' => 'modal_campaign',
+      'status' => 1,
+    ]);
+    if (empty($modal_campaigns)) {
+      return NULL;
+    }
+
+    $cache_contexts = ['user.roles', 'url.path'];
+    $cache_tags = [];
+    $cache_max_age = Cache::PERMANENT;
+
+    $block_storage = \Drupal::entityTypeManager()->getStorage('block');
+    $active_theme = \Drupal::theme()->getActiveTheme();
+    $theme = $active_theme->getName();
+    $region_order = array_flip(array_keys($active_theme->getRegions()));
+
+    $candidates = [];
+    foreach ($modal_campaigns as $campaign) {
+      if (
+        method_exists($campaign, 'isPublished') &&
+        !$campaign->isPublished()
+      ) {
+        continue;
+      }
+
+      $plugin_id = 'block_content:' . $campaign->uuid();
+      $blocks = $block_storage->loadByProperties([
+        'theme' => $theme,
+        'status' => TRUE,
+        'plugin' => $plugin_id,
+      ]);
+      if (empty($blocks)) {
+        continue;
+      }
+
+      $access_result = $campaign->access('view', \Drupal::currentUser(), TRUE);
+      $cache_contexts = Cache::mergeContexts(
+        $cache_contexts,
+        $access_result->getCacheContexts(),
+      );
+      $cache_tags = Cache::mergeTags(
+        $cache_tags,
+        $access_result->getCacheTags(),
+      );
+      $cache_max_age = Cache::mergeMaxAges(
+        $cache_max_age,
+        $access_result->getCacheMaxAge(),
+      );
+      if (!$access_result->isAllowed()) {
+        continue;
+      }
+
+      foreach ($blocks as $block) {
+        $candidates[] = [
+          'block' => $block,
+          'content' => $campaign,
+          'region_order' => $region_order[$block->getRegion()] ?? PHP_INT_MAX,
+          'weight' => (int) $block->getWeight(),
+        ];
+      }
+    }
+
+    if (empty($candidates)) {
+      return [
+        '#markup' => '',
+        '#cache' => [
+          'contexts' => $cache_contexts,
+          'tags' => $cache_tags,
+          'max-age' => $cache_max_age,
+        ],
+      ];
+    }
+
+    usort($candidates, static function (array $a, array $b): int {
+      if ($a['region_order'] === $b['region_order']) {
+        if ($a['weight'] === $b['weight']) {
+          return strcmp($a['block']->id(), $b['block']->id());
+        }
+        return $a['weight'] <=> $b['weight'];
+      }
+      return $a['region_order'] <=> $b['region_order'];
+    });
+
+    $selected_block = NULL;
+    $selected_content = NULL;
+    foreach ($candidates as $candidate) {
+      /** @var \Drupal\block\Entity\Block $candidate_block */
+      $candidate_block = $candidate['block'];
+      if (!_carlson_campaign_modal_campaign_block_visible($candidate_block)) {
+        continue;
+      }
+
+      $selected_block = $candidate_block;
+      $selected_content = $candidate['content'];
+
+      $cache_contexts = Cache::mergeContexts(
+        $cache_contexts,
+        $candidate_block->getCacheContexts(),
+      );
+      $cache_tags = Cache::mergeTags(
+        Cache::mergeTags($cache_tags, $selected_content->getCacheTags()),
+        $candidate_block->getCacheTags(),
+      );
+      break;
+    }
+
+    if (!$selected_block || !$selected_content) {
+      return [
+        '#markup' => '',
+        '#cache' => [
+          'contexts' => $cache_contexts,
+          'tags' => $cache_tags,
+          'max-age' => $cache_max_age,
+        ],
+      ];
+    }
+
+    $eyebrow = $selected_content->get('field_modal_eyebrow')->value ?? '';
+    $title = $selected_content->get('field_modal_title')->value ?? '';
+    if ($title === '') {
+      $title = 'Announcement';
+    }
+    $decline_text = $selected_content->get('field_modal_decline_text')->value
+      ?? 'Maybe Later';
+    $show_decline = (bool) (
+      $selected_content->get('field_modal_show_decline')->value ?? TRUE
+    );
+
+    $body = '';
+    if (
+      $selected_content->hasField('field_modal_body') &&
+      !$selected_content->get('field_modal_body')->isEmpty()
+    ) {
+      $body_field = $selected_content->get('field_modal_body');
+      $body = [
+        '#type' => 'processed_text',
+        '#text' => $body_field->value,
+        '#format' => _carlson_campaign_pick_text_format(
+          $body_field->format ?? 'full_html',
+        ),
+      ];
+    }
+
+    $cta_url = '';
+    $cta_text = '';
+    if (
+      $selected_content->hasField('field_modal_cta_url') &&
+      !$selected_content->get('field_modal_cta_url')->isEmpty()
+    ) {
+      $link = $selected_content->get('field_modal_cta_url')->first();
+      if ($link) {
+        $cta_url = $link->getUrl()->toString();
+        $cta_text = $link->title ?: 'Learn more';
+      }
+    }
+
+    $dismiss_days = 7;
+    if (
+      $selected_content->hasField('field_modal_dismiss_days') &&
+      !$selected_content->get('field_modal_dismiss_days')->isEmpty()
+    ) {
+      $candidate_days = (int) $selected_content
+        ->get('field_modal_dismiss_days')->value;
+      if ($candidate_days > 0) {
+        $dismiss_days = $candidate_days;
+      }
+    }
+
+    $session_key = $selected_content->get('field_modal_session_key')->value
+      ?? 'modal_campaign';
+
+    return [
+      '#theme' => 'csm_modal_campaign',
+      '#eyebrow' => $eyebrow,
+      '#title' => $title,
+      '#body' => $body,
+      '#cta_url' => $cta_url,
+      '#cta_text' => $cta_text,
+      '#decline_text' => $decline_text,
+      '#show_decline' => $show_decline,
+      '#attached' => [
+        'library' => [
+          'carlson_campaign/carlson-campaign.modal-campaign',
+        ],
+        'drupalSettings' => [
+          'csmModalCampaign' => [
+            'sessionKey' => $session_key,
+            'dismissDays' => $dismiss_days,
+          ],
+        ],
+      ],
+      '#cache' => [
+        'contexts' => $cache_contexts,
+        'tags' => $cache_tags,
+        'max-age' => $cache_max_age,
+      ],
+    ];
+  }
+  catch (\Throwable $t) {
+    return NULL;
+  }
+}
+
+/**
+ * Evaluate block visibility rules for a modal campaign placement.
+ */
+function _carlson_campaign_modal_campaign_block_visible(Block $block): bool {
+  $visibility = $block->getVisibility();
+  $route_match = \Drupal::routeMatch();
+
+  $bundle_configured = isset($visibility['entity_bundle:node']);
+  $path_configured = isset($visibility['request_path']);
+
+  $bundle_match = FALSE;
+  if ($bundle_configured) {
+    $bundles = $visibility['entity_bundle:node']['bundles'] ?? [];
+    $node = $route_match->getParameter('node');
+    if (!$node instanceof Node && is_scalar($node)) {
+      $node = Node::load($node);
+    }
+    $bundle_match = is_object($node) && in_array($node->bundle(), $bundles);
+    if (!empty($visibility['entity_bundle:node']['negate'])) {
+      $bundle_match = !$bundle_match;
+    }
+  }
+
+  $path_match = FALSE;
+  if ($path_configured) {
+    $path_matcher = \Drupal::service('path.matcher');
+    $current_path = \Drupal::service('path.current')->getPath();
+    $path_alias = \Drupal::service('path_alias.manager')
+      ->getAliasByPath($current_path);
+    $pages = $visibility['request_path']['pages'] ?? '';
+
+    $path_match = $path_matcher->matchPath($current_path, $pages) ||
+      $path_matcher->matchPath($path_alias, $pages);
+
+    if (!$path_match && strpos($pages, '<front>') !== FALSE) {
+      $is_front = in_array(
+        $route_match->getRouteName(),
+        ['<front>', 'view.frontpage.page_1'],
+        TRUE,
+      );
+      if (
+        !$is_front &&
+        $route_match->getRouteName() === 'entity.node.canonical'
+      ) {
+        $front_node = $route_match->getParameter('node');
+        if (!$front_node instanceof Node && is_scalar($front_node)) {
+          $front_node = Node::load($front_node);
+        }
+        $front_path = \Drupal::config('system.site')->get('page.front');
+        $is_front = is_object($front_node) &&
+          $front_path === '/node/' . $front_node->id();
+      }
+      $path_match = $is_front;
+    }
+
+    if (!empty($visibility['request_path']['negate'])) {
+      $path_match = !$path_match;
+    }
+  }
+
+  $group_ok = ($bundle_configured || $path_configured)
+    ? ($bundle_match || $path_match)
+    : TRUE;
+
+  $role_ok = TRUE;
+  if (isset($visibility['user_role'])) {
+    $current_user = \Drupal::currentUser();
+    $user_roles = $current_user->getRoles();
+    $allowed_roles = $visibility['user_role']['roles'] ?? [];
+    $role_match = !empty(array_intersect($user_roles, $allowed_roles));
+    if (!empty($visibility['user_role']['negate'])) {
+      $role_match = !$role_match;
+    }
+    $role_ok = $role_match;
+  }
+
+  return $group_ok && $role_ok;
+}
