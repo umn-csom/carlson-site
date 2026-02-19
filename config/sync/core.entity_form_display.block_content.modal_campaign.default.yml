@@ -1,0 +1,100 @@
+uuid: 76173ff1-9866-4619-bc4d-5a34dd0bf0fd
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.modal_campaign
+    - field.field.block_content.modal_campaign.field_modal_body
+    - field.field.block_content.modal_campaign.field_modal_cta_url
+    - field.field.block_content.modal_campaign.field_modal_decline_text
+    - field.field.block_content.modal_campaign.field_modal_dismiss_days
+    - field.field.block_content.modal_campaign.field_modal_eyebrow
+    - field.field.block_content.modal_campaign.field_modal_session_key
+    - field.field.block_content.modal_campaign.field_modal_show_decline
+    - field.field.block_content.modal_campaign.field_modal_title
+  module:
+    - link
+    - text
+id: block_content.modal_campaign.default
+targetEntityType: block_content
+bundle: modal_campaign
+mode: default
+content:
+  field_modal_body:
+    type: text_textarea
+    weight: 22
+    region: content
+    settings:
+      rows: 10
+      placeholder: 'Main message content...'
+    third_party_settings: {  }
+  field_modal_cta_url:
+    type: link_default
+    weight: 50
+    region: content
+    settings:
+      placeholder_url: 'https://example.org/'
+      placeholder_title: 'Learn more'
+    third_party_settings: {  }
+  field_modal_decline_text:
+    type: string_textfield
+    weight: 52
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., Maybe Later'
+    third_party_settings: {  }
+  field_modal_dismiss_days:
+    type: number
+    weight: 72
+    region: content
+    settings:
+      placeholder: '7'
+    third_party_settings: {  }
+  field_modal_eyebrow:
+    type: string_textfield
+    weight: 20
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., Support Our Mission'
+    third_party_settings: {  }
+  field_modal_session_key:
+    type: string_textfield
+    weight: 71
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., fall_2025_campaign'
+    third_party_settings: {  }
+  field_modal_show_decline:
+    type: boolean_checkbox
+    weight: 51
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_modal_title:
+    type: string_textfield
+    weight: 21
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Optional main heading'
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., Fall 2025 Campaign'
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+hidden: {  }
