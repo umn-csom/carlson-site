@@ -102,14 +102,6 @@
           const config = getConfig();
           const storageKey = config.sessionKey;
 
-          window.carlsonCampaignModal = window.carlsonCampaignModal || {};
-          window.carlsonCampaignModal.clearState = function () {
-            try {
-              localStorage.removeItem(storageKey);
-            }
-            catch (ignored) {}
-          };
-
           const state = getModalState(storageKey, config.dismissDays);
           if (!state.shouldShow) {
             return;
