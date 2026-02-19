@@ -67,11 +67,6 @@ function carlson_campaign_preprocess_block(array &$variables): void {
  * Implements hook_page_bottom().
  */
 function carlson_campaign_page_bottom(array &$page_bottom): void {
-  $route_match = \Drupal::routeMatch();
-  if ($route_match->getRouteName() === 'carlson_campaign.modal_campaign_demo') {
-    return;
-  }
-
   if (\Drupal::service('router.admin_context')->isAdminRoute()) {
     return;
   }
