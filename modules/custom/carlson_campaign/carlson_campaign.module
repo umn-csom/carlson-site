@@ -21,6 +21,8 @@ function carlson_campaign_theme(
   return [
     'csm_modal_campaign' => [
       'variables' => [
+        'campaign_id' => '',
+        'modal_id' => '',
         'eyebrow' => '',
         'title' => '',
         'body' => NULL,
@@ -234,6 +236,9 @@ function _carlson_campaign_build_modal_campaign(): ?array {
       ];
     }
 
+    $campaign_id = $selected_content->uuid();
+    $modal_id = 'campaign-modal-' . $campaign_id;
+
     $eyebrow = $selected_content->get('field_modal_eyebrow')->value ?? '';
     $title = $selected_content->get('field_modal_title')->value ?? '';
     if ($title === '') {
@@ -247,10 +252,10 @@ function _carlson_campaign_build_modal_campaign(): ?array {
 
     $body = '';
     if (
-      $selected_content->hasField('field_modal_body') &&
-      !$selected_content->get('field_modal_body')->isEmpty()
+      $selected_content->hasField('field_campaign_text') &&
+      !$selected_content->get('field_campaign_text')->isEmpty()
     ) {
-      $body_field = $selected_content->get('field_modal_body');
+      $body_field = $selected_content->get('field_campaign_text');
       $body = [
         '#type' => 'processed_text',
         '#text' => $body_field->value,
@@ -275,21 +280,27 @@ function _carlson_campaign_build_modal_campaign(): ?array {
 
     $dismiss_days = 7;
     if (
-      $selected_content->hasField('field_modal_dismiss_days') &&
-      !$selected_content->get('field_modal_dismiss_days')->isEmpty()
+      $selected_content->hasField('field_campaign_dismiss_days') &&
+      !$selected_content->get('field_campaign_dismiss_days')->isEmpty()
     ) {
       $candidate_days = (int) $selected_content
-        ->get('field_modal_dismiss_days')->value;
+        ->get('field_campaign_dismiss_days')->value;
       if ($candidate_days > 0) {
         $dismiss_days = $candidate_days;
       }
     }
 
-    $session_key = $selected_content->get('field_modal_session_key')->value
-      ?? 'modal_campaign';
+    $session_key = $selected_content->hasField('field_campaign_session_key')
+      ? ($selected_content->get('field_campaign_session_key')->value ?? '')
+      : '';
+    if ($session_key === '') {
+      $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
+    }
 
     return [
       '#theme' => 'csm_modal_campaign',
+      '#campaign_id' => $campaign_id,
+      '#modal_id' => $modal_id,
       '#eyebrow' => $eyebrow,
       '#title' => $title,
       '#body' => $body,
@@ -303,6 +314,8 @@ function _carlson_campaign_build_modal_campaign(): ?array {
         ],
         'drupalSettings' => [
           'csmModalCampaign' => [
+            'campaignId' => $campaign_id,
+            'modalId' => $modal_id,
             'sessionKey' => $session_key,
             'dismissDays' => $dismiss_days,
           ],
