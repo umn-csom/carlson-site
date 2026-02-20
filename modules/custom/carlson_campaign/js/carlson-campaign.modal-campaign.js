@@ -91,6 +91,8 @@
       return '';
     }
 
+    // ESC/backdrop dismissals target the dialog container, not a tap control.
+    // Only report text for actionable elements to keep analytics payload clean.
     if (
       !(target instanceof HTMLButtonElement) &&
       !(target instanceof HTMLAnchorElement)
