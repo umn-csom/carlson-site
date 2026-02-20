@@ -90,6 +90,14 @@
     if (!target || typeof target.textContent !== 'string') {
       return '';
     }
+
+    if (
+      !(target instanceof HTMLButtonElement) &&
+      !(target instanceof HTMLAnchorElement)
+    ) {
+      return '';
+    }
+
     return target.textContent.trim();
   }
 
