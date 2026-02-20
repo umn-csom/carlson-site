@@ -11,13 +11,6 @@
   const DEFAULT_DISMISS_DAYS = 7;
   const OPEN_DELAY_MS = 1000;
 
-  function escapeSelectorId(id) {
-    if (window.CSS && typeof window.CSS.escape === 'function') {
-      return window.CSS.escape(id);
-    }
-    return id.replace(/[^a-zA-Z0-9_-]/g, '\\$&');
-  }
-
   function getConfig() {
     const settings = drupalSettings.csmModalCampaign || {};
     const dismissDays = parseInt(settings.dismissDays, 10);
@@ -131,7 +124,7 @@
       const config = getConfig();
       const selector =
         config.modalId !== '' ?
-          '#' + escapeSelectorId(config.modalId) :
+          '#' + config.modalId :
           '.campaign-modal';
 
       once('csm-modal-campaign', selector, context).forEach((modalElement) => {
