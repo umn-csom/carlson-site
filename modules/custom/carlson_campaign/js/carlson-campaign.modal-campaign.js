@@ -2,22 +2,29 @@
  * @file
  * Modal campaign behavior.
  *
- * This powers the Drupal-managed "modal_campaign" block type. It decides when
- * to show the modal and persists user decisions in localStorage so we avoid
- * repeatedly interrupting users on every page load.
+ * Uses native <dialog> behavior and persists user actions in localStorage.
  */
 
-(function ($, Drupal, drupalSettings, once) {
+(function (Drupal, drupalSettings, once) {
   'use strict';
 
   const DEFAULT_DISMISS_DAYS = 7;
+  const OPEN_DELAY_MS = 1000;
+
+  function escapeSelectorId(id) {
+    if (window.CSS && typeof window.CSS.escape === 'function') {
+      return window.CSS.escape(id);
+    }
+    return id.replace(/[^a-zA-Z0-9_-]/g, '\\$&');
+  }
 
   function getConfig() {
-    // Values come from hook_page_bottom() via drupalSettings.
     const settings = drupalSettings.csmModalCampaign || {};
     const dismissDays = parseInt(settings.dismissDays, 10);
 
     return {
+      campaignId: settings.campaignId || '',
+      modalId: settings.modalId || '',
       sessionKey: settings.sessionKey || 'modal_campaign',
       dismissDays:
         Number.isFinite(dismissDays) && dismissDays > 0 ?
@@ -28,7 +35,6 @@
 
   function getModalState(storageKey, dismissDays) {
     try {
-      // No stored state means this user has never seen or acted on this modal.
       const stored = localStorage.getItem(storageKey);
       if (!stored) {
         return { shouldShow: true };
@@ -39,8 +45,8 @@
         case 'acknowledged':
           return { shouldShow: false, reason: 'acknowledged' };
 
-        case 'dismissed': {
-          // "Dismissed" is a temporary snooze; after N days we show again.
+        case 'dismissed':
+        case 'declined': {
           const daysMs = dismissDays * 24 * 60 * 60 * 1000;
           const dismissedTime = data.timestamp || 0;
           const now = Date.now();
@@ -50,22 +56,11 @@
             return { shouldShow: true };
           }
 
-          const daysLeft = Math.ceil(
-            (daysMs - (now - dismissedTime)) / (24 * 60 * 60 * 1000),
-          );
-          return {
-            shouldShow: false,
-            reason: 'dismissed',
-            daysLeft: daysLeft,
-          };
+          return { shouldShow: false, reason: data.action };
         }
 
         default:
-          try {
-            // Defensive cleanup for unknown/legacy payloads.
-            localStorage.removeItem(storageKey);
-          }
-          catch (ignored) {}
+          localStorage.removeItem(storageKey);
           return { shouldShow: true };
       }
     }
@@ -78,95 +73,157 @@
     }
   }
 
-  function setModalState(storageKey, action, callback) {
+  function setModalState(storageKey, action) {
     try {
-      // We only persist meaningful user intent, not passive impressions.
       if (action === 'viewed') {
-        if (callback) {
-          callback();
-        }
         return;
       }
-
       localStorage.setItem(
         storageKey,
         JSON.stringify({ action, timestamp: Date.now() }),
       );
-      if (callback) {
-        callback();
-      }
     }
-    catch (e) {
-      if (callback) {
-        callback();
-      }
+    catch (e) {}
+  }
+
+  function getTargetText(target) {
+    if (!target || typeof target.textContent !== 'string') {
+      return '';
     }
+    return target.textContent.trim();
+  }
+
+  function dispatchCampaignInteraction(
+    modalElement,
+    campaignId,
+    action,
+    nativeEvent,
+    target,
+  ) {
+    const detail = {
+      event: nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown',
+      target: target || modalElement,
+      text: getTargetText(target),
+      action,
+      campaignId,
+    };
+
+    modalElement.dispatchEvent(
+      new CustomEvent('campaign:interaction', {
+        bubbles: true,
+        detail,
+      }),
+    );
   }
 
   Drupal.behaviors.carlsonCampaignModalCampaign = {
     attach(context) {
-      once('csm-modal-campaign', '#csm-modal-campaign', context).forEach(
-        (modalElement) => {
-          const $modal = $(modalElement);
-          const config = getConfig();
-          const storageKey = config.sessionKey;
+      const config = getConfig();
+      const selector =
+        config.modalId !== '' ?
+          '#' + escapeSelectorId(config.modalId) :
+          '.campaign-modal';
 
-          const state = getModalState(storageKey, config.dismissDays);
-          if (!state.shouldShow) {
-            // Respect prior acknowledge/snooze decision.
-            return;
-          }
+      once('csm-modal-campaign', selector, context).forEach((modalElement) => {
+        if (!(modalElement instanceof HTMLDialogElement)) {
+          return;
+        }
+        if (typeof modalElement.showModal !== 'function') {
+          return;
+        }
 
-          // The theme provides Bootstrap modal() API; bail safely if missing.
-          if (!$.fn || typeof $.fn.modal !== 'function') {
-            return;
-          }
+        const campaignId =
+          modalElement.dataset.campaignId || config.campaignId || '';
+        const storageKey = config.sessionKey || 'campaign_modal';
+        const state = getModalState(storageKey, config.dismissDays);
 
-          let actionTaken = false;
+        if (!state.shouldShow) {
+          return;
+        }
 
-          $modal.off('.csm-modal-campaign').on(
-            'hidden.bs.modal.csm-modal-campaign',
-            function () {
-              // If no explicit action happened, treat close as a dismiss/snooze.
-              if (!actionTaken) {
-                setModalState(storageKey, 'dismissed');
-              }
-              actionTaken = false;
-            },
+        let explicitAction = null;
+
+        const closeWithAction = (action, nativeEvent, target) => {
+          explicitAction = action;
+          setModalState(storageKey, action);
+          dispatchCampaignInteraction(
+            modalElement,
+            campaignId,
+            action,
+            nativeEvent,
+            target,
           );
+          if (modalElement.open) {
+            modalElement.close(action);
+          }
+        };
 
-          $modal.find('.js-csm-modal-campaign-decline')
-            .off('click.csm-modal-campaign')
-            .on('click.csm-modal-campaign', function () {
-              // "Maybe later" keeps the campaign eligible after dismissDays.
-              actionTaken = true;
-              setModalState(storageKey, 'dismissed');
+        modalElement.addEventListener('cancel', (event) => {
+          event.preventDefault();
+          closeWithAction('dismissed', event, modalElement);
+        });
+
+        modalElement.addEventListener('click', (event) => {
+          if (event.target === modalElement) {
+            closeWithAction('dismissed', event, modalElement);
+          }
+        });
+
+        modalElement.querySelectorAll('.campaign-banner-close').forEach(
+          (closeButton) => {
+            closeButton.addEventListener('click', (event) => {
+              event.preventDefault();
+              closeWithAction('dismissed', event, event.currentTarget);
             });
+          },
+        );
 
-          $modal.find('.js-csm-modal-campaign-cta')
-            .off('click.csm-modal-campaign')
-            .on('click.csm-modal-campaign', function (e) {
-              e.preventDefault();
-              actionTaken = true;
+        modalElement.querySelectorAll('.campaign-modal-decline').forEach(
+          (declineButton) => {
+            declineButton.addEventListener('click', (event) => {
+              event.preventDefault();
+              closeWithAction('declined', event, event.currentTarget);
+            });
+          },
+        );
 
-              const href = $(this).attr('href');
-              if (href) {
-                // Campaign CTA intentionally opens in a new tab.
-                window.open(href, '_blank', 'noopener');
+        modalElement.querySelectorAll('.campaign-banner-acknowledge').forEach(
+          (acknowledgeTarget) => {
+            acknowledgeTarget.addEventListener('click', (event) => {
+              event.preventDefault();
+
+              if (
+                acknowledgeTarget instanceof HTMLAnchorElement &&
+                acknowledgeTarget.href
+              ) {
+                window.open(acknowledgeTarget.href, '_blank', 'noopener');
               }
 
-              // CTA click is a strong signal: don't show this campaign again.
-              setModalState(storageKey, 'acknowledged', function () {
-                $modal.modal('hide');
-              });
+              closeWithAction('acknowledged', event, event.currentTarget);
             });
+          },
+        );
 
-          // Small delay prevents immediate visual jump on initial page paint.
-          setTimeout(function () {
-            $modal.modal('show');
-          }, 1000);
-        },
-      );
+        modalElement.addEventListener('close', (event) => {
+          if (explicitAction === null) {
+            setModalState(storageKey, 'dismissed');
+            dispatchCampaignInteraction(
+              modalElement,
+              campaignId,
+              'dismissed',
+              event,
+              modalElement,
+            );
+          }
+          explicitAction = null;
+        });
+
+        setTimeout(() => {
+          if (!modalElement.open) {
+            modalElement.showModal();
+          }
+        }, OPEN_DELAY_MS);
+      });
     },
   };
-})(jQuery, Drupal, drupalSettings, once);
+})(Drupal, drupalSettings, once);
