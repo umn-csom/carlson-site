@@ -151,7 +151,9 @@
           '#' + config.modalId :
           '.campaign-modal';
 
+      // Attach exactly once per dialog element for this Drupal behavior cycle.
       once('csm-modal-campaign', selector, context).forEach((modalElement) => {
+        // Guard for native dialog support and expected element type.
         if (!(modalElement instanceof HTMLDialogElement)) {
           return;
         }
@@ -159,17 +161,21 @@
           return;
         }
 
+        // Prefer DOM-provided campaign metadata, then settings fallback.
         const campaignId =
           modalElement.dataset.campaignId || config.campaignId || '';
         const storageKey = config.sessionKey || 'campaign_modal';
         const state = getModalState(storageKey, config.dismissDays);
 
+        // Respect previously stored acknowledge/dismiss/decline decisions.
         if (!state.shouldShow) {
           return;
         }
 
+        // Tracks whether close was triggered by an explicit user action.
         let explicitAction = null;
 
+        // Central action handler keeps persistence + tracking consistent.
         const closeWithAction = (action, nativeEvent, target) => {
           explicitAction = action;
           setModalState(storageKey, action);
@@ -185,11 +191,13 @@
           }
         };
 
+        // ESC key on <dialog> emits cancel; treat as dismissed.
         modalElement.addEventListener('cancel', (event) => {
           event.preventDefault();
           closeWithAction('dismissed', event, modalElement);
         });
 
+        // Click on dialog backdrop (outside panel) counts as dismissed.
         modalElement.addEventListener('click', (event) => {
           if (event.target === modalElement) {
             closeWithAction('dismissed', event, modalElement);
@@ -219,6 +227,7 @@
             acknowledgeTarget.addEventListener('click', (event) => {
               event.preventDefault();
 
+              // Keep legacy UX: acknowledge links open in new tab.
               if (
                 acknowledgeTarget instanceof HTMLAnchorElement &&
                 acknowledgeTarget.href
@@ -231,6 +240,7 @@
           },
         );
 
+        // Defensive fallback: any unclassified close is treated as dismissed.
         modalElement.addEventListener('close', (event) => {
           if (explicitAction === null) {
             setModalState(storageKey, 'dismissed');
@@ -245,6 +255,7 @@
           explicitAction = null;
         });
 
+        // Delay avoids showing the dialog during initial paint.
         setTimeout(() => {
           if (!modalElement.open) {
             modalElement.showModal();
