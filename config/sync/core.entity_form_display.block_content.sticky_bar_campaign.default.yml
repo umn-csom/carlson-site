@@ -1,0 +1,63 @@
+uuid: a40ca4e8-ff86-44fb-92d1-9651ae69515f
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.sticky_bar_campaign
+    - field.field.block_content.sticky_bar_campaign.field_campaign_delay_seconds
+    - field.field.block_content.sticky_bar_campaign.field_campaign_dismiss_days
+    - field.field.block_content.sticky_bar_campaign.field_campaign_session_key
+    - field.field.block_content.sticky_bar_campaign.field_campaign_text
+  module:
+    - text
+id: block_content.sticky_bar_campaign.default
+targetEntityType: block_content
+bundle: sticky_bar_campaign
+mode: default
+content:
+  field_campaign_delay_seconds:
+    type: number
+    weight: 21
+    region: content
+    settings:
+      placeholder: '5'
+    third_party_settings: {  }
+  field_campaign_dismiss_days:
+    type: number
+    weight: 23
+    region: content
+    settings:
+      placeholder: '1'
+    third_party_settings: {  }
+  field_campaign_session_key:
+    type: string_textfield
+    weight: 22
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., discount_2026_spring'
+    third_party_settings: {  }
+  field_campaign_text:
+    type: text_textarea
+    weight: 20
+    region: content
+    settings:
+      rows: 6
+      placeholder: 'Campaign message with optional links...'
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., Sticky discount campaign'
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+hidden: {  }
