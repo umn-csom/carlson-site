@@ -4,12 +4,12 @@ status: true
 dependencies:
   config:
     - block_content.type.modal_campaign
-    - field.field.block_content.modal_campaign.field_modal_body
+    - field.field.block_content.modal_campaign.field_campaign_dismiss_days
+    - field.field.block_content.modal_campaign.field_campaign_session_key
+    - field.field.block_content.modal_campaign.field_campaign_text
     - field.field.block_content.modal_campaign.field_modal_cta_url
     - field.field.block_content.modal_campaign.field_modal_decline_text
-    - field.field.block_content.modal_campaign.field_modal_dismiss_days
     - field.field.block_content.modal_campaign.field_modal_eyebrow
-    - field.field.block_content.modal_campaign.field_modal_session_key
     - field.field.block_content.modal_campaign.field_modal_show_decline
     - field.field.block_content.modal_campaign.field_modal_title
   module:
@@ -20,13 +20,28 @@ targetEntityType: block_content
 bundle: modal_campaign
 mode: default
 content:
-  field_modal_body:
+  field_campaign_dismiss_days:
+    type: number
+    weight: 72
+    region: content
+    settings:
+      placeholder: '7'
+    third_party_settings: {  }
+  field_campaign_session_key:
+    type: string_textfield
+    weight: 71
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., fall_2025_campaign'
+    third_party_settings: {  }
+  field_campaign_text:
     type: text_textarea
     weight: 22
     region: content
     settings:
       rows: 10
-      placeholder: 'Main message content...'
+      placeholder: 'Main campaign message content...'
     third_party_settings: {  }
   field_modal_cta_url:
     type: link_default
@@ -44,13 +59,6 @@ content:
       size: 60
       placeholder: 'e.g., Maybe Later'
     third_party_settings: {  }
-  field_modal_dismiss_days:
-    type: number
-    weight: 72
-    region: content
-    settings:
-      placeholder: '7'
-    third_party_settings: {  }
   field_modal_eyebrow:
     type: string_textfield
     weight: 20
@@ -58,14 +66,6 @@ content:
     settings:
       size: 60
       placeholder: 'e.g., Support Our Mission'
-    third_party_settings: {  }
-  field_modal_session_key:
-    type: string_textfield
-    weight: 71
-    region: content
-    settings:
-      size: 60
-      placeholder: 'e.g., fall_2025_campaign'
     third_party_settings: {  }
   field_modal_show_decline:
     type: boolean_checkbox
