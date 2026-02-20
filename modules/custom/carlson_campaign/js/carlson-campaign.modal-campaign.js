@@ -1,8 +1,14 @@
 /**
  * @file
- * Modal campaign behavior.
+ * Modal campaign runtime behavior for the Carlson Campaign module.
  *
- * Uses native <dialog> behavior and persists user actions in localStorage.
+ * Responsibilities in this file:
+ * - Read campaign runtime settings from drupalSettings.
+ * - Decide whether to show the modal based on stored user action state.
+ * - Handle all modal interactions (close/backdrop/ESC/acknowledge/decline).
+ * - Persist action state to localStorage for dismiss/acknowledge behavior.
+ * - Emit campaign interaction events for tracking integrations (for example
+ *   GTM listeners) with consistent action metadata.
  */
 
 (function (Drupal, drupalSettings, once) {
@@ -11,6 +17,9 @@
   const DEFAULT_DISMISS_DAYS = 7;
   const OPEN_DELAY_MS = 1000;
 
+  /**
+   * Normalizes runtime config values passed from Drupal.
+   */
   function getConfig() {
     const settings = drupalSettings.csmModalCampaign || {};
     const dismissDays = parseInt(settings.dismissDays, 10);
@@ -26,6 +35,9 @@
     };
   }
 
+  /**
+   * Reads localStorage and determines whether the modal should be shown.
+   */
   function getModalState(storageKey, dismissDays) {
     try {
       const stored = localStorage.getItem(storageKey);
@@ -66,6 +78,9 @@
     }
   }
 
+  /**
+   * Persists a user action so future page loads can respect that decision.
+   */
   function setModalState(storageKey, action) {
     try {
       if (action === 'viewed') {
@@ -79,6 +94,9 @@
     catch (e) {}
   }
 
+  /**
+   * Returns interaction text only for actionable controls.
+   */
   function getTargetText(target) {
     if (!target || typeof target.textContent !== 'string') {
       return '';
@@ -96,6 +114,9 @@
     return target.textContent.trim();
   }
 
+  /**
+   * Dispatches a synthetic interaction event with normalized tracking details.
+   */
   function dispatchCampaignInteraction(
     modalElement,
     campaignId,
@@ -119,6 +140,9 @@
     );
   }
 
+  /**
+   * Wires modal behavior to each campaign dialog once per page context.
+   */
   Drupal.behaviors.carlsonCampaignModalCampaign = {
     attach(context) {
       const config = getConfig();
