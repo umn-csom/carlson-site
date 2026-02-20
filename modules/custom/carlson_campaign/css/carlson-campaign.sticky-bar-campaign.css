@@ -1,0 +1,80 @@
+/**
+ * @file
+ * Sticky bar campaign styling.
+ */
+
+.campaign-sticky-bar {
+  background: #7a0019;
+  bottom: 0;
+  color: #fff;
+  left: 0;
+  position: fixed;
+  right: 0;
+  z-index: 1000;
+}
+
+.campaign-sticky-bar__inner {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 72rem;
+  padding: 0.75rem 1rem;
+}
+
+.campaign-sticky-bar-text {
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.campaign-sticky-bar-text a {
+  color: #ffcc33;
+  text-decoration: underline;
+}
+
+.campaign-sticky-bar-text a:hover,
+.campaign-sticky-bar-text a:focus {
+  color: #ffd766;
+}
+
+.campaign-sticky-bar-close {
+  align-items: center;
+  background: transparent;
+  border: 1px solid rgb(255 255 255 / 40%);
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 2.25rem;
+  justify-content: center;
+  padding: 0;
+  width: 2.25rem;
+}
+
+.campaign-sticky-bar-close:hover,
+.campaign-sticky-bar-close:focus {
+  background: rgb(255 255 255 / 12%);
+}
+
+.campaign-sticky-bar-close:focus-visible {
+  outline: 2px solid #ffcc33;
+  outline-offset: 2px;
+}
+
+.campaign-sticky-bar-close svg {
+  display: block;
+}
+
+@media (max-width: 48rem) {
+  .campaign-sticky-bar__inner {
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+
+  .campaign-sticky-bar-text {
+    font-size: 0.9375rem;
+  }
+}

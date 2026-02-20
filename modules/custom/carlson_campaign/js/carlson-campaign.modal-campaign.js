@@ -14,7 +14,7 @@
 (function (Drupal, drupalSettings, once) {
   'use strict';
 
-  const DEFAULT_DISMISS_DAYS = 7;
+  const DEFAULT_DISMISS_DAYS = 1;
   const OPEN_DELAY_MS = 1000;
 
   /**
@@ -29,7 +29,7 @@
       modalId: settings.modalId || '',
       sessionKey: settings.sessionKey || 'modal_campaign',
       dismissDays:
-        Number.isFinite(dismissDays) && dismissDays > 0 ?
+        Number.isFinite(dismissDays) && dismissDays >= 0 ?
           dismissDays :
           DEFAULT_DISMISS_DAYS,
     };
@@ -52,6 +52,10 @@
 
         case 'dismissed':
         case 'declined': {
+          if (dismissDays === 0) {
+            localStorage.removeItem(storageKey);
+            return { shouldShow: true };
+          }
           const daysMs = dismissDays * 24 * 60 * 60 * 1000;
           const dismissedTime = data.timestamp || 0;
           const now = Date.now();
