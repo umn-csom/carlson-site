@@ -2,11 +2,13 @@
 
 /**
  * @file
- * Campaign functionality for modal campaigns and unbounce behavior.
+ * Campaign functionality for campaign blocks and unbounce behavior.
  */
 
 use Drupal\block\Entity\Block;
+use Drupal\Component\Utility\Xss;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Render\Markup;
 use Drupal\node\Entity\Node;
 
 /**
@@ -33,6 +35,14 @@ function carlson_campaign_theme(
       ],
       'template' => 'csm-modal-campaign',
     ],
+    'csm_sticky_bar_campaign' => [
+      'variables' => [
+        'campaign_id' => '',
+        'sticky_id' => '',
+        'text' => '',
+      ],
+      'template' => 'csm-sticky-bar-campaign',
+    ],
   ];
 }
 
@@ -58,7 +68,10 @@ function carlson_campaign_preprocess_block(array &$variables): void {
   if (
     $block_content &&
     method_exists($block_content, 'bundle') &&
-    $block_content->bundle() === 'modal_campaign'
+    in_array($block_content->bundle(), [
+      'modal_campaign',
+      'sticky_bar_campaign',
+    ], TRUE)
   ) {
     // Use placed block visibility rules, but render in page bottom.
     $variables['attributes']['hidden'] = 'hidden';
@@ -76,6 +89,11 @@ function carlson_campaign_page_bottom(array &$page_bottom): void {
   $build = _carlson_campaign_build_modal_campaign();
   if ($build) {
     $page_bottom['csm_modal_campaign'] = $build;
+  }
+
+  $build = _carlson_campaign_build_sticky_bar_campaign();
+  if ($build) {
+    $page_bottom['csm_sticky_bar_campaign'] = $build;
   }
 }
 
@@ -113,23 +131,42 @@ function _carlson_campaign_pick_text_format(?string $candidate): string {
 }
 
 /**
- * Build the modal campaign render array from placed block visibility.
+ * Creates an empty render array preserving cache metadata.
  */
-function _carlson_campaign_build_modal_campaign(): ?array {
-  try {
-    $block_content_storage = \Drupal::entityTypeManager()
-      ->getStorage('block_content');
-    $modal_campaigns = $block_content_storage->loadByProperties([
-      'type' => 'modal_campaign',
-      'status' => 1,
-    ]);
-    if (empty($modal_campaigns)) {
-      return NULL;
-    }
+function _carlson_campaign_empty_campaign_build(array $selected): array {
+  return [
+    '#markup' => '',
+    '#cache' => [
+      'contexts' => $selected['cache_contexts'],
+      'tags' => $selected['cache_tags'],
+      'max-age' => $selected['cache_max_age'],
+    ],
+  ];
+}
 
+/**
+ * Select the first visible placed campaign block for a bundle.
+ */
+function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
+  try {
     $cache_contexts = ['user.roles', 'url.path'];
     $cache_tags = [];
     $cache_max_age = Cache::PERMANENT;
+
+    $block_content_storage = \Drupal::entityTypeManager()
+      ->getStorage('block_content');
+    $campaigns = $block_content_storage->loadByProperties([
+      'type' => $bundle,
+      'status' => 1,
+    ]);
+    if (empty($campaigns)) {
+      return [
+        'content' => NULL,
+        'cache_contexts' => $cache_contexts,
+        'cache_tags' => $cache_tags,
+        'cache_max_age' => $cache_max_age,
+      ];
+    }
 
     $block_storage = \Drupal::entityTypeManager()->getStorage('block');
     $active_theme = \Drupal::theme()->getActiveTheme();
@@ -137,11 +174,8 @@ function _carlson_campaign_build_modal_campaign(): ?array {
     $region_order = array_flip($active_theme->getRegions());
 
     $candidates = [];
-    foreach ($modal_campaigns as $campaign) {
-      if (
-        method_exists($campaign, 'isPublished') &&
-        !$campaign->isPublished()
-      ) {
+    foreach ($campaigns as $campaign) {
+      if (method_exists($campaign, 'isPublished') && !$campaign->isPublished()) {
         continue;
       }
 
@@ -184,12 +218,10 @@ function _carlson_campaign_build_modal_campaign(): ?array {
 
     if (empty($candidates)) {
       return [
-        '#markup' => '',
-        '#cache' => [
-          'contexts' => $cache_contexts,
-          'tags' => $cache_tags,
-          'max-age' => $cache_max_age,
-        ],
+        'content' => NULL,
+        'cache_contexts' => $cache_contexts,
+        'cache_tags' => $cache_tags,
+        'cache_max_age' => $cache_max_age,
       ];
     }
 
@@ -203,7 +235,6 @@ function _carlson_campaign_build_modal_campaign(): ?array {
       return $a['region_order'] <=> $b['region_order'];
     });
 
-    $selected_block = NULL;
     $selected_content = NULL;
     foreach ($candidates as $candidate) {
       /** @var \Drupal\block\Entity\Block $candidate_block */
@@ -212,9 +243,7 @@ function _carlson_campaign_build_modal_campaign(): ?array {
         continue;
       }
 
-      $selected_block = $candidate_block;
       $selected_content = $candidate['content'];
-
       $cache_contexts = Cache::mergeContexts(
         $cache_contexts,
         $candidate_block->getCacheContexts(),
@@ -226,112 +255,212 @@ function _carlson_campaign_build_modal_campaign(): ?array {
       break;
     }
 
-    if (!$selected_block || !$selected_content) {
-      return [
-        '#markup' => '',
-        '#cache' => [
-          'contexts' => $cache_contexts,
-          'tags' => $cache_tags,
-          'max-age' => $cache_max_age,
-        ],
-      ];
-    }
-
-    $campaign_id = $selected_content->uuid();
-    $modal_id = 'campaign-modal-' . $campaign_id;
-
-    $eyebrow = $selected_content->get('field_modal_eyebrow')->value ?? '';
-    $title = $selected_content->get('field_modal_title')->value ?? '';
-    if ($title === '') {
-      $title = 'Announcement';
-    }
-    $decline_text = $selected_content->get('field_modal_decline_text')->value
-      ?? 'Maybe Later';
-    $show_decline = (bool) (
-      $selected_content->get('field_modal_show_decline')->value ?? TRUE
-    );
-
-    $body = '';
-    if (
-      $selected_content->hasField('field_campaign_text') &&
-      !$selected_content->get('field_campaign_text')->isEmpty()
-    ) {
-      $body_field = $selected_content->get('field_campaign_text');
-      $body = [
-        '#type' => 'processed_text',
-        '#text' => $body_field->value,
-        '#format' => _carlson_campaign_pick_text_format(
-          $body_field->format ?? '',
-        ),
-      ];
-    }
-
-    $cta_url = '';
-    $cta_text = '';
-    if (
-      $selected_content->hasField('field_modal_cta_url') &&
-      !$selected_content->get('field_modal_cta_url')->isEmpty()
-    ) {
-      $link = $selected_content->get('field_modal_cta_url')->first();
-      if ($link) {
-        $cta_url = $link->getUrl()->toString();
-        $cta_text = $link->title ?: 'Learn more';
-      }
-    }
-
-    $dismiss_days = 7;
-    if (
-      $selected_content->hasField('field_campaign_dismiss_days') &&
-      !$selected_content->get('field_campaign_dismiss_days')->isEmpty()
-    ) {
-      $candidate_days = (int) $selected_content
-        ->get('field_campaign_dismiss_days')->value;
-      if ($candidate_days > 0) {
-        $dismiss_days = $candidate_days;
-      }
-    }
-
-    $session_key = $selected_content->hasField('field_campaign_session_key')
-      ? ($selected_content->get('field_campaign_session_key')->value ?? '')
-      : '';
-    if ($session_key === '') {
-      $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
-    }
-
     return [
-      '#theme' => 'csm_modal_campaign',
-      '#campaign_id' => $campaign_id,
-      '#modal_id' => $modal_id,
-      '#eyebrow' => $eyebrow,
-      '#title' => $title,
-      '#body' => $body,
-      '#cta_url' => $cta_url,
-      '#cta_text' => $cta_text,
-      '#decline_text' => $decline_text,
-      '#show_decline' => $show_decline,
-      '#attached' => [
-        'library' => [
-          'carlson_campaign/carlson-campaign.modal-campaign',
-        ],
-        'drupalSettings' => [
-          'csmModalCampaign' => [
-            'campaignId' => $campaign_id,
-            'modalId' => $modal_id,
-            'sessionKey' => $session_key,
-            'dismissDays' => $dismiss_days,
-          ],
-        ],
-      ],
-      '#cache' => [
-        'contexts' => $cache_contexts,
-        'tags' => $cache_tags,
-        'max-age' => $cache_max_age,
-      ],
+      'content' => $selected_content,
+      'cache_contexts' => $cache_contexts,
+      'cache_tags' => $cache_tags,
+      'cache_max_age' => $cache_max_age,
     ];
   }
   catch (\Throwable $t) {
     return NULL;
   }
+}
+
+/**
+ * Build the modal campaign render array from placed block visibility.
+ */
+function _carlson_campaign_build_modal_campaign(): ?array {
+  $selected = _carlson_campaign_get_selected_campaign('modal_campaign');
+  if ($selected === NULL) {
+    return NULL;
+  }
+
+  $selected_content = $selected['content'];
+  if (!$selected_content) {
+    return _carlson_campaign_empty_campaign_build($selected);
+  }
+
+  $campaign_id = $selected_content->uuid();
+  $modal_id = 'campaign-modal-' . $campaign_id;
+
+  $eyebrow = $selected_content->get('field_modal_eyebrow')->value ?? '';
+  $title = $selected_content->get('field_modal_title')->value ?? '';
+  if ($title === '') {
+    $title = 'Announcement';
+  }
+  $decline_text = $selected_content->get('field_modal_decline_text')->value
+    ?? 'Maybe Later';
+  $show_decline = (bool) (
+    $selected_content->get('field_modal_show_decline')->value ?? TRUE
+  );
+
+  $body = '';
+  if (
+    $selected_content->hasField('field_campaign_text') &&
+    !$selected_content->get('field_campaign_text')->isEmpty()
+  ) {
+    $body_field = $selected_content->get('field_campaign_text');
+    $body = [
+      '#type' => 'processed_text',
+      '#text' => $body_field->value,
+      '#format' => _carlson_campaign_pick_text_format(
+        $body_field->format ?? '',
+      ),
+    ];
+  }
+
+  $cta_url = '';
+  $cta_text = '';
+  if (
+    $selected_content->hasField('field_modal_cta_url') &&
+    !$selected_content->get('field_modal_cta_url')->isEmpty()
+  ) {
+    $link = $selected_content->get('field_modal_cta_url')->first();
+    if ($link) {
+      $cta_url = $link->getUrl()->toString();
+      $cta_text = $link->title ?: 'Learn more';
+    }
+  }
+
+  $dismiss_days = 1;
+  if (
+    $selected_content->hasField('field_campaign_dismiss_days') &&
+    !$selected_content->get('field_campaign_dismiss_days')->isEmpty()
+  ) {
+    $candidate_days = (int) $selected_content
+      ->get('field_campaign_dismiss_days')->value;
+    if ($candidate_days >= 0) {
+      $dismiss_days = $candidate_days;
+    }
+  }
+
+  $session_key = $selected_content->hasField('field_campaign_session_key')
+    ? ($selected_content->get('field_campaign_session_key')->value ?? '')
+    : '';
+  if ($session_key === '') {
+    $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
+  }
+
+  return [
+    '#theme' => 'csm_modal_campaign',
+    '#campaign_id' => $campaign_id,
+    '#modal_id' => $modal_id,
+    '#eyebrow' => $eyebrow,
+    '#title' => $title,
+    '#body' => $body,
+    '#cta_url' => $cta_url,
+    '#cta_text' => $cta_text,
+    '#decline_text' => $decline_text,
+    '#show_decline' => $show_decline,
+    '#attached' => [
+      'library' => [
+        'carlson_campaign/carlson-campaign.modal-campaign',
+      ],
+      'drupalSettings' => [
+        'csmModalCampaign' => [
+          'campaignId' => $campaign_id,
+          'modalId' => $modal_id,
+          'sessionKey' => $session_key,
+          'dismissDays' => $dismiss_days,
+        ],
+      ],
+    ],
+    '#cache' => [
+      'contexts' => $selected['cache_contexts'],
+      'tags' => $selected['cache_tags'],
+      'max-age' => $selected['cache_max_age'],
+    ],
+  ];
+}
+
+/**
+ * Build the sticky bar campaign render array from placed block visibility.
+ */
+function _carlson_campaign_build_sticky_bar_campaign(): ?array {
+  $selected = _carlson_campaign_get_selected_campaign('sticky_bar_campaign');
+  if ($selected === NULL) {
+    return NULL;
+  }
+
+  $selected_content = $selected['content'];
+  if (!$selected_content) {
+    return _carlson_campaign_empty_campaign_build($selected);
+  }
+
+  $campaign_id = $selected_content->uuid();
+  $sticky_id = 'campaign-sticky-bar-' . $campaign_id;
+
+  $filtered_text = '';
+  if (
+    $selected_content->hasField('field_campaign_text') &&
+    !$selected_content->get('field_campaign_text')->isEmpty()
+  ) {
+    $filtered_text = trim(
+      Xss::filter($selected_content->get('field_campaign_text')->value, ['a']),
+    );
+  }
+
+  if ($filtered_text === '') {
+    return _carlson_campaign_empty_campaign_build($selected);
+  }
+
+  $dismiss_days = 1;
+  if (
+    $selected_content->hasField('field_campaign_dismiss_days') &&
+    !$selected_content->get('field_campaign_dismiss_days')->isEmpty()
+  ) {
+    $candidate_days = (int) $selected_content
+      ->get('field_campaign_dismiss_days')->value;
+    if ($candidate_days >= 0) {
+      $dismiss_days = $candidate_days;
+    }
+  }
+
+  $delay_seconds = 5;
+  if (
+    $selected_content->hasField('field_campaign_delay_seconds') &&
+    !$selected_content->get('field_campaign_delay_seconds')->isEmpty()
+  ) {
+    $candidate_seconds = (int) $selected_content
+      ->get('field_campaign_delay_seconds')->value;
+    if ($candidate_seconds >= 0) {
+      $delay_seconds = $candidate_seconds;
+    }
+  }
+
+  $session_key = $selected_content->hasField('field_campaign_session_key')
+    ? ($selected_content->get('field_campaign_session_key')->value ?? '')
+    : '';
+  if ($session_key === '') {
+    $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
+  }
+
+  return [
+    '#theme' => 'csm_sticky_bar_campaign',
+    '#campaign_id' => $campaign_id,
+    '#sticky_id' => $sticky_id,
+    '#text' => Markup::create($filtered_text),
+    '#attached' => [
+      'library' => [
+        'carlson_campaign/carlson-campaign.sticky-bar-campaign',
+      ],
+      'drupalSettings' => [
+        'csmStickyBarCampaign' => [
+          'campaignId' => $campaign_id,
+          'stickyId' => $sticky_id,
+          'sessionKey' => $session_key,
+          'dismissDays' => $dismiss_days,
+          'delaySeconds' => $delay_seconds,
+        ],
+      ],
+    ],
+    '#cache' => [
+      'contexts' => $selected['cache_contexts'],
+      'tags' => $selected['cache_tags'],
+      'max-age' => $selected['cache_max_age'],
+    ],
+  ];
 }
 
 /**
