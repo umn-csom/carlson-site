@@ -138,7 +138,7 @@ function _carlson_campaign_build_modal_campaign(): ?array {
     $block_storage = \Drupal::entityTypeManager()->getStorage('block');
     $active_theme = \Drupal::theme()->getActiveTheme();
     $theme = $active_theme->getName();
-    $region_order = array_flip(array_keys($active_theme->getRegions()));
+    $region_order = array_flip($active_theme->getRegions());
 
     $candidates = [];
     foreach ($modal_campaigns as $campaign) {
