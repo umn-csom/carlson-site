@@ -98,16 +98,21 @@ function _carlson_campaign_pick_text_format(?string $candidate): string {
     }
   }
 
-  $candidate = $candidate ?: 'full_html';
-  if (in_array($candidate, $available, TRUE)) {
+  if ($candidate && in_array($candidate, $available, TRUE)) {
     return $candidate;
   }
-  if (in_array('full_html', $available, TRUE)) {
-    return 'full_html';
+
+  // Prefer non-privileged formats when candidate format is unavailable.
+  foreach (['basic_html', 'basic', 'plain_text'] as $fallback) {
+    if (in_array($fallback, $available, TRUE)) {
+      return $fallback;
+    }
   }
-  if (in_array('basic', $available, TRUE)) {
-    return 'basic';
+
+  if (!empty($available)) {
+    return reset($available);
   }
+
   return 'plain_text';
 }
 
@@ -260,7 +265,7 @@ function _carlson_campaign_build_modal_campaign(): ?array {
         '#type' => 'processed_text',
         '#text' => $body_field->value,
         '#format' => _carlson_campaign_pick_text_format(
-          $body_field->format ?? 'full_html',
+          $body_field->format ?? '',
         ),
       ];
     }
