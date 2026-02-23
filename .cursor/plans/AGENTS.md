@@ -1,0 +1,5 @@
+# Cursor Plans
+
+Please find and save cross-agent planning docs into the `docs/plan/` folder.
+
+Follow filename conventions outlined in "ADRs and Planning" section of AGENTS.md at project root.
