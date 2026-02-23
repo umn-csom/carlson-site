@@ -52,6 +52,26 @@
 
 .campaign-modal__footer {
   border-top: 1px solid #ddd;
+  align-items: stretch;
   flex-wrap: wrap;
   justify-content: flex-end;
+}
+
+.campaign-modal__footer .campaign-banner-acknowledge,
+.campaign-modal__footer .campaign-modal-decline {
+  align-items: center;
+  display: inline-flex;
+  flex: 1 1 0;
+  justify-content: center;
+  margin: 0;
+  min-width: 0;
+  padding-left: 1.6rem;
+  padding-right: 1.6rem;
+}
+
+@media (max-width: 575px) {
+  .campaign-modal__footer .campaign-banner-acknowledge,
+  .campaign-modal__footer .campaign-modal-decline {
+    flex-basis: 100%;
+  }
 }
