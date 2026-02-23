@@ -1,6 +1,10 @@
 /**
  * @file
  * Sticky bar campaign runtime behavior for the Carlson Campaign module.
+ *
+ * Reads Drupal settings, decides whether the banner should appear based on
+ * localStorage frequency rules, shows it after an optional delay, and emits
+ * synthetic interaction events for close/link tracking.
  */
 
 (function (Drupal, drupalSettings, once) {
@@ -11,6 +15,9 @@
 
   /**
    * Normalizes runtime config values passed from Drupal.
+   *
+   * Keeps JS resilient to missing/invalid drupalSettings by applying the same
+   * defaults expected by the PHP builder.
    */
   function getConfig() {
     const settings = drupalSettings.csmStickyBarCampaign || {};
@@ -34,6 +41,9 @@
 
   /**
    * Reads localStorage and determines whether the sticky bar should be shown.
+   *
+   * We store the last user action (dismissed/acknowledged) and a timestamp so
+   * subsequent page loads can honor the configured dismiss window.
    */
   function getStickyState(storageKey, dismissDays) {
     try {
@@ -46,11 +56,14 @@
       switch (data.action) {
         case 'dismissed':
         case 'acknowledged': {
+          // A dismiss window of 0 means "show every visit", so clear any prior
+          // state and allow the banner to render again immediately.
           if (dismissDays === 0) {
             localStorage.removeItem(storageKey);
             return { shouldShow: true };
           }
 
+          // Hide until the configured dismiss window expires.
           const daysMs = dismissDays * 24 * 60 * 60 * 1000;
           const actionTime = data.timestamp || 0;
           const now = Date.now();
@@ -62,6 +75,7 @@
         }
 
         default:
+          // Unknown/corrupt state should not block the banner indefinitely.
           localStorage.removeItem(storageKey);
           return { shouldShow: true };
       }
@@ -77,6 +91,9 @@
 
   /**
    * Persists a user action so future page loads can respect that decision.
+   *
+   * Stored separately from Drupal cache so behavior can vary per browser/user
+   * without server-side state.
    */
   function setStickyState(storageKey, action) {
     try {
@@ -90,6 +107,9 @@
 
   /**
    * Dispatches a synthetic interaction event for tracking integrations.
+   *
+   * GTM or other listeners can subscribe to one event name and inspect the
+   * action/text/target payload instead of binding directly to banner DOM.
    */
   function dispatchCampaignInteraction(
     stickyElement,
@@ -115,6 +135,8 @@
 
   Drupal.behaviors.carlsonCampaignStickyBarCampaign = {
     attach(context) {
+      // Use drupalSettings when available, but allow the DOM to remain the
+      // source of truth for the campaign ID if markup and settings differ.
       const config = getConfig();
       const selector =
         config.stickyId !== '' ?
@@ -128,6 +150,7 @@
           const storageKey = config.sessionKey || 'campaign_sticky_bar';
           const state = getStickyState(storageKey, config.dismissDays);
           if (!state.shouldShow) {
+            // Respect the stored user decision until the dismiss window expires.
             return;
           }
 
@@ -137,6 +160,7 @@
           };
 
           if (config.delaySeconds > 0) {
+            // Delay display to avoid immediate interruption at page load.
             window.setTimeout(showSticky, config.delaySeconds * 1000);
           }
           else {
@@ -148,6 +172,8 @@
             .forEach((closeButton) => {
               closeButton.addEventListener('click', (event) => {
                 event.preventDefault();
+                // Closing is treated as a negative interaction and persisted so
+                // frequency rules can suppress the banner on later visits.
                 setStickyState(storageKey, 'dismissed');
                 stickyElement.hidden = true;
                 stickyElement.setAttribute('aria-hidden', 'true');
@@ -166,6 +192,8 @@
             .querySelectorAll('.campaign-sticky-bar-text a')
             .forEach((linkElement) => {
               linkElement.addEventListener('click', (event) => {
+                // Any link click inside the banner counts as acknowledgement.
+                // We do not block navigation; tracking is emitted immediately.
                 setStickyState(storageKey, 'acknowledged');
                 dispatchCampaignInteraction(
                   stickyElement,
