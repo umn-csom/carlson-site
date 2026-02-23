@@ -149,12 +149,16 @@ function _carlson_campaign_empty_campaign_build(array $selected): array {
  */
 function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
   try {
+    // Start with broad page-level cacheability and tighten/expand it as we
+    // inspect candidate content entities, access results, and placements.
     $cache_contexts = ['user.roles', 'url.path'];
     $cache_tags = [];
     $cache_max_age = Cache::PERMANENT;
 
     $block_content_storage = \Drupal::entityTypeManager()
       ->getStorage('block_content');
+    // Load reusable block content items for this campaign bundle. Placement and
+    // visibility are handled later using block config entities.
     $campaigns = $block_content_storage->loadByProperties([
       'type' => $bundle,
       'status' => 1,
@@ -171,6 +175,8 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
     $block_storage = \Drupal::entityTypeManager()->getStorage('block');
     $active_theme = \Drupal::theme()->getActiveTheme();
     $theme = $active_theme->getName();
+    // Region order gives a deterministic "first" campaign when multiple
+    // placements qualify on the same page.
     $region_order = array_flip($active_theme->getRegions());
 
     $candidates = [];
@@ -180,6 +186,9 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
       }
 
       $plugin_id = 'block_content:' . $campaign->uuid();
+      // Find placed block instances for this reusable block content in the
+      // active theme. We render from page_bottom, but we still respect the
+      // editor's placement visibility rules from the original placement.
       $blocks = $block_storage->loadByProperties([
         'theme' => $theme,
         'status' => TRUE,
@@ -202,11 +211,15 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
         $cache_max_age,
         $access_result->getCacheMaxAge(),
       );
+      // Keep cacheability from access checks even when access denies this
+      // campaign, so cache varies correctly by the same conditions.
       if (!$access_result->isAllowed()) {
         continue;
       }
 
       foreach ($blocks as $block) {
+        // Store both content and placement metadata so we can sort by placement
+        // and then render the selected content item.
         $candidates[] = [
           'block' => $block,
           'content' => $campaign,
@@ -225,6 +238,8 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
       ];
     }
 
+    // Stable sort ensures a predictable "first eligible" campaign when several
+    // campaigns are configured.
     usort($candidates, static function (array $a, array $b): int {
       if ($a['region_order'] === $b['region_order']) {
         if ($a['weight'] === $b['weight']) {
@@ -239,11 +254,15 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
     foreach ($candidates as $candidate) {
       /** @var \Drupal\block\Entity\Block $candidate_block */
       $candidate_block = $candidate['block'];
+      // Reuse the existing visibility evaluator so modal and sticky campaign
+      // bundles follow the same placement-rule behavior.
       if (!_carlson_campaign_modal_campaign_block_visible($candidate_block)) {
         continue;
       }
 
       $selected_content = $candidate['content'];
+      // Once a candidate is selected, include the placement cacheability too,
+      // because placement config and visibility affect the rendered result.
       $cache_contexts = Cache::mergeContexts(
         $cache_contexts,
         $candidate_block->getCacheContexts(),
@@ -378,12 +397,16 @@ function _carlson_campaign_build_modal_campaign(): ?array {
  * Build the sticky bar campaign render array from placed block visibility.
  */
 function _carlson_campaign_build_sticky_bar_campaign(): ?array {
+  // Reuse the shared campaign selector so sticky bars follow the same
+  // placement visibility + deterministic selection behavior as modals.
   $selected = _carlson_campaign_get_selected_campaign('sticky_bar_campaign');
   if ($selected === NULL) {
     return NULL;
   }
 
   $selected_content = $selected['content'];
+  // No eligible content for this request, but preserve cacheability metadata so
+  // page cache varies correctly by the same conditions.
   if (!$selected_content) {
     return _carlson_campaign_empty_campaign_build($selected);
   }
@@ -396,15 +419,21 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
     $selected_content->hasField('field_campaign_text') &&
     !$selected_content->get('field_campaign_text')->isEmpty()
   ) {
+    // Sticky bar copy allows links only. Strip all other markup to keep this
+    // banner simple and predictable for styling/tracking.
     $filtered_text = trim(
       Xss::filter($selected_content->get('field_campaign_text')->value, ['a']),
     );
   }
 
+  // Empty text means nothing meaningful to render; return an empty build while
+  // retaining cache metadata from the selection process.
   if ($filtered_text === '') {
     return _carlson_campaign_empty_campaign_build($selected);
   }
 
+  // Default to the product-approved recommendation (once per day) unless the
+  // editor explicitly sets another non-negative value.
   $dismiss_days = 1;
   if (
     $selected_content->hasField('field_campaign_dismiss_days') &&
@@ -417,6 +446,8 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
     }
   }
 
+  // Default open delay is 5 seconds. A value of 0 is valid and means "show on
+  // page load", so we accept any non-negative integer.
   $delay_seconds = 5;
   if (
     $selected_content->hasField('field_campaign_delay_seconds') &&
@@ -429,6 +460,8 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
     }
   }
 
+  // Editors are expected to provide a required session key, but keep a stable
+  // fallback so runtime behavior still works if legacy/incomplete data exists.
   $session_key = $selected_content->hasField('field_campaign_session_key')
     ? ($selected_content->get('field_campaign_session_key')->value ?? '')
     : '';
@@ -447,6 +480,8 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
       ],
       'drupalSettings' => [
         'csmStickyBarCampaign' => [
+          // JS reads these values to control delay/frequency and emit tracking
+          // events with a stable campaign identifier.
           'campaignId' => $campaign_id,
           'stickyId' => $sticky_id,
           'sessionKey' => $session_key,
