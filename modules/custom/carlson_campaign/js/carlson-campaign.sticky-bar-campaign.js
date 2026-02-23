@@ -14,6 +14,14 @@
   const DEFAULT_DELAY_SECONDS = 5;
 
   /**
+   * Namespaces localStorage state to avoid collisions across campaign types.
+   */
+  function getStorageKey(sessionKey) {
+    const normalized = sessionKey || 'campaign_sticky_bar';
+    return 'csm_campaign_sticky__' + normalized;
+  }
+
+  /**
    * Normalizes runtime config values passed from Drupal.
    *
    * Keeps JS resilient to missing/invalid drupalSettings by applying the same
@@ -147,7 +155,7 @@
         (stickyElement) => {
           const campaignId =
             stickyElement.dataset.campaignId || config.campaignId || '';
-          const storageKey = config.sessionKey || 'campaign_sticky_bar';
+          const storageKey = getStorageKey(config.sessionKey);
           const state = getStickyState(storageKey, config.dismissDays);
           if (!state.shouldShow) {
             // Respect the stored user decision until the dismiss window expires.
