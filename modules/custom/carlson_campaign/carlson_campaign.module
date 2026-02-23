@@ -254,9 +254,26 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
     foreach ($candidates as $candidate) {
       /** @var \Drupal\block\Entity\Block $candidate_block */
       $candidate_block = $candidate['block'];
-      // Reuse the existing visibility evaluator so modal and sticky campaign
-      // bundles follow the same placement-rule behavior.
-      if (!_carlson_campaign_modal_campaign_block_visible($candidate_block)) {
+      // Use Drupal core block access evaluation so all configured visibility
+      // conditions (and their cacheability metadata) are honored here too.
+      $placement_access = $candidate_block->access(
+        'view',
+        \Drupal::currentUser(),
+        TRUE,
+      );
+      $cache_contexts = Cache::mergeContexts(
+        $cache_contexts,
+        $placement_access->getCacheContexts(),
+      );
+      $cache_tags = Cache::mergeTags(
+        $cache_tags,
+        $placement_access->getCacheTags(),
+      );
+      $cache_max_age = Cache::mergeMaxAges(
+        $cache_max_age,
+        $placement_access->getCacheMaxAge(),
+      );
+      if (!$placement_access->isAllowed()) {
         continue;
       }
 
