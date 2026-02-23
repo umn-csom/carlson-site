@@ -500,6 +500,11 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
 
 /**
  * Evaluate block visibility rules for a modal campaign placement.
+ *
+ * Campaign modals and sticky bars are rendered from hook_page_bottom() rather
+ * than Drupal's normal block render pipeline, so core does not automatically
+ * enforce placement visibility for the final output. This helper reads the
+ * placed block configuration and mirrors the supported visibility rules.
  */
 function _carlson_campaign_modal_campaign_block_visible(Block $block): bool {
   // Read the placed block's configured visibility conditions. We mirror only
