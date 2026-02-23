@@ -502,6 +502,8 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
  * Evaluate block visibility rules for a modal campaign placement.
  */
 function _carlson_campaign_modal_campaign_block_visible(Block $block): bool {
+  // Read the placed block's configured visibility conditions. We mirror only
+  // the conditions this campaign feature supports (bundle, path, user role).
   $visibility = $block->getVisibility();
   $route_match = \Drupal::routeMatch();
 
@@ -511,10 +513,14 @@ function _carlson_campaign_modal_campaign_block_visible(Block $block): bool {
   $bundle_match = FALSE;
   if ($bundle_configured) {
     $bundles = $visibility['entity_bundle:node']['bundles'] ?? [];
+    // Route parameter may be a loaded node or a scalar node ID depending on
+    // how the current route was built.
     $node = $route_match->getParameter('node');
     if (!$node instanceof Node && is_scalar($node)) {
       $node = Node::load($node);
     }
+    // Bundle and path checks are ORed together later to match Drupal's
+    // "condition group" behavior for these placement rules.
     $bundle_match = is_object($node) && in_array($node->bundle(), $bundles);
     if (!empty($visibility['entity_bundle:node']['negate'])) {
       $bundle_match = !$bundle_match;
@@ -525,6 +531,8 @@ function _carlson_campaign_modal_campaign_block_visible(Block $block): bool {
   if ($path_configured) {
     $path_matcher = \Drupal::service('path.matcher');
     $current_path = \Drupal::service('path.current')->getPath();
+    // Match against both system path and alias so editor-entered visibility
+    // paths work whether they used an alias or an internal path.
     $path_alias = \Drupal::service('path_alias.manager')
       ->getAliasByPath($current_path);
     $pages = $visibility['request_path']['pages'] ?? '';
@@ -532,6 +540,8 @@ function _carlson_campaign_modal_campaign_block_visible(Block $block): bool {
     $path_match = $path_matcher->matchPath($current_path, $pages) ||
       $path_matcher->matchPath($path_alias, $pages);
 
+    // Some front-page cases do not match the raw path string directly, so we
+    // explicitly support the <front> token used by block visibility UI.
     if (!$path_match && strpos($pages, '<front>') !== FALSE) {
       $is_front = in_array(
         $route_match->getRouteName(),
@@ -558,6 +568,8 @@ function _carlson_campaign_modal_campaign_block_visible(Block $block): bool {
     }
   }
 
+  // Bundle/path conditions are treated as a single OR group, while user-role
+  // visibility is applied separately and ANDed with the group result below.
   $group_ok = ($bundle_configured || $path_configured)
     ? ($bundle_match || $path_match)
     : TRUE;
@@ -574,5 +586,6 @@ function _carlson_campaign_modal_campaign_block_visible(Block $block): bool {
     $role_ok = $role_match;
   }
 
+  // Final visibility: (bundle/path group) AND role condition.
   return $group_ok && $role_ok;
 }
