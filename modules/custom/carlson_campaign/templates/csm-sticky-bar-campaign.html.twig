@@ -14,7 +14,13 @@
   aria-hidden="true"
   hidden
 >
+  {# Sticky banner container. JS toggles hidden/aria-hidden after delay. #}
   <div class="campaign-sticky-bar__inner">
+    {#
+      Campaign text is sanitized server-side and may include editor-authored
+      <a> tags from CKEditor. JS tracks link clicks by listening on the selector
+      ".campaign-sticky-bar-text a" (links inside this wrapper).
+    #}
     <div class="campaign-sticky-bar-text">{{ text }}</div>
     <button
       type="button"
