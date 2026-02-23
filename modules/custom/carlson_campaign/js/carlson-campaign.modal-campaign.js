@@ -18,6 +18,14 @@
   const OPEN_DELAY_MS = 1000;
 
   /**
+   * Namespaces localStorage state to avoid collisions across campaign types.
+   */
+  function getStorageKey(sessionKey) {
+    const normalized = sessionKey || 'modal_campaign';
+    return 'csm_campaign_modal__' + normalized;
+  }
+
+  /**
    * Normalizes runtime config values passed from Drupal.
    */
   function getConfig() {
@@ -168,7 +176,7 @@
         // Prefer DOM-provided campaign metadata, then settings fallback.
         const campaignId =
           modalElement.dataset.campaignId || config.campaignId || '';
-        const storageKey = config.sessionKey || 'campaign_modal';
+        const storageKey = getStorageKey(config.sessionKey);
         const state = getModalState(storageKey, config.dismissDays);
 
         // Respect previously stored acknowledge/dismiss/decline decisions.
