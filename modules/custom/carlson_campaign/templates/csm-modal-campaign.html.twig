@@ -4,11 +4,15 @@
  * Modal Campaign markup.
  */
 #}
-
+{% set eyebrow_id = modal_id ~ '__eyebrow' %}
+{% set labelledby_id = modal_id ~ '__title' %}
+{% if eyebrow %}
+  {% set labelledby_id = eyebrow_id ~ ' ' ~ labelledby_id %}
+{% endif %}
 <dialog
   id="{{ modal_id }}"
   class="campaign-modal campaign-banner-backdrop csm-modal-campaign"
-  aria-labelledby="{{ modal_id }}__title"
+  aria-labelledby="{{ labelledby_id }}"
   aria-describedby="{{ modal_id }}__body"
   data-campaign-id="{{ campaign_id }}"
 >
@@ -16,9 +20,9 @@
     <div class="campaign-modal__header">
       <div class="csm-modal-campaign__heading">
         {% if eyebrow %}
-          <p class="csm-modal-campaign__eyebrow mb-1">{{ eyebrow }}</p>
+          <p class="csm-modal-campaign__eyebrow mb-1" id="{{ eyebrow_id }}">{{ eyebrow }}</p>
         {% endif %}
-        <h2 class="modal-title" id="{{ modal_id }}__title">{{ title }}</h2>
+        <h2 class="modal-title" id="{{ modal_id }}__title" tabindex="-1">{{ title }}</h2>
       </div>
       <button
         id="{{ modal_id }}__close"
