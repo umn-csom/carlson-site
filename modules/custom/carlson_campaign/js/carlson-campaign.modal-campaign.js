@@ -153,6 +153,30 @@
   }
 
   /**
+   * Focuses a predictable first control when the modal opens.
+   */
+  function focusInitialModalControl(modalElement) {
+    const titleId = modalElement.id + '__title';
+    const selectors = [
+      '#' + titleId,
+      '.campaign-banner-close',
+      '.campaign-banner-acknowledge',
+      '.campaign-modal-decline',
+      'button:not([disabled])',
+      'a[href]',
+      '[tabindex]:not([tabindex="-1"])',
+    ];
+
+    for (const selector of selectors) {
+      const candidate = modalElement.querySelector(selector);
+      if (candidate instanceof HTMLElement) {
+        candidate.focus();
+        return;
+      }
+    }
+  }
+
+  /**
    * Wires modal behavior to each campaign dialog once per page context.
    */
   Drupal.behaviors.carlsonCampaignModalCampaign = {
@@ -186,6 +210,7 @@
 
         // Tracks whether close was triggered by an explicit user action.
         let explicitAction = null;
+        let previouslyFocusedElement = null;
 
         // Central action handler keeps persistence + tracking consistent.
         const closeWithAction = (action, nativeEvent, target) => {
@@ -264,13 +289,32 @@
               modalElement,
             );
           }
+
+          // Restore focus to the prior element when possible.
+          if (
+            previouslyFocusedElement instanceof HTMLElement &&
+            document.contains(previouslyFocusedElement) &&
+            previouslyFocusedElement !== document.body &&
+            !modalElement.contains(previouslyFocusedElement)
+          ) {
+            previouslyFocusedElement.focus();
+          }
+
           explicitAction = null;
+          previouslyFocusedElement = null;
         });
 
         // Delay avoids showing the dialog during initial paint.
         setTimeout(() => {
           if (!modalElement.open) {
+            if (document.activeElement instanceof HTMLElement) {
+              previouslyFocusedElement = document.activeElement;
+            }
             modalElement.showModal();
+            // Keep initial focus deterministic for keyboard/screen readers.
+            window.requestAnimationFrame(() => {
+              focusInitialModalControl(modalElement);
+            });
           }
         }, OPEN_DELAY_MS);
       });
