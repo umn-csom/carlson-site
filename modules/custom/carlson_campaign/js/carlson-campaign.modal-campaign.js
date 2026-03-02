@@ -140,11 +140,12 @@
     action,
     nativeEvent,
     target,
+    textOverride,
   ) {
     const detail = {
       event: nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown',
       target: target || modalElement,
-      text: getTargetText(target),
+      text: textOverride || getTargetText(target),
       action,
       campaignId,
     };
@@ -274,7 +275,12 @@
         let previouslyFocusedElement = null;
 
         // Central action handler keeps persistence + tracking consistent.
-        const closeWithAction = (action, nativeEvent, target) => {
+        const closeWithAction = (
+          action,
+          nativeEvent,
+          target,
+          textOverride,
+        ) => {
           explicitAction = action;
           setModalState(storageKey, action);
           dispatchCampaignInteraction(
@@ -283,6 +289,7 @@
             action,
             nativeEvent,
             target,
+            textOverride,
           );
           if (modalElement.open) {
             modalElement.close(action);
@@ -292,7 +299,12 @@
         // ESC key on <dialog> emits cancel; treat as dismissed.
         modalElement.addEventListener('cancel', (event) => {
           event.preventDefault();
-          closeWithAction('dismissed', event, modalElement);
+          closeWithAction(
+            'dismissed',
+            event,
+            modalElement,
+            'Dismissed via keyboard ESC key',
+          );
         });
 
         // Click on dialog backdrop (outside panel) counts as dismissed.
