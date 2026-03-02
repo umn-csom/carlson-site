@@ -177,6 +177,62 @@
   }
 
   /**
+   * Attempts to restore focus to the pre-modal target.
+   */
+  function restorePriorFocus(previouslyFocusedElement, modalElement) {
+    if (
+      !(previouslyFocusedElement instanceof HTMLElement) ||
+      !document.contains(previouslyFocusedElement) ||
+      previouslyFocusedElement === document.body ||
+      modalElement.contains(previouslyFocusedElement)
+    ) {
+      return false;
+    }
+
+    previouslyFocusedElement.focus();
+    return document.activeElement === previouslyFocusedElement;
+  }
+
+  /**
+   * Moves focus to a stable page target when no opener focus is available.
+   */
+  function focusCloseFallbackTarget() {
+    const selectors = [
+      'main h1',
+      'main',
+      '#main-content',
+      '.skip-link',
+      'a[href^="#main-content"]',
+    ];
+
+    for (const selector of selectors) {
+      const candidate = document.querySelector(selector);
+      if (!(candidate instanceof HTMLElement)) {
+        continue;
+      }
+
+      // Headings/main are not usually keyboard focusable; make them
+      // programmatically focusable for deterministic post-close landing.
+      if (!candidate.matches('[tabindex],a[href],button,input,select,textarea')) {
+        candidate.setAttribute('tabindex', '-1');
+      }
+
+      try {
+        candidate.focus({ preventScroll: true });
+      }
+      catch (e) {
+        candidate.focus();
+      }
+
+      if (document.activeElement === candidate) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
    * Wires modal behavior to each campaign dialog once per page context.
    */
   Drupal.behaviors.carlsonCampaignModalCampaign = {
@@ -290,14 +346,10 @@
             );
           }
 
-          // Restore focus to the prior element when possible.
-          if (
-            previouslyFocusedElement instanceof HTMLElement &&
-            document.contains(previouslyFocusedElement) &&
-            previouslyFocusedElement !== document.body &&
-            !modalElement.contains(previouslyFocusedElement)
-          ) {
-            previouslyFocusedElement.focus();
+          // Restore opener focus when possible; otherwise use a predictable
+          // page fallback for auto-open scenarios with no real opener.
+          if (!restorePriorFocus(previouslyFocusedElement, modalElement)) {
+            focusCloseFallbackTarget();
           }
 
           explicitAction = null;
