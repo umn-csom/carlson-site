@@ -370,6 +370,20 @@ function _carlson_campaign_build_modal_campaign(): ?array {
     }
   }
 
+  // Default open delay is 5 seconds. A value of 0 is valid and means "show on
+  // page load", so we accept any non-negative integer.
+  $delay_seconds = 5;
+  if (
+    $selected_content->hasField('field_campaign_delay_seconds') &&
+    !$selected_content->get('field_campaign_delay_seconds')->isEmpty()
+  ) {
+    $candidate_seconds = (int) $selected_content
+      ->get('field_campaign_delay_seconds')->value;
+    if ($candidate_seconds >= 0) {
+      $delay_seconds = $candidate_seconds;
+    }
+  }
+
   $session_key = $selected_content->hasField('field_campaign_session_key')
     ? ($selected_content->get('field_campaign_session_key')->value ?? '')
     : '';
@@ -398,6 +412,7 @@ function _carlson_campaign_build_modal_campaign(): ?array {
           'modalId' => $modal_id,
           'sessionKey' => $session_key,
           'dismissDays' => $dismiss_days,
+          'delaySeconds' => $delay_seconds,
         ],
       ],
     ],

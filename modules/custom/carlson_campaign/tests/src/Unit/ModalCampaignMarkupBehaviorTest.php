@@ -62,6 +62,8 @@ final class ModalCampaignMarkupBehaviorTest extends TestCase {
     $this->assertStringContainsString("closeWithAction('acknowledged'", $contents);
     $this->assertStringContainsString("closeWithAction('declined'", $contents);
     $this->assertStringContainsString('modalElement.showModal()', $contents);
+    $this->assertStringContainsString('DEFAULT_DELAY_SECONDS', $contents);
+    $this->assertStringContainsString('config.delaySeconds * 1000', $contents);
   }
 
 }

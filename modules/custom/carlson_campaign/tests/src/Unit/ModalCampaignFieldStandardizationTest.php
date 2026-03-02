@@ -30,6 +30,7 @@ final class ModalCampaignFieldStandardizationTest extends TestCase {
     $contents = $this->getModuleFileContents();
 
     $this->assertStringContainsString('field_campaign_text', $contents);
+    $this->assertStringContainsString('field_campaign_delay_seconds', $contents);
     $this->assertStringContainsString('field_campaign_dismiss_days', $contents);
     $this->assertStringContainsString('field_campaign_session_key', $contents);
     $this->assertStringContainsString(
