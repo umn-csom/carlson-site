@@ -12,6 +12,7 @@
 
   const DEFAULT_DISMISS_DAYS = 1;
   const DEFAULT_DELAY_SECONDS = 5;
+  const STICKY_ANNOUNCER_ID = 'csm-campaign-sticky-announcer';
 
   /**
    * Namespaces localStorage state to avoid collisions across campaign types.
@@ -141,6 +142,47 @@
     );
   }
 
+  /**
+   * Returns (or creates) a persistent live region for delayed sticky announces.
+   *
+   * Keeping this node always in DOM avoids relying on hidden->visible toggles
+   * alone, which VoiceOver can miss when content appears after a timeout.
+   */
+  function getStickyAnnouncer() {
+    const existing = document.getElementById(STICKY_ANNOUNCER_ID);
+    if (existing instanceof HTMLElement) {
+      return existing;
+    }
+
+    const announcer = document.createElement('div');
+    announcer.id = STICKY_ANNOUNCER_ID;
+    announcer.className = 'visually-hidden';
+    announcer.setAttribute('aria-live', 'polite');
+    announcer.setAttribute('aria-atomic', 'true');
+    document.body.appendChild(announcer);
+    return announcer;
+  }
+
+  /**
+   * Announces sticky visibility without moving focus.
+   */
+  function announceStickyVisible(stickyElement) {
+    const announcer = getStickyAnnouncer();
+    const textContainer = stickyElement.querySelector('.campaign-sticky-bar-text');
+    const message = textContainer ?
+      textContainer.textContent.replace(/\s+/g, ' ').trim() :
+      '';
+    if (message === '') {
+      return;
+    }
+
+    // Clear first, then set to trigger a single detectable live-region update.
+    announcer.textContent = '';
+    window.setTimeout(() => {
+      announcer.textContent = message;
+    }, 40);
+  }
+
   Drupal.behaviors.carlsonCampaignStickyBarCampaign = {
     attach(context) {
       // Use drupalSettings when available, but allow the DOM to remain the
@@ -165,6 +207,7 @@
           const showSticky = () => {
             stickyElement.hidden = false;
             stickyElement.setAttribute('aria-hidden', 'false');
+            announceStickyVisible(stickyElement);
           };
 
           if (config.delaySeconds > 0) {
