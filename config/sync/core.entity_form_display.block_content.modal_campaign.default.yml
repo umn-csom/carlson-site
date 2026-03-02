@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - block_content.type.modal_campaign
+    - field.field.block_content.modal_campaign.field_campaign_delay_seconds
     - field.field.block_content.modal_campaign.field_campaign_dismiss_days
     - field.field.block_content.modal_campaign.field_campaign_session_key
     - field.field.block_content.modal_campaign.field_campaign_text
@@ -20,6 +21,13 @@ targetEntityType: block_content
 bundle: modal_campaign
 mode: default
 content:
+  field_campaign_delay_seconds:
+    type: number
+    weight: 70
+    region: content
+    settings:
+      placeholder: '5'
+    third_party_settings: {  }
   field_campaign_dismiss_days:
     type: number
     weight: 72

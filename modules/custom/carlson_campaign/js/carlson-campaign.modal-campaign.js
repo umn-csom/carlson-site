@@ -15,7 +15,7 @@
   'use strict';
 
   const DEFAULT_DISMISS_DAYS = 1;
-  const OPEN_DELAY_MS = 1000;
+  const DEFAULT_DELAY_SECONDS = 5;
 
   /**
    * Namespaces localStorage state to avoid collisions across campaign types.
@@ -31,6 +31,7 @@
   function getConfig() {
     const settings = drupalSettings.csmModalCampaign || {};
     const dismissDays = parseInt(settings.dismissDays, 10);
+    const delaySeconds = parseInt(settings.delaySeconds, 10);
 
     return {
       campaignId: settings.campaignId || '',
@@ -40,6 +41,10 @@
         Number.isFinite(dismissDays) && dismissDays >= 0 ?
           dismissDays :
           DEFAULT_DISMISS_DAYS,
+      delaySeconds:
+        Number.isFinite(delaySeconds) && delaySeconds >= 0 ?
+          delaySeconds :
+          DEFAULT_DELAY_SECONDS,
     };
   }
 
@@ -356,8 +361,7 @@
           previouslyFocusedElement = null;
         });
 
-        // Delay avoids showing the dialog during initial paint.
-        setTimeout(() => {
+        const showModal = () => {
           if (!modalElement.open) {
             if (document.activeElement instanceof HTMLElement) {
               previouslyFocusedElement = document.activeElement;
@@ -368,7 +372,15 @@
               focusInitialModalControl(modalElement);
             });
           }
-        }, OPEN_DELAY_MS);
+        };
+
+        // Delay display to avoid immediate interruption at page load.
+        if (config.delaySeconds > 0) {
+          window.setTimeout(showModal, config.delaySeconds * 1000);
+        }
+        else {
+          showModal();
+        }
       });
     },
   };

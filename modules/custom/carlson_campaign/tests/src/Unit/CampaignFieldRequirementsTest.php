@@ -43,6 +43,10 @@ final class CampaignFieldRequirementsTest extends TestCase {
    * Modal shared fields should be required with updated defaults.
    */
   public function testModalSharedFieldsAreRequired(): void {
+    $delay_contents = $this->getConfigContents(
+      'field.field.block_content.modal_campaign.' .
+      'field_campaign_delay_seconds.yml',
+    );
     $dismiss_contents = $this->getConfigContents(
       'field.field.block_content.modal_campaign.' .
       'field_campaign_dismiss_days.yml',
@@ -51,6 +55,10 @@ final class CampaignFieldRequirementsTest extends TestCase {
       'field.field.block_content.modal_campaign.field_campaign_session_key.yml',
     );
 
+    $this->assertStringContainsString('required: true', $delay_contents);
+    $this->assertStringContainsString("label: Delay", $delay_contents);
+    $this->assertStringContainsString("suffix: ' seconds'", $delay_contents);
+    $this->assertStringContainsString('value: 5', $delay_contents);
     $this->assertStringContainsString('required: true', $dismiss_contents);
     $this->assertStringContainsString('value: 1', $dismiss_contents);
     $this->assertStringContainsString('min: 0', $dismiss_contents);
