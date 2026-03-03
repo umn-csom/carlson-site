@@ -341,7 +341,12 @@
           (closeButton) => {
             closeButton.addEventListener('click', (event) => {
               event.preventDefault();
-              closeWithAction('dismissed', event, event.currentTarget);
+              closeWithAction(
+                'dismissed',
+                event,
+                event.currentTarget,
+                'Modal Close Button',
+              );
             });
           },
         );
