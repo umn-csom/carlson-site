@@ -32,6 +32,7 @@
     const settings = drupalSettings.csmModalCampaign || {};
     const dismissDays = parseInt(settings.dismissDays, 10);
     const delaySeconds = parseInt(settings.delaySeconds, 10);
+    const stopOnConvert = settings.stopOnConvert;
 
     return {
       campaignId: settings.campaignId || '',
@@ -41,6 +42,12 @@
         Number.isFinite(dismissDays) && dismissDays >= 0 ?
           dismissDays :
           DEFAULT_DISMISS_DAYS,
+      stopOnConvert: !(
+        stopOnConvert === false ||
+        stopOnConvert === 0 ||
+        stopOnConvert === '0' ||
+        stopOnConvert === 'false'
+      ),
       delaySeconds:
         Number.isFinite(delaySeconds) && delaySeconds >= 0 ?
           delaySeconds :
@@ -51,7 +58,7 @@
   /**
    * Reads localStorage and determines whether the modal should be shown.
    */
-  function getModalState(storageKey, dismissDays) {
+  function getModalState(storageKey, dismissDays, stopOnConvert) {
     try {
       const stored = localStorage.getItem(storageKey);
       if (!stored) {
@@ -61,8 +68,11 @@
       const data = JSON.parse(stored);
       switch (data.action) {
         case 'acknowledged':
-          return { shouldShow: false, reason: 'acknowledged' };
-
+          if (stopOnConvert) {
+            return { shouldShow: false, reason: 'acknowledged' };
+          }
+        // Fall through: when stop-on-convert is disabled, acknowledged actions
+        // follow the same repeat-delay behavior as other dismiss actions.
         case 'dismissed':
         case 'declined': {
           if (dismissDays === 0) {
@@ -70,10 +80,10 @@
             return { shouldShow: true };
           }
           const daysMs = dismissDays * 24 * 60 * 60 * 1000;
-          const dismissedTime = data.timestamp || 0;
+          const actionTime = data.timestamp || 0;
           const now = Date.now();
 
-          if (now - dismissedTime > daysMs) {
+          if (now - actionTime > daysMs) {
             localStorage.removeItem(storageKey);
             return { shouldShow: true };
           }
@@ -263,7 +273,11 @@
         const campaignId =
           modalElement.dataset.campaignId || config.campaignId || '';
         const storageKey = getStorageKey(config.sessionKey);
-        const state = getModalState(storageKey, config.dismissDays);
+        const state = getModalState(
+          storageKey,
+          config.dismissDays,
+          config.stopOnConvert,
+        );
 
         // Respect previously stored acknowledge/dismiss/decline decisions.
         if (!state.shouldShow) {

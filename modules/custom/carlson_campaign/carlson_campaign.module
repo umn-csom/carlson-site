@@ -370,6 +370,17 @@ function _carlson_campaign_build_modal_campaign(): ?array {
     }
   }
 
+  // Keep historical behavior by default: acknowledging the modal permanently
+  // suppresses future displays unless editors explicitly disable this toggle.
+  $stop_on_convert = TRUE;
+  if (
+    $selected_content->hasField('field_campaign_stop_on_convert') &&
+    !$selected_content->get('field_campaign_stop_on_convert')->isEmpty()
+  ) {
+    $stop_on_convert = (bool) $selected_content
+      ->get('field_campaign_stop_on_convert')->value;
+  }
+
   // Default open delay is 5 seconds. A value of 0 is valid and means "show on
   // page load", so we accept any non-negative integer.
   $delay_seconds = 5;
@@ -412,6 +423,7 @@ function _carlson_campaign_build_modal_campaign(): ?array {
           'modalId' => $modal_id,
           'sessionKey' => $session_key,
           'dismissDays' => $dismiss_days,
+          'stopOnConvert' => $stop_on_convert,
           'delaySeconds' => $delay_seconds,
         ],
       ],
