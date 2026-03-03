@@ -67,12 +67,13 @@
 
       const data = JSON.parse(stored);
       switch (data.action) {
-        case 'acknowledged':
+        case 'converted':
           if (stopOnConvert) {
-            return { shouldShow: false, reason: 'acknowledged' };
+            return { shouldShow: false, reason: 'converted' };
           }
-        // Fall through: when stop-on-convert is disabled, acknowledged actions
-        // follow the same repeat-delay behavior as other dismiss actions.
+        // Fall through: when stop-on-convert is disabled, converted actions
+        // (and legacy stored acknowledged actions) follow repeat-delay rules.
+        case 'acknowledged':
         case 'dismissed':
         case 'declined': {
           if (dismissDays === 0) {
@@ -359,7 +360,7 @@
                 window.open(acknowledgeTarget.href, '_blank', 'noopener');
               }
 
-              closeWithAction('acknowledged', event, event.currentTarget);
+              closeWithAction('converted', event, event.currentTarget);
             });
           },
         );
