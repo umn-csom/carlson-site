@@ -153,11 +153,16 @@
     target,
     textOverride,
   ) {
+    const actionText = textOverride || getTargetText(target);
     const detail = {
       event: nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown',
       target: target || modalElement,
-      text: textOverride || getTargetText(target),
-      action,
+      // Canonical keys for analytics integrations.
+      action_name: action,
+      action_text: actionText,
+      // Backward-compatible aliases for existing listeners.
+      action: action,
+      text: actionText,
       campaignId,
     };
 
