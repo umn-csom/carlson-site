@@ -270,9 +270,12 @@
           return;
         }
 
-        // Prefer DOM-provided campaign metadata, then settings fallback.
+        // Prefer canonical tracking attribute from DOM, then legacy/fallback.
         const campaignId =
-          modalElement.dataset.campaignId || config.campaignId || '';
+          modalElement.dataset.trackingId ||
+          modalElement.dataset.campaignId ||
+          config.campaignId ||
+          '';
         const storageKey = getStorageKey(config.sessionKey);
         const state = getModalState(
           storageKey,
