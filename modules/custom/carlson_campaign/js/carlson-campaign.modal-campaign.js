@@ -5,8 +5,8 @@
  * Responsibilities in this file:
  * - Read campaign runtime settings from drupalSettings.
  * - Decide whether to show the modal based on stored user action state.
- * - Handle all modal interactions (close/backdrop/ESC/acknowledge/decline).
- * - Persist action state to localStorage for dismiss/acknowledge behavior.
+ * - Handle all modal interactions (close/backdrop/ESC/convert/decline).
+ * - Persist action state to localStorage for dismiss/convert behavior.
  * - Emit campaign interaction events for tracking integrations (for example
  *   GTM listeners) with consistent action metadata.
  */
@@ -177,7 +177,7 @@
     const selectors = [
       '#' + titleId,
       '.campaign-banner-close',
-      '.campaign-banner-acknowledge',
+      '.campaign-banner-convert',
       '.campaign-modal-decline',
       'button:not([disabled])',
       'a[href]',
@@ -347,17 +347,17 @@
           },
         );
 
-        modalElement.querySelectorAll('.campaign-banner-acknowledge').forEach(
-          (acknowledgeTarget) => {
-            acknowledgeTarget.addEventListener('click', (event) => {
+        modalElement.querySelectorAll('.campaign-banner-convert').forEach(
+          (convertTarget) => {
+            convertTarget.addEventListener('click', (event) => {
               event.preventDefault();
 
-              // Keep legacy UX: acknowledge links open in new tab.
+              // Keep legacy UX: conversion links open in new tab.
               if (
-                acknowledgeTarget instanceof HTMLAnchorElement &&
-                acknowledgeTarget.href
+                convertTarget instanceof HTMLAnchorElement &&
+                convertTarget.href
               ) {
-                window.open(acknowledgeTarget.href, '_blank', 'noopener');
+                window.open(convertTarget.href, '_blank', 'noopener');
               }
 
               closeWithAction('converted', event, event.currentTarget);
