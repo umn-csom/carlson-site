@@ -15,7 +15,7 @@
   'use strict';
 
   const DEFAULT_DISMISS_DAYS = 1;
-  const DEFAULT_DELAY_SECONDS = 5;
+  const DEFAULT_DELAY_SECONDS = 0;
 
   /**
    * Namespaces localStorage state to avoid collisions across campaign types.

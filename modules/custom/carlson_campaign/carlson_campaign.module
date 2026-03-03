@@ -381,9 +381,9 @@ function _carlson_campaign_build_modal_campaign(): ?array {
       ->get('field_campaign_stop_on_convert')->value;
   }
 
-  // Default open delay is 5 seconds. A value of 0 is valid and means "show on
-  // page load", so we accept any non-negative integer.
-  $delay_seconds = 5;
+  // Default open delay is 0 seconds (show on page load). We accept any
+  // non-negative integer.
+  $delay_seconds = 0;
   if (
     $selected_content->hasField('field_campaign_delay_seconds') &&
     !$selected_content->get('field_campaign_delay_seconds')->isEmpty()
