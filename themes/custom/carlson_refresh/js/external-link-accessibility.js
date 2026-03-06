@@ -11,7 +11,7 @@
             link.dataset.extlink === 'processed' ||
             link.querySelector(".icon") ||
             link.querySelector("img") ||
-            link.querySelector("svg") ||
+            link.querySelector("svg:not(.icon-cta-apply, .icon-cta-request, .icon-cta-attend, .icon-cta-play, .icon-cta-person") ||
             link.querySelector(".external-link-icon") ||
             link.querySelector(".external-link-text")
           ) {
