@@ -181,7 +181,7 @@
     const titleId = modalElement.id + '__title';
     const selectors = [
       '#' + titleId,
-      '.campaign-banner-close',
+      '.campaign-modal__close',
       '.campaign-banner-convert',
       '.campaign-modal-decline',
       'button:not([disabled])',
@@ -337,7 +337,7 @@
           }
         });
 
-        modalElement.querySelectorAll('.campaign-banner-close').forEach(
+        modalElement.querySelectorAll('.campaign-modal__close').forEach(
           (closeButton) => {
             closeButton.addEventListener('click', (event) => {
               event.preventDefault();
