@@ -6,7 +6,9 @@ dependencies:
     - block_content.type.modal_campaign
     - field.field.block_content.modal_campaign.field_campaign_delay_seconds
     - field.field.block_content.modal_campaign.field_campaign_dismiss_days
+    - field.field.block_content.modal_campaign.field_campaign_end_datetime
     - field.field.block_content.modal_campaign.field_campaign_stop_on_convert
+    - field.field.block_content.modal_campaign.field_campaign_start_datetime
     - field.field.block_content.modal_campaign.field_campaign_session_key
     - field.field.block_content.modal_campaign.field_campaign_text
     - field.field.block_content.modal_campaign.field_modal_cta_url
@@ -15,6 +17,7 @@ dependencies:
     - field.field.block_content.modal_campaign.field_modal_show_decline
     - field.field.block_content.modal_campaign.field_modal_title
   module:
+    - datetime
     - link
     - text
 id: block_content.modal_campaign.default
@@ -36,6 +39,12 @@ content:
     settings:
       placeholder: '1'
     third_party_settings: {  }
+  field_campaign_end_datetime:
+    type: datetime_default
+    weight: 75
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_campaign_session_key:
     type: string_textfield
     weight: 71
@@ -50,6 +59,12 @@ content:
     region: content
     settings:
       display_label: true
+    third_party_settings: {  }
+  field_campaign_start_datetime:
+    type: datetime_default
+    weight: 74
+    region: content
+    settings: {  }
     third_party_settings: {  }
   field_campaign_text:
     type: text_textarea

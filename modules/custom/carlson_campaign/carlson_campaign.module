@@ -130,6 +130,86 @@ function _carlson_campaign_pick_text_format(?string $candidate): string {
 }
 
 /**
+ * Parse a campaign schedule field into a UTC timestamp.
+ */
+function _carlson_campaign_get_schedule_timestamp(
+  $campaign,
+  string $field_name,
+): ?int {
+  if (
+    !$campaign->hasField($field_name) ||
+    $campaign->get($field_name)->isEmpty()
+  ) {
+    return NULL;
+  }
+
+  $value = $campaign->get($field_name)->value ?? '';
+  if ($value === '') {
+    return NULL;
+  }
+
+  try {
+    $date = new \DateTimeImmutable($value, new \DateTimeZone('UTC'));
+    return $date->getTimestamp();
+  }
+  catch (\Throwable $t) {
+    return NULL;
+  }
+}
+
+/**
+ * Evaluate whether a campaign is active for the current request schedule.
+ */
+function _carlson_campaign_get_schedule_state($campaign): array {
+  $request_time = \Drupal::time()->getRequestTime();
+  $start_timestamp = _carlson_campaign_get_schedule_timestamp(
+    $campaign,
+    'field_campaign_start_datetime',
+  );
+  $end_timestamp = _carlson_campaign_get_schedule_timestamp(
+    $campaign,
+    'field_campaign_end_datetime',
+  );
+
+  if (
+    $start_timestamp !== NULL &&
+    $end_timestamp !== NULL &&
+    $start_timestamp >= $end_timestamp
+  ) {
+    return [
+      'is_active' => FALSE,
+      'cache_max_age' => Cache::PERMANENT,
+    ];
+  }
+
+  $is_active = TRUE;
+  $transitions = [];
+
+  if ($start_timestamp !== NULL) {
+    if ($request_time < $start_timestamp) {
+      $is_active = FALSE;
+      $transitions[] = $start_timestamp - $request_time;
+    }
+  }
+
+  if ($end_timestamp !== NULL) {
+    if ($request_time >= $end_timestamp) {
+      $is_active = FALSE;
+    }
+    else {
+      $transitions[] = $end_timestamp - $request_time;
+    }
+  }
+
+  return [
+    'is_active' => $is_active,
+    'cache_max_age' => empty($transitions)
+      ? Cache::PERMANENT
+      : min($transitions),
+  ];
+}
+
+/**
  * Creates an empty render array preserving cache metadata.
  */
 function _carlson_campaign_empty_campaign_build(array $selected): array {
@@ -181,6 +261,15 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
     $candidates = [];
     foreach ($campaigns as $campaign) {
       if (method_exists($campaign, 'isPublished') && !$campaign->isPublished()) {
+        continue;
+      }
+
+      $schedule_state = _carlson_campaign_get_schedule_state($campaign);
+      $cache_max_age = Cache::mergeMaxAges(
+        $cache_max_age,
+        $schedule_state['cache_max_age'],
+      );
+      if (!$schedule_state['is_active']) {
         continue;
       }
 
