@@ -182,7 +182,7 @@
     const selectors = [
       '#' + titleId,
       '.campaign-modal__close',
-      '.campaign-banner-convert',
+      '.campaign-modal-convert',
       '.campaign-modal-decline',
       'button:not([disabled])',
       'a[href]',
@@ -360,7 +360,7 @@
           },
         );
 
-        modalElement.querySelectorAll('.campaign-banner-convert').forEach(
+        modalElement.querySelectorAll('.campaign-modal-convert').forEach(
           (convertTarget) => {
             convertTarget.addEventListener('click', (event) => {
               event.preventDefault();
