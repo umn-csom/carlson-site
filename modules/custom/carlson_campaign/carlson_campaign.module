@@ -210,6 +210,22 @@ function _carlson_campaign_get_schedule_state($campaign): array {
 }
 
 /**
+ * Build schedule timestamps for frontend runtime checks.
+ */
+function _carlson_campaign_get_schedule_settings($campaign): array {
+  return [
+    'startTimestamp' => _carlson_campaign_get_schedule_timestamp(
+      $campaign,
+      'field_campaign_start_datetime',
+    ),
+    'endTimestamp' => _carlson_campaign_get_schedule_timestamp(
+      $campaign,
+      'field_campaign_end_datetime',
+    ),
+  ];
+}
+
+/**
  * Creates an empty render array preserving cache metadata.
  */
 function _carlson_campaign_empty_campaign_build(array $selected): array {
@@ -491,6 +507,10 @@ function _carlson_campaign_build_modal_campaign(): ?array {
     $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
   }
 
+  $schedule_settings = _carlson_campaign_get_schedule_settings(
+    $selected_content,
+  );
+
   return [
     '#theme' => 'csm_modal_campaign',
     '#campaign_id' => $campaign_id,
@@ -514,6 +534,8 @@ function _carlson_campaign_build_modal_campaign(): ?array {
           'dismissDays' => $dismiss_days,
           'stopOnConvert' => $stop_on_convert,
           'delaySeconds' => $delay_seconds,
+          'scheduleStartTimestamp' => $schedule_settings['startTimestamp'],
+          'scheduleEndTimestamp' => $schedule_settings['endTimestamp'],
         ],
       ],
     ],
@@ -601,6 +623,10 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
     $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
   }
 
+  $schedule_settings = _carlson_campaign_get_schedule_settings(
+    $selected_content,
+  );
+
   return [
     '#theme' => 'csm_sticky_bar_campaign',
     '#campaign_id' => $campaign_id,
@@ -619,6 +645,8 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
           'sessionKey' => $session_key,
           'dismissDays' => $dismiss_days,
           'delaySeconds' => $delay_seconds,
+          'scheduleStartTimestamp' => $schedule_settings['startTimestamp'],
+          'scheduleEndTimestamp' => $schedule_settings['endTimestamp'],
         ],
       ],
     ],
