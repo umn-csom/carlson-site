@@ -32,6 +32,8 @@
     const settings = drupalSettings.csmStickyBarCampaign || {};
     const dismissDays = parseInt(settings.dismissDays, 10);
     const delaySeconds = parseInt(settings.delaySeconds, 10);
+    const scheduleStartTimestamp = parseInt(settings.scheduleStartTimestamp, 10);
+    const scheduleEndTimestamp = parseInt(settings.scheduleEndTimestamp, 10);
 
     return {
       campaignId: settings.campaignId || '',
@@ -45,7 +47,44 @@
         Number.isFinite(delaySeconds) && delaySeconds >= 0 ?
           delaySeconds :
           DEFAULT_DELAY_SECONDS,
+      scheduleStartTimestamp: Number.isFinite(scheduleStartTimestamp) ?
+        scheduleStartTimestamp :
+        null,
+      scheduleEndTimestamp: Number.isFinite(scheduleEndTimestamp) ?
+        scheduleEndTimestamp :
+        null,
     };
+  }
+
+  /**
+   * Evaluates whether the campaign is active at the current browser time.
+   */
+  function isScheduleActive(config) {
+    const now = Math.floor(Date.now() / 1000);
+
+    if (
+      config.scheduleStartTimestamp !== null &&
+      config.scheduleEndTimestamp !== null &&
+      config.scheduleStartTimestamp >= config.scheduleEndTimestamp
+    ) {
+      return false;
+    }
+
+    if (
+      config.scheduleStartTimestamp !== null &&
+      now < config.scheduleStartTimestamp
+    ) {
+      return false;
+    }
+
+    if (
+      config.scheduleEndTimestamp !== null &&
+      now >= config.scheduleEndTimestamp
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   /**
@@ -205,6 +244,13 @@
           }
 
           const showSticky = () => {
+            // Server-side scheduling remains the primary control, but this
+            // runtime check suppresses stale cached markup outside the active
+            // window if the page response lags behind a schedule transition.
+            if (!isScheduleActive(config)) {
+              return;
+            }
+
             stickyElement.hidden = false;
             stickyElement.setAttribute('aria-hidden', 'false');
             announceStickyVisible(stickyElement);
