@@ -32,6 +32,8 @@
     const settings = drupalSettings.csmModalCampaign || {};
     const dismissDays = parseInt(settings.dismissDays, 10);
     const delaySeconds = parseInt(settings.delaySeconds, 10);
+    const scheduleStartTimestamp = parseInt(settings.scheduleStartTimestamp, 10);
+    const scheduleEndTimestamp = parseInt(settings.scheduleEndTimestamp, 10);
     const stopOnConvert = settings.stopOnConvert;
 
     return {
@@ -52,7 +54,44 @@
         Number.isFinite(delaySeconds) && delaySeconds >= 0 ?
           delaySeconds :
           DEFAULT_DELAY_SECONDS,
+      scheduleStartTimestamp: Number.isFinite(scheduleStartTimestamp) ?
+        scheduleStartTimestamp :
+        null,
+      scheduleEndTimestamp: Number.isFinite(scheduleEndTimestamp) ?
+        scheduleEndTimestamp :
+        null,
     };
+  }
+
+  /**
+   * Evaluates whether the campaign is active at the current browser time.
+   */
+  function isScheduleActive(config) {
+    const now = Math.floor(Date.now() / 1000);
+
+    if (
+      config.scheduleStartTimestamp !== null &&
+      config.scheduleEndTimestamp !== null &&
+      config.scheduleStartTimestamp >= config.scheduleEndTimestamp
+    ) {
+      return false;
+    }
+
+    if (
+      config.scheduleStartTimestamp !== null &&
+      now < config.scheduleStartTimestamp
+    ) {
+      return false;
+    }
+
+    if (
+      config.scheduleEndTimestamp !== null &&
+      now >= config.scheduleEndTimestamp
+    ) {
+      return false;
+    }
+
+    return true;
   }
 
   /**
@@ -402,6 +441,13 @@
         });
 
         const showModal = () => {
+          // Server-side scheduling remains authoritative, but this runtime
+          // check prevents stale cached markup from opening outside the
+          // campaign window if the HTML has not rotated yet.
+          if (!isScheduleActive(config)) {
+            return;
+          }
+
           if (!modalElement.open) {
             if (document.activeElement instanceof HTMLElement) {
               previouslyFocusedElement = document.activeElement;
