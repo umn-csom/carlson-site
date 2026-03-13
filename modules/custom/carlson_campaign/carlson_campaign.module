@@ -179,20 +179,17 @@ function _carlson_campaign_get_schedule_state($campaign): array {
     return [
       'is_active' => FALSE,
       'is_renderable' => FALSE,
-      'is_upcoming' => FALSE,
       'cache_max_age' => Cache::PERMANENT,
     ];
   }
 
   $is_active = TRUE;
   $is_renderable = TRUE;
-  $is_upcoming = FALSE;
   $transitions = [];
 
   if ($start_timestamp !== NULL) {
     if ($request_time < $start_timestamp) {
       $is_active = FALSE;
-      $is_upcoming = TRUE;
       $transitions[] = $start_timestamp - $request_time;
     }
   }
@@ -201,7 +198,6 @@ function _carlson_campaign_get_schedule_state($campaign): array {
     if ($request_time >= $end_timestamp) {
       $is_active = FALSE;
       $is_renderable = FALSE;
-      $is_upcoming = FALSE;
     }
     else {
       $transitions[] = $end_timestamp - $request_time;
@@ -211,7 +207,6 @@ function _carlson_campaign_get_schedule_state($campaign): array {
   return [
     'is_active' => $is_active,
     'is_renderable' => $is_renderable,
-    'is_upcoming' => $is_upcoming,
     'cache_max_age' => empty($transitions)
       ? Cache::PERMANENT
       : min($transitions),
