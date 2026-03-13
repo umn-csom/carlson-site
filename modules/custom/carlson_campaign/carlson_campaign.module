@@ -158,7 +158,7 @@ function _carlson_campaign_get_schedule_timestamp(
 }
 
 /**
- * Evaluate whether a campaign is active for the current request schedule.
+ * Evaluate whether a campaign is active/renderable for the request schedule.
  */
 function _carlson_campaign_get_schedule_state($campaign): array {
   $request_time = \Drupal::time()->getRequestTime();
@@ -178,16 +178,21 @@ function _carlson_campaign_get_schedule_state($campaign): array {
   ) {
     return [
       'is_active' => FALSE,
+      'is_renderable' => FALSE,
+      'is_upcoming' => FALSE,
       'cache_max_age' => Cache::PERMANENT,
     ];
   }
 
   $is_active = TRUE;
+  $is_renderable = TRUE;
+  $is_upcoming = FALSE;
   $transitions = [];
 
   if ($start_timestamp !== NULL) {
     if ($request_time < $start_timestamp) {
       $is_active = FALSE;
+      $is_upcoming = TRUE;
       $transitions[] = $start_timestamp - $request_time;
     }
   }
@@ -195,6 +200,8 @@ function _carlson_campaign_get_schedule_state($campaign): array {
   if ($end_timestamp !== NULL) {
     if ($request_time >= $end_timestamp) {
       $is_active = FALSE;
+      $is_renderable = FALSE;
+      $is_upcoming = FALSE;
     }
     else {
       $transitions[] = $end_timestamp - $request_time;
@@ -203,6 +210,8 @@ function _carlson_campaign_get_schedule_state($campaign): array {
 
   return [
     'is_active' => $is_active,
+    'is_renderable' => $is_renderable,
+    'is_upcoming' => $is_upcoming,
     'cache_max_age' => empty($transitions)
       ? Cache::PERMANENT
       : min($transitions),
@@ -285,7 +294,7 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
         $cache_max_age,
         $schedule_state['cache_max_age'],
       );
-      if (!$schedule_state['is_active']) {
+      if (!$schedule_state['is_renderable']) {
         continue;
       }
 
@@ -327,6 +336,7 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
         $candidates[] = [
           'block' => $block,
           'content' => $campaign,
+          'schedule_rank' => $schedule_state['is_active'] ? 0 : 1,
           'region_order' => $region_order[$block->getRegion()] ?? PHP_INT_MAX,
           'weight' => (int) $block->getWeight(),
         ];
@@ -345,6 +355,9 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
     // Stable sort ensures a predictable "first eligible" campaign when several
     // campaigns are configured.
     usort($candidates, static function (array $a, array $b): int {
+      if ($a['schedule_rank'] !== $b['schedule_rank']) {
+        return $a['schedule_rank'] <=> $b['schedule_rank'];
+      }
       if ($a['region_order'] === $b['region_order']) {
         if ($a['weight'] === $b['weight']) {
           return strcmp($a['block']->id(), $b['block']->id());
