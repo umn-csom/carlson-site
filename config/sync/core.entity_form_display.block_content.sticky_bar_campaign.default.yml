@@ -11,8 +11,29 @@ dependencies:
     - field.field.block_content.sticky_bar_campaign.field_campaign_session_key
     - field.field.block_content.sticky_bar_campaign.field_campaign_text
   module:
+    - field_group
     - datetime
     - text
+third_party_settings:
+  field_group:
+    group_trigger:
+      children:
+        - field_campaign_delay_seconds
+        - field_campaign_session_key
+        - field_campaign_dismiss_days
+        - field_campaign_start_datetime
+        - field_campaign_end_datetime
+      label: Trigger
+      region: content
+      parent_name: ''
+      weight: 21
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        description: 'Delay, repeat, and scheduling settings for this campaign.'
+        required_fields: true
 id: block_content.sticky_bar_campaign.default
 targetEntityType: block_content
 bundle: sticky_bar_campaign
