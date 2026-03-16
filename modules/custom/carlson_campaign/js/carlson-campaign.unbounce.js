@@ -16,8 +16,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (stickyBars.length) {
       stickyBars.forEach((stickyBar) => {
-        // Landmark role helps assistive tech identify campaign banner content.
-        stickyBar.setAttribute('role', 'banner');
+        // Use a labeled region instead of the page-level banner landmark so
+        // injected promotional content does not create extra banner landmarks.
+        stickyBar.setAttribute('role', 'region');
+        if (!stickyBar.hasAttribute('aria-label')) {
+          stickyBar.setAttribute('aria-label', 'Campaign promotion');
+        }
       });
       // Stop once we successfully updated injected containers.
       clearInterval(checkExist);
