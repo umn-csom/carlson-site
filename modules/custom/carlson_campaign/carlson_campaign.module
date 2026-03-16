@@ -159,6 +159,19 @@ function _carlson_campaign_get_schedule_timestamp(
 
 /**
  * Evaluate whether a campaign is active/renderable for the request schedule.
+ *
+ * Mental model:
+ * - is_renderable answers "can this campaign participate in selection?"
+ * - is_active answers "if it participates, should it outrank upcoming items?"
+ *
+ * We intentionally allow future-scheduled campaigns to remain renderable so
+ * their hidden markup can already exist in cached HTML before the start time.
+ * Expired or invalid campaigns are not renderable at all.
+ *
+ * Current schedule states:
+ * - Active now: renderable TRUE, active TRUE
+ * - Upcoming: renderable TRUE, active FALSE
+ * - Expired/invalid: renderable FALSE, active FALSE
  */
 function _carlson_campaign_get_schedule_state($campaign): array {
   $request_time = \Drupal::time()->getRequestTime();
@@ -245,6 +258,21 @@ function _carlson_campaign_empty_campaign_build(array $selected): array {
 
 /**
  * Select the first visible placed campaign block for a bundle.
+ *
+ * Selection happens in two phases:
+ * 1. Build a candidate pool from reusable campaign content that is placed in
+ *    the active theme and passes schedule/access checks.
+ * 2. Sort those candidates so exactly one campaign of the requested type wins.
+ *
+ * The winner is chosen deterministically:
+ * - Active campaigns outrank upcoming campaigns.
+ * - Earlier theme regions outrank later regions.
+ * - Lower block weight outranks higher weight.
+ * - Block ID is the final stable tie-breaker.
+ *
+ * This is why schedule state needs both "renderable" and "active":
+ * - renderable decides whether a campaign enters the candidate pool at all
+ * - active decides whether it should outrank future campaigns in that pool
  */
 function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
   try {
@@ -326,8 +354,8 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
       }
 
       foreach ($blocks as $block) {
-        // Store both content and placement metadata so we can sort by placement
-        // and then render the selected content item.
+        // Store both content and placement metadata so we can sort by schedule
+        // priority first, then by placement, and finally render one winner.
         $candidates[] = [
           'block' => $block,
           'content' => $campaign,
@@ -348,7 +376,8 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
     }
 
     // Stable sort ensures a predictable "first eligible" campaign when several
-    // campaigns are configured.
+    // campaigns are configured. Lower schedule_rank wins, so active campaigns
+    // are selected before upcoming campaigns.
     usort($candidates, static function (array $a, array $b): int {
       if ($a['schedule_rank'] !== $b['schedule_rank']) {
         return $a['schedule_rank'] <=> $b['schedule_rank'];
