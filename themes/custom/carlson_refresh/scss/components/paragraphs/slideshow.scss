@@ -9,38 +9,58 @@
 .carlson-slideshow {
   .slick-arrow {
     background: $white;
-
-    &::before {
-      color: $maroon;
-      font-size: 1.8rem;
-      font-weight: 700;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .slick-prev {
     margin-left: 5px;
-
-    &::before {
-      @include carlson-icons($icon-arrow-left2);
-    }
   }
 
   .slick-next {
     margin-right: 5px;
+  }
+
+  .slick-prev-icon,
+  .slick-next-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: $maroon;
+    font-size: 1.8rem;
+    font-weight: 700;
 
     &::before {
-      @include carlson-icons($icon-arrow-right2);
+      font-family: "carlson-icons" !important;
+      speak: none;
+      font-style: normal;
+      font-weight: 400;
+      font-variant: normal;
+      text-transform: none;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+  }
+
+  .slick-prev-icon::before {
+    @include carlson-icons($icon-arrow-left2);
+  }
+
+  .slick-next-icon::before {
+    @include carlson-icons($icon-arrow-right2);
   }
 
   @include media-breakpoint-up(lg) {
     .slick-arrow {
       width: 60px;
       height: 60px;
+    }
 
-      &::before {
-        font-size: 2.6rem;
-      }
+    .slick-prev-icon,
+    .slick-next-icon {
+      font-size: 2.6rem;
     }
   }
 }

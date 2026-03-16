@@ -49,10 +49,20 @@
 %}
 
 {% set obj_id = random() %}
+{% set carousel_label = 'Slideshow'|t %}
+{% set thumbnails_label = 'Slide thumbnails'|t %}
+{% set main_instructions = 'Use the previous and next buttons to change slides. The thumbnail carousel that follows stays in sync.'|t %}
+{% set nav_instructions = 'Select a thumbnail to load that slide in the main carousel above.'|t %}
 
 {% block paragraph %}
   {% block content %}
-    <div class="carlson-slideshow {{ obj_id }}" rel="{{ obj_id }}">
+    <div
+      class="carlson-slideshow {{ obj_id }}"
+      rel="{{ obj_id }}"
+      data-carousel-label="{{ carousel_label|e('html_attr') }}"
+      data-carousel-nav-label="{{ thumbnails_label|e('html_attr') }}"
+      data-carousel-instructions="{{ main_instructions|e('html_attr') }}"
+      data-carousel-nav-instructions="{{ nav_instructions|e('html_attr') }}">
       <div class="row">
         <div class="col-12 text-center">
           <div class="slider-for">
@@ -65,7 +75,7 @@
       </div>
       <div class="row">
         <div class="col-12 text-center">
-          <div class="slideshow__main-caption"></div>
+          <div class="slideshow__main-caption" role="status" aria-live="polite" aria-atomic="true"></div>
         </div>
       </div>
     </div>
