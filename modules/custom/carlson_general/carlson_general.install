@@ -142,3 +142,234 @@ function carlson_general_update_100107() {
   $script_name = 'convert_p_to_h2.php';
   return _carlson_general_run_script($script_name);
 }
+
+/**
+ * CSM-335: Add Modal Campaign block type (ported from DIG SHD8-757).
+ */
+function carlson_general_update_100108() {
+  $type_id = 'modal_campaign';
+
+  $type = \Drupal\block_content\Entity\BlockContentType::load($type_id);
+  if (!$type) {
+    $type = \Drupal\block_content\Entity\BlockContentType::create([
+      'id' => $type_id,
+      'label' => 'Modal Campaign',
+      'description' => 'A reusable modal block for campaigns, announcements, and promotions.',
+      'revision' => FALSE,
+    ]);
+    $type->save();
+  }
+
+  $fields = [
+    'field_modal_eyebrow' => [
+      'type' => 'string',
+      'label' => 'Eyebrow Text',
+      'description' => 'Optional text that appears above the title (e.g., "Support Our Mission")',
+      'storage_settings' => [
+        'max_length' => 255,
+      ],
+      'field_settings' => [],
+    ],
+    'field_modal_title' => [
+      'type' => 'string',
+      'label' => 'Modal Title',
+      'description' => '',
+      'storage_settings' => [
+        'max_length' => 255,
+      ],
+      'field_settings' => [],
+    ],
+    'field_modal_body' => [
+      'type' => 'text_long',
+      'label' => 'Modal Body',
+      'description' => '',
+      'storage_settings' => [],
+      'field_settings' => [
+        'allowed_formats' => [],
+      ],
+    ],
+    'field_modal_cta_url' => [
+      'type' => 'link',
+      'label' => 'CTA URL',
+      'description' => '',
+      'storage_settings' => [],
+      'field_settings' => [
+        'title' => 1,
+        'link_type' => 17,
+      ],
+    ],
+    'field_modal_show_decline' => [
+      'type' => 'boolean',
+      'label' => 'Show Decline Button',
+      'description' => 'If checked, shows the "Maybe Later" decline button. If unchecked, users can only close with X or take the CTA.',
+      'storage_settings' => [],
+      'field_settings' => [
+        'on_label' => 'On',
+        'off_label' => 'Off',
+      ],
+      'default_value' => [
+        ['value' => 1],
+      ],
+    ],
+    'field_modal_decline_text' => [
+      'type' => 'string',
+      'label' => 'Decline Button Text',
+      'description' => '',
+      'storage_settings' => [
+        'max_length' => 255,
+      ],
+      'field_settings' => [],
+    ],
+    'field_modal_session_key' => [
+      'type' => 'string',
+      'label' => 'Session Key',
+      'description' => 'Unique key for tracking this modal in localStorage (e.g., fall_2025_campaign)',
+      'storage_settings' => [
+        'max_length' => 255,
+      ],
+      'field_settings' => [],
+    ],
+    'field_modal_dismiss_days' => [
+      'type' => 'integer',
+      'label' => 'Dismiss Window (Days)',
+      'description' => 'How many days to wait before showing the modal again after a user dismisses it. Defaults to 7 days.',
+      'storage_settings' => [
+        'unsigned' => TRUE,
+        'size' => 'normal',
+      ],
+      'field_settings' => [
+        'min' => 1,
+        'max' => 3650,
+        'suffix' => ' days',
+      ],
+      'default_value' => [
+        ['value' => 7],
+      ],
+    ],
+  ];
+
+  foreach ($fields as $field_name => $info) {
+    $field_storage = \Drupal\field\Entity\FieldStorageConfig::loadByName('block_content', $field_name);
+    if (!$field_storage) {
+      $field_storage = \Drupal\field\Entity\FieldStorageConfig::create([
+        'field_name' => $field_name,
+        'entity_type' => 'block_content',
+        'type' => $info['type'],
+        'settings' => $info['storage_settings'],
+        'cardinality' => 1,
+        'translatable' => TRUE,
+      ]);
+      $field_storage->save();
+    }
+
+    $field_config = \Drupal\field\Entity\FieldConfig::loadByName('block_content', $type_id, $field_name);
+    if (!$field_config) {
+      $field_config = \Drupal\field\Entity\FieldConfig::create([
+        'field_name' => $field_name,
+        'entity_type' => 'block_content',
+        'bundle' => $type_id,
+        'label' => $info['label'],
+        'description' => $info['description'],
+        'required' => FALSE,
+        'translatable' => TRUE,
+        'settings' => $info['field_settings'],
+        'default_value' => $info['default_value'] ?? [],
+      ]);
+      $field_config->save();
+    }
+  }
+
+  // Configure form display for a usable editing experience.
+  $form_display = \Drupal\Core\Entity\Entity\EntityFormDisplay::load("block_content.{$type_id}.default");
+  if (!$form_display) {
+    $form_display = \Drupal\Core\Entity\Entity\EntityFormDisplay::create([
+      'targetEntityType' => 'block_content',
+      'bundle' => $type_id,
+      'mode' => 'default',
+      'status' => TRUE,
+    ]);
+  }
+
+  $form_display->setComponent('info', [
+    'type' => 'string_textfield',
+    'weight' => 0,
+    'settings' => [
+      'size' => 60,
+      'placeholder' => 'e.g., Fall 2025 Campaign',
+    ],
+  ]);
+
+  $form_display->setComponent('field_modal_eyebrow', [
+    'type' => 'string_textfield',
+    'weight' => 20,
+    'settings' => [
+      'size' => 60,
+      'placeholder' => 'e.g., Support Our Mission',
+    ],
+  ]);
+
+  $form_display->setComponent('field_modal_title', [
+    'type' => 'string_textfield',
+    'weight' => 21,
+    'settings' => [
+      'size' => 60,
+      'placeholder' => 'Optional main heading',
+    ],
+  ]);
+
+  $form_display->setComponent('field_modal_body', [
+    'type' => 'text_textarea',
+    'weight' => 22,
+    'settings' => [
+      'rows' => 10,
+      'placeholder' => 'Main message content…',
+    ],
+  ]);
+
+  $form_display->setComponent('field_modal_cta_url', [
+    'type' => 'link_default',
+    'weight' => 50,
+    'settings' => [
+      'placeholder_url' => 'https://example.org/',
+      'placeholder_title' => 'Learn more',
+    ],
+  ]);
+
+  $form_display->setComponent('field_modal_show_decline', [
+    'type' => 'boolean_checkbox',
+    'weight' => 51,
+    'settings' => [
+      'display_label' => TRUE,
+    ],
+  ]);
+
+  $form_display->setComponent('field_modal_decline_text', [
+    'type' => 'string_textfield',
+    'weight' => 52,
+    'settings' => [
+      'size' => 60,
+      'placeholder' => 'e.g., Maybe Later',
+    ],
+  ]);
+
+  $form_display->setComponent('field_modal_session_key', [
+    'type' => 'string_textfield',
+    'weight' => 71,
+    'settings' => [
+      'size' => 60,
+      'placeholder' => 'e.g., fall_2025_campaign',
+    ],
+  ]);
+
+  $form_display->setComponent('field_modal_dismiss_days', [
+    'type' => 'number',
+    'weight' => 72,
+    'settings' => [
+      'placeholder' => '7',
+    ],
+  ]);
+
+  $form_display->save();
+
+  return t('Added Modal Campaign block type and fields.');
+}
