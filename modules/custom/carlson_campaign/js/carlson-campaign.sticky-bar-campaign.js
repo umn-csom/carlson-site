@@ -167,13 +167,17 @@
     target,
     text,
   ) {
+    const actionText = text || '';
+
     stickyElement.dispatchEvent(
       new CustomEvent('campaign:interaction', {
         bubbles: true,
         detail: {
           event: nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown',
           target: target || stickyElement,
-          text: text || '',
+          action_name: action,
+          action_text: actionText,
+          text: actionText,
           action,
           campaignId,
         },

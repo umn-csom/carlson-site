@@ -64,6 +64,8 @@ final class StickyBarCampaignMarkupBehaviorTest extends TestCase {
       "setStickyState(storageKey, 'acknowledged')",
       $contents,
     );
+    $this->assertStringContainsString('action_name', $contents);
+    $this->assertStringContainsString('action_text', $contents);
     $this->assertStringContainsString("'Sticky Bar Close'", $contents);
     $this->assertStringContainsString('campaign-sticky-bar-text a', $contents);
   }
