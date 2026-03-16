@@ -402,16 +402,8 @@
         modalElement.querySelectorAll('.campaign-modal-convert').forEach(
           (convertTarget) => {
             convertTarget.addEventListener('click', (event) => {
-              event.preventDefault();
-
-              // Keep legacy UX: conversion links open in new tab.
-              if (
-                convertTarget instanceof HTMLAnchorElement &&
-                convertTarget.href
-              ) {
-                window.open(convertTarget.href, '_blank', 'noopener');
-              }
-
+              // Preserve the anchor's native navigation behavior while still
+              // recording the conversion state before the browser follows it.
               closeWithAction('converted', event, event.currentTarget);
             });
           },
