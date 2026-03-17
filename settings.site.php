@@ -92,4 +92,7 @@ if (in_array($environment, ['local', 'dev', 'test'])) {
   $config['stage_file_proxy.settings']['proxy_headers'] = '';
 }
 
-$config['system.performance']['cache']['page']['max_age'] = 60;
+// Keep faster cache turnover outside production while raising the production
+// page cache TTL to OIT/Acquia's recommended minimum of five minutes.
+$config['system.performance']['cache']['page']['max_age'] =
+  $environment === 'prod' ? 300 : 60;
