@@ -39,6 +39,7 @@ function carlson_campaign_theme(
         'campaign_id' => '',
         'sticky_id' => '',
         'text' => '',
+        'sticky_position' => 'bottom',
       ],
       'template' => 'csm-sticky-bar-campaign',
     ],
@@ -660,6 +661,17 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
     $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
   }
 
+  $position = 'bottom';
+  if (
+    $selected_content->hasField('field_campaign_position') &&
+    !$selected_content->get('field_campaign_position')->isEmpty()
+  ) {
+    $candidate_position = $selected_content->get('field_campaign_position')->value;
+    if (in_array($candidate_position, ['top', 'bottom'], TRUE)) {
+      $position = $candidate_position;
+    }
+  }
+
   $schedule_settings = _carlson_campaign_get_schedule_settings(
     $selected_content,
   );
@@ -669,6 +681,7 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
     '#campaign_id' => $campaign_id,
     '#sticky_id' => $sticky_id,
     '#text' => Markup::create($filtered_text),
+    '#sticky_position' => $position,
     '#attached' => [
       'library' => [
         'carlson_campaign/carlson-campaign.sticky-bar-campaign',
@@ -680,6 +693,7 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
           'campaignId' => $campaign_id,
           'stickyId' => $sticky_id,
           'sessionKey' => $session_key,
+          'position' => $position,
           'dismissDays' => $dismiss_days,
           'delaySeconds' => $delay_seconds,
           'scheduleStartTimestamp' => $schedule_settings['startTimestamp'],

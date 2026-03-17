@@ -39,6 +39,7 @@
       campaignId: settings.campaignId || '',
       stickyId: settings.stickyId || '',
       sessionKey: settings.sessionKey || 'campaign_sticky_bar',
+      position: settings.position === 'top' ? 'top' : 'bottom',
       dismissDays:
         Number.isFinite(dismissDays) && dismissDays >= 0 ?
           dismissDays :
@@ -238,6 +239,9 @@
 
       once('csm-sticky-bar-campaign', selector, context).forEach(
         (stickyElement) => {
+          if (config.position === 'top') {
+            stickyElement.classList.add('campaign-sticky-bar--top');
+          }
           const campaignId =
             stickyElement.dataset.campaignId || config.campaignId || '';
           const storageKey = getStorageKey(config.sessionKey);
