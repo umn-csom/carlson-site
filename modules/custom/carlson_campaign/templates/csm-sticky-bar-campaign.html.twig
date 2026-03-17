@@ -7,7 +7,7 @@
 
 <aside
   id="{{ sticky_id }}"
-  class="campaign-sticky-bar{{ sticky_position == 'top' ? ' campaign-sticky-bar--top' : '' }}"
+  class="campaign-sticky-bar campaign-sticky-bar--{{ sticky_position|clean_class }} campaign-sticky-bar--{{ sticky_color_scheme|clean_class }}"
   data-campaign-id="{{ campaign_id }}"
   role="region"
   aria-label="{{ 'Campaign announcement'|t }}"

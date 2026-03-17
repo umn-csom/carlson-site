@@ -44,6 +44,14 @@ final class StickyBarCampaignMarkupBehaviorTest extends TestCase {
 
     $this->assertStringContainsString('<aside', $contents);
     $this->assertStringContainsString('campaign-sticky-bar', $contents);
+    $this->assertStringContainsString(
+      'campaign-sticky-bar--{{ sticky_position|clean_class }}',
+      $contents,
+    );
+    $this->assertStringContainsString(
+      'campaign-sticky-bar--{{ sticky_color_scheme|clean_class }}',
+      $contents,
+    );
     $this->assertStringContainsString('campaign-sticky-bar-close', $contents);
     $this->assertStringContainsString('campaign-sticky-bar-text', $contents);
     $this->assertStringContainsString('id="{{ sticky_id }}"', $contents);

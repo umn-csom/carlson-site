@@ -239,9 +239,6 @@
 
       once('csm-sticky-bar-campaign', selector, context).forEach(
         (stickyElement) => {
-          if (config.position === 'top') {
-            stickyElement.classList.add('campaign-sticky-bar--top');
-          }
           const campaignId =
             stickyElement.dataset.campaignId || config.campaignId || '';
           const storageKey = getStorageKey(config.sessionKey);

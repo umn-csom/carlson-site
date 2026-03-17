@@ -4,108 +4,122 @@
  */
 
 .campaign-sticky-bar {
-  background: #7a0019;
-  bottom: 0;
-  color: #fff;
   font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
   font-size: 1.7rem;
-  left: 0;
+  width: 100%;
+}
+
+.campaign-sticky-bar--bottom {
+  bottom: 0;
   box-shadow: 0 -6px 20px rgb(0 0 0 / 18%);
+  left: 0;
   position: fixed;
   right: 0;
   z-index: 1000;
 }
 
 .campaign-sticky-bar--top {
-  background: #e6e0d2;
-  bottom: auto;
   box-shadow: 0 6px 20px rgb(0 0 0 / 14%);
+  position: relative;
+}
+
+.campaign-sticky-bar--maroon {
+  background: #7a0019;
+  color: #fff;
+}
+
+.campaign-sticky-bar--ivory {
+  background: #e6e0d2;
   color: #333;
-  top: 0;
 }
 
 .campaign-sticky-bar__inner {
   align-items: center;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  gap: 1.6rem;
+  grid-template-columns: minmax(0, 1fr) auto;
   margin: 0 auto;
   max-width: 1340px;
   min-height: 6.4rem;
-  padding: 1.2rem 8rem 1.2rem 2.5rem;
-  position: relative;
+  padding: 1.2rem 2.5rem;
   width: 100%;
 }
 
 .campaign-sticky-bar-text {
   font-size: 1.7rem;
   line-height: 1.5;
-  margin: 0 auto;
+  margin: 0;
   max-width: 100rem;
   text-align: center;
+  width: 100%;
 }
 
 .campaign-sticky-bar-text a {
-  color: #ffcc33;
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 0.2rem;
 }
 
-.campaign-sticky-bar-text a:hover,
-.campaign-sticky-bar-text a:focus {
+.campaign-sticky-bar--maroon .campaign-sticky-bar-text a {
+  color: #ffcc33;
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar-text a:hover,
+.campaign-sticky-bar--maroon .campaign-sticky-bar-text a:focus {
   color: #ffd766;
 }
 
-.campaign-sticky-bar--top .campaign-sticky-bar-text a {
+.campaign-sticky-bar--ivory .campaign-sticky-bar-text a {
   color: #7a0019;
 }
 
-.campaign-sticky-bar--top .campaign-sticky-bar-text a:hover,
-.campaign-sticky-bar--top .campaign-sticky-bar-text a:focus {
+.campaign-sticky-bar--ivory .campaign-sticky-bar-text a:hover,
+.campaign-sticky-bar--ivory .campaign-sticky-bar-text a:focus {
   color: #5b0013;
 }
 
 .campaign-sticky-bar-close {
   align-items: center;
   background: transparent;
-  border: 1px solid rgb(255 255 255 / 40%);
   border-radius: 999px;
-  color: #fff;
   cursor: pointer;
   display: inline-flex;
   flex: 0 0 auto;
   height: 4.4rem;
   justify-content: center;
+  margin-inline-start: auto;
   padding: 0;
-  position: absolute;
-  right: 2.5rem;
-  top: 50%;
-  transform: translateY(-50%);
   width: 4.4rem;
 }
 
-.campaign-sticky-bar-close:hover,
-.campaign-sticky-bar-close:focus {
+.campaign-sticky-bar--maroon .campaign-sticky-bar-close {
+  border: 1px solid rgb(255 255 255 / 40%);
+  color: #fff;
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar-close:hover,
+.campaign-sticky-bar--maroon .campaign-sticky-bar-close:focus {
   background: rgb(255 255 255 / 12%);
 }
 
-.campaign-sticky-bar-close:focus-visible {
+.campaign-sticky-bar--maroon .campaign-sticky-bar-close:focus-visible {
   outline: 2px solid #ffcc33;
   outline-offset: 2px;
 }
 
-.campaign-sticky-bar--top .campaign-sticky-bar-close {
-  border-color: rgb(122 0 25 / 30%);
+.campaign-sticky-bar--ivory .campaign-sticky-bar-close {
+  border: 1px solid rgb(122 0 25 / 30%);
   color: #7a0019;
 }
 
-.campaign-sticky-bar--top .campaign-sticky-bar-close:hover,
-.campaign-sticky-bar--top .campaign-sticky-bar-close:focus {
+.campaign-sticky-bar--ivory .campaign-sticky-bar-close:hover,
+.campaign-sticky-bar--ivory .campaign-sticky-bar-close:focus {
   background: rgb(122 0 25 / 8%);
 }
 
-.campaign-sticky-bar--top .campaign-sticky-bar-close:focus-visible {
-  outline-color: #7a0019;
+.campaign-sticky-bar--ivory .campaign-sticky-bar-close:focus-visible {
+  outline: 2px solid #7a0019;
+  outline-offset: 2px;
 }
 
 .campaign-sticky-bar-close svg {
@@ -116,9 +130,14 @@
 
 @media (max-width: 48rem) {
   .campaign-sticky-bar__inner {
-    align-items: center;
+    align-items: start;
+    gap: 1rem;
     min-height: 0;
-    padding: 1rem 5.8rem calc(1rem + env(safe-area-inset-bottom)) 1.2rem;
+    padding: 1rem 1.2rem;
+  }
+
+  .campaign-sticky-bar--bottom .campaign-sticky-bar__inner {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
   }
 
   .campaign-sticky-bar-text {
@@ -128,9 +147,8 @@
   }
 
   .campaign-sticky-bar-close {
-    right: 1.2rem;
-    width: 4.4rem;
     height: 4.4rem;
+    width: 4.4rem;
   }
 
   .campaign-sticky-bar-close svg {

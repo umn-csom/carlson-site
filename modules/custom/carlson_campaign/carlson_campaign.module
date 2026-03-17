@@ -40,6 +40,7 @@ function carlson_campaign_theme(
         'sticky_id' => '',
         'text' => '',
         'sticky_position' => 'bottom',
+        'sticky_color_scheme' => 'maroon',
       ],
       'template' => 'csm-sticky-bar-campaign',
     ],
@@ -73,8 +74,24 @@ function carlson_campaign_preprocess_block(array &$variables): void {
       'sticky_bar_campaign',
     ], TRUE)
   ) {
-    // Use placed block visibility rules, but render in page bottom.
+    // Use placed block visibility rules, but render campaigns separately in
+    // page_top/page_bottom so source order and accessibility stay controlled
+    // by the campaign runtime instead of the original block placement.
     $variables['attributes']['hidden'] = 'hidden';
+  }
+}
+
+/**
+ * Implements hook_page_top().
+ */
+function carlson_campaign_page_top(array &$page_top): void {
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+
+  $build = _carlson_campaign_get_sticky_bar_page_build('top');
+  if ($build) {
+    $page_top['csm_sticky_bar_campaign'] = $build;
   }
 }
 
@@ -91,10 +108,36 @@ function carlson_campaign_page_bottom(array &$page_bottom): void {
     $page_bottom['csm_modal_campaign'] = $build;
   }
 
-  $build = _carlson_campaign_build_sticky_bar_campaign();
+  $build = _carlson_campaign_get_sticky_bar_page_build('bottom');
   if ($build) {
     $page_bottom['csm_sticky_bar_campaign'] = $build;
   }
+}
+
+/**
+ * Returns the sticky bar build for the requested page region.
+ */
+function _carlson_campaign_get_sticky_bar_page_build(
+  string $expected_position,
+): ?array {
+  static $build_loaded = FALSE;
+  static $build = NULL;
+
+  if (!$build_loaded) {
+    $build = _carlson_campaign_build_sticky_bar_campaign();
+    $build_loaded = TRUE;
+  }
+
+  if ($build === NULL) {
+    return NULL;
+  }
+
+  $sticky_position = $build['#sticky_position'] ?? 'bottom';
+  if ($sticky_position !== $expected_position) {
+    return NULL;
+  }
+
+  return $build;
 }
 
 /**
@@ -324,8 +367,9 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
 
       $plugin_id = 'block_content:' . $campaign->uuid();
       // Find placed block instances for this reusable block content in the
-      // active theme. We render from page_bottom, but we still respect the
-      // editor's placement visibility rules from the original placement.
+      // active theme. Campaigns render separately from the block placement
+      // itself, but we still respect the editor's placement visibility rules
+      // from the original block instance.
       $blocks = $block_storage->loadByProperties([
         'theme' => $theme,
         'status' => TRUE,
@@ -672,6 +716,18 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
     }
   }
 
+  $color_scheme = 'maroon';
+  if (
+    $selected_content->hasField('field_campaign_color_scheme') &&
+    !$selected_content->get('field_campaign_color_scheme')->isEmpty()
+  ) {
+    $candidate_color_scheme = $selected_content
+      ->get('field_campaign_color_scheme')->value;
+    if (in_array($candidate_color_scheme, ['maroon', 'ivory'], TRUE)) {
+      $color_scheme = $candidate_color_scheme;
+    }
+  }
+
   $schedule_settings = _carlson_campaign_get_schedule_settings(
     $selected_content,
   );
@@ -682,6 +738,7 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
     '#sticky_id' => $sticky_id,
     '#text' => Markup::create($filtered_text),
     '#sticky_position' => $position,
+    '#sticky_color_scheme' => $color_scheme,
     '#attached' => [
       'library' => [
         'carlson_campaign/carlson-campaign.sticky-bar-campaign',
@@ -694,6 +751,7 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
           'stickyId' => $sticky_id,
           'sessionKey' => $session_key,
           'position' => $position,
+          'colorScheme' => $color_scheme,
           'dismissDays' => $dismiss_days,
           'delaySeconds' => $delay_seconds,
           'scheduleStartTimestamp' => $schedule_settings['startTimestamp'],
