@@ -92,7 +92,6 @@ if (in_array($environment, ['local', 'dev', 'test'])) {
   $config['stage_file_proxy.settings']['proxy_headers'] = '';
 }
 
-// Keep faster cache turnover outside production while raising the production
-// page cache TTL to OIT/Acquia's recommended minimum of five minutes.
-$config['system.performance']['cache']['page']['max_age'] =
-  $environment === 'prod' ? 300 : 60;
+// Keep Drupal page cache TTL at OIT/Acquia's recommended minimum of five
+// minutes across all environments.
+$config['system.performance']['cache']['page']['max_age'] = 300;
