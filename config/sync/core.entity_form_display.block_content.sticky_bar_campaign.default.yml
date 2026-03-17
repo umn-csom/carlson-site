@@ -5,6 +5,7 @@ dependencies:
   config:
     - block_content.type.sticky_bar_campaign
     - field.field.block_content.sticky_bar_campaign.field_campaign_delay_seconds
+    - field.field.block_content.sticky_bar_campaign.field_campaign_color_scheme
     - field.field.block_content.sticky_bar_campaign.field_campaign_dismiss_days
     - field.field.block_content.sticky_bar_campaign.field_campaign_end_datetime
     - field.field.block_content.sticky_bar_campaign.field_campaign_position
@@ -43,21 +44,27 @@ mode: default
 content:
   field_campaign_delay_seconds:
     type: number
-    weight: 21
+    weight: 22
     region: content
     settings:
       placeholder: '5'
     third_party_settings: {  }
+  field_campaign_color_scheme:
+    type: options_buttons
+    weight: 20
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_campaign_dismiss_days:
     type: number
-    weight: 23
+    weight: 24
     region: content
     settings:
       placeholder: '1'
     third_party_settings: {  }
   field_campaign_end_datetime:
     type: datetime_default
-    weight: 25
+    weight: 26
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -69,7 +76,7 @@ content:
     third_party_settings: {  }
   field_campaign_session_key:
     type: string_textfield
-    weight: 22
+    weight: 23
     region: content
     settings:
       size: 60
@@ -77,7 +84,7 @@ content:
     third_party_settings: {  }
   field_campaign_text:
     type: text_textarea
-    weight: 20
+    weight: 21
     region: content
     settings:
       rows: 6
@@ -85,7 +92,7 @@ content:
     third_party_settings: {  }
   field_campaign_start_datetime:
     type: datetime_default
-    weight: 24
+    weight: 25
     region: content
     settings: {  }
     third_party_settings: {  }
