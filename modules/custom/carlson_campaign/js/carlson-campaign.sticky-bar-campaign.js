@@ -103,6 +103,10 @@
 
       const data = JSON.parse(stored);
       switch (data.action) {
+        case 'viewed':
+          // Viewing alone should not suppress the banner on later page loads.
+          return { shouldShow: true };
+
         case 'dismissed':
         case 'acknowledged': {
           // A dismiss window of 0 means "show every visit", so clear any prior
@@ -258,6 +262,9 @@
 
             stickyElement.hidden = false;
             stickyElement.setAttribute('aria-hidden', 'false');
+            // Record that the visitor actually saw the banner without
+            // treating viewed as a suppressing action on later page loads.
+            setStickyState(storageKey, 'viewed');
             announceStickyVisible(stickyElement);
           };
 

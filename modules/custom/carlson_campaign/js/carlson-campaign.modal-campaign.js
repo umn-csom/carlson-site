@@ -106,6 +106,10 @@
 
       const data = JSON.parse(stored);
       switch (data.action) {
+        case 'viewed':
+          // Viewing alone should not suppress the modal on later page loads.
+          return { shouldShow: true };
+
         case 'converted':
           if (stopOnConvert) {
             return { shouldShow: false, reason: 'converted' };
@@ -150,9 +154,6 @@
    */
   function setModalState(storageKey, action) {
     try {
-      if (action === 'viewed') {
-        return;
-      }
       localStorage.setItem(
         storageKey,
         JSON.stringify({ action, timestamp: Date.now() }),
@@ -445,6 +446,9 @@
               previouslyFocusedElement = document.activeElement;
             }
             modalElement.showModal();
+            // Record that the visitor actually saw the modal without letting
+            // the passive viewed state suppress later displays by itself.
+            setModalState(storageKey, 'viewed');
             // Keep initial focus deterministic for keyboard/screen readers.
             window.requestAnimationFrame(() => {
               focusInitialModalControl(modalElement);
