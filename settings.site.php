@@ -92,5 +92,6 @@ if (in_array($environment, ['local', 'dev', 'test'])) {
   $config['stage_file_proxy.settings']['proxy_headers'] = '';
 }
 
-// Keep Drupal page cache TTL at five minutes across all environments.
+// Override OIT page cache TTL: 2764800 (32 days) -> 300 (5 min).
+// See https://github.umn.edu/drupalmodules/d8-configurations/blob/11.x-prod/sites-files/base-settings.php#L79
 $config['system.performance']['cache']['page']['max_age'] = 300;
