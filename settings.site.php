@@ -92,6 +92,5 @@ if (in_array($environment, ['local', 'dev', 'test'])) {
   $config['stage_file_proxy.settings']['proxy_headers'] = '';
 }
 
-// Keep Drupal page cache TTL at OIT/Acquia's recommended minimum of five
-// minutes across all environments.
+// Keep Drupal page cache TTL at five minutes across all environments.
 $config['system.performance']['cache']['page']['max_age'] = 300;
