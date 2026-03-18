@@ -91,7 +91,7 @@
   /**
    * Reads localStorage and determines whether the sticky bar should be shown.
    *
-   * We store the last user action (dismissed/acknowledged) and a timestamp so
+   * We store the last user action (dismissed/converted) and a timestamp so
    * subsequent page loads can honor the configured dismiss window.
    */
   function getStickyState(storageKey, dismissDays) {
@@ -108,6 +108,8 @@
           return { shouldShow: true };
 
         case 'dismissed':
+        case 'converted':
+        // Backward compatibility for older stored positive-action entries.
         case 'acknowledged': {
           // A dismiss window of 0 means "show every visit", so clear any prior
           // state and allow the banner to render again immediately.
@@ -301,13 +303,13 @@
             .querySelectorAll('.campaign-sticky-bar-text a')
             .forEach((linkElement) => {
               linkElement.addEventListener('click', (event) => {
-                // Any link click inside the banner counts as acknowledgement.
+                // Any link click inside the banner counts as a conversion.
                 // We do not block navigation; tracking is emitted immediately.
-                setStickyState(storageKey, 'acknowledged');
+                setStickyState(storageKey, 'converted');
                 dispatchCampaignInteraction(
                   stickyElement,
                   campaignId,
-                  'acknowledged',
+                  'converted',
                   event,
                   event.currentTarget,
                   linkElement.textContent.trim(),

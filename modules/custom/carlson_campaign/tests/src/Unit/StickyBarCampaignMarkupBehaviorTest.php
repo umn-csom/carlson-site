@@ -69,7 +69,7 @@ final class StickyBarCampaignMarkupBehaviorTest extends TestCase {
       $contents,
     );
     $this->assertStringContainsString(
-      "setStickyState(storageKey, 'acknowledged')",
+      "setStickyState(storageKey, 'converted')",
       $contents,
     );
     $this->assertStringContainsString('action_name', $contents);
