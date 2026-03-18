@@ -127,6 +127,8 @@ function _carlson_campaign_get_sticky_bar_page_build(
   static $build = NULL;
 
   if (!$build_loaded) {
+    // Build the sticky banner once per request so page_top/page_bottom can
+    // share the same selected campaign without repeating selection logic.
     $build = _carlson_campaign_build_sticky_bar_campaign();
     $build_loaded = TRUE;
   }
@@ -135,6 +137,8 @@ function _carlson_campaign_get_sticky_bar_page_build(
     return NULL;
   }
 
+  // Only return the cached build when it matches the requested page region.
+  // Top banners render in page_top; bottom banners render in page_bottom.
   $sticky_position = $build['#sticky_position'] ?? 'bottom';
   if ($sticky_position !== $expected_position) {
     return NULL;
