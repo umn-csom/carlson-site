@@ -8,6 +8,7 @@
 use Drupal\block\Entity\Block;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
 
 /**
@@ -56,6 +57,45 @@ function carlson_campaign_page_attachments(array &$attachments): void {
 
   $attachments['#attached']['library'][] =
     'carlson_campaign/carlson-campaign.unbounce';
+}
+
+/**
+ * Applies shared campaign block form text cleanup.
+ */
+function _carlson_campaign_alter_block_content_form(array &$form): void {
+  $description = 'Brief description identifying this instance used in the ' .
+    'Content > Blocks list (e.g. "Fall 2025 Campaign - Variant A").';
+
+  if (isset($form['info']['widget'][0]['value'])) {
+    $form['info']['widget'][0]['value']['#description'] = $description;
+    return;
+  }
+
+  if (isset($form['info'])) {
+    $form['info']['#description'] = $description;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for modal campaign blocks.
+ */
+function carlson_campaign_form_block_content_modal_campaign_form_alter(
+  array &$form,
+  FormStateInterface $form_state,
+  string $form_id,
+): void {
+  _carlson_campaign_alter_block_content_form($form);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for sticky bar campaign blocks.
+ */
+function carlson_campaign_form_block_content_sticky_bar_campaign_form_alter(
+  array &$form,
+  FormStateInterface $form_state,
+  string $form_id,
+): void {
+  _carlson_campaign_alter_block_content_form($form);
 }
 
 /**
