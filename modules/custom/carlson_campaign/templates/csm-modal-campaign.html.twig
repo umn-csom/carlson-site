@@ -54,7 +54,7 @@
       {{ body }}
     </div>
 
-    {% if cta_url or show_decline %}
+    {% if cta_url or decline_text %}
       <div class="campaign-modal__footer">
         {% if cta_url %}
           <a
@@ -66,7 +66,7 @@
           </a>
         {% endif %}
 
-        {% if show_decline %}
+        {% if decline_text %}
           <button
             id="{{ modal_id }}__decline"
             type="button"
