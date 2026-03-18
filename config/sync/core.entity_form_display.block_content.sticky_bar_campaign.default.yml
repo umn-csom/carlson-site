@@ -12,6 +12,7 @@ dependencies:
     - field.field.block_content.sticky_bar_campaign.field_campaign_start_datetime
     - field.field.block_content.sticky_bar_campaign.field_campaign_session_key
     - field.field.block_content.sticky_bar_campaign.field_campaign_text
+    - field.field.block_content.sticky_bar_campaign.field_variant_name
   module:
     - field_group
     - datetime
@@ -23,6 +24,7 @@ third_party_settings:
       children:
         - field_campaign_delay_seconds
         - field_campaign_session_key
+        - field_variant_name
         - field_campaign_dismiss_days
         - field_campaign_start_datetime
         - field_campaign_end_datetime
@@ -57,14 +59,14 @@ content:
     third_party_settings: {  }
   field_campaign_dismiss_days:
     type: number
-    weight: 24
+    weight: 25
     region: content
     settings:
       placeholder: '1'
     third_party_settings: {  }
   field_campaign_end_datetime:
     type: datetime_default
-    weight: 26
+    weight: 27
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -82,6 +84,14 @@ content:
       size: 60
       placeholder: 'e.g., discount_2026_spring'
     third_party_settings: {  }
+  field_variant_name:
+    type: string_textfield
+    weight: 24
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., A'
+    third_party_settings: {  }
   field_campaign_text:
     type: text_textarea
     weight: 21
@@ -92,7 +102,7 @@ content:
     third_party_settings: {  }
   field_campaign_start_datetime:
     type: datetime_default
-    weight: 25
+    weight: 26
     region: content
     settings: {  }
     third_party_settings: {  }

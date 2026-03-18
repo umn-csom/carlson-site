@@ -40,6 +40,7 @@
       campaignId: settings.campaignId || '',
       modalId: settings.modalId || '',
       sessionKey: settings.sessionKey || 'modal_campaign',
+      variantName: settings.variantName || '',
       dismissDays:
         Number.isFinite(dismissDays) && dismissDays >= 0 ?
           dismissDays :
@@ -188,6 +189,8 @@
   function dispatchCampaignInteraction(
     modalElement,
     campaignId,
+    campaignKey,
+    variantName,
     action,
     nativeEvent,
     target,
@@ -204,6 +207,10 @@
       action: action,
       text: actionText,
       campaignId,
+      campaign_key: campaignKey,
+      variant_name: variantName,
+      campaignKey,
+      variantName,
     };
 
     modalElement.dispatchEvent(
@@ -349,6 +356,8 @@
           dispatchCampaignInteraction(
             modalElement,
             campaignId,
+            config.sessionKey,
+            config.variantName,
             action,
             nativeEvent,
             target,
@@ -417,6 +426,8 @@
             dispatchCampaignInteraction(
               modalElement,
               campaignId,
+              config.sessionKey,
+              config.variantName,
               'dismissed',
               event,
               modalElement,

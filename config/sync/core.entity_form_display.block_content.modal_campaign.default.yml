@@ -11,6 +11,7 @@ dependencies:
     - field.field.block_content.modal_campaign.field_campaign_start_datetime
     - field.field.block_content.modal_campaign.field_campaign_session_key
     - field.field.block_content.modal_campaign.field_campaign_text
+    - field.field.block_content.modal_campaign.field_variant_name
     - field.field.block_content.modal_campaign.field_modal_cta_url
     - field.field.block_content.modal_campaign.field_modal_decline_text
     - field.field.block_content.modal_campaign.field_modal_eyebrow
@@ -26,6 +27,7 @@ third_party_settings:
       children:
         - field_campaign_delay_seconds
         - field_campaign_session_key
+        - field_variant_name
         - field_campaign_dismiss_days
         - field_campaign_stop_on_convert
         - field_campaign_start_datetime
@@ -55,14 +57,14 @@ content:
     third_party_settings: {  }
   field_campaign_dismiss_days:
     type: number
-    weight: 72
+    weight: 73
     region: content
     settings:
       placeholder: '1'
     third_party_settings: {  }
   field_campaign_end_datetime:
     type: datetime_default
-    weight: 75
+    weight: 76
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -74,16 +76,24 @@ content:
       size: 60
       placeholder: 'e.g., fall_2025_campaign'
     third_party_settings: {  }
+  field_variant_name:
+    type: string_textfield
+    weight: 72
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., A'
+    third_party_settings: {  }
   field_campaign_stop_on_convert:
     type: boolean_checkbox
-    weight: 73
+    weight: 74
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_campaign_start_datetime:
     type: datetime_default
-    weight: 74
+    weight: 75
     region: content
     settings: {  }
     third_party_settings: {  }

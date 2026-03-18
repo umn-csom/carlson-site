@@ -39,6 +39,7 @@
       campaignId: settings.campaignId || '',
       stickyId: settings.stickyId || '',
       sessionKey: settings.sessionKey || 'campaign_sticky_bar',
+      variantName: settings.variantName || '',
       position: settings.position === 'top' ? 'top' : 'bottom',
       dismissDays:
         Number.isFinite(dismissDays) && dismissDays >= 0 ?
@@ -168,6 +169,8 @@
   function dispatchCampaignInteraction(
     stickyElement,
     campaignId,
+    campaignKey,
+    variantName,
     action,
     nativeEvent,
     target,
@@ -186,6 +189,10 @@
           text: actionText,
           action,
           campaignId,
+          campaign_key: campaignKey,
+          variant_name: variantName,
+          campaignKey,
+          variantName,
         },
       }),
     );
@@ -290,6 +297,8 @@
                 dispatchCampaignInteraction(
                   stickyElement,
                   campaignId,
+                  config.sessionKey,
+                  config.variantName,
                   'dismissed',
                   event,
                   event.currentTarget,
@@ -308,6 +317,8 @@
                 dispatchCampaignInteraction(
                   stickyElement,
                   campaignId,
+                  config.sessionKey,
+                  config.variantName,
                   'converted',
                   event,
                   event.currentTarget,

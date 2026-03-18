@@ -597,6 +597,9 @@ function _carlson_campaign_build_modal_campaign(): ?array {
   if ($session_key === '') {
     $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
   }
+  $variant_name = $selected_content->hasField('field_variant_name')
+    ? trim((string) ($selected_content->get('field_variant_name')->value ?? ''))
+    : '';
 
   $schedule_settings = _carlson_campaign_get_schedule_settings(
     $selected_content,
@@ -621,6 +624,7 @@ function _carlson_campaign_build_modal_campaign(): ?array {
           'campaignId' => $campaign_id,
           'modalId' => $modal_id,
           'sessionKey' => $session_key,
+          'variantName' => $variant_name,
           'dismissDays' => $dismiss_days,
           'stopOnConvert' => $stop_on_convert,
           'delaySeconds' => $delay_seconds,
@@ -712,6 +716,9 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
   if ($session_key === '') {
     $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
   }
+  $variant_name = $selected_content->hasField('field_variant_name')
+    ? trim((string) ($selected_content->get('field_variant_name')->value ?? ''))
+    : '';
 
   $position = 'bottom';
   if (
@@ -758,6 +765,7 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
           'campaignId' => $campaign_id,
           'stickyId' => $sticky_id,
           'sessionKey' => $session_key,
+          'variantName' => $variant_name,
           'position' => $position,
           'colorScheme' => $color_scheme,
           'dismissDays' => $dismiss_days,
