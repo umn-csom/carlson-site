@@ -111,10 +111,9 @@
         case 'converted':
         // Backward compatibility for older stored positive-action entries.
         case 'acknowledged': {
-          // A dismiss window of 0 means "show every visit", so clear any prior
-          // state and allow the banner to render again immediately.
+          // A dismiss window of 0 means "show every visit" without clearing
+          // the recorded action state from localStorage on reload.
           if (dismissDays === 0) {
-            localStorage.removeItem(storageKey);
             return { shouldShow: true };
           }
 

@@ -120,7 +120,7 @@
         case 'dismissed':
         case 'declined': {
           if (dismissDays === 0) {
-            localStorage.removeItem(storageKey);
+            // "Show every visit" should not wipe the recorded action state.
             return { shouldShow: true };
           }
           const daysMs = dismissDays * 24 * 60 * 60 * 1000;
