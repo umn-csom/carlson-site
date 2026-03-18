@@ -30,7 +30,6 @@ function carlson_campaign_theme(
         'cta_url' => '',
         'cta_text' => '',
         'decline_text' => '',
-        'show_decline' => TRUE,
       ],
       'template' => 'csm-modal-campaign',
     ],
@@ -518,11 +517,14 @@ function _carlson_campaign_build_modal_campaign(): ?array {
   if ($title === '') {
     $title = 'Announcement';
   }
-  $decline_text = $selected_content->get('field_modal_decline_text')->value
-    ?? 'Maybe Later';
-  $show_decline = (bool) (
-    $selected_content->get('field_modal_show_decline')->value ?? TRUE
-  );
+  $decline_text = '';
+  if (
+    $selected_content->hasField('field_modal_decline_text') &&
+    !$selected_content->get('field_modal_decline_text')->isEmpty()
+  ) {
+    $decline_text = trim((string) $selected_content
+      ->get('field_modal_decline_text')->value);
+  }
 
   $body = '';
   if (
@@ -610,7 +612,6 @@ function _carlson_campaign_build_modal_campaign(): ?array {
     '#cta_url' => $cta_url,
     '#cta_text' => $cta_text,
     '#decline_text' => $decline_text,
-    '#show_decline' => $show_decline,
     '#attached' => [
       'library' => [
         'carlson_campaign/carlson-campaign.modal-campaign',
