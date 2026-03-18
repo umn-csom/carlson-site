@@ -89,6 +89,9 @@ function carlson_campaign_page_top(array &$page_top): void {
     return;
   }
 
+  // Top-position sticky banners must render before the main page wrapper so
+  // their source order matches the visual order and they do not overlay the
+  // global header with fixed positioning.
   $build = _carlson_campaign_get_sticky_bar_page_build('top');
   if ($build) {
     $page_top['csm_sticky_bar_campaign'] = $build;
