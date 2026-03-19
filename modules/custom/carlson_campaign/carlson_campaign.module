@@ -85,6 +85,12 @@ function carlson_campaign_form_block_content_modal_campaign_form_alter(
   string $form_id,
 ): void {
   _carlson_campaign_alter_block_content_form($form);
+
+  if (isset($form['field_modal_cta_url']['widget'][0]['title'])) {
+    $form['field_modal_cta_url']['widget'][0]['title']['#title'] = 'CTA Text';
+    $form['field_modal_cta_url']['widget'][0]['title']['#description'] =
+      'Text for CTA button or link.';
+  }
 }
 
 /**
