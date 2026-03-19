@@ -600,15 +600,17 @@ function _carlson_campaign_build_modal_campaign(): ?array {
     }
   }
 
-  $dismiss_days = 1;
+  // The stored field machine name still says "dismiss_days", but the current
+  // product behavior interprets this integer as repeat hours.
+  $repeat_hours = 12;
   if (
     $selected_content->hasField('field_campaign_dismiss_days') &&
     !$selected_content->get('field_campaign_dismiss_days')->isEmpty()
   ) {
-    $candidate_days = (int) $selected_content
+    $candidate_hours = (int) $selected_content
       ->get('field_campaign_dismiss_days')->value;
-    if ($candidate_days >= 0) {
-      $dismiss_days = $candidate_days;
+    if ($candidate_hours >= 0) {
+      $repeat_hours = $candidate_hours;
     }
   }
 
@@ -671,7 +673,9 @@ function _carlson_campaign_build_modal_campaign(): ?array {
           'modalId' => $modal_id,
           'sessionKey' => $session_key,
           'variantName' => $variant_name,
-          'dismissDays' => $dismiss_days,
+          // Keep the existing setting name for front-end compatibility even
+          // though the value now represents hours instead of days.
+          'dismissDays' => $repeat_hours,
           'stopOnConvert' => $stop_on_convert,
           'delaySeconds' => $delay_seconds,
           'scheduleStartTimestamp' => $schedule_settings['startTimestamp'],
@@ -726,18 +730,31 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
     return _carlson_campaign_empty_campaign_build($selected);
   }
 
-  // Default to the product-approved recommendation (once per day) unless the
+  // Default to the product-approved recommendation (12 hours) unless the
   // editor explicitly sets another non-negative value.
-  $dismiss_days = 1;
+  // The shared repeat field is reused for sticky bars, but its value now
+  // represents hours instead of days.
+  $repeat_hours = 12;
   if (
     $selected_content->hasField('field_campaign_dismiss_days') &&
     !$selected_content->get('field_campaign_dismiss_days')->isEmpty()
   ) {
-    $candidate_days = (int) $selected_content
+    $candidate_hours = (int) $selected_content
       ->get('field_campaign_dismiss_days')->value;
-    if ($candidate_days >= 0) {
-      $dismiss_days = $candidate_days;
+    if ($candidate_hours >= 0) {
+      $repeat_hours = $candidate_hours;
     }
+  }
+
+  // Keep conversions terminal by default to match modal behavior unless the
+  // editor explicitly allows the banner to reappear after a conversion.
+  $stop_on_convert = TRUE;
+  if (
+    $selected_content->hasField('field_campaign_stop_on_convert') &&
+    !$selected_content->get('field_campaign_stop_on_convert')->isEmpty()
+  ) {
+    $stop_on_convert = (bool) $selected_content
+      ->get('field_campaign_stop_on_convert')->value;
   }
 
   // Default open delay is 5 seconds. A value of 0 is valid and means "show on
@@ -814,7 +831,10 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
           'variantName' => $variant_name,
           'position' => $position,
           'colorScheme' => $color_scheme,
-          'dismissDays' => $dismiss_days,
+          // Keep the existing setting name for front-end compatibility even
+          // though the value now represents hours instead of days.
+          'dismissDays' => $repeat_hours,
+          'stopOnConvert' => $stop_on_convert,
           'delaySeconds' => $delay_seconds,
           'scheduleStartTimestamp' => $schedule_settings['startTimestamp'],
           'scheduleEndTimestamp' => $schedule_settings['endTimestamp'],

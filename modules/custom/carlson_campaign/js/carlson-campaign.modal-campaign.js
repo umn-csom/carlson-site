@@ -14,7 +14,9 @@
 (function (Drupal, drupalSettings, once) {
   'use strict';
 
-  const DEFAULT_DISMISS_DAYS = 1;
+  // Drupal still provides this value under the legacy dismissDays key, but the
+  // runtime now treats it as a repeat window measured in hours.
+  const DEFAULT_REPEAT_HOURS = 12;
   const DEFAULT_DELAY_SECONDS = 0;
 
   /**
@@ -30,7 +32,7 @@
    */
   function getConfig() {
     const settings = drupalSettings.csmModalCampaign || {};
-    const dismissDays = parseInt(settings.dismissDays, 10);
+    const repeatHours = parseInt(settings.dismissDays, 10);
     const delaySeconds = parseInt(settings.delaySeconds, 10);
     const scheduleStartTimestamp = parseInt(settings.scheduleStartTimestamp, 10);
     const scheduleEndTimestamp = parseInt(settings.scheduleEndTimestamp, 10);
@@ -41,10 +43,10 @@
       modalId: settings.modalId || '',
       sessionKey: settings.sessionKey || 'modal_campaign',
       variantName: settings.variantName || '',
-      dismissDays:
-        Number.isFinite(dismissDays) && dismissDays >= 0 ?
-          dismissDays :
-          DEFAULT_DISMISS_DAYS,
+      repeatHours:
+        Number.isFinite(repeatHours) && repeatHours >= 0 ?
+          repeatHours :
+          DEFAULT_REPEAT_HOURS,
       stopOnConvert: !(
         stopOnConvert === false ||
         stopOnConvert === 0 ||
@@ -98,7 +100,7 @@
   /**
    * Reads localStorage and determines whether the modal should be shown.
    */
-  function getModalState(storageKey, dismissDays, stopOnConvert) {
+  function getModalState(storageKey, repeatHours, stopOnConvert) {
     try {
       const stored = localStorage.getItem(storageKey);
       if (!stored) {
@@ -120,15 +122,17 @@
         case 'acknowledged':
         case 'dismissed':
         case 'declined': {
-          if (dismissDays === 0) {
+          if (repeatHours === 0) {
             // "Show every visit" should not wipe the recorded action state.
             return { shouldShow: true };
           }
-          const daysMs = dismissDays * 24 * 60 * 60 * 1000;
+          // Convert the configured repeat window from hours to milliseconds for
+          // localStorage timestamp comparisons.
+          const hoursMs = repeatHours * 60 * 60 * 1000;
           const actionTime = data.timestamp || 0;
           const now = Date.now();
 
-          if (now - actionTime > daysMs) {
+          if (now - actionTime > hoursMs) {
             localStorage.removeItem(storageKey);
             return { shouldShow: true };
           }
@@ -331,7 +335,7 @@
         const storageKey = getStorageKey(config.sessionKey);
         const state = getModalState(
           storageKey,
-          config.dismissDays,
+          config.repeatHours,
           config.stopOnConvert,
         );
 

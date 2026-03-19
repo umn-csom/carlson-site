@@ -10,7 +10,9 @@
 (function (Drupal, drupalSettings, once) {
   'use strict';
 
-  const DEFAULT_DISMISS_DAYS = 1;
+  // Drupal still provides this value under the legacy dismissDays key, but the
+  // runtime now treats it as a repeat window measured in hours.
+  const DEFAULT_REPEAT_HOURS = 12;
   const DEFAULT_DELAY_SECONDS = 5;
   const STICKY_ANNOUNCER_ID = 'csm-campaign-sticky-announcer';
 
@@ -30,10 +32,11 @@
    */
   function getConfig() {
     const settings = drupalSettings.csmStickyBarCampaign || {};
-    const dismissDays = parseInt(settings.dismissDays, 10);
+    const repeatHours = parseInt(settings.dismissDays, 10);
     const delaySeconds = parseInt(settings.delaySeconds, 10);
     const scheduleStartTimestamp = parseInt(settings.scheduleStartTimestamp, 10);
     const scheduleEndTimestamp = parseInt(settings.scheduleEndTimestamp, 10);
+    const stopOnConvert = settings.stopOnConvert;
 
     return {
       campaignId: settings.campaignId || '',
@@ -41,10 +44,16 @@
       sessionKey: settings.sessionKey || 'campaign_sticky_bar',
       variantName: settings.variantName || '',
       position: settings.position === 'top' ? 'top' : 'bottom',
-      dismissDays:
-        Number.isFinite(dismissDays) && dismissDays >= 0 ?
-          dismissDays :
-          DEFAULT_DISMISS_DAYS,
+      repeatHours:
+        Number.isFinite(repeatHours) && repeatHours >= 0 ?
+          repeatHours :
+          DEFAULT_REPEAT_HOURS,
+      stopOnConvert: !(
+        stopOnConvert === false ||
+        stopOnConvert === 0 ||
+        stopOnConvert === '0' ||
+        stopOnConvert === 'false'
+      ),
       delaySeconds:
         Number.isFinite(delaySeconds) && delaySeconds >= 0 ?
           delaySeconds :
@@ -95,7 +104,7 @@
    * We store the last user action (dismissed/converted) and a timestamp so
    * subsequent page loads can honor the configured dismiss window.
    */
-  function getStickyState(storageKey, dismissDays) {
+  function getStickyState(storageKey, repeatHours, stopOnConvert) {
     try {
       const stored = localStorage.getItem(storageKey);
       if (!stored) {
@@ -108,21 +117,28 @@
           // Viewing alone should not suppress the banner on later page loads.
           return { shouldShow: true };
 
-        case 'dismissed':
         case 'converted':
+          if (stopOnConvert) {
+            return { shouldShow: false, reason: 'converted' };
+          }
+        // Fall through: when stop-on-convert is disabled, positive actions
+        // follow the same repeat-delay window as dismissals.
+        case 'dismissed':
         // Backward compatibility for older stored positive-action entries.
         case 'acknowledged': {
           // A dismiss window of 0 means "show every visit" without clearing
           // the recorded action state from localStorage on reload.
-          if (dismissDays === 0) {
+          if (repeatHours === 0) {
             return { shouldShow: true };
           }
 
           // Hide until the configured dismiss window expires.
-          const daysMs = dismissDays * 24 * 60 * 60 * 1000;
+          // Convert the configured repeat window from hours to milliseconds for
+          // localStorage timestamp comparisons.
+          const hoursMs = repeatHours * 60 * 60 * 1000;
           const actionTime = data.timestamp || 0;
           const now = Date.now();
-          if (now - actionTime > daysMs) {
+          if (now - actionTime > hoursMs) {
             localStorage.removeItem(storageKey);
             return { shouldShow: true };
           }
@@ -254,7 +270,11 @@
           const campaignId =
             stickyElement.dataset.campaignId || config.campaignId || '';
           const storageKey = getStorageKey(config.sessionKey);
-          const state = getStickyState(storageKey, config.dismissDays);
+          const state = getStickyState(
+            storageKey,
+            config.repeatHours,
+            config.stopOnConvert,
+          );
           if (!state.shouldShow) {
             // Respect the stored user decision until the dismiss window expires.
             return;
