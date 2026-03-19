@@ -60,8 +60,6 @@ third_party_settings:
         - field_variant_name
         - field_campaign_dismiss_days
         - field_campaign_stop_on_convert
-        - field_campaign_start_datetime
-        - field_campaign_end_datetime
       label: Timing
       region: content
       parent_name: ''
@@ -71,7 +69,22 @@ third_party_settings:
         classes: ''
         id: ''
         open: false
-        description: 'Delay, repeat, and scheduling settings for this campaign.'
+        description: 'Delay and repeat settings for this campaign.'
+        required_fields: true
+    group_schedule:
+      children:
+        - field_campaign_start_datetime
+        - field_campaign_end_datetime
+      label: 'Schedule (optional)'
+      region: content
+      parent_name: ''
+      weight: 71
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: false
+        description: 'Optionally, specify a range when the campaign should be active - defaults to always active.'
         required_fields: true
 id: block_content.modal_campaign.default
 targetEntityType: block_content
@@ -94,7 +107,7 @@ content:
     third_party_settings: {  }
   field_campaign_end_datetime:
     type: datetime_default
-    weight: 76
+    weight: 81
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -123,7 +136,7 @@ content:
     third_party_settings: {  }
   field_campaign_start_datetime:
     type: datetime_default
-    weight: 75
+    weight: 80
     region: content
     settings: {  }
     third_party_settings: {  }
