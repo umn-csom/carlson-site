@@ -9,6 +9,7 @@ dependencies:
     - field.field.block_content.sticky_bar_campaign.field_campaign_dismiss_days
     - field.field.block_content.sticky_bar_campaign.field_campaign_end_datetime
     - field.field.block_content.sticky_bar_campaign.field_campaign_position
+    - field.field.block_content.sticky_bar_campaign.field_campaign_stop_on_convert
     - field.field.block_content.sticky_bar_campaign.field_campaign_start_datetime
     - field.field.block_content.sticky_bar_campaign.field_campaign_session_key
     - field.field.block_content.sticky_bar_campaign.field_campaign_text
@@ -40,6 +41,7 @@ third_party_settings:
         - field_campaign_session_key
         - field_variant_name
         - field_campaign_dismiss_days
+        - field_campaign_stop_on_convert
       label: Timing
       region: content
       parent_name: ''
@@ -89,7 +91,7 @@ content:
     weight: 25
     region: content
     settings:
-      placeholder: '1'
+      placeholder: '12'
     third_party_settings: {  }
   field_campaign_end_datetime:
     type: datetime_default
@@ -118,6 +120,13 @@ content:
     settings:
       size: 60
       placeholder: 'e.g., A'
+    third_party_settings: {  }
+  field_campaign_stop_on_convert:
+    type: boolean_checkbox
+    weight: 26
+    region: content
+    settings:
+      display_label: true
     third_party_settings: {  }
   field_campaign_text:
     type: text_textarea
