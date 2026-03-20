@@ -33,21 +33,26 @@ final class ModalCampaignDemoController extends ControllerBase {
       ],
       'modal' => [
         '#theme' => 'csm_modal_campaign',
+        '#campaign_id' => 'csm_modal_campaign_demo',
+        '#modal_id' => 'csm-modal-campaign-demo',
         '#eyebrow' => 'CSM Prototype',
         '#title' => 'Modal Campaign',
         '#body' => $body,
         '#cta_url' => 'https://www.example.com/',
         '#cta_text' => 'Example CTA',
         '#decline_text' => 'Maybe Later',
-        '#show_decline' => TRUE,
         '#attached' => [
           'library' => [
-            'carlson_general/carlson-general.modal-campaign',
+            'carlson_campaign/carlson-campaign.modal-campaign',
           ],
           'drupalSettings' => [
             'csmModalCampaign' => [
+              'campaignId' => 'csm_modal_campaign_demo',
+              'modalId' => 'csm-modal-campaign-demo',
               'sessionKey' => 'csm_modal_campaign_demo',
               'dismissDays' => 1,
+              'stopOnConvert' => FALSE,
+              'delaySeconds' => 0,
             ],
           ],
         ],
