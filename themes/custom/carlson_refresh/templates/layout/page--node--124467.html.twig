@@ -4,6 +4,11 @@
 * Naked template for testing node content accessibility.
 */
 #}
+{% include directory ~ '/templates/layout/_campaign-header-shell.html.twig' with {
+  render_site_header: false,
+  render_site_nav: false,
+} %}
+
 <main role="main" aria-label="Primary content area">
 {% if page.local_tasks %}
 {{ page.local_tasks }}
