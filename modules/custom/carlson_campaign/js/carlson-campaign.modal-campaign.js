@@ -188,6 +188,28 @@
   }
 
   /**
+   * Returns a stable analytics action identifier for the target control.
+   */
+  function getActionId(target, fallbackId) {
+    if (target && typeof target.id === 'string' && target.id !== '') {
+      return target.id;
+    }
+
+    return fallbackId || '';
+  }
+
+  /**
+   * Returns the authored href value for CTA tracking when available.
+   */
+  function getTargetHref(target) {
+    if (!(target instanceof HTMLAnchorElement)) {
+      return '';
+    }
+
+    return target.getAttribute('href') || '';
+  }
+
+  /**
    * Dispatches a synthetic interaction event with normalized tracking details.
    */
   function dispatchCampaignInteraction(
@@ -199,14 +221,30 @@
     nativeEvent,
     target,
     textOverride,
+    metadata = {},
   ) {
     const actionText = textOverride || getTargetText(target);
     const detail = {
-      event: nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown',
+      event:
+        metadata.eventType ||
+        (nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown'),
       target: target || modalElement,
       // Canonical keys for analytics integrations.
       action_name: action,
       action_text: actionText,
+      action_id: metadata.actionId || '',
+      action_index: metadata.actionIndex || null,
+      dismiss_type: metadata.dismissType || '',
+      campaign_id: campaignId,
+      campaign_variant_name: variantName,
+      campaign_type: 'modal',
+      campaign_cta_text:
+        metadata.ctaText ||
+        (action === 'converted' ? actionText : ''),
+      campaign_cta_url: metadata.ctaUrl || getTargetHref(target),
+      campaign_decline_text:
+        metadata.declineText ||
+        (action === 'declined' ? actionText : ''),
       // Backward-compatible aliases for existing listeners.
       action: action,
       text: actionText,
@@ -354,6 +392,7 @@
           nativeEvent,
           target,
           textOverride,
+          metadata = {},
         ) => {
           explicitAction = action;
           setModalState(storageKey, action);
@@ -366,6 +405,7 @@
             nativeEvent,
             target,
             textOverride,
+            metadata,
           );
           if (modalElement.open) {
             modalElement.close(action);
@@ -380,13 +420,20 @@
             event,
             modalElement,
             'Dismissed via keyboard ESC key',
+            {
+              actionId: modalElement.id + '__escape',
+              dismissType: 'escape',
+            },
           );
         });
 
         // Click on dialog backdrop (outside panel) counts as dismissed.
         modalElement.addEventListener('click', (event) => {
           if (event.target === modalElement) {
-            closeWithAction('dismissed', event, modalElement);
+            closeWithAction('dismissed', event, modalElement, '', {
+              actionId: modalElement.id + '__backdrop',
+              dismissType: 'background',
+            });
           }
         });
 
@@ -399,6 +446,13 @@
                 event,
                 event.currentTarget,
                 'Modal Close Button',
+                {
+                  actionId: getActionId(
+                    event.currentTarget,
+                    modalElement.id + '__close',
+                  ),
+                  dismissType: 'close',
+                },
               );
             });
           },
@@ -407,8 +461,15 @@
         modalElement.querySelectorAll('.campaign-modal-decline').forEach(
           (declineButton) => {
             declineButton.addEventListener('click', (event) => {
+              const declineText = getTargetText(event.currentTarget);
               event.preventDefault();
-              closeWithAction('declined', event, event.currentTarget);
+              closeWithAction('declined', event, event.currentTarget, '', {
+                actionId: getActionId(
+                  event.currentTarget,
+                  modalElement.id + '__decline',
+                ),
+                declineText,
+              });
             });
           },
         );
@@ -416,9 +477,17 @@
         modalElement.querySelectorAll('.campaign-modal-convert').forEach(
           (convertTarget) => {
             convertTarget.addEventListener('click', (event) => {
+              const ctaText = getTargetText(event.currentTarget);
               // Preserve the anchor's native navigation behavior while still
               // recording the conversion state before the browser follows it.
-              closeWithAction('converted', event, event.currentTarget);
+              closeWithAction('converted', event, event.currentTarget, '', {
+                actionId: getActionId(
+                  event.currentTarget,
+                  modalElement.id + '__acknowledge',
+                ),
+                ctaText,
+                ctaUrl: getTargetHref(event.currentTarget),
+              });
             });
           },
         );
@@ -435,6 +504,11 @@
               'dismissed',
               event,
               modalElement,
+              '',
+              {
+                actionId: modalElement.id + '__dismiss',
+                dismissType: 'unknown',
+              },
             );
           }
 
@@ -464,6 +538,19 @@
             // Record that the visitor actually saw the modal without letting
             // the passive viewed state suppress later displays by itself.
             setModalState(storageKey, 'viewed');
+            dispatchCampaignInteraction(
+              modalElement,
+              campaignId,
+              config.sessionKey,
+              config.variantName,
+              'viewed',
+              null,
+              modalElement,
+              '',
+              {
+                eventType: 'show',
+              },
+            );
             // Keep initial focus deterministic for keyboard/screen readers.
             window.requestAnimationFrame(() => {
               focusInitialModalControl(modalElement);
