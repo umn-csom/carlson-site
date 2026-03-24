@@ -120,27 +120,24 @@ function carlson_campaign_preprocess_block(array &$variables): void {
     ], TRUE)
   ) {
     // Use placed block visibility rules, but render campaigns separately in
-    // page_top/page_bottom so source order and accessibility stay controlled
-    // by the campaign runtime instead of the original block placement.
+    // the page template/page_bottom so source order and accessibility stay
+    // controlled by the campaign runtime instead of the original placement.
     $variables['attributes']['hidden'] = 'hidden';
   }
 }
 
 /**
- * Implements hook_page_top().
+ * Implements hook_preprocess_page().
  */
-function carlson_campaign_page_top(array &$page_top): void {
+function carlson_campaign_preprocess_page(array &$variables): void {
   if (\Drupal::service('router.admin_context')->isAdminRoute()) {
     return;
   }
 
-  // Top-position sticky banners must render before the main page wrapper so
-  // their source order matches the visual order and they do not overlay the
-  // global header with fixed positioning.
-  $build = _carlson_campaign_get_sticky_bar_page_build('top');
-  if ($build) {
-    $page_top['csm_sticky_bar_campaign'] = $build;
-  }
+  // Top-position sticky banners must render inside the main page canvas, ahead
+  // of the site header, so the admin toolbar does not cover them for editors.
+  $variables['campaign_sticky_top'] =
+    _carlson_campaign_get_sticky_bar_page_build('top');
 }
 
 /**
@@ -163,7 +160,7 @@ function carlson_campaign_page_bottom(array &$page_bottom): void {
 }
 
 /**
- * Returns the sticky bar build for the requested page region.
+ * Returns the sticky bar build for the requested page position.
  */
 function _carlson_campaign_get_sticky_bar_page_build(
   string $expected_position,
@@ -172,8 +169,8 @@ function _carlson_campaign_get_sticky_bar_page_build(
   static $build = NULL;
 
   if (!$build_loaded) {
-    // Build the sticky banner once per request so page_top/page_bottom can
-    // share the same selected campaign without repeating selection logic.
+    // Build the sticky banner once per request so preprocess_page/page_bottom
+    // can share the same selected campaign without repeating selection logic.
     $build = _carlson_campaign_build_sticky_bar_campaign();
     $build_loaded = TRUE;
   }
@@ -182,8 +179,9 @@ function _carlson_campaign_get_sticky_bar_page_build(
     return NULL;
   }
 
-  // Only return the cached build when it matches the requested page region.
-  // Top banners render in page_top; bottom banners render in page_bottom.
+  // Only return the cached build when it matches the requested output slot.
+  // Top banners render before the header in page templates; bottom banners
+  // still render in page_bottom.
   $sticky_position = $build['#sticky_position'] ?? 'bottom';
   if ($sticky_position !== $expected_position) {
     return NULL;
