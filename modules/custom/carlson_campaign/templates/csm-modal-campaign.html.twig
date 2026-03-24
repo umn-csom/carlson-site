@@ -31,7 +31,22 @@
         class="campaign-modal__close"
         aria-label="{{ 'Close'|t }}"
       >
-        <span aria-hidden="true">&times;</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          width="20"
+          height="20"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M4.5 4.5L15.5 15.5M15.5 4.5L4.5 15.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
       </button>
     </div>
 
@@ -46,8 +61,6 @@
             id="{{ modal_id }}__acknowledge"
             href="{{ cta_url }}"
             class="btn btn-primary campaign-modal-convert"
-            target="_blank"
-            rel="noopener"
           >
             {{ cta_text }}
           </a>
