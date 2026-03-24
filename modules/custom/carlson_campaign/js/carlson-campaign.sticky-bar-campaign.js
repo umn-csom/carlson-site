@@ -177,6 +177,17 @@
   }
 
   /**
+   * Returns the authored href value for CTA tracking when available.
+   */
+  function getTargetHref(target) {
+    if (!(target instanceof HTMLAnchorElement)) {
+      return '';
+    }
+
+    return target.getAttribute('href') || '';
+  }
+
+  /**
    * Dispatches a synthetic interaction event for tracking integrations.
    *
    * GTM or other listeners can subscribe to one event name and inspect the
@@ -187,10 +198,12 @@
     campaignId,
     campaignKey,
     variantName,
+    position,
     action,
     nativeEvent,
     target,
     text,
+    metadata = {},
   ) {
     const actionText = text || '';
 
@@ -198,14 +211,27 @@
       new CustomEvent('campaign:interaction', {
         bubbles: true,
         detail: {
-          event: nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown',
+          event:
+            metadata.eventType ||
+            (nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown'),
           target: target || stickyElement,
           action_name: action,
           action_text: actionText,
+          action_id: metadata.actionId || '',
+          action_index: metadata.actionIndex || null,
+          dismiss_type: metadata.dismissType || '',
           text: actionText,
           action,
+          campaign_id: campaignId,
           campaignId,
           campaign_key: campaignKey,
+          campaign_variant_name: variantName,
+          campaign_type: 'sticky_banner',
+          campaign_placement: position,
+          campaign_cta_text:
+            metadata.ctaText ||
+            (action === 'converted' ? actionText : ''),
+          campaign_cta_url: metadata.ctaUrl || getTargetHref(target),
           variant_name: variantName,
           campaignKey,
           variantName,
@@ -293,6 +319,20 @@
             // Record that the visitor actually saw the banner without
             // treating viewed as a suppressing action on later page loads.
             setStickyState(storageKey, 'viewed');
+            dispatchCampaignInteraction(
+              stickyElement,
+              campaignId,
+              config.sessionKey,
+              config.variantName,
+              config.position,
+              'viewed',
+              null,
+              stickyElement,
+              '',
+              {
+                eventType: 'show',
+              },
+            );
             announceStickyVisible(stickyElement);
           };
 
@@ -319,30 +359,47 @@
                   campaignId,
                   config.sessionKey,
                   config.variantName,
+                  config.position,
                   'dismissed',
                   event,
                   event.currentTarget,
                   'Sticky Bar Close',
+                  {
+                    actionId:
+                      closeButton.id ||
+                      stickyElement.id + '__close',
+                    dismissType: 'close',
+                  },
                 );
               });
             });
 
           stickyElement
             .querySelectorAll('.campaign-sticky-bar-text a')
-            .forEach((linkElement) => {
+            .forEach((linkElement, index) => {
               linkElement.addEventListener('click', (event) => {
                 // Any link click inside the banner counts as a conversion.
                 // We do not block navigation; tracking is emitted immediately.
+                const ctaText = linkElement.textContent.trim();
                 setStickyState(storageKey, 'converted');
                 dispatchCampaignInteraction(
                   stickyElement,
                   campaignId,
                   config.sessionKey,
                   config.variantName,
+                  config.position,
                   'converted',
                   event,
                   event.currentTarget,
-                  linkElement.textContent.trim(),
+                  ctaText,
+                  {
+                    actionId:
+                      linkElement.id ||
+                      stickyElement.id + '__link-' + (index + 1),
+                    actionIndex: index + 1,
+                    ctaText,
+                    ctaUrl: getTargetHref(linkElement),
+                  },
                 );
               });
             });

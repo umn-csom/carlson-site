@@ -65,6 +65,10 @@ final class StickyBarCampaignMarkupBehaviorTest extends TestCase {
 
     $this->assertStringContainsString('campaign:interaction', $contents);
     $this->assertStringContainsString(
+      "setStickyState(storageKey, 'viewed')",
+      $contents,
+    );
+    $this->assertStringContainsString(
       "setStickyState(storageKey, 'dismissed')",
       $contents,
     );
@@ -74,6 +78,12 @@ final class StickyBarCampaignMarkupBehaviorTest extends TestCase {
     );
     $this->assertStringContainsString('action_name', $contents);
     $this->assertStringContainsString('action_text', $contents);
+    $this->assertStringContainsString('campaign_type', $contents);
+    $this->assertStringContainsString('campaign_placement', $contents);
+    $this->assertStringContainsString('campaign_cta_url', $contents);
+    $this->assertStringContainsString('dismiss_type', $contents);
+    $this->assertStringContainsString('action_id', $contents);
+    $this->assertStringContainsString('action_index', $contents);
     $this->assertStringContainsString('campaign_key', $contents);
     $this->assertStringContainsString('variant_name', $contents);
     $this->assertStringContainsString('stopOnConvert', $contents);
