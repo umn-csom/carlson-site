@@ -7,7 +7,7 @@
 
 <aside
   id="{{ sticky_id }}"
-  class="campaign-sticky-bar"
+  class="campaign-sticky-bar campaign-sticky-bar--{{ sticky_position|clean_class }} campaign-sticky-bar--{{ sticky_color_scheme|clean_class }}"
   data-campaign-id="{{ campaign_id }}"
   role="region"
   aria-label="{{ 'Campaign announcement'|t }}"
@@ -35,8 +35,13 @@
         aria-hidden="true"
         focusable="false"
       >
-        <circle cx="10" cy="10" r="9" fill="none" stroke="currentColor" />
-        <path d="M6 6L14 14M14 6L6 14" fill="none" stroke="currentColor" />
+        <path
+          d="M4.5 4.5L15.5 15.5M15.5 4.5L4.5 15.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
       </svg>
     </button>
   </div>

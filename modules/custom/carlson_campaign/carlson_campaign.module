@@ -8,6 +8,7 @@
 use Drupal\block\Entity\Block;
 use Drupal\Component\Utility\Xss;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Markup;
 
 /**
@@ -30,7 +31,6 @@ function carlson_campaign_theme(
         'cta_url' => '',
         'cta_text' => '',
         'decline_text' => '',
-        'show_decline' => TRUE,
       ],
       'template' => 'csm-modal-campaign',
     ],
@@ -39,6 +39,8 @@ function carlson_campaign_theme(
         'campaign_id' => '',
         'sticky_id' => '',
         'text' => '',
+        'sticky_position' => 'bottom',
+        'sticky_color_scheme' => 'maroon',
       ],
       'template' => 'csm-sticky-bar-campaign',
     ],
@@ -58,6 +60,51 @@ function carlson_campaign_page_attachments(array &$attachments): void {
 }
 
 /**
+ * Applies shared campaign block form text cleanup.
+ */
+function _carlson_campaign_alter_block_content_form(array &$form): void {
+  $description = 'Brief description identifying this instance used in the ' .
+    'Content > Blocks list (e.g. "Fall 2025 Campaign - Variant A").';
+
+  if (isset($form['info']['widget'][0]['value'])) {
+    $form['info']['widget'][0]['value']['#description'] = $description;
+    return;
+  }
+
+  if (isset($form['info'])) {
+    $form['info']['#description'] = $description;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for modal campaign blocks.
+ */
+function carlson_campaign_form_block_content_modal_campaign_form_alter(
+  array &$form,
+  FormStateInterface $form_state,
+  string $form_id,
+): void {
+  _carlson_campaign_alter_block_content_form($form);
+
+  if (isset($form['field_modal_cta_url']['widget'][0]['title'])) {
+    $form['field_modal_cta_url']['widget'][0]['title']['#title'] = 'CTA Text';
+    $form['field_modal_cta_url']['widget'][0]['title']['#description'] =
+      'Text for CTA button or link.';
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for sticky bar campaign blocks.
+ */
+function carlson_campaign_form_block_content_sticky_bar_campaign_form_alter(
+  array &$form,
+  FormStateInterface $form_state,
+  string $form_id,
+): void {
+  _carlson_campaign_alter_block_content_form($form);
+}
+
+/**
  * Implements hook_preprocess_block().
  */
 function carlson_campaign_preprocess_block(array &$variables): void {
@@ -72,9 +119,25 @@ function carlson_campaign_preprocess_block(array &$variables): void {
       'sticky_bar_campaign',
     ], TRUE)
   ) {
-    // Use placed block visibility rules, but render in page bottom.
+    // Use placed block visibility rules, but render campaigns separately in
+    // the page template/page_bottom so source order and accessibility stay
+    // controlled by the campaign runtime instead of the original placement.
     $variables['attributes']['hidden'] = 'hidden';
   }
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function carlson_campaign_preprocess_page(array &$variables): void {
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+
+  // Top-position sticky banners must render inside the main page canvas, ahead
+  // of the site header, so the admin toolbar does not cover them for editors.
+  $variables['campaign_sticky_top'] =
+    _carlson_campaign_get_sticky_bar_page_build('top');
 }
 
 /**
@@ -90,10 +153,41 @@ function carlson_campaign_page_bottom(array &$page_bottom): void {
     $page_bottom['csm_modal_campaign'] = $build;
   }
 
-  $build = _carlson_campaign_build_sticky_bar_campaign();
+  $build = _carlson_campaign_get_sticky_bar_page_build('bottom');
   if ($build) {
     $page_bottom['csm_sticky_bar_campaign'] = $build;
   }
+}
+
+/**
+ * Returns the sticky bar build for the requested page position.
+ */
+function _carlson_campaign_get_sticky_bar_page_build(
+  string $expected_position,
+): ?array {
+  static $build_loaded = FALSE;
+  static $build = NULL;
+
+  if (!$build_loaded) {
+    // Build the sticky banner once per request so preprocess_page/page_bottom
+    // can share the same selected campaign without repeating selection logic.
+    $build = _carlson_campaign_build_sticky_bar_campaign();
+    $build_loaded = TRUE;
+  }
+
+  if ($build === NULL) {
+    return NULL;
+  }
+
+  // Only return the cached build when it matches the requested output slot.
+  // Top banners render before the header in page templates; bottom banners
+  // still render in page_bottom.
+  $sticky_position = $build['#sticky_position'] ?? 'bottom';
+  if ($sticky_position !== $expected_position) {
+    return NULL;
+  }
+
+  return $build;
 }
 
 /**
@@ -323,8 +417,9 @@ function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
 
       $plugin_id = 'block_content:' . $campaign->uuid();
       // Find placed block instances for this reusable block content in the
-      // active theme. We render from page_bottom, but we still respect the
-      // editor's placement visibility rules from the original placement.
+      // active theme. Campaigns render separately from the block placement
+      // itself, but we still respect the editor's placement visibility rules
+      // from the original block instance.
       $blocks = $block_storage->loadByProperties([
         'theme' => $theme,
         'status' => TRUE,
@@ -466,11 +561,14 @@ function _carlson_campaign_build_modal_campaign(): ?array {
   if ($title === '') {
     $title = 'Announcement';
   }
-  $decline_text = $selected_content->get('field_modal_decline_text')->value
-    ?? 'Maybe Later';
-  $show_decline = (bool) (
-    $selected_content->get('field_modal_show_decline')->value ?? TRUE
-  );
+  $decline_text = '';
+  if (
+    $selected_content->hasField('field_modal_decline_text') &&
+    !$selected_content->get('field_modal_decline_text')->isEmpty()
+  ) {
+    $decline_text = trim((string) $selected_content
+      ->get('field_modal_decline_text')->value);
+  }
 
   $body = '';
   if (
@@ -500,15 +598,17 @@ function _carlson_campaign_build_modal_campaign(): ?array {
     }
   }
 
-  $dismiss_days = 1;
+  // The stored field machine name still says "dismiss_days", but the current
+  // product behavior interprets this integer as repeat hours.
+  $repeat_hours = 12;
   if (
     $selected_content->hasField('field_campaign_dismiss_days') &&
     !$selected_content->get('field_campaign_dismiss_days')->isEmpty()
   ) {
-    $candidate_days = (int) $selected_content
+    $candidate_hours = (int) $selected_content
       ->get('field_campaign_dismiss_days')->value;
-    if ($candidate_days >= 0) {
-      $dismiss_days = $candidate_days;
+    if ($candidate_hours >= 0) {
+      $repeat_hours = $candidate_hours;
     }
   }
 
@@ -543,6 +643,9 @@ function _carlson_campaign_build_modal_campaign(): ?array {
   if ($session_key === '') {
     $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
   }
+  $variant_name = $selected_content->hasField('field_variant_name')
+    ? trim((string) ($selected_content->get('field_variant_name')->value ?? ''))
+    : '';
 
   $schedule_settings = _carlson_campaign_get_schedule_settings(
     $selected_content,
@@ -558,7 +661,6 @@ function _carlson_campaign_build_modal_campaign(): ?array {
     '#cta_url' => $cta_url,
     '#cta_text' => $cta_text,
     '#decline_text' => $decline_text,
-    '#show_decline' => $show_decline,
     '#attached' => [
       'library' => [
         'carlson_campaign/carlson-campaign.modal-campaign',
@@ -568,7 +670,10 @@ function _carlson_campaign_build_modal_campaign(): ?array {
           'campaignId' => $campaign_id,
           'modalId' => $modal_id,
           'sessionKey' => $session_key,
-          'dismissDays' => $dismiss_days,
+          'variantName' => $variant_name,
+          // Keep the existing setting name for front-end compatibility even
+          // though the value now represents hours instead of days.
+          'dismissDays' => $repeat_hours,
           'stopOnConvert' => $stop_on_convert,
           'delaySeconds' => $delay_seconds,
           'scheduleStartTimestamp' => $schedule_settings['startTimestamp'],
@@ -623,18 +728,31 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
     return _carlson_campaign_empty_campaign_build($selected);
   }
 
-  // Default to the product-approved recommendation (once per day) unless the
+  // Default to the product-approved recommendation (12 hours) unless the
   // editor explicitly sets another non-negative value.
-  $dismiss_days = 1;
+  // The shared repeat field is reused for sticky bars, but its value now
+  // represents hours instead of days.
+  $repeat_hours = 12;
   if (
     $selected_content->hasField('field_campaign_dismiss_days') &&
     !$selected_content->get('field_campaign_dismiss_days')->isEmpty()
   ) {
-    $candidate_days = (int) $selected_content
+    $candidate_hours = (int) $selected_content
       ->get('field_campaign_dismiss_days')->value;
-    if ($candidate_days >= 0) {
-      $dismiss_days = $candidate_days;
+    if ($candidate_hours >= 0) {
+      $repeat_hours = $candidate_hours;
     }
+  }
+
+  // Keep conversions terminal by default to match modal behavior unless the
+  // editor explicitly allows the banner to reappear after a conversion.
+  $stop_on_convert = TRUE;
+  if (
+    $selected_content->hasField('field_campaign_stop_on_convert') &&
+    !$selected_content->get('field_campaign_stop_on_convert')->isEmpty()
+  ) {
+    $stop_on_convert = (bool) $selected_content
+      ->get('field_campaign_stop_on_convert')->value;
   }
 
   // Default open delay is 5 seconds. A value of 0 is valid and means "show on
@@ -659,6 +777,32 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
   if ($session_key === '') {
     $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
   }
+  $variant_name = $selected_content->hasField('field_variant_name')
+    ? trim((string) ($selected_content->get('field_variant_name')->value ?? ''))
+    : '';
+
+  $position = 'bottom';
+  if (
+    $selected_content->hasField('field_campaign_position') &&
+    !$selected_content->get('field_campaign_position')->isEmpty()
+  ) {
+    $candidate_position = $selected_content->get('field_campaign_position')->value;
+    if (in_array($candidate_position, ['top', 'bottom'], TRUE)) {
+      $position = $candidate_position;
+    }
+  }
+
+  $color_scheme = 'maroon';
+  if (
+    $selected_content->hasField('field_campaign_color_scheme') &&
+    !$selected_content->get('field_campaign_color_scheme')->isEmpty()
+  ) {
+    $candidate_color_scheme = $selected_content
+      ->get('field_campaign_color_scheme')->value;
+    if (in_array($candidate_color_scheme, ['maroon', 'ivory'], TRUE)) {
+      $color_scheme = $candidate_color_scheme;
+    }
+  }
 
   $schedule_settings = _carlson_campaign_get_schedule_settings(
     $selected_content,
@@ -669,6 +813,8 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
     '#campaign_id' => $campaign_id,
     '#sticky_id' => $sticky_id,
     '#text' => Markup::create($filtered_text),
+    '#sticky_position' => $position,
+    '#sticky_color_scheme' => $color_scheme,
     '#attached' => [
       'library' => [
         'carlson_campaign/carlson-campaign.sticky-bar-campaign',
@@ -680,7 +826,13 @@ function _carlson_campaign_build_sticky_bar_campaign(): ?array {
           'campaignId' => $campaign_id,
           'stickyId' => $sticky_id,
           'sessionKey' => $session_key,
-          'dismissDays' => $dismiss_days,
+          'variantName' => $variant_name,
+          'position' => $position,
+          'colorScheme' => $color_scheme,
+          // Keep the existing setting name for front-end compatibility even
+          // though the value now represents hours instead of days.
+          'dismissDays' => $repeat_hours,
+          'stopOnConvert' => $stop_on_convert,
           'delaySeconds' => $delay_seconds,
           'scheduleStartTimestamp' => $schedule_settings['startTimestamp'],
           'scheduleEndTimestamp' => $schedule_settings['endTimestamp'],
