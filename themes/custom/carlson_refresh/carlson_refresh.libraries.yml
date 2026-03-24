@@ -1,6 +1,5 @@
 global-scripts:
   js:
-    js/toolbar-initial-offset.js: {}
     js/close-mega-menu.js: {}
     js/focus-searchbar.js: {}
     js/popper.min.js: {}
@@ -24,10 +23,19 @@ global-styling:
   css:
     component:
       'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap': {}
-      css/components/toolbar-initial-offset.css: {}
       css/style.css: {}
     theme:
       css/print.css: { media: print, weight: 2001 }
+
+toolbar-offset:
+  css:
+    component:
+      css/components/toolbar-initial-offset.css: {}
+  js:
+    js/toolbar-initial-offset.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
 
 accordion:
   css:
