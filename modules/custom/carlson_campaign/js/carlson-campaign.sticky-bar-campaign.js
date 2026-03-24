@@ -10,7 +10,9 @@
 (function (Drupal, drupalSettings, once) {
   'use strict';
 
-  const DEFAULT_DISMISS_DAYS = 1;
+  // Drupal still provides this value under the legacy dismissDays key, but the
+  // runtime now treats it as a repeat window measured in hours.
+  const DEFAULT_REPEAT_HOURS = 12;
   const DEFAULT_DELAY_SECONDS = 5;
   const STICKY_ANNOUNCER_ID = 'csm-campaign-sticky-announcer';
 
@@ -30,19 +32,28 @@
    */
   function getConfig() {
     const settings = drupalSettings.csmStickyBarCampaign || {};
-    const dismissDays = parseInt(settings.dismissDays, 10);
+    const repeatHours = parseInt(settings.dismissDays, 10);
     const delaySeconds = parseInt(settings.delaySeconds, 10);
     const scheduleStartTimestamp = parseInt(settings.scheduleStartTimestamp, 10);
     const scheduleEndTimestamp = parseInt(settings.scheduleEndTimestamp, 10);
+    const stopOnConvert = settings.stopOnConvert;
 
     return {
       campaignId: settings.campaignId || '',
       stickyId: settings.stickyId || '',
       sessionKey: settings.sessionKey || 'campaign_sticky_bar',
-      dismissDays:
-        Number.isFinite(dismissDays) && dismissDays >= 0 ?
-          dismissDays :
-          DEFAULT_DISMISS_DAYS,
+      variantName: settings.variantName || '',
+      position: settings.position === 'top' ? 'top' : 'bottom',
+      repeatHours:
+        Number.isFinite(repeatHours) && repeatHours >= 0 ?
+          repeatHours :
+          DEFAULT_REPEAT_HOURS,
+      stopOnConvert: !(
+        stopOnConvert === false ||
+        stopOnConvert === 0 ||
+        stopOnConvert === '0' ||
+        stopOnConvert === 'false'
+      ),
       delaySeconds:
         Number.isFinite(delaySeconds) && delaySeconds >= 0 ?
           delaySeconds :
@@ -90,10 +101,10 @@
   /**
    * Reads localStorage and determines whether the sticky bar should be shown.
    *
-   * We store the last user action (dismissed/acknowledged) and a timestamp so
+   * We store the last user action (dismissed/converted) and a timestamp so
    * subsequent page loads can honor the configured dismiss window.
    */
-  function getStickyState(storageKey, dismissDays) {
+  function getStickyState(storageKey, repeatHours, stopOnConvert) {
     try {
       const stored = localStorage.getItem(storageKey);
       if (!stored) {
@@ -102,20 +113,32 @@
 
       const data = JSON.parse(stored);
       switch (data.action) {
+        case 'viewed':
+          // Viewing alone should not suppress the banner on later page loads.
+          return { shouldShow: true };
+
+        case 'converted':
+          if (stopOnConvert) {
+            return { shouldShow: false, reason: 'converted' };
+          }
+        // Fall through: when stop-on-convert is disabled, positive actions
+        // follow the same repeat-delay window as dismissals.
         case 'dismissed':
+        // Backward compatibility for older stored positive-action entries.
         case 'acknowledged': {
-          // A dismiss window of 0 means "show every visit", so clear any prior
-          // state and allow the banner to render again immediately.
-          if (dismissDays === 0) {
-            localStorage.removeItem(storageKey);
+          // A dismiss window of 0 means "show every visit" without clearing
+          // the recorded action state from localStorage on reload.
+          if (repeatHours === 0) {
             return { shouldShow: true };
           }
 
           // Hide until the configured dismiss window expires.
-          const daysMs = dismissDays * 24 * 60 * 60 * 1000;
+          // Convert the configured repeat window from hours to milliseconds for
+          // localStorage timestamp comparisons.
+          const hoursMs = repeatHours * 60 * 60 * 1000;
           const actionTime = data.timestamp || 0;
           const now = Date.now();
-          if (now - actionTime > daysMs) {
+          if (now - actionTime > hoursMs) {
             localStorage.removeItem(storageKey);
             return { shouldShow: true };
           }
@@ -154,6 +177,17 @@
   }
 
   /**
+   * Returns the authored href value for CTA tracking when available.
+   */
+  function getTargetHref(target) {
+    if (!(target instanceof HTMLAnchorElement)) {
+      return '';
+    }
+
+    return target.getAttribute('href') || '';
+  }
+
+  /**
    * Dispatches a synthetic interaction event for tracking integrations.
    *
    * GTM or other listeners can subscribe to one event name and inspect the
@@ -162,10 +196,14 @@
   function dispatchCampaignInteraction(
     stickyElement,
     campaignId,
+    campaignKey,
+    variantName,
+    position,
     action,
     nativeEvent,
     target,
     text,
+    metadata = {},
   ) {
     const actionText = text || '';
 
@@ -173,13 +211,30 @@
       new CustomEvent('campaign:interaction', {
         bubbles: true,
         detail: {
-          event: nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown',
+          event:
+            metadata.eventType ||
+            (nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown'),
           target: target || stickyElement,
           action_name: action,
           action_text: actionText,
+          action_id: metadata.actionId || '',
+          action_index: metadata.actionIndex || null,
+          dismiss_type: metadata.dismissType || '',
           text: actionText,
           action,
+          campaign_id: campaignId,
           campaignId,
+          campaign_key: campaignKey,
+          campaign_variant_name: variantName,
+          campaign_type: 'sticky_banner',
+          campaign_placement: position,
+          campaign_cta_text:
+            metadata.ctaText ||
+            (action === 'converted' ? actionText : ''),
+          campaign_cta_url: metadata.ctaUrl || getTargetHref(target),
+          variant_name: variantName,
+          campaignKey,
+          variantName,
         },
       }),
     );
@@ -241,7 +296,11 @@
           const campaignId =
             stickyElement.dataset.campaignId || config.campaignId || '';
           const storageKey = getStorageKey(config.sessionKey);
-          const state = getStickyState(storageKey, config.dismissDays);
+          const state = getStickyState(
+            storageKey,
+            config.repeatHours,
+            config.stopOnConvert,
+          );
           if (!state.shouldShow) {
             // Respect the stored user decision until the dismiss window expires.
             return;
@@ -257,6 +316,23 @@
 
             stickyElement.hidden = false;
             stickyElement.setAttribute('aria-hidden', 'false');
+            // Record that the visitor actually saw the banner without
+            // treating viewed as a suppressing action on later page loads.
+            setStickyState(storageKey, 'viewed');
+            dispatchCampaignInteraction(
+              stickyElement,
+              campaignId,
+              config.sessionKey,
+              config.variantName,
+              config.position,
+              'viewed',
+              null,
+              stickyElement,
+              '',
+              {
+                eventType: 'show',
+              },
+            );
             announceStickyVisible(stickyElement);
           };
 
@@ -281,28 +357,49 @@
                 dispatchCampaignInteraction(
                   stickyElement,
                   campaignId,
+                  config.sessionKey,
+                  config.variantName,
+                  config.position,
                   'dismissed',
                   event,
                   event.currentTarget,
                   'Sticky Bar Close',
+                  {
+                    actionId:
+                      closeButton.id ||
+                      stickyElement.id + '__close',
+                    dismissType: 'close',
+                  },
                 );
               });
             });
 
           stickyElement
             .querySelectorAll('.campaign-sticky-bar-text a')
-            .forEach((linkElement) => {
+            .forEach((linkElement, index) => {
               linkElement.addEventListener('click', (event) => {
-                // Any link click inside the banner counts as acknowledgement.
+                // Any link click inside the banner counts as a conversion.
                 // We do not block navigation; tracking is emitted immediately.
-                setStickyState(storageKey, 'acknowledged');
+                const ctaText = linkElement.textContent.trim();
+                setStickyState(storageKey, 'converted');
                 dispatchCampaignInteraction(
                   stickyElement,
                   campaignId,
-                  'acknowledged',
+                  config.sessionKey,
+                  config.variantName,
+                  config.position,
+                  'converted',
                   event,
                   event.currentTarget,
-                  linkElement.textContent.trim(),
+                  ctaText,
+                  {
+                    actionId:
+                      linkElement.id ||
+                      stickyElement.id + '__link-' + (index + 1),
+                    actionIndex: index + 1,
+                    ctaText,
+                    ctaUrl: getTargetHref(linkElement),
+                  },
                 );
               });
             });

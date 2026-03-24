@@ -14,7 +14,9 @@
 (function (Drupal, drupalSettings, once) {
   'use strict';
 
-  const DEFAULT_DISMISS_DAYS = 1;
+  // Drupal still provides this value under the legacy dismissDays key, but the
+  // runtime now treats it as a repeat window measured in hours.
+  const DEFAULT_REPEAT_HOURS = 12;
   const DEFAULT_DELAY_SECONDS = 0;
 
   /**
@@ -30,7 +32,7 @@
    */
   function getConfig() {
     const settings = drupalSettings.csmModalCampaign || {};
-    const dismissDays = parseInt(settings.dismissDays, 10);
+    const repeatHours = parseInt(settings.dismissDays, 10);
     const delaySeconds = parseInt(settings.delaySeconds, 10);
     const scheduleStartTimestamp = parseInt(settings.scheduleStartTimestamp, 10);
     const scheduleEndTimestamp = parseInt(settings.scheduleEndTimestamp, 10);
@@ -40,10 +42,11 @@
       campaignId: settings.campaignId || '',
       modalId: settings.modalId || '',
       sessionKey: settings.sessionKey || 'modal_campaign',
-      dismissDays:
-        Number.isFinite(dismissDays) && dismissDays >= 0 ?
-          dismissDays :
-          DEFAULT_DISMISS_DAYS,
+      variantName: settings.variantName || '',
+      repeatHours:
+        Number.isFinite(repeatHours) && repeatHours >= 0 ?
+          repeatHours :
+          DEFAULT_REPEAT_HOURS,
       stopOnConvert: !(
         stopOnConvert === false ||
         stopOnConvert === 0 ||
@@ -97,7 +100,7 @@
   /**
    * Reads localStorage and determines whether the modal should be shown.
    */
-  function getModalState(storageKey, dismissDays, stopOnConvert) {
+  function getModalState(storageKey, repeatHours, stopOnConvert) {
     try {
       const stored = localStorage.getItem(storageKey);
       if (!stored) {
@@ -106,6 +109,10 @@
 
       const data = JSON.parse(stored);
       switch (data.action) {
+        case 'viewed':
+          // Viewing alone should not suppress the modal on later page loads.
+          return { shouldShow: true };
+
         case 'converted':
           if (stopOnConvert) {
             return { shouldShow: false, reason: 'converted' };
@@ -115,15 +122,17 @@
         case 'acknowledged':
         case 'dismissed':
         case 'declined': {
-          if (dismissDays === 0) {
-            localStorage.removeItem(storageKey);
+          if (repeatHours === 0) {
+            // "Show every visit" should not wipe the recorded action state.
             return { shouldShow: true };
           }
-          const daysMs = dismissDays * 24 * 60 * 60 * 1000;
+          // Convert the configured repeat window from hours to milliseconds for
+          // localStorage timestamp comparisons.
+          const hoursMs = repeatHours * 60 * 60 * 1000;
           const actionTime = data.timestamp || 0;
           const now = Date.now();
 
-          if (now - actionTime > daysMs) {
+          if (now - actionTime > hoursMs) {
             localStorage.removeItem(storageKey);
             return { shouldShow: true };
           }
@@ -150,9 +159,6 @@
    */
   function setModalState(storageKey, action) {
     try {
-      if (action === 'viewed') {
-        return;
-      }
       localStorage.setItem(
         storageKey,
         JSON.stringify({ action, timestamp: Date.now() }),
@@ -182,27 +188,71 @@
   }
 
   /**
+   * Returns a stable analytics action identifier for the target control.
+   */
+  function getActionId(target, fallbackId) {
+    if (target && typeof target.id === 'string' && target.id !== '') {
+      return target.id;
+    }
+
+    return fallbackId || '';
+  }
+
+  /**
+   * Returns the authored href value for CTA tracking when available.
+   */
+  function getTargetHref(target) {
+    if (!(target instanceof HTMLAnchorElement)) {
+      return '';
+    }
+
+    return target.getAttribute('href') || '';
+  }
+
+  /**
    * Dispatches a synthetic interaction event with normalized tracking details.
    */
   function dispatchCampaignInteraction(
     modalElement,
     campaignId,
+    campaignKey,
+    variantName,
     action,
     nativeEvent,
     target,
     textOverride,
+    metadata = {},
   ) {
     const actionText = textOverride || getTargetText(target);
     const detail = {
-      event: nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown',
+      event:
+        metadata.eventType ||
+        (nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown'),
       target: target || modalElement,
       // Canonical keys for analytics integrations.
       action_name: action,
       action_text: actionText,
+      action_id: metadata.actionId || '',
+      action_index: metadata.actionIndex || null,
+      dismiss_type: metadata.dismissType || '',
+      campaign_id: campaignId,
+      campaign_variant_name: variantName,
+      campaign_type: 'modal',
+      campaign_cta_text:
+        metadata.ctaText ||
+        (action === 'converted' ? actionText : ''),
+      campaign_cta_url: metadata.ctaUrl || getTargetHref(target),
+      campaign_decline_text:
+        metadata.declineText ||
+        (action === 'declined' ? actionText : ''),
       // Backward-compatible aliases for existing listeners.
       action: action,
       text: actionText,
       campaignId,
+      campaign_key: campaignKey,
+      variant_name: variantName,
+      campaignKey,
+      variantName,
     };
 
     modalElement.dispatchEvent(
@@ -323,7 +373,7 @@
         const storageKey = getStorageKey(config.sessionKey);
         const state = getModalState(
           storageKey,
-          config.dismissDays,
+          config.repeatHours,
           config.stopOnConvert,
         );
 
@@ -342,16 +392,20 @@
           nativeEvent,
           target,
           textOverride,
+          metadata = {},
         ) => {
           explicitAction = action;
           setModalState(storageKey, action);
           dispatchCampaignInteraction(
             modalElement,
             campaignId,
+            config.sessionKey,
+            config.variantName,
             action,
             nativeEvent,
             target,
             textOverride,
+            metadata,
           );
           if (modalElement.open) {
             modalElement.close(action);
@@ -366,13 +420,20 @@
             event,
             modalElement,
             'Dismissed via keyboard ESC key',
+            {
+              actionId: modalElement.id + '__escape',
+              dismissType: 'escape',
+            },
           );
         });
 
         // Click on dialog backdrop (outside panel) counts as dismissed.
         modalElement.addEventListener('click', (event) => {
           if (event.target === modalElement) {
-            closeWithAction('dismissed', event, modalElement);
+            closeWithAction('dismissed', event, modalElement, '', {
+              actionId: modalElement.id + '__backdrop',
+              dismissType: 'background',
+            });
           }
         });
 
@@ -385,6 +446,13 @@
                 event,
                 event.currentTarget,
                 'Modal Close Button',
+                {
+                  actionId: getActionId(
+                    event.currentTarget,
+                    modalElement.id + '__close',
+                  ),
+                  dismissType: 'close',
+                },
               );
             });
           },
@@ -393,8 +461,15 @@
         modalElement.querySelectorAll('.campaign-modal-decline').forEach(
           (declineButton) => {
             declineButton.addEventListener('click', (event) => {
+              const declineText = getTargetText(event.currentTarget);
               event.preventDefault();
-              closeWithAction('declined', event, event.currentTarget);
+              closeWithAction('declined', event, event.currentTarget, '', {
+                actionId: getActionId(
+                  event.currentTarget,
+                  modalElement.id + '__decline',
+                ),
+                declineText,
+              });
             });
           },
         );
@@ -402,9 +477,17 @@
         modalElement.querySelectorAll('.campaign-modal-convert').forEach(
           (convertTarget) => {
             convertTarget.addEventListener('click', (event) => {
+              const ctaText = getTargetText(event.currentTarget);
               // Preserve the anchor's native navigation behavior while still
               // recording the conversion state before the browser follows it.
-              closeWithAction('converted', event, event.currentTarget);
+              closeWithAction('converted', event, event.currentTarget, '', {
+                actionId: getActionId(
+                  event.currentTarget,
+                  modalElement.id + '__acknowledge',
+                ),
+                ctaText,
+                ctaUrl: getTargetHref(event.currentTarget),
+              });
             });
           },
         );
@@ -416,9 +499,16 @@
             dispatchCampaignInteraction(
               modalElement,
               campaignId,
+              config.sessionKey,
+              config.variantName,
               'dismissed',
               event,
               modalElement,
+              '',
+              {
+                actionId: modalElement.id + '__dismiss',
+                dismissType: 'unknown',
+              },
             );
           }
 
@@ -445,6 +535,22 @@
               previouslyFocusedElement = document.activeElement;
             }
             modalElement.showModal();
+            // Record that the visitor actually saw the modal without letting
+            // the passive viewed state suppress later displays by itself.
+            setModalState(storageKey, 'viewed');
+            dispatchCampaignInteraction(
+              modalElement,
+              campaignId,
+              config.sessionKey,
+              config.variantName,
+              'viewed',
+              null,
+              modalElement,
+              '',
+              {
+                eventType: 'show',
+              },
+            );
             // Keep initial focus deterministic for keyboard/screen readers.
             window.requestAnimationFrame(() => {
               focusInitialModalControl(modalElement);

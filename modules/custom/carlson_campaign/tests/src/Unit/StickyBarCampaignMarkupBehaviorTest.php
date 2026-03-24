@@ -44,6 +44,14 @@ final class StickyBarCampaignMarkupBehaviorTest extends TestCase {
 
     $this->assertStringContainsString('<aside', $contents);
     $this->assertStringContainsString('campaign-sticky-bar', $contents);
+    $this->assertStringContainsString(
+      'campaign-sticky-bar--{{ sticky_position|clean_class }}',
+      $contents,
+    );
+    $this->assertStringContainsString(
+      'campaign-sticky-bar--{{ sticky_color_scheme|clean_class }}',
+      $contents,
+    );
     $this->assertStringContainsString('campaign-sticky-bar-close', $contents);
     $this->assertStringContainsString('campaign-sticky-bar-text', $contents);
     $this->assertStringContainsString('id="{{ sticky_id }}"', $contents);
@@ -57,15 +65,28 @@ final class StickyBarCampaignMarkupBehaviorTest extends TestCase {
 
     $this->assertStringContainsString('campaign:interaction', $contents);
     $this->assertStringContainsString(
+      "setStickyState(storageKey, 'viewed')",
+      $contents,
+    );
+    $this->assertStringContainsString(
       "setStickyState(storageKey, 'dismissed')",
       $contents,
     );
     $this->assertStringContainsString(
-      "setStickyState(storageKey, 'acknowledged')",
+      "setStickyState(storageKey, 'converted')",
       $contents,
     );
     $this->assertStringContainsString('action_name', $contents);
     $this->assertStringContainsString('action_text', $contents);
+    $this->assertStringContainsString('campaign_type', $contents);
+    $this->assertStringContainsString('campaign_placement', $contents);
+    $this->assertStringContainsString('campaign_cta_url', $contents);
+    $this->assertStringContainsString('dismiss_type', $contents);
+    $this->assertStringContainsString('action_id', $contents);
+    $this->assertStringContainsString('action_index', $contents);
+    $this->assertStringContainsString('campaign_key', $contents);
+    $this->assertStringContainsString('variant_name', $contents);
+    $this->assertStringContainsString('stopOnConvert', $contents);
     $this->assertStringContainsString("'Sticky Bar Close'", $contents);
     $this->assertStringContainsString('campaign-sticky-bar-text a', $contents);
   }
