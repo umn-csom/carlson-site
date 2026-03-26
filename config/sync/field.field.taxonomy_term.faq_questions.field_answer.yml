@@ -1,19 +1,26 @@
-uuid: cf1aace1-e995-40c2-8cfb-12ec6fc2ff03
+uuid: 184035ff-28a4-4611-a52f-159e8b6e1a8f
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.taxonomy_term.field_answer
+    - filter.format.full_html
+    - filter.format.rich_text
     - taxonomy.vocabulary.faq_questions
+  module:
+    - text
 id: taxonomy_term.faq_questions.field_answer
 field_name: field_answer
 entity_type: taxonomy_term
 bundle: faq_questions
 label: Answer
 description: ''
-required: true
+required: false
 translatable: false
 default_value: {  }
 default_value_callback: ''
-settings: {  }
-field_type: string_long
+settings:
+  allowed_formats:
+    - rich_text
+    - full_html
+field_type: text_long
