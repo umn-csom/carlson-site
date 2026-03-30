@@ -1,0 +1,47 @@
+uuid: 44b89ad2-9199-4a81-ad5e-cda8177c1339
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.taxonomy_term.faq_accordion
+    - field.field.taxonomy_term.faq_questions.feeds_item
+    - field.field.taxonomy_term.faq_questions.field_answer
+    - field.field.taxonomy_term.faq_questions.field_program
+    - field.field.taxonomy_term.faq_questions.field_question
+    - field.field.taxonomy_term.faq_questions.field_show_in_view
+    - field.field.taxonomy_term.faq_questions.field_topic
+    - taxonomy.vocabulary.faq_questions
+  module:
+    - layout_builder
+    - text
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: taxonomy_term.faq_questions.faq_accordion
+targetEntityType: taxonomy_term
+bundle: faq_questions
+mode: faq_accordion
+content:
+  field_answer:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_question:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  description: true
+  feeds_item: true
+  field_program: true
+  field_show_in_view: true
+  field_topic: true
+  langcode: true
+  search_api_excerpt: true

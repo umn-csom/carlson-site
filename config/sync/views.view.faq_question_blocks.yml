@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_mode.taxonomy_term.faq_accordion
     - field.storage.taxonomy_term.field_answer
     - field.storage.taxonomy_term.field_question
     - taxonomy.vocabulary.faq_questions
@@ -198,7 +199,10 @@ display:
       style:
         type: default
       row:
-        type: fields
+        type: 'entity:taxonomy_term'
+        options:
+          relationship: none
+          view_mode: faq_accordion
       query:
         type: views_query
         options:
