@@ -4,19 +4,19 @@ status: true
 dependencies:
   config:
     - block_content.type.sticky_bar_campaign
-    - field.field.block_content.sticky_bar_campaign.field_campaign_delay_seconds
     - field.field.block_content.sticky_bar_campaign.field_campaign_color_scheme
+    - field.field.block_content.sticky_bar_campaign.field_campaign_delay_seconds
     - field.field.block_content.sticky_bar_campaign.field_campaign_dismiss_days
     - field.field.block_content.sticky_bar_campaign.field_campaign_end_datetime
     - field.field.block_content.sticky_bar_campaign.field_campaign_position
-    - field.field.block_content.sticky_bar_campaign.field_campaign_stop_on_convert
-    - field.field.block_content.sticky_bar_campaign.field_campaign_start_datetime
     - field.field.block_content.sticky_bar_campaign.field_campaign_session_key
+    - field.field.block_content.sticky_bar_campaign.field_campaign_start_datetime
+    - field.field.block_content.sticky_bar_campaign.field_campaign_stop_on_convert
     - field.field.block_content.sticky_bar_campaign.field_campaign_text
     - field.field.block_content.sticky_bar_campaign.field_variant_name
   module:
-    - field_group
     - datetime
+    - field_group
     - options
     - text
 third_party_settings:
@@ -24,10 +24,12 @@ third_party_settings:
     group_content:
       children:
         - field_campaign_text
+        - field_campaign_position
+        - field_campaign_color_scheme
       label: Content
       region: content
       parent_name: ''
-      weight: 10
+      weight: 4
       format_type: details
       format_settings:
         classes: ''
@@ -38,19 +40,19 @@ third_party_settings:
     group_trigger:
       children:
         - field_campaign_delay_seconds
-        - field_campaign_session_key
-        - field_variant_name
-        - field_campaign_dismiss_days
-        - field_campaign_stop_on_convert
+        - group_repeat
+        - group_schedule
       label: Timing
       region: content
       parent_name: ''
-      weight: 21
+      weight: 7
       format_type: details
       format_settings:
         classes: ''
+        show_empty_fields: false
         id: ''
-        open: false
+        label_as_html: false
+        open: true
         description: 'Delay and repeat settings for this campaign.'
         required_fields: true
     group_schedule:
@@ -59,20 +61,45 @@ third_party_settings:
         - field_campaign_end_datetime
       label: 'Schedule (optional)'
       region: content
-      parent_name: ''
-      weight: 22
+      parent_name: group_trigger
+      weight: 24
       format_type: details
       format_settings:
         classes: ''
+        show_empty_fields: false
         id: ''
-        open: false
-        description: 'Optionally, specify a range when the campaign should be active - defaults to always active.'
+        label_as_html: false
+        open: true
+        description: "Optionally, specify a range (in Central Time) when the campaign should be active - defaults to always active. \r\n\r\nNOTE: campaign content is embedded in page markup and hidden from users (but not necessarily bots, etc.) when inactive. Do not use scheduling for content that should remain truly secret prior to the start date/time. "
+        required_fields: true
+    group_repeat:
+      children:
+        - field_campaign_dismiss_days
+        - field_campaign_stop_on_convert
+      label: Repeat
+      region: content
+      parent_name: group_trigger
+      weight: 23
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: true
+        description: ''
         required_fields: true
 id: block_content.sticky_bar_campaign.default
 targetEntityType: block_content
 bundle: sticky_bar_campaign
 mode: default
 content:
+  field_campaign_color_scheme:
+    type: options_buttons
+    weight: 23
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   field_campaign_delay_seconds:
     type: number
     weight: 22
@@ -80,15 +107,9 @@ content:
     settings:
       placeholder: '0'
     third_party_settings: {  }
-  field_campaign_color_scheme:
-    type: options_buttons
-    weight: 20
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_campaign_dismiss_days:
     type: number
-    weight: 25
+    weight: 26
     region: content
     settings:
       placeholder: '12'
@@ -101,29 +122,27 @@ content:
     third_party_settings: {  }
   field_campaign_position:
     type: options_buttons
-    weight: 19
+    weight: 22
     region: content
     settings: {  }
     third_party_settings: {  }
   field_campaign_session_key:
     type: string_textfield
-    weight: 23
+    weight: 1
     region: content
     settings:
       size: 60
       placeholder: 'e.g., discount_2026_spring'
     third_party_settings: {  }
-  field_variant_name:
-    type: string_textfield
-    weight: 24
+  field_campaign_start_datetime:
+    type: datetime_default
+    weight: 30
     region: content
-    settings:
-      size: 60
-      placeholder: 'e.g., A'
+    settings: {  }
     third_party_settings: {  }
   field_campaign_stop_on_convert:
     type: boolean_checkbox
-    weight: 26
+    weight: 27
     region: content
     settings:
       display_label: true
@@ -136,11 +155,13 @@ content:
       rows: 6
       placeholder: 'Campaign message with optional links...'
     third_party_settings: {  }
-  field_campaign_start_datetime:
-    type: datetime_default
-    weight: 30
+  field_variant_name:
+    type: string_textfield
+    weight: 2
     region: content
-    settings: {  }
+    settings:
+      size: 60
+      placeholder: 'e.g., A'
     third_party_settings: {  }
   info:
     type: string_textfield
@@ -152,7 +173,7 @@ content:
     third_party_settings: {  }
   langcode:
     type: language_select
-    weight: 2
+    weight: 3
     region: content
     settings:
       include_locked: true
