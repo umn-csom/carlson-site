@@ -73,7 +73,8 @@
   ]
 %}
 
-{% set webform = content.webform|render is not empty %}
+{% set webform = has_webform ?? (content.webform is defined and content.webform is not empty) %}
+{% set webform_content = webform_content ?? (content.webform ?? []) %}
 
 <article{{ attributes.addClass(classes) }}>
   {% if not page %}
@@ -111,7 +112,7 @@
               {% if not webform %}
                 {{ content.body }}
               {% endif %}
-              {{ content.webform }}
+              {{ webform_content }}
             </div>
             {# {% if content.field_link|field_value is not empty %} #}
             {% if ((content.field_link[0]['#url'].toString() is not empty) and (content.field_link[0]['#title'] is not empty)) %}

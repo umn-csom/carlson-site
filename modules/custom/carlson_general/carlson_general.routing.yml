@@ -65,3 +65,15 @@ carlson_general.download_csv:
     _title: 'Download CSV'
   requirements:
     _permission: 'view reports'
+
+carlson_general.deferred_webform:
+  path: '/carlson-general/deferred-webform/{node}/{field_name}'
+  defaults:
+    _controller: '\Drupal\carlson_general\Controller\DeferredWebformController::load'
+  requirements:
+    _entity_access: 'node.view'
+    field_name: '[a-z0-9_]+'
+  options:
+    parameters:
+      node:
+        type: entity:node
