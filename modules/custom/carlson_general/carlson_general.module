@@ -170,6 +170,10 @@ function carlson_general_build_deferred_webform_placeholder(NodeInterface $node,
     'node' => $node->id(),
     'field_name' => $field_name,
   ])->toString();
+  $fallback_url = Url::fromRoute('carlson_general.deferred_webform_fallback', [
+    'node' => $node->id(),
+    'field_name' => $field_name,
+  ])->toString();
 
   return [
     '#type' => 'container',
@@ -180,6 +184,7 @@ function carlson_general_build_deferred_webform_placeholder(NodeInterface $node,
         'carlson-deferred-webform--loading',
       ],
       'data-deferred-webform-url' => $url,
+      'data-deferred-webform-fallback-url' => $fallback_url,
     ],
     'loading' => [
       '#type' => 'container',
@@ -193,13 +198,24 @@ function carlson_general_build_deferred_webform_placeholder(NodeInterface $node,
     'fallback' => [
       '#type' => 'html_tag',
       '#tag' => 'noscript',
-      'message' => [
+      'content' => [
         '#type' => 'container',
         '#attributes' => [
           'class' => ['carlson-deferred-webform__noscript'],
         ],
         'text' => [
-          '#plain_text' => t('JavaScript is required to load this form.'),
+          '#plain_text' => t('JavaScript is disabled.'),
+        ],
+        'separator' => [
+          '#plain_text' => ' ',
+        ],
+        'link' => [
+          '#type' => 'link',
+          '#title' => t('Open the form directly.'),
+          '#url' => Url::fromRoute('carlson_general.deferred_webform_fallback', [
+            'node' => $node->id(),
+            'field_name' => $field_name,
+          ]),
         ],
       ],
     ],
