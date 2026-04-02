@@ -162,6 +162,62 @@ function carlson_general_get_deferred_webform_wrapper_id(NodeInterface $node, st
 }
 
 /**
+ * Gets relevant query args and cache contexts for a deferred Webform field.
+ *
+ * @param \Drupal\node\NodeInterface $node
+ *   The source node.
+ * @param string $field_name
+ *   The Webform field being deferred.
+ *
+ * @return array{
+ *   query: array,
+ *   cache_contexts: string[]
+ * }
+ *   Filtered query args and cache contexts for the deferred form request.
+ */
+function carlson_general_get_deferred_webform_request_data(NodeInterface $node, string $field_name): array {
+  $request = \Drupal::requestStack()->getMainRequest() ?: \Drupal::request();
+  $query = $request?->query->all() ?? [];
+  $webform = $node->get($field_name)->first()?->entity;
+
+  if (!$webform || empty($query)) {
+    return [
+      'query' => [],
+      'cache_contexts' => [],
+    ];
+  }
+
+  if ($webform->getSetting('form_prepopulate')) {
+    return [
+      'query' => $query,
+      'cache_contexts' => ['url.query_args'],
+    ];
+  }
+
+  $allowed_keys = $webform->getElementsPrepopulate();
+
+  if ($webform->getSetting('form_prepopulate_source_entity')) {
+    $allowed_keys[] = 'source_entity_type';
+    $allowed_keys[] = 'source_entity_id';
+  }
+
+  if ($webform->hasVariants()) {
+    $allowed_keys[] = '_webform_variant';
+  }
+
+  $allowed_keys = array_values(array_unique($allowed_keys));
+  $allowed_query = array_intersect_key($query, array_flip($allowed_keys));
+  $cache_contexts = array_map(static function (string $key): string {
+    return 'url.query_args:' . $key;
+  }, $allowed_keys);
+
+  return [
+    'query' => $allowed_query,
+    'cache_contexts' => $cache_contexts,
+  ];
+}
+
+/**
  * Builds a placeholder container for a deferred webform.
  *
  * @param \Drupal\node\NodeInterface $node
@@ -173,12 +229,11 @@ function carlson_general_get_deferred_webform_wrapper_id(NodeInterface $node, st
  *   A render array for the webform placeholder.
  */
 function carlson_general_build_deferred_webform_placeholder(NodeInterface $node, string $field_name): array {
-  $request = \Drupal::requestStack()->getMainRequest() ?: \Drupal::request();
-  $query = $request?->query->all() ?? [];
+  $request_data = carlson_general_get_deferred_webform_request_data($node, $field_name);
   $url_options = [];
 
-  if (!empty($query)) {
-    $url_options['query'] = $query;
+  if (!empty($request_data['query'])) {
+    $url_options['query'] = $request_data['query'];
   }
 
   $wrapper_id = carlson_general_get_deferred_webform_wrapper_id($node, $field_name);
@@ -244,7 +299,7 @@ function carlson_general_build_deferred_webform_placeholder(NodeInterface $node,
     ],
     '#cache' => [
       'tags' => ['CACHE_MISS_IF_UNCACHEABLE_HTTP_METHOD:form'],
-      'contexts' => !empty($query) ? ['url.query_args'] : [],
+      'contexts' => $request_data['cache_contexts'],
     ],
   ];
 }
