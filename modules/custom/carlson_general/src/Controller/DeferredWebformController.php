@@ -2,10 +2,11 @@
 
 namespace Drupal\carlson_general\Controller;
 
-use Drupal\Component\Serialization\Yaml;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\Core\Render\Element;
 use Drupal\node\NodeInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -54,10 +55,11 @@ class DeferredWebformController extends ControllerBase {
    *   A render array containing the deferred form.
    */
   protected function buildDeferredWebform(NodeInterface $node, string $field_name, string $wrapper_id): array {
-    $field_item = $node->get($field_name)->first();
-    $webform = $field_item?->entity;
+    $items = $node->get($field_name);
+    $display = EntityViewDisplay::collectRenderDisplay($node, 'full');
+    $formatter = $display->getRenderer($field_name);
 
-    if (!$webform) {
+    if ($items->isEmpty() || !$formatter) {
       return [
         '#type' => 'container',
         '#attributes' => [
@@ -70,10 +72,9 @@ class DeferredWebformController extends ControllerBase {
       ];
     }
 
-    $default_data = [];
-    if (!empty($field_item->default_data)) {
-      $default_data = Yaml::decode($field_item->default_data) ?? [];
-    }
+    $formatter->prepareView([$node->id() => $items]);
+    $build = $formatter->view($items, $node->language()->getId());
+    $this->applyWebformAction($build, $node->toUrl()->toString());
 
     return [
       '#type' => 'container',
@@ -81,14 +82,31 @@ class DeferredWebformController extends ControllerBase {
         'id' => $wrapper_id,
         'class' => ['carlson-deferred-webform'],
       ],
-      'webform' => [
-        '#type' => 'webform',
-        '#webform' => $webform,
-        '#default_data' => $default_data,
-        '#entity' => $node,
-        '#action' => $node->toUrl()->toString(),
-      ],
+      'webform' => $build,
     ];
+  }
+
+  /**
+   * Ensures deferred Webforms post back to the canonical node URL.
+   *
+   * @param array $build
+   *   The render array to update.
+   * @param string $action
+   *   The form action URL.
+   */
+  protected function applyWebformAction(array &$build, string $action): void {
+    if (($build['#type'] ?? NULL) === 'webform') {
+      $build['#action'] = $action;
+      $build['#lazy'] = FALSE;
+    }
+
+    foreach (Element::children($build) as $child_key) {
+      if (!is_array($build[$child_key])) {
+        continue;
+      }
+
+      $this->applyWebformAction($build[$child_key], $action);
+    }
   }
 
 }
