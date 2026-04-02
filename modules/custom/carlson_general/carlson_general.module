@@ -173,15 +173,23 @@ function carlson_general_get_deferred_webform_wrapper_id(NodeInterface $node, st
  *   A render array for the webform placeholder.
  */
 function carlson_general_build_deferred_webform_placeholder(NodeInterface $node, string $field_name): array {
+  $request = \Drupal::requestStack()->getMainRequest() ?: \Drupal::request();
+  $query = $request?->query->all() ?? [];
+  $url_options = [];
+
+  if (!empty($query)) {
+    $url_options['query'] = $query;
+  }
+
   $wrapper_id = carlson_general_get_deferred_webform_wrapper_id($node, $field_name);
   $url = Url::fromRoute('carlson_general.deferred_webform', [
     'node' => $node->id(),
     'field_name' => $field_name,
-  ])->toString();
+  ], $url_options)->toString();
   $fallback_url = Url::fromRoute('carlson_general.deferred_webform_fallback', [
     'node' => $node->id(),
     'field_name' => $field_name,
-  ])->toString();
+  ], $url_options)->toString();
 
   return [
     '#type' => 'container',
@@ -220,10 +228,14 @@ function carlson_general_build_deferred_webform_placeholder(NodeInterface $node,
         'link' => [
           '#type' => 'link',
           '#title' => t('Open the form directly.'),
-          '#url' => Url::fromRoute('carlson_general.deferred_webform_fallback', [
-            'node' => $node->id(),
-            'field_name' => $field_name,
-          ]),
+          '#url' => Url::fromRoute(
+            'carlson_general.deferred_webform_fallback',
+            [
+              'node' => $node->id(),
+              'field_name' => $field_name,
+            ],
+            $url_options
+          ),
         ],
       ],
     ],
@@ -232,6 +244,7 @@ function carlson_general_build_deferred_webform_placeholder(NodeInterface $node,
     ],
     '#cache' => [
       'tags' => ['CACHE_MISS_IF_UNCACHEABLE_HTTP_METHOD:form'],
+      'contexts' => !empty($query) ? ['url.query_args'] : [],
     ],
   ];
 }
