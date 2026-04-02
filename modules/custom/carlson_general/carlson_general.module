@@ -304,6 +304,29 @@ function carlson_general_build_deferred_webform_placeholder(NodeInterface $node,
   ];
 }
 
+/**
+ * Determines whether the current request should defer direct node Webforms.
+ *
+ * Preview and other non-canonical node routes keep inline forms so Drupal can
+ * preserve tempstore-backed preview state and form actions.
+ *
+ * @param \Drupal\node\NodeInterface $node
+ *   The node being rendered.
+ *
+ * @return bool
+ *   TRUE when the current request should use deferred loading.
+ */
+function carlson_general_should_defer_webforms(NodeInterface $node): bool {
+  $request = \Drupal::requestStack()->getMainRequest() ?: \Drupal::request();
+
+  if (!$request || !in_array($request->getMethod(), ['GET', 'HEAD'], TRUE)) {
+    return FALSE;
+  }
+
+  return !$node->isNew()
+    && \Drupal::routeMatch()->getRouteName() === 'entity.node.canonical';
+}
+
 function _carlson_get_title($nid) {
   /** @var Drupal\node\Entity\Node $node */
   $node = Node::load($nid);
@@ -330,12 +353,10 @@ function carlson_general_preprocess_node(array &$variables): void {
     return;
   }
 
-  $request = \Drupal::requestStack()->getMainRequest() ?: \Drupal::request();
-
   /** @var \Drupal\node\NodeInterface $node */
   $node = $variables['node'];
 
-  if ($request && in_array($request->getMethod(), ['GET', 'HEAD'], TRUE)) {
+  if (carlson_general_should_defer_webforms($node)) {
     foreach (carlson_general_get_deferred_webform_field_names($node) as $field_name) {
       if (!isset($variables['content'][$field_name])) {
         continue;
