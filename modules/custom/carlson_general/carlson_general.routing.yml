@@ -77,3 +77,16 @@ carlson_general.deferred_webform:
     parameters:
       node:
         type: entity:node
+
+carlson_general.deferred_webform_fallback:
+  path: '/carlson-general/deferred-webform-fallback/{node}/{field_name}'
+  defaults:
+    _controller: '\Drupal\carlson_general\Controller\DeferredWebformController::fallback'
+    _title: 'Form'
+  requirements:
+    _entity_access: 'node.view'
+    field_name: '[a-z0-9_]+'
+  options:
+    parameters:
+      node:
+        type: entity:node

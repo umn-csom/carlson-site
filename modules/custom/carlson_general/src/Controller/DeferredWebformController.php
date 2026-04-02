@@ -42,6 +42,29 @@ class DeferredWebformController extends ControllerBase {
   }
 
   /**
+   * Displays a standalone fallback page for no-JavaScript form access.
+   *
+   * @param \Drupal\node\NodeInterface $node
+   *   The source node.
+   * @param string $field_name
+   *   The Webform field being requested.
+   *
+   * @return array
+   *   A render array containing the inline form.
+   */
+  public function fallback(NodeInterface $node, string $field_name): array {
+    if (!\carlson_general_is_deferred_webform_field($node, $field_name)) {
+      throw new NotFoundHttpException();
+    }
+
+    return $this->buildDeferredWebform(
+      $node,
+      $field_name,
+      \carlson_general_get_deferred_webform_wrapper_id($node, $field_name)
+    );
+  }
+
+  /**
    * Builds the deferred webform wrapper.
    *
    * @param \Drupal\node\NodeInterface $node
