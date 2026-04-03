@@ -347,6 +347,10 @@ function _carlson_get_breadcrumb_title($nid) {
 
 /**
  * Implements hook_preprocess_node().
+ *
+ * Swaps eligible direct node Webform fields to deferred placeholders on
+ * canonical full node pages, then exposes simple Twig variables for the
+ * standard "webform" field template logic.
  */
 function carlson_general_preprocess_node(array &$variables): void {
   if (($variables['view_mode'] ?? NULL) !== 'full' || empty($variables['node'])) {
