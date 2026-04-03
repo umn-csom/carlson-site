@@ -66,6 +66,8 @@ carlson_general.download_csv:
   requirements:
     _permission: 'view reports'
 
+# AJAX endpoint that returns the live Webform separately from the cacheable
+# node page shell.
 carlson_general.deferred_webform:
   path: '/carlson-general/deferred-webform/{node}/{field_name}'
   defaults:
@@ -78,6 +80,8 @@ carlson_general.deferred_webform:
       node:
         type: entity:node
 
+# Standalone non-JS fallback page for the same Webform so deferred loading
+# does not make the form JavaScript-only.
 carlson_general.deferred_webform_fallback:
   path: '/carlson-general/deferred-webform-fallback/{node}/{field_name}'
   defaults:
