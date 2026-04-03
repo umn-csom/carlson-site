@@ -6,6 +6,7 @@ use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\ReplaceCommand;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Render\Element;
 use Drupal\node\NodeInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -35,7 +36,13 @@ class DeferredWebformController extends ControllerBase {
     $response = new AjaxResponse();
     $response->addCommand(new ReplaceCommand(
       '#' . $wrapper_id,
-      $this->buildDeferredWebform($node, $field_name, $wrapper_id)
+      $this->buildDeferredWebform(
+        $node,
+        $field_name,
+        $wrapper_id,
+        'full',
+        $node->toUrl()->toString()
+      )
     ));
 
     return $response;
@@ -60,26 +67,84 @@ class DeferredWebformController extends ControllerBase {
     return $this->buildDeferredWebform(
       $node,
       $field_name,
-      \carlson_general_get_deferred_webform_wrapper_id($node, $field_name)
+      \carlson_general_get_deferred_webform_wrapper_id($node, $field_name),
+      'full',
+      $node->toUrl()->toString()
     );
   }
 
   /**
-   * Builds the deferred webform wrapper.
+   * Loads a paragraph Webform outside the initial page response.
    *
-   * @param \Drupal\node\NodeInterface $node
-   *   The source node.
+   * @param \Drupal\Core\Entity\EntityInterface $paragraph
+   *   The source paragraph.
+   * @param string $field_name
+   *   The Webform field being requested.
+   *
+   * @return \Drupal\Core\Ajax\AjaxResponse
+   *   An AJAX response that replaces the placeholder with the real form.
+   */
+  public function loadParagraph(EntityInterface $paragraph, string $field_name): AjaxResponse {
+    $parent_node = $this->validateParagraphWebformRequest($paragraph, $field_name);
+    $wrapper_id = \carlson_general_get_deferred_paragraph_wrapper_id($paragraph, $field_name);
+    $response = new AjaxResponse();
+    $response->addCommand(new ReplaceCommand(
+      '#' . $wrapper_id,
+      $this->buildDeferredWebform(
+        $paragraph,
+        $field_name,
+        $wrapper_id,
+        'default',
+        $parent_node->toUrl()->toString()
+      )
+    ));
+
+    return $response;
+  }
+
+  /**
+   * Displays a standalone fallback page for no-JavaScript paragraph forms.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $paragraph
+   *   The source paragraph.
+   * @param string $field_name
+   *   The Webform field being requested.
+   *
+   * @return array
+   *   A render array containing the inline form.
+   */
+  public function fallbackParagraph(EntityInterface $paragraph, string $field_name): array {
+    $parent_node = $this->validateParagraphWebformRequest($paragraph, $field_name);
+
+    return $this->buildDeferredWebform(
+      $paragraph,
+      $field_name,
+      \carlson_general_get_deferred_paragraph_wrapper_id($paragraph, $field_name),
+      'default',
+      $parent_node->toUrl()->toString()
+    );
+  }
+
+  /**
+   * Builds the deferred Webform wrapper.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The source entity.
    * @param string $field_name
    *   The Webform field being rendered.
    * @param string $wrapper_id
    *   The wrapper ID being replaced.
+   * @param string $view_mode
+   *   The view mode used to render the field formatter.
+   * @param string $action
+   *   The canonical parent action URL for the form submission.
    *
    * @return array
    *   A render array containing the deferred form.
    */
-  protected function buildDeferredWebform(NodeInterface $node, string $field_name, string $wrapper_id): array {
-    $items = $node->get($field_name);
-    $display = EntityViewDisplay::collectRenderDisplay($node, 'full');
+  protected function buildDeferredWebform(EntityInterface $entity, string $field_name, string $wrapper_id, string $view_mode, string $action): array {
+    $items = $entity->get($field_name);
+    $display = EntityViewDisplay::collectRenderDisplay($entity, $view_mode);
     $formatter = $display->getRenderer($field_name);
 
     if ($items->isEmpty() || !$formatter) {
@@ -95,9 +160,9 @@ class DeferredWebformController extends ControllerBase {
       ];
     }
 
-    $formatter->prepareView([$node->id() => $items]);
-    $build = $formatter->view($items, $node->language()->getId());
-    $this->applyWebformAction($build, $node->toUrl()->toString());
+    $formatter->prepareView([$entity->id() => $items]);
+    $build = $formatter->view($items, $entity->language()->getId());
+    $this->applyWebformAction($build, $action);
 
     return [
       '#type' => 'container',
@@ -107,6 +172,32 @@ class DeferredWebformController extends ControllerBase {
       ],
       'webform' => $build,
     ];
+  }
+
+  /**
+   * Validates that a paragraph Webform request maps to a viewable parent page.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $paragraph
+   *   The source paragraph.
+   * @param string $field_name
+   *   The Webform field being requested.
+   *
+   * @return \Drupal\node\NodeInterface
+   *   The viewable parent node.
+   */
+  protected function validateParagraphWebformRequest(EntityInterface $paragraph, string $field_name): NodeInterface {
+    $parent_node = \carlson_general_get_deferred_paragraph_parent_node($paragraph);
+
+    if (
+      !$parent_node ||
+      !\carlson_general_is_deferred_paragraph_webform_field($paragraph, $field_name) ||
+      !$parent_node->access('view') ||
+      !$paragraph->access('view')
+    ) {
+      throw new NotFoundHttpException();
+    }
+
+    return $parent_node;
   }
 
   /**

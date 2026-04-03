@@ -176,9 +176,47 @@ function carlson_general_get_deferred_webform_wrapper_id(NodeInterface $node, st
  *   Filtered query args and cache contexts for the deferred form request.
  */
 function carlson_general_get_deferred_webform_request_data(NodeInterface $node, string $field_name): array {
+  return carlson_general_get_deferred_webform_request_data_from_entity($node, $field_name);
+}
+
+/**
+ * Gets relevant query args and cache contexts for a deferred paragraph Webform.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $paragraph
+ *   The source paragraph.
+ * @param string $field_name
+ *   The Webform field being deferred.
+ *
+ * @return array{
+ *   query: array,
+ *   cache_contexts: string[]
+ * }
+ *   Filtered query args and cache contexts for the deferred form request.
+ */
+function carlson_general_get_deferred_paragraph_webform_request_data(EntityInterface $paragraph, string $field_name): array {
+  return carlson_general_get_deferred_webform_request_data_from_entity($paragraph, $field_name);
+}
+
+/**
+ * Gets query args and cache contexts for a deferred Webform-bearing entity.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The source entity.
+ * @param string $field_name
+ *   The Webform field being deferred.
+ *
+ * @return array{
+ *   query: array,
+ *   cache_contexts: string[]
+ * }
+ *   Filtered query args and cache contexts for the deferred form request.
+ */
+function carlson_general_get_deferred_webform_request_data_from_entity(EntityInterface $entity, string $field_name): array {
   $request = \Drupal::requestStack()->getMainRequest() ?: \Drupal::request();
   $query = $request?->query->all() ?? [];
-  $webform = $node->get($field_name)->first()?->entity;
+  $webform = $entity->hasField($field_name)
+    ? $entity->get($field_name)->first()?->entity
+    : NULL;
 
   if (!$webform || empty($query)) {
     return [
@@ -230,21 +268,193 @@ function carlson_general_get_deferred_webform_request_data(NodeInterface $node, 
  */
 function carlson_general_build_deferred_webform_placeholder(NodeInterface $node, string $field_name): array {
   $request_data = carlson_general_get_deferred_webform_request_data($node, $field_name);
+  $wrapper_id = carlson_general_get_deferred_webform_wrapper_id($node, $field_name);
+
+  return carlson_general_build_deferred_webform_placeholder_from_route(
+    $wrapper_id,
+    'carlson_general.deferred_webform',
+    'carlson_general.deferred_webform_fallback',
+    [
+      'node' => $node->id(),
+      'field_name' => $field_name,
+    ],
+    $request_data
+  );
+}
+
+/**
+ * Gets paragraph-level Webform field names that can be deferred.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $paragraph
+ *   The source paragraph.
+ * @param string $view_mode
+ *   The paragraph view mode being rendered.
+ *
+ * @return string[]
+ *   Webform field names keyed by field name.
+ */
+function carlson_general_get_deferred_paragraph_webform_field_names(EntityInterface $paragraph, string $view_mode = 'default'): array {
+  if ($paragraph->getEntityTypeId() !== 'paragraph' || !$paragraph->access('view')) {
+    return [];
+  }
+
+  $field_names = [];
+  $display = EntityViewDisplay::collectRenderDisplay($paragraph, $view_mode);
+
+  foreach ($paragraph->getFieldDefinitions() as $field_name => $definition) {
+    $items = $paragraph->get($field_name);
+
+    if ($definition->getType() !== 'webform' || $items->isEmpty()) {
+      continue;
+    }
+
+    if (!$items->access('view') || !$display->getComponent($field_name)) {
+      continue;
+    }
+
+    $field_item = $items->first();
+    if (!$field_item?->entity) {
+      continue;
+    }
+
+    $field_names[$field_name] = $field_name;
+  }
+
+  return $field_names;
+}
+
+/**
+ * Determines whether a paragraph Webform field can be deferred.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $paragraph
+ *   The paragraph being rendered.
+ * @param string|null $field_name
+ *   An optional field name to validate.
+ * @param string $view_mode
+ *   The paragraph view mode being rendered.
+ *
+ * @return bool
+ *   TRUE when the field can load after page load.
+ */
+function carlson_general_is_deferred_paragraph_webform_field(EntityInterface $paragraph, ?string $field_name = NULL, string $view_mode = 'default'): bool {
+  $field_names = carlson_general_get_deferred_paragraph_webform_field_names($paragraph, $view_mode);
+
+  if ($field_name === NULL) {
+    return !empty($field_names);
+  }
+
+  return isset($field_names[$field_name]);
+}
+
+/**
+ * Finds the top-level parent node for a nested paragraph entity.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $entity
+ *   The starting entity.
+ *
+ * @return \Drupal\node\NodeInterface|null
+ *   The owning node when available.
+ */
+function carlson_general_get_deferred_paragraph_parent_node(EntityInterface $entity): ?NodeInterface {
+  $parent = $entity;
+
+  while ($parent && !($parent instanceof NodeInterface)) {
+    if (!method_exists($parent, 'getParentEntity')) {
+      return NULL;
+    }
+
+    $parent = $parent->getParentEntity();
+  }
+
+  return $parent instanceof NodeInterface ? $parent : NULL;
+}
+
+/**
+ * Determines whether the current request should defer paragraph Webforms.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $paragraph
+ *   The paragraph being rendered.
+ *
+ * @return bool
+ *   TRUE when the current request should use deferred loading.
+ */
+function carlson_general_should_defer_paragraph_webforms(EntityInterface $paragraph): bool {
+  $parent_node = carlson_general_get_deferred_paragraph_parent_node($paragraph);
+
+  return $parent_node ? carlson_general_should_defer_webforms($parent_node) : FALSE;
+}
+
+/**
+ * Builds the wrapper ID used for deferred paragraph Webform replacement.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $paragraph
+ *   The source paragraph.
+ * @param string $field_name
+ *   The Webform field being replaced.
+ *
+ * @return string
+ *   The wrapper ID.
+ */
+function carlson_general_get_deferred_paragraph_wrapper_id(EntityInterface $paragraph, string $field_name): string {
+  return Html::getId('carlson-deferred-webform-paragraph-' . $paragraph->id() . '-' . $field_name);
+}
+
+/**
+ * Builds a placeholder container for a deferred paragraph Webform.
+ *
+ * @param \Drupal\Core\Entity\EntityInterface $paragraph
+ *   The source paragraph.
+ * @param string $field_name
+ *   The Webform field being replaced.
+ *
+ * @return array
+ *   A render array for the Webform placeholder.
+ */
+function carlson_general_build_deferred_paragraph_webform_placeholder(EntityInterface $paragraph, string $field_name): array {
+  $request_data = carlson_general_get_deferred_paragraph_webform_request_data($paragraph, $field_name);
+  $wrapper_id = carlson_general_get_deferred_paragraph_wrapper_id($paragraph, $field_name);
+
+  return carlson_general_build_deferred_webform_placeholder_from_route(
+    $wrapper_id,
+    'carlson_general.deferred_paragraph_webform',
+    'carlson_general.deferred_paragraph_webform_fallback',
+    [
+      'paragraph' => $paragraph->id(),
+      'field_name' => $field_name,
+    ],
+    $request_data
+  );
+}
+
+/**
+ * Builds a deferred Webform placeholder from a route pair.
+ *
+ * @param string $wrapper_id
+ *   The placeholder wrapper ID.
+ * @param string $route_name
+ *   The AJAX route name.
+ * @param string $fallback_route_name
+ *   The no-JavaScript fallback route name.
+ * @param array $route_parameters
+ *   Route parameters for both paths.
+ * @param array{
+ *   query: array,
+ *   cache_contexts: string[]
+ * } $request_data
+ *   Filtered query args and cache contexts for the deferred form request.
+ *
+ * @return array
+ *   A render array for the Webform placeholder.
+ */
+function carlson_general_build_deferred_webform_placeholder_from_route(string $wrapper_id, string $route_name, string $fallback_route_name, array $route_parameters, array $request_data): array {
   $url_options = [];
 
   if (!empty($request_data['query'])) {
     $url_options['query'] = $request_data['query'];
   }
 
-  $wrapper_id = carlson_general_get_deferred_webform_wrapper_id($node, $field_name);
-  $url = Url::fromRoute('carlson_general.deferred_webform', [
-    'node' => $node->id(),
-    'field_name' => $field_name,
-  ], $url_options)->toString();
-  $fallback_url = Url::fromRoute('carlson_general.deferred_webform_fallback', [
-    'node' => $node->id(),
-    'field_name' => $field_name,
-  ], $url_options)->toString();
+  $url = Url::fromRoute($route_name, $route_parameters, $url_options)->toString();
+  $fallback_url = Url::fromRoute($fallback_route_name, $route_parameters, $url_options)->toString();
 
   return [
     '#type' => 'container',
@@ -283,14 +493,7 @@ function carlson_general_build_deferred_webform_placeholder(NodeInterface $node,
         'link' => [
           '#type' => 'link',
           '#title' => t('Open the form directly.'),
-          '#url' => Url::fromRoute(
-            'carlson_general.deferred_webform_fallback',
-            [
-              'node' => $node->id(),
-              'field_name' => $field_name,
-            ],
-            $url_options
-          ),
+          '#url' => Url::fromRoute($fallback_route_name, $route_parameters, $url_options),
         ],
       ],
     ],
@@ -378,6 +581,32 @@ function carlson_general_preprocess_node(array &$variables): void {
   $variables['webform_content'] = $variables['content']['webform'] ?? [];
   $variables['use_deferred_webform'] = $variables['has_webform']
     && isset($variables['content']['webform']['#attributes']['data-deferred-webform-url']);
+}
+
+/**
+ * Implements hook_preprocess_paragraph().
+ */
+function carlson_general_preprocess_paragraph(array &$variables): void {
+  $view_mode = $variables['view_mode'] ?? ($variables['elements']['#view_mode'] ?? 'default');
+
+  if ($view_mode !== 'default' || empty($variables['paragraph'])) {
+    return;
+  }
+
+  /** @var \Drupal\Core\Entity\EntityInterface $paragraph */
+  $paragraph = $variables['paragraph'];
+
+  if (!carlson_general_should_defer_paragraph_webforms($paragraph)) {
+    return;
+  }
+
+  foreach (carlson_general_get_deferred_paragraph_webform_field_names($paragraph, $view_mode) as $field_name) {
+    if (!isset($variables['content'][$field_name])) {
+      continue;
+    }
+
+    $variables['content'][$field_name] = carlson_general_build_deferred_paragraph_webform_placeholder($paragraph, $field_name);
+  }
 }
 
 /**
