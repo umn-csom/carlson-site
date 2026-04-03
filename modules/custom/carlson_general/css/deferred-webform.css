@@ -1,0 +1,76 @@
+.carlson-deferred-webform--loading {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 18rem;
+  padding: 2rem 0;
+}
+
+.carlson-deferred-webform__loading {
+  align-items: center;
+  background: linear-gradient(135deg, #f9f5f4 0%, #eae7e2 100%);
+  border-left: 6px solid #fc3;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  color: #212529;
+  column-gap: 1.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  line-height: 1.4;
+  margin: 0;
+  max-width: 44rem;
+  padding: 2rem 2.4rem;
+  width: 100%;
+}
+
+.carlson-deferred-webform__loading::before {
+  animation: carlson-deferred-webform-spin 0.9s linear infinite;
+  background: #fff;
+  border: 3px solid rgba(122, 0, 25, 0.15);
+  border-radius: 50%;
+  border-top-color: #7a0019;
+  box-sizing: border-box;
+  content: "";
+  display: block;
+  height: 3.6rem;
+  width: 3.6rem;
+}
+
+.carlson-deferred-webform__loading > * {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.carlson-deferred-webform__noscript,
+.carlson-deferred-webform--error {
+  background-color: #f9f5f4;
+  border-left: 6px solid #7a0019;
+  color: #212529;
+  padding: 1.5rem 2rem;
+}
+
+.carlson-deferred-webform__noscript a,
+.carlson-deferred-webform--error a {
+  color: #7a0019;
+  font-weight: 600;
+}
+
+@keyframes carlson-deferred-webform-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 767px) {
+  .carlson-deferred-webform--loading {
+    min-height: 14rem;
+    padding: 1rem 0;
+  }
+
+  .carlson-deferred-webform__loading {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    padding: 1.5rem 1.8rem;
+    row-gap: 1rem;
+  }
+}
