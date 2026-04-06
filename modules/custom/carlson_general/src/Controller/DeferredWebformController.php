@@ -77,25 +77,28 @@ class DeferredWebformController extends ControllerBase {
    * Loads a paragraph Webform outside the initial page response.
    *
    * @param \Drupal\Core\Entity\EntityInterface $paragraph
-   *   The source paragraph.
+   *   The source paragraph entity.
+   * @param \Drupal\Core\Entity\EntityInterface $paragraph_revision
+   *   The referenced paragraph revision from the parent node field.
    * @param string $field_name
    *   The Webform field being requested.
    *
    * @return \Drupal\Core\Ajax\AjaxResponse
    *   An AJAX response that replaces the placeholder with the real form.
    */
-  public function loadParagraph(EntityInterface $paragraph, string $field_name): AjaxResponse {
-    $parent_node = $this->validateParagraphWebformRequest($paragraph, $field_name);
-    $wrapper_id = \carlson_general_get_deferred_paragraph_wrapper_id($paragraph, $field_name);
+  public function loadParagraph(EntityInterface $paragraph, EntityInterface $paragraph_revision, string $field_name): AjaxResponse {
+    $paragraph_revision = $this->validateParagraphWebformRequest($paragraph, $paragraph_revision, $field_name);
+    $parent_node = \carlson_general_get_deferred_paragraph_parent_node($paragraph_revision);
+    $wrapper_id = \carlson_general_get_deferred_paragraph_wrapper_id($paragraph_revision, $field_name);
     $response = new AjaxResponse();
     $response->addCommand(new ReplaceCommand(
       '#' . $wrapper_id,
       $this->buildDeferredWebform(
-        $paragraph,
+        $paragraph_revision,
         $field_name,
         $wrapper_id,
         'default',
-        $parent_node->toUrl()->toString()
+        $parent_node->toUrl()->toString(),
       )
     ));
 
@@ -106,22 +109,25 @@ class DeferredWebformController extends ControllerBase {
    * Displays a standalone fallback page for no-JavaScript paragraph forms.
    *
    * @param \Drupal\Core\Entity\EntityInterface $paragraph
-   *   The source paragraph.
+   *   The source paragraph entity.
+   * @param \Drupal\Core\Entity\EntityInterface $paragraph_revision
+   *   The referenced paragraph revision from the parent node field.
    * @param string $field_name
    *   The Webform field being requested.
    *
    * @return array
    *   A render array containing the inline form.
    */
-  public function fallbackParagraph(EntityInterface $paragraph, string $field_name): array {
-    $parent_node = $this->validateParagraphWebformRequest($paragraph, $field_name);
+  public function fallbackParagraph(EntityInterface $paragraph, EntityInterface $paragraph_revision, string $field_name): array {
+    $paragraph_revision = $this->validateParagraphWebformRequest($paragraph, $paragraph_revision, $field_name);
+    $parent_node = \carlson_general_get_deferred_paragraph_parent_node($paragraph_revision);
 
     return $this->buildDeferredWebform(
-      $paragraph,
+      $paragraph_revision,
       $field_name,
-      \carlson_general_get_deferred_paragraph_wrapper_id($paragraph, $field_name),
+      \carlson_general_get_deferred_paragraph_wrapper_id($paragraph_revision, $field_name),
       'default',
-      $parent_node->toUrl()->toString()
+      $parent_node->toUrl()->toString(),
     );
   }
 
@@ -178,26 +184,29 @@ class DeferredWebformController extends ControllerBase {
    * Validates that a paragraph Webform request maps to a viewable parent page.
    *
    * @param \Drupal\Core\Entity\EntityInterface $paragraph
-   *   The source paragraph.
+   *   The source paragraph entity.
+   * @param \Drupal\Core\Entity\EntityInterface $paragraph_revision
+   *   The referenced paragraph revision from the parent node field.
    * @param string $field_name
    *   The Webform field being requested.
    *
-   * @return \Drupal\node\NodeInterface
-   *   The viewable parent node.
+   * @return \Drupal\Core\Entity\EntityInterface
+   *   The validated paragraph revision.
    */
-  protected function validateParagraphWebformRequest(EntityInterface $paragraph, string $field_name): NodeInterface {
-    $parent_node = \carlson_general_get_deferred_paragraph_parent_node($paragraph);
+  protected function validateParagraphWebformRequest(EntityInterface $paragraph, EntityInterface $paragraph_revision, string $field_name): EntityInterface {
+    $parent_node = \carlson_general_get_deferred_paragraph_parent_node($paragraph_revision);
 
     if (
+      $paragraph_revision->id() !== $paragraph->id() ||
       !$parent_node ||
-      !\carlson_general_is_deferred_paragraph_webform_field($paragraph, $field_name) ||
+      !\carlson_general_is_deferred_paragraph_webform_field($paragraph_revision, $field_name) ||
       !$parent_node->access('view') ||
-      !$paragraph->access('view')
+      !$paragraph_revision->access('view')
     ) {
       throw new NotFoundHttpException();
     }
 
-    return $parent_node;
+    return $paragraph_revision;
   }
 
   /**
