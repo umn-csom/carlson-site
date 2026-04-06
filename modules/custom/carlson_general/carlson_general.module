@@ -8,15 +8,16 @@
 use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Url;
-use Drupal\node\Entity\Node;
-use Drupal\node\NodeInterface;
-use Drupal\Core\Entity\EntityInterface;
 use Drupal\user\Entity\Role;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Component\Utility\Html;
+use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
 
 /**
  * Implements hook_system_breadcrumb_alter().
@@ -396,7 +397,13 @@ function carlson_general_should_defer_paragraph_webforms(EntityInterface $paragr
  *   The wrapper ID.
  */
 function carlson_general_get_deferred_paragraph_wrapper_id(EntityInterface $paragraph, string $field_name): string {
-  return Html::getId('carlson-deferred-webform-paragraph-' . $paragraph->id() . '-' . $field_name);
+  $wrapper_id = 'carlson-deferred-webform-paragraph-' . $paragraph->id();
+
+  if ($paragraph instanceof RevisionableInterface && $paragraph->getRevisionId()) {
+    $wrapper_id .= '-rev-' . $paragraph->getRevisionId();
+  }
+
+  return Html::getId($wrapper_id . '-' . $field_name);
 }
 
 /**
@@ -413,15 +420,20 @@ function carlson_general_get_deferred_paragraph_wrapper_id(EntityInterface $para
 function carlson_general_build_deferred_paragraph_webform_placeholder(EntityInterface $paragraph, string $field_name): array {
   $request_data = carlson_general_get_deferred_paragraph_webform_request_data($paragraph, $field_name);
   $wrapper_id = carlson_general_get_deferred_paragraph_wrapper_id($paragraph, $field_name);
+  $route_parameters = [
+    'paragraph' => $paragraph->id(),
+    'field_name' => $field_name,
+  ];
+
+  if ($paragraph instanceof RevisionableInterface && $paragraph->getRevisionId()) {
+    $route_parameters['paragraph_revision'] = $paragraph->getRevisionId();
+  }
 
   return carlson_general_build_deferred_webform_placeholder_from_route(
     $wrapper_id,
     'carlson_general.deferred_paragraph_webform',
     'carlson_general.deferred_paragraph_webform_fallback',
-    [
-      'paragraph' => $paragraph->id(),
-      'field_name' => $field_name,
-    ],
+    $route_parameters,
     $request_data
   );
 }

@@ -98,7 +98,7 @@ carlson_general.deferred_webform_fallback:
 # AJAX endpoint that returns a paragraph-hosted Webform separately from the
 # cacheable parent node page shell.
 carlson_general.deferred_paragraph_webform:
-  path: '/carlson-general/deferred-paragraph-webform/{paragraph}/{field_name}'
+  path: '/carlson-general/deferred-paragraph-webform/{paragraph}/{paragraph_revision}/{field_name}'
   defaults:
     _controller: '\Drupal\carlson_general\Controller\DeferredWebformController::loadParagraph'
   requirements:
@@ -108,11 +108,13 @@ carlson_general.deferred_paragraph_webform:
     parameters:
       paragraph:
         type: entity:paragraph
+      paragraph_revision:
+        type: entity_revision:paragraph
 
 # Standalone non-JS fallback page for the same paragraph-hosted Webform so
 # deferred loading does not make the form JavaScript-only.
 carlson_general.deferred_paragraph_webform_fallback:
-  path: '/carlson-general/deferred-paragraph-webform-fallback/{paragraph}/{field_name}'
+  path: '/carlson-general/deferred-paragraph-webform-fallback/{paragraph}/{paragraph_revision}/{field_name}'
   defaults:
     _controller: '\Drupal\carlson_general\Controller\DeferredWebformController::fallbackParagraph'
     _title: 'Form'
@@ -123,3 +125,5 @@ carlson_general.deferred_paragraph_webform_fallback:
     parameters:
       paragraph:
         type: entity:paragraph
+      paragraph_revision:
+        type: entity_revision:paragraph
