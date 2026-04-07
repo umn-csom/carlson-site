@@ -75,6 +75,27 @@ switch ($environment) {
     $config['system.logging']['error_level'] = 'verbose';
 }
 
+/**
+ * Private file path for temporary diagnostics and protected uploads.
+ */
+if ($environment === 'local') {
+  $settings['file_private_path'] = dirname(DRUPAL_ROOT)
+    . '/private/'
+    . str_replace('/', DIRECTORY_SEPARATOR, $site_path);
+}
+elseif (
+  isset($_ENV['AH_SITE_GROUP']) &&
+  isset($_ENV['AH_SITE_ENVIRONMENT'])
+) {
+  $settings['file_private_path'] = '/mnt/files/'
+    . $_ENV['AH_SITE_GROUP']
+    . '.'
+    . $_ENV['AH_SITE_ENVIRONMENT']
+    . '/'
+    . $site_path
+    . '/files-private';
+}
+
 // Block robots from indexing non-prod environments.
 if (
   !isset($_ENV['SERVER_NAME']) ||
