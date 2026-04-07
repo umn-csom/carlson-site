@@ -4,12 +4,43 @@ services:
     arguments:
       - '@entity_type.manager'
 
+  carlson_general.purge_trace.runtime:
+    class: Drupal\carlson_general\Service\PurgeTraceRuntime
+    arguments:
+      - '@current_user'
+      - '@current_route_match'
+      - '@request_stack'
+      - '@state'
+
+  carlson_general.purge_trace.writer:
+    class: Drupal\carlson_general\Service\PurgeTraceWriter
+    arguments:
+      - '@file_system'
+      - '@logger.factory'
+      - '@state'
+      - '@stream_wrapper_manager'
+
+  carlson_general.purge_trace.invalidator:
+    class: Drupal\carlson_general\Cache\PurgeTraceInvalidator
+    arguments:
+      - '@carlson_general.purge_trace.runtime'
+    tags:
+      - { name: cache_tags_invalidator }
+
   carlson_general.event_subscriber:
     class: Drupal\carlson_general\EventSubscriber\CloudflareCacheControlResponseEventSubscriber
     arguments:
       - '@config.factory'
     tags:
       - {name: event_subscriber}
+
+  carlson_general.purge_trace.subscriber:
+    class: Drupal\carlson_general\EventSubscriber\PurgeTraceSubscriber
+    arguments:
+      - '@carlson_general.purge_trace.runtime'
+      - '@carlson_general.purge_trace.writer'
+    tags:
+      - { name: event_subscriber }
 
   my_import.commands:
     class: Drupal\carlson_general\Commands\MyImportsCommands
