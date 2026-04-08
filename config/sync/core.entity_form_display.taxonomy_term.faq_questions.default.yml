@@ -19,16 +19,16 @@ bundle: faq_questions
 mode: default
 content:
   description:
-    type: text_textarea
-    weight: 1
+    type: text_textfield
+    weight: 0
     region: content
     settings:
-      rows: 5
+      size: 60
       placeholder: ''
     third_party_settings: {  }
   field_answer:
-    type: text_textarea
-    weight: 3
+    type: string_textarea
+    weight: 102
     region: content
     settings:
       rows: 5
@@ -36,13 +36,13 @@ content:
     third_party_settings: {  }
   field_program:
     type: options_select
-    weight: 4
+    weight: 103
     region: content
     settings: {  }
     third_party_settings: {  }
   field_question:
     type: string_textarea
-    weight: 2
+    weight: 101
     region: content
     settings:
       rows: 5
@@ -50,20 +50,27 @@ content:
     third_party_settings: {  }
   field_show_in_view:
     type: boolean_checkbox
-    weight: 6
+    weight: 105
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
   field_topic:
     type: options_select
-    weight: 5
+    weight: 104
     region: content
     settings: {  }
     third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
   name:
     type: string_textfield
-    weight: 0
+    weight: -5
     region: content
     settings:
       size: 60
@@ -71,22 +78,21 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 7
+    weight: 30
     region: content
     settings: {  }
     third_party_settings: {  }
   simple_sitemap:
-    weight: 8
+    weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 9
+    weight: 100
     region: content
     settings:
       display_label: true
     third_party_settings: {  }
 hidden:
   feeds_item: true
-  langcode: true

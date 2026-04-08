@@ -62,7 +62,7 @@ label: 'FAQ Upload'
 id: faq_upload
 description: 'Upload a CSV to create FAQ Taxonomy items.'
 help: ''
-import_period: -1
+import_period: 3600
 import_period_per_feed: false
 fetcher: upload
 fetcher_configuration:
@@ -140,6 +140,12 @@ mappings:
     settings:
       language: null
   -
+    target: field_answer
+    map:
+      value: answers
+    settings:
+      language: null
+  -
     target: tid
     map:
       value: id
@@ -153,10 +159,3 @@ mappings:
     settings:
       language: null
     unique: {  }
-  -
-    target: field_answer
-    map:
-      value: answers
-    settings:
-      language: ''
-      format: rich_text
