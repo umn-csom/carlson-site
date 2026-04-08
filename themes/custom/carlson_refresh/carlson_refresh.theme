@@ -256,6 +256,13 @@ function carlson_refresh_preprocess(&$variables) {
 }
 
 function carlson_refresh_preprocess_html(&$variables) {
+  if (
+    \Drupal::moduleHandler()->moduleExists('toolbar') &&
+    \Drupal::currentUser()->hasPermission('access toolbar')
+  ) {
+    $variables['page']['#attached']['library'][] =
+      'carlson_refresh/toolbar-offset';
+  }
 
   $variables['page']['#attached']['html_head'][] = [
     [

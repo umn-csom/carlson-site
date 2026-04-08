@@ -1,0 +1,48 @@
+{#
+/**
+ * @file
+ * Sticky Bar Campaign markup.
+ */
+#}
+
+<aside
+  id="{{ sticky_id }}"
+  class="campaign-sticky-bar campaign-sticky-bar--{{ sticky_position|clean_class }} campaign-sticky-bar--{{ sticky_color_scheme|clean_class }}"
+  data-campaign-id="{{ campaign_id }}"
+  role="region"
+  aria-label="{{ 'Campaign announcement'|t }}"
+  aria-hidden="true"
+  hidden
+>
+  {# Sticky banner container. JS toggles hidden/aria-hidden after delay. #}
+  <div class="campaign-sticky-bar__inner">
+    {#
+      Campaign text is sanitized server-side and may include editor-authored
+      <a> tags from CKEditor. JS tracks link clicks by listening on the selector
+      ".campaign-sticky-bar-text a" (links inside this wrapper).
+    #}
+    <div class="campaign-sticky-bar-text">{{ text }}</div>
+    <button
+      type="button"
+      class="campaign-sticky-bar-close"
+      aria-label="{{ 'Dismiss sticky campaign'|t }}"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        width="20"
+        height="20"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M4.5 4.5L15.5 15.5M15.5 4.5L4.5 15.5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+  </div>
+</aside>

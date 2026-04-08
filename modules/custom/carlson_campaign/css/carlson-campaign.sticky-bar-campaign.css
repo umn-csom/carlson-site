@@ -1,0 +1,166 @@
+/**
+ * @file
+ * Sticky bar campaign styling.
+ */
+
+.campaign-sticky-bar {
+  font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
+  font-size: 1.7rem;
+  width: 100%;
+}
+
+.campaign-sticky-bar--bottom {
+  bottom: 0;
+  box-shadow: 0 -6px 20px rgb(0 0 0 / 18%);
+  left: 0;
+  position: fixed;
+  right: 0;
+  z-index: 1000;
+}
+
+.campaign-sticky-bar--top {
+  box-shadow: 0 6px 20px rgb(0 0 0 / 14%);
+  position: relative;
+}
+
+.campaign-sticky-bar--maroon {
+  background: #7a0019;
+  color: #fff;
+}
+
+.campaign-sticky-bar--ivory {
+  background: #e6e0d2;
+  color: #333;
+}
+
+.campaign-sticky-bar__inner {
+  align-items: center;
+  display: grid;
+  gap: 1.6rem;
+  grid-template-columns: minmax(0, 1fr) auto;
+  margin: 0 auto;
+  max-width: 1340px;
+  min-height: 6.4rem;
+  padding: 1.2rem 2.5rem;
+  width: 100%;
+}
+
+.campaign-sticky-bar-text {
+  font-size: 1.7rem;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 100rem;
+  text-align: center;
+  width: 100%;
+}
+
+.campaign-sticky-bar-text a {
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar-text a {
+  color: #ffcc33;
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar-text a:hover {
+  color: #ffd766;
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar-text a:focus-visible {
+  box-shadow: 0 0 0 2px #7a0019, 0 0 0 4px #fff;
+  outline: none;
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar-text a {
+  color: #7a0019;
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar-text a:hover {
+  color: #5b0013;
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar-text a:focus-visible {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 2px #17a2b8,
+    0 0 0 calc(2px + 0.35rem) rgba(23, 162, 184, 0.4);
+  outline: 0;
+}
+
+.campaign-sticky-bar-close {
+  align-items: center;
+  background: transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  flex: 0 0 auto;
+  height: 4.4rem;
+  justify-content: center;
+  margin-inline-start: auto;
+  padding: 0;
+  width: 4.4rem;
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar-close {
+  border: 1px solid rgb(255 255 255 / 40%);
+  color: #fff;
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar-close:hover {
+  background: rgb(255 255 255 / 12%);
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar-close:focus-visible {
+  box-shadow: 0 0 0 2px #7a0019, 0 0 0 4px #fff;
+  outline: none;
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar-close {
+  border: 1px solid rgb(122 0 25 / 30%);
+  color: #7a0019;
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar-close:hover {
+  background: rgb(122 0 25 / 8%);
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar-close:focus-visible {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 2px #17a2b8,
+    0 0 0 calc(2px + 0.35rem) rgba(23, 162, 184, 0.4);
+  outline: 0;
+}
+
+.campaign-sticky-bar-close svg {
+  display: block;
+  height: 2rem;
+  width: 2rem;
+}
+
+@media (max-width: 48rem) {
+  .campaign-sticky-bar__inner {
+    align-items: start;
+    gap: 1rem;
+    min-height: 0;
+    padding: 1rem 1.2rem;
+  }
+
+  .campaign-sticky-bar--bottom .campaign-sticky-bar__inner {
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  .campaign-sticky-bar-text {
+    font-size: 1.5rem;
+    line-height: 1.4;
+    text-align: left;
+  }
+
+  .campaign-sticky-bar-close {
+    height: 4.4rem;
+    width: 4.4rem;
+  }
+
+  .campaign-sticky-bar-close svg {
+    height: 1.8rem;
+    width: 1.8rem;
+  }
+}

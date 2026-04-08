@@ -1,0 +1,410 @@
+/**
+ * @file
+ * Sticky bar campaign runtime behavior for the Carlson Campaign module.
+ *
+ * Reads Drupal settings, decides whether the banner should appear based on
+ * localStorage frequency rules, shows it after an optional delay, and emits
+ * synthetic interaction events for close/link tracking.
+ */
+
+(function (Drupal, drupalSettings, once) {
+  'use strict';
+
+  // Drupal still provides this value under the legacy dismissDays key, but the
+  // runtime now treats it as a repeat window measured in hours.
+  const DEFAULT_REPEAT_HOURS = 12;
+  const DEFAULT_DELAY_SECONDS = 5;
+  const STICKY_ANNOUNCER_ID = 'csm-campaign-sticky-announcer';
+
+  /**
+   * Namespaces localStorage state to avoid collisions across campaign types.
+   */
+  function getStorageKey(sessionKey) {
+    const normalized = sessionKey || 'campaign_sticky_bar';
+    return 'csm_campaign_sticky__' + normalized;
+  }
+
+  /**
+   * Normalizes runtime config values passed from Drupal.
+   *
+   * Keeps JS resilient to missing/invalid drupalSettings by applying the same
+   * defaults expected by the PHP builder.
+   */
+  function getConfig() {
+    const settings = drupalSettings.csmStickyBarCampaign || {};
+    const repeatHours = parseInt(settings.dismissDays, 10);
+    const delaySeconds = parseInt(settings.delaySeconds, 10);
+    const scheduleStartTimestamp = parseInt(settings.scheduleStartTimestamp, 10);
+    const scheduleEndTimestamp = parseInt(settings.scheduleEndTimestamp, 10);
+    const stopOnConvert = settings.stopOnConvert;
+
+    return {
+      campaignId: settings.campaignId || '',
+      stickyId: settings.stickyId || '',
+      sessionKey: settings.sessionKey || 'campaign_sticky_bar',
+      variantName: settings.variantName || '',
+      position: settings.position === 'top' ? 'top' : 'bottom',
+      repeatHours:
+        Number.isFinite(repeatHours) && repeatHours >= 0 ?
+          repeatHours :
+          DEFAULT_REPEAT_HOURS,
+      stopOnConvert: !(
+        stopOnConvert === false ||
+        stopOnConvert === 0 ||
+        stopOnConvert === '0' ||
+        stopOnConvert === 'false'
+      ),
+      delaySeconds:
+        Number.isFinite(delaySeconds) && delaySeconds >= 0 ?
+          delaySeconds :
+          DEFAULT_DELAY_SECONDS,
+      scheduleStartTimestamp: Number.isFinite(scheduleStartTimestamp) ?
+        scheduleStartTimestamp :
+        null,
+      scheduleEndTimestamp: Number.isFinite(scheduleEndTimestamp) ?
+        scheduleEndTimestamp :
+        null,
+    };
+  }
+
+  /**
+   * Evaluates whether the campaign is active at the current browser time.
+   */
+  function isScheduleActive(config) {
+    const now = Math.floor(Date.now() / 1000);
+
+    if (
+      config.scheduleStartTimestamp !== null &&
+      config.scheduleEndTimestamp !== null &&
+      config.scheduleStartTimestamp >= config.scheduleEndTimestamp
+    ) {
+      return false;
+    }
+
+    if (
+      config.scheduleStartTimestamp !== null &&
+      now < config.scheduleStartTimestamp
+    ) {
+      return false;
+    }
+
+    if (
+      config.scheduleEndTimestamp !== null &&
+      now >= config.scheduleEndTimestamp
+    ) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Reads localStorage and determines whether the sticky bar should be shown.
+   *
+   * We store the last user action (dismissed/converted) and a timestamp so
+   * subsequent page loads can honor the configured dismiss window.
+   */
+  function getStickyState(storageKey, repeatHours, stopOnConvert) {
+    try {
+      const stored = localStorage.getItem(storageKey);
+      if (!stored) {
+        return { shouldShow: true };
+      }
+
+      const data = JSON.parse(stored);
+      switch (data.action) {
+        case 'viewed':
+          // Viewing alone should not suppress the banner on later page loads.
+          return { shouldShow: true };
+
+        case 'converted':
+          if (stopOnConvert) {
+            return { shouldShow: false, reason: 'converted' };
+          }
+        // Fall through: when stop-on-convert is disabled, positive actions
+        // follow the same repeat-delay window as dismissals.
+        case 'dismissed':
+        // Backward compatibility for older stored positive-action entries.
+        case 'acknowledged': {
+          // A dismiss window of 0 means "show every visit" without clearing
+          // the recorded action state from localStorage on reload.
+          if (repeatHours === 0) {
+            return { shouldShow: true };
+          }
+
+          // Hide until the configured dismiss window expires.
+          // Convert the configured repeat window from hours to milliseconds for
+          // localStorage timestamp comparisons.
+          const hoursMs = repeatHours * 60 * 60 * 1000;
+          const actionTime = data.timestamp || 0;
+          const now = Date.now();
+          if (now - actionTime > hoursMs) {
+            localStorage.removeItem(storageKey);
+            return { shouldShow: true };
+          }
+          return { shouldShow: false, reason: data.action };
+        }
+
+        default:
+          // Unknown/corrupt state should not block the banner indefinitely.
+          localStorage.removeItem(storageKey);
+          return { shouldShow: true };
+      }
+    }
+    catch (e) {
+      try {
+        localStorage.removeItem(storageKey);
+      }
+      catch (ignored) {}
+      return { shouldShow: true };
+    }
+  }
+
+  /**
+   * Persists a user action so future page loads can respect that decision.
+   *
+   * Stored separately from Drupal cache so behavior can vary per browser/user
+   * without server-side state.
+   */
+  function setStickyState(storageKey, action) {
+    try {
+      localStorage.setItem(
+        storageKey,
+        JSON.stringify({ action, timestamp: Date.now() }),
+      );
+    }
+    catch (e) {}
+  }
+
+  /**
+   * Returns the authored href value for CTA tracking when available.
+   */
+  function getTargetHref(target) {
+    if (!(target instanceof HTMLAnchorElement)) {
+      return '';
+    }
+
+    return target.getAttribute('href') || '';
+  }
+
+  /**
+   * Dispatches a synthetic interaction event for tracking integrations.
+   *
+   * GTM or other listeners can subscribe to one event name and inspect the
+   * action/text/target payload instead of binding directly to banner DOM.
+   */
+  function dispatchCampaignInteraction(
+    stickyElement,
+    campaignId,
+    campaignKey,
+    variantName,
+    position,
+    action,
+    nativeEvent,
+    target,
+    text,
+    metadata = {},
+  ) {
+    const actionText = text || '';
+
+    stickyElement.dispatchEvent(
+      new CustomEvent('campaign:interaction', {
+        bubbles: true,
+        detail: {
+          event:
+            metadata.eventType ||
+            (nativeEvent && nativeEvent.type ? nativeEvent.type : 'unknown'),
+          target: target || stickyElement,
+          action_name: action,
+          action_text: actionText,
+          action_id: metadata.actionId || '',
+          action_index: metadata.actionIndex || null,
+          dismiss_type: metadata.dismissType || '',
+          text: actionText,
+          action,
+          campaign_id: campaignId,
+          campaignId,
+          campaign_key: campaignKey,
+          campaign_variant_name: variantName,
+          campaign_type: 'sticky_banner',
+          campaign_placement: position,
+          campaign_cta_text:
+            metadata.ctaText ||
+            (action === 'converted' ? actionText : ''),
+          campaign_cta_url: metadata.ctaUrl || getTargetHref(target),
+          variant_name: variantName,
+          campaignKey,
+          variantName,
+        },
+      }),
+    );
+  }
+
+  /**
+   * Returns (or creates) a persistent live region for delayed sticky announces.
+   *
+   * Keeping this node always in DOM avoids relying on hidden->visible toggles
+   * alone, which VoiceOver can miss when content appears after a timeout.
+   */
+  function getStickyAnnouncer() {
+    const existing = document.getElementById(STICKY_ANNOUNCER_ID);
+    if (existing instanceof HTMLElement) {
+      return existing;
+    }
+
+    const announcer = document.createElement('div');
+    announcer.id = STICKY_ANNOUNCER_ID;
+    announcer.className = 'visually-hidden';
+    announcer.setAttribute('aria-live', 'polite');
+    announcer.setAttribute('aria-atomic', 'true');
+    document.body.appendChild(announcer);
+    return announcer;
+  }
+
+  /**
+   * Announces sticky visibility without moving focus.
+   */
+  function announceStickyVisible(stickyElement) {
+    const announcer = getStickyAnnouncer();
+    const textContainer = stickyElement.querySelector('.campaign-sticky-bar-text');
+    const message = textContainer ?
+      textContainer.textContent.replace(/\s+/g, ' ').trim() :
+      '';
+    if (message === '') {
+      return;
+    }
+
+    // Clear first, then set to trigger a single detectable live-region update.
+    announcer.textContent = '';
+    window.setTimeout(() => {
+      announcer.textContent = message;
+    }, 40);
+  }
+
+  Drupal.behaviors.carlsonCampaignStickyBarCampaign = {
+    attach(context) {
+      // Use drupalSettings when available, but allow the DOM to remain the
+      // source of truth for the campaign ID if markup and settings differ.
+      const config = getConfig();
+      const selector =
+        config.stickyId !== '' ?
+          '#' + config.stickyId :
+          '.campaign-sticky-bar';
+
+      once('csm-sticky-bar-campaign', selector, context).forEach(
+        (stickyElement) => {
+          const campaignId =
+            stickyElement.dataset.campaignId || config.campaignId || '';
+          const storageKey = getStorageKey(config.sessionKey);
+          const state = getStickyState(
+            storageKey,
+            config.repeatHours,
+            config.stopOnConvert,
+          );
+          if (!state.shouldShow) {
+            // Respect the stored user decision until the dismiss window expires.
+            return;
+          }
+
+          const showSticky = () => {
+            // Server-side scheduling remains the primary control, but this
+            // runtime check suppresses stale cached markup outside the active
+            // window if the page response lags behind a schedule transition.
+            if (!isScheduleActive(config)) {
+              return;
+            }
+
+            stickyElement.hidden = false;
+            stickyElement.setAttribute('aria-hidden', 'false');
+            // Record that the visitor actually saw the banner without
+            // treating viewed as a suppressing action on later page loads.
+            setStickyState(storageKey, 'viewed');
+            dispatchCampaignInteraction(
+              stickyElement,
+              campaignId,
+              config.sessionKey,
+              config.variantName,
+              config.position,
+              'viewed',
+              null,
+              stickyElement,
+              '',
+              {
+                eventType: 'show',
+              },
+            );
+            announceStickyVisible(stickyElement);
+          };
+
+          if (config.delaySeconds > 0) {
+            // Delay display to avoid immediate interruption at page load.
+            window.setTimeout(showSticky, config.delaySeconds * 1000);
+          }
+          else {
+            showSticky();
+          }
+
+          stickyElement
+            .querySelectorAll('.campaign-sticky-bar-close')
+            .forEach((closeButton) => {
+              closeButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                // Closing is treated as a negative interaction and persisted so
+                // frequency rules can suppress the banner on later visits.
+                setStickyState(storageKey, 'dismissed');
+                stickyElement.hidden = true;
+                stickyElement.setAttribute('aria-hidden', 'true');
+                dispatchCampaignInteraction(
+                  stickyElement,
+                  campaignId,
+                  config.sessionKey,
+                  config.variantName,
+                  config.position,
+                  'dismissed',
+                  event,
+                  event.currentTarget,
+                  'Sticky Bar Close',
+                  {
+                    actionId:
+                      closeButton.id ||
+                      stickyElement.id + '__close',
+                    dismissType: 'close',
+                  },
+                );
+              });
+            });
+
+          stickyElement
+            .querySelectorAll('.campaign-sticky-bar-text a')
+            .forEach((linkElement, index) => {
+              linkElement.addEventListener('click', (event) => {
+                // Any link click inside the banner counts as a conversion.
+                // We do not block navigation; tracking is emitted immediately.
+                const ctaText = linkElement.textContent.trim();
+                setStickyState(storageKey, 'converted');
+                dispatchCampaignInteraction(
+                  stickyElement,
+                  campaignId,
+                  config.sessionKey,
+                  config.variantName,
+                  config.position,
+                  'converted',
+                  event,
+                  event.currentTarget,
+                  ctaText,
+                  {
+                    actionId:
+                      linkElement.id ||
+                      stickyElement.id + '__link-' + (index + 1),
+                    actionIndex: index + 1,
+                    ctaText,
+                    ctaUrl: getTargetHref(linkElement),
+                  },
+                );
+              });
+            });
+        },
+      );
+    },
+  };
+})(Drupal, drupalSettings, once);
