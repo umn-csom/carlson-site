@@ -229,6 +229,25 @@ function carlson_general_field_widget_single_element_form_alter(array &$element,
 }
 
 /**
+ * Implements hook_honeypot_form_protections_alter().
+ */
+function carlson_general_honeypot_form_protections_alter(array &$options, array $form): void {
+  // Keep Honeypot's hidden field on Webform submissions, but remove the
+  // per-request timestamp check so anonymous Webform pages remain Page
+  // Cacheable.
+  if (empty($form['#webform_id'])) {
+    return;
+  }
+
+  $time_restriction = array_search('time_restriction', $options, TRUE);
+  if ($time_restriction === FALSE) {
+    return;
+  }
+
+  unset($options[$time_restriction]);
+}
+
+/**
  * Implements hook_field_widget_WIDGET_TYPE_form_alter().
  *
  * Alters course schedule info paragraph type subform widget.
