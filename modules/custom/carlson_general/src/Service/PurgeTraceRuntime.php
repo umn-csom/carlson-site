@@ -326,6 +326,26 @@ class PurgeTraceRuntime {
       $unique_tags,
       [$this, 'isBroadTag']
     ));
+    $cache_object_impact = [
+      'inspected_tags' => $broad_tags,
+      'sample_limit' => 0,
+      'available_bins' => [],
+      'union' => [],
+      'by_tag' => [],
+    ];
+    try {
+      if (
+        $broad_tags !== [] &&
+        \Drupal::hasService('carlson_general.purge_trace.cache_impact_inspector')
+      ) {
+        $cache_object_impact = \Drupal::service(
+          'carlson_general.purge_trace.cache_impact_inspector',
+        )->summarize($broad_tags);
+      }
+    }
+    catch (\Throwable) {
+      $cache_object_impact['error'] = 'Cache impact inspection failed.';
+    }
 
     return [
       'trace_id' => $this->traceId,
@@ -353,6 +373,7 @@ class PurgeTraceRuntime {
         count($this->invalidationCalls),
       ),
       'broad_tags' => $broad_tags,
+      'cache_object_impact' => $cache_object_impact,
       'tag_families' => $this->buildTagFamilySummary($unique_tags),
       'unique_tags' => $unique_tags,
       'invalidation_calls' => $this->invalidationCalls,

@@ -194,6 +194,17 @@ if ($summary_json === FALSE) {
   $summary_json = 'Could not encode summary JSON.';
 }
 
+$cache_impact_summary = [];
+if (!empty($summary['cache_object_impact']['union'])) {
+  foreach ($summary['cache_object_impact']['union'] as $bin => $bin_summary) {
+    $cache_impact_summary[] = sprintf(
+      '%s=%s',
+      $bin,
+      $bin_summary['count'] ?? 0,
+    );
+  }
+}
+
 script_log('Trace file: ' . $trace_file, 'info');
 if ($download_url) {
   script_log('Download trace file: ' . $download_url, 'info');
@@ -216,6 +227,10 @@ $output[] = 'Estimated queue items: ' . $summary['estimated_queue_items'];
 $output[] = 'Estimated Acquia BAN batches: '
   . $summary['estimated_acquia_ban_batches'];
 $output[] = 'Broad tags: ' . implode(', ', $summary['broad_tags']);
+if ($cache_impact_summary !== []) {
+  $output[] = 'Current cache object matches: '
+    . implode(', ', $cache_impact_summary);
+}
 $output[] = 'Contexts: ' . implode(', ', $summary['contexts']);
 $output[] = 'Restore: ' . $restore_note;
 $output[] = 'Script log: ' . $log_file_path;
