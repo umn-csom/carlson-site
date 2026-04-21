@@ -119,7 +119,7 @@ class PurgeTraceSettingsForm extends FormBase {
       '#button_type' => 'primary',
     ];
 
-    return parent::buildForm($form, $form_state);
+    return $form;
   }
 
   /**
