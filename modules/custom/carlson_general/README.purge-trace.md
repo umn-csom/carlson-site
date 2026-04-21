@@ -22,7 +22,7 @@ infrastructure.
 
 - Base URI: `private://purge-trace`
 - Local path: `private/sites/carlsonschool.umn.edu/purge-trace`
-- File pattern: `YYYY-MM-DD/HH.ndjson`
+- File pattern: `YYYY-MM-DD/purge-trace-YYYY-MM-DD-HH.ndjson`
 
 Each line in an `ndjson` file is one standalone JSON trace record.
 
