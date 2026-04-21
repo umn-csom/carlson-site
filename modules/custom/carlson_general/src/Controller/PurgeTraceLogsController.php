@@ -8,6 +8,7 @@ use Drupal\Component\Utility\Html;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Link;
+use Drupal\Core\StringTranslation\ByteSizeMarkup;
 use Drupal\Core\Url;
 use Drupal\Core\State\StateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -127,7 +128,7 @@ class PurgeTraceLogsController extends ControllerBase {
       $build['files']['#rows'][] = [
         $file['date'],
         $file['filename'],
-        format_size($file['size']),
+        ByteSizeMarkup::create((int) $file['size']),
         $this->dateFormatter->format($file['modified'], 'short'),
         [
           'data' => [
