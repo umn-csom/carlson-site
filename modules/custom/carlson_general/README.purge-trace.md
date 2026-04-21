@@ -38,6 +38,12 @@ The retention setting is stored in state:
 
 - `carlson_general.purge_trace.retention_days`
 
+Other runtime toggles are also stored in state:
+
+- `carlson_general.purge_trace.enabled`
+- `carlson_general.purge_trace.capture_callers`
+- `carlson_general.purge_trace.estimate_cache_object_impact`
+
 ## How Capture Works
 
 The purge trace is built from three layers:
@@ -192,6 +198,9 @@ Each item in `invalidation_calls` includes:
 
 ### `cache_object_impact`
 
+- `enabled`
+  Whether cache-object estimation was turned on for this trace.
+
 - `inspected_tags`
   The broad tags used for cache-object matching.
 
@@ -242,6 +251,8 @@ used as the main signal for likely wide invalidation scope.
 - `blast_radius` is heuristic, not a measured Varnish page-eviction total.
 - `cache_object_impact` is a current Drupal cache-object snapshot, not a
   guaranteed future Varnish page-eviction count.
+- `cache_object_impact` is disabled by default because it adds extra database
+  queries for traces with broad tags.
 - Local `drush php:eval` testing can produce less useful request metadata,
   such as `uid: 0` or missing route information, while still capturing the
   real invalidated tags.

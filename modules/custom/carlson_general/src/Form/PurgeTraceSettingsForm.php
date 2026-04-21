@@ -67,6 +67,10 @@ class PurgeTraceSettingsForm extends FormBase {
       PurgeTraceRuntime::STATE_CAPTURE_CALLERS,
       TRUE,
     );
+    $estimate_cache_object_impact = (bool) $this->state->get(
+      PurgeTraceRuntime::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
+      FALSE,
+    );
 
     $form['status'] = [
       '#type' => 'details',
@@ -93,13 +97,30 @@ class PurgeTraceSettingsForm extends FormBase {
       '#type' => 'checkbox',
       '#title' => $this->t('Enable purge trace capture'),
       '#default_value' => $enabled,
-      '#description' => $this->t('Capture every request or command that invalidates cache tags and write a summarized JSON line to private storage.'),
+      '#description' => $this->t(
+        'Capture every request or command that invalidates cache tags and '
+        . 'write a summarized JSON line to private storage.',
+      ),
     ];
     $form['capture_callers'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Capture caller stack samples'),
       '#default_value' => $capture_callers,
-      '#description' => $this->t('Adds the top caller frames for each invalidation call so imports or indirect save paths are easier to identify.'),
+      '#description' => $this->t(
+        'Adds the top caller frames for each invalidation call so imports '
+        . 'or indirect save paths are easier to identify.',
+      ),
+    ];
+    $form['estimate_cache_object_impact'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Estimate cache object impact'),
+      '#default_value' => $estimate_cache_object_impact,
+      '#description' => $this->t(
+        'Queries current Drupal cache bins for broad tags and logs matching '
+        . 'cache-object counts and sample cache IDs. This adds extra '
+        . 'database work and should normally stay off unless you '
+        . 'specifically need that signal.',
+      ),
     ];
     $form['retention_days'] = [
       '#type' => 'number',
@@ -108,7 +129,10 @@ class PurgeTraceSettingsForm extends FormBase {
       '#min' => 1,
       '#max' => 7,
       '#required' => TRUE,
-      '#description' => $this->t('Trace directories older than this window are removed automatically when new traces are written.'),
+      '#description' => $this->t(
+        'Trace directories older than this window are removed '
+        . 'automatically when new traces are written.',
+      ),
     ];
     $form['actions'] = [
       '#type' => 'actions',
@@ -133,6 +157,10 @@ class PurgeTraceSettingsForm extends FormBase {
     $this->state->set(
       PurgeTraceRuntime::STATE_CAPTURE_CALLERS,
       (bool) $form_state->getValue('capture_callers'),
+    );
+    $this->state->set(
+      PurgeTraceRuntime::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
+      (bool) $form_state->getValue('estimate_cache_object_impact'),
     );
     $this->state->set(
       PurgeTraceRuntime::STATE_RETENTION_DAYS,
