@@ -98,6 +98,10 @@ they are processed by Purge queue processors.
   Subset of `unique_tags` considered risky because they imply wide
   invalidation scope.
 
+- `cache_object_impact`
+  Approximate current Drupal cache objects whose cache-tag metadata matches
+  the broad tags in this trace.
+
 - `tag_families`
   Counts grouped by tag family prefix, such as `node`, `node_list`, or
   `config`.
@@ -186,6 +190,33 @@ Each item in `invalidation_calls` includes:
 - `frames`
   Up to five filtered stack frames for debugging the invalidation path.
 
+### `cache_object_impact`
+
+- `inspected_tags`
+  The broad tags used for cache-object matching.
+
+- `sample_limit`
+  Maximum number of sample cache IDs returned per cache bin.
+
+- `available_bins`
+  Cache bins that were available for inspection on the current environment.
+
+- `union`
+  Summary of current cache objects matching any inspected broad tag.
+
+- `by_tag`
+  Per-tag breakdown of current cache objects matching each inspected broad tag.
+
+Each cache-bin summary under `union` or `by_tag` includes:
+
+- `count`
+  Number of current cache rows in that bin whose `tags` column contains the
+  inspected tag or tags.
+
+- `sample_cids`
+  Up to five recent cache IDs from that bin for debugging. These are cache
+  object IDs, not guaranteed page URLs or entity IDs.
+
 ## Broad Tag Heuristic
 
 The trace currently treats tags like these as broad:
@@ -209,6 +240,8 @@ used as the main signal for likely wide invalidation scope.
 - `estimated_queue_items` is a tag count, not an exact Purge queue count.
 - `estimated_acquia_ban_batches` is a rough estimate.
 - `blast_radius` is heuristic, not a measured Varnish page-eviction total.
+- `cache_object_impact` is a current Drupal cache-object snapshot, not a
+  guaranteed future Varnish page-eviction count.
 - Local `drush php:eval` testing can produce less useful request metadata,
   such as `uid: 0` or missing route information, while still capturing the
   real invalidated tags.

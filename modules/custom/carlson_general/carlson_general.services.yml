@@ -12,6 +12,11 @@ services:
       - '@request_stack'
       - '@state'
 
+  carlson_general.purge_trace.cache_impact_inspector:
+    class: Drupal\carlson_general\Service\PurgeTraceCacheImpactInspector
+    arguments:
+      - '@database'
+
   carlson_general.purge_trace.writer:
     class: Drupal\carlson_general\Service\PurgeTraceWriter
     arguments:
