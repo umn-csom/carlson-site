@@ -49,6 +49,10 @@ $previous_capture_callers = (bool) $state->get(
   \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_CAPTURE_CALLERS,
   TRUE,
 );
+$previous_estimate_cache_object_impact = (bool) $state->get(
+  \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
+  FALSE,
+);
 
 $summary = NULL;
 $trace_file = NULL;
@@ -64,6 +68,10 @@ try {
   );
   $state->set(
     \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_CAPTURE_CALLERS,
+    TRUE,
+  );
+  $state->set(
+    \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
     TRUE,
   );
 
@@ -178,6 +186,10 @@ finally {
     \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_CAPTURE_CALLERS,
     $previous_capture_callers,
   );
+  $state->set(
+    \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
+    $previous_estimate_cache_object_impact,
+  );
 }
 
 if ($summary === NULL || !$trace_file) {
@@ -227,6 +239,8 @@ $output[] = 'Estimated queue items: ' . $summary['estimated_queue_items'];
 $output[] = 'Estimated Acquia BAN batches: '
   . $summary['estimated_acquia_ban_batches'];
 $output[] = 'Broad tags: ' . implode(', ', $summary['broad_tags']);
+$output[] = 'Cache object impact estimation: '
+  . (!empty($summary['cache_object_impact']['enabled']) ? 'enabled' : 'disabled');
 if ($cache_impact_summary !== []) {
   $output[] = 'Current cache object matches: '
     . implode(', ', $cache_impact_summary);

@@ -29,6 +29,12 @@ class PurgeTraceRuntime {
   public const STATE_CAPTURE_CALLERS = 'carlson_general.purge_trace.capture_callers';
 
   /**
+   * State key for cache-object impact estimation.
+   */
+  public const STATE_ESTIMATE_CACHE_OBJECT_IMPACT =
+    'carlson_general.purge_trace.estimate_cache_object_impact';
+
+  /**
    * State key for the last cleanup timestamp.
    */
   public const STATE_LAST_CLEANUP = 'carlson_general.purge_trace.last_cleanup';
@@ -146,6 +152,16 @@ class PurgeTraceRuntime {
    */
   public function shouldCaptureCallers(): bool {
     return (bool) $this->state->get(self::STATE_CAPTURE_CALLERS, TRUE);
+  }
+
+  /**
+   * Returns whether cache-object impact estimation is enabled.
+   */
+  public function shouldEstimateCacheObjectImpact(): bool {
+    return (bool) $this->state->get(
+      self::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
+      FALSE,
+    );
   }
 
   /**
@@ -309,7 +325,10 @@ class PurgeTraceRuntime {
       $contexts[] = 'batch';
     }
 
-    if (($route_name && str_contains($route_name, 'feeds')) || ($request_uri && str_contains($request_uri, 'feeds'))) {
+    if (
+      ($route_name && str_contains($route_name, 'feeds')) ||
+      ($request_uri && str_contains($request_uri, 'feeds'))
+    ) {
       $contexts[] = 'feeds_route';
     }
 
@@ -326,7 +345,9 @@ class PurgeTraceRuntime {
       $unique_tags,
       [$this, 'isBroadTag']
     ));
+    $estimate_cache_object_impact = $this->shouldEstimateCacheObjectImpact();
     $cache_object_impact = [
+      'enabled' => $estimate_cache_object_impact,
       'inspected_tags' => $broad_tags,
       'sample_limit' => 0,
       'available_bins' => [],
@@ -335,12 +356,14 @@ class PurgeTraceRuntime {
     ];
     try {
       if (
+        $estimate_cache_object_impact &&
         $broad_tags !== [] &&
         \Drupal::hasService('carlson_general.purge_trace.cache_impact_inspector')
       ) {
         $cache_object_impact = \Drupal::service(
           'carlson_general.purge_trace.cache_impact_inspector',
         )->summarize($broad_tags);
+        $cache_object_impact['enabled'] = TRUE;
       }
     }
     catch (\Throwable) {
@@ -385,7 +408,8 @@ class PurgeTraceRuntime {
    */
   protected function isBroadTag(string $tag): bool {
     return (bool) preg_match(
-      '/(^.+_list(?::|$)|^config:|^entity_types$|^local_task$|^http_response$|^rendered$|^breakpoints$|^theme_registry$|^library_info$)/',
+      '/(^.+_list(?::|$)|^config:|^entity_types$|^local_task$|^http_response$|'
+      . '^rendered$|^breakpoints$|^theme_registry$|^library_info$)/',
       $tag,
     );
   }

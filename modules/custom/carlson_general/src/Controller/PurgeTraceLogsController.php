@@ -82,6 +82,22 @@ class PurgeTraceLogsController extends ControllerBase {
             ? $this->t('Yes')
             : $this->t('No'),
         ]),
+        $this->t('Caller stack samples: @value', [
+          '@value' => $this->state->get(
+            PurgeTraceRuntime::STATE_CAPTURE_CALLERS,
+            TRUE,
+          )
+            ? $this->t('Yes')
+            : $this->t('No'),
+        ]),
+        $this->t('Cache object impact estimation: @value', [
+          '@value' => $this->state->get(
+            PurgeTraceRuntime::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
+            FALSE,
+          )
+            ? $this->t('Yes')
+            : $this->t('No'),
+        ]),
         $this->t('private:// available: @value', [
           '@value' => $status['private_available'] ? $this->t('Yes') : $this->t('No'),
         ]),
