@@ -76,6 +76,11 @@ class PurgeTraceWriter {
 
     $date_directory = gmdate('Y-m-d');
     $hour = gmdate('H');
+    $filename = sprintf(
+      'purge-trace-%s-%s.ndjson',
+      $date_directory,
+      $hour,
+    );
     $directory_uri = self::BASE_URI . '/' . $date_directory;
 
     if (!$this->prepareDirectory($directory_uri)) {
@@ -90,7 +95,7 @@ class PurgeTraceWriter {
       return NULL;
     }
 
-    $file_path = $directory_path . '/' . $hour . '.ndjson';
+    $file_path = $directory_path . '/' . $filename;
     $payload = json_encode($summary, JSON_UNESCAPED_SLASHES);
 
     if ($payload === FALSE) {
@@ -112,7 +117,7 @@ class PurgeTraceWriter {
     }
 
     $this->cleanupIfNeeded();
-    return $date_directory . '/' . $hour . '.ndjson';
+    return $date_directory . '/' . $filename;
   }
 
   /**
@@ -212,7 +217,10 @@ class PurgeTraceWriter {
       throw new \InvalidArgumentException('Invalid date directory.');
     }
 
-    if (!preg_match('/^\d{2}\.ndjson$/', $filename)) {
+    if (!preg_match(
+      '/^(?:\d{2}|purge-trace-\d{4}-\d{2}-\d{2}-\d{2})\.ndjson$/',
+      $filename,
+    )) {
       throw new \InvalidArgumentException('Invalid trace filename.');
     }
 
