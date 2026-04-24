@@ -58,18 +58,21 @@ class PurgeTraceSettingsForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $status = $this->writer->getStatus();
-    $enabled = (bool) $this->state->get(PurgeTraceRuntime::STATE_ENABLED, FALSE);
+    $enabled = (bool) $this->state->get(
+      PurgeTraceRuntime::STATE_ENABLED,
+      PurgeTraceRuntime::DEFAULT_ENABLED,
+    );
     $retention_days = (int) $this->state->get(
       PurgeTraceRuntime::STATE_RETENTION_DAYS,
-      3,
+      PurgeTraceRuntime::DEFAULT_RETENTION_DAYS,
     );
     $capture_callers = (bool) $this->state->get(
       PurgeTraceRuntime::STATE_CAPTURE_CALLERS,
-      TRUE,
+      PurgeTraceRuntime::DEFAULT_CAPTURE_CALLERS,
     );
     $estimate_cache_object_impact = (bool) $this->state->get(
       PurgeTraceRuntime::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
-      FALSE,
+      PurgeTraceRuntime::DEFAULT_ESTIMATE_CACHE_OBJECT_IMPACT,
     );
 
     $form['status'] = [

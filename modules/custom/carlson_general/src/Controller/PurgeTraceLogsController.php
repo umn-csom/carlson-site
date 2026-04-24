@@ -78,14 +78,17 @@ class PurgeTraceLogsController extends ControllerBase {
       '#title' => $this->t('Status'),
       '#items' => [
         $this->t('Capture enabled: @value', [
-          '@value' => $this->state->get(PurgeTraceRuntime::STATE_ENABLED, FALSE)
+          '@value' => $this->state->get(
+            PurgeTraceRuntime::STATE_ENABLED,
+            PurgeTraceRuntime::DEFAULT_ENABLED,
+          )
             ? $this->t('Yes')
             : $this->t('No'),
         ]),
         $this->t('Caller stack samples: @value', [
           '@value' => $this->state->get(
             PurgeTraceRuntime::STATE_CAPTURE_CALLERS,
-            TRUE,
+            PurgeTraceRuntime::DEFAULT_CAPTURE_CALLERS,
           )
             ? $this->t('Yes')
             : $this->t('No'),
@@ -93,7 +96,7 @@ class PurgeTraceLogsController extends ControllerBase {
         $this->t('Cache object impact estimation: @value', [
           '@value' => $this->state->get(
             PurgeTraceRuntime::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
-            FALSE,
+            PurgeTraceRuntime::DEFAULT_ESTIMATE_CACHE_OBJECT_IMPACT,
           )
             ? $this->t('Yes')
             : $this->t('No'),
@@ -104,7 +107,7 @@ class PurgeTraceLogsController extends ControllerBase {
         $this->t('Retention days: @value', [
           '@value' => (int) $this->state->get(
             PurgeTraceRuntime::STATE_RETENTION_DAYS,
-            3,
+            PurgeTraceRuntime::DEFAULT_RETENTION_DAYS,
           ),
         ]),
         $this->t('Base URI: @value', ['@value' => $status['base_uri']]),
