@@ -4,6 +4,8 @@
  * @file
  * CSM-353: Trigger and inspect a purge-trace probe from the UI.
  *
+ * The script respects the current purge-trace checkbox settings.
+ *
  * Usage:
  * - Execute through /admin/reports/carlson-scripts
  * - Optionally run through Drush script execution
@@ -34,25 +36,25 @@ $state = \Drupal::state();
 $runtime = \Drupal::service('carlson_general.purge_trace.runtime');
 $writer = \Drupal::service('carlson_general.purge_trace.writer');
 
+$previous_enabled = (bool) $state->get(
+  \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_ENABLED,
+  \Drupal\carlson_general\Service\PurgeTraceRuntime::DEFAULT_ENABLED,
+);
+$previous_capture_callers = (bool) $state->get(
+  \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_CAPTURE_CALLERS,
+  \Drupal\carlson_general\Service\PurgeTraceRuntime::DEFAULT_CAPTURE_CALLERS,
+);
+$previous_estimate_cache_object_impact = (bool) $state->get(
+  \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
+  \Drupal\carlson_general\Service\PurgeTraceRuntime::DEFAULT_ESTIMATE_CACHE_OBJECT_IMPACT,
+);
+
 $status = $writer->getStatus();
-if (empty($status['private_available'])) {
+if ($previous_enabled && empty($status['private_available'])) {
   $error = 'private:// is not available for purge trace capture.';
   script_log($error, 'error');
   return $error;
 }
-
-$previous_enabled = (bool) $state->get(
-  \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_ENABLED,
-  FALSE,
-);
-$previous_capture_callers = (bool) $state->get(
-  \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_CAPTURE_CALLERS,
-  TRUE,
-);
-$previous_estimate_cache_object_impact = (bool) $state->get(
-  \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
-  FALSE,
-);
 
 $summary = NULL;
 $trace_file = NULL;
@@ -62,19 +64,6 @@ $probe_description = '';
 $restore_note = 'No entity restore was needed.';
 
 try {
-  $state->set(
-    \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_ENABLED,
-    TRUE,
-  );
-  $state->set(
-    \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_CAPTURE_CALLERS,
-    TRUE,
-  );
-  $state->set(
-    \Drupal\carlson_general\Service\PurgeTraceRuntime::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
-    TRUE,
-  );
-
   $node = carlson_general_find_purge_trace_probe_node(
     \Drupal::entityTypeManager(),
   );
@@ -193,9 +182,26 @@ finally {
 }
 
 if ($summary === NULL || !$trace_file) {
-  $message = 'Probe ran, but no purge trace summary was written.';
-  script_log($message, 'error');
-  return $message;
+  $message = $previous_enabled
+    ? 'Probe ran, but no purge trace summary was written.'
+    : 'Probe ran with purge trace capture disabled; no purge trace summary was expected.';
+  script_log($message, $previous_enabled ? 'error' : 'notice');
+
+  $output = [];
+  $output[] = 'CSM-353 Purge Trace Probe';
+  $output[] = str_repeat('=', 80);
+  $output[] = 'Probe: ' . $probe_description;
+  $output[] = 'Capture enabled: ' . ($previous_enabled ? 'yes' : 'no');
+  $output[] = 'Caller stack samples: '
+    . ($previous_capture_callers ? 'yes' : 'no');
+  $output[] = 'Cache object impact estimation: '
+    . ($previous_estimate_cache_object_impact ? 'yes' : 'no');
+  $output[] = 'Trace file: none';
+  $output[] = 'Download: unavailable';
+  $output[] = 'Result: ' . $message;
+  $output[] = 'Restore: ' . $restore_note;
+  $output[] = 'Script log: ' . $log_file_path;
+  return implode(PHP_EOL, $output);
 }
 
 $summary_json = json_encode(
@@ -230,6 +236,11 @@ $output = [];
 $output[] = 'CSM-353 Purge Trace Probe';
 $output[] = str_repeat('=', 80);
 $output[] = 'Probe: ' . $probe_description;
+$output[] = 'Capture enabled: ' . ($previous_enabled ? 'yes' : 'no');
+$output[] = 'Caller stack samples: '
+  . ($previous_capture_callers ? 'yes' : 'no');
+$output[] = 'Cache object impact estimation: '
+  . ($previous_estimate_cache_object_impact ? 'yes' : 'no');
 $output[] = 'Trace file: ' . $trace_file;
 $output[] = 'Download: ' . ($download_url ?: 'Unavailable');
 $output[] = 'Persisted last line matches current trace: '
@@ -239,7 +250,7 @@ $output[] = 'Estimated queue items: ' . $summary['estimated_queue_items'];
 $output[] = 'Estimated Acquia BAN batches: '
   . $summary['estimated_acquia_ban_batches'];
 $output[] = 'Broad tags: ' . implode(', ', $summary['broad_tags']);
-$output[] = 'Cache object impact estimation: '
+$output[] = 'Cache object impact in trace: '
   . (!empty($summary['cache_object_impact']['enabled']) ? 'enabled' : 'disabled');
 if ($cache_impact_summary !== []) {
   $output[] = 'Current cache object matches: '

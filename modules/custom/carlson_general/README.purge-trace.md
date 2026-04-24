@@ -53,6 +53,10 @@ Default state:
 When purge trace capture is disabled, no trace summaries are written and the
 caller-stack and cache-impact options are not used.
 
+The validation script at `scripts/validate_purge_trace_probe.php` respects
+these settings. If capture is disabled, it still runs the probe save/restore
+but reports that no purge trace file was expected.
+
 ## How Capture Works
 
 The purge trace is built from three layers:
