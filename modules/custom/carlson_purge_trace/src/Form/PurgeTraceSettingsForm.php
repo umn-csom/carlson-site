@@ -1,9 +1,9 @@
 <?php
 
-namespace Drupal\carlson_general\Form;
+namespace Drupal\carlson_purge_trace\Form;
 
-use Drupal\carlson_general\Service\PurgeTraceRuntime;
-use Drupal\carlson_general\Service\PurgeTraceWriter;
+use Drupal\carlson_purge_trace\Service\PurgeTraceRuntime;
+use Drupal\carlson_purge_trace\Service\PurgeTraceWriter;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\State\StateInterface;
@@ -24,7 +24,7 @@ class PurgeTraceSettingsForm extends FormBase {
   /**
    * The writer service.
    *
-   * @var \Drupal\carlson_general\Service\PurgeTraceWriter
+   * @var \Drupal\carlson_purge_trace\Service\PurgeTraceWriter
    */
   protected PurgeTraceWriter $writer;
 
@@ -42,7 +42,7 @@ class PurgeTraceSettingsForm extends FormBase {
   public static function create(ContainerInterface $container): self {
     return new self(
       $container->get('state'),
-      $container->get('carlson_general.purge_trace.writer'),
+      $container->get('carlson_purge_trace.writer'),
     );
   }
 
@@ -50,7 +50,7 @@ class PurgeTraceSettingsForm extends FormBase {
    * {@inheritdoc}
    */
   public function getFormId(): string {
-    return 'carlson_general_purge_trace_settings';
+    return 'carlson_purge_trace_settings';
   }
 
   /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\carlson_general\Service;
+namespace Drupal\carlson_purge_trace\Service;
 
 use Drupal\Core\Database\Connection;
 

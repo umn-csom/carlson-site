@@ -113,33 +113,11 @@ function _carlson_get_breadcrumb_title($nid) {
  * @throws \Drupal\Core\Entity\EntityStorageException
  */
 function carlson_general_entity_delete(EntityInterface $entity) {
-  _carlson_general_record_purge_trace_entity('delete', $entity);
-
   $entity_type = $entity->getEntityTypeId();
   if ($entity_type == 'ckeditor_templates') {
     $permission_name = 'use ckeditor_template ' . $entity->getOriginalId();
     carlson_general_remove_permission_from_all_roles($permission_name);
   }
-}
-
-/**
- * Implements hook_entity_insert().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
- *   The saved entity.
- */
-function carlson_general_entity_insert(EntityInterface $entity): void {
-  _carlson_general_record_purge_trace_entity('insert', $entity);
-}
-
-/**
- * Implements hook_entity_update().
- *
- * @param \Drupal\Core\Entity\EntityInterface $entity
- *   The saved entity.
- */
-function carlson_general_entity_update(EntityInterface $entity): void {
-  _carlson_general_record_purge_trace_entity('update', $entity);
 }
 
 function carlson_general_remove_permission_from_all_roles($permission_to_remove) {
@@ -150,24 +128,6 @@ function carlson_general_remove_permission_from_all_roles($permission_to_remove)
     if ($role->hasPermission($permission_to_remove)) {
       $role->revokePermission($permission_to_remove)->save();
     }
-  }
-}
-
-/**
- * Records an entity mutation for purge trace capture.
- *
- * @param string $operation
- *   The entity operation.
- * @param \Drupal\Core\Entity\EntityInterface $entity
- *   The mutated entity.
- */
-function _carlson_general_record_purge_trace_entity(string $operation, EntityInterface $entity): void {
-  try {
-    \Drupal::service('carlson_general.purge_trace.runtime')
-      ->recordEntityOperation($operation, $entity);
-  }
-  catch (\Throwable) {
-    // Tracing must never break the request that triggered it.
   }
 }
 

@@ -1,9 +1,9 @@
 <?php
 
-namespace Drupal\carlson_general\Controller;
+namespace Drupal\carlson_purge_trace\Controller;
 
-use Drupal\carlson_general\Service\PurgeTraceRuntime;
-use Drupal\carlson_general\Service\PurgeTraceWriter;
+use Drupal\carlson_purge_trace\Service\PurgeTraceRuntime;
+use Drupal\carlson_purge_trace\Service\PurgeTraceWriter;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Datetime\DateFormatterInterface;
@@ -24,7 +24,7 @@ class PurgeTraceLogsController extends ControllerBase {
   /**
    * The writer service.
    *
-   * @var \Drupal\carlson_general\Service\PurgeTraceWriter
+   * @var \Drupal\carlson_purge_trace\Service\PurgeTraceWriter
    */
   protected PurgeTraceWriter $writer;
 
@@ -60,7 +60,7 @@ class PurgeTraceLogsController extends ControllerBase {
    */
   public static function create(ContainerInterface $container): self {
     return new self(
-      $container->get('carlson_general.purge_trace.writer'),
+      $container->get('carlson_purge_trace.writer'),
       $container->get('state'),
       $container->get('date.formatter'),
     );
@@ -116,7 +116,11 @@ class PurgeTraceLogsController extends ControllerBase {
         ]),
         Link::fromTextAndUrl(
           $this->t('Open purge trace settings'),
-          Url::fromRoute('carlson_general.purge_trace_settings'),
+          Url::fromRoute('carlson_purge_trace.settings'),
+        )->toString(),
+        Link::fromTextAndUrl(
+          $this->t('Run validation probe'),
+          Url::fromRoute('carlson_purge_trace.probe'),
         )->toString(),
       ],
     ];
@@ -135,11 +139,11 @@ class PurgeTraceLogsController extends ControllerBase {
     ];
 
     foreach ($files as $file) {
-      $view_url = Url::fromRoute('carlson_general.purge_trace_view', [
+      $view_url = Url::fromRoute('carlson_purge_trace.view', [
         'date' => $file['date'],
         'filename' => $file['filename'],
       ]);
-      $download_url = Url::fromRoute('carlson_general.purge_trace_download', [
+      $download_url = Url::fromRoute('carlson_purge_trace.download', [
         'date' => $file['date'],
         'filename' => $file['filename'],
       ]);

@@ -1,9 +1,9 @@
 <?php
 
-namespace Drupal\carlson_general\Cache;
+namespace Drupal\carlson_purge_trace\Cache;
 
 use Drupal\Core\Cache\CacheTagsInvalidatorInterface;
-use Drupal\carlson_general\Service\PurgeTraceRuntime;
+use Drupal\carlson_purge_trace\Service\PurgeTraceRuntime;
 
 /**
  * Observes all cache tag invalidations for purge trace capture.
@@ -13,7 +13,7 @@ class PurgeTraceInvalidator implements CacheTagsInvalidatorInterface {
   /**
    * The request runtime collector.
    *
-   * @var \Drupal\carlson_general\Service\PurgeTraceRuntime
+   * @var \Drupal\carlson_purge_trace\Service\PurgeTraceRuntime
    */
   protected PurgeTraceRuntime $runtime;
 

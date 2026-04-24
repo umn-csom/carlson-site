@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\carlson_general\Service;
+namespace Drupal\carlson_purge_trace\Service;
 
 use Drupal\Core\Routing\CurrentRouteMatch;
 use Drupal\Core\Session\AccountProxyInterface;
@@ -36,28 +36,28 @@ class PurgeTraceRuntime {
   /**
    * State key for the enable toggle.
    */
-  public const STATE_ENABLED = 'carlson_general.purge_trace.enabled';
+  public const STATE_ENABLED = 'carlson_purge_trace.enabled';
 
   /**
    * State key for retention.
    */
-  public const STATE_RETENTION_DAYS = 'carlson_general.purge_trace.retention_days';
+  public const STATE_RETENTION_DAYS = 'carlson_purge_trace.retention_days';
 
   /**
    * State key for caller capture.
    */
-  public const STATE_CAPTURE_CALLERS = 'carlson_general.purge_trace.capture_callers';
+  public const STATE_CAPTURE_CALLERS = 'carlson_purge_trace.capture_callers';
 
   /**
    * State key for cache-object impact estimation.
    */
   public const STATE_ESTIMATE_CACHE_OBJECT_IMPACT =
-    'carlson_general.purge_trace.estimate_cache_object_impact';
+    'carlson_purge_trace.estimate_cache_object_impact';
 
   /**
    * State key for the last cleanup timestamp.
    */
-  public const STATE_LAST_CLEANUP = 'carlson_general.purge_trace.last_cleanup';
+  public const STATE_LAST_CLEANUP = 'carlson_purge_trace.last_cleanup';
 
   /**
    * The current user.
@@ -387,10 +387,10 @@ class PurgeTraceRuntime {
       if (
         $estimate_cache_object_impact &&
         $broad_tags !== [] &&
-        \Drupal::hasService('carlson_general.purge_trace.cache_impact_inspector')
+        \Drupal::hasService('carlson_purge_trace.cache_impact_inspector')
       ) {
         $cache_object_impact = \Drupal::service(
-          'carlson_general.purge_trace.cache_impact_inspector',
+          'carlson_purge_trace.cache_impact_inspector',
         )->summarize($broad_tags);
         $cache_object_impact['enabled'] = TRUE;
       }
