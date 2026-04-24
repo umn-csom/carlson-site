@@ -44,6 +44,15 @@ Other runtime toggles are also stored in state:
 - `carlson_general.purge_trace.capture_callers`
 - `carlson_general.purge_trace.estimate_cache_object_impact`
 
+Default state:
+
+- Purge trace capture: disabled
+- Caller stack samples: disabled
+- Cache object impact estimation: disabled
+
+When purge trace capture is disabled, no trace summaries are written and the
+caller-stack and cache-impact options are not used.
+
 ## How Capture Works
 
 The purge trace is built from three layers:

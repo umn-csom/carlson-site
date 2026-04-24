@@ -14,6 +14,26 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class PurgeTraceRuntime {
 
   /**
+   * Default purge trace capture state.
+   */
+  public const DEFAULT_ENABLED = FALSE;
+
+  /**
+   * Default caller capture state.
+   */
+  public const DEFAULT_CAPTURE_CALLERS = FALSE;
+
+  /**
+   * Default cache-object impact estimation state.
+   */
+  public const DEFAULT_ESTIMATE_CACHE_OBJECT_IMPACT = FALSE;
+
+  /**
+   * Default retention period in days.
+   */
+  public const DEFAULT_RETENTION_DAYS = 3;
+
+  /**
    * State key for the enable toggle.
    */
   public const STATE_ENABLED = 'carlson_general.purge_trace.enabled';
@@ -144,14 +164,20 @@ class PurgeTraceRuntime {
    * Returns whether tracing is enabled.
    */
   public function isEnabled(): bool {
-    return (bool) $this->state->get(self::STATE_ENABLED, FALSE);
+    return (bool) $this->state->get(
+      self::STATE_ENABLED,
+      self::DEFAULT_ENABLED,
+    );
   }
 
   /**
    * Returns whether caller capture is enabled.
    */
   public function shouldCaptureCallers(): bool {
-    return (bool) $this->state->get(self::STATE_CAPTURE_CALLERS, TRUE);
+    return (bool) $this->state->get(
+      self::STATE_CAPTURE_CALLERS,
+      self::DEFAULT_CAPTURE_CALLERS,
+    );
   }
 
   /**
@@ -160,7 +186,7 @@ class PurgeTraceRuntime {
   public function shouldEstimateCacheObjectImpact(): bool {
     return (bool) $this->state->get(
       self::STATE_ESTIMATE_CACHE_OBJECT_IMPACT,
-      FALSE,
+      self::DEFAULT_ESTIMATE_CACHE_OBJECT_IMPACT,
     );
   }
 
@@ -168,7 +194,10 @@ class PurgeTraceRuntime {
    * Returns the retention period in days.
    */
   public function getRetentionDays(): int {
-    return max(1, (int) $this->state->get(self::STATE_RETENTION_DAYS, 3));
+    return max(1, (int) $this->state->get(
+      self::STATE_RETENTION_DAYS,
+      self::DEFAULT_RETENTION_DAYS,
+    ));
   }
 
   /**
