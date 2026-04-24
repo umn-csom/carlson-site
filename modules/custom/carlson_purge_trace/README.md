@@ -3,8 +3,9 @@
 This document describes the temporary purge-trace capture added for
 `CSM-353`.
 
-The implementation lives in `carlson_general` and writes one summarized JSON
-record per traced request or command into `private://purge-trace`.
+The implementation lives in the standalone `carlson_purge_trace` module and
+writes one summarized JSON record per traced request or command into
+`private://purge-trace`.
 
 ## Purpose
 
@@ -36,13 +37,13 @@ Each line in an `ndjson` file is one standalone JSON trace record.
 
 The retention setting is stored in state:
 
-- `carlson_general.purge_trace.retention_days`
+- `carlson_purge_trace.retention_days`
 
 Other runtime toggles are also stored in state:
 
-- `carlson_general.purge_trace.enabled`
-- `carlson_general.purge_trace.capture_callers`
-- `carlson_general.purge_trace.estimate_cache_object_impact`
+- `carlson_purge_trace.enabled`
+- `carlson_purge_trace.capture_callers`
+- `carlson_purge_trace.estimate_cache_object_impact`
 
 Default state:
 
@@ -53,9 +54,9 @@ Default state:
 When purge trace capture is disabled, no trace summaries are written and the
 caller-stack and cache-impact options are not used.
 
-The validation script at `scripts/validate_purge_trace_probe.php` respects
-these settings. If capture is disabled, it still runs the probe save/restore
-but reports that no purge trace file was expected.
+The validation probe at `/admin/reports/purge-trace/probe` respects these
+settings. If capture is disabled, it still runs the probe save/restore but
+reports that no purge trace file was expected.
 
 ## How Capture Works
 

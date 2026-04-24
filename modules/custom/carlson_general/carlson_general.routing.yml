@@ -65,39 +65,3 @@ carlson_general.download_csv:
     _title: 'Download CSV'
   requirements:
     _permission: 'view reports'
-
-carlson_general.purge_trace_settings:
-  path: '/admin/config/development/purge-trace'
-  defaults:
-    _form: '\Drupal\carlson_general\Form\PurgeTraceSettingsForm'
-    _title: 'Purge trace'
-  requirements:
-    _permission: 'administer site configuration'
-  options:
-    _admin_route: TRUE
-
-carlson_general.purge_trace_report:
-  path: '/admin/reports/purge-trace'
-  defaults:
-    _controller: '\Drupal\carlson_general\Controller\PurgeTraceLogsController::content'
-    _title: 'Purge trace'
-  requirements:
-    _permission: 'view reports'
-  options:
-    _admin_route: TRUE
-
-carlson_general.purge_trace_view:
-  path: '/admin/reports/purge-trace/view/{date}/{filename}'
-  defaults:
-    _controller: '\Drupal\carlson_general\Controller\PurgeTraceLogsController::viewFile'
-    _title: 'View purge trace file'
-  requirements:
-    _permission: 'view reports'
-
-carlson_general.purge_trace_download:
-  path: '/admin/reports/purge-trace/download/{date}/{filename}'
-  defaults:
-    _controller: '\Drupal\carlson_general\Controller\PurgeTraceLogsController::downloadFile'
-    _title: 'Download purge trace file'
-  requirements:
-    _permission: 'view reports'

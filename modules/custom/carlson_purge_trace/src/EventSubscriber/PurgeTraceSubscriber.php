@@ -1,9 +1,9 @@
 <?php
 
-namespace Drupal\carlson_general\EventSubscriber;
+namespace Drupal\carlson_purge_trace\EventSubscriber;
 
-use Drupal\carlson_general\Service\PurgeTraceRuntime;
-use Drupal\carlson_general\Service\PurgeTraceWriter;
+use Drupal\carlson_purge_trace\Service\PurgeTraceRuntime;
+use Drupal\carlson_purge_trace\Service\PurgeTraceWriter;
 use Drupal\Core\Config\ConfigCrudEvent;
 use Drupal\Core\Config\ConfigEvents;
 use Symfony\Component\Console\ConsoleEvents;
@@ -21,14 +21,14 @@ class PurgeTraceSubscriber implements EventSubscriberInterface {
   /**
    * The runtime collector.
    *
-   * @var \Drupal\carlson_general\Service\PurgeTraceRuntime
+   * @var \Drupal\carlson_purge_trace\Service\PurgeTraceRuntime
    */
   protected PurgeTraceRuntime $runtime;
 
   /**
    * The trace writer.
    *
-   * @var \Drupal\carlson_general\Service\PurgeTraceWriter
+   * @var \Drupal\carlson_purge_trace\Service\PurgeTraceWriter
    */
   protected PurgeTraceWriter $writer;
 
