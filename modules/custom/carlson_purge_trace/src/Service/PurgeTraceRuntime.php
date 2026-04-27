@@ -16,7 +16,7 @@ class PurgeTraceRuntime {
   /**
    * Default purge trace capture state.
    */
-  public const DEFAULT_ENABLED = FALSE;
+  public const DEFAULT_ENABLED = TRUE;
 
   /**
    * Default caller capture state.
@@ -31,7 +31,7 @@ class PurgeTraceRuntime {
   /**
    * Default retention period in days.
    */
-  public const DEFAULT_RETENTION_DAYS = 3;
+  public const DEFAULT_RETENTION_DAYS = 7;
 
   /**
    * State key for the enable toggle.

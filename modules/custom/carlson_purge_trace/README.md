@@ -47,9 +47,10 @@ Other runtime toggles are also stored in state:
 
 Default state:
 
-- Purge trace capture: disabled
+- Purge trace capture: enabled
 - Caller stack samples: disabled
 - Cache object impact estimation: disabled
+- Retention days: 7
 
 When purge trace capture is disabled, no trace summaries are written and the
 caller-stack and cache-impact options are not used.
