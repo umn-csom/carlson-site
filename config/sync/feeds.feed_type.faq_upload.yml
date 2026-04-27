@@ -24,10 +24,15 @@ third_party_settings:
           - MSF|msf
           - MHRIR|mhrir
           - 'MS SCM|ms_scm'
-          - MKTG|mktg
+          - MMKTG|mmktg
           - MAcc|macc
+          - EMBA|executive_mba
           - 'Executive MBA|executive_mba'
           - PhD|phd
+          - PTMBA|ptmba
+          - OMBA|omba
+          - MABA|maba
+          - MBT|mbt
         separator: '|'
         case_sensitive: true
         word_boundaries: false
@@ -125,6 +130,11 @@ custom_sources:
     label: 'Answer HTML'
     machine_name: answer_html
     type: csv
+  html_answers:
+    value: 'HTML Answers'
+    label: 'HTML Answers'
+    machine_name: html_answers
+    type: csv
 mappings:
   -
     target: field_program
@@ -161,7 +171,7 @@ mappings:
   -
     target: field_answer
     map:
-      value: answer_html
+      value: html_answers
     settings:
       language: ''
       format: full_html
