@@ -119,33 +119,24 @@ class PurgeTraceProbeController extends ControllerBase {
         $original_title = $node->label();
         $suffix = sprintf(' [purge trace probe %s]', gmdate('H:i:s'));
         $base_title = mb_substr($original_title, 0, 255 - strlen($suffix));
+        $node_saved = FALSE;
 
-        $node->setNewRevision(FALSE);
-        $node->setTitle($base_title . $suffix);
-        $node->save();
+        try {
+          $node->setNewRevision(FALSE);
+          $node->setTitle($base_title . $suffix);
+          $node->save();
+          $node_saved = TRUE;
 
-        [$summary, $trace_file] = $this->flushTrace();
-
-        $this->state->set(PurgeTraceRuntime::STATE_ENABLED, FALSE);
-        $restored_node = $this->purgeTraceEntityTypeManager
-          ->getStorage('node')
-          ->load($node->id());
-
-        if ($restored_node instanceof NodeInterface) {
-          $restored_node->setNewRevision(FALSE);
-          $restored_node->setTitle($original_title);
-          $restored_node->save();
-          $restore_note = sprintf(
-            'Restored %s node #%s title to its original value.',
-            $restored_node->bundle(),
-            $restored_node->id(),
-          );
+          [$summary, $trace_file] = $this->flushTrace();
         }
-        else {
-          $restore_note = sprintf(
-            'Could not reload node #%s to restore its title.',
-            $node->id(),
-          );
+        finally {
+          if ($node_saved) {
+            $this->state->set(PurgeTraceRuntime::STATE_ENABLED, FALSE);
+            $restore_note = $this->restoreProbeNode(
+              (string) $node->id(),
+              $original_title,
+            );
+          }
         }
       }
       else {
@@ -296,6 +287,40 @@ class PurgeTraceProbeController extends ControllerBase {
 
     $this->runtime->markFlushed();
     return [$summary, $trace_file];
+  }
+
+  /**
+   * Restores the probe node title after a successful probe save.
+   */
+  protected function restoreProbeNode(string $node_id, string $original_title): string {
+    try {
+      $restored_node = $this->purgeTraceEntityTypeManager
+        ->getStorage('node')
+        ->load($node_id);
+
+      if (!$restored_node instanceof NodeInterface) {
+        return sprintf(
+          'Could not reload node #%s to restore its title.',
+          $node_id,
+        );
+      }
+
+      $restored_node->setNewRevision(FALSE);
+      $restored_node->setTitle($original_title);
+      $restored_node->save();
+      return sprintf(
+        'Restored %s node #%s title to its original value.',
+        $restored_node->bundle(),
+        $restored_node->id(),
+      );
+    }
+    catch (\Throwable $throwable) {
+      return sprintf(
+        'Could not restore node #%s title: %s',
+        $node_id,
+        $throwable->getMessage(),
+      );
+    }
   }
 
   /**

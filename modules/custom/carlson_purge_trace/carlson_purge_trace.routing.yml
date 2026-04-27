@@ -37,9 +37,9 @@ carlson_purge_trace.download:
 carlson_purge_trace.probe:
   path: '/admin/reports/purge-trace/probe'
   defaults:
-    _controller: '\Drupal\carlson_purge_trace\Controller\PurgeTraceProbeController::run'
+    _form: '\Drupal\carlson_purge_trace\Form\PurgeTraceProbeForm'
     _title: 'Purge trace validation probe'
   requirements:
-    _permission: 'view reports'
+    _permission: 'administer site configuration'
   options:
     _admin_route: TRUE
