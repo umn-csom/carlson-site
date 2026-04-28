@@ -44,6 +44,33 @@ class CloudflareCacheControlResponseEventSubscriberTest extends UnitTestCase {
   }
 
   /**
+   * Tests Drupal uncacheable responses explicitly bypass CDN caching.
+   *
+   * @covers ::setCloudflareCacheControlHeaders
+   */
+  public function testDrupalUncacheableResponseForcesNoStore(): void {
+    $subscriber = new CloudflareCacheControlResponseEventSubscriber();
+    $response = new Response();
+    $response->setPublic();
+    $response->setMaxAge(900);
+    $response->headers->set('X-Drupal-Cache', 'UNCACHEABLE');
+    $response->setStatusCode(200);
+
+    $subscriber->setCloudflareCacheControlHeaders(
+      $this->createResponseEvent($response),
+    );
+
+    $this->assertSame(
+      'no-store',
+      $response->headers->get('Cloudflare-CDN-Cache-Control'),
+    );
+    $this->assertSame(
+      'no-store',
+      $response->headers->get('CDN-Cache-Control'),
+    );
+  }
+
+  /**
    * Tests cacheable success responses get an edge TTL.
    *
    * @covers ::setCloudflareCacheControlHeaders
@@ -65,6 +92,56 @@ class CloudflareCacheControlResponseEventSubscriberTest extends UnitTestCase {
     );
     $this->assertSame(
       'max-age=900',
+      $response->headers->get('CDN-Cache-Control'),
+    );
+  }
+
+  /**
+   * Tests cacheable temporary redirects get a five minute edge TTL.
+   *
+   * @covers ::setCloudflareCacheControlHeaders
+   */
+  public function testCacheableTemporaryRedirectGetsFiveMinuteEdgeTtl(): void {
+    $subscriber = new CloudflareCacheControlResponseEventSubscriber();
+    $response = new Response('', 302);
+    $response->setPublic();
+    $response->setMaxAge(900);
+
+    $subscriber->setCloudflareCacheControlHeaders(
+      $this->createResponseEvent($response),
+    );
+
+    $this->assertSame(
+      'max-age=300',
+      $response->headers->get('Cloudflare-CDN-Cache-Control'),
+    );
+    $this->assertSame(
+      'max-age=300',
+      $response->headers->get('CDN-Cache-Control'),
+    );
+  }
+
+  /**
+   * Tests cacheable not found responses get a five minute edge TTL.
+   *
+   * @covers ::setCloudflareCacheControlHeaders
+   */
+  public function testCacheableNotFoundResponseGetsFiveMinuteEdgeTtl(): void {
+    $subscriber = new CloudflareCacheControlResponseEventSubscriber();
+    $response = new Response('', 404);
+    $response->setPublic();
+    $response->setMaxAge(900);
+
+    $subscriber->setCloudflareCacheControlHeaders(
+      $this->createResponseEvent($response),
+    );
+
+    $this->assertSame(
+      'max-age=300',
+      $response->headers->get('Cloudflare-CDN-Cache-Control'),
+    );
+    $this->assertSame(
+      'max-age=300',
       $response->headers->get('CDN-Cache-Control'),
     );
   }

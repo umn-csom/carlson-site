@@ -36,7 +36,7 @@ class CloudflareCacheControlResponseEventSubscriber implements EventSubscriberIn
     elseif ($status_code >= 300 && $status_code < 400) {
       // Cache redirects for a shorter time.
       // 301 (permanent) can be cached longer, others shorter.
-      $max_age = ($status_code === 301) ? 3600 : 60;
+      $max_age = ($status_code === 301) ? 3600 : 300;
       $this->setCdnCacheControl($response, "max-age=$max_age");
     }
     // Client errors (400s).
@@ -45,7 +45,7 @@ class CloudflareCacheControlResponseEventSubscriber implements EventSubscriberIn
         case 403:
         case 404:
           // Common errors - cache briefly to prevent abuse.
-          $this->setCdnCacheControl($response, 'max-age=60');
+          $this->setCdnCacheControl($response, 'max-age=300');
           break;
 
         case 405:
@@ -78,7 +78,8 @@ class CloudflareCacheControlResponseEventSubscriber implements EventSubscriberIn
     }
 
     $headers = $response->headers;
-    return $headers->hasCacheControlDirective('private')
+    return $headers->get('X-Drupal-Cache') === 'UNCACHEABLE'
+      || $headers->hasCacheControlDirective('private')
       || $headers->hasCacheControlDirective('no-cache')
       || $headers->hasCacheControlDirective('no-store');
   }
@@ -90,6 +91,8 @@ class CloudflareCacheControlResponseEventSubscriber implements EventSubscriberIn
     Response $response,
     string $value,
   ): void {
+    // Cloudflare uses the vendor-specific header first; the generic header
+    // gives compatible CDNs the same directive if traffic is routed elsewhere.
     $response->headers->set('Cloudflare-CDN-Cache-Control', $value);
     $response->headers->set('CDN-Cache-Control', $value);
   }
