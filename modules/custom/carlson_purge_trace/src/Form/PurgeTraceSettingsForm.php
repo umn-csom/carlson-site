@@ -7,6 +7,7 @@ use Drupal\carlson_purge_trace\Service\PurgeTraceWriter;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\State\StateInterface;
+use Drupal\Core\StringTranslation\ByteSizeMarkup;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -58,6 +59,7 @@ class PurgeTraceSettingsForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state): array {
     $status = $this->writer->getStatus();
+    $trace_files = $this->writer->listFiles();
     $enabled = (bool) $this->state->get(
       PurgeTraceRuntime::STATE_ENABLED,
       PurgeTraceRuntime::DEFAULT_ENABLED,
@@ -95,34 +97,77 @@ class PurgeTraceSettingsForm extends FormBase {
       '#title' => $this->t('Resolved path'),
       '#markup' => $status['base_path'] ?: $this->t('Unavailable'),
     ];
+    $form['status']['trace_storage'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Stored trace folders and files'),
+      '#description' => $this->t(
+        'Trace records are grouped into UTC date folders. Each folder '
+        . 'contains one NDJSON file per UTC hour when traces were written.',
+      ),
+      '#open' => FALSE,
+    ];
+
+    if ($trace_files === []) {
+      $form['status']['trace_storage']['empty'] = [
+        '#plain_text' => $this->t('No purge trace files found.'),
+      ];
+    }
+    else {
+      foreach ($this->groupTraceFilesByDate($trace_files) as $date => $files) {
+        $form['status']['trace_storage'][$date] = [
+          '#type' => 'details',
+          '#title' => $this->t('Folder: @date', ['@date' => $date]),
+          '#open' => FALSE,
+          'files' => [
+            '#type' => 'table',
+            '#header' => [
+              $this->t('File'),
+              $this->t('Size'),
+            ],
+            '#rows' => array_map(
+              fn(array $file): array => [
+                $file['filename'],
+                ByteSizeMarkup::create((int) $file['size']),
+              ],
+              $files,
+            ),
+          ],
+        ];
+      }
+    }
 
     $form['enabled'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Enable purge trace capture'),
+      '#title' => $this->t('Log purge invalidations'),
       '#default_value' => $enabled,
       '#description' => $this->t(
-        'Capture every request or command that invalidates cache tags and '
-        . 'write a summarized JSON line to private storage.',
+        'Master switch for purge tracing. When enabled, any request or '
+        . 'Drush command that invalidates cache tags writes one summary '
+        . 'record to private storage. Turn this on only while reproducing '
+        . 'or measuring a purge problem.',
       ),
     ];
     $form['capture_callers'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Capture caller stack samples'),
+      '#title' => $this->t('Include PHP caller stack frames'),
       '#default_value' => $capture_callers,
       '#description' => $this->t(
-        'Adds the top caller frames for each invalidation call so imports '
-        . 'or indirect save paths are easier to identify.',
+        'Adds a small stack trace to each invalidation call so you can see '
+        . 'which code path triggered the purge. Useful for imports, cron, '
+        . 'and indirect entity saves, but it increases log size and should '
+        . 'normally stay off until you need source-level debugging.',
       ),
     ];
     $form['estimate_cache_object_impact'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Estimate cache object impact'),
+      '#title' => $this->t('Count matching cache records'),
       '#default_value' => $estimate_cache_object_impact,
       '#description' => $this->t(
-        'Queries current Drupal cache bins for broad tags and logs matching '
-        . 'cache-object counts and sample cache IDs. This adds extra '
-        . 'database work and should normally stay off unless you '
-        . 'specifically need that signal.',
+        'For broad tags such as node list tags, query selected Drupal cache '
+        . 'tables and log how many current cache records match, plus a few '
+        . 'sample cache IDs. This helps estimate Drupal-side cache impact, '
+        . 'not CDN page count. It adds database work during traced requests, '
+        . 'so keep it off unless you are investigating blast radius.',
       ),
     ];
     $form['retention_days'] = [
@@ -133,8 +178,8 @@ class PurgeTraceSettingsForm extends FormBase {
       '#max' => 7,
       '#required' => TRUE,
       '#description' => $this->t(
-        'Trace directories older than this window are removed '
-        . 'automatically when new traces are written.',
+        'Keep trace files for this many days. Older date folders are '
+        . 'removed automatically the next time a trace is written.',
       ),
     ];
     $form['actions'] = [
@@ -147,6 +192,27 @@ class PurgeTraceSettingsForm extends FormBase {
     ];
 
     return $form;
+  }
+
+  /**
+   * Groups trace file metadata by UTC date folder.
+   *
+   * @param array<int, array<string, mixed>> $files
+   *   Trace file metadata.
+   *
+   * @return array<string, array<int, array<string, mixed>>>
+   *   Files keyed by date folder.
+   */
+  protected function groupTraceFilesByDate(array $files): array {
+    $grouped = [];
+
+    foreach ($files as $file) {
+      $date = (string) ($file['date'] ?? $this->t('Unknown date'));
+      $grouped[$date][] = $file;
+    }
+
+    krsort($grouped);
+    return $grouped;
   }
 
   /**
