@@ -97,17 +97,20 @@ elseif (
 }
 
 /**
- * Load reCAPTCHA v2 and v3 keys from private, environment-specific files.
+ * Load reCAPTCHA v2 and v3 keys from private, environment-specific JSON files.
  */
 if (!empty($settings['file_private_path'])) {
   $recaptcha_key_environment = $environment === 'prod' ? 'prod' : 'dev-test';
   $recaptcha_key_file = $settings['file_private_path']
     . '/recaptcha/recaptcha.'
     . $recaptcha_key_environment
-    . '.php';
+    . '.json';
 
-  if (file_exists($recaptcha_key_file)) {
-    $recaptcha_keys = include $recaptcha_key_file;
+  if (is_readable($recaptcha_key_file)) {
+    $recaptcha_key_contents = file_get_contents($recaptcha_key_file);
+    $recaptcha_keys = $recaptcha_key_contents === FALSE
+      ? NULL
+      : json_decode($recaptcha_key_contents, TRUE);
 
     if (is_array($recaptcha_keys)) {
       $recaptcha_config_map = [
