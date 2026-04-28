@@ -208,6 +208,122 @@ function carlson_general_honeypot_form_protections_alter(array &$options, array 
 }
 
 /**
+ * Implements hook_webform_submission_form_alter().
+ *
+ * @param array $form
+ *   The Webform submission form render array.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The current form state.
+ * @param string $form_id
+ *   The Webform submission form ID.
+ *
+ * @return void
+ */
+function carlson_general_webform_submission_form_alter(
+  array &$form,
+  FormStateInterface $form_state,
+  $form_id
+): void {
+  if (!_carlson_general_recaptcha_v3_is_ready()) {
+    return;
+  }
+
+  $captcha_type = 'recaptcha_v3/webform';
+  if (
+    _carlson_general_apply_recaptcha_v3_to_captcha_elements(
+      $form,
+      $captcha_type
+    )
+  ) {
+    return;
+  }
+
+  $form['carlson_recaptcha_v3'] = [
+    '#type' => 'captcha',
+    '#captcha_type' => $captcha_type,
+    '#weight' => 99,
+  ];
+}
+
+/**
+ * Determines whether reCAPTCHA v3 can validate Webform submissions.
+ *
+ * @return bool
+ *   TRUE when reCAPTCHA v3 is enabled, keyed, and has the Webform action.
+ */
+function _carlson_general_recaptcha_v3_is_ready(): bool {
+  if (
+    !\Drupal::moduleHandler()->moduleExists('recaptcha') ||
+    !\Drupal::moduleHandler()->moduleExists('recaptcha_v3')
+  ) {
+    return FALSE;
+  }
+
+  $recaptcha_v2_config = \Drupal::config('recaptcha.settings');
+  if (
+    !$recaptcha_v2_config->get('site_key') ||
+    !$recaptcha_v2_config->get('secret_key')
+  ) {
+    return FALSE;
+  }
+
+  $recaptcha_v3_config = \Drupal::config('recaptcha_v3.settings');
+  if (
+    !$recaptcha_v3_config->get('site_key') ||
+    !$recaptcha_v3_config->get('secret_key')
+  ) {
+    return FALSE;
+  }
+
+  return (bool) \Drupal::entityTypeManager()
+    ->getStorage('recaptcha_v3_action')
+    ->load('webform');
+}
+
+/**
+ * Updates existing CAPTCHA elements to use the Webform reCAPTCHA v3 action.
+ *
+ * @param array $element
+ *   A form or form element render array.
+ * @param string $captcha_type
+ *   The CAPTCHA challenge type to apply.
+ *
+ * @return bool
+ *   TRUE if a CAPTCHA element was found and updated.
+ */
+function _carlson_general_apply_recaptcha_v3_to_captcha_elements(
+  array &$element,
+  string $captcha_type
+): bool {
+  $updated = FALSE;
+
+  foreach ($element as $key => &$child) {
+    if (is_string($key) && str_starts_with($key, '#')) {
+      continue;
+    }
+    if (!is_array($child)) {
+      continue;
+    }
+    if (($child['#type'] ?? NULL) === 'captcha') {
+      $child['#captcha_type'] = $captcha_type;
+      $updated = TRUE;
+      continue;
+    }
+    if (
+      _carlson_general_apply_recaptcha_v3_to_captcha_elements(
+        $child,
+        $captcha_type
+      )
+    ) {
+      $updated = TRUE;
+    }
+  }
+  unset($child);
+
+  return $updated;
+}
+
+/**
  * Implements hook_field_widget_WIDGET_TYPE_form_alter().
  *
  * Alters course schedule info paragraph type subform widget.

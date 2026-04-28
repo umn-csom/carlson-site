@@ -96,6 +96,40 @@ elseif (
     . '/files-private';
 }
 
+/**
+ * Load reCAPTCHA v2 and v3 keys from private, environment-specific files.
+ */
+if (!empty($settings['file_private_path'])) {
+  $recaptcha_key_environment = $environment === 'prod' ? 'prod' : 'dev-test';
+  $recaptcha_key_file = $settings['file_private_path']
+    . '/recaptcha/recaptcha.'
+    . $recaptcha_key_environment
+    . '.php';
+
+  if (file_exists($recaptcha_key_file)) {
+    $recaptcha_keys = include $recaptcha_key_file;
+
+    if (is_array($recaptcha_keys)) {
+      $recaptcha_config_map = [
+        'v2' => 'recaptcha.settings',
+        'v3' => 'recaptcha_v3.settings',
+      ];
+
+      foreach ($recaptcha_config_map as $key_version => $config_name) {
+        if (
+          !empty($recaptcha_keys[$key_version]['site_key']) &&
+          !empty($recaptcha_keys[$key_version]['secret_key'])
+        ) {
+          $config[$config_name]['site_key'] =
+            $recaptcha_keys[$key_version]['site_key'];
+          $config[$config_name]['secret_key'] =
+            $recaptcha_keys[$key_version]['secret_key'];
+        }
+      }
+    }
+  }
+}
+
 // Block robots from indexing non-prod environments.
 if (
   !isset($_ENV['SERVER_NAME']) ||
