@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Hooks for the Carlson Purge Trace module.
+ */
+
+use Drupal\Core\Entity\EntityInterface;
+
+/**
+ * Implements hook_entity_insert().
+ */
+function carlson_purge_trace_entity_insert(EntityInterface $entity): void {
+  _carlson_purge_trace_record_entity('insert', $entity);
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function carlson_purge_trace_entity_update(EntityInterface $entity): void {
+  _carlson_purge_trace_record_entity('update', $entity);
+}
+
+/**
+ * Implements hook_entity_delete().
+ */
+function carlson_purge_trace_entity_delete(EntityInterface $entity): void {
+  _carlson_purge_trace_record_entity('delete', $entity);
+}
+
+/**
+ * Records an entity mutation for purge trace capture.
+ */
+function _carlson_purge_trace_record_entity(
+  string $operation,
+  EntityInterface $entity,
+): void {
+  try {
+    \Drupal::service('carlson_purge_trace.runtime')
+      ->recordEntityOperation($operation, $entity);
+  }
+  catch (\Throwable) {
+    // Tracing must never break the request that triggered it.
+  }
+}

@@ -1,0 +1,36 @@
+services:
+  carlson_purge_trace.runtime:
+    class: Drupal\carlson_purge_trace\Service\PurgeTraceRuntime
+    arguments:
+      - '@current_user'
+      - '@current_route_match'
+      - '@request_stack'
+      - '@state'
+
+  carlson_purge_trace.cache_impact_inspector:
+    class: Drupal\carlson_purge_trace\Service\PurgeTraceCacheImpactInspector
+    arguments:
+      - '@database'
+
+  carlson_purge_trace.writer:
+    class: Drupal\carlson_purge_trace\Service\PurgeTraceWriter
+    arguments:
+      - '@file_system'
+      - '@logger.factory'
+      - '@state'
+      - '@stream_wrapper_manager'
+
+  carlson_purge_trace.invalidator:
+    class: Drupal\carlson_purge_trace\Cache\PurgeTraceInvalidator
+    arguments:
+      - '@carlson_purge_trace.runtime'
+    tags:
+      - { name: cache_tags_invalidator }
+
+  carlson_purge_trace.subscriber:
+    class: Drupal\carlson_purge_trace\EventSubscriber\PurgeTraceSubscriber
+    arguments:
+      - '@carlson_purge_trace.runtime'
+      - '@carlson_purge_trace.writer'
+    tags:
+      - { name: event_subscriber }
