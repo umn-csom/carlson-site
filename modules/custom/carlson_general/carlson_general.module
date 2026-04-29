@@ -9,6 +9,7 @@ use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\user\Entity\Role;
@@ -205,6 +206,174 @@ function carlson_general_honeypot_form_protections_alter(array &$options, array 
   }
 
   unset($options[$time_restriction]);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for recaptcha_v3_settings.
+ */
+function carlson_general_form_recaptcha_v3_settings_alter(
+  array &$form,
+  FormStateInterface $form_state,
+  string $form_id
+): void {
+  if (!_carlson_general_recaptcha_private_keys_configured('v3')) {
+    return;
+  }
+
+  $private_key_url = Url::fromRoute(
+    'carlson_general.recaptcha_private_keys',
+  )->toString();
+
+  $form['carlson_private_key_file_notice'] = [
+    '#type' => 'container',
+    '#weight' => -100,
+    '#attributes' => [
+      'class' => [
+        'messages',
+        'messages--status',
+      ],
+    ],
+    'message' => [
+      '#markup' => t(
+        'The reCAPTCHA v3 site and secret keys are managed in a private, '
+        . 'environment-specific JSON file. Use the '
+        . '<a href=":url">reCAPTCHA private keys</a> page to update them.',
+        [':url' => $private_key_url],
+      ),
+    ],
+  ];
+
+  foreach (['site_key', 'secret_key'] as $key) {
+    if (!isset($form[$key])) {
+      continue;
+    }
+
+    $form[$key]['#required'] = FALSE;
+    $form[$key]['#default_value'] = t('Configured in private key file');
+    $form[$key]['#description'] = t(
+      'This value is loaded from the private key file and is not saved in '
+      . 'Drupal configuration.',
+    );
+    $form[$key]['#attributes']['readonly'] = 'readonly';
+  }
+
+  $form['actions']['submit']['#submit'][] =
+    'carlson_general_recaptcha_v3_settings_submit';
+}
+
+/**
+ * Keeps file-based reCAPTCHA v3 keys out of editable configuration.
+ */
+function carlson_general_recaptcha_v3_settings_submit(
+  array &$form,
+  FormStateInterface $form_state
+): void {
+  if (!_carlson_general_recaptcha_private_keys_configured('v3')) {
+    return;
+  }
+
+  \Drupal::configFactory()
+    ->getEditable('recaptcha_v3.settings')
+    ->set('site_key', '')
+    ->set('secret_key', '')
+    ->save();
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for recaptcha_admin_settings.
+ */
+function carlson_general_form_recaptcha_admin_settings_alter(
+  array &$form,
+  FormStateInterface $form_state,
+  string $form_id
+): void {
+  if (!_carlson_general_recaptcha_private_keys_configured('v2')) {
+    return;
+  }
+
+  $private_key_url = Url::fromRoute(
+    'carlson_general.recaptcha_private_keys',
+  )->toString();
+
+  $form['general']['carlson_private_key_file_notice'] = [
+    '#type' => 'container',
+    '#weight' => -100,
+    '#attributes' => [
+      'class' => [
+        'messages',
+        'messages--status',
+      ],
+    ],
+    'message' => [
+      '#markup' => t(
+        'The reCAPTCHA v2 site and secret keys are managed in a private, '
+        . 'environment-specific JSON file. Use the '
+        . '<a href=":url">reCAPTCHA private keys</a> page to update them.',
+        [':url' => $private_key_url],
+      ),
+    ],
+  ];
+
+  foreach (['recaptcha_site_key', 'recaptcha_secret_key'] as $key) {
+    if (!isset($form['general'][$key])) {
+      continue;
+    }
+
+    $form['general'][$key]['#required'] = FALSE;
+    $form['general'][$key]['#default_value'] = t(
+      'Configured in private key file',
+    );
+    $form['general'][$key]['#description'] = t(
+      'This value is loaded from the private key file and is not saved in '
+      . 'Drupal configuration.',
+    );
+    $form['general'][$key]['#attributes']['readonly'] = 'readonly';
+  }
+
+  $form['actions']['submit']['#submit'][] =
+    'carlson_general_recaptcha_admin_settings_submit';
+}
+
+/**
+ * Keeps file-based reCAPTCHA v2 keys out of editable configuration.
+ */
+function carlson_general_recaptcha_admin_settings_submit(
+  array &$form,
+  FormStateInterface $form_state
+): void {
+  if (!_carlson_general_recaptcha_private_keys_configured('v2')) {
+    return;
+  }
+
+  \Drupal::configFactory()
+    ->getEditable('recaptcha.settings')
+    ->set('site_key', '')
+    ->set('secret_key', '')
+    ->save();
+}
+
+/**
+ * Determines whether the private reCAPTCHA key file has a key pair.
+ *
+ * @param string $version
+ *   The reCAPTCHA key version, such as v2 or v3.
+ *
+ * @return bool
+ *   TRUE when the private key file has both key values.
+ */
+function _carlson_general_recaptcha_private_keys_configured(
+  string $version
+): bool {
+  if (!\Drupal::hasService('carlson_general.recaptcha_private_key_file')) {
+    return FALSE;
+  }
+
+  /** @var \Drupal\carlson_general\Service\RecaptchaPrivateKeyFile $key_file */
+  $key_file = \Drupal::service('carlson_general.recaptcha_private_key_file');
+  $keys = $key_file->read();
+
+  return $key_file->hasValue($keys, $version, 'site_key') &&
+    $key_file->hasValue($keys, $version, 'secret_key');
 }
 
 /**
