@@ -1,16 +1,16 @@
 <?php
 
-namespace Drupal\Tests\carlson_general\Unit\Service;
+namespace Drupal\Tests\carlson_recaptcha\Unit\Service;
 
-use Drupal\carlson_general\Service\RecaptchaPrivateKeyFile;
+use Drupal\carlson_recaptcha\Service\RecaptchaPrivateKeyFile;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Tests\UnitTestCase;
 
 /**
  * Tests the private reCAPTCHA key file writer.
  *
- * @coversDefaultClass \Drupal\carlson_general\Service\RecaptchaPrivateKeyFile
- * @group carlson_general
+ * @coversDefaultClass \Drupal\carlson_recaptcha\Service\RecaptchaPrivateKeyFile
+ * @group carlson_recaptcha
  */
 class RecaptchaPrivateKeyFileTest extends UnitTestCase {
 

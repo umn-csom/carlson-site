@@ -1,8 +1,8 @@
 <?php
 
-namespace Drupal\carlson_general\Form;
+namespace Drupal\carlson_recaptcha\Form;
 
-use Drupal\carlson_general\Service\RecaptchaPrivateKeyFile;
+use Drupal\carlson_recaptcha\Service\RecaptchaPrivateKeyFile;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -23,14 +23,14 @@ class RecaptchaPrivateKeysForm extends FormBase {
   /**
    * The private key file service.
    *
-   * @var \Drupal\carlson_general\Service\RecaptchaPrivateKeyFile
+   * @var \Drupal\carlson_recaptcha\Service\RecaptchaPrivateKeyFile
    */
   protected RecaptchaPrivateKeyFile $keyFile;
 
   /**
    * Constructs the form.
    *
-   * @param \Drupal\carlson_general\Service\RecaptchaPrivateKeyFile $key_file
+   * @param \Drupal\carlson_recaptcha\Service\RecaptchaPrivateKeyFile $key_file
    *   The private key file service.
    */
   public function __construct(RecaptchaPrivateKeyFile $key_file) {
@@ -42,7 +42,7 @@ class RecaptchaPrivateKeysForm extends FormBase {
    */
   public static function create(ContainerInterface $container): self {
     return new self(
-      $container->get('carlson_general.recaptcha_private_key_file'),
+      $container->get('carlson_recaptcha.recaptcha_private_key_file'),
     );
   }
 
@@ -50,7 +50,7 @@ class RecaptchaPrivateKeysForm extends FormBase {
    * {@inheritdoc}
    */
   public function getFormId(): string {
-    return 'carlson_general_recaptcha_private_keys';
+    return 'carlson_recaptcha_private_keys';
   }
 
   /**
