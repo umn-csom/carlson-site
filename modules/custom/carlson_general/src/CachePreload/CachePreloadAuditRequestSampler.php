@@ -2,8 +2,10 @@
 
 namespace Drupal\carlson_general\CachePreload;
 
+use Drupal\Core\Access\AccessResultInterface;
 use Drupal\Core\Menu\MenuLinkInterface;
 use Drupal\Core\Menu\MenuTreeParameters;
+use Drupal\Core\Session\AnonymousUserSession;
 use Drupal\node\NodeInterface;
 
 /**
@@ -19,7 +21,8 @@ final class CachePreloadAuditRequestSampler {
    * @param int $path_limit
    *   Maximum number of paths to sample.
    * @param array $seed_menus
-   *   Menu machine names to use for important page seed discovery.
+   *   Menu machine names to use for important page seed discovery. Leave empty
+   *   to discover menus from active front-end menu blocks.
    *
    * @return array
    *   Paths keyed by path with the sample source as the value.
@@ -27,7 +30,7 @@ final class CachePreloadAuditRequestSampler {
   public function samplePaths(
     int $samples_per_bundle,
     int $path_limit,
-    array $seed_menus = ['main']
+    array $seed_menus = []
   ): array {
     $paths = [];
     $this->addPath($paths, '/', 'fixed: front page');
@@ -235,17 +238,102 @@ final class CachePreloadAuditRequestSampler {
     int $path_limit
   ): bool {
     $menu_tree = \Drupal::menuTree();
+    $account_switcher = \Drupal::service('account_switcher');
+    $menu_names = $menu_names ?: $this->menuSeedNamesFromBlocks();
 
-    foreach ($menu_names as $menu_name) {
-      $parameters = new MenuTreeParameters();
-      $parameters->onlyEnabledLinks();
-      $tree = $menu_tree->load($menu_name, $parameters);
-      if ($this->addMenuTreePaths($paths, $tree, $menu_name, $path_limit)) {
-        return TRUE;
+    $account_switcher->switchTo(new AnonymousUserSession());
+    try {
+      foreach ($menu_names as $menu_name) {
+        $parameters = new MenuTreeParameters();
+        $parameters->onlyEnabledLinks();
+        $tree = $menu_tree->load($menu_name, $parameters);
+        $tree = $menu_tree->transform(
+          $tree,
+          $this->anonymousMenuTreeManipulators()
+        );
+        if ($this->addMenuTreePaths($paths, $tree, $menu_name, $path_limit)) {
+          return TRUE;
+        }
       }
+    }
+    finally {
+      $account_switcher->switchBack();
     }
 
     return FALSE;
+  }
+
+  /**
+   * Discover menu names from active menu blocks in the default front-end theme.
+   *
+   * @return array
+   *   Menu machine names keyed in block display order.
+   */
+  private function menuSeedNamesFromBlocks(): array {
+    $theme = (string) \Drupal::config('system.theme')->get('default');
+    $region_order = $this->themeRegionOrder($theme);
+    $blocks = \Drupal::entityTypeManager()
+      ->getStorage('block')
+      ->loadByProperties([
+        'theme' => $theme,
+        'status' => TRUE,
+      ]);
+
+    uasort($blocks, static function ($left, $right) use ($region_order): int {
+      return [
+        $region_order[$left->getRegion()] ?? PHP_INT_MAX,
+        $left->getWeight(),
+        $left->id(),
+      ] <=> [
+        $region_order[$right->getRegion()] ?? PHP_INT_MAX,
+        $right->getWeight(),
+        $right->id(),
+      ];
+    });
+
+    $menu_names = [];
+    foreach ($blocks as $block) {
+      if (preg_match(
+        '/^(?:system_menu_block|menu_block):(.+)$/',
+        $block->getPluginId(),
+        $matches
+      )) {
+        $menu_names[$matches[1]] = $matches[1];
+      }
+    }
+
+    return array_values($menu_names ?: ['main']);
+  }
+
+  /**
+   * Return theme region positions keyed by region name.
+   *
+   * @param string $theme
+   *   Theme machine name.
+   *
+   * @return array
+   *   Region positions keyed by region name.
+   */
+  private function themeRegionOrder(string $theme): array {
+    if (!function_exists('system_region_list')) {
+      return [];
+    }
+
+    return array_flip(array_keys(system_region_list($theme)));
+  }
+
+  /**
+   * Return the menu transforms used before sampling anonymous menu links.
+   *
+   * @return array
+   *   Menu tree manipulator definitions.
+   */
+  private function anonymousMenuTreeManipulators(): array {
+    return [
+      ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
+      ['callable' => 'menu.default_tree_manipulators:checkAccess'],
+      ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
+    ];
   }
 
   /**
@@ -273,6 +361,11 @@ final class CachePreloadAuditRequestSampler {
     while ($level) {
       $next_level = [];
       foreach ($level as $element) {
+        if ($element->access instanceof AccessResultInterface
+          && !$element->access->isAllowed()
+        ) {
+          continue;
+        }
         $path = $this->menuLinkPath($element->link);
         if ($path !== NULL) {
           $this->addPath(

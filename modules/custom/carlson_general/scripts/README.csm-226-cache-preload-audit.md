@@ -45,21 +45,31 @@ measurement.
 The script builds the sample from these sources:
 
 - Fixed homepage seed: `/`.
-- Internal enabled links from configured seed menus.
+- Anonymous-accessible internal links from active front-end menu blocks.
 - Enabled Views page displays with concrete paths.
 - Recent published nodes from each content bundle.
 
-The default seed menu is `main`. Menu links are used because they represent
-editorially important section roots and navigation pages. Menu links are added
-breadth-first so top-level section roots are sampled before deeper child pages.
-External URLs, `<nolink>` / button-style menu items, admin paths, and dynamic
-paths are skipped. Views page paths containing dynamic placeholders such as `%`
-or `{...}` are skipped because they cannot be requested safely without route
-parameters.
+The default seed mode is `auto`, which discovers enabled menu block plugins in
+the default front-end theme, such as `menu_block:*` and
+`system_menu_block:*`. Menu links are used because they represent editorially
+important section roots and navigation pages.
+
+Before a menu link is added, the script switches Drupal's current user to an
+anonymous session and applies Drupal's menu tree access manipulators. This
+keeps the sample focused on links that anonymous visitors can access through
+rendered navigation, not every enabled link in the menu table.
+
+Menu links are added breadth-first so top-level section roots are sampled
+before deeper child pages. Menus from earlier theme regions are sampled before
+menus from later regions, so primary navigation is considered before footer
+navigation when `--path-limit` is set. External URLs, `<nolink>` / button-style
+menu items, admin paths, and dynamic paths are skipped. Views page paths
+containing dynamic placeholders such as `%` or `{...}` are skipped because they
+cannot be requested safely without route parameters.
 
 The default sample options are:
 
-- `--seed-menus=main`
+- `--seed-menus=auto`
 - `--samples-per-bundle=10`
 - `--path-limit=250`
 - `--cache-read-limit=250`
@@ -81,7 +91,7 @@ CSV_CONTAINER="$CSV_CONTAINER/csm-226-cache-tag-frequency.csv"
 
 ddev drush @carlsonschool.ddev scr "$SCRIPT" -- \
   --base-url=https://carlsonschool.ddev.site \
-  --seed-menus=main \
+  --seed-menus=auto \
   --samples-per-bundle=10 \
   --path-limit=250 \
   --frequency-csv="$CSV_CONTAINER" \

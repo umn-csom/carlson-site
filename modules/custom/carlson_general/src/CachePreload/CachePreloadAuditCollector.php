@@ -71,7 +71,7 @@ final class CachePreloadAuditCollector {
   private function options(array $argv): array {
     $options = [
       'base-url' => 'https://carlsonschool.ddev.site',
-      'seed-menus' => 'main',
+      'seed-menus' => 'auto',
       'samples-per-bundle' => 10,
       'path-limit' => 250,
       'cache-read-limit' => 250,
@@ -131,14 +131,18 @@ final class CachePreloadAuditCollector {
    * Parse comma-separated seed menus.
    *
    * @param string $seed_menus
-   *   Comma-separated menu machine names.
+   *   Comma-separated menu machine names, or "auto" for active menu blocks.
    *
    * @return array
-   *   Menu machine names to use for seed path discovery.
+   *   Menu machine names to use for seed path discovery. Empty means auto.
    */
   private function seedMenus(string $seed_menus): array {
+    if (strtolower(trim($seed_menus)) === 'auto') {
+      return [];
+    }
+
     $menus = array_filter(array_map('trim', explode(',', $seed_menus)));
-    return array_values($menus ?: ['main']);
+    return array_values($menus);
   }
 
 }
