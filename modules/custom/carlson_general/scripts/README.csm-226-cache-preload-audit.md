@@ -9,6 +9,20 @@ tags are commonly present across rendered pages.
 The script does not automatically decide which tags belong in
 `$settings['cache_preload_tags']`. It creates evidence for that decision.
 
+## Current Context
+
+Phase 1 is already merged to `dev` and `master`. The current preload list is:
+
+```php
+$settings['cache_preload_tags'] = [
+  'views_data',
+  'config:core.extension',
+];
+```
+
+Phase 2 checks whether those initial tags are enough or whether another tag
+has evidence strong enough to add to `settings.site.php`.
+
 ## Mental Model
 
 1. Drupal render arrays carry cacheability metadata.
@@ -25,6 +39,18 @@ The script does not automatically decide which tags belong in
 High page frequency is only a signal. A tag should be added to the static
 preload list only when it also reduces cachetag checksum queries in the local
 measurement.
+
+## Static Evidence
+
+The checked-in config has broad Views usage:
+
+- 64 active View config files.
+- 68 block configs using `views_block`.
+- 37 block configs depending on menus.
+- 11 block configs depending on `system.menu.main`.
+
+That supports keeping `views_data` and `config:core.extension`, but it is not
+enough by itself to add menu or block tags. Those need runtime/cache evidence.
 
 ## Page Sample Sources
 
@@ -70,6 +96,9 @@ The Markdown report is redirected by the host shell. The CSV is written by PHP
 inside the DDEV container, so use the container path under
 `/var/www/html/docroot/sites/carlsonschool.umn.edu`.
 
+Run `ddev drush @carlsonschool.ddev cr` first when you want a fresh cache
+sample after local config or code changes.
+
 ## CSV Columns
 
 - `cache_tag`: The cache tag observed in one or more rendered responses.
@@ -85,6 +114,18 @@ one rendered page.
 Good follow-up candidates are usually stable, low-cardinality config tags that
 appear across representative pages and reduce checksum queries when tested.
 
+Keep the current tags when the audit shows Views metadata in representative
+runtime/cache evidence:
+
+- `views_data`
+- `config:core.extension`
+
+Add another tag only when both conditions are true:
+
+- It appears across representative public requests or warmed cache entries.
+- Adding it lowers the measured `cachetags` query count in the local checksum
+  query comparison.
+
 Do not add broad or entity-specific tags only because they are frequent:
 
 - `rendered`
@@ -99,6 +140,10 @@ Do not add broad or entity-specific tags only because they are frequent:
 Those tags often appear because the global page layout includes navigation,
 footer blocks, media, and page-specific content. Preloading them can add
 overhead without removing a cachetag lookup.
+
+`config:system.menu.main` is the strongest follow-up candidate from static
+config, but it should stay out of `settings.site.php` unless the audit shows a
+real query-count reduction.
 
 ## Header Requirement
 
