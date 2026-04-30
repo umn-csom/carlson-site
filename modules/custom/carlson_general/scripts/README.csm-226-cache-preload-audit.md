@@ -40,29 +40,6 @@ High page frequency is only a signal. A tag should be added to the static
 preload list only when it also reduces cachetag checksum queries in the local
 measurement.
 
-## Config Evidence
-
-The script checks configuration evidence during each run. This is static
-evidence because it comes from Drupal config entities, not from rendered HTTP
-responses.
-
-The check loads active Drupal config through the Entity API:
-
-- Loads all View config entities and skips disabled Views.
-- Counts active Views and display plugin types.
-- Loads all Block config entities and skips disabled Blocks.
-- Counts enabled Block placements whose plugin ID starts with `views_block:`.
-- Counts enabled Block config dependencies that start with `views.view.`.
-- Counts enabled Block config dependencies that start with `system.menu.`.
-
-This data appears in the Markdown report's `Config Evidence` section. It
-supports keeping `views_data` and `config:core.extension`, but it is not enough
-by itself to add menu or block tags. Those need runtime/cache evidence.
-
-A raw `config/sync` scan can show higher counts because it includes disabled
-block config files. The audit report intentionally uses active config so the
-summary reflects what Drupal can render locally.
-
 ## Page Sample Sources
 
 The script builds the sample from these sources:
@@ -152,9 +129,8 @@ Those tags often appear because the global page layout includes navigation,
 footer blocks, media, and page-specific content. Preloading them can add
 overhead without removing a cachetag lookup.
 
-`config:system.menu.main` is the strongest follow-up candidate from static
-config, but it should stay out of `settings.site.php` unless the audit shows a
-real query-count reduction.
+Tags such as `config:system.menu.main` should stay out of
+`settings.site.php` unless the audit shows a real query-count reduction.
 
 ## Header Requirement
 

@@ -47,7 +47,6 @@ final class CachePreloadAuditCollector {
       'current_preload_tags' => $current_preload_tags,
       'candidate_tags' => $candidate_tags,
       'paths' => $paths,
-      'config_evidence' => $this->configEvidence(),
       'http_results' => $http_results,
       'tag_frequency' => $request_sampler->tagFrequency($http_results),
       'cache_evidence' => $cache_evidence,
@@ -124,65 +123,6 @@ final class CachePreloadAuditCollector {
     ]);
 
     return array_values(array_unique(array_filter($tags)));
-  }
-
-  /**
-   * Summarize active Views, View blocks, and menu-dependent blocks.
-   *
-   * @return array
-   *   Configuration evidence summary.
-   */
-  private function configEvidence(): array {
-    $entity_type_manager = \Drupal::entityTypeManager();
-    $view_storage = $entity_type_manager->getStorage('view');
-    $block_storage = $entity_type_manager->getStorage('block');
-    $summary = [
-      'active_views' => 0,
-      'view_displays' => [],
-      'enabled_view_blocks' => 0,
-      'view_block_dependencies' => [],
-      'menu_block_dependencies' => [],
-    ];
-
-    foreach ($view_storage->loadMultiple() as $view) {
-      if (method_exists($view, 'status') && !$view->status()) {
-        continue;
-      }
-      $summary['active_views']++;
-      foreach (($view->get('display') ?? []) as $display) {
-        $type = $display['display_plugin'] ?? 'unknown';
-        $summary['view_displays'][$type] =
-          ($summary['view_displays'][$type] ?? 0) + 1;
-      }
-    }
-
-    foreach ($block_storage->loadMultiple() as $block) {
-      if (method_exists($block, 'status') && !$block->status()) {
-        continue;
-      }
-      $plugin_id = method_exists($block, 'getPluginId')
-        ? $block->getPluginId()
-        : '';
-      if (str_starts_with($plugin_id, 'views_block:')) {
-        $summary['enabled_view_blocks']++;
-      }
-      foreach (($block->getDependencies()['config'] ?? []) as $dependency) {
-        if (str_starts_with($dependency, 'views.view.')) {
-          $summary['view_block_dependencies'][$dependency] =
-            ($summary['view_block_dependencies'][$dependency] ?? 0) + 1;
-        }
-        if (str_starts_with($dependency, 'system.menu.')) {
-          $summary['menu_block_dependencies'][$dependency] =
-            ($summary['menu_block_dependencies'][$dependency] ?? 0) + 1;
-        }
-      }
-    }
-
-    arsort($summary['view_displays']);
-    arsort($summary['view_block_dependencies']);
-    arsort($summary['menu_block_dependencies']);
-
-    return $summary;
   }
 
 }

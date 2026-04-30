@@ -26,24 +26,6 @@ final class CachePreloadAuditReporter {
       '## Current Preload Tags',
       $this->codeList($report['current_preload_tags']),
       '',
-      '## Config Evidence',
-      '- Active Views: `' . $report['config_evidence']['active_views'] . '`',
-      '- Enabled Views block placements: `'
-        . $report['config_evidence']['enabled_view_blocks']
-        . '`',
-      '- View display types: '
-        . $this->countList($report['config_evidence']['view_displays']),
-      '- Top View block dependencies: '
-        . $this->countList(
-          $report['config_evidence']['view_block_dependencies'],
-          8
-        ),
-      '- Top menu dependencies: '
-        . $this->countList(
-          $report['config_evidence']['menu_block_dependencies'],
-          8
-        ),
-      '',
       '## HTTP Header Sample',
     ];
 
