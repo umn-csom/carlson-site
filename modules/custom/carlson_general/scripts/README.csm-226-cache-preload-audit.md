@@ -40,17 +40,28 @@ High page frequency is only a signal. A tag should be added to the static
 preload list only when it also reduces cachetag checksum queries in the local
 measurement.
 
-## Static Evidence
+## Config Evidence
 
-The checked-in config has broad Views usage:
+The script checks configuration evidence during each run. This is static
+evidence because it comes from Drupal config entities, not from rendered HTTP
+responses.
 
-- 64 active View config files.
-- 68 block configs using `views_block`.
-- 37 block configs depending on menus.
-- 11 block configs depending on `system.menu.main`.
+The check loads active Drupal config through the Entity API:
 
-That supports keeping `views_data` and `config:core.extension`, but it is not
-enough by itself to add menu or block tags. Those need runtime/cache evidence.
+- Loads all View config entities and skips disabled Views.
+- Counts active Views and display plugin types.
+- Loads all Block config entities and skips disabled Blocks.
+- Counts enabled Block placements whose plugin ID starts with `views_block:`.
+- Counts enabled Block config dependencies that start with `views.view.`.
+- Counts enabled Block config dependencies that start with `system.menu.`.
+
+This data appears in the Markdown report's `Config Evidence` section. It
+supports keeping `views_data` and `config:core.extension`, but it is not enough
+by itself to add menu or block tags. Those need runtime/cache evidence.
+
+A raw `config/sync` scan can show higher counts because it includes disabled
+block config files. The audit report intentionally uses active config so the
+summary reflects what Drupal can render locally.
 
 ## Page Sample Sources
 
