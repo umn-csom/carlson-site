@@ -2,6 +2,8 @@
 
 namespace Drupal\carlson_general\CachePreload;
 
+use Drupal\Core\Menu\MenuLinkInterface;
+use Drupal\Core\Menu\MenuTreeParameters;
 use Drupal\node\NodeInterface;
 
 /**
@@ -16,18 +18,25 @@ final class CachePreloadAuditRequestSampler {
    *   Number of node paths to sample per bundle.
    * @param int $path_limit
    *   Maximum number of paths to sample.
+   * @param array $seed_menus
+   *   Menu machine names to use for important page seed discovery.
    *
    * @return array
    *   Paths keyed by path with the sample source as the value.
    */
   public function samplePaths(
     int $samples_per_bundle,
-    int $path_limit
+    int $path_limit,
+    array $seed_menus = ['main']
   ): array {
     $paths = [];
     $this->addPath($paths, '/', 'fixed: front page');
-    $this->addPath($paths, '/news', 'fixed: news landing');
-    $this->addPath($paths, '/academics', 'fixed: academics landing');
+    if ($this->pathLimitReached($paths, $path_limit)) {
+      return $paths;
+    }
+    if ($this->addMenuSeedPaths($paths, $seed_menus, $path_limit)) {
+      return $paths;
+    }
 
     $entity_type_manager = \Drupal::entityTypeManager();
     $alias_manager = \Drupal::service('path_alias.manager');
@@ -205,6 +214,135 @@ final class CachePreloadAuditRequestSampler {
     $path = '/' . ltrim($path, '/');
     $path = $path === '//' ? '/' : $path;
     $paths[$path] = $paths[$path] ?? $source;
+  }
+
+  /**
+   * Add internal menu links as important seed paths.
+   *
+   * @param array $paths
+   *   Existing path samples, keyed by path.
+   * @param array $menu_names
+   *   Menu machine names to inspect.
+   * @param int $path_limit
+   *   Maximum number of paths to sample.
+   *
+   * @return bool
+   *   TRUE when the path limit has been reached.
+   */
+  private function addMenuSeedPaths(
+    array &$paths,
+    array $menu_names,
+    int $path_limit
+  ): bool {
+    $menu_tree = \Drupal::menuTree();
+
+    foreach ($menu_names as $menu_name) {
+      $parameters = new MenuTreeParameters();
+      $parameters->onlyEnabledLinks();
+      $tree = $menu_tree->load($menu_name, $parameters);
+      if ($this->addMenuTreePaths($paths, $tree, $menu_name, $path_limit)) {
+        return TRUE;
+      }
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Add internal links from a loaded menu tree.
+   *
+   * @param array $paths
+   *   Existing path samples, keyed by path.
+   * @param array $tree
+   *   Loaded menu tree elements.
+   * @param string $menu_name
+   *   Menu machine name.
+   * @param int $path_limit
+   *   Maximum number of paths to sample.
+   *
+   * @return bool
+   *   TRUE when the path limit has been reached.
+   */
+  private function addMenuTreePaths(
+    array &$paths,
+    array $tree,
+    string $menu_name,
+    int $path_limit
+  ): bool {
+    $level = $tree;
+    while ($level) {
+      $next_level = [];
+      foreach ($level as $element) {
+        $path = $this->menuLinkPath($element->link);
+        if ($path !== NULL) {
+          $this->addPath(
+            $paths,
+            $path,
+            'menu: ' . $menu_name . ': ' . $element->link->getTitle()
+          );
+          if ($this->pathLimitReached($paths, $path_limit)) {
+            return TRUE;
+          }
+        }
+        foreach ($element->subtree as $child) {
+          $next_level[] = $child;
+        }
+      }
+      $level = $next_level;
+    }
+
+    return FALSE;
+  }
+
+  /**
+   * Return the local path for an internal menu link.
+   *
+   * @param \Drupal\Core\Menu\MenuLinkInterface $link
+   *   Menu link plugin.
+   *
+   * @return string|null
+   *   Local path, or NULL when the link is external or not renderable.
+   */
+  private function menuLinkPath(MenuLinkInterface $link): ?string {
+    try {
+      $url = $link->getUrlObject();
+      if ($url->isExternal()) {
+        return NULL;
+      }
+      if ($url->isRouted()
+        && in_array($url->getRouteName(), ['<nolink>', '<button>'], TRUE)
+      ) {
+        return NULL;
+      }
+      $path = parse_url($url->toString(), PHP_URL_PATH);
+    }
+    catch (\Throwable $exception) {
+      return NULL;
+    }
+
+    if (!$path || str_starts_with($path, '/admin')) {
+      return NULL;
+    }
+    if (str_contains($path, '%') || str_contains($path, '{')) {
+      return NULL;
+    }
+
+    return $path;
+  }
+
+  /**
+   * Check whether the configured path limit has been reached.
+   *
+   * @param array $paths
+   *   Current path samples.
+   * @param int $path_limit
+   *   Maximum number of paths to sample. Zero means no limit.
+   *
+   * @return bool
+   *   TRUE when the limit is non-zero and has been reached.
+   */
+  private function pathLimitReached(array $paths, int $path_limit): bool {
+    return $path_limit > 0 && count($paths) >= $path_limit;
   }
 
   /**

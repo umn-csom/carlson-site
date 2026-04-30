@@ -44,15 +44,22 @@ measurement.
 
 The script builds the sample from these sources:
 
-- Fixed important pages: `/`, `/news`, and `/academics`.
+- Fixed homepage seed: `/`.
+- Internal enabled links from configured seed menus.
 - Enabled Views page displays with concrete paths.
 - Recent published nodes from each content bundle.
 
-Views page paths containing dynamic placeholders such as `%` or `{...}` are
-skipped because they cannot be requested safely without route parameters.
+The default seed menu is `main`. Menu links are used because they represent
+editorially important section roots and navigation pages. Menu links are added
+breadth-first so top-level section roots are sampled before deeper child pages.
+External URLs, `<nolink>` / button-style menu items, admin paths, and dynamic
+paths are skipped. Views page paths containing dynamic placeholders such as `%`
+or `{...}` are skipped because they cannot be requested safely without route
+parameters.
 
 The default sample options are:
 
+- `--seed-menus=main`
 - `--samples-per-bundle=10`
 - `--path-limit=250`
 - `--cache-read-limit=250`
@@ -74,6 +81,7 @@ CSV_CONTAINER="$CSV_CONTAINER/csm-226-cache-tag-frequency.csv"
 
 ddev drush @carlsonschool.ddev scr "$SCRIPT" -- \
   --base-url=https://carlsonschool.ddev.site \
+  --seed-menus=main \
   --samples-per-bundle=10 \
   --path-limit=250 \
   --frequency-csv="$CSV_CONTAINER" \
