@@ -57,8 +57,9 @@ function carlson_recaptcha_form_recaptcha_v3_settings_alter(
     $form[$key]['#attributes']['readonly'] = 'readonly';
   }
 
-  $form['actions']['submit']['#submit'][] =
-    'carlson_recaptcha_recaptcha_v3_settings_submit';
+  // Form-level #submit only: button #submit replaces defaults and would skip
+  // ReCaptchaV3SettingsForm::submitForm().
+  $form['#submit'][] = 'carlson_recaptcha_recaptcha_v3_settings_submit';
 }
 
 /**
@@ -130,8 +131,8 @@ function carlson_recaptcha_form_recaptcha_admin_settings_alter(
     $form['general'][$key]['#attributes']['readonly'] = 'readonly';
   }
 
-  $form['actions']['submit']['#submit'][] =
-    'carlson_recaptcha_recaptcha_admin_settings_submit';
+  // Form-level #submit only; see recaptcha_v3 alter comment above.
+  $form['#submit'][] = 'carlson_recaptcha_recaptcha_admin_settings_submit';
 }
 
 /**
