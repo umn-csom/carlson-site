@@ -154,6 +154,45 @@ function carlson_recaptcha_recaptcha_admin_settings_submit(
 }
 
 /**
+ * Implements hook_captcha_alter().
+ *
+ * Removes legacy hide-badge branding markup from recaptcha_v3 while keeping
+ * the recaptcha_v3_no_badge CSS that hides the floating badge.
+ *
+ * @todo Remove after upstream recaptcha_v3 is 2.0.5 or greater (obsolete
+ *   markup dropped there).
+ *
+ * @param array $captcha
+ *   Challenge definition from hook_captcha('generate').
+ * @param array $info
+ *   CAPTCHA element metadata; includes the implementing module name.
+ *
+ * @see captcha.api.php
+ */
+function carlson_recaptcha_captcha_alter(array &$captcha, array $info): void {
+  if (($info['module'] ?? '') !== 'recaptcha_v3') {
+    return;
+  }
+  if (empty($captcha['form']['hide_badge'])) {
+    return;
+  }
+
+  $libraries = $captcha['form']['hide_badge']['#attached']['library'] ?? [];
+  if (
+    $libraries !== []
+    && isset($captcha['form']['captcha_response'])
+    && is_array($captcha['form']['captcha_response'])
+  ) {
+    $existing = $captcha['form']['captcha_response']['#attached']['library']
+      ?? [];
+    $captcha['form']['captcha_response']['#attached']['library'] =
+      array_values(array_unique(array_merge($existing, $libraries)));
+  }
+
+  unset($captcha['form']['hide_badge']);
+}
+
+/**
  * Determines whether the private reCAPTCHA key file has a key pair.
  *
  * @param string $version
