@@ -1,25 +1,29 @@
-uuid: ff7ab8e5-ffb5-4201-8647-d9fe683800a0
+uuid: 26d49c5b-7c95-4493-a9f5-1162aaa64d3d
 langcode: en
 status: true
 dependencies:
   config:
-    - views.view.faculty_directory
+    - views.view.faq_question_blocks
   module:
+    - block_class
     - block_visibility_groups
     - system
     - views
   theme:
     - carlson_refresh
-id: carlson_refresh_views_block__faculty_directory_block_2
+third_party_settings:
+  block_class:
+    classes: faq-question-block
+id: carlson_refresh_views_block__faq_question_blocks_block_2
 theme: carlson_refresh
-region: node_content
-weight: -59
+region: node_middle
+weight: -85
 provider: null
-plugin: 'views_block:faculty_directory-block_2'
+plugin: 'views_block:faq_question_blocks-block_2'
 settings:
-  id: 'views_block:faculty_directory-block_2'
+  id: 'views_block:faq_question_blocks-block_2'
   label: ''
-  label_display: '0'
+  label_display: visible
   provider: views
   views_label: ''
   items_per_page: null
@@ -28,10 +32,8 @@ visibility:
   condition_group:
     id: condition_group
     negate: false
-    context_mapping: {  }
     block_visibility_group: ''
   request_path:
     id: request_path
     negate: false
-    context_mapping: {  }
-    pages: /node/98706
+    pages: /graduate/mba/full-time/admissions
