@@ -7,3 +7,13 @@ carlson_recaptcha.recaptcha_private_keys:
     _permission: 'administer CAPTCHA settings'
   options:
     _admin_route: TRUE
+
+carlson_recaptcha.deployment_probe:
+  path: '/admin/reports/carlson-deployment-probe'
+  defaults:
+    _controller: '\Drupal\carlson_recaptcha\Controller\DeploymentProbeController::probe'
+    _title: 'Carlson deployment probe'
+  requirements:
+    _permission: 'access site reports'
+  options:
+    _admin_route: TRUE
