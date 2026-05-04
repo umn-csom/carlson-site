@@ -18,35 +18,50 @@ use Drupal\Core\Url;
  * the v3→v2 fallback so hook_preprocess_captcha() can strip that legend and
  * so hook_theme_suggestions_captcha_alter() can swap to a Twig layout where the
  * description sits above the widget (captchas render outside Form API order).
+ * An #after_build callback floats the v2 checkbox CAPTCHA to the top of its
+ * parent group when that fallback is active. Root #after_build applies a form
+ * class and attaches CSS/JS (inert + pointer-events) when that fallback is
+ * present after build completes.
  */
 function carlson_recaptcha_form_alter(
   array &$form,
   FormStateInterface $form_state,
   string $form_id
 ): void {
-  _carlson_recaptcha_attach_captcha_fallback_pre_render($form);
+  if (empty($form['#carlson_recaptcha_form_fallback_chrome_added'])) {
+    $form['#carlson_recaptcha_form_fallback_chrome_added'] = TRUE;
+    $form['#after_build'][] = [
+      CaptchaFallbackPreRender::class,
+      'applyFormChrome',
+    ];
+  }
+  _carlson_recaptcha_attach_captcha_fallback_callbacks($form);
 }
 
 /**
- * Recursively adds fallback markup hints to CAPTCHA form elements.
+ * Recursively adds trusted CAPTCHA callbacks for v3→v2 fallback UX.
  *
  * @param array $element
  *   A form subtree.
  */
-function _carlson_recaptcha_attach_captcha_fallback_pre_render(array &$element): void {
+function _carlson_recaptcha_attach_captcha_fallback_callbacks(array &$element): void {
   foreach (Element::children($element) as $key) {
     if (!isset($element[$key]) || !is_array($element[$key])) {
       continue;
     }
-    _carlson_recaptcha_attach_captcha_fallback_pre_render($element[$key]);
+    _carlson_recaptcha_attach_captcha_fallback_callbacks($element[$key]);
   }
   if (($element['#type'] ?? '') !== 'captcha') {
     return;
   }
-  if (!empty($element['#carlson_recaptcha_fallback_pre_render_added'])) {
+  if (!empty($element['#carlson_recaptcha_fallback_callbacks_added'])) {
     return;
   }
-  $element['#carlson_recaptcha_fallback_pre_render_added'] = TRUE;
+  $element['#carlson_recaptcha_fallback_callbacks_added'] = TRUE;
+  $element['#after_build'][] = [
+    CaptchaFallbackPreRender::class,
+    'promoteV2FallbackWeight',
+  ];
   $element['#pre_render'][] = [
     CaptchaFallbackPreRender::class,
     'markV3V2Fallback',
