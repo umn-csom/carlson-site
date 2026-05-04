@@ -81,6 +81,28 @@ final class CachePreloadAuditReporter {
     }
 
     $lines[] = '';
+    $lines[] = '## Automated Candidate Review';
+    $lines[] = '- Coverage threshold: `'
+      . ($report['candidate_review']['coverage_threshold'] ?? 0)
+      . '%`';
+    $lines[] = '- Candidate tags measured individually: '
+      . $this->codeList($report['candidate_probe_tags'] ?? []);
+    $lines[] = '';
+    $lines[] = '| Cache tag | Coverage | Classification | Reason | '
+      . 'Measurement | Recommendation |';
+    $lines[] = '| --- | ---: | --- | --- | --- | --- |';
+    foreach (($report['candidate_review']['rows'] ?? []) as $row) {
+      $coverage = $row['page_count'] . '/'
+        . $row['pages_with_headers'] . ' ('
+        . $row['coverage'] . '%)';
+      $lines[] = '| `' . $row['tag'] . '` | `' . $coverage . '` | `'
+        . $row['classification'] . '` | '
+        . $this->escapeTable($row['reason']) . ' | '
+        . $this->escapeTable($row['measurement']) . ' | '
+        . $this->escapeTable($row['recommendation']) . ' |';
+    }
+
+    $lines[] = '';
     $lines[] = '## Cache Table Evidence';
     $lines[] = '- Cache tables inspected: `'
       . count($report['cache_evidence']['tables'])

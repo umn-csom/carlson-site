@@ -33,7 +33,9 @@ has evidence strong enough to add to `settings.site.php`.
 5. It deduplicates tags per page, then counts how many sampled pages include
    each tag.
 6. It writes a frequency table so high-coverage tags can be reviewed.
-7. It separately checks cache-table evidence and measures cachetag checksum
+7. It classifies frequent tags as current, candidate, or excluded, and
+   explains the reason for each classification.
+8. It separately checks cache-table evidence and measures cachetag checksum
    queries for candidate preload scenarios.
 
 High page frequency is only a signal. A tag should be added to the static
@@ -73,6 +75,9 @@ The default sample options are:
 - `--samples-per-bundle=10`
 - `--path-limit=250`
 - `--cache-read-limit=250`
+- `--candidate-coverage-threshold=50`
+- `--candidate-review-limit=75`
+- `--candidate-probe-limit=5`
 
 Use `--samples-per-bundle=0 --path-limit=0` for a full local published-node
 inventory. That can be slow.
@@ -119,6 +124,23 @@ one rendered page.
 
 Good follow-up candidates are usually stable, low-cardinality config tags that
 appear across representative pages and reduce checksum queries when tested.
+
+The `Automated Candidate Review` section does the first-pass analysis:
+
+- `current_preload`: already configured in `cache_preload_tags`.
+- `candidate`: high-coverage stable config-style tag worth a checksum probe.
+- `excluded_low_frequency`: below the configured coverage threshold.
+- `excluded_entity_specific`: entity-specific tag such as `node:123`.
+- `excluded_broad`: broad render/list tag such as `rendered` or `block_view`.
+- `excluded_granular_config`: individual block config tag that would bloat the
+  preload list.
+- `excluded_runtime_specific`: runtime or module-specific tag that is not a
+  stable config target.
+
+The script measures the top candidate tags individually, controlled by
+`--candidate-probe-limit`. A candidate should still be added only when the
+measurement shows fewer cachetag checksum queries than the current preload
+scenario.
 
 Keep the current tags when the audit shows Views metadata in representative
 runtime/cache evidence:

@@ -22,18 +22,13 @@ final class CachePreloadAuditCollector {
     $options = $this->options($argv);
     $cache_probe = new CachePreloadAuditCacheProbe();
     $request_sampler = new CachePreloadAuditRequestSampler();
+    $candidate_reviewer = new CachePreloadAuditCandidateReviewer();
     $current_preload_tags = Settings::get('cache_preload_tags', []);
     $candidate_tags = $this->candidateTags($current_preload_tags);
     $paths = $request_sampler->samplePaths(
       (int) $options['samples-per-bundle'],
       (int) $options['path-limit'],
       $this->seedMenus($options['seed-menus'])
-    );
-    $cache_evidence = $cache_probe->cacheEvidence($candidate_tags);
-    $cache_reads = $cache_probe->cacheReads(
-      $cache_evidence['tables'],
-      $candidate_tags,
-      (int) $options['cache-read-limit']
     );
     $http_results = $options['skip-http']
       ? []
@@ -42,20 +37,53 @@ final class CachePreloadAuditCollector {
         $options['base-url'],
         $candidate_tags
       );
+    $tag_frequency = $request_sampler->tagFrequency($http_results);
+    $candidate_review = $candidate_reviewer->review(
+      $tag_frequency,
+      $current_preload_tags,
+      [],
+      (int) $options['candidate-coverage-threshold'],
+      (int) $options['candidate-review-limit']
+    );
+    $candidate_probe_tags = $candidate_reviewer->probeTags(
+      $candidate_review,
+      (int) $options['candidate-probe-limit']
+    );
+    $measured_candidate_tags = array_values(array_unique(array_merge(
+      $candidate_tags,
+      $candidate_probe_tags
+    )));
+    $cache_evidence = $cache_probe->cacheEvidence($measured_candidate_tags);
+    $cache_reads = $cache_probe->cacheReads(
+      $cache_evidence['tables'],
+      $measured_candidate_tags,
+      (int) $options['cache-read-limit']
+    );
+    $measurements = $cache_probe->measurements(
+      $cache_reads,
+      $current_preload_tags,
+      $candidate_probe_tags
+    );
+    $candidate_review = $candidate_reviewer->review(
+      $tag_frequency,
+      $current_preload_tags,
+      $measurements,
+      (int) $options['candidate-coverage-threshold'],
+      (int) $options['candidate-review-limit']
+    );
 
     return [
       'options' => $options,
       'current_preload_tags' => $current_preload_tags,
-      'candidate_tags' => $candidate_tags,
+      'candidate_tags' => $measured_candidate_tags,
       'paths' => $paths,
       'http_results' => $http_results,
-      'tag_frequency' => $request_sampler->tagFrequency($http_results),
+      'tag_frequency' => $tag_frequency,
+      'candidate_review' => $candidate_review,
+      'candidate_probe_tags' => $candidate_probe_tags,
       'cache_evidence' => $cache_evidence,
       'cache_reads' => $cache_reads,
-      'measurements' => $cache_probe->measurements(
-        $cache_reads,
-        $current_preload_tags
-      ),
+      'measurements' => $measurements,
     ];
   }
 
@@ -75,6 +103,9 @@ final class CachePreloadAuditCollector {
       'samples-per-bundle' => 10,
       'path-limit' => 250,
       'cache-read-limit' => 250,
+      'candidate-coverage-threshold' => 50,
+      'candidate-review-limit' => 75,
+      'candidate-probe-limit' => 5,
       'frequency-csv' => '',
       'skip-http' => FALSE,
     ];
@@ -92,7 +123,14 @@ final class CachePreloadAuditCollector {
       }
     }
 
-    $integer_options = ['samples-per-bundle', 'path-limit', 'cache-read-limit'];
+    $integer_options = [
+      'samples-per-bundle',
+      'path-limit',
+      'cache-read-limit',
+      'candidate-coverage-threshold',
+      'candidate-review-limit',
+      'candidate-probe-limit',
+    ];
     foreach ($integer_options as $name) {
       $options[$name] = max(0, (int) $options[$name]);
     }

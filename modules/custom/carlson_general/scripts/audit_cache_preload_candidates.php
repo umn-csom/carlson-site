@@ -15,7 +15,7 @@
  * - ddev drush @carlsonschool.ddev scr
  *   docroot/sites/carlsonschool.umn.edu/modules/custom/carlson_general/scripts/
  *   audit_cache_preload_candidates.php
- *   -- --base-url=https://carlsonschool.ddev.site --seed-menus=main
+ *   -- --base-url=https://carlsonschool.ddev.site --seed-menus=auto
  *
  * See README.csm-226-cache-preload-audit.md in this directory for the full
  * mental model, output format, and decision criteria.

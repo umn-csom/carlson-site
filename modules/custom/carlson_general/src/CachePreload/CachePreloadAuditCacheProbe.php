@@ -121,13 +121,16 @@ final class CachePreloadAuditCacheProbe {
    *   Cache reads to perform for each scenario.
    * @param array $current_preload_tags
    *   Cache preload tags currently configured for the site.
+   * @param array $candidate_probe_tags
+   *   Candidate tags to measure individually.
    *
    * @return array
    *   Measurement results keyed by scenario.
    */
   public function measurements(
     array $cache_reads,
-    array $current_preload_tags
+    array $current_preload_tags,
+    array $candidate_probe_tags = []
   ): array {
     $checksum = \Drupal::service('cache_tags.invalidator.checksum');
     if (!method_exists($checksum, 'registerCacheTagsForPreload')) {
@@ -150,6 +153,18 @@ final class CachePreloadAuditCacheProbe {
     $results = [];
     foreach ($scenarios as $label => $preload_tags) {
       $results[$label] = $this->measure($label, $preload_tags, $cache_reads);
+    }
+    foreach ($candidate_probe_tags as $tag) {
+      $label = 'current_plus_candidate_' . $this->scenarioSlug($tag);
+      $results[$label] = $this->measure(
+        $label,
+        array_values(array_unique(array_merge(
+          $current_preload_tags,
+          [$tag]
+        ))),
+        $cache_reads
+      );
+      $results[$label]['candidate_tag'] = $tag;
     }
 
     return $results;
@@ -206,6 +221,19 @@ final class CachePreloadAuditCacheProbe {
       'errors' => $errors,
       'cachetag_queries' => $cachetag_queries,
     ];
+  }
+
+  /**
+   * Convert a cache tag to a scenario-safe slug.
+   *
+   * @param string $tag
+   *   Cache tag.
+   *
+   * @return string
+   *   Scenario slug.
+   */
+  private function scenarioSlug(string $tag): string {
+    return trim(preg_replace('/[^A-Za-z0-9]+/', '_', $tag), '_');
   }
 
   /**
