@@ -97,7 +97,10 @@ elseif (
 }
 
 /**
- * Load reCAPTCHA v2 and v3 keys from private, environment-specific JSON files.
+ * Fallback: reCAPTCHA v2/v3 keys from private JSON.
+ *
+ * When carlson_recaptcha is enabled, its ConfigFactoryOverride applies the
+ * same keys at runtime; this block keeps forms working if the module is off.
  */
 if (!empty($settings['file_private_path'])) {
   $recaptcha_key_environment = $environment === 'prod' ? 'prod' : 'dev-test';

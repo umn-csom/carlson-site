@@ -3,3 +3,10 @@ services:
     class: Drupal\carlson_recaptcha\Service\RecaptchaPrivateKeyFile
     arguments:
       - '@file_system'
+
+  carlson_recaptcha.recaptcha_keys_config_override:
+    class: Drupal\carlson_recaptcha\Config\RecaptchaKeysConfigOverride
+    arguments:
+      - '@carlson_recaptcha.recaptcha_private_key_file'
+    tags:
+      - { name: config.factory.override, priority: 100 }
