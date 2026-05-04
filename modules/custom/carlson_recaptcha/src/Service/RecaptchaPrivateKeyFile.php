@@ -74,13 +74,13 @@ class RecaptchaPrivateKeyFile {
   public function write(array $keys): bool {
     $options = FileSystemInterface::CREATE_DIRECTORY |
       FileSystemInterface::MODIFY_PERMISSIONS;
-    $directory_uri = self::DIRECTORY_URI;
+    $prepared_directory = self::DIRECTORY_URI;
 
-    if (!$this->fileSystem->prepareDirectory($directory_uri, $options)) {
+    if (!$this->fileSystem->prepareDirectory($prepared_directory, $options)) {
       return FALSE;
     }
 
-    $directory_path = $this->fileSystem->realpath($directory_uri);
+    $directory_path = $this->fileSystem->realpath($prepared_directory);
     if (!$directory_path) {
       return FALSE;
     }
