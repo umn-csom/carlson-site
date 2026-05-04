@@ -1,0 +1,27 @@
+/**
+ * @file
+ * Dim non–CAPTCHA fields when reCAPTCHA v3 falls back to the v2 checkbox.
+ *
+ * Targeting uses .carlson-recaptcha-v2-fallback__inactive (JS) instead of
+ * :has() so rules apply in browsers without :has support.
+ */
+
+form.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback__inactive {
+  pointer-events: none;
+  opacity: 0.38;
+  filter: grayscale(65%);
+  transition: opacity 0.15s ease, filter 0.15s ease;
+}
+
+form.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback__inactive label,
+form.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback__inactive legend {
+  cursor: not-allowed;
+}
+
+form.carlson-recaptcha-v2-fallback .captcha-type-challenge--recaptcha {
+  margin-bottom: 1rem;
+}
+
+form.carlson-recaptcha-v2-fallback .captcha-type-challenge--recaptcha .captcha__element {
+  min-height: 78px;
+}
