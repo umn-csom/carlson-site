@@ -4,6 +4,9 @@ namespace Drupal\carlson_general\CachePreload;
 
 /**
  * Renders CSM-226 cache preload audit evidence as Markdown.
+ *
+ * The report is the human-readable artifact. The CSV is intentionally narrower
+ * and contains only the sortable cache-tag frequency table.
  */
 final class CachePreloadAuditReporter {
 

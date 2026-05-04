@@ -6,6 +6,10 @@ use Drupal\Core\Database\Database;
 
 /**
  * Probes cache tables and cache-tag checksum query behavior.
+ *
+ * Frequency says which tags are common. This class checks the other half of
+ * the Phase 2 question: whether adding a candidate tag to the preload list
+ * actually reduces cachetags database queries during cache reads.
  */
 final class CachePreloadAuditCacheProbe {
 
@@ -137,6 +141,8 @@ final class CachePreloadAuditCacheProbe {
       return ['unsupported' => 'Checksum service does not support preloading.'];
     }
 
+    // Fixed scenarios preserve the original Phase 2 comparison while dynamic
+    // scenarios let the report test top frequency-derived candidates.
     $scenarios = [
       'baseline_no_extra_preload' => [],
       'current_views_preload' => $current_preload_tags,
@@ -194,6 +200,8 @@ final class CachePreloadAuditCacheProbe {
     }
     $checksum->registerCacheTagsForPreload($preload_tags);
 
+    // Log only the cache reads below. The metric is how often those reads need
+    // to query the cachetags checksum table under this preload scenario.
     $log_key = 'csm226_' . preg_replace('/[^A-Za-z0-9_]+/', '_', $label);
     Database::startLog($log_key);
 

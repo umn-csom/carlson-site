@@ -4,6 +4,9 @@ namespace Drupal\carlson_general\CachePreload;
 
 /**
  * Classifies observed cache tags for preload review.
+ *
+ * The goal is conservative. A frequent tag is only a candidate when it is also
+ * stable and reusable enough to be sensible in a static preload list.
  */
 final class CachePreloadAuditTagClassifier {
 
@@ -193,6 +196,8 @@ final class CachePreloadAuditTagClassifier {
       return TRUE;
     }
 
+    // Prefer low-cardinality config tags. Entity instance tags and broad
+    // rendered/list tags are excluded earlier in the classification flow.
     $prefixes = [
       'config:core.extension',
       'config:system.menu.',

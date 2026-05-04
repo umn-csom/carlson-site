@@ -4,6 +4,9 @@ namespace Drupal\carlson_general\CachePreload;
 
 /**
  * Reviews observed cache tags as preload candidates.
+ *
+ * This turns the raw frequency table into report rows a reviewer can use:
+ * coverage, classification, measurement result, and recommendation.
  */
 final class CachePreloadAuditCandidateReviewer {
 
@@ -38,6 +41,9 @@ final class CachePreloadAuditCandidateReviewer {
     foreach (($tag_frequency['tags'] ?? []) as $tag => $info) {
       $page_count = (int) ($info['page_count'] ?? 0);
       $coverage = $pages > 0 ? ($page_count / $pages) * 100 : 0;
+
+      // Classification answers "is this tag shape worth considering?".
+      // Measurement answers "did this tag reduce checksum queries?".
       $classification = $tag_classifier->classify(
         $tag,
         $coverage,
@@ -66,6 +72,8 @@ final class CachePreloadAuditCandidateReviewer {
     usort($rows, function (array $left, array $right) use (
       $tag_classifier
     ): int {
+      // Show useful rows first: current tags, possible candidates, then
+      // exclusions. Within candidates, prioritize known stable config shapes.
       return $tag_classifier->classificationPriority($left['classification'])
         <=> $tag_classifier->classificationPriority($right['classification'])
         ?: $tag_classifier->tagPriority($left['tag'])

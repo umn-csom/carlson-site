@@ -10,6 +10,10 @@ use Drupal\node\NodeInterface;
 
 /**
  * Samples representative paths and runtime cache-tag headers.
+ *
+ * The path sample intentionally starts with likely public navigation pages,
+ * then broadens to Views page displays and recent published content. The
+ * report's Source column comes from this class.
  */
 final class CachePreloadAuditRequestSampler {
 
@@ -241,6 +245,8 @@ final class CachePreloadAuditRequestSampler {
     $account_switcher = \Drupal::service('account_switcher');
     $menu_names = $menu_names ?: $this->menuSeedNamesFromBlocks();
 
+    // Drush usually runs as an administrative user. Switch to anonymous before
+    // applying menu access checks so menu seeds match public navigation.
     $account_switcher->switchTo(new AnonymousUserSession());
     try {
       foreach ($menu_names as $menu_name) {
@@ -293,6 +299,7 @@ final class CachePreloadAuditRequestSampler {
 
     $menu_names = [];
     foreach ($blocks as $block) {
+      // Menu blocks expose the source menu as the plugin derivative ID.
       if (preg_match(
         '/^(?:system_menu_block|menu_block):(.+)$/',
         $block->getPluginId(),
@@ -330,6 +337,8 @@ final class CachePreloadAuditRequestSampler {
    */
   private function anonymousMenuTreeManipulators(): array {
     return [
+      // Match Drupal's rendered menu behavior: resolve node access first,
+      // then prune inaccessible menu links and sort in display order.
       ['callable' => 'menu.default_tree_manipulators:checkNodeAccess'],
       ['callable' => 'menu.default_tree_manipulators:checkAccess'],
       ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
@@ -361,6 +370,8 @@ final class CachePreloadAuditRequestSampler {
     while ($level) {
       $next_level = [];
       foreach ($level as $element) {
+        // checkAccess() keeps inaccessible top-level elements for cacheability
+        // metadata, but rendered menus skip them. The sampler should too.
         if ($element->access instanceof AccessResultInterface
           && !$element->access->isAllowed()
         ) {

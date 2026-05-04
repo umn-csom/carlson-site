@@ -6,6 +6,10 @@ use Drupal\Core\Site\Settings;
 
 /**
  * Collects CSM-226 cache preload audit evidence.
+ *
+ * This is the orchestration layer for the Drush script. It keeps the audit
+ * workflow in one place while delegating page sampling, cache probing,
+ * candidate review, and report rendering to focused helper classes.
  */
 final class CachePreloadAuditCollector {
 
@@ -36,8 +40,11 @@ final class CachePreloadAuditCollector {
         $paths,
         $options['base-url'],
         $candidate_tags
-      );
+    );
     $tag_frequency = $request_sampler->tagFrequency($http_results);
+
+    // First pass: classify high-frequency tags before measurement so we know
+    // which stable candidates deserve one-off checksum probes.
     $candidate_review = $candidate_reviewer->review(
       $tag_frequency,
       $current_preload_tags,
@@ -49,6 +56,9 @@ final class CachePreloadAuditCollector {
       $candidate_review,
       (int) $options['candidate-probe-limit']
     );
+
+    // Cache evidence and reads include the fixed probe list plus any dynamic
+    // candidates selected from the observed response-header frequency table.
     $measured_candidate_tags = array_values(array_unique(array_merge(
       $candidate_tags,
       $candidate_probe_tags
@@ -64,6 +74,9 @@ final class CachePreloadAuditCollector {
       $current_preload_tags,
       $candidate_probe_tags
     );
+
+    // Second pass: attach measurement results to candidate rows so the report
+    // can say whether a frequent tag actually reduced cachetags queries.
     $candidate_review = $candidate_reviewer->review(
       $tag_frequency,
       $current_preload_tags,
