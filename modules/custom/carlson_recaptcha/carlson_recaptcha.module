@@ -15,7 +15,9 @@ use Drupal\Core\Url;
  *
  * CAPTCHA's visible "CAPTCHA" legend comes from captcha.settings via theme
  * preprocess, not #title on the element. A trusted #pre_render callback marks
- * the v3→v2 fallback so hook_preprocess_captcha() can strip that legend.
+ * the v3→v2 fallback so hook_preprocess_captcha() can strip that legend and
+ * so hook_theme_suggestions_captcha_alter() can swap to a Twig layout where the
+ * description sits above the widget (captchas render outside Form API order).
  */
 function carlson_recaptcha_form_alter(
   array &$form,
@@ -49,6 +51,29 @@ function _carlson_recaptcha_attach_captcha_fallback_pre_render(array &$element):
     CaptchaFallbackPreRender::class,
     'markV3V2Fallback',
   ];
+}
+
+/**
+ * Implements hook_theme().
+ */
+function carlson_recaptcha_theme($existing, $type, $theme, $path) {
+  return [
+    'captcha__carlson_recaptcha_fallback' => [
+      'base hook' => 'captcha',
+      'path' => $path . '/templates',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter() for captcha.
+ */
+function carlson_recaptcha_theme_suggestions_captcha_alter(array &$suggestions, array $variables): void {
+  $element = $variables['element'] ?? [];
+  if (!is_array($element) || !_carlson_recaptcha_captcha_is_v3_v2_fallback($element)) {
+    return;
+  }
+  $suggestions[] = 'captcha__carlson_recaptcha_fallback';
 }
 
 /**
@@ -236,18 +261,37 @@ function carlson_recaptcha_captcha_alter(array &$captcha, array $info): void {
 }
 
 /**
+ * TRUE when CAPTCHA markup is showing v3 falling back to the v2 checkbox.
+ *
+ * @param array $element
+ *   The CAPTCHA render array passed into captcha theming.
+ *
+ * @return bool
+ *   TRUE when the fallback legend/description tweaks apply.
+ */
+function _carlson_recaptcha_captcha_is_v3_v2_fallback(array $element): bool {
+  return !empty($element['#carlson_recaptcha_v3_v2_fallback'])
+    || (
+      ($element['#captcha_validate'] ?? '') === 'recaptcha_v3_validate'
+      && ($element['#captcha_type_challenge'] ?? '') === 'reCAPTCHA'
+    );
+}
+
+/**
  * Implements hook_preprocess_captcha().
  *
  * When reCAPTCHA v3 swaps to the v2 checkbox fallback, hide the generic
- * "CAPTCHA" fieldset title and replace the site-wide hint text. The fallback is
- * flagged during form build via CaptchaFallbackPreRender::markV3V2Fallback().
+ * "CAPTCHA" fieldset title and replace the site-wide hint text. Layout order
+ * (description above widget) is handled by captcha--carlson-recaptcha-fallback.
+ * The fallback is flagged during form build via
+ * CaptchaFallbackPreRender::markV3V2Fallback().
  *
  * @param array $variables
  *   Theme variables for captcha.html.twig.
  */
 function carlson_recaptcha_preprocess_captcha(array &$variables): void {
   $element = $variables['element'] ?? NULL;
-  if (!is_array($element) || empty($element['#carlson_recaptcha_v3_v2_fallback'])) {
+  if (!is_array($element) || !_carlson_recaptcha_captcha_is_v3_v2_fallback($element)) {
     return;
   }
 
