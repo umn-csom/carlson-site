@@ -4,9 +4,6 @@ namespace Drupal\carlson_general\CachePreload;
 
 /**
  * Renders CSM-226 cache preload audit evidence as Markdown.
- *
- * The report is the human-readable artifact. The CSV is intentionally narrower
- * and contains only the sortable cache-tag frequency table.
  */
 final class CachePreloadAuditReporter {
 
@@ -27,82 +24,84 @@ final class CachePreloadAuditReporter {
       'Base URL: `' . $report['options']['base-url'] . '`',
       '',
       '## Current Preload Tags',
-      $this->codeList($report['current_preload_tags']),
+      '- Core/default tags: '
+        . $this->codeList($report['core_preload_tags'] ?? []),
+      '- Site settings tags: '
+        . $this->codeList($report['site_preload_tags'] ?? []),
+      '- Effective tags: '
+        . $this->codeList($report['effective_preload_tags'] ?? []),
       '',
-      '## HTTP Header Sample',
+      '## Final Preload Recommendation',
+      '- Decision rule: '
+        . ($report['preload_recommendations']['decision_rule'] ?? ''),
+      '- Tags to add now: '
+        . $this->codeList(
+          $report['preload_recommendations']['add_tags'] ?? []
+        ),
+      '',
     ];
-
-    $with_debug_headers = 0;
-    $with_view_markers = 0;
-    foreach ($report['http_results'] as $row) {
-      $with_debug_headers += !empty($row['tags']) ? 1 : 0;
-      $with_view_markers += !empty($row['view_markers']) ? 1 : 0;
+    if (!empty($report['preload_recommendations']['rows'])) {
+      $lines[] = '| Cache tag | Warm paths | Lookup groups | Measurement | '
+        . 'Decision | Sample paths |';
+      $lines[] = '| --- | ---: | ---: | --- | --- | --- |';
+      foreach ($report['preload_recommendations']['rows'] as $row) {
+        $lines[] = '| `' . $row['tag'] . '` | `'
+          . $row['path_count'] . '` | `'
+          . $row['group_count'] . '` | '
+          . $this->escapeTable($row['measurement']) . ' | '
+          . $this->escapeTable($row['decision']) . ' | '
+          . $this->codeList(array_slice($row['paths'], 0, 8)) . ' |';
+      }
+      $lines[] = '';
     }
-    $lines[] = '- Paths sampled: `' . count($report['paths']) . '`';
-    $lines[] = '- Responses with `x-drupal-cache-tags`: `'
-      . $with_debug_headers
-      . '`';
-    $lines[] = '- Responses with View markers: `' . $with_view_markers . '`';
-    if (!$report['options']['skip-http'] && $with_debug_headers === 0) {
-      $lines[] = '- No cache-tag headers were observed. Enable local '
-        . 'cacheability debug headers before using the HTTP coverage section '
-        . 'for decisions.';
+    else {
+      $lines[] = '- No non-preloaded stable tag repeated across the captured '
+        . 'warm lookup groups.';
+      $lines[] = '';
     }
-    $lines[] = '';
-    $lines[] = '| Path | Status | Source | View markers | '
-      . 'Candidate tags seen |';
-    $lines[] = '| --- | ---: | --- | --- | --- |';
-    foreach ($report['http_results'] as $row) {
-      $seen = array_values(array_intersect(
-        $report['candidate_tags'],
-        $row['tags']
-      ));
-      $lines[] = '| `' . $row['path'] . '` | `' . $row['status'] . '` | ' .
-        $this->escapeTable($row['source']) . ' | ' .
-        $this->codeList($row['view_markers'] ?? []) . ' | ' .
-        $this->codeList($seen) . ' |';
+    if (!empty($report['preload_recommendations']['already_preloaded'])) {
+      $lines[] = '- Repeated tags already covered by the effective preload '
+        . 'list: '
+        . $this->countMapList(
+          $report['preload_recommendations']['already_preloaded']
+        );
+      $lines[] = '';
     }
 
     $lines[] = '';
-    $lines[] = '## Observed Cache Tag Frequency';
-    $lines[] = '- Unique observed tags: `'
-      . ($report['tag_frequency']['unique_tags'] ?? 0)
-      . '`';
-    $lines[] = '- Pages with cache-tag headers: `'
-      . ($report['tag_frequency']['pages_with_headers'] ?? 0)
-      . '`';
-    if (!empty($report['options']['frequency-csv'])) {
-      $lines[] = '- CSV export: `' . $report['options']['frequency-csv'] . '`';
+    $lines[] = '## Warm Request Lookup Groups';
+    $lines[] = 'This is the preload evidence. It warms selected paths, '
+      . 'captures the next anonymous request, and reports whether the same '
+      . 'stable tag appears across multiple `cachetags` lookup groups.';
+    $lines[] = '';
+    if (empty($report['warm_lookup_capture']['enabled'])) {
+      $lines[] = '- ' . (
+        $report['warm_lookup_capture']['unsupported']
+        ?? 'Lookup capture skipped.'
+      );
     }
-    $lines[] = '';
-    $lines[] = '| Cache tag | Pages | Sample paths |';
-    $lines[] = '| --- | ---: | --- |';
-    foreach (($report['tag_frequency']['tags'] ?? []) as $tag => $info) {
-      $lines[] = '| `' . $tag . '` | `' . $info['page_count'] . '` | '
-        . $this->codeList($info['sample_paths'])
-        . ' |';
-    }
-
-    $lines[] = '';
-    $lines[] = '## Automated Candidate Review';
-    $lines[] = '- Coverage threshold: `'
-      . ($report['candidate_review']['coverage_threshold'] ?? 0)
-      . '%`';
-    $lines[] = '- Candidate tags measured individually: '
-      . $this->codeList($report['candidate_probe_tags'] ?? []);
-    $lines[] = '';
-    $lines[] = '| Cache tag | Coverage | Classification | Reason | '
-      . 'Measurement | Recommendation |';
-    $lines[] = '| --- | ---: | --- | --- | --- | --- |';
-    foreach (($report['candidate_review']['rows'] ?? []) as $row) {
-      $coverage = $row['page_count'] . '/'
-        . $row['pages_with_headers'] . ' ('
-        . $row['coverage'] . '%)';
-      $lines[] = '| `' . $row['tag'] . '` | `' . $coverage . '` | `'
-        . $row['classification'] . '` | '
-        . $this->escapeTable($row['reason']) . ' | '
-        . $this->escapeTable($row['measurement']) . ' | '
-        . $this->escapeTable($row['recommendation']) . ' |';
+    else {
+      $lines[] = '- Warmups per path: `'
+        . ($report['options']['lookup-warmups'] ?? 0)
+        . '`';
+      $lines[] = '- Paths captured: `'
+        . count($report['warm_lookup_capture']['paths'] ?? [])
+        . '`';
+      $lines[] = '';
+      $lines[] = '| Path | Status | Drupal cache | Lookup groups | '
+        . 'Largest group | Repeated non-preloaded stable tags | '
+        . 'Repeated preloaded tags | Recommendation |';
+      $lines[] = '| --- | ---: | --- | ---: | ---: | --- | --- | --- |';
+      foreach (($report['warm_lookup_capture']['paths'] ?? []) as $row) {
+        $lines[] = '| `' . $row['path'] . '` | `'
+          . ($row['status'] ?? 0) . '` | `'
+          . (($row['cache'] ?? '') ?: 'n/a') . '` | `'
+          . ($row['lookup_group_count'] ?? 0) . '` | `'
+          . ($row['largest_group_tag_count'] ?? 0) . '` | '
+          . $this->countRowList($row['candidate_tags'] ?? []) . ' | '
+          . $this->countRowList($row['repeated_preloaded_tags'] ?? []) . ' | '
+          . $this->escapeTable($row['recommendation'] ?? '') . ' |';
+      }
     }
 
     $lines[] = '';
@@ -119,7 +118,10 @@ final class CachePreloadAuditReporter {
     }
 
     $lines[] = '';
-    $lines[] = '## Checksum Query Measurement';
+    $lines[] = '## Synthetic Cache-Read Measurement';
+    $lines[] = 'This is supporting evidence only. It reads sampled cache table '
+      . 'entries inside the Drush process; it does not replace warm HTTP '
+      . 'lookup-group capture for page-level decisions.';
     $lines[] = '- Cache entries read: `' . count($report['cache_reads']) . '`';
     if (isset($report['measurements']['unsupported'])) {
       $lines[] = '- ' . $report['measurements']['unsupported'];
@@ -142,41 +144,15 @@ final class CachePreloadAuditReporter {
     $lines[] = '## Recommendation Guardrails';
     $lines[] = '- Keep `views_data` and `config:core.extension` when Views '
       . 'metadata appears in representative runtime/cache evidence.';
-    $lines[] = '- Add a new static preload tag only if it appears across '
-      . 'representative requests and lowers cachetag query count in the local '
-      . 'measurement.';
+    $lines[] = '- Add a new static preload tag only when warm requests show '
+      . 'the same stable tag across multiple lookup groups and a preload '
+      . 'test lowers `cachetags` query count or time.';
     $lines[] = '- Do not add broad tags such as `rendered`, `http_response`, '
       . '`node_view`, or `block_view` solely because they are frequent; they '
       . 'are often grouped with page-specific tags.';
     $lines[] = '';
 
     return implode(PHP_EOL, $lines);
-  }
-
-  /**
-   * Write observed cache-tag frequency data to CSV.
-   *
-   * @param array $report
-   *   Collected audit data.
-   * @param string $path
-   *   Destination CSV path or stream wrapper URI.
-   */
-  public function writeFrequencyCsv(array $report, string $path): void {
-    $handle = fopen($path, 'w');
-    if (!$handle) {
-      throw new \RuntimeException("Unable to write CSV report: {$path}");
-    }
-
-    fputcsv($handle, ['cache_tag', 'page_count', 'sample_paths']);
-    foreach (($report['tag_frequency']['tags'] ?? []) as $tag => $info) {
-      fputcsv($handle, [
-        $tag,
-        $info['page_count'],
-        implode(' ', $info['sample_paths']),
-      ]);
-    }
-
-    fclose($handle);
   }
 
   /**
@@ -222,6 +198,58 @@ final class CachePreloadAuditReporter {
     foreach ($items as $item => $count) {
       $parts[] = '`' . $item . '` (`' . $count . '`)';
     }
+    return implode(', ', $parts);
+  }
+
+  /**
+   * Render lookup-capture tag rows.
+   *
+   * @param array $rows
+   *   Rows with tag and group_count keys.
+   * @param int $limit
+   *   Maximum rows to render.
+   *
+   * @return string
+   *   Markdown inline-code count list.
+   */
+  private function countRowList(array $rows, int $limit = 8): string {
+    if (!$rows) {
+      return '`none`';
+    }
+    $rows = array_slice($rows, 0, $limit);
+
+    $parts = [];
+    foreach ($rows as $row) {
+      $parts[] = '`' . $row['tag'] . '` (`'
+        . $row['group_count'] . ' groups`)';
+    }
+
+    return implode(', ', $parts);
+  }
+
+  /**
+   * Render aggregated recommendation tag rows.
+   *
+   * @param array $items
+   *   Tag info keyed by tag.
+   * @param int $limit
+   *   Maximum rows to render.
+   *
+   * @return string
+   *   Markdown inline-code count list.
+   */
+  private function countMapList(array $items, int $limit = 8): string {
+    if (!$items) {
+      return '`none`';
+    }
+    $items = array_slice($items, 0, $limit, TRUE);
+
+    $parts = [];
+    foreach ($items as $tag => $info) {
+      $parts[] = '`' . $tag . '` (`'
+        . $info['group_count'] . ' groups`)';
+    }
+
     return implode(', ', $parts);
   }
 

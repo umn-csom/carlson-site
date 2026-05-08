@@ -8,8 +8,8 @@ use Drupal\Core\Site\Settings;
  * Collects CSM-226 cache preload audit evidence.
  *
  * This is the orchestration layer for the Drush script. It keeps the audit
- * workflow in one place while delegating page sampling, cache probing,
- * candidate review, and report rendering to focused helper classes.
+ * workflow in one place while delegating page sampling, lookup capture, cache
+ * probing, and report rendering to focused helper classes.
  */
 final class CachePreloadAuditCollector {
 
@@ -25,43 +25,49 @@ final class CachePreloadAuditCollector {
   public function collect(array $argv): array {
     $options = $this->options($argv);
     $cache_probe = new CachePreloadAuditCacheProbe();
+    $lookup_capture = new CachePreloadAuditLookupCapture();
     $request_sampler = new CachePreloadAuditRequestSampler();
-    $candidate_reviewer = new CachePreloadAuditCandidateReviewer();
-    $current_preload_tags = Settings::get('cache_preload_tags', []);
-    $candidate_tags = $this->candidateTags($current_preload_tags);
-    $paths = $request_sampler->samplePaths(
-      (int) $options['samples-per-bundle'],
-      (int) $options['path-limit'],
-      $this->seedMenus($options['seed-menus'])
+    $recommendation_builder = new CachePreloadAuditRecommendationBuilder();
+    $site_preload_tags = $this->normalizedTags(
+      Settings::get('cache_preload_tags', [])
     );
-    $http_results = $options['skip-http']
-      ? []
-      : $request_sampler->httpResults(
-        $paths,
+    $core_preload_tags = $this->corePreloadTags();
+    $effective_preload_tags = $this->normalizedTags(array_merge(
+      $core_preload_tags,
+      $site_preload_tags
+    ));
+    $candidate_tags = $this->candidateTags($effective_preload_tags);
+    $lookup_paths = $this->lookupPaths(
+      $options['lookup-paths'],
+      $request_sampler,
+      $this->seedMenus($options['seed-menus']),
+      (int) $options['lookup-menu-depth'],
+      (int) $options['lookup-content-samples-per-bundle'],
+      (int) $options['lookup-path-limit']
+    );
+    $warm_lookup_capture = $options['skip-lookup-capture']
+      ? [
+        'enabled' => FALSE,
+        'unsupported' => 'Skipped by option.',
+        'paths' => [],
+      ]
+      : $lookup_capture->capture(
+        $lookup_paths,
         $options['base-url'],
-        $candidate_tags
+        (int) $options['lookup-warmups'],
+        $options['lookup-mysql-user'],
+        $options['lookup-mysql-pass'],
+        $effective_preload_tags
     );
-    $tag_frequency = $request_sampler->tagFrequency($http_results);
-
-    // First pass: classify high-frequency tags before measurement so we know
-    // which stable candidates deserve one-off checksum probes.
-    $candidate_review = $candidate_reviewer->review(
-      $tag_frequency,
-      $current_preload_tags,
-      [],
-      (int) $options['candidate-coverage-threshold'],
-      (int) $options['candidate-review-limit']
-    );
-    $candidate_probe_tags = $candidate_reviewer->probeTags(
-      $candidate_review,
-      (int) $options['candidate-probe-limit']
+    $lookup_probe_tags = $recommendation_builder->candidateTags(
+      $warm_lookup_capture
     );
 
     // Cache evidence and reads include the fixed probe list plus any dynamic
-    // candidates selected from the observed response-header frequency table.
+    // candidates selected from warm lookup-group evidence.
     $measured_candidate_tags = array_values(array_unique(array_merge(
       $candidate_tags,
-      $candidate_probe_tags
+      $lookup_probe_tags
     )));
     $cache_evidence = $cache_probe->cacheEvidence($measured_candidate_tags);
     $cache_reads = $cache_probe->cacheReads(
@@ -71,32 +77,28 @@ final class CachePreloadAuditCollector {
     );
     $measurements = $cache_probe->measurements(
       $cache_reads,
-      $current_preload_tags,
-      $candidate_probe_tags
+      $effective_preload_tags,
+      $lookup_probe_tags
     );
-
-    // Second pass: attach measurement results to candidate rows so the report
-    // can say whether a frequent tag actually reduced cachetags queries.
-    $candidate_review = $candidate_reviewer->review(
-      $tag_frequency,
-      $current_preload_tags,
-      $measurements,
-      (int) $options['candidate-coverage-threshold'],
-      (int) $options['candidate-review-limit']
+    $preload_recommendations = $recommendation_builder->build(
+      $warm_lookup_capture,
+      $measurements
     );
 
     return [
       'options' => $options,
-      'current_preload_tags' => $current_preload_tags,
+      'core_preload_tags' => $core_preload_tags,
+      'site_preload_tags' => $site_preload_tags,
+      'effective_preload_tags' => $effective_preload_tags,
+      'current_preload_tags' => $site_preload_tags,
       'candidate_tags' => $measured_candidate_tags,
-      'paths' => $paths,
-      'http_results' => $http_results,
-      'tag_frequency' => $tag_frequency,
-      'candidate_review' => $candidate_review,
-      'candidate_probe_tags' => $candidate_probe_tags,
+      'lookup_paths' => $lookup_paths,
+      'lookup_probe_tags' => $lookup_probe_tags,
       'cache_evidence' => $cache_evidence,
       'cache_reads' => $cache_reads,
       'measurements' => $measurements,
+      'warm_lookup_capture' => $warm_lookup_capture,
+      'preload_recommendations' => $preload_recommendations,
     ];
   }
 
@@ -113,19 +115,20 @@ final class CachePreloadAuditCollector {
     $options = [
       'base-url' => 'https://carlsonschool.ddev.site',
       'seed-menus' => 'auto',
-      'samples-per-bundle' => 10,
-      'path-limit' => 250,
       'cache-read-limit' => 250,
-      'candidate-coverage-threshold' => 50,
-      'candidate-review-limit' => 75,
-      'candidate-probe-limit' => 5,
-      'frequency-csv' => '',
-      'skip-http' => FALSE,
+      'lookup-paths' => 'auto',
+      'lookup-menu-depth' => 2,
+      'lookup-content-samples-per-bundle' => 1,
+      'lookup-path-limit' => 0,
+      'lookup-warmups' => 1,
+      'lookup-mysql-user' => 'root',
+      'lookup-mysql-pass' => 'root',
+      'skip-lookup-capture' => FALSE,
     ];
 
     foreach (array_slice($argv, 1) as $arg) {
-      if ($arg === '--skip-http') {
-        $options['skip-http'] = TRUE;
+      if ($arg === '--skip-lookup-capture') {
+        $options['skip-lookup-capture'] = TRUE;
         continue;
       }
       if (str_starts_with($arg, '--') && str_contains($arg, '=')) {
@@ -137,12 +140,11 @@ final class CachePreloadAuditCollector {
     }
 
     $integer_options = [
-      'samples-per-bundle',
-      'path-limit',
       'cache-read-limit',
-      'candidate-coverage-threshold',
-      'candidate-review-limit',
-      'candidate-probe-limit',
+      'lookup-menu-depth',
+      'lookup-content-samples-per-bundle',
+      'lookup-path-limit',
+      'lookup-warmups',
     ];
     foreach ($integer_options as $name) {
       $options[$name] = max(0, (int) $options[$name]);
@@ -176,6 +178,78 @@ final class CachePreloadAuditCollector {
     ]);
 
     return array_values(array_unique(array_filter($tags)));
+  }
+
+  /**
+   * Return the Drupal core/default preload tags for this codebase.
+   *
+   * @return array
+   *   Core preload tags registered before site settings are merged.
+   */
+  private function corePreloadTags(): array {
+    return [
+      'route_match',
+      'access_policies',
+      'routes',
+      'router',
+      'entity_types',
+      'entity_field_info',
+      'entity_bundles',
+      'local_task',
+      'library_info',
+    ];
+  }
+
+  /**
+   * Parse comma-separated warm lookup paths.
+   *
+   * @param string $lookup_paths
+   *   Comma-separated paths to capture.
+   *
+   * @return array
+   *   Paths keyed by normalized path with source labels as values.
+   */
+  private function lookupPaths(
+    string $lookup_paths,
+    CachePreloadAuditRequestSampler $request_sampler,
+    array $seed_menus,
+    int $menu_depth,
+    int $content_samples_per_bundle,
+    int $path_limit
+  ): array {
+    if (strtolower(trim($lookup_paths)) === 'auto') {
+      return $request_sampler->sampleLookupPaths(
+        $menu_depth,
+        $content_samples_per_bundle,
+        $path_limit,
+        $seed_menus
+      );
+    }
+
+    $paths = [];
+    $requested_paths = array_filter(
+      array_map('trim', explode(',', $lookup_paths))
+    );
+    foreach ($requested_paths as $path) {
+      $path = '/' . ltrim($path, '/');
+      $paths[$path] = 'lookup-path option';
+    }
+
+    return $paths;
+  }
+
+  /**
+   * Normalize preload tag arrays from settings and defaults.
+   *
+   * @param mixed $tags
+   *   Tags to normalize.
+   *
+   * @return array
+   *   Sorted unique non-empty tags.
+   */
+  private function normalizedTags(mixed $tags): array {
+    $tags = array_filter(array_map('strval', (array) $tags));
+    return array_values(array_unique($tags));
   }
 
   /**

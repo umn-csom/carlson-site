@@ -7,9 +7,9 @@ use Drupal\Core\Database\Database;
 /**
  * Probes cache tables and cache-tag checksum query behavior.
  *
- * Frequency says which tags are common. This class checks the other half of
- * the Phase 2 question: whether adding a candidate tag to the preload list
- * actually reduces cachetags database queries during cache reads.
+ * Lookup capture identifies repeated stable tags. This class checks whether
+ * adding a candidate tag to the preload list actually reduces cachetags
+ * database queries during sampled cache reads.
  */
 final class CachePreloadAuditCacheProbe {
 
@@ -123,8 +123,8 @@ final class CachePreloadAuditCacheProbe {
    *
    * @param array $cache_reads
    *   Cache reads to perform for each scenario.
-   * @param array $current_preload_tags
-   *   Cache preload tags currently configured for the site.
+   * @param array $effective_preload_tags
+   *   Cache preload tags from core defaults plus site settings.
    * @param array $candidate_probe_tags
    *   Candidate tags to measure individually.
    *
@@ -133,7 +133,7 @@ final class CachePreloadAuditCacheProbe {
    */
   public function measurements(
     array $cache_reads,
-    array $current_preload_tags,
+    array $effective_preload_tags,
     array $candidate_probe_tags = []
   ): array {
     $checksum = \Drupal::service('cache_tags.invalidator.checksum');
@@ -142,16 +142,16 @@ final class CachePreloadAuditCacheProbe {
     }
 
     // Fixed scenarios preserve the original Phase 2 comparison while dynamic
-    // scenarios let the report test top frequency-derived candidates.
+    // scenarios let the report test lookup-derived candidates.
     $scenarios = [
-      'baseline_no_extra_preload' => [],
-      'current_views_preload' => $current_preload_tags,
-      'current_plus_menu_probe' => array_values(array_unique(array_merge(
-        $current_preload_tags,
+      'baseline_no_preload' => [],
+      'effective_current_preload' => $effective_preload_tags,
+      'effective_plus_menu_probe' => array_values(array_unique(array_merge(
+        $effective_preload_tags,
         ['config:system.menu.main']
       ))),
-      'current_plus_block_probe' => array_values(array_unique(array_merge(
-        $current_preload_tags,
+      'effective_plus_block_probe' => array_values(array_unique(array_merge(
+        $effective_preload_tags,
         ['config:block_list', 'block_view']
       ))),
     ];
@@ -161,11 +161,11 @@ final class CachePreloadAuditCacheProbe {
       $results[$label] = $this->measure($label, $preload_tags, $cache_reads);
     }
     foreach ($candidate_probe_tags as $tag) {
-      $label = 'current_plus_candidate_' . $this->scenarioSlug($tag);
+      $label = 'effective_plus_candidate_' . $this->scenarioSlug($tag);
       $results[$label] = $this->measure(
         $label,
         array_values(array_unique(array_merge(
-          $current_preload_tags,
+          $effective_preload_tags,
           [$tag]
         ))),
         $cache_reads
