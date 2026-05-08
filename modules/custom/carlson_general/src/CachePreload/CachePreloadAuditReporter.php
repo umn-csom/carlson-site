@@ -55,8 +55,8 @@ final class CachePreloadAuditReporter {
       $lines[] = '';
     }
     else {
-      $lines[] = '- No non-preloaded stable tag repeated across the captured '
-        . 'warm lookup groups.';
+      $lines[] = '- No non-preloaded stable tag appeared in an avoidable warm '
+        . 'lookup group.';
       $lines[] = '';
     }
     if (!empty($report['preload_recommendations']['already_preloaded'])) {
@@ -69,10 +69,38 @@ final class CachePreloadAuditReporter {
     }
 
     $lines[] = '';
+    $lines[] = '## Preload Comparison';
+    if (empty($report['preload_comparison']['enabled'])) {
+      $lines[] = '- ' . (
+        $report['preload_comparison']['unsupported']
+        ?? 'Comparison skipped.'
+      );
+    }
+    else {
+      $lines[] = 'This reruns only the pages where each candidate appeared, '
+        . 'then sends a private audit header to preload one candidate tag for '
+        . 'that request.';
+      $lines[] = '';
+      $lines[] = '| Cache tag | Paths | Baseline lookups | With preload | '
+        . 'Single-tag lookups before/after | Delta | Decision |';
+      $lines[] = '| --- | ---: | ---: | ---: | --- | ---: | --- |';
+      foreach (($report['preload_comparison']['tags'] ?? []) as $row) {
+        $lines[] = '| `' . $row['tag'] . '` | `'
+          . $row['path_count'] . '` | `'
+          . $row['baseline_lookup_groups'] . '` | `'
+          . $row['candidate_lookup_groups'] . '` | `'
+          . $row['baseline_single_tag_groups'] . ' / '
+          . $row['candidate_single_tag_groups'] . '` | `'
+          . $row['query_delta'] . '` | '
+          . $this->escapeTable($row['decision']) . ' |';
+      }
+    }
+
+    $lines[] = '';
     $lines[] = '## Warm Request Lookup Groups';
     $lines[] = 'This is the preload evidence. It warms selected paths, '
-      . 'captures the next anonymous request, and reports whether the same '
-      . 'stable tag appears across multiple `cachetags` lookup groups.';
+      . 'captures the next anonymous request, and reports whether stable tags '
+      . 'appear in lookup groups that request-start preload could avoid.';
     $lines[] = '';
     if (empty($report['warm_lookup_capture']['enabled'])) {
       $lines[] = '- ' . (
@@ -89,7 +117,7 @@ final class CachePreloadAuditReporter {
         . '`';
       $lines[] = '';
       $lines[] = '| Path | Status | Drupal cache | Lookup groups | '
-        . 'Largest group | Repeated non-preloaded stable tags | '
+        . 'Largest group | Candidate stable tags | '
         . 'Repeated preloaded tags | Recommendation |';
       $lines[] = '| --- | ---: | --- | ---: | ---: | --- | --- | --- |';
       foreach (($report['warm_lookup_capture']['paths'] ?? []) as $row) {
@@ -143,11 +171,11 @@ final class CachePreloadAuditReporter {
     $lines[] = '';
     $lines[] = '## Recommendation Guardrails';
     $lines[] = '- Treat `views_data` and `config:core.extension` as disabled '
-      . 'Phase 1 candidates unless they repeat across warm lookup groups or '
-      . 'reduce measured cachetags queries in an isolated test.';
-    $lines[] = '- Add a new static preload tag only when warm requests show '
-      . 'the same stable tag across multiple lookup groups and a preload '
-      . 'test lowers `cachetags` query count or time.';
+      . 'Phase 1 candidates unless warm lookup groups show an avoidable query '
+      . 'or an isolated preload test lowers cachetags queries.';
+    $lines[] = '- Add a new static preload tag only when representative warm '
+      . 'requests show that preloading it can remove later `cachetags` lookup '
+      . 'queries or lower lookup time.';
     $lines[] = '- Do not add broad tags such as `rendered`, `http_response`, '
       . '`node_view`, or `block_view` solely because they are frequent; they '
       . 'are often grouped with page-specific tags.';
@@ -221,6 +249,11 @@ final class CachePreloadAuditReporter {
 
     $parts = [];
     foreach ($rows as $row) {
+      if (!empty($row['avoidable_group_count'])) {
+        $parts[] = '`' . $row['tag'] . '` (`'
+          . $row['avoidable_group_count'] . ' avoidable groups`)';
+        continue;
+      }
       $parts[] = '`' . $row['tag'] . '` (`'
         . $row['group_count'] . ' groups`)';
     }

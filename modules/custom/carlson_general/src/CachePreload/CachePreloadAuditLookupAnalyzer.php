@@ -33,6 +33,8 @@ final class CachePreloadAuditLookupAnalyzer {
         fn(string $tag): bool => $this->isStableReusableTag($tag)
       ));
       $groups[] = [
+        'index' => count($groups) + 1,
+        'tags' => $tags,
         'tag_count' => count($tags),
         'stable_tags' => $stable_tags,
         'preloaded_tags' => array_values(array_intersect(
@@ -76,16 +78,17 @@ final class CachePreloadAuditLookupAnalyzer {
       $repeated,
       array_flip($effective_preload_tags)
     );
-    $candidates = array_diff_key(
+    $candidates = $this->candidateRows(
+      $groups,
       $repeated,
-      array_flip($effective_preload_tags)
+      $effective_preload_tags
     );
 
     return [
       'query_count' => count($groups),
       'lookup_group_count' => count($groups),
       'largest_group_tag_count' => $this->largestGroupTagCount($groups),
-      'candidate_tags' => $this->countRows($candidates),
+      'candidate_tags' => $candidates,
       'repeated_preloaded_tags' => $this->countRows($preloaded),
       'repeated_stable_tags' => $this->countRows($repeated),
       'groups' => $groups,
@@ -158,6 +161,70 @@ final class CachePreloadAuditLookupAnalyzer {
   }
 
   /**
+   * Return candidate rows from avoidable lookup groups and repeated tags.
+   *
+   * A request-start preload cannot remove the first checksum query; it can only
+   * add preload tags to that first query. The clearest candidate is therefore a
+   * stable, non-preloaded tag that appears by itself in a later lookup group.
+   *
+   * @param array $groups
+   *   Lookup groups.
+   * @param array $repeated
+   *   Repeated stable tags keyed by tag.
+   * @param array $effective_preload_tags
+   *   Tags already preloaded.
+   *
+   * @return array
+   *   Rows with tag and evidence counts.
+   */
+  private function candidateRows(
+    array $groups,
+    array $repeated,
+    array $effective_preload_tags
+  ): array {
+    $effective = array_flip($effective_preload_tags);
+    $rows = [];
+
+    foreach ($groups as $group) {
+      $tags = $group['tags'];
+      if (($group['index'] ?? 1) === 1 || count($tags) !== 1) {
+        continue;
+      }
+
+      $tag = reset($tags);
+      if (!$this->isStableReusableTag($tag) || isset($effective[$tag])) {
+        continue;
+      }
+
+      $rows[$tag]['tag'] = $tag;
+      $rows[$tag]['group_count'] = ($rows[$tag]['group_count'] ?? 0) + 1;
+      $rows[$tag]['avoidable_group_count'] =
+        ($rows[$tag]['avoidable_group_count'] ?? 0) + 1;
+      $rows[$tag]['repeated_group_count'] =
+        $rows[$tag]['repeated_group_count'] ?? 0;
+    }
+
+    foreach (array_diff_key($repeated, $effective) as $tag => $count) {
+      $rows[$tag]['tag'] = $tag;
+      $rows[$tag]['group_count'] = max(
+        $rows[$tag]['group_count'] ?? 0,
+        $count
+      );
+      $rows[$tag]['avoidable_group_count'] =
+        $rows[$tag]['avoidable_group_count'] ?? 0;
+      $rows[$tag]['repeated_group_count'] = $count;
+    }
+
+    uasort($rows, static function (array $left, array $right): int {
+      return $right['avoidable_group_count'] <=> $left['avoidable_group_count']
+        ?: $right['repeated_group_count'] <=> $left['repeated_group_count']
+        ?: $right['group_count'] <=> $left['group_count'];
+    });
+
+    return array_values($rows);
+  }
+
+  /**
    * Return group-count rows for a table cell.
    *
    * @param array $counts
@@ -195,7 +262,7 @@ final class CachePreloadAuditLookupAnalyzer {
    * @param array $groups
    *   Lookup groups.
    * @param array $candidates
-   *   Repeated non-preloaded stable tags.
+   *   Non-preloaded candidate tags.
    * @param array $preloaded
    *   Repeated already-preloaded stable tags.
    *
@@ -210,17 +277,17 @@ final class CachePreloadAuditLookupAnalyzer {
     if (!$groups) {
       return 'No cachetags lookup captured for this warm request.';
     }
+    if ($candidates) {
+      return 'Review candidate tags from avoidable warm lookup groups.';
+    }
     if (count($groups) === 1) {
       return 'No new tag from this page; only one lookup group was captured.';
-    }
-    if ($candidates) {
-      return 'Test repeated stable tags from this request before adding them.';
     }
     if ($preloaded) {
       return 'Repeated stable tags are already in the effective preload list.';
     }
 
-    return 'No stable tag repeated across lookup groups.';
+    return 'No stable tag appeared in an avoidable lookup group.';
   }
 
 }

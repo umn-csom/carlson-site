@@ -2,6 +2,8 @@
 
 namespace Drupal\carlson_general\CachePreload;
 
+use Drupal\carlson_general\EventSubscriber\CachePreloadAuditRequestSubscriber;
+
 /**
  * Captures cachetags lookup groups from warmed anonymous HTTP requests.
  *
@@ -40,6 +42,8 @@ final class CachePreloadAuditLookupCapture {
    *   MySQL password.
    * @param array $effective_preload_tags
    *   Tags already preloaded by core defaults plus site settings.
+   * @param array $request_preload_tags
+   *   Extra tags to preload only for this audit request.
    *
    * @return array
    *   Lookup capture summary.
@@ -50,13 +54,29 @@ final class CachePreloadAuditLookupCapture {
     int $warmups,
     string $mysql_user,
     string $mysql_pass,
-    array $effective_preload_tags
+    array $effective_preload_tags,
+    array $request_preload_tags = []
   ): array {
     $report = [
       'enabled' => TRUE,
       'paths' => [],
       'unsupported' => '',
+      'request_preload_tags' => $request_preload_tags,
     ];
+
+    $request_headers = [];
+    if ($request_preload_tags) {
+      $token = bin2hex(random_bytes(16));
+      \Drupal::state()->set(
+        CachePreloadAuditRequestSubscriber::TOKEN_STATE_KEY,
+        $token
+      );
+      $request_headers = [
+        CachePreloadAuditRequestSubscriber::TOKEN_HEADER => $token,
+        CachePreloadAuditRequestSubscriber::TAGS_HEADER =>
+          implode(',', $request_preload_tags),
+      ];
+    }
 
     try {
       $pdo = $this->rootConnection($mysql_user, $mysql_pass);
@@ -67,6 +87,11 @@ final class CachePreloadAuditLookupCapture {
       $report['enabled'] = FALSE;
       $report['unsupported'] = 'Warm lookup capture unavailable: '
         . $exception->getMessage();
+      if ($request_preload_tags) {
+        \Drupal::state()->delete(
+          CachePreloadAuditRequestSubscriber::TOKEN_STATE_KEY
+        );
+      }
       return $report;
     }
 
@@ -78,7 +103,8 @@ final class CachePreloadAuditLookupCapture {
           $source,
           $base_url,
           $warmups,
-          $effective_preload_tags
+          $effective_preload_tags,
+          $request_headers
         );
       }
     }
@@ -88,6 +114,11 @@ final class CachePreloadAuditLookupCapture {
       }
       catch (\Throwable $exception) {
         // Keep reporting the captured data; this cleanup failure is local-only.
+      }
+      if ($request_preload_tags) {
+        \Drupal::state()->delete(
+          CachePreloadAuditRequestSubscriber::TOKEN_STATE_KEY
+        );
       }
     }
 
@@ -109,6 +140,8 @@ final class CachePreloadAuditLookupCapture {
    *   Number of warmup requests.
    * @param array $effective_preload_tags
    *   Tags already preloaded.
+   * @param array $request_headers
+   *   Extra headers to send with the audit request.
    *
    * @return array
    *   Captured path row.
@@ -119,7 +152,8 @@ final class CachePreloadAuditLookupCapture {
     string $source,
     string $base_url,
     int $warmups,
-    array $effective_preload_tags
+    array $effective_preload_tags,
+    array $request_headers
   ): array {
     $row = [
       'path' => $path,
@@ -135,18 +169,19 @@ final class CachePreloadAuditLookupCapture {
       'repeated_stable_tags' => [],
       'groups' => [],
       'recommendation' => '',
+      'request_preload_tags' => [],
     ];
 
     try {
       for ($i = 0; $i < max(0, $warmups); $i++) {
-        $this->request($base_url, $path);
+        $this->request($base_url, $path, $request_headers);
       }
 
       $pdo->exec('SET GLOBAL general_log = OFF');
       $pdo->exec('TRUNCATE TABLE mysql.general_log');
       $pdo->exec('SET GLOBAL general_log = ON');
       try {
-        $response = $this->request($base_url, $path);
+        $response = $this->request($base_url, $path, $request_headers);
       }
       finally {
         $pdo->exec('SET GLOBAL general_log = OFF');
@@ -155,6 +190,7 @@ final class CachePreloadAuditLookupCapture {
       $row['status'] = $response['status'];
       $row['cache'] = $response['cache'];
       $row['dynamic_cache'] = $response['dynamic_cache'];
+      $row['request_preload_tags'] = $response['request_preload_tags'];
 
       $queries = $this->cachetagsQueries($pdo);
       $groups = $this->analyzer->lookupGroups(
@@ -185,11 +221,19 @@ final class CachePreloadAuditLookupCapture {
    *   Base URL.
    * @param string $path
    *   Local path.
+   * @param array $request_headers
+   *   Extra request headers.
    *
    * @return array
    *   Response summary.
    */
-  private function request(string $base_url, string $path): array {
+  private function request(
+    string $base_url,
+    string $path,
+    array $request_headers = []
+  ): array {
+    $headers = ['User-Agent' => 'CSM-226 cache lookup capture'];
+    $headers += $request_headers;
     $response = \Drupal::httpClient()->request('GET', $base_url . $path, [
       // Keep lookup evidence scoped to this URL. Following redirects can mix
       // the redirect response and final page into one capture window.
@@ -197,13 +241,16 @@ final class CachePreloadAuditLookupCapture {
       'http_errors' => FALSE,
       'timeout' => 30,
       'verify' => FALSE,
-      'headers' => ['User-Agent' => 'CSM-226 cache lookup capture'],
+      'headers' => $headers,
     ]);
 
     return [
       'status' => $response->getStatusCode(),
       'cache' => $response->getHeaderLine('x-drupal-cache'),
       'dynamic_cache' => $response->getHeaderLine('x-drupal-dynamic-cache'),
+      'request_preload_tags' => $request_headers[
+        CachePreloadAuditRequestSubscriber::TAGS_HEADER
+      ] ?? '',
     ];
   }
 
@@ -221,7 +268,7 @@ final class CachePreloadAuditLookupCapture {
       "SELECT argument
        FROM mysql.general_log
        WHERE command_type = 'Query'
-         AND argument LIKE '%cachetags%'
+         AND argument LIKE 'SELECT%cachetags%WHERE%tag%IN%'
        ORDER BY event_time, thread_id"
     );
 

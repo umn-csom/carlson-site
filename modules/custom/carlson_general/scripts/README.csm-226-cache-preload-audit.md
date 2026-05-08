@@ -33,25 +33,26 @@ headers are not enough by themselves.
    checksum/invalidation values for their cache tags.
 4. One `cachetags` SQL query validates one lookup group: the tag set needed by
    one cache validation operation.
-5. A useful preload tag is stable and appears across multiple lookup groups in
-   the same warm request.
-6. Preloading registers that tag so Drupal can load its checksum value into
-   request-local memory during checksum validation. Later validation operations
-   in the same request can then reuse that value without another lookup for
-   that tag.
+5. Drupal stores loaded checksum values in request-local memory, so the same
+   tag usually will not appear in multiple SQL lookup groups during one request.
+6. A useful preload candidate is stable and appears in a later lookup group that
+   request-start preload could avoid. The clearest single-tag case is a later
+   lookup group containing only that candidate tag.
+7. Preloading registers that tag so Drupal can load its checksum value during
+   the first checksum validation. Later validation operations in the same
+   request can then reuse that value without another lookup for that tag.
 
 The decision rule is:
 
 ```text
-warm lookup groups showing repeated stable tags
-+ measured cachetags query reduction
-= candidate worth adding to cache_preload_tags
+warm lookup groups showing avoidable stable tags
++ representative-page verification
+= candidate worth testing in cache_preload_tags
 ```
 
 The script no longer uses `x-drupal-cache-tags` response headers for candidate
 selection. Headers show final page-level cacheability metadata, but they do not
-prove that a tag was reused across multiple cache validation groups during one
-request.
+prove that a tag can remove a later checksum lookup during one request.
 
 ## Page Sample Sources
 
@@ -104,6 +105,7 @@ Default options:
 - `--lookup-warmups=1`
 - `--lookup-mysql-user=root`
 - `--lookup-mysql-pass=root`
+- `--compare-tags=` (empty means skip comparison)
 
 Useful adjustments:
 
@@ -112,6 +114,9 @@ Useful adjustments:
 - Use `--lookup-content-samples-per-bundle=0` to skip content-type examples.
 - Use `--lookup-path-limit=60` to cap auto-discovered lookup pages.
 - Use `--cache-read-limit=50` for a faster supporting cache-read measurement.
+- Use `--compare-tags=auto` to rerun pages where candidates were found and
+  compare baseline requests with requests that preload each candidate.
+- Use `--compare-tags=config:user.role.anonymous` to verify one specific tag.
 - Use `--skip-lookup-capture` only when you want cache-table evidence without
   the MariaDB general-log query capture.
 
@@ -132,6 +137,7 @@ ddev drush @carlsonschool.ddev scr "$SCRIPT" -- \
   --lookup-menu-depth=2 \
   --lookup-content-samples-per-bundle=1 \
   --lookup-warmups=1 \
+  --compare-tags=auto \
   > "$OUT"
 ```
 
@@ -140,9 +146,16 @@ sample after local config or code changes.
 
 The warm lookup capture uses the local MariaDB general log through DDEV's
 default root database account. It temporarily enables `general_log`, requests
-the selected page anonymously, reads only queries against `cachetags`, and
-turns `general_log` off again. If the local database user cannot toggle the
-general log, the report marks lookup capture as unavailable.
+the selected page anonymously, reads only `SELECT ... FROM cachetags ... WHERE
+tag IN (...)` lookup queries, and turns `general_log` off again. If the local
+database user cannot toggle the general log, the report marks lookup capture as
+unavailable.
+
+When `--compare-tags` is used, the script stores a short-lived audit token in
+Drupal state and sends that token in private request headers. The
+`carlson_general.cache_preload_audit_subscriber` service uses the token to
+register one extra preload tag only for that audit request, then the script
+cleans the token up.
 
 Lookup capture does not follow redirects. A redirect and its destination are
 separate HTTP requests, and combining both would make one URL look like it has
@@ -191,35 +204,49 @@ To check whether disabled Phase 1 candidates such as `views_data` or
    ```
 
 5. Restore the original commented-out state if you changed it during testing.
-6. Read `Repeated non-preloaded stable tags` in the report.
+6. Read `Candidate stable tags` and `Preload Comparison` in the report.
 
-If `views_data` or `config:core.extension` appear there, they are candidates
-for measurement. If they do not appear, the script did not prove they are
-useful for the tested pages.
+If `views_data` or `config:core.extension` appear there, rerun with
+`--compare-tags=auto` or `--compare-tags=views_data`. If comparison lowers the
+warm `cachetags` lookup count, the report promotes the tag to `Tags to add now`.
+If it does not appear or comparison does not reduce lookups, the script did not
+prove the tag is useful for the tested pages.
 
 ## Reading Findings
 
-The `Final Preload Recommendation` section is the report's decision summary.
-It lists tags to add only when both conditions are true:
+The `Final Preload Recommendation` section is the report's decision summary. It
+lists tags to add only when request-level comparison lowered the warm
+`cachetags` lookup count. Without `--compare-tags`, discovered tags remain
+candidates only.
 
-- The tag repeats across warm lookup groups.
-- Adding the tag lowers the measured `cachetags` query count.
+- The tag is stable and reusable.
+- The tag appears as the only tag in a later warm lookup group, or otherwise has
+  direct lookup evidence worth testing.
 
 If the list is `none`, the audit did not produce enough evidence to change
 `settings.site.php`.
+
+The `Preload Comparison` section is the A/B verification:
+
+- `Baseline lookups`: lookup count with current effective preload tags.
+- `With preload`: lookup count when one candidate tag is preloaded for the
+  request through the audit header.
+- `Single-tag lookups before/after`: whether the avoidable single-tag lookup
+  disappeared.
+- `Delta`: lookup reduction. Positive values support adding the tag.
 
 The `Warm Request Lookup Groups` section is the main preload evidence:
 
 - `Lookup groups`: number of `cachetags` validation queries captured.
 - `Largest group`: number of tags in the largest validation query.
-- `Repeated non-preloaded stable tags`: tags that appeared in more than one
-  lookup group and are not already in the effective preload list.
+- `Candidate stable tags`: non-preloaded tags found in lookup groups that
+  request-start preload could avoid.
 - `Repeated preloaded tags`: tags that repeated but are already covered by
   core defaults or site settings.
 
 If a page has only one lookup group, there is usually no new single tag to
-preload for that page. Adding one tag would not remove the lookup because the
-same query still has to validate the other tags in that group.
+preload for that page. Request-start preload can add tags to that first query,
+but it cannot remove the first query itself.
 
 The `Cache Table Evidence` and `Synthetic Cache-Read Measurement` sections are
 supporting evidence. They inspect sampled cache entries and compare query

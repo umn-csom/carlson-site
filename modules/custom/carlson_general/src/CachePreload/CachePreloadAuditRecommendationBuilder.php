@@ -8,7 +8,7 @@ namespace Drupal\carlson_general\CachePreload;
 final class CachePreloadAuditRecommendationBuilder {
 
   /**
-   * Return repeated non-preloaded tags that should be measured.
+   * Return non-preloaded tags that should be measured.
    *
    * @param array $warm_lookup_capture
    *   Warm lookup capture report.
@@ -51,7 +51,7 @@ final class CachePreloadAuditRecommendationBuilder {
     $add_tags = [];
     foreach ($candidates as $tag => $info) {
       $measurement = $this->measurementForTag($tag, $measurements);
-      $decision = $this->decision($measurement, $measurements);
+      $decision = $this->decision($measurement, $measurements, $info);
       if ($decision['status'] === 'add') {
         $add_tags[] = $tag;
       }
@@ -61,6 +61,8 @@ final class CachePreloadAuditRecommendationBuilder {
         'paths' => $info['paths'],
         'path_count' => count($info['paths']),
         'group_count' => $info['group_count'],
+        'avoidable_group_count' => $info['avoidable_group_count'] ?? 0,
+        'repeated_group_count' => $info['repeated_group_count'] ?? 0,
         'measurement' => $this->measurementText($measurement, $measurements),
         'decision' => $decision['label'],
       ];
@@ -70,8 +72,9 @@ final class CachePreloadAuditRecommendationBuilder {
       'add_tags' => $add_tags,
       'rows' => $rows,
       'already_preloaded' => $already_preloaded,
-      'decision_rule' => 'Add only when a stable tag repeats across warm '
-        . 'lookup groups and a measurement shows fewer cachetags queries.',
+      'decision_rule' => 'Review stable tags that appear in later single-tag '
+        . 'warm lookup groups; add globally only after representative-page '
+        . 'verification.',
     ];
   }
 
@@ -96,6 +99,12 @@ final class CachePreloadAuditRecommendationBuilder {
         $tag = $tag_row['tag'];
         $tags[$tag]['group_count'] = ($tags[$tag]['group_count'] ?? 0)
           + (int) $tag_row['group_count'];
+        $tags[$tag]['avoidable_group_count'] =
+          ($tags[$tag]['avoidable_group_count'] ?? 0)
+          + (int) ($tag_row['avoidable_group_count'] ?? 0);
+        $tags[$tag]['repeated_group_count'] =
+          ($tags[$tag]['repeated_group_count'] ?? 0)
+          + (int) ($tag_row['repeated_group_count'] ?? 0);
         $tags[$tag]['paths'][$path_row['path']] = $path_row['path'];
       }
     }
@@ -140,11 +149,23 @@ final class CachePreloadAuditRecommendationBuilder {
    *   Measurement row.
    * @param array $measurements
    *   Measurements keyed by scenario.
+   * @param array $candidate_info
+   *   Aggregated candidate evidence.
    *
    * @return array
    *   Decision status and label.
    */
-  private function decision(?array $measurement, array $measurements): array {
+  private function decision(
+    ?array $measurement,
+    array $measurements,
+    array $candidate_info
+  ): array {
+    if (!empty($candidate_info['avoidable_group_count'])) {
+      return [
+        'status' => 'test',
+        'label' => 'Candidate; warm request has a later single-tag lookup.',
+      ];
+    }
     if (isset($measurements['unsupported'])) {
       return [
         'status' => 'test',
@@ -162,7 +183,7 @@ final class CachePreloadAuditRecommendationBuilder {
     if ($measurement['cachetag_queries'] < $current_queries) {
       return [
         'status' => 'add',
-        'label' => 'Add; repeated in warm lookups and query count decreased.',
+        'label' => 'Add; warm lookup candidate and query count decreased.',
       ];
     }
 

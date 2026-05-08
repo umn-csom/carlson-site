@@ -25,6 +25,7 @@ final class CachePreloadAuditCollector {
   public function collect(array $argv): array {
     $options = $this->options($argv);
     $cache_probe = new CachePreloadAuditCacheProbe();
+    $comparison_builder = new CachePreloadAuditComparisonBuilder();
     $lookup_capture = new CachePreloadAuditLookupCapture();
     $request_sampler = new CachePreloadAuditRequestSampler();
     $recommendation_builder = new CachePreloadAuditRecommendationBuilder();
@@ -84,6 +85,25 @@ final class CachePreloadAuditCollector {
       $warm_lookup_capture,
       $measurements
     );
+    $compare_tags = $comparison_builder->compareTagsOption(
+      $options['compare-tags'],
+      $lookup_probe_tags
+    );
+    $preload_comparison = $comparison_builder->build(
+      $compare_tags,
+      $warm_lookup_capture,
+      $lookup_capture,
+      $options,
+      $effective_preload_tags
+    );
+    $comparison_add_tags = $comparison_builder->addTags($preload_comparison);
+    if ($comparison_add_tags) {
+      $preload_recommendations['add_tags'] = array_values(array_unique(
+        array_merge($preload_recommendations['add_tags'], $comparison_add_tags)
+      ));
+      $preload_recommendations['decision_rule'] = 'Add tags only when '
+        . 'request-level comparison shows fewer warm cachetags lookups.';
+    }
 
     return [
       'options' => $options,
@@ -99,6 +119,7 @@ final class CachePreloadAuditCollector {
       'measurements' => $measurements,
       'warm_lookup_capture' => $warm_lookup_capture,
       'preload_recommendations' => $preload_recommendations,
+      'preload_comparison' => $preload_comparison,
     ];
   }
 
@@ -123,6 +144,7 @@ final class CachePreloadAuditCollector {
       'lookup-warmups' => 1,
       'lookup-mysql-user' => 'root',
       'lookup-mysql-pass' => 'root',
+      'compare-tags' => '',
       'skip-lookup-capture' => FALSE,
     ];
 

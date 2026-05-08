@@ -11,6 +11,14 @@ services:
     tags:
       - {name: event_subscriber}
 
+  carlson_general.cache_preload_audit_subscriber:
+    class: Drupal\carlson_general\EventSubscriber\CachePreloadAuditRequestSubscriber
+    arguments:
+      - '@cache_tags.invalidator.checksum'
+      - '@state'
+    tags:
+      - { name: event_subscriber }
+
   my_import.commands:
     class: Drupal\carlson_general\Commands\MyImportsCommands
     arguments:

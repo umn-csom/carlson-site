@@ -6,7 +6,7 @@
  *
  * The script warms representative local pages, captures warm-request
  * cachetags lookup groups for selected paths, and reports whether a stable tag
- * is reused across cached items in one request.
+ * appears in a later lookup group that preload could avoid.
  *
  * Usage:
  * - ddev drush @carlsonschool.ddev scr

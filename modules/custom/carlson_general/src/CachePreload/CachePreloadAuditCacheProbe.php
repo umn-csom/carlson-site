@@ -7,9 +7,9 @@ use Drupal\Core\Database\Database;
 /**
  * Probes cache tables and cache-tag checksum query behavior.
  *
- * Lookup capture identifies repeated stable tags. This class checks whether
- * adding a candidate tag to the preload list actually reduces cachetags
- * database queries during sampled cache reads.
+ * Lookup capture identifies stable tags in avoidable groups. This class checks
+ * whether adding a candidate tag to the preload list actually reduces
+ * cachetags database queries during sampled cache reads.
  */
 final class CachePreloadAuditCacheProbe {
 
