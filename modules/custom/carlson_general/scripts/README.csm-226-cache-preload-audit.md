@@ -11,8 +11,7 @@ evidence for that decision.
 
 ## Current Context
 
-Phase 1 is already merged to `dev` and `master`. The current site preload list
-is:
+The current site setting includes two Phase 1 preload tags:
 
 ```php
 $settings['cache_preload_tags'] = [
@@ -21,8 +20,9 @@ $settings['cache_preload_tags'] = [
 ];
 ```
 
-Phase 2 checks whether runtime lookup evidence supports adding another tag to
-`settings.site.php`.
+Phase 2 checks whether warm-request lookup evidence supports the current
+site-added tags or any new tags. Cache-table presence and page-level cache-tag
+headers are not enough by themselves.
 
 ## Mental Model
 
@@ -34,8 +34,10 @@ Phase 2 checks whether runtime lookup evidence supports adding another tag to
    one cache validation operation.
 5. A useful preload tag is stable and appears across multiple lookup groups in
    the same warm request.
-6. Preloading that tag loads its checksum value once early in the request so
-   later validation operations can reuse it from memory.
+6. Preloading registers that tag so Drupal can load its checksum value into
+   request-local memory during checksum validation. Later validation operations
+   in the same request can then reuse that value without another lookup for
+   that tag.
 
 The decision rule is:
 
@@ -79,7 +81,9 @@ navigation when `--lookup-path-limit` is set. External URLs, `<nolink>` /
 button-style menu items, admin paths, and dynamic paths are skipped.
 
 You can pass an explicit comma-separated page set when analytics, access logs,
-or manual investigation identify better representative pages:
+or manual investigation identify better representative pages. This is the
+recommended mode when checking whether specific existing preload tags are
+actually useful.
 
 ```bash
 --lookup-paths=/,/graduate/resources/find-degree,/graduate/mba/full-time
@@ -107,6 +111,8 @@ Useful adjustments:
 - Use `--lookup-content-samples-per-bundle=0` to skip content-type examples.
 - Use `--lookup-path-limit=60` to cap auto-discovered lookup pages.
 - Use `--cache-read-limit=50` for a faster supporting cache-read measurement.
+- Use `--skip-lookup-capture` only when you want cache-table evidence without
+  the MariaDB general-log query capture.
 
 ## Run Locally
 
@@ -142,6 +148,51 @@ separate HTTP requests, and combining both would make one URL look like it has
 more lookup groups than it really does. The auto content-type sample also skips
 the configured front page node because `/` is already sampled directly.
 
+## Test Existing Preload Tags
+
+To check whether existing site-added tags such as `views_data` or
+`config:core.extension` are useful, run a focused local comparison:
+
+1. Choose representative pages that are likely to exercise the tag. For Views
+   tags, use Views-heavy pages, high-traffic landing pages, or pages that embed
+   several Views blocks.
+2. Temporarily set the local site preload list to empty:
+
+   ```php
+   $settings['cache_preload_tags'] = [];
+   ```
+
+3. Rebuild cache:
+
+   ```bash
+   ddev drush @carlsonschool.ddev cr
+   ```
+
+4. Run the script with explicit paths:
+
+   ```bash
+   SITE_ROOT="/Users/marthinal/projects/umn-d9"
+   HOST_SITE="$SITE_ROOT/docroot/sites/carlsonschool.umn.edu"
+   SCRIPT_DIR="docroot/sites/carlsonschool.umn.edu/modules/custom"
+   SCRIPT="$SCRIPT_DIR/carlson_general/scripts"
+   SCRIPT="$SCRIPT/audit_cache_preload_candidates.php"
+   OUT="$HOST_SITE/csm-226-cache-preload-audit-existing-tags.md"
+   PATHS="/,/graduate,/news,/news/faculty,/graduate/mba/full-time"
+
+   ddev drush @carlsonschool.ddev scr "$SCRIPT" -- \
+     --base-url=https://carlsonschool.ddev.site \
+     --lookup-paths="$PATHS" \
+     --lookup-warmups=1 \
+     > "$OUT"
+   ```
+
+5. Restore the original preload list and rebuild cache.
+6. Read `Repeated non-preloaded stable tags` in the report.
+
+If `views_data` or `config:core.extension` appear there, they are candidates
+for measurement. If they do not appear, the script did not prove they are useful
+for the tested pages.
+
 ## Reading Findings
 
 The `Final Preload Recommendation` section is the report's decision summary.
@@ -170,6 +221,12 @@ The `Cache Table Evidence` and `Synthetic Cache-Read Measurement` sections are
 supporting evidence. They inspect sampled cache entries and compare query
 counts under preload scenarios. They do not replace the warm HTTP lookup-group
 capture for page-level decisions.
+
+The current measurement compares the effective preload list against no preload.
+When testing existing site-added tags, use the temporary-disable workflow above
+to see whether those tags become repeated non-preloaded stable tags. A future
+enhancement could add isolated scenarios for core-only, site-only, and
+core-plus-site preload lists.
 
 Do not add broad or entity-specific tags only because they are common:
 
