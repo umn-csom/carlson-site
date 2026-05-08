@@ -142,10 +142,9 @@ final class CachePreloadAuditReporter {
 
     $lines[] = '';
     $lines[] = '## Recommendation Guardrails';
-    $lines[] = '- Treat `views_data` and `config:core.extension` as Phase 1 '
-      . 'site-added tags. This lookup audit proves them useful only if they '
-      . 'repeat across warm lookup groups or reduce measured cachetags '
-      . 'queries in an isolated test.';
+    $lines[] = '- Treat `views_data` and `config:core.extension` as disabled '
+      . 'Phase 1 candidates unless they repeat across warm lookup groups or '
+      . 'reduce measured cachetags queries in an isolated test.';
     $lines[] = '- Add a new static preload tag only when warm requests show '
       . 'the same stable tag across multiple lookup groups and a preload '
       . 'test lowers `cachetags` query count or time.';

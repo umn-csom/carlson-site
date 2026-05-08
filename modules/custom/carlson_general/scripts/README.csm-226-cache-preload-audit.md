@@ -11,17 +11,18 @@ evidence for that decision.
 
 ## Current Context
 
-The current site setting includes two Phase 1 preload tags:
+Two Phase 1 preload candidates are currently commented out because the
+lookup-only Phase 2 audit has not proven that they reduce checksum queries:
 
 ```php
-$settings['cache_preload_tags'] = [
-  'views_data',
-  'config:core.extension',
-];
+// $settings['cache_preload_tags'] = [
+//   'views_data',
+//   'config:core.extension',
+// ];
 ```
 
-Phase 2 checks whether warm-request lookup evidence supports the current
-site-added tags or any new tags. Cache-table presence and page-level cache-tag
+Phase 2 checks whether warm-request lookup evidence supports re-enabling those
+tags or adding any new tags. Cache-table presence and page-level cache-tag
 headers are not enough by themselves.
 
 ## Mental Model
@@ -148,18 +149,21 @@ separate HTTP requests, and combining both would make one URL look like it has
 more lookup groups than it really does. The auto content-type sample also skips
 the configured front page node because `/` is already sampled directly.
 
-## Test Existing Preload Tags
+## Test Disabled Phase 1 Tags
 
-To check whether existing site-added tags such as `views_data` or
+To check whether disabled Phase 1 candidates such as `views_data` or
 `config:core.extension` are useful, run a focused local comparison:
 
 1. Choose representative pages that are likely to exercise the tag. For Views
    tags, use Views-heavy pages, high-traffic landing pages, or pages that embed
    several Views blocks.
-2. Temporarily set the local site preload list to empty:
+2. Confirm the local site preload list is disabled:
 
    ```php
-   $settings['cache_preload_tags'] = [];
+   // $settings['cache_preload_tags'] = [
+   //   'views_data',
+   //   'config:core.extension',
+   // ];
    ```
 
 3. Rebuild cache:
@@ -186,12 +190,12 @@ To check whether existing site-added tags such as `views_data` or
      > "$OUT"
    ```
 
-5. Restore the original preload list and rebuild cache.
+5. Restore the original commented-out state if you changed it during testing.
 6. Read `Repeated non-preloaded stable tags` in the report.
 
 If `views_data` or `config:core.extension` appear there, they are candidates
-for measurement. If they do not appear, the script did not prove they are useful
-for the tested pages.
+for measurement. If they do not appear, the script did not prove they are
+useful for the tested pages.
 
 ## Reading Findings
 
@@ -222,11 +226,10 @@ supporting evidence. They inspect sampled cache entries and compare query
 counts under preload scenarios. They do not replace the warm HTTP lookup-group
 capture for page-level decisions.
 
-The current measurement compares the effective preload list against no preload.
-When testing existing site-added tags, use the temporary-disable workflow above
-to see whether those tags become repeated non-preloaded stable tags. A future
-enhancement could add isolated scenarios for core-only, site-only, and
-core-plus-site preload lists.
+With the site candidates disabled, the effective preload list is Drupal core's
+default list only. A future enhancement could add isolated scenarios for
+core-only, site-only, and core-plus-site preload lists before re-enabling a
+site-specific preload tag.
 
 Do not add broad or entity-specific tags only because they are common:
 
