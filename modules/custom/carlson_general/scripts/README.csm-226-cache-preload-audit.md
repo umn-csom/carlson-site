@@ -233,7 +233,16 @@ The `Preload Comparison` section is the A/B verification:
   request through the audit header.
 - `Single-tag lookups before/after`: whether the avoidable single-tag lookup
   disappeared.
-- `Delta`: lookup reduction. Positive values support adding the tag.
+- `Query delta`: lookup reduction. Positive values support adding the tag.
+- `Avg ms before/after`: average local wall-clock request time for the same
+  warm requests.
+- `Avg ms delta`: average local request-time change. Positive values mean the
+  preloaded request was faster in the local run.
+
+Timing is directional evidence only. Local DDEV request time is noisy and does
+not prove production latency impact by itself. The strongest local signal is
+still fewer warm `cachetags` lookup queries, with timing used as supporting
+evidence.
 
 The `Warm Request Lookup Groups` section is the main preload evidence:
 

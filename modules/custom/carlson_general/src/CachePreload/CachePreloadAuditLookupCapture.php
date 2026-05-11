@@ -161,6 +161,7 @@ final class CachePreloadAuditLookupCapture {
       'status' => 0,
       'cache' => '',
       'dynamic_cache' => '',
+      'response_time_ms' => 0.0,
       'query_count' => 0,
       'lookup_group_count' => 0,
       'largest_group_tag_count' => 0,
@@ -190,6 +191,7 @@ final class CachePreloadAuditLookupCapture {
       $row['status'] = $response['status'];
       $row['cache'] = $response['cache'];
       $row['dynamic_cache'] = $response['dynamic_cache'];
+      $row['response_time_ms'] = $response['response_time_ms'];
       $row['request_preload_tags'] = $response['request_preload_tags'];
 
       $queries = $this->cachetagsQueries($pdo);
@@ -234,6 +236,7 @@ final class CachePreloadAuditLookupCapture {
   ): array {
     $headers = ['User-Agent' => 'CSM-226 cache lookup capture'];
     $headers += $request_headers;
+    $start = microtime(TRUE);
     $response = \Drupal::httpClient()->request('GET', $base_url . $path, [
       // Keep lookup evidence scoped to this URL. Following redirects can mix
       // the redirect response and final page into one capture window.
@@ -243,11 +246,13 @@ final class CachePreloadAuditLookupCapture {
       'verify' => FALSE,
       'headers' => $headers,
     ]);
+    $elapsed_ms = (microtime(TRUE) - $start) * 1000;
 
     return [
       'status' => $response->getStatusCode(),
       'cache' => $response->getHeaderLine('x-drupal-cache'),
       'dynamic_cache' => $response->getHeaderLine('x-drupal-dynamic-cache'),
+      'response_time_ms' => round($elapsed_ms, 2),
       'request_preload_tags' => $request_headers[
         CachePreloadAuditRequestSubscriber::TAGS_HEADER
       ] ?? '',

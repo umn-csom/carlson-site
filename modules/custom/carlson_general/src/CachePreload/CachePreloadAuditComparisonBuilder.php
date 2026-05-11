@@ -144,6 +144,12 @@ final class CachePreloadAuditComparisonBuilder {
         'candidate_lookup_groups' => 0,
         'baseline_single_tag_groups' => 0,
         'candidate_single_tag_groups' => 0,
+        'baseline_response_time_ms' => 0.0,
+        'candidate_response_time_ms' => 0.0,
+        'response_time_delta_ms' => 0.0,
+        'average_baseline_response_time_ms' => 0.0,
+        'average_candidate_response_time_ms' => 0.0,
+        'average_response_time_delta_ms' => 0.0,
         'query_delta' => 0,
         'decision' => 'Skipped; tag was not detected in baseline pages.',
         'paths' => [],
@@ -189,6 +195,8 @@ final class CachePreloadAuditComparisonBuilder {
     $candidate_lookup_groups = 0;
     $baseline_single_tag_groups = 0;
     $candidate_single_tag_groups = 0;
+    $baseline_response_time_ms = 0.0;
+    $candidate_response_time_ms = 0.0;
     $path_rows = [];
     foreach ($baseline_rows as $path => $baseline_row) {
       $candidate_row = $candidate_rows[$path] ?? [];
@@ -196,26 +204,51 @@ final class CachePreloadAuditComparisonBuilder {
       $candidate_count = (int) ($candidate_row['lookup_group_count'] ?? 0);
       $baseline_single = $this->singleTagGroupCount($baseline_row, $tag);
       $candidate_single = $this->singleTagGroupCount($candidate_row, $tag);
+      $baseline_time = (float) ($baseline_row['response_time_ms'] ?? 0);
+      $candidate_time = (float) ($candidate_row['response_time_ms'] ?? 0);
       $baseline_lookup_groups += $baseline_count;
       $candidate_lookup_groups += $candidate_count;
       $baseline_single_tag_groups += $baseline_single;
       $candidate_single_tag_groups += $candidate_single;
+      $baseline_response_time_ms += $baseline_time;
+      $candidate_response_time_ms += $candidate_time;
       $path_rows[] = [
         'path' => $path,
         'baseline_lookup_groups' => $baseline_count,
         'candidate_lookup_groups' => $candidate_count,
         'baseline_single_tag_groups' => $baseline_single,
         'candidate_single_tag_groups' => $candidate_single,
+        'baseline_response_time_ms' => $baseline_time,
+        'candidate_response_time_ms' => $candidate_time,
+        'response_time_delta_ms' => round($baseline_time - $candidate_time, 2),
       ];
     }
+    $path_count = count($baseline_rows);
+    $response_time_delta_ms = $baseline_response_time_ms
+      - $candidate_response_time_ms;
 
     return [
       'tag' => $tag,
-      'path_count' => count($baseline_rows),
+      'path_count' => $path_count,
       'baseline_lookup_groups' => $baseline_lookup_groups,
       'candidate_lookup_groups' => $candidate_lookup_groups,
       'baseline_single_tag_groups' => $baseline_single_tag_groups,
       'candidate_single_tag_groups' => $candidate_single_tag_groups,
+      'baseline_response_time_ms' => round($baseline_response_time_ms, 2),
+      'candidate_response_time_ms' => round($candidate_response_time_ms, 2),
+      'response_time_delta_ms' => round($response_time_delta_ms, 2),
+      'average_baseline_response_time_ms' => $this->average(
+        $baseline_response_time_ms,
+        $path_count
+      ),
+      'average_candidate_response_time_ms' => $this->average(
+        $candidate_response_time_ms,
+        $path_count
+      ),
+      'average_response_time_delta_ms' => $this->average(
+        $response_time_delta_ms,
+        $path_count
+      ),
       'query_delta' => $baseline_lookup_groups - $candidate_lookup_groups,
       'decision' => $this->comparisonDecision(
         $baseline_lookup_groups,
@@ -277,6 +310,25 @@ final class CachePreloadAuditComparisonBuilder {
     }
 
     return $count;
+  }
+
+  /**
+   * Return a rounded average.
+   *
+   * @param float $total
+   *   Total value.
+   * @param int $count
+   *   Number of samples.
+   *
+   * @return float
+   *   Rounded average, or zero when no samples exist.
+   */
+  private function average(float $total, int $count): float {
+    if ($count <= 0) {
+      return 0.0;
+    }
+
+    return round($total / $count, 2);
   }
 
   /**

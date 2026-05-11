@@ -82,8 +82,9 @@ final class CachePreloadAuditReporter {
         . 'that request.';
       $lines[] = '';
       $lines[] = '| Cache tag | Paths | Baseline lookups | With preload | '
-        . 'Single-tag lookups before/after | Delta | Decision |';
-      $lines[] = '| --- | ---: | ---: | ---: | --- | ---: | --- |';
+        . 'Single-tag lookups before/after | Query delta | Avg ms '
+        . 'before/after | Avg ms delta | Decision |';
+      $lines[] = '| --- | ---: | ---: | ---: | --- | ---: | --- | ---: | --- |';
       foreach (($report['preload_comparison']['tags'] ?? []) as $row) {
         $lines[] = '| `' . $row['tag'] . '` | `'
           . $row['path_count'] . '` | `'
@@ -91,9 +92,19 @@ final class CachePreloadAuditReporter {
           . $row['candidate_lookup_groups'] . '` | `'
           . $row['baseline_single_tag_groups'] . ' / '
           . $row['candidate_single_tag_groups'] . '` | `'
-          . $row['query_delta'] . '` | '
+          . $row['query_delta'] . '` | `'
+          . $this->formatMs($row['average_baseline_response_time_ms'] ?? 0)
+          . ' / '
+          . $this->formatMs($row['average_candidate_response_time_ms'] ?? 0)
+          . '` | `'
+          . $this->formatMs($row['average_response_time_delta_ms'] ?? 0)
+          . '` | '
           . $this->escapeTable($row['decision']) . ' |';
       }
+      $lines[] = '';
+      $lines[] = 'Timing is local wall-clock request time for the same warm '
+        . 'HTTP requests used in the lookup comparison. Treat it as directional '
+        . 'because DDEV timing is noisier than production observability.';
     }
 
     $lines[] = '';
@@ -298,6 +309,19 @@ final class CachePreloadAuditReporter {
    */
   private function escapeTable(string $value): string {
     return str_replace('|', '\|', $value);
+  }
+
+  /**
+   * Format a millisecond value for the report.
+   *
+   * @param mixed $value
+   *   Numeric millisecond value.
+   *
+   * @return string
+   *   Formatted millisecond value.
+   */
+  private function formatMs(mixed $value): string {
+    return number_format((float) $value, 2) . ' ms';
   }
 
 }
