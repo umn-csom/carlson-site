@@ -157,8 +157,6 @@ if (in_array($environment, ['local', 'dev', 'test'])) {
 // See https://github.umn.edu/drupalmodules/d8-configurations/blob/11.x-prod/sites-files/base-settings.php#L79
 $config['system.performance']['cache']['page']['max_age'] = 300;
 
-// Preload cache-tag checksums frequently used by Views metadata on this site.
-$settings['cache_preload_tags'] = [
-  'views_data',
-  'config:core.extension',
-];
+// CSM-226 Phase 2 did not find lookup evidence that the Phase 1 preload tags
+// reduce warm-request cachetags queries, so no site-specific preload tags are
+// configured here.
