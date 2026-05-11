@@ -156,9 +156,3 @@ if (in_array($environment, ['local', 'dev', 'test'])) {
 // Override OIT page cache TTL: 2764800 (32 days) -> 300 (5 min).
 // See https://github.umn.edu/drupalmodules/d8-configurations/blob/11.x-prod/sites-files/base-settings.php#L79
 $config['system.performance']['cache']['page']['max_age'] = 300;
-
-// Preload cache-tag checksums frequently used by Views metadata on this site.
-$settings['cache_preload_tags'] = [
-  'views_data',
-  'config:core.extension',
-];
