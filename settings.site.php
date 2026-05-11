@@ -156,7 +156,3 @@ if (in_array($environment, ['local', 'dev', 'test'])) {
 // Override OIT page cache TTL: 2764800 (32 days) -> 300 (5 min).
 // See https://github.umn.edu/drupalmodules/d8-configurations/blob/11.x-prod/sites-files/base-settings.php#L79
 $config['system.performance']['cache']['page']['max_age'] = 300;
-
-// CSM-226 Phase 2 did not find lookup evidence that the Phase 1 preload tags
-// reduce warm-request cachetags queries, so no site-specific preload tags are
-// configured here.
