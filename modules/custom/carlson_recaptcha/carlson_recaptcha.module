@@ -16,12 +16,11 @@ use Drupal\Core\Url;
  * CAPTCHA's visible "CAPTCHA" legend comes from captcha.settings via theme
  * preprocess, not #title on the element. A trusted #pre_render callback marks
  * the v3→v2 fallback so hook_preprocess_captcha() can strip that legend and
- * so hook_theme_suggestions_captcha_alter() can swap to a Twig layout where the
- * description sits above the widget (captchas render outside Form API order).
- * An #after_build callback floats the v2 checkbox CAPTCHA to the top of its
- * parent group when that fallback is active. Root #after_build applies a form
- * class and attaches CSS/JS (inert + pointer-events) when that fallback is
- * present after build completes.
+ * so hook_theme_suggestions_captcha_alter() can swap to a Twig layout that omits
+ * the duplicate description (copy lives in a top-of-form notice). Root
+ * #after_build adds the notice, weights the widget before webform actions when
+ * possible, and applies a form class plus CSS/JS (inert + pointer-events) when
+ * that fallback is present after build completes.
  */
 function carlson_recaptcha_form_alter(
   array &$form,
@@ -58,10 +57,6 @@ function _carlson_recaptcha_attach_captcha_fallback_callbacks(array &$element): 
     return;
   }
   $element['#carlson_recaptcha_fallback_callbacks_added'] = TRUE;
-  $element['#after_build'][] = [
-    CaptchaFallbackPreRender::class,
-    'promoteV2FallbackWeight',
-  ];
   $element['#pre_render'][] = [
     CaptchaFallbackPreRender::class,
     'markV3V2Fallback',
@@ -296,8 +291,9 @@ function _carlson_recaptcha_captcha_is_v3_v2_fallback(array $element): bool {
  * Implements hook_preprocess_captcha().
  *
  * When reCAPTCHA v3 swaps to the v2 checkbox fallback, hide the generic
- * "CAPTCHA" fieldset title and replace the site-wide hint text. Layout order
- * (description above widget) is handled by captcha--carlson-recaptcha-fallback.
+ * "CAPTCHA" fieldset title. Instructions and icon are output at the top of the
+ * form by CaptchaFallbackPreRender::applyFormChrome(); this preprocess clears
+ * the captcha description so it is not duplicated next to the widget.
  * The fallback is flagged during form build via
  * CaptchaFallbackPreRender::markV3V2Fallback().
  *
@@ -311,9 +307,7 @@ function carlson_recaptcha_preprocess_captcha(array &$variables): void {
   }
 
   $variables['title'] = '';
-  $variables['description'] = t(
-    'We could not verify your browser automatically. Complete the checkbox to confirm you are human. This extra step helps prevent automated spam submissions.'
-  );
+  $variables['description'] = '';
 }
 
 /**
@@ -369,11 +363,20 @@ function carlson_recaptcha_webform_submission_form_alter(
     return;
   }
 
-  $form['carlson_recaptcha_v3'] = [
-    '#type' => 'captcha',
-    '#captcha_type' => $captcha_type,
-    '#weight' => 99,
-  ];
+  if (isset($form['elements']) && is_array($form['elements'])) {
+    $form['elements']['carlson_recaptcha_v3'] = [
+      '#type' => 'captcha',
+      '#captcha_type' => $captcha_type,
+      '#weight' => 99,
+    ];
+  }
+  else {
+    $form['carlson_recaptcha_v3'] = [
+      '#type' => 'captcha',
+      '#captcha_type' => $captcha_type,
+      '#weight' => 99,
+    ];
+  }
 }
 
 /**

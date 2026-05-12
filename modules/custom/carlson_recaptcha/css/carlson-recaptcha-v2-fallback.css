@@ -6,22 +6,43 @@
  * :has() so rules apply in browsers without :has support.
  */
 
-form.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback__inactive {
+.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback__inactive {
   pointer-events: none;
   opacity: 0.38;
   filter: grayscale(65%);
   transition: opacity 0.15s ease, filter 0.15s ease;
 }
 
-form.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback__inactive label,
-form.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback__inactive legend {
+.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback__inactive label,
+.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback__inactive legend {
   cursor: not-allowed;
 }
 
-form.carlson-recaptcha-v2-fallback .captcha-type-challenge--recaptcha {
+.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback-notice {
   margin-bottom: 1rem;
 }
 
-form.carlson-recaptcha-v2-fallback .captcha-type-challenge--recaptcha .captcha__element {
+.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback-notice__row {
+  align-items: flex-start;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback-notice__icon {
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 0.15em;
+}
+
+.carlson-recaptcha-v2-fallback .carlson-recaptcha-v2-fallback-notice__text {
+  line-height: 1.4;
+}
+
+.carlson-recaptcha-v2-fallback .captcha-type-challenge--recaptcha {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.carlson-recaptcha-v2-fallback .captcha-type-challenge--recaptcha .captcha__element {
   min-height: 78px;
 }
