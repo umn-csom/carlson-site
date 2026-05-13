@@ -215,7 +215,20 @@ display:
       relationships: {  }
       css_class: ''
       header: {  }
-      footer: {  }
+      footer:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: text
+          empty: false
+          content:
+            value: '<div class="mb-4"><a href="/graduate/faq">View All FAQs</a></div>'
+            format: rich_text
+          tokenize: false
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -2765,6 +2778,7 @@ display:
         title: false
         filters: false
         filter_groups: false
+        footer: true
       display_description: ''
       display_extenders:
         metatag_display_extender:
@@ -3215,7 +3229,7 @@ display:
           plugin_id: list_field
           operator: or
           value:
-            tuition_aid: tuition_aid
+            curriculum: curriculum
           group: 1
           exposed: false
           expose:
@@ -3259,7 +3273,7 @@ display:
           value:
             min: ''
             max: ''
-            value: ^(19166|19171|19176|19181)$
+            value: ^(19191|19196|19201|19206|19211)$
           group: 1
           exposed: false
           expose:
@@ -10440,18 +10454,1735 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        filters: false
+        filter_groups: false
       display_description: 'All FAQ Questions'
       display_extenders:
         metatag_display_extender:
           metatags: {  }
           tokenize: false
         simple_sitemap_display_extender: {  }
-      path: test-questions
+      path: graduate/faq
     cache_metadata:
       max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
+        - user.permissions
+      tags:
+        - 'config:field.storage.taxonomy_term.field_answer'
+        - 'config:field.storage.taxonomy_term.field_question'
+  page_10:
+    id: page_10
+    display_title: 'MSF Questions'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'MSF Questions'
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            msf: msf
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'MSF Questions'
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: graduate/masters/finance/faq
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - user.permissions
+      tags:
+        - 'config:field.storage.taxonomy_term.field_answer'
+        - 'config:field.storage.taxonomy_term.field_question'
+  page_11:
+    id: page_11
+    display_title: 'MHRIR Questions'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'MHRIR Questions'
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            mhrir: mhrir
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'MHRIR Questions'
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: graduate/masters/human-resources-industrial-relations/faq
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - user.permissions
+      tags:
+        - 'config:field.storage.taxonomy_term.field_answer'
+        - 'config:field.storage.taxonomy_term.field_question'
+  page_12:
+    id: page_12
+    display_title: 'MMKTG Questions'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'MMKTG Questions'
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            mmktg: mmktg
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'MMKTG Questions'
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: graduate/masters/marketing/faq
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - user.permissions
+      tags:
+        - 'config:field.storage.taxonomy_term.field_answer'
+        - 'config:field.storage.taxonomy_term.field_question'
+  page_13:
+    id: page_13
+    display_title: 'MS SCM Questions'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'MS SCM Questions'
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            ms_scm: ms_scm
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'MS SCM Questions'
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: graduate/masters/supply-chain-management/faq
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - user.permissions
+      tags:
+        - 'config:field.storage.taxonomy_term.field_answer'
+        - 'config:field.storage.taxonomy_term.field_question'
+  page_2:
+    id: page_2
+    display_title: 'FTMBA Questions'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'FTMBA Questions'
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            ftmba: ftmba
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'FTMBA Questions'
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: graduate/mba/full-time/faq
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - user.permissions
+      tags:
+        - 'config:field.storage.taxonomy_term.field_answer'
+        - 'config:field.storage.taxonomy_term.field_question'
+  page_3:
+    id: page_3
+    display_title: 'PTMBA Questions'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'PTMBA Questions'
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            ptmba: ptmba
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'PTMBA Questions'
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: graduate/mba/part-time/faq
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - user.permissions
+      tags:
+        - 'config:field.storage.taxonomy_term.field_answer'
+        - 'config:field.storage.taxonomy_term.field_question'
+  page_4:
+    id: page_4
+    display_title: 'OMBA Questions'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'OMBA Questions'
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            omba: omba
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'PTMBA Questions'
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: graduate/mba/online/faq
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - user.permissions
+      tags:
+        - 'config:field.storage.taxonomy_term.field_answer'
+        - 'config:field.storage.taxonomy_term.field_question'
+  page_5:
+    id: page_5
+    display_title: 'Executive MBA Questions'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'Executive MBA Questions'
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            executive_mba: executive_mba
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'Executive MBA Questions'
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: graduate/mba/executive/faq
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - user.permissions
+      tags:
+        - 'config:field.storage.taxonomy_term.field_answer'
+        - 'config:field.storage.taxonomy_term.field_question'
+  page_6:
+    id: page_6
+    display_title: 'MAcc Questions'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'MAcc Questions'
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            macc: macc
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'MAcc Questions'
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: graduate/masters/accountancy/faq
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - user.permissions
+      tags:
+        - 'config:field.storage.taxonomy_term.field_answer'
+        - 'config:field.storage.taxonomy_term.field_question'
+  page_7:
+    id: page_7
+    display_title: 'MABA Questions'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'MABA Questions'
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            maba: maba
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'MABA Questions'
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: graduate/masters/applied-business-analytics/faq
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - user.permissions
+      tags:
+        - 'config:field.storage.taxonomy_term.field_answer'
+        - 'config:field.storage.taxonomy_term.field_question'
+  page_8:
+    id: page_8
+    display_title: 'MSBA Questions'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'MSBA Questions'
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            msba: msba
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'MSBA Questions'
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: graduate/masters/business-analytics/faq
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
+        - user.permissions
+      tags:
+        - 'config:field.storage.taxonomy_term.field_answer'
+        - 'config:field.storage.taxonomy_term.field_question'
+  page_9:
+    id: page_9
+    display_title: 'MBT Questions'
+    display_plugin: page
+    position: 1
+    display_options:
+      title: 'MBT Questions'
+      filters:
+        status:
+          id: status
+          table: taxonomy_term_field_data
+          field: status
+          entity_type: taxonomy_term
+          entity_field: status
+          plugin_id: boolean
+          value: '1'
+          group: 1
+          expose:
+            operator: ''
+        vid:
+          id: vid
+          table: taxonomy_term_field_data
+          field: vid
+          entity_type: taxonomy_term
+          entity_field: vid
+          plugin_id: bundle
+          value:
+            faq_questions: faq_questions
+        field_program_value:
+          id: field_program_value
+          table: taxonomy_term__field_program
+          field: field_program_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value:
+            mbt: mbt
+          group: 1
+          exposed: false
+          expose:
+            operator_id: field_program_value_op
+            label: Program
+            description: ''
+            use_operator: false
+            operator: field_program_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_program_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+        field_topic_value:
+          id: field_topic_value
+          table: taxonomy_term__field_topic
+          field: field_topic_value
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: list_field
+          operator: or
+          value: {  }
+          group: 1
+          exposed: true
+          expose:
+            operator_id: field_topic_value_op
+            label: Topic
+            description: ''
+            use_operator: false
+            operator: field_topic_value_op
+            operator_limit_selection: false
+            operator_list: {  }
+            identifier: field_topic_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+            reduce: false
+          is_grouped: false
+          group_info:
+            label: ''
+            description: ''
+            identifier: ''
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items: {  }
+          reduce_duplicates: false
+      filter_groups:
+        operator: AND
+        groups:
+          1: AND
+      defaults:
+        title: false
+        filters: false
+        filter_groups: false
+      display_description: 'MBT Questions'
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
+      path: graduate/masters/business-taxation/faq
+    cache_metadata:
+      max-age: -1
+      contexts:
+        - 'languages:language_content'
+        - 'languages:language_interface'
+        - url
         - user.permissions
       tags:
         - 'config:field.storage.taxonomy_term.field_answer'
