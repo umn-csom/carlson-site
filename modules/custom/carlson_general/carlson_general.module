@@ -40,6 +40,25 @@ function carlson_general_responsive_menu_off_canvas_manipulators_alter(array &$m
 }
 
 /**
+ * Implements hook_responsive_menu_off_canvas_output_alter().
+ */
+function carlson_general_responsive_menu_off_canvas_output_alter(bool &$output): void {
+  $output = FALSE;
+}
+
+/**
+ * Implements hook_page_bottom().
+ */
+function carlson_general_page_bottom(array &$page): void {
+  if (!\Drupal\carlson_general\ResponsiveOffCanvasAjax::isEnabled()) {
+    return;
+  }
+
+  $page['page_bottom']['off_canvas'] =
+    \Drupal\carlson_general\ResponsiveOffCanvasAjax::buildPlaceholder();
+}
+
+/**
  * Implements hook_system_breadcrumb_alter().
  *
  * @param \Drupal\Core\Breadcrumb\Breadcrumb $breadcrumb
