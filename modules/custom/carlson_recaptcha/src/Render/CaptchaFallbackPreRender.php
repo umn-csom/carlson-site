@@ -100,6 +100,7 @@ final class CaptchaFallbackPreRender implements TrustedCallbackInterface {
     }
     static::weightFallbackCaptchaBeforeActions($form);
     $form['#attributes']['class'][] = 'carlson-recaptcha-v2-fallback';
+    $form['#attached']['library'][] = 'carlson_recaptcha/v2_fallback_scroll';
     $form['#attached']['library'][] = 'carlson_recaptcha/v2_fallback_chrome';
     return $form;
   }

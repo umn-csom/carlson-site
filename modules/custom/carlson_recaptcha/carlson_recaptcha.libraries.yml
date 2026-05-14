@@ -1,3 +1,12 @@
+# No core/drupal. header: true puts this in <head> so it is not queued behind
+# heavy footer JavaScript; the script waits for DOMContentLoaded when needed.
+v2_fallback_scroll:
+  header: true
+  js:
+    js/carlson-recaptcha-v2-fallback-scroll.js:
+      preprocess: false
+      weight: -100
+
 v2_fallback_chrome:
   css:
     theme:
