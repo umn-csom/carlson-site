@@ -121,7 +121,7 @@ SVG;
       '#type' => 'container',
       '#weight' => -1000,
       '#attributes' => [
-        'class' => ['carlson-recaptcha-v2-fallback-notice'],
+        'class' => ['carlson-recaptcha-v2-fallback-notice', 'alert', 'alert-gold'],
         'role' => 'status',
       ],
       'row' => [
