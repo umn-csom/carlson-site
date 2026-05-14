@@ -2,19 +2,31 @@
  * @file
  * Scrolls the v2 fallback notice into view without waiting for Drupal.
  *
- * Loaded from the page head (see v2_fallback_scroll library). The script waits
- * for DOMContentLoaded when needed so the form markup exists before querying.
+ * Loaded from the page head (see v2_fallback_scroll library). Runs at
+ * DOMContentLoaded, then again on window load and when html style changes so
+ * toolbar displace() can set --drupal-displace-offset-top before we measure.
  */
 (function () {
   'use strict';
 
+  /** @type {number|undefined} */
+  var debounceTimer;
+
   /**
-   * Parsed --drupal-displace-offset-top on the document root (px).
+   * Parsed --drupal-displace-offset-top (px); prefers inline style from
+   * displace.js, then computed cascade.
    *
    * @return {number}
    *   Non-negative offset in CSS pixels.
    */
   function getDrupalDisplaceOffsetTopPx() {
+    var inline = document.documentElement.style
+      .getPropertyValue('--drupal-displace-offset-top')
+      .trim();
+    var fromInline = parseFloat(inline);
+    if (!isNaN(fromInline) && fromInline >= 0) {
+      return fromInline;
+    }
     var raw = window.getComputedStyle(document.documentElement)
       .getPropertyValue('--drupal-displace-offset-top')
       .trim();
@@ -63,26 +75,24 @@
   }
 
   /**
-   * Whether we should scroll so the notice sits near the top of the viewport.
-   *
-   * Any intersection used to skip scrolling, which left the notice mid-screen
-   * on tall viewports. We scroll when off-screen or when the top edge sits
-   * below the target band.
+   * Whether we should scroll so the notice aligns to the target offset.
    *
    * @param {HTMLElement} notice
    *   The notice container.
+   * @param {number} targetTop
+   *   Desired getBoundingClientRect().top for the notice.
    *
    * @return {boolean}
    *   TRUE when scroll is needed.
    */
-  function needsScrollToPinNotice(notice) {
+  function needsScrollToPinNotice(notice, targetTop) {
     var rect = notice.getBoundingClientRect();
     var vh = window.innerHeight || document.documentElement.clientHeight;
-    var targetTop = getNoticeTopTargetPx(notice);
+    var tolerance = 10;
     if (rect.bottom < 0 || rect.top > vh) {
       return true;
     }
-    return rect.top > targetTop;
+    return Math.abs(rect.top - targetTop) > tolerance;
   }
 
   /**
@@ -92,11 +102,11 @@
    *   The notice container.
    */
   function scrollNoticeIntoViewIfNeeded(notice) {
-    if (!needsScrollToPinNotice(notice)) {
+    var targetTop = getNoticeTopTargetPx(notice);
+    if (!needsScrollToPinNotice(notice, targetTop)) {
       return;
     }
     var rect = notice.getBoundingClientRect();
-    var targetTop = getNoticeTopTargetPx(notice);
     var y = window.pageYOffset + rect.top - targetTop;
     window.scrollTo({
       top: Math.max(0, y),
@@ -107,7 +117,7 @@
   /**
    * Scrolls each matching form's notice when needed.
    */
-  function run() {
+  function alignFallbackNotices() {
     var forms = document.querySelectorAll('form.carlson-recaptcha-v2-fallback');
     if (!forms.length) {
       return;
@@ -120,10 +130,47 @@
     });
   }
 
+  /**
+   * Debounced align after displace mutates the document root style attribute.
+   */
+  function scheduleAlignFallbackNotices() {
+    if (debounceTimer) {
+      window.clearTimeout(debounceTimer);
+    }
+    debounceTimer = window.setTimeout(function () {
+      debounceTimer = undefined;
+      alignFallbackNotices();
+    }, 50);
+  }
+
+  /**
+   * Re-runs alignment when toolbar/displace updates --drupal-displace-*.
+   */
+  function watchDocumentRootStyle() {
+    try {
+      var obs = new MutationObserver(function () {
+        scheduleAlignFallbackNotices();
+      });
+      obs.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['style'],
+      });
+    }
+    catch (e) {
+      // No MutationObserver (very old browsers): rely on load only.
+    }
+  }
+
+  function start() {
+    alignFallbackNotices();
+    window.addEventListener('load', alignFallbackNotices);
+    watchDocumentRootStyle();
+  }
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', run);
+    document.addEventListener('DOMContentLoaded', start);
   }
   else {
-    run();
+    start();
   }
 })();
