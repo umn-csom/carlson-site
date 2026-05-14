@@ -16,6 +16,30 @@ use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Component\Utility\Html;
 
 /**
+ * Implements hook_responsive_menu_off_canvas_manipulators_alter().
+ */
+function carlson_general_responsive_menu_off_canvas_manipulators_alter(array &$manipulators): void {
+  $node_access_manipulator = [
+    'callable' => 'menu.default_tree_manipulators:checkNodeAccess',
+  ];
+
+  foreach ($manipulators as $manipulator) {
+    if (($manipulator['callable'] ?? NULL) === $node_access_manipulator['callable']) {
+      return;
+    }
+  }
+
+  foreach ($manipulators as $index => $manipulator) {
+    if (($manipulator['callable'] ?? NULL) === 'menu.default_tree_manipulators:checkAccess') {
+      array_splice($manipulators, $index, 0, [$node_access_manipulator]);
+      return;
+    }
+  }
+
+  array_unshift($manipulators, $node_access_manipulator);
+}
+
+/**
  * Implements hook_system_breadcrumb_alter().
  *
  * @param \Drupal\Core\Breadcrumb\Breadcrumb $breadcrumb
