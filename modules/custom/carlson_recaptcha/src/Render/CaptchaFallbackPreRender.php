@@ -100,6 +100,7 @@ final class CaptchaFallbackPreRender implements TrustedCallbackInterface {
     }
     static::weightFallbackCaptchaBeforeActions($form);
     $form['#attributes']['class'][] = 'carlson-recaptcha-v2-fallback';
+    $form['#attached']['library'][] = 'carlson_recaptcha/v2_fallback_scroll';
     $form['#attached']['library'][] = 'carlson_recaptcha/v2_fallback_chrome';
     return $form;
   }
@@ -120,7 +121,7 @@ SVG;
       '#type' => 'container',
       '#weight' => -1000,
       '#attributes' => [
-        'class' => ['carlson-recaptcha-v2-fallback-notice'],
+        'class' => ['carlson-recaptcha-v2-fallback-notice', 'alert', 'alert-gold'],
         'role' => 'status',
       ],
       'row' => [

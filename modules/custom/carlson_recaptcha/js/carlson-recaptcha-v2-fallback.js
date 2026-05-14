@@ -1,8 +1,10 @@
 /**
  * @file
- * Sets inert on non–CAPTCHA field wrappers when v3 falls back to v2, and
- * scrolls the top-of-form fallback notice into view after full-page reload
- * when it sits below the fold (non-AJAX submit leaves the window at the top).
+ * Sets inert on non–CAPTCHA field wrappers when v3 falls back to v2.
+ *
+ * Scroll-into-view for the fallback notice lives in
+ * carlson-recaptcha-v2-fallback-scroll.js (v2_fallback_scroll library, head)
+ * so it is not delayed by Drupal.attachBehaviors.
  */
 
 (function (Drupal, once) {
@@ -63,43 +65,6 @@
   }
 
   /**
-   * Whether any part of the element intersects the viewport vertically.
-   *
-   * @param {HTMLElement} el
-   *   Element to test.
-   *
-   * @return {boolean}
-   *   TRUE when the element overlaps the visible viewport height.
-   */
-  function isVerticallyInViewport(el) {
-    var rect = el.getBoundingClientRect();
-    var vh = window.innerHeight || document.documentElement.clientHeight;
-    return rect.top < vh && rect.bottom > 0;
-  }
-
-  /**
-   * Scrolls the fallback notice into view if it is off-screen vertically.
-   *
-   * @param {HTMLElement} el
-   *   The notice container.
-   */
-  function scrollNoticeIntoViewIfNeeded(el) {
-    window.requestAnimationFrame(function () {
-      if (isVerticallyInViewport(el)) {
-        return;
-      }
-      var reduceMotion = window.matchMedia(
-        '(prefers-reduced-motion: reduce)'
-      ).matches;
-      el.scrollIntoView({
-        behavior: reduceMotion ? 'auto' : 'smooth',
-        block: 'center',
-        inline: 'nearest',
-      });
-    });
-  }
-
-  /**
    * Whether the wrapper contains a visible form control.
    *
    * @param {HTMLElement} item
@@ -153,12 +118,6 @@
           item.classList.add(inactiveClass);
           item.inert = true;
         });
-        var notice = form.querySelector(
-          '.carlson-recaptcha-v2-fallback-notice'
-        );
-        if (notice) {
-          scrollNoticeIntoViewIfNeeded(notice);
-        }
       });
     },
   };
