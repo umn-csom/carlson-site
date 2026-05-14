@@ -9,34 +9,98 @@
   'use strict';
 
   /**
-   * Whether any part of the element intersects the viewport vertically.
+   * Parsed --drupal-displace-offset-top on the document root (px).
    *
-   * @param {HTMLElement} el
-   *   Element to test.
-   *
-   * @return {boolean}
-   *   TRUE when the element overlaps the visible viewport height.
+   * @return {number}
+   *   Non-negative offset in CSS pixels.
    */
-  function isVerticallyInViewport(el) {
-    var rect = el.getBoundingClientRect();
-    var vh = window.innerHeight || document.documentElement.clientHeight;
-    return rect.top < vh && rect.bottom > 0;
+  function getDrupalDisplaceOffsetTopPx() {
+    var raw = window.getComputedStyle(document.documentElement)
+      .getPropertyValue('--drupal-displace-offset-top')
+      .trim();
+    var n = parseFloat(raw);
+    return !isNaN(n) && n >= 0 ? n : 0;
   }
 
   /**
-   * Scrolls the fallback notice into view if it is off-screen vertically.
+   * Target distance (px) from viewport top for the notice's top edge.
+   *
+   * Prefer html scroll-padding-top when set (carlson_refresh matches
+   * scroll-padding-top: calc(55px + var(--drupal-displace-offset-top, 0px))
+   * and 110px on larger nav). Otherwise use that mobile-style sum as default.
+   *
+   * Optional override: set --carlson-recaptcha-v2-fallback-scroll-top on the
+   * form (pixel length only).
+   *
+   * @param {HTMLElement} notice
+   *   The notice container.
+   *
+   * @return {number}
+   *   Pixel offset from top of viewport.
+   */
+  function getNoticeTopTargetPx(notice) {
+    var form = notice.closest('form.carlson-recaptcha-v2-fallback');
+    if (form) {
+      var overrideRaw = window.getComputedStyle(form).getPropertyValue(
+        '--carlson-recaptcha-v2-fallback-scroll-top'
+      ).trim();
+      if (overrideRaw !== '') {
+        var overridden = parseFloat(overrideRaw);
+        if (!isNaN(overridden) && overridden >= 0) {
+          return overridden;
+        }
+      }
+    }
+
+    var scrollPad = window.getComputedStyle(document.documentElement)
+      .scrollPaddingTop;
+    var fromHtml = parseFloat(scrollPad);
+    if (!isNaN(fromHtml) && fromHtml > 0) {
+      return fromHtml;
+    }
+
+    return 55 + getDrupalDisplaceOffsetTopPx();
+  }
+
+  /**
+   * Whether we should scroll so the notice sits near the top of the viewport.
+   *
+   * Any intersection used to skip scrolling, which left the notice mid-screen
+   * on tall viewports. We scroll when off-screen or when the top edge sits
+   * below the target band.
+   *
+   * @param {HTMLElement} notice
+   *   The notice container.
+   *
+   * @return {boolean}
+   *   TRUE when scroll is needed.
+   */
+  function needsScrollToPinNotice(notice) {
+    var rect = notice.getBoundingClientRect();
+    var vh = window.innerHeight || document.documentElement.clientHeight;
+    var targetTop = getNoticeTopTargetPx(notice);
+    if (rect.bottom < 0 || rect.top > vh) {
+      return true;
+    }
+    return rect.top > targetTop;
+  }
+
+  /**
+   * Pins the notice's top edge near the top of the viewport (see target px).
    *
    * @param {HTMLElement} notice
    *   The notice container.
    */
   function scrollNoticeIntoViewIfNeeded(notice) {
-    if (isVerticallyInViewport(notice)) {
+    if (!needsScrollToPinNotice(notice)) {
       return;
     }
-    notice.scrollIntoView({
+    var rect = notice.getBoundingClientRect();
+    var targetTop = getNoticeTopTargetPx(notice);
+    var y = window.pageYOffset + rect.top - targetTop;
+    window.scrollTo({
+      top: Math.max(0, y),
       behavior: 'auto',
-      block: 'center',
-      inline: 'nearest',
     });
   }
 
