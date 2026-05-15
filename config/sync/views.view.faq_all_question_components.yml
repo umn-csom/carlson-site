@@ -1,4 +1,4 @@
-uuid: de9cb83e-4d77-4581-a8ae-1d516d425c9b
+uuid: 4961ced6-a765-4b98-91d6-009d546f102c
 langcode: en
 status: true
 dependencies:
@@ -9,13 +9,11 @@ dependencies:
     - taxonomy.vocabulary.faq_questions
   module:
     - options
-    - rest
-    - serialization
     - taxonomy
     - text
     - user
-id: faq_question_blocks
-label: 'FAQ Question Blocks'
+id: faq_all_question_components
+label: 'FAQ All Question Components'
 module: views
 description: ''
 tag: ''
@@ -217,20 +215,7 @@ display:
       relationships: {  }
       css_class: ''
       header: {  }
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<div class="mb-4"><a href="/graduate/faq">View All FAQs</a></div>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders: {  }
     cache_metadata:
       max-age: -1
@@ -243,11 +228,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_1:
     id: block_1
-    display_title: 'FTMBA Overview Questions'
+    display_title: 'FTMBA Overview'
     display_plugin: block
     position: 2
     display_options:
-      title: 'FTMBA Overview Questions'
+      title: Overview
       filters:
         status:
           id: status
@@ -351,44 +336,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -399,20 +346,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/full-time/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -429,11 +363,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_10:
     id: block_10
-    display_title: 'EMBA Curriculum Questions'
+    display_title: 'EMBA Curriculum'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Executive MBA Curriculum FAQs'
+      title: Curriculum
       filters:
         status:
           id: status
@@ -537,44 +471,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -583,22 +479,8 @@ display:
         title: false
         filters: false
         filter_groups: false
-        footer: false
+        footer: true
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/executive/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -615,11 +497,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_11:
     id: block_11
-    display_title: 'EMBA Student Life Questions'
+    display_title: 'EMBA Student Life'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Executive MBA Student Life FAQs'
+      title: 'Student Life'
       filters:
         status:
           id: status
@@ -723,44 +605,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -771,20 +615,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/executive/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -801,11 +632,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_12:
     id: block_12
-    display_title: 'EMBA Careers Questions'
+    display_title: 'EMBA Careers'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Executive MBA Community & Careers FAQs'
+      title: 'Community & Careers'
       filters:
         status:
           id: status
@@ -909,44 +740,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -957,20 +750,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/executive/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -987,11 +767,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_13:
     id: block_13
-    display_title: 'PTMBA Overview Questions'
+    display_title: 'PTMBA Overview'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Part-Time MBA FAQs'
+      title: Overview
       filters:
         status:
           id: status
@@ -1095,44 +875,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -1143,20 +885,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/part-time/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -1173,11 +902,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_14:
     id: block_14
-    display_title: 'PTMBA Tuition & Aid Questions'
+    display_title: 'PTMBA Tuition & Aid'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Part-Time MBA Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -1281,44 +1010,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -1329,20 +1020,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/part-time/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -1359,11 +1037,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_15:
     id: block_15
-    display_title: 'OMBA Overview Questions'
+    display_title: 'OMBA Overview'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Online MBA FAQs'
+      title: Overview
       filters:
         status:
           id: status
@@ -1467,44 +1145,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -1515,20 +1155,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/online/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -1545,11 +1172,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_16:
     id: block_16
-    display_title: 'OMBA Tuition & Aid Questions'
+    display_title: 'OMBA Tuition & Aid'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Online MBA Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -1653,44 +1280,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -1701,20 +1290,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/online/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -1731,11 +1307,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_17:
     id: block_17
-    display_title: 'MABA Overview Questions'
+    display_title: 'MABA Overview'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Applied Business Analytics FAQs'
+      title: Overview
       filters:
         status:
           id: status
@@ -1839,44 +1415,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -1887,20 +1425,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/applied-business-analytics/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -1917,11 +1442,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_18:
     id: block_18
-    display_title: 'MABA Tuition & Aid Questions'
+    display_title: 'MABA Tuition & Aid'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Applied Business Analytics Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -2025,44 +1550,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -2073,20 +1560,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/applied-business-analytics/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -2103,11 +1577,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_19:
     id: block_19
-    display_title: 'Macc Overview Questions'
+    display_title: 'Macc Overview'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Accountancy FAQs'
+      title: Overview
       filters:
         status:
           id: status
@@ -2211,44 +1685,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -2259,20 +1695,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/accountancy/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -2289,11 +1712,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_2:
     id: block_2
-    display_title: 'FTMBA Admissions Questions'
+    display_title: 'FTMBA Admissions'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Full-Time MBA Admissions FAQs'
+      title: Admissions
       filters:
         status:
           id: status
@@ -2397,44 +1820,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -2445,20 +1830,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/full-time/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -2475,11 +1847,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_20:
     id: block_20
-    display_title: 'Macc Admissions Questions'
+    display_title: 'Macc Admissions'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Accountancy Admissions FAQs'
+      title: Admissions
       filters:
         status:
           id: status
@@ -2583,44 +1955,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -2631,20 +1965,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/accountancy/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -2661,11 +1982,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_21:
     id: block_21
-    display_title: 'Macc Tuition & Aid Questions'
+    display_title: 'Macc Tuition & Aid'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Accountancy Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -2769,44 +2090,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -2817,20 +2100,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/accountancy/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -2847,11 +2117,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_22:
     id: block_22
-    display_title: 'Macc Curriculum Questions'
+    display_title: 'Macc Curriculum'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Accountancy Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -2955,44 +2225,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -3003,20 +2235,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/accountancy/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -3141,44 +2360,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -3204,11 +2385,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_24:
     id: block_24
-    display_title: 'Macc Student Life Questions'
+    display_title: 'Macc Student Life'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Accountancy Student Life FAQs'
+      title: 'Student Life'
       filters:
         status:
           id: status
@@ -3312,44 +2493,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -3360,20 +2503,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/accountancy/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -3390,11 +2520,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_25:
     id: block_25
-    display_title: 'Macc Careers Questions'
+    display_title: 'Macc Careers'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Accountancy Community & Careers FAQs'
+      title: 'Community & Careers'
       filters:
         status:
           id: status
@@ -3498,44 +2628,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -3546,20 +2638,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/accountancy/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -3576,11 +2655,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_26:
     id: block_26
-    display_title: 'MBT Overview Questions'
+    display_title: 'MBT Overview'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Business Taxation FAQs'
+      title: Overview
       filters:
         status:
           id: status
@@ -3684,44 +2763,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -3732,20 +2773,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/business-taxation/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -3762,11 +2790,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_27:
     id: block_27
-    display_title: 'MBT Tuition & Aid Questions'
+    display_title: 'MBT Tuition & Aid'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Business Taxation Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -3870,44 +2898,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -3918,20 +2908,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/business-taxation/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -3948,11 +2925,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_28:
     id: block_28
-    display_title: 'MSBA Overview Questions'
+    display_title: 'MSBA Overview'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Business Analytics FAQs'
+      title: Overview
       filters:
         status:
           id: status
@@ -4056,44 +3033,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -4104,20 +3043,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/applied-business-analytics/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -4134,11 +3060,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_29:
     id: block_29
-    display_title: 'MSBA Admissions Questions'
+    display_title: 'MSBA Admissions'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Business Analytics Admissions FAQs'
+      title: Admissions
       filters:
         status:
           id: status
@@ -4242,44 +3168,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -4290,20 +3178,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/applied-business-analytics/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -4320,11 +3195,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_3:
     id: block_3
-    display_title: 'FTMBA Tuition & Aid Questions'
+    display_title: 'FTMBA Tuition & Aid'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Full-Time MBA Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -4428,44 +3303,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -4476,20 +3313,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/full-time/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -4506,11 +3330,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_30:
     id: block_30
-    display_title: 'MSBA Tuition & Aid Questions'
+    display_title: 'MSBA Tuition & Aid'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Business Analytics Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -4614,44 +3438,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -4662,20 +3448,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/applied-business-analytics/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -4692,11 +3465,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_31:
     id: block_31
-    display_title: 'MSBA Curriculum Questions'
+    display_title: 'MSBA Curriculum'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Business Analytics Curriculum FAQs'
+      title: Curriculum
       filters:
         status:
           id: status
@@ -4800,44 +3573,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -4848,20 +3583,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/applied-business-analytics/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -4878,11 +3600,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_32:
     id: block_32
-    display_title: 'MSBA Student Life Questions'
+    display_title: 'MSBA Student Life'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Business Analytics Student Life FAQs'
+      title: 'Student Life'
       filters:
         status:
           id: status
@@ -4986,44 +3708,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -5034,20 +3718,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/applied-business-analytics/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -5064,11 +3735,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_33:
     id: block_33
-    display_title: 'MSBA Careers Questions'
+    display_title: 'MSBA Careers'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Business Analytics Careers FAQs'
+      title: 'Community & Careers'
       filters:
         status:
           id: status
@@ -5172,44 +3843,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -5220,20 +3853,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/applied-business-analytics/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -5250,11 +3870,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_34:
     id: block_34
-    display_title: 'MMKTG Admissions Questions'
+    display_title: 'MMKTG Admissions'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Marketing Admissions FAQs'
+      title: Admissions
       filters:
         status:
           id: status
@@ -5358,44 +3978,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -5406,20 +3988,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/marketing/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -5436,11 +4005,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_35:
     id: block_35
-    display_title: 'MMKTG Overview Questions'
+    display_title: 'MMKTG Overview'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Marketing FAQs'
+      title: Overview
       filters:
         status:
           id: status
@@ -5544,44 +4113,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -5592,20 +4123,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/marketing/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -5622,11 +4140,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_36:
     id: block_36
-    display_title: 'MMKTG Careers Questions'
+    display_title: 'MMKTG Careers'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Marketing Careers FAQs'
+      title: 'Community & Career'
       filters:
         status:
           id: status
@@ -5730,44 +4248,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -5778,20 +4258,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/marketing/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -5808,11 +4275,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_37:
     id: block_37
-    display_title: 'MMKTG Curriculum Questions'
+    display_title: 'MMKTG Curriculum'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Marketing Curriculum FAQs'
+      title: Curriculum
       filters:
         status:
           id: status
@@ -5916,44 +4383,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -5964,20 +4393,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/marketing/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -5994,11 +4410,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_38:
     id: block_38
-    display_title: 'MMKTG Student Life Questions'
+    display_title: 'MMKTG Student Life'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Marketing Student Life FAQs'
+      title: 'Student Life'
       filters:
         status:
           id: status
@@ -6102,44 +4518,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -6150,20 +4528,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/marketing/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -6180,11 +4545,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_39:
     id: block_39
-    display_title: 'MMKTG Tuition & Aid Questions'
+    display_title: 'MMKTG Tuition & Aid'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Marketing Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -6288,44 +4653,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -6336,20 +4663,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/marketing/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -6366,11 +4680,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_4:
     id: block_4
-    display_title: 'FTMBA Curriculum Questions'
+    display_title: 'FTMBA Curriculum'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Full-Time MBA Curriculum FAQs'
+      title: Curriculum
       filters:
         status:
           id: status
@@ -6474,44 +4788,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -6522,20 +4798,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/full-time/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -6552,11 +4815,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_40:
     id: block_40
-    display_title: 'MSF Overview Questions'
+    display_title: 'MSF Overview'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Finance FAQs'
+      title: Overview
       filters:
         status:
           id: status
@@ -6660,44 +4923,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -6708,20 +4933,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/finance/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -6738,11 +4950,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_41:
     id: block_41
-    display_title: 'MSF Admissions Questions'
+    display_title: 'MSF Admissions'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Finance Admissions FAQs'
+      title: Admissions
       filters:
         status:
           id: status
@@ -6846,44 +5058,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -6894,20 +5068,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/finance/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -6924,11 +5085,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_42:
     id: block_42
-    display_title: 'MSF Tuition & Aid Questions'
+    display_title: 'MSF Tuition & Aid'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Finance Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -7032,44 +5193,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -7080,20 +5203,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/finance/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -7110,11 +5220,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_43:
     id: block_43
-    display_title: 'MSF Curriculum Questions'
+    display_title: 'MSF Curriculum'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Finance Curriculum FAQs'
+      title: Curriculum
       filters:
         status:
           id: status
@@ -7218,44 +5328,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -7266,20 +5338,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/finance/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -7296,11 +5355,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_44:
     id: block_44
-    display_title: 'MSF Student Life Questions'
+    display_title: 'MSF Student Life'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Finance Student Life FAQs'
+      title: 'Student Life'
       filters:
         status:
           id: status
@@ -7404,44 +5463,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -7452,20 +5473,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/finance/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -7482,11 +5490,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_45:
     id: block_45
-    display_title: 'MSF Careers Questions'
+    display_title: 'MSF Careers'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Finance Community & Careers FAQs'
+      title: 'Community & Careers'
       filters:
         status:
           id: status
@@ -7590,44 +5598,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -7638,20 +5608,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/finance/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -7668,11 +5625,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_46:
     id: block_46
-    display_title: 'MHRIR Overview Questions'
+    display_title: 'MHRIR Overview'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Human Resources & Industrial Relations FAQs'
+      title: Overview
       filters:
         status:
           id: status
@@ -7776,44 +5733,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -7824,20 +5743,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/human-resources-industrial-relations/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -7854,11 +5760,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_47:
     id: block_47
-    display_title: 'MHRIR Admissions Questions'
+    display_title: 'MHRIR Admissions'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Human Resources & Industrial Relations Admissions FAQs'
+      title: Admissions
       filters:
         status:
           id: status
@@ -7962,44 +5868,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -8010,20 +5878,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/human-resources-industrial-relations/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -8040,11 +5895,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_48:
     id: block_48
-    display_title: 'MHRIR Tuition & Aid Questions'
+    display_title: 'MHRIR Tuition & Aid'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Human Resources & Industrial Relations Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -8148,44 +6003,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -8196,20 +6013,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/human-resources-industrial-relations/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -8226,11 +6030,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_49:
     id: block_49
-    display_title: 'MHRIR Curriculum Questions'
+    display_title: 'MHRIR Curriculum'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Human Resources & Industrial Relations Curriculum FAQs'
+      title: Curriculum
       filters:
         status:
           id: status
@@ -8334,44 +6138,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -8382,20 +6148,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/human-resources-industrial-relations/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -8412,11 +6165,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_5:
     id: block_5
-    display_title: 'FTMBA Student Life Questions'
+    display_title: 'FTMBA Student Life'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Full-Time MBA Student Life FAQs'
+      title: 'Student Life'
       filters:
         status:
           id: status
@@ -8520,44 +6273,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -8568,20 +6283,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/full-time/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -8598,11 +6300,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_50:
     id: block_50
-    display_title: 'MHRIR Student Life Questions'
+    display_title: 'MHRIR Student Life'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Human Resources & Industrial Relations Student Life FAQs'
+      title: 'Student Life'
       filters:
         status:
           id: status
@@ -8706,44 +6408,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -8754,20 +6418,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/human-resources-industrial-relations/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -8784,11 +6435,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_51:
     id: block_51
-    display_title: 'MHRIR Careers Questions'
+    display_title: 'MHRIR Careers'
     display_plugin: block
     position: 2
     display_options:
-      title: 'MHRIR Community & Careers FAQs'
+      title: 'Community & Careers'
       filters:
         status:
           id: status
@@ -8892,44 +6543,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -8940,20 +6553,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/human-resources-industrial-relations/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -8970,11 +6570,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_52:
     id: block_52
-    display_title: 'MS SCM Admissions Questions'
+    display_title: 'MS SCM Admissions'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Supply Chain Management Admissions FAQs'
+      title: 'Admissions FAQs'
       filters:
         status:
           id: status
@@ -9078,44 +6678,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -9126,20 +6688,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/supply-chain-management/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -9156,11 +6705,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_53:
     id: block_53
-    display_title: 'MS SCM Careers Questions'
+    display_title: 'MS SCM Careers'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Supply Chain Management Careers FAQs'
+      title: 'Community & Career'
       filters:
         status:
           id: status
@@ -9264,44 +6813,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -9312,20 +6823,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/supply-chain-management/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -9342,11 +6840,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_54:
     id: block_54
-    display_title: 'MS SCM Student Life Questions'
+    display_title: 'MS SCM Student Life'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Supply Chain Management Student Life FAQs'
+      title: 'Student Life'
       filters:
         status:
           id: status
@@ -9450,44 +6948,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -9498,20 +6958,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/supply-chain-management/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -9528,11 +6975,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_55:
     id: block_55
-    display_title: 'MS SCM Curriculum Questions'
+    display_title: 'MS SCM Curriculum'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Supply Chain Management Curriculum FAQs'
+      title: Curriculum
       filters:
         status:
           id: status
@@ -9636,44 +7083,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -9684,20 +7093,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/supply-chain-management/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -9714,11 +7110,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_56:
     id: block_56
-    display_title: 'MS SCM Overview Questions'
+    display_title: 'MS SCM Overview'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Supply Chain Management FAQs'
+      title: Overview
       filters:
         status:
           id: status
@@ -9822,44 +7218,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -9870,20 +7228,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/supply-chain-management/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -9900,11 +7245,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_57:
     id: block_57
-    display_title: 'MS SCM Tuition & Aid Questions'
+    display_title: 'MS SCM Tuition & Aid'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Master of Science in Supply Chain Management Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -10008,44 +7353,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -10056,20 +7363,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/masters/supply-chain-management/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -10086,11 +7380,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_6:
     id: block_6
-    display_title: 'FTMBA Careers Questions'
+    display_title: 'FTMBA Careers'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Full-Time MBA Community & Careers FAQs'
+      title: 'Community & Careers'
       filters:
         status:
           id: status
@@ -10194,44 +7488,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -10242,20 +7498,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/full-time/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -10272,11 +7515,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_7:
     id: block_7
-    display_title: 'EMBA Overview Questions'
+    display_title: 'EMBA Overview'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Executive MBA Overview FAQs'
+      title: Overview
       filters:
         status:
           id: status
@@ -10380,44 +7623,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -10428,20 +7633,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/executive/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -10458,11 +7650,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_8:
     id: block_8
-    display_title: 'EMBA Admissions Questions'
+    display_title: 'EMBA Admissions'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Executive MBA Admissions FAQs'
+      title: Admissions
       filters:
         status:
           id: status
@@ -10566,44 +7758,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -10614,20 +7768,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/executive/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -10644,11 +7785,11 @@ display:
         - 'config:field.storage.taxonomy_term.field_question'
   block_9:
     id: block_9
-    display_title: 'EMBA Tuition & Aid Questions'
+    display_title: 'EMBA Tuition & Aid'
     display_plugin: block
     position: 2
     display_options:
-      title: 'Executive MBA Tuition & Aid FAQs'
+      title: 'Tuition & Aid'
       filters:
         status:
           id: status
@@ -10752,44 +7893,6 @@ display:
             default_group_multiple: {  }
             group_items: {  }
           reduce_duplicates: false
-        field_show_in_view_value:
-          id: field_show_in_view_value
-          table: taxonomy_term__field_show_in_view
-          field: field_show_in_view_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: boolean
-          operator: '='
-          value: '1'
-          group: 1
-          exposed: false
-          expose:
-            operator_id: ''
-            label: ''
-            description: ''
-            use_operator: false
-            operator: ''
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: ''
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
       filter_groups:
         operator: AND
         groups:
@@ -10800,20 +7903,7 @@ display:
         filter_groups: false
         footer: false
       display_description: ''
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: '<a class="btn btn-primary mb-4" href="/graduate/mba/executive/faq">View All FAQs</a>'
-            format: rich_text
-          tokenize: false
+      footer: {  }
       display_extenders:
         metatag_display_extender:
           metatags: {  }
@@ -10824,188 +7914,6 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
-        - user.permissions
-      tags:
-        - 'config:field.storage.taxonomy_term.field_answer'
-        - 'config:field.storage.taxonomy_term.field_question'
-  page_1:
-    id: page_1
-    display_title: 'FAQ Questions'
-    display_plugin: page
-    position: 1
-    display_options:
-      title: 'MBA & Masters FAQs'
-      filters:
-        status:
-          id: status
-          table: taxonomy_term_field_data
-          field: status
-          entity_type: taxonomy_term
-          entity_field: status
-          plugin_id: boolean
-          value: '1'
-          group: 1
-          expose:
-            operator: ''
-        vid:
-          id: vid
-          table: taxonomy_term_field_data
-          field: vid
-          entity_type: taxonomy_term
-          entity_field: vid
-          plugin_id: bundle
-          value:
-            faq_questions: faq_questions
-        field_program_value:
-          id: field_program_value
-          table: taxonomy_term__field_program
-          field: field_program_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: list_field
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_program_value_op
-            label: Program
-            description: ''
-            use_operator: false
-            operator: field_program_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_program_value
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-        field_topic_value:
-          id: field_topic_value
-          table: taxonomy_term__field_topic
-          field: field_topic_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: list_field
-          operator: or
-          value: {  }
-          group: 1
-          exposed: true
-          expose:
-            operator_id: field_topic_value_op
-            label: Topic
-            description: ''
-            use_operator: false
-            operator: field_topic_value_op
-            operator_limit_selection: false
-            operator_list: {  }
-            identifier: field_topic_value
-            required: false
-            remember: false
-            multiple: false
-            remember_roles:
-              authenticated: authenticated
-            reduce: false
-          is_grouped: false
-          group_info:
-            label: ''
-            description: ''
-            identifier: ''
-            optional: true
-            widget: select
-            multiple: false
-            remember: false
-            default_group: All
-            default_group_multiple: {  }
-            group_items: {  }
-          reduce_duplicates: false
-      filter_groups:
-        operator: AND
-        groups:
-          1: AND
-      defaults:
-        title: false
-        filters: false
-        filter_groups: false
-        footer: false
-      display_description: 'All FAQ Questions'
-      footer:
-        area:
-          id: area
-          table: views
-          field: area
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: text
-          empty: false
-          content:
-            value: ''
-            format: rich_text
-          tokenize: false
-      display_extenders:
-        metatag_display_extender:
-          metatags: {  }
-          tokenize: false
-        simple_sitemap_display_extender: {  }
-      path: graduate/faq
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - url
-        - user.permissions
-      tags:
-        - 'config:field.storage.taxonomy_term.field_answer'
-        - 'config:field.storage.taxonomy_term.field_question'
-rest_export_1:
-    id: rest_export_1
-    display_title: 'REST export'
-    display_plugin: rest_export
-    position: 59
-    display_options:
-      pager:
-        type: none
-        options:
-          offset: 0
-      style:
-        type: serializer
-        options:
-          formats:
-            json: json
-      row:
-        type: data_entity
-        options: {  }
-      display_extenders:
-        metatag_display_extender:
-          metatags: {  }
-          tokenize: false
-        simple_sitemap_display_extender: {  }
-      path: all-faqs-view
-    cache_metadata:
-      max-age: -1
-      contexts:
-        - 'languages:language_content'
-        - 'languages:language_interface'
-        - request_format
         - user.permissions
       tags:
         - 'config:field.storage.taxonomy_term.field_answer'
