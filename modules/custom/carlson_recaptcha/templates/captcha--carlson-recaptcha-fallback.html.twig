@@ -1,0 +1,48 @@
+{#
+/**
+ * @file
+ * CAPTCHA fallback layout: widget only (notice is at the form root).
+ *
+ * Used when reCAPTCHA v3 falls back to the v2 checkbox.
+ *
+ * @ingroup themeable
+ */
+#}
+
+{%
+  set classes = [
+    'captcha',
+    ('captcha-type-challenge--' ~ element['#captcha_type_challenge'])|clean_class,
+  ]
+%}
+{# Tell search engines not to index the captcha element: #}
+{% set attributes = attributes.addClass(classes).setAttribute('data-nosnippet', true) %}
+
+{% block captcha %}
+  {% if is_visible %}
+    {% block captcha_display %}
+      {% if title is not empty %}
+        <fieldset {{ attributes }}>
+          <legend class="captcha__title js-form-required form-required">
+            {{ title }}
+          </legend>
+      {% else %}
+        <div {{ attributes }}>
+      {% endif %}
+          {% if description is not empty %}
+            <div class="captcha__description description">{{ description }}</div>
+          {% endif %}
+          <div class="captcha__element">
+            {{ element }}
+          </div>
+          {% if title is not empty %}
+          </fieldset>
+      {% else %}
+        </div>
+      {% endif %}
+    {% endblock %}
+  {% else %}
+    {# Required for _captcha_required_for_user() to preserve hidden inputs. #}
+    {{ element }}
+  {% endif %}
+{% endblock %}

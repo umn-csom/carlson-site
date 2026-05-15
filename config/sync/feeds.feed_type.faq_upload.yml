@@ -6,6 +6,7 @@ dependencies:
     - field.field.taxonomy_term.faq_questions.field_answer
     - field.field.taxonomy_term.faq_questions.field_program
     - field.field.taxonomy_term.faq_questions.field_question
+    - field.field.taxonomy_term.faq_questions.field_show_in_view
     - field.field.taxonomy_term.faq_questions.field_topic
     - taxonomy.vocabulary.faq_questions
   module:
@@ -45,14 +46,11 @@ third_party_settings:
       6636771f-91b8-4607-a2fe-467a0d05c5e1:
         find_replace:
           - Overview|overview
-          - General|general
           - Admissions|admissions
           - Requirements|requirements
           - 'Tuition & Aid|tuition_aid'
           - Curriculum|curriculum
-          - Careers|careers
           - 'Student Life|student_life'
-          - 'International Students|international_students'
           - 'Community & Career|community_career'
         separator: '|'
         case_sensitive: true
@@ -63,6 +61,20 @@ third_party_settings:
         source: topic
         weight: 0
         label: 'Find replace (multiline)'
+      37743e4b-3d18-4f26-b557-6d1a3c200133:
+        uuid: 37743e4b-3d18-4f26-b557-6d1a3c200133
+        plugin: skip_on_empty
+        source: page
+        weight: 0
+        label: 'Skip tampers on empty'
+      d559cb89-0d0e-4aad-962a-b03bd3afcd0a:
+        default_value: 'true'
+        only_if_empty: false
+        uuid: d559cb89-0d0e-4aad-962a-b03bd3afcd0a
+        plugin: default_value
+        source: page
+        weight: 1
+        label: 'Set value or default value'
 label: 'FAQ Upload'
 id: faq_upload
 description: 'Upload a CSV to create FAQ Taxonomy items.'
@@ -135,6 +147,11 @@ custom_sources:
     label: 'HTML Answers'
     machine_name: html_answers
     type: csv
+  page:
+    value: Page
+    label: Page
+    machine_name: page
+    type: csv
 mappings:
   -
     target: field_program
@@ -175,3 +192,9 @@ mappings:
     settings:
       language: ''
       format: full_html
+  -
+    target: field_show_in_view
+    map:
+      value: page
+    settings:
+      language: null
