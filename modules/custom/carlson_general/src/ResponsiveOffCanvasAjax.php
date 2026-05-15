@@ -3,6 +3,7 @@
 namespace Drupal\carlson_general;
 
 use Drupal\Core\Url;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * Builds the asynchronous responsive off-canvas menu pieces.
@@ -53,9 +54,17 @@ class ResponsiveOffCanvasAjax {
     static::attachResponsiveMenuAssets($build);
     $build['#attached']['library'][] =
       'carlson_general/responsive_off_canvas_ajax';
+    try {
+      $endpoint = Url::fromRoute('carlson_general.responsive_off_canvas')
+        ->toString();
+    }
+    catch (RouteNotFoundException) {
+      $endpoint = Url::fromUserInput('/carlson-general/responsive-off-canvas')
+        ->toString();
+    }
+
     $build['#attached']['drupalSettings']['carlsonGeneral']['responsiveOffCanvas'] = [
-      'endpoint' => Url::fromRoute('carlson_general.responsive_off_canvas')
-        ->toString(),
+      'endpoint' => $endpoint,
       'prefetch' => FALSE,
     ];
 
