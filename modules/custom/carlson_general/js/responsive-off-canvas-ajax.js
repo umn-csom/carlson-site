@@ -2,6 +2,7 @@
   'use strict';
 
   const state = {
+    menuReady: false,
     promise: null,
     prefetchScheduled: false,
   };
@@ -39,6 +40,11 @@
     toggle.removeAttribute('aria-disabled');
     toggle.removeAttribute('tabindex');
     toggle.removeAttribute('data-carlson-responsive-off-canvas-pending');
+    toggle.style.removeProperty('display');
+  }
+
+  function markTogglesReady() {
+    document.querySelectorAll(toggleSelector).forEach(markToggleReady);
   }
 
   function attachThemeOffCanvasTweaks() {
@@ -101,6 +107,8 @@
   function loadMenu() {
     const existing = currentOffCanvas();
     if (existing && existing.mmApi) {
+      state.menuReady = true;
+      markTogglesReady();
       return Promise.resolve(existing);
     }
 
@@ -126,6 +134,14 @@
         return response.text();
       })
       .then(insertMenu)
+      .then((offCanvas) => {
+        if (offCanvas && offCanvas.mmApi) {
+          state.menuReady = true;
+          markTogglesReady();
+        }
+
+        return offCanvas;
+      })
       .catch((error) => {
         state.promise = null;
         throw error;
@@ -178,13 +194,22 @@
   }
 
   function schedulePrefetch() {
+    if (state.menuReady) {
+      markTogglesReady();
+      return;
+    }
+
     if (state.prefetchScheduled || !shouldPrefetch()) {
+      if (!state.prefetchScheduled) {
+        markTogglesReady();
+      }
       return;
     }
 
     state.prefetchScheduled = true;
     const prefetch = () => loadMenu().catch(() => {
       state.prefetchScheduled = false;
+      markTogglesReady();
     });
 
     if ('requestIdleCallback' in window) {
@@ -203,7 +228,6 @@
         context
       ).forEach((toggle) => {
         toggle.addEventListener('click', handleToggleClick, true);
-        markToggleReady(toggle);
       });
 
       schedulePrefetch();
