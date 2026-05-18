@@ -32,6 +32,13 @@
     return document.querySelector('#off-canvas');
   }
 
+  function attachThemeOffCanvasTweaks() {
+    const tweakBehavior = Drupal.behaviors.responsiveMenuTweak;
+    if (tweakBehavior && typeof tweakBehavior.attach === 'function') {
+      tweakBehavior.attach(document, drupalSettings);
+    }
+  }
+
   function openOffCanvas(offCanvas) {
     if (offCanvas && offCanvas.mmApi) {
       offCanvas.mmApi.open();
@@ -77,6 +84,7 @@
     }
 
     Drupal.attachBehaviors(wrapper);
+    attachThemeOffCanvasTweaks();
 
     return currentOffCanvas();
   }
