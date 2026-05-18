@@ -2,8 +2,6 @@
 
 namespace Drupal\carlson_general;
 
-use Drupal\Core\Url;
-
 /**
  * Builds the asynchronous responsive off-canvas menu pieces.
  */
@@ -53,9 +51,9 @@ class ResponsiveOffCanvasAjax {
     static::attachResponsiveMenuAssets($build);
     $build['#attached']['library'][] =
       'carlson_general/responsive_off_canvas_ajax';
+
     $build['#attached']['drupalSettings']['carlsonGeneral']['responsiveOffCanvas'] = [
-      'endpoint' => Url::fromRoute('carlson_general.responsive_off_canvas')
-        ->toString(),
+      'endpoint' => '/carlson-general/responsive-off-canvas',
       'prefetch' => FALSE,
     ];
 
