@@ -5,6 +5,8 @@
     promise: null,
     prefetchScheduled: false,
   };
+  const toggleSelector = '#toggle-icon, .responsive-menu-toggle-icon, ' +
+    '#navbar-main .navbar-toggler';
 
   function settings() {
     return drupalSettings.carlsonGeneral &&
@@ -30,6 +32,13 @@
 
   function currentOffCanvas() {
     return document.querySelector('#off-canvas');
+  }
+
+  function markToggleReady(toggle) {
+    toggle.removeAttribute('hidden');
+    toggle.removeAttribute('aria-disabled');
+    toggle.removeAttribute('tabindex');
+    toggle.removeAttribute('data-carlson-responsive-off-canvas-pending');
   }
 
   function attachThemeOffCanvasTweaks() {
@@ -190,10 +199,11 @@
     attach(context) {
       once(
         'carlson-responsive-off-canvas-ajax',
-        '#toggle-icon, .responsive-menu-toggle-icon, #navbar-main .navbar-toggler',
+        toggleSelector,
         context
       ).forEach((toggle) => {
         toggle.addEventListener('click', handleToggleClick, true);
+        markToggleReady(toggle);
       });
 
       schedulePrefetch();
