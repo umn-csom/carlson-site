@@ -18,6 +18,7 @@ import datetime as dt
 import json
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -167,11 +168,10 @@ def db_exec(cwd: Path, sql: str, check: bool = True) -> str:
         cwd,
         "exec",
         DB_CONTAINER,
-        "mariadb",
-        "-uroot",
-        "-proot",
-        "-e",
-        sql,
+        "sh",
+        "-lc",
+        "client=$(command -v mariadb || command -v mysql) && "
+        f'"$client" -uroot -proot -e {shlex.quote(sql)}',
         check=check,
     )
 
