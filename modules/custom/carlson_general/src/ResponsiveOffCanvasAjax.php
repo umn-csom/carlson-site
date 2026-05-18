@@ -54,7 +54,7 @@ class ResponsiveOffCanvasAjax {
 
     $build['#attached']['drupalSettings']['carlsonGeneral']['responsiveOffCanvas'] = [
       'endpoint' => '/carlson-general/responsive-off-canvas',
-      'prefetch' => FALSE,
+      'prefetch' => TRUE,
     ];
 
     return $build;

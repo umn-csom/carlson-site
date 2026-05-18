@@ -3,6 +3,7 @@
 
   const state = {
     promise: null,
+    prefetchScheduled: false,
   };
 
   function settings() {
@@ -138,6 +139,45 @@
       });
   }
 
+  function shouldPrefetch() {
+    if (!settings().prefetch) {
+      return false;
+    }
+
+    const breakpoint = drupalSettings.responsive_menu &&
+      drupalSettings.responsive_menu.breakpoint;
+    if (breakpoint && 'matchMedia' in window) {
+      try {
+        if (window.matchMedia(breakpoint).matches) {
+          return false;
+        }
+      }
+      catch {
+        return true;
+      }
+    }
+
+    return true;
+  }
+
+  function schedulePrefetch() {
+    if (state.prefetchScheduled || !shouldPrefetch()) {
+      return;
+    }
+
+    state.prefetchScheduled = true;
+    const prefetch = () => loadMenu().catch(() => {
+      state.prefetchScheduled = false;
+    });
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(prefetch);
+    }
+    else {
+      window.setTimeout(prefetch, 1500);
+    }
+  }
+
   Drupal.behaviors.carlsonResponsiveOffCanvasAjax = {
     attach(context) {
       once(
@@ -148,15 +188,7 @@
         toggle.addEventListener('click', handleToggleClick, true);
       });
 
-      if (settings().prefetch) {
-        const prefetch = () => loadMenu().catch(() => {});
-        if ('requestIdleCallback' in window) {
-          window.requestIdleCallback(prefetch);
-        }
-        else {
-          window.setTimeout(prefetch, 1500);
-        }
-      }
+      schedulePrefetch();
     },
   };
 
