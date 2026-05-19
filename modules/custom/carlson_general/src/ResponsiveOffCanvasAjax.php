@@ -4,6 +4,18 @@ namespace Drupal\carlson_general;
 
 /**
  * Builds the asynchronous responsive off-canvas menu pieces.
+ *
+ * Mental model:
+ * - buildPlaceholder() is used during the initial page request. It attaches the
+ *   responsive_menu assets, Carlson AJAX library, endpoint setting, and a small
+ *   DOM placeholder instead of rendering the expensive menu tree immediately.
+ * - ResponsiveOffCanvasController calls buildMenu() later through AJAX. That
+ *   method returns the full wrapper and menu tree markup that replaces the
+ *   placeholder in the browser.
+ * - buildMenuTree() mirrors responsive_menu's normal off-canvas tree building
+ *   flow so existing menu-name, manipulator, and tree alter hooks still apply.
+ * - addMenuCacheability() keeps the AJAX response tied to menu config and
+ *   active-trail cache contexts so cached fragments vary with the page path.
  */
 class ResponsiveOffCanvasAjax {
 
