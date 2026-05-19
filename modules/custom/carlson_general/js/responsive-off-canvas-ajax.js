@@ -1,6 +1,14 @@
 (function (Drupal, drupalSettings, once) {
   'use strict';
 
+  /*
+   * Mental model:
+   * 1. PHP renders only a lightweight placeholder on the initial page load.
+   * 2. This behavior prefetches the off-canvas menu when the browser is idle.
+   * 3. If the user clicks first, the same one-time loader fetches the menu.
+   * 4. The fetched markup replaces the placeholder, Drupal behaviors initialize
+   *    mmenu, and later clicks use the initialized mmenu API directly.
+   */
   const state = {
     menuReady: false,
     promise: null,
@@ -31,10 +39,12 @@
       encodeURIComponent(currentPath());
   }
 
+  // The mmenu plugin attaches its API directly to the #off-canvas element.
   function currentOffCanvas() {
     return document.querySelector('#off-canvas');
   }
 
+  // The toggle starts hidden/disabled so early clicks cannot race the loader.
   function markToggleReady(toggle) {
     toggle.removeAttribute('hidden');
     toggle.removeAttribute('aria-disabled');
@@ -47,6 +57,7 @@
     document.querySelectorAll(toggleSelector).forEach(markToggleReady);
   }
 
+  // Re-run the site's existing responsive menu tweaks after AJAX insertion.
   function attachThemeOffCanvasTweaks() {
     const tweakBehavior = Drupal.behaviors.responsiveMenuTweak;
     if (tweakBehavior && typeof tweakBehavior.attach === 'function') {
@@ -69,6 +80,7 @@
     }
   }
 
+  // Match the existing theme behavior that removes main content from tab order.
   function setMainTabIndex(value) {
     const featured = document.querySelector('section#featured');
     const main = document.querySelector('main');
@@ -80,6 +92,8 @@
     }
   }
 
+  // Convert the endpoint HTML into DOM, replace the placeholder, and let
+  // Drupal/mmenu initialize the new menu subtree.
   function insertMenu(html) {
     const template = document.createElement('template');
     template.innerHTML = html.trim();
@@ -104,6 +118,8 @@
     return currentOffCanvas();
   }
 
+  // Shared loader for idle prefetch and click-to-open. The stored promise
+  // deduplicates concurrent requests so the menu is fetched only once.
   function loadMenu() {
     const existing = currentOffCanvas();
     if (existing && existing.mmApi) {
@@ -151,6 +167,8 @@
     return state.promise;
   }
 
+  // Capture toggle clicks before the contrib listener. If the menu is already
+  // initialized, use mmenu directly; otherwise load it and open it afterward.
   function handleToggleClick(event) {
     const offCanvas = currentOffCanvas();
     if (offCanvas && offCanvas.mmApi) {
@@ -173,6 +191,7 @@
       });
   }
 
+  // Prefetch only when configured and only for viewports that use off-canvas.
   function shouldPrefetch() {
     if (!settings().prefetch) {
       return false;
@@ -194,6 +213,9 @@
     return true;
   }
 
+  // Defer the fetch until idle time so initial page rendering can finish first.
+  // If prefetch is disabled or fails, the toggle is still made usable and the
+  // click handler can load the menu on demand.
   function schedulePrefetch() {
     if (state.menuReady) {
       markTogglesReady();
@@ -223,6 +245,7 @@
 
   Drupal.behaviors.carlsonResponsiveOffCanvasAjax = {
     attach(context) {
+      // once() keeps the capture listener from being duplicated after AJAX.
       once(
         'carlson-responsive-off-canvas-ajax',
         toggleSelector,
