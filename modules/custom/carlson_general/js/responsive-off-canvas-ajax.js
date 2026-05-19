@@ -44,8 +44,19 @@
     return document.querySelector('#off-canvas');
   }
 
+  function setToggleExpanded(expanded) {
+    const value = expanded ? 'true' : 'false';
+    document.querySelectorAll(toggleSelector).forEach((toggle) => {
+      toggle.setAttribute('aria-expanded', value);
+    });
+  }
+
   // The toggle starts hidden/disabled so early clicks cannot race the loader.
   function markToggleReady(toggle) {
+    toggle.setAttribute('aria-controls', 'off-canvas');
+    if (!toggle.hasAttribute('aria-expanded')) {
+      toggle.setAttribute('aria-expanded', 'false');
+    }
     toggle.removeAttribute('hidden');
     toggle.removeAttribute('aria-disabled');
     toggle.removeAttribute('tabindex');
@@ -65,9 +76,28 @@
     }
   }
 
+  // Keep aria-expanded synced when mmenu opens or closes through any control.
+  function bindOffCanvasState(offCanvas) {
+    if (
+      !offCanvas ||
+      !offCanvas.mmApi ||
+      offCanvas.dataset.carlsonOffCanvasAriaBound
+    ) {
+      return;
+    }
+
+    offCanvas.dataset.carlsonOffCanvasAriaBound = 'true';
+    if (typeof offCanvas.mmApi.bind === 'function') {
+      offCanvas.mmApi.bind('open:start', () => setToggleExpanded(true));
+      offCanvas.mmApi.bind('close:start', () => setToggleExpanded(false));
+    }
+    setToggleExpanded(offCanvas.classList.contains('mm-menu_opened'));
+  }
+
   function openOffCanvas(offCanvas) {
     if (offCanvas && offCanvas.mmApi) {
       offCanvas.mmApi.open();
+      setToggleExpanded(true);
     }
   }
 
@@ -77,6 +107,7 @@
         ? 'close'
         : 'open';
       offCanvas.mmApi[method]();
+      setToggleExpanded(method === 'open');
     }
   }
 
@@ -125,6 +156,7 @@
     if (existing && existing.mmApi) {
       state.menuReady = true;
       markTogglesReady();
+      bindOffCanvasState(existing);
       return Promise.resolve(existing);
     }
 
@@ -154,6 +186,7 @@
         if (offCanvas && offCanvas.mmApi) {
           state.menuReady = true;
           markTogglesReady();
+          bindOffCanvasState(offCanvas);
           return offCanvas;
         }
 
