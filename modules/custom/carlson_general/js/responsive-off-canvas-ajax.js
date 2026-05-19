@@ -213,7 +213,7 @@
     });
 
     if ('requestIdleCallback' in window) {
-      window.requestIdleCallback(prefetch);
+      window.requestIdleCallback(prefetch, { timeout: 2000 });
     }
     else {
       window.setTimeout(prefetch, 1500);
