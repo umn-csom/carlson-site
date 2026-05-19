@@ -138,9 +138,10 @@
         if (offCanvas && offCanvas.mmApi) {
           state.menuReady = true;
           markTogglesReady();
+          return offCanvas;
         }
 
-        return offCanvas;
+        throw new Error('Off-canvas menu did not initialize.');
       })
       .catch((error) => {
         state.promise = null;
