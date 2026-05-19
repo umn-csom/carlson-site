@@ -43,6 +43,8 @@ function carlson_general_responsive_menu_off_canvas_manipulators_alter(array &$m
  * Implements hook_responsive_menu_off_canvas_output_alter().
  */
 function carlson_general_responsive_menu_off_canvas_output_alter(bool &$output): void {
+  // Prevent responsive_menu from rendering the full off-canvas tree during the
+  // initial page request. Carlson replaces it with an AJAX-loaded placeholder.
   $output = FALSE;
 }
 
