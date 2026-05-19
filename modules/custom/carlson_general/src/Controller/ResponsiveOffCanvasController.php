@@ -18,6 +18,13 @@ use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 
 /**
  * Returns the responsive off-canvas menu markup on demand.
+ *
+ * Mental model:
+ * - The initial page renders only a lightweight off-canvas placeholder.
+ * - JavaScript calls this endpoint with the page path that needs a menu.
+ * - The controller temporarily treats that path as the current request so
+ *   active-trail logic and cache contexts match the page being viewed.
+ * - It renders only the off-canvas menu fragment and returns it to the client.
  */
 class ResponsiveOffCanvasController implements ContainerInjectionInterface {
 
