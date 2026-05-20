@@ -1,7 +1,32 @@
 (function (Drupal, once) {
   'use strict';
 
+  /**
+   * Mental model:
+   * 1. The initial desktop nav renders only the top-level mega menu toggles.
+   * 2. Each top-level item carries an empty placeholder with a same-origin
+   *    endpoint for its simple_megamenu entity.
+   * 3. The first hover, focus, or click fetches the panel HTML and inserts it.
+   * 4. Fetched HTML is cached in memory for the current page view, so reopening
+   *    the same menu does not repeat the request.
+   * 5. After insertion, Drupal behaviors are attached inside the panel and the
+   *    active trail is restored client-side for links that match this page.
+   */
   const responses = new Map();
+
+  function endpointUrl(url) {
+    try {
+      const endpoint = new URL(url, window.location.origin);
+      if (endpoint.origin !== window.location.origin) {
+        return null;
+      }
+
+      return endpoint.toString();
+    }
+    catch (error) {
+      return null;
+    }
+  }
 
   function normalizedPath(pathname) {
     if (!pathname || pathname === '/') {
@@ -55,7 +80,12 @@
   }
 
   function requestPanel(url) {
-    const cached = responses.get(url);
+    const endpoint = endpointUrl(url);
+    if (!endpoint) {
+      return Promise.reject(new Error('Megamenu panel endpoint is invalid.'));
+    }
+
+    const cached = responses.get(endpoint);
     if (typeof cached === 'string') {
       return Promise.resolve(cached);
     }
@@ -63,9 +93,10 @@
       return cached;
     }
 
-    const request = fetch(url, {
+    const request = fetch(endpoint, {
       credentials: 'same-origin',
       headers: {
+        Accept: 'text/html',
         'X-Requested-With': 'XMLHttpRequest',
       },
     })
@@ -77,19 +108,20 @@
         return response.text();
       })
       .then((html) => {
-        responses.set(url, html);
+        responses.set(endpoint, html);
         return html;
       })
       .catch((error) => {
-        responses.delete(url);
+        responses.delete(endpoint);
         throw error;
       });
 
-    responses.set(url, request);
+    responses.set(endpoint, request);
     return request;
   }
 
   function insertPanel(panel, html) {
+    // The HTML is rendered by Drupal from a view-access-checked entity route.
     panel.innerHTML = html;
     panel.setAttribute('data-carlson-mega-menu-loaded', 'true');
     panel.removeAttribute('aria-busy');
@@ -110,6 +142,8 @@
 
     panel.setAttribute('aria-busy', 'true');
 
+    // Store the loaded state on the placeholder, while requestPanel() stores
+    // shared response text by URL to deduplicate simultaneous interactions.
     return requestPanel(url)
       .then((html) => {
         insertPanel(panel, html);
@@ -140,6 +174,8 @@
 
   Drupal.behaviors.carlsonDesktopMegaMenuAjax = {
     attach(context) {
+      // Bind once per placeholder. The handlers live on the stable parent item
+      // so the panel can remain empty until the first meaningful interaction.
       once(
         'carlson-desktop-megamenu-ajax',
         '[data-carlson-mega-menu-panel]',

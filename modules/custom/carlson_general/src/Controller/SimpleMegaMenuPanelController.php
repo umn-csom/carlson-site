@@ -15,6 +15,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Returns desktop simple megamenu panels on demand.
+ *
+ * The desktop navigation no longer renders every simple_megamenu entity during
+ * the initial page request. Instead, the Twig template renders a lightweight
+ * placeholder with this route as its endpoint. The JavaScript behavior fetches
+ * the endpoint on first interaction and inserts the returned panel HTML.
+ *
+ * This controller keeps the same server-side guarantees as the old Twig helper:
+ * it loads the requested simple_megamenu entity, resolves the current language,
+ * checks view access, renders the configured view mode, and returns the render
+ * cache metadata on the response so normal cache tag invalidation still works.
  */
 class SimpleMegaMenuPanelController implements ContainerInjectionInterface {
 
@@ -68,6 +78,8 @@ class SimpleMegaMenuPanelController implements ContainerInjectionInterface {
       throw new AccessDeniedHttpException();
     }
 
+    // Match the old desktop nav behavior, which rendered the megamenu entity
+    // with view_megamenu(item.url, 'before') inside the full menu template.
     $view_builder = $this->entityTypeManager
       ->getViewBuilder($entity->getEntityTypeId());
     $build = $view_builder->view($entity, 'before');
