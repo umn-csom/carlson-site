@@ -138,7 +138,7 @@ class ResponsiveOffCanvasAjax {
 
       $parameters = $menu_tree->getCurrentRouteMenuTreeParameters($menu_name);
       $parameters->expandedParents = [];
-      $tree_items = $menu_tree->load($menu_name, $parameters);
+      $tree_items = $menu_tree->load($menu_name, $parameters->onlyEnabledLinks());
       $tree_manipulated = $menu_tree->transform($tree_items, $manipulators);
       $combined_tree = array_merge($combined_tree, $tree_manipulated);
     }
