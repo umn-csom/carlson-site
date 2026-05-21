@@ -75,15 +75,6 @@ switch ($environment) {
     $config['system.logging']['error_level'] = 'verbose';
 }
 
-// TEMP CSM-376: allow one-off cache rebuild on Acquia dev.
-// Remove immediately after visiting /core/rebuild.php with this query string.
-if (
-  $environment === 'dev' &&
-  ($_GET['csm_rebuild'] ?? '') === 'CSM-376-clear-route-cache'
-) {
-  $settings['rebuild_access'] = TRUE;
-}
-
 /**
  * Private file path for temporary diagnostics and protected uploads.
  */
