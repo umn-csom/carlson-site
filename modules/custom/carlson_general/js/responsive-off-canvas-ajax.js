@@ -62,6 +62,9 @@
     toggle.removeAttribute('tabindex');
     toggle.removeAttribute('data-carlson-responsive-off-canvas-pending');
     toggle.style.removeProperty('display');
+    toggle.style.removeProperty('opacity');
+    toggle.style.removeProperty('pointer-events');
+    toggle.style.removeProperty('visibility');
   }
 
   function markTogglesReady() {
