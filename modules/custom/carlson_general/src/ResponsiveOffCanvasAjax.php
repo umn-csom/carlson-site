@@ -2,13 +2,16 @@
 
 namespace Drupal\carlson_general;
 
+use Drupal\Core\Url;
+
 /**
  * Builds the asynchronous responsive off-canvas menu pieces.
  *
  * Mental model:
  * - buildPlaceholder() is used during the initial page request. It attaches the
- *   responsive_menu assets, Carlson AJAX library, endpoint setting, and a small
- *   DOM placeholder instead of rendering the expensive menu tree immediately.
+ *   responsive_menu assets, Carlson AJAX library, endpoint setting, a
+ *   mobile-scoped endpoint preload hint, and a small DOM placeholder instead of
+ *   rendering the expensive menu tree immediately.
  * - ResponsiveOffCanvasController calls buildMenu() later through AJAX. That
  *   method returns the full wrapper and menu tree markup that replaces the
  *   placeholder in the browser.
@@ -55,7 +58,10 @@ class ResponsiveOffCanvasAjax {
         'data-carlson-responsive-off-canvas-placeholder' => '',
       ],
       '#cache' => [
-        'contexts' => ['languages:language_interface'],
+        'contexts' => [
+          'languages:language_interface',
+          'url.path',
+        ],
         'tags' => ['config:responsive_menu.settings'],
       ],
     ];
@@ -69,7 +75,53 @@ class ResponsiveOffCanvasAjax {
       'prefetch' => TRUE,
     ];
 
+    static::attachEndpointPreload($build);
+
     return $build;
+  }
+
+  /**
+   * Adds a mobile-scoped preload hint for the AJAX off-canvas endpoint.
+   *
+   * @param array $build
+   *   The render array receiving attachments.
+   */
+  protected static function attachEndpointPreload(array &$build): void {
+    $endpoint = Url::fromRoute('carlson_general.responsive_off_canvas')
+      ->toString();
+    $href = $endpoint . '?current_path=' .
+      rawurlencode(\Drupal::request()->getPathInfo());
+
+    $link = [
+      'rel' => 'preload',
+      'href' => $href,
+      'as' => 'fetch',
+      'crossorigin' => 'anonymous',
+    ];
+
+    $media = static::mobileMediaQuery();
+    if ($media !== '') {
+      $link['media'] = $media;
+    }
+
+    $build['#attached']['html_head_link'][] = [$link, FALSE];
+  }
+
+  /**
+   * Returns the inverse of the configured desktop responsive menu breakpoint.
+   *
+   * @return string
+   *   A media query that matches mobile/off-canvas viewports.
+   */
+  protected static function mobileMediaQuery(): string {
+    $breakpoint = \Drupal::config('responsive_menu.settings')
+      ->get('horizontal_media_query');
+
+    if (!is_string($breakpoint) || $breakpoint === '') {
+      return '';
+    }
+
+    return 'not all and ' . $breakpoint;
   }
 
   /**
