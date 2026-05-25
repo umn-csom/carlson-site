@@ -249,7 +249,8 @@
     return true;
   }
 
-  // Defer the fetch until idle time so initial page rendering can finish first.
+  // Defer the fetch until idle time when supported, otherwise start it as soon
+  // as the current task clears so Safari/iOS does not hold the mobile button.
   // If prefetch is disabled or fails, the toggle is still made usable and the
   // click handler can load the menu on demand.
   function schedulePrefetch() {
@@ -271,11 +272,11 @@
       markTogglesReady();
     });
 
-    if ('requestIdleCallback' in window) {
+    if (typeof window.requestIdleCallback === 'function') {
       window.requestIdleCallback(prefetch, { timeout: 2000 });
     }
     else {
-      window.setTimeout(prefetch, 1500);
+      window.setTimeout(prefetch, 0);
     }
   }
 
