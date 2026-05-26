@@ -51,9 +51,6 @@ switch ($environment) {
     $config['environment_indicator.indicator']['bg_color'] = '#4DB9AF';
     $config['environment_indicator.indicator']['name'] = 'DEV';
     $config['system.logging']['error_level'] = 'verbose';
-    if (file_exists(__DIR__ . '/cache-debug.services.yml')) {
-      $settings['container_yamls'][] = __DIR__ . '/cache-debug.services.yml';
-    }
     break;
 
   case 'test':
