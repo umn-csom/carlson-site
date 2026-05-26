@@ -9,7 +9,6 @@ use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\user\Entity\Role;
@@ -71,8 +70,7 @@ function carlson_general_page_attachments(array &$attachments): void {
     return;
   }
 
-  $endpoint = Url::fromRoute('carlson_general.simple_mega_menu_panels')
-    ->toString();
+  $endpoint = base_path() . 'carlson-general/simple-mega-menu-panels';
   $breakpoint = \Drupal::config('responsive_menu.settings')
     ->get('horizontal_media_query');
 
