@@ -66,14 +66,26 @@ function carlson_general_page_bottom(array &$page): void {
  * Implements hook_page_attachments().
  */
 function carlson_general_page_attachments(array &$attachments): void {
+  // The desktop megamenu assets only matter on public site pages. Avoid
+  // adding frontend preload hints or drupalSettings to admin routes.
   if (\Drupal::service('router.admin_context')->isAdminRoute()) {
     return;
   }
 
+  // Use the stable path instead of Url::fromRoute() so a deployment where PHP
+  // code is ahead of Drupal's router cache cannot fatal before caches rebuild.
+  // The JS gracefully falls back to the older per-panel endpoints if this
+  // aggregate endpoint is not available yet.
   $endpoint = base_path() . 'carlson-general/simple-mega-menu-panels';
+
+  // Keep the JavaScript desktop check in sync with responsive_menu so mobile
+  // visitors do not fetch desktop-only megamenu panels.
   $breakpoint = \Drupal::config('responsive_menu.settings')
     ->get('horizontal_media_query');
 
+  // Hand the endpoint and breakpoint to desktop-megamenu-ajax.js. That script
+  // starts one aggregate request early and fills all empty megamenu panels when
+  // the payload is ready.
   $settings = [
     'endpoint' => $endpoint,
     'preload' => TRUE,
@@ -86,6 +98,8 @@ function carlson_general_page_attachments(array &$attachments): void {
     'desktopMegaMenu'
   ] = $settings;
 
+  // Ask the browser to start fetching the aggregate panel payload as early as
+  // possible on desktop. This removes the first-hover/click delay.
   $link = [
     'rel' => 'preload',
     'href' => $endpoint,
