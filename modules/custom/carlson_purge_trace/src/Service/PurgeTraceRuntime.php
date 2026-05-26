@@ -16,7 +16,7 @@ class PurgeTraceRuntime {
   /**
    * Default purge trace capture state.
    */
-  public const DEFAULT_ENABLED = TRUE;
+  public const DEFAULT_ENABLED = FALSE;
 
   /**
    * Default caller capture state.

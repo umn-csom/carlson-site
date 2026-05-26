@@ -14,6 +14,7 @@ use Drupal\Core\State\StateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
@@ -125,6 +126,13 @@ class PurgeTraceLogsController extends ControllerBase {
       ],
     ];
 
+    if ($files !== []) {
+      $build['summary']['#items'][] = Link::fromTextAndUrl(
+        $this->t('Download all trace files'),
+        Url::fromRoute('carlson_purge_trace.download_all'),
+      )->toString();
+    }
+
     $build['files'] = [
       '#type' => 'table',
       '#header' => [
@@ -231,6 +239,42 @@ class PurgeTraceLogsController extends ControllerBase {
     $response->setContentDisposition(
       ResponseHeaderBag::DISPOSITION_ATTACHMENT,
       basename($path),
+    );
+    return $response;
+  }
+
+  /**
+   * Downloads all current trace files as one NDJSON file.
+   */
+  public function downloadAllFiles(): StreamedResponse {
+    $files = $this->writer->listFiles();
+
+    usort($files, static function (array $a, array $b): int {
+      return ((string) $a['relative_path']) <=> ((string) $b['relative_path']);
+    });
+
+    $response = new StreamedResponse(function () use ($files): void {
+      foreach ($files as $file) {
+        $path = $file['path'] ?? NULL;
+        if (!is_string($path) || !is_file($path)) {
+          continue;
+        }
+
+        $contents = file_get_contents($path);
+        if ($contents === FALSE || $contents === '') {
+          continue;
+        }
+
+        echo rtrim($contents, "\r\n") . PHP_EOL;
+      }
+    });
+    $response->headers->set('Content-Type', 'application/x-ndjson');
+    $response->headers->set(
+      'Content-Disposition',
+      $response->headers->makeDisposition(
+        ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+        'purge-trace-all-' . gmdate('Y-m-d-His') . '.ndjson',
+      ),
     );
     return $response;
   }
