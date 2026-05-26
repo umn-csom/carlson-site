@@ -9,6 +9,7 @@ use Drupal\Core\Breadcrumb\Breadcrumb;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
 use Drupal\node\Entity\Node;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\user\Entity\Role;
@@ -60,6 +61,44 @@ function carlson_general_page_bottom(array &$page): void {
   // default responsive_menu off-canvas output has been disabled above.
   $page['page_bottom']['off_canvas'] =
     \Drupal\carlson_general\ResponsiveOffCanvasAjax::buildPlaceholder();
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function carlson_general_page_attachments(array &$attachments): void {
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+
+  $endpoint = Url::fromRoute('carlson_general.simple_mega_menu_panels')
+    ->toString();
+  $breakpoint = \Drupal::config('responsive_menu.settings')
+    ->get('horizontal_media_query');
+
+  $settings = [
+    'endpoint' => $endpoint,
+    'preload' => TRUE,
+  ];
+  if (is_string($breakpoint) && $breakpoint !== '') {
+    $settings['breakpoint'] = $breakpoint;
+  }
+
+  $attachments['#attached']['drupalSettings']['carlsonGeneral'][
+    'desktopMegaMenu'
+  ] = $settings;
+
+  $link = [
+    'rel' => 'preload',
+    'href' => $endpoint,
+    'as' => 'fetch',
+    'crossorigin' => 'anonymous',
+  ];
+  if (isset($settings['breakpoint'])) {
+    $link['media'] = $settings['breakpoint'];
+  }
+
+  $attachments['#attached']['html_head_link'][] = [$link, FALSE];
 }
 
 /**

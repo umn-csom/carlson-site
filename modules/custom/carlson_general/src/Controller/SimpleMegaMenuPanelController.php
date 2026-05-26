@@ -2,6 +2,8 @@
 
 namespace Drupal\carlson_general\Controller;
 
+use Drupal\Core\Access\AccessResultInterface;
+use Drupal\Core\Cache\CacheableJsonResponse;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityRepositoryInterface;
@@ -65,6 +67,76 @@ class SimpleMegaMenuPanelController implements ContainerInjectionInterface {
    *   The cacheable rendered panel response.
    */
   public function panel(string $simple_mega_menu): HtmlResponse {
+    $entity = $this->loadPanelEntity($simple_mega_menu);
+    $entity = $this->entityRepository->getTranslationFromContext($entity);
+    $access = $entity->access('view', NULL, TRUE);
+    if (!$access->isAllowed()) {
+      throw new AccessDeniedHttpException();
+    }
+
+    [$markup, $cacheability] = $this->renderPanel($entity, $access);
+
+    $response = new HtmlResponse($markup);
+    $response->addCacheableDependency($cacheability);
+
+    return $response;
+  }
+
+  /**
+   * Returns all rendered navbar simple megamenu panels in one response.
+   *
+   * @return \Drupal\Core\Cache\CacheableJsonResponse
+   *   The cacheable rendered panel response keyed by simple megamenu ID.
+   */
+  public function panels(): CacheableJsonResponse {
+    $storage = $this->entityTypeManager->getStorage('simple_mega_menu');
+    $entity_type = $this->entityTypeManager->getDefinition('simple_mega_menu');
+    $ids = $storage->getQuery()
+      ->accessCheck(TRUE)
+      ->condition('type', 'navbar_mega_menu')
+      ->sort('id')
+      ->execute();
+
+    $panels = [];
+    $cacheability = (new CacheableMetadata())
+      ->addCacheTags($entity_type->getListCacheTags());
+
+    foreach ($storage->loadMultiple($ids) as $entity) {
+      if (!$entity instanceof SimpleMegaMenuInterface) {
+        continue;
+      }
+
+      $entity = $this->entityRepository->getTranslationFromContext($entity);
+      $access = $entity->access('view', NULL, TRUE);
+      $cacheability
+        ->addCacheableDependency($access)
+        ->addCacheableDependency($entity);
+
+      if (!$access->isAllowed()) {
+        continue;
+      }
+
+      [$markup, $panel_cacheability] = $this->renderPanel($entity, $access);
+      $cacheability->addCacheableDependency($panel_cacheability);
+      $panels[(string) $entity->id()] = $markup;
+    }
+
+    $response = new CacheableJsonResponse(['panels' => $panels]);
+    $response->addCacheableDependency($cacheability);
+
+    return $response;
+  }
+
+  /**
+   * Loads a simple megamenu panel entity.
+   *
+   * @param string $simple_mega_menu
+   *   The simple megamenu entity ID.
+   *
+   * @return \Drupal\simple_megamenu\Entity\SimpleMegaMenuInterface
+   *   The loaded simple megamenu entity.
+   */
+  protected function loadPanelEntity(string $simple_mega_menu): SimpleMegaMenuInterface {
     $storage = $this->entityTypeManager->getStorage('simple_mega_menu');
     $entity = $storage->load($simple_mega_menu);
 
@@ -72,12 +144,24 @@ class SimpleMegaMenuPanelController implements ContainerInjectionInterface {
       throw new NotFoundHttpException('Simple megamenu panel was not found.');
     }
 
-    $entity = $this->entityRepository->getTranslationFromContext($entity);
-    $access = $entity->access('view', NULL, TRUE);
-    if (!$access->isAllowed()) {
-      throw new AccessDeniedHttpException();
-    }
+    return $entity;
+  }
 
+  /**
+   * Renders a simple megamenu panel with cacheability metadata.
+   *
+   * @param \Drupal\simple_megamenu\Entity\SimpleMegaMenuInterface $entity
+   *   The simple megamenu entity.
+   * @param \Drupal\Core\Access\AccessResultInterface $access
+   *   The access result for this entity.
+   *
+   * @return array
+   *   A two-item array containing rendered markup and cacheability metadata.
+   */
+  protected function renderPanel(
+    SimpleMegaMenuInterface $entity,
+    AccessResultInterface $access,
+  ): array {
     // Match the old desktop nav behavior, which rendered the megamenu entity
     // with view_megamenu(item.url, 'before') inside the full menu template.
     $view_builder = $this->entityTypeManager
@@ -89,10 +173,7 @@ class SimpleMegaMenuPanelController implements ContainerInjectionInterface {
       ->addCacheableDependency($access)
       ->addCacheableDependency($entity);
 
-    $response = new HtmlResponse((string) $markup);
-    $response->addCacheableDependency($cacheability);
-
-    return $response;
+    return [(string) $markup, $cacheability];
   }
 
 }
