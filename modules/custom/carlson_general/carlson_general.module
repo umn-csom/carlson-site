@@ -83,9 +83,9 @@ function carlson_general_page_attachments(array &$attachments): void {
   $breakpoint = \Drupal::config('responsive_menu.settings')
     ->get('horizontal_media_query');
 
-  // Hand the endpoint and breakpoint to desktop-megamenu-ajax.js. That script
-  // starts one aggregate request early and fills all empty megamenu panels when
-  // the payload is ready.
+  // Hand the endpoint and breakpoint to desktop-megamenu-ajax.js. That header
+  // loaded script starts one aggregate request early and fills all empty
+  // megamenu panels when the payload is ready.
   $settings = [
     'endpoint' => $endpoint,
     'preload' => TRUE,
@@ -97,20 +97,6 @@ function carlson_general_page_attachments(array &$attachments): void {
   $attachments['#attached']['drupalSettings']['carlsonGeneral'][
     'desktopMegaMenu'
   ] = $settings;
-
-  // Ask the browser to start fetching the aggregate panel payload as early as
-  // possible on desktop. This removes the first-hover/click delay.
-  $link = [
-    'rel' => 'preload',
-    'href' => $endpoint,
-    'as' => 'fetch',
-    'crossorigin' => 'anonymous',
-  ];
-  if (isset($settings['breakpoint'])) {
-    $link['media'] = $settings['breakpoint'];
-  }
-
-  $attachments['#attached']['html_head_link'][] = [$link, FALSE];
 }
 
 /**
