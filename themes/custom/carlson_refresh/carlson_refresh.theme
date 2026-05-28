@@ -677,34 +677,47 @@ function carlson_refresh_preprocess_page(&$variables) {
  * Implements hook_preprocess_pager().
  */
 function carlson_refresh_preprocess_pager(&$variables) {
-  $element = $variables['pager']['#element'];
-  $parameters = $variables['pager']['#parameters'];
+  $element = $variables['pager']['#element'] ?? 0;
+  $parameters = $variables['pager']['#parameters'] ?? [];
   $quantity = 5; //$variables['pager']['#quantity'];
-  $route_name = $variables['pager']['#route_name'];
-  $route_parameters = isset($variables['pager']['#route_parameters']) ? $variables['pager']['#route_parameters'] : [];
-  global $pager_page_array, $pager_total;
+  $route_name = $variables['pager']['#route_name'] ?? '<current>';
+  $route_parameters = $variables['pager']['#route_parameters'] ?? [];
+  $pager_manager = \Drupal::service('pager.manager');
+  $pager = $pager_manager->getPager($element);
 
-  // Nothing to do if there is only one page.
-  if ($pager_total[$element] <= 1) {
+  // Nothing to do if there is no pager or only one page.
+  if (!$pager || $pager->getTotalPages() <= 1) {
     return;
   }
-  $tags = $variables['pager']['#tags'];
+
+  $link_attributes = [];
+  if (\Drupal::request()->get(
+    \Drupal\Core\EventSubscriber\MainContentViewSubscriber::WRAPPER_FORMAT
+  ) === 'drupal_modal') {
+    $link_attributes = [
+      'class' => ['use-ajax'],
+      'data-dialog-type' => 'modal',
+      'data-accepts' => 'application/json',
+    ];
+  }
+
+  $tags = $variables['pager']['#tags'] ?? [];
+  $items = [];
+  $pager_max = $pager->getTotalPages();
+  $current_page = $pager->getCurrentPage();
 
   // Calculate various markers within this pager piece:
   // Middle is used to "center" pages around the current page.
   $pager_middle = ceil($quantity / 2);
 
   // current is the page we are currently paged to.
-  $pager_current = $pager_page_array[$element] + 1;
+  $pager_current = $current_page + 1;
 
   // first is the first page listed by this pager piece (re quantity).
   $pager_first = $pager_current - $pager_middle + 1;
 
   // last is the last page listed by this pager piece (re quantity).
   $pager_last = $pager_current + $quantity - $pager_middle;
-
-  // max is the maximum page number.
-  $pager_max = $pager_total[$element];
 
   // End of marker calculations.
   // Prepare for generation loop.
@@ -724,27 +737,40 @@ function carlson_refresh_preprocess_pager(&$variables) {
 
   // End of generation loop preparation.
   // Create the "first" and "previous" links if we are not on the first page.
-  $pager_manager = \Drupal::service('pager.manager');
-  if ($pager_page_array[$element] > 0) {
-    if ($pager_page_array[$element] >= $pager_middle) {
+  if ($current_page > 0) {
+    if ($current_page >= $pager_middle) {
       $items['first'] = array();
+      $items['first']['attributes'] = new Attribute($link_attributes);
       $options = array(
         'query' => $pager_manager->getUpdatedParameters($parameters, $element, 0)
       );
-      $items['first']['href'] = Url::fromRoute($route_name, $route_parameters, $options);
+      $items['first']['href'] = Url::fromRoute(
+        $route_name,
+        $route_parameters,
+        $options
+      )->toString();
       if (isset($tags[0])) {
         $items['first']['text'] = 1;
       }
       // Add an ellipsis if there are further previous pages.
-      if ($pager_page_array[$element] > $pager_middle) {
+      if ($current_page > $pager_middle) {
         $variables['ellipses']['previous'] = true;
       }
     }
     $items['previous'] = array();
+    $items['previous']['attributes'] = new Attribute($link_attributes);
     $options = array(
-      'query' => $pager_manager->getUpdatedParameters($parameters, $element, $pager_page_array[$element] - 1)
+      'query' => $pager_manager->getUpdatedParameters(
+        $parameters,
+        $element,
+        $current_page - 1
+      ),
     );
-    $items['previous']['href'] = Url::fromRoute($route_name, $route_parameters, $options);
+    $items['previous']['href'] = Url::fromRoute(
+      $route_name,
+      $route_parameters,
+      $options
+    )->toString();
     if (isset($tags[1])) {
       $items['previous']['text'] = $tags[1];
     }
@@ -755,7 +781,12 @@ function carlson_refresh_preprocess_pager(&$variables) {
       $options = array(
         'query' => $pager_manager->getUpdatedParameters($parameters, $element, $i - 1)
       );
-      $items['pages'][$i]['href'] = Url::fromRoute($route_name, $route_parameters, $options);
+      $items['pages'][$i]['attributes'] = new Attribute($link_attributes);
+      $items['pages'][$i]['href'] = Url::fromRoute(
+        $route_name,
+        $route_parameters,
+        $options
+      )->toString();
       if ($i == $pager_current) {
         $variables['current'] = $i;
       }
@@ -763,27 +794,45 @@ function carlson_refresh_preprocess_pager(&$variables) {
   }
 
   // Create the "next" and "last" links if we are not on the last page.
-  if ($pager_page_array[$element] < $pager_max - 1) {
+  if ($current_page < $pager_max - 1) {
     $items['next'] = array();
+    $items['next']['attributes'] = new Attribute($link_attributes);
     $options = array(
-      'query' => $pager_manager->getUpdatedParameters($parameters, $element, $pager_page_array[$element] + 1),
+      'query' => $pager_manager->getUpdatedParameters(
+        $parameters,
+        $element,
+        $current_page + 1
+      ),
     );
-    $items['next']['href'] = Url::fromRoute($route_name, $route_parameters, $options);
+    $items['next']['href'] = Url::fromRoute(
+      $route_name,
+      $route_parameters,
+      $options
+    )->toString();
     if (isset($tags[3])) {
       $items['next']['text'] = $tags[3];
     }
-    if ($pager_page_array[$element] < $pager_max - $pager_middle) {
+    if ($current_page < $pager_max - $pager_middle) {
       $items['last'] = array();
+      $items['last']['attributes'] = new Attribute($link_attributes);
       $options = array(
-        'query' => $pager_manager->getUpdatedParameters($parameters, $element, $pager_max - 1),
+        'query' => $pager_manager->getUpdatedParameters(
+          $parameters,
+          $element,
+          $pager_max - 1
+        ),
       );
-      $items['last']['href'] = Url::fromRoute($route_name, $route_parameters, $options);
+      $items['last']['href'] = Url::fromRoute(
+        $route_name,
+        $route_parameters,
+        $options
+      )->toString();
       if (isset($tags[4])) {
         $items['last']['text'] = $pager_max;
       }
 
       // Add an ellipsis if there are further next pages.
-      if ($pager_page_array[$element] < $pager_max - $pager_middle - 1) {
+      if ($current_page < $pager_max - $pager_middle - 1) {
         $variables['ellipses']['next'] = true;
       }
     }
