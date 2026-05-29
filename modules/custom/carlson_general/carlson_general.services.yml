@@ -14,6 +14,11 @@ services:
     tags:
       - {name: event_subscriber}
 
+  carlson_general.cache_debug_header_limit_subscriber:
+    class: Drupal\carlson_general\EventSubscriber\CacheDebugHeaderLimitSubscriber
+    tags:
+      - {name: event_subscriber}
+
   my_import.commands:
     class: Drupal\carlson_general\Commands\MyImportsCommands
     arguments:

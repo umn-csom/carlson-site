@@ -26,13 +26,16 @@ infrastructure.
 - File pattern: `YYYY-MM-DD/purge-trace-YYYY-MM-DD-HH.ndjson`
 
 Each line in an `ndjson` file is one standalone JSON trace record.
+The admin report at `/admin/reports/purge-trace` can download individual
+hourly files or stream all current files into one combined NDJSON export.
 
 ## Rotation And Retention
 
 - Files are grouped by UTC date and hour.
 - New traces within the same hour append to the same file.
 - Retention is age-based, not size-based.
-- Cleanup runs at most once per hour when a new trace is written.
+- Cleanup runs at most once per hour when a new trace is written while
+  capture is enabled.
 - Directories older than the configured retention window are deleted.
 
 The retention setting is stored in state:
@@ -47,13 +50,13 @@ Other runtime toggles are also stored in state:
 
 Default state:
 
-- Purge trace capture: enabled
+- Purge trace capture: disabled
 - Caller stack samples: disabled
 - Cache object impact estimation: disabled
 - Retention days: 7
 
-When purge trace capture is disabled, no trace summaries are written and the
-caller-stack and cache-impact options are not used.
+When purge trace capture is disabled, no trace summaries are written, cleanup
+does not run, and the caller-stack and cache-impact options are not used.
 
 The validation probe at `/admin/reports/purge-trace/probe` respects these
 settings. If capture is disabled, it still runs the probe save/restore but

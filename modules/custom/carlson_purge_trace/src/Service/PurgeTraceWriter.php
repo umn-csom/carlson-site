@@ -267,6 +267,13 @@ class PurgeTraceWriter {
    * Runs age-based cleanup at most once per hour.
    */
   protected function cleanupIfNeeded(): void {
+    if (!(bool) $this->state->get(
+      PurgeTraceRuntime::STATE_ENABLED,
+      PurgeTraceRuntime::DEFAULT_ENABLED,
+    )) {
+      return;
+    }
+
     $last_cleanup = (int) $this->state->get(PurgeTraceRuntime::STATE_LAST_CLEANUP, 0);
     $now = time();
 

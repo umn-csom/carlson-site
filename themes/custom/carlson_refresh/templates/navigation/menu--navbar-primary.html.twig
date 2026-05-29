@@ -5,6 +5,7 @@
   @see http://twig.sensiolabs.org/doc/tags/macro.html
 #}
 {{ attach_library('simple_megamenu/base') }}
+{{ attach_library('carlson_general/desktop_megamenu_ajax') }}
 {% set attributes = create_attribute() %}
 {{ menus.menu_links(items, 'site-nav__ul', 0, _context, false) }}
 
@@ -97,9 +98,27 @@
       {% if item.below %}
         {% if is_top_level %}
           {% if is_with_megamenu %}
+            {% set link_attributes = item.url.getOption('attributes') %}
+            {% set mega_menu_key = 'data-simple-mega-menu' %}
+            {% set mega_menu_id = link_attributes[mega_menu_key]|default('') %}
+            {% set mega_menu_url = path(
+              'carlson_general.simple_mega_menu_panel',
+              {'simple_mega_menu': mega_menu_id}
+            ) %}
             <div class="dropdown-animate dropdown-slide dropdown-menu dropdown-menu--mega-menu">
               <div class="mega-menu-background"></div>
-              {{ view_megamenu(item.url, 'before') }}
+              {#
+                Render only a placeholder for desktop megamenu panels. The
+                endpoint returns the same simple_megamenu "before" view mode
+                that used to be rendered here synchronously; JS loads it on the
+                first hover, focus, or click so initial page render avoids the
+                full tree/entity access cost for every top-level panel.
+              #}
+              <div
+                data-carlson-mega-menu-panel
+                data-carlson-mega-menu-id="{{ mega_menu_id }}"
+                data-carlson-mega-menu-url="{{ mega_menu_url }}"
+              ></div>
             </div>
           {% else %}
             {% set dropdown_side = (loop.last and is_top_level) ? 'dropdown-menu-right' : 'dropdown-menu-left' %}

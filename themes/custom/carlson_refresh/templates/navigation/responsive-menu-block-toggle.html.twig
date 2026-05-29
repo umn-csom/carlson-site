@@ -4,7 +4,18 @@
  * Template to output the menu toggle icon (burger).
  */
 #}
-<a id="toggle-icon" class="btn btn--menu-toggle btn-sm btn-outline-primary flex-nowrap text-capitalize menu-toggle d-lg-none" title="Menu" href="#off-canvas">
+<a
+  id="toggle-icon"
+  class="btn btn--menu-toggle btn-sm btn-outline-primary flex-nowrap text-capitalize menu-toggle d-lg-none"
+  title="Menu"
+  href="#off-canvas"
+  aria-controls="off-canvas"
+  aria-disabled="true"
+  aria-expanded="false"
+  tabindex="-1"
+  data-carlson-responsive-off-canvas-pending
+  style="visibility: hidden; opacity: 0; pointer-events: none;"
+>
   <span aria-hidden="true">{{ 'Menu'|t }}</span>
   <span class="sr-only">{{ 'Menu and search'|t }}</span>
   {{ source('@carlson_refresh/../images/svg/menu-search.svg') }}

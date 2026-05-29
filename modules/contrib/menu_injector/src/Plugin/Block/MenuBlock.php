@@ -164,6 +164,10 @@ class MenuBlock extends SuperMenuBlock {
    * {@inheritdoc}
    */
   public function build() {
+    if (isset($this->buildCache)) {
+      return $this->buildCache;
+    }
+
     $menu_name = $this->getDerivativeId();
     $parameters = $this->menuTree->getCurrentRouteMenuTreeParameters($menu_name);
     $all_rules = $this->getAllRules($menu_name, $parameters->activeTrail);
@@ -230,7 +234,7 @@ class MenuBlock extends SuperMenuBlock {
       }
       else {
         if (empty($all_rules)) {
-          return [];
+          return ($this->buildCache = []);
         }
       }
     }
@@ -283,7 +287,6 @@ class MenuBlock extends SuperMenuBlock {
       ['callable' => 'menu.default_tree_manipulators:generateIndexAndSort'],
     ];
     $tree = $this->menuTree->transform($tree, $manipulators);
-    $build = $this->menuTree->build($tree);
 
     $this->tree = $tree;
 
@@ -310,8 +313,8 @@ class MenuBlock extends SuperMenuBlock {
     if (!empty($combined_tree) && isset($tree)) {
       $combined_tree = array_merge($tree, $combined_tree[0]);
       $build = $this->menuTree->build($combined_tree);
-    } else {
-      $tree = $this->menuTree->transform($tree, $manipulators);
+    }
+    else {
       $build = $this->menuTree->build($tree);
     }
 
@@ -337,7 +340,7 @@ class MenuBlock extends SuperMenuBlock {
 
     $build['#cache']['contexts'][] = 'route.menu_active_trails:' . $menu_name;
 
-    return $build;
+    return ($this->buildCache = $build);
   }
 
   /**
