@@ -105,9 +105,14 @@ class DevDatabaseResetForm extends FormBase {
     }
     else {
       $prefix = $this->database->getPrefix();
+      $row_counts = $this->getTableRowCounts($tables, $form_state);
       $options = [];
       foreach ($tables as $table) {
-        $options[$table] = $prefix . $table;
+        $label = $prefix . $table;
+        if (array_key_exists($table, $row_counts)) {
+          $label .= ' (' . number_format($row_counts[$table]) . ')';
+        }
+        $options[$table] = $label;
       }
       $default_selection = $this->getDefaultSelectedTables($tables, $form_state);
 
@@ -286,6 +291,77 @@ class DevDatabaseResetForm extends FormBase {
     }
 
     return $tables;
+  }
+
+  /**
+   * Gets row counts keyed by unprefixed table name.
+   *
+   * Uses information_schema for a single fast query. InnoDB row estimates
+   * may be approximate for large tables.
+   *
+   * @param string[] $tables
+   *   Unprefixed table names.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current form state.
+   *
+   * @return array<string, int>
+   *   Row counts keyed by unprefixed table name.
+   */
+  protected function getTableRowCounts(
+    array $tables,
+    FormStateInterface $form_state,
+  ): array {
+    if (!$form_state->has('table_row_counts')) {
+      $form_state->set('table_row_counts', $this->loadTableRowCounts($tables));
+    }
+
+    return $form_state->get('table_row_counts');
+  }
+
+  /**
+   * Loads row counts from information_schema.
+   *
+   * @param string[] $tables
+   *   Unprefixed table names.
+   *
+   * @return array<string, int>
+   *   Row counts keyed by unprefixed table name.
+   */
+  protected function loadTableRowCounts(array $tables): array {
+    $database = $this->getDatabaseName();
+    if ($database === '' || $tables === []) {
+      return [];
+    }
+
+    $prefix = $this->database->getPrefix();
+    $prefixed_lookup = array_fill_keys(
+      array_map(
+        static fn (string $table): string => $prefix . $table,
+        $tables,
+      ),
+      TRUE,
+    );
+
+    $result = $this->database->query(
+      'SELECT TABLE_NAME, TABLE_ROWS FROM information_schema.TABLES '
+      . 'WHERE TABLE_SCHEMA = :schema',
+      [':schema' => $database],
+    );
+
+    $row_counts = [];
+    foreach ($result as $row) {
+      $prefixed_name = (string) $row->TABLE_NAME;
+      if (!isset($prefixed_lookup[$prefixed_name])) {
+        continue;
+      }
+
+      $table = $prefix === ''
+        ? $prefixed_name
+        : substr($prefixed_name, strlen($prefix));
+      $row_counts[$table] = (int) $row->TABLE_ROWS;
+    }
+
+    return $row_counts;
   }
 
   /**
