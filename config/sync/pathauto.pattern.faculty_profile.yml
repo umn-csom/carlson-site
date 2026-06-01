@@ -2,17 +2,18 @@ uuid: c66f2df2-8b68-4970-b5b1-453d20d40bac
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.faculty_profile
   module:
     - node
 id: faculty_profile
 label: 'Faculty Profile'
 type: 'canonical_entities:node'
-pattern: 'faculty/[node:title]'
+pattern: '/faculty/[node:title]'
 selection_criteria:
   8067de43-83c6-4247-8a31-54b2868942c8:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 8067de43-83c6-4247-8a31-54b2868942c8
     context_mapping:
       node: node
     bundles:
