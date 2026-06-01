@@ -78,11 +78,44 @@ class DevDatabaseResetForm extends FormBase {
       '#plain_text' => $environment ?: $this->t('Not detected'),
     ];
 
+    $form['database_name'] = [
+      '#type' => 'item',
+      '#title' => $this->t('Database'),
+      '#plain_text' => $this->getDatabaseName() ?: $this->t('Not detected'),
+    ];
+
     $form['table_count'] = [
       '#type' => 'item',
       '#title' => $this->t('Drupal-managed tables detected'),
       '#plain_text' => (string) count($tables),
     ];
+
+    $form['tables'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Tables to be dropped'),
+      '#open' => FALSE,
+    ];
+    if ($tables === []) {
+      $form['tables']['empty'] = [
+        '#plain_text' => $this->t('No Drupal-managed database tables were found.'),
+      ];
+    }
+    else {
+      $prefix = $this->database->getPrefix();
+      $prefixed_tables = array_map(
+        static fn (string $table): string => $prefix . $table,
+        $tables,
+      );
+      $form['tables']['list'] = [
+        '#type' => 'textarea',
+        '#title' => $this->t('Table names'),
+        '#title_display' => 'invisible',
+        '#default_value' => implode("\n", $prefixed_tables),
+        '#rows' => min(count($prefixed_tables), 20),
+        '#disabled' => TRUE,
+        '#resizable' => 'vertical',
+      ];
+    }
 
     if (!$is_dev) {
       $form['blocked'] = [
@@ -182,6 +215,19 @@ class DevDatabaseResetForm extends FormBase {
     if (session_status() === PHP_SESSION_ACTIVE) {
       session_write_close();
     }
+  }
+
+  /**
+   * Gets the active database name from the connection options.
+   *
+   * @return string
+   *   The configured database name, or an empty string when unavailable.
+   */
+  protected function getDatabaseName(): string {
+    $options = $this->database->getConnectionOptions();
+    $database = $options['database'] ?? '';
+
+    return is_string($database) ? $database : '';
   }
 
   /**
