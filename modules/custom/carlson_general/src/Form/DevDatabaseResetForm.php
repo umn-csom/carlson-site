@@ -60,14 +60,17 @@ class DevDatabaseResetForm extends FormBase {
     $is_dev = $this->isDevEnvironment();
     $tables = $this->getDatabaseTables();
 
+    $form['#attached']['library'][] = 'carlson_general/dev_database_reset';
+
     $form['warning'] = [
       '#type' => 'container',
       '#attributes' => ['class' => ['messages', 'messages--error']],
       'message' => [
         '#markup' => $this->t(
-          '<strong>Danger:</strong> this permanently drops every Drupal table '
-          . 'from the current database. The site will stop working until the '
-          . 'database is synced again from the management portal.',
+          '<strong>Danger:</strong> this permanently drops the selected '
+          . 'Drupal tables from the current database. The site may stop '
+          . 'working until the database is synced again from the management '
+          . 'portal.',
         ),
       ],
     ];
@@ -102,18 +105,36 @@ class DevDatabaseResetForm extends FormBase {
     }
     else {
       $prefix = $this->database->getPrefix();
-      $prefixed_tables = array_map(
-        static fn (string $table): string => $prefix . $table,
-        $tables,
-      );
-      $form['tables']['list'] = [
-        '#type' => 'textarea',
+      $options = [];
+      foreach ($tables as $table) {
+        $options[$table] = $prefix . $table;
+      }
+      $default_selection = $this->getDefaultSelectedTables($tables, $form_state);
+
+      $form['tables']['selection_wrapper'] = [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['dev-database-reset-table-selection']],
+      ];
+      $form['tables']['selection_wrapper']['actions'] = [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['dev-database-reset-table-actions']],
+        'links' => [
+          '#markup' => $this->t(
+            '<a href="#" class="dev-database-reset-select-all">Select all</a> | '
+            . '<a href="#" class="dev-database-reset-clear-selection">Clear selection</a>',
+          ),
+        ],
+      ];
+      $form['tables']['selection_wrapper']['selection'] = [
+        '#type' => 'checkboxes',
         '#title' => $this->t('Table names'),
         '#title_display' => 'invisible',
-        '#default_value' => implode("\n", $prefixed_tables),
-        '#rows' => min(count($prefixed_tables), 20),
-        '#disabled' => TRUE,
-        '#resizable' => 'vertical',
+        '#options' => $options,
+        '#default_value' => array_combine(
+          $default_selection,
+          $default_selection,
+        ),
+        '#disabled' => !$is_dev,
       ];
     }
 
@@ -134,7 +155,7 @@ class DevDatabaseResetForm extends FormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Confirmation phrase'),
       '#description' => $this->t(
-        'Type @phrase exactly to drop the DEV database tables.',
+        'Type @phrase exactly to drop the selected DEV database tables.',
         ['@phrase' => self::CONFIRMATION_PHRASE],
       ),
       '#required' => TRUE,
@@ -146,7 +167,7 @@ class DevDatabaseResetForm extends FormBase {
     ];
     $form['actions']['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Drop DEV database tables'),
+      '#value' => $this->t('Drop selected database tables'),
       '#button_type' => 'danger',
       '#disabled' => !$is_dev || $tables === [],
     ];
@@ -182,6 +203,14 @@ class DevDatabaseResetForm extends FormBase {
         'confirmation',
         $this->t('No Drupal-managed database tables were found.'),
       );
+      return;
+    }
+
+    if ($this->getSelectedTables($form_state) === []) {
+      $form_state->setErrorByName(
+        'tables][selection_wrapper][selection',
+        $this->t('Select at least one table to drop.'),
+      );
     }
   }
 
@@ -192,11 +221,11 @@ class DevDatabaseResetForm extends FormBase {
     array &$form,
     FormStateInterface $form_state,
   ): void {
-    $tables = $this->getDatabaseTables();
+    $tables = $this->getSelectedTables($form_state);
     $this->closeActiveSession();
     $dropped = $this->dropTables($tables);
     $message = sprintf(
-      "Dropped %d Drupal database tables from the DEV environment.\n"
+      "Dropped %d selected Drupal database tables from the DEV environment.\n"
       . "The site is now expected to be unavailable until the database is "
       . "synced again from the Drupal Management Portal.\n",
       $dropped,
@@ -215,6 +244,48 @@ class DevDatabaseResetForm extends FormBase {
     if (session_status() === PHP_SESSION_ACTIVE) {
       session_write_close();
     }
+  }
+
+  /**
+   * Gets selected table names from the form submission.
+   *
+   * @return string[]
+   *   Unprefixed table names selected for dropping.
+   */
+  protected function getSelectedTables(FormStateInterface $form_state): array {
+    $selection = $form_state->getValue([
+      'tables',
+      'selection_wrapper',
+      'selection',
+    ]);
+    if (!is_array($selection)) {
+      return [];
+    }
+
+    return array_values(array_filter($selection));
+  }
+
+  /**
+   * Gets the default checked tables for the checkbox element.
+   *
+   * @param string[] $tables
+   *   All available unprefixed table names.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current form state.
+   *
+   * @return string[]
+   *   Unprefixed table names that should be checked by default.
+   */
+  protected function getDefaultSelectedTables(
+    array $tables,
+    FormStateInterface $form_state,
+  ): array {
+    $selected = $this->getSelectedTables($form_state);
+    if ($selected !== []) {
+      return array_values(array_intersect($selected, $tables));
+    }
+
+    return $tables;
   }
 
   /**
