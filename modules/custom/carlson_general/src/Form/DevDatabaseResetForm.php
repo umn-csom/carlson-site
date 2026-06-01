@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Provides a guarded form for clearing the Acquia DEV database.
+ * Provides a guarded form for clearing Drupal database tables.
  */
 class DevDatabaseResetForm extends FormBase {
 
@@ -57,7 +57,7 @@ class DevDatabaseResetForm extends FormBase {
     FormStateInterface $form_state,
   ): array {
     $environment = $this->getAcquiaEnvironment();
-    $is_dev = $this->isDevEnvironment();
+    $can_reset = $this->isResetAllowed();
     $tables = $this->getDatabaseTables();
 
     $form['#attached']['library'][] = 'carlson_general/dev_database_reset';
@@ -77,8 +77,8 @@ class DevDatabaseResetForm extends FormBase {
 
     $form['environment'] = [
       '#type' => 'item',
-      '#title' => $this->t('Detected Acquia environment'),
-      '#plain_text' => $environment ?: $this->t('Not detected'),
+      '#title' => $this->t('Detected environment'),
+      '#plain_text' => $environment ?: $this->t('Local (non-Acquia)'),
     ];
 
     $form['database_name'] = [
@@ -139,18 +139,18 @@ class DevDatabaseResetForm extends FormBase {
           $default_selection,
           $default_selection,
         ),
-        '#disabled' => !$is_dev,
+        '#disabled' => !$can_reset,
       ];
     }
 
-    if (!$is_dev) {
+    if (!$can_reset) {
       $form['blocked'] = [
         '#type' => 'container',
         '#attributes' => ['class' => ['messages', 'messages--warning']],
         'message' => [
           '#plain_text' => $this->t(
-            'This form is disabled because it only runs on the Acquia DEV '
-            . 'environment.',
+            'This form is disabled on Acquia @environment. It only runs on Acquia DEV or non-Acquia development environments.',
+            ['@environment' => $environment],
           ),
         ],
       ];
@@ -164,7 +164,7 @@ class DevDatabaseResetForm extends FormBase {
         ['@phrase' => self::CONFIRMATION_PHRASE],
       ),
       '#required' => TRUE,
-      '#disabled' => !$is_dev,
+      '#disabled' => !$can_reset,
     ];
 
     $form['actions'] = [
@@ -174,7 +174,7 @@ class DevDatabaseResetForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Drop selected database tables'),
       '#button_type' => 'danger',
-      '#disabled' => !$is_dev || $tables === [],
+      '#disabled' => !$can_reset || $tables === [],
     ];
 
     return $form;
@@ -187,10 +187,14 @@ class DevDatabaseResetForm extends FormBase {
     array &$form,
     FormStateInterface $form_state,
   ): void {
-    if (!$this->isDevEnvironment()) {
+    if (!$this->isResetAllowed()) {
+      $environment = $this->getAcquiaEnvironment();
       $form_state->setErrorByName(
         'confirmation',
-        $this->t('This reset can only run on the Acquia DEV environment.'),
+        $this->t(
+          'This reset cannot run on Acquia @environment.',
+          ['@environment' => $environment],
+        ),
       );
       return;
     }
@@ -229,12 +233,22 @@ class DevDatabaseResetForm extends FormBase {
     $tables = $this->getSelectedTables($form_state);
     $this->closeActiveSession();
     $dropped = $this->dropTables($tables);
-    $message = sprintf(
-      "Dropped %d selected Drupal database tables from the DEV environment.\n"
-      . "The site is now expected to be unavailable until the database is "
-      . "synced again from the Drupal Management Portal.\n",
-      $dropped,
-    );
+    $environment = $this->getAcquiaEnvironment();
+    if ($environment === '') {
+      $message = sprintf(
+        "Dropped %d selected Drupal database tables from the local database.\n"
+        . "Restore the database by re-importing a dump if needed.\n",
+        $dropped,
+      );
+    }
+    else {
+      $message = sprintf(
+        "Dropped %d selected Drupal database tables from the DEV environment.\n"
+        . "The site is now expected to be unavailable until the database is "
+        . "synced again from the Drupal Management Portal.\n",
+        $dropped,
+      );
+    }
 
     $response = new Response($message, Response::HTTP_OK, [
       'Content-Type' => 'text/plain; charset=UTF-8',
@@ -418,13 +432,21 @@ class DevDatabaseResetForm extends FormBase {
   }
 
   /**
-   * Checks whether the current request is running on Acquia DEV.
+   * Checks whether the database reset is allowed in the current environment.
+   *
+   * Allowed on Acquia DEV and on non-Acquia development environments.
+   * Blocked on other Acquia environments such as prod, test, and stage.
    *
    * @return bool
-   *   TRUE when the detected environment is dev.
+   *   TRUE when the reset may run.
    */
-  protected function isDevEnvironment(): bool {
-    return $this->getAcquiaEnvironment() === 'dev';
+  protected function isResetAllowed(): bool {
+    $environment = $this->getAcquiaEnvironment();
+    if ($environment === '') {
+      return TRUE;
+    }
+
+    return $environment === 'dev';
   }
 
   /**
