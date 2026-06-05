@@ -14,6 +14,8 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\user\Entity\Role;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Component\Utility\Html;
+use Drupal\carlson_general\Plugin\media\Source\CarlsonOEmbed;
+use Drupal\media\Plugin\media\Source\OEmbed;
 
 /**
  * Implements hook_responsive_menu_off_canvas_manipulators_alter().
@@ -458,4 +460,20 @@ function carlson_general_tokens($type, $tokens, array $data, array $options, Bub
     }
   }
   return $replacements;
+}
+
+/**
+ * Implements hook_media_source_info_alter().
+ *
+ * Replace the core oEmbed media source (and its derivatives, e.g. oembed:video)
+ * with one that logs fetch failures instead of flashing them. A flashed error
+ * opens an anonymous session and makes the response uncacheable (no-store),
+ * forcing an origin render on every hit. See CSM-392.
+ */
+function carlson_general_media_source_info_alter(array &$sources): void {
+  foreach ($sources as $id => $definition) {
+    if (isset($definition['class']) && is_a($definition['class'], OEmbed::class, TRUE)) {
+      $sources[$id]['class'] = CarlsonOEmbed::class;
+    }
+  }
 }
