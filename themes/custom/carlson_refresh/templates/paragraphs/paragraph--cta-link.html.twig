@@ -7,7 +7,7 @@
 {{ attach_library('carlson_refresh/cta-link') }}
 {% block paragraph %}
   {% block content %}
-    {% set icon = paragraph.field_cta_icon.value|clean_class %}
+    {% set icon = paragraph.field_cta_icon.0.value|default('')|clean_class %}
     {% set url = content.field_link.0['#url'].toString() %}
     {% set has_link = url is not empty %}
   <div class="cta-link__wrapper col col-lg-12 d-flex">
@@ -32,7 +32,9 @@
     {% endif %}
         <div class="cta-link__icon d-lg-none">
           {# <span class="icon {{ icon }}"></span> #}
-          {{ source('@carlson_refresh/../images/cta-link/' ~ icon ~ '.svg') }}
+          {% if icon %}
+            {{ source('@carlson_refresh/../images/cta-link/' ~ icon ~ '.svg', ignore_missing = true) }}
+          {% endif %}
         </div>
         <div class="cta-link__anchor">
           {{ content.field_link.0['#title'] }}

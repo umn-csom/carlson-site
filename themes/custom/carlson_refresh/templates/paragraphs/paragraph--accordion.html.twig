@@ -89,7 +89,7 @@
                 <div class="accordion-content-inner">
                   {% set body = {
                     '#type': 'processed_text',
-                    '#text': paragraph.field_main_content.0.value,
+                    '#text': paragraph.field_main_content.0.value ?? '',
                     '#format': paragraph.field_main_content.0.format
                     } %}
                   {{ body }}
@@ -125,7 +125,7 @@
                             <div class="accordion-content-inner">
                               {% set body = {
                                 '#type': 'processed_text',
-                                '#text': subparagraph.field_main_content.0.value,
+                                '#text': subparagraph.field_main_content.0.value ?? '',
                                 '#format': subparagraph.field_main_content.0.format
                               } %}
                               {{ body }}

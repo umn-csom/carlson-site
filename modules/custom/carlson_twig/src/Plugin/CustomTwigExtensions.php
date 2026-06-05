@@ -57,7 +57,13 @@ class CustomTwigExtensions extends AbstractExtension
                 $parent_menu_instance = $menu_link_manager->createInstance($parent);
                 $parent_menu_plugin_def = $parent_menu_instance->getPluginDefinition();
                 $parent_title = $parent_menu_instance->getTitle();
-                $parent_node_id = $parent_menu_plugin_def['route_parameters']['node'];
+                // The parent menu link may target a non-node route (view,
+                // external URL, <nolink>); without a node id there is no node
+                // link to build, so bail out rather than emit a broken link.
+                $parent_node_id = $parent_menu_plugin_def['route_parameters']['node'] ?? NULL;
+                if ($parent_node_id === NULL) {
+                    return NULL;
+                }
                 $parent_alias = \Drupal::service('path_alias.manager')->getAliasByPath("/node/" . $parent_node_id);
         
                 if(!$isInside) {
