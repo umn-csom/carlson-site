@@ -2,6 +2,7 @@
 
 namespace Drupal\carlson_twig\Plugin;
 
+use Drupal\Component\Utility\Html;
 use Drupal\menu_link_content\Entity\MenuLinkContent;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
@@ -55,22 +56,28 @@ class CustomTwigExtensions extends AbstractExtension
                 $parent = reset($parents);
 
                 $parent_menu_instance = $menu_link_manager->createInstance($parent);
-                $parent_menu_plugin_def = $parent_menu_instance->getPluginDefinition();
-                $parent_title = $parent_menu_instance->getTitle();
-                // The parent menu link may target a non-node route (view,
-                // external URL, <nolink>); without a node id there is no node
-                // link to build, so bail out rather than emit a broken link.
-                $parent_node_id = $parent_menu_plugin_def['route_parameters']['node'] ?? NULL;
-                if ($parent_node_id === NULL) {
+                $parent_title = Html::escape((string) $parent_menu_instance->getTitle());
+
+                // Link to the parent menu item's own destination so the section
+                // link works whether the parent targets a node, a view, an
+                // internal path or an external URL. Items with no destination
+                // (<nolink>, <button>, <none>) have nothing to link to, so
+                // render nothing rather than a broken "/node/" link.
+                $url = $parent_menu_instance->getUrlObject();
+                if ($url->isRouted() && in_array($url->getRouteName(), ['<nolink>', '<button>', '<none>'], TRUE)) {
                     return NULL;
                 }
-                $parent_alias = \Drupal::service('path_alias.manager')->getAliasByPath("/node/" . $parent_node_id);
-        
-                if(!$isInside) {
-                    return ('<a href="' . $parent_alias . '" class="sticky-menu__label" data-drupal-link-system-path="node/' . $parent_node_id . '"><span class="sticky-menu__label--inside">' . $parent_title . '</span></a>' );
-                } else {
-                    return ('<li class="sticky-menu__item sticky-menu__item--extra"><a href="' . $parent_alias . '" data-drupal-link-system-path="node/' . $parent_node_id . '">' . $parent_title . '</a></li>' );
+                $href = Html::escape($url->toString(TRUE)->getGeneratedUrl());
+
+                // The active-link JS keys off data-drupal-link-system-path,
+                // which only routed, internal links have.
+                $system_path = (!$url->isExternal() && $url->isRouted()) ? $url->getInternalPath() : NULL;
+                $data_attr = $system_path !== NULL ? ' data-drupal-link-system-path="' . Html::escape($system_path) . '"' : '';
+
+                if (!$isInside) {
+                    return '<a href="' . $href . '" class="sticky-menu__label"' . $data_attr . '><span class="sticky-menu__label--inside">' . $parent_title . '</span></a>';
                 }
+                return '<li class="sticky-menu__item sticky-menu__item--extra"><a href="' . $href . '"' . $data_attr . '>' . $parent_title . '</a></li>';
             }
         }
     }
