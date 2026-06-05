@@ -82,12 +82,38 @@ class CacheDebugHeaderLimitSubscriberTest extends UnitTestCase {
   }
 
   /**
-   * Tests local cache tag headers are left untouched.
+   * Tests long local cache tag headers are trimmed and annotated.
    *
    * @covers ::limitDebugHeaders
    */
-  public function testLocalDebugHeaderIsNotTrimmed(): void {
+  public function testLongDebugHeaderIsTrimmedOnLocal(): void {
     $_ENV['AH_SITE_ENVIRONMENT'] = 'local';
+    $subscriber = new CacheDebugHeaderLimitSubscriber();
+    $response = new Response();
+    $response->headers->set(
+      'X-Drupal-Cache-Tags',
+      $this->createCacheTagHeader(2000),
+    );
+
+    $subscriber->limitDebugHeaders($this->createResponseEvent($response));
+
+    $this->assertLessThanOrEqual(
+      6000,
+      strlen((string) $response->headers->get('X-Drupal-Cache-Tags')),
+    );
+    $this->assertStringContainsString(
+      'truncated; original-count=2000;',
+      (string) $response->headers->get('X-Carlson-Cache-Tags-Truncated'),
+    );
+  }
+
+  /**
+   * Tests production cache tag headers are left untouched.
+   *
+   * @covers ::limitDebugHeaders
+   */
+  public function testProdDebugHeaderIsNotTrimmed(): void {
+    $_ENV['AH_SITE_ENVIRONMENT'] = 'prod';
     $subscriber = new CacheDebugHeaderLimitSubscriber();
     $value = $this->createCacheTagHeader(2000);
     $response = new Response();

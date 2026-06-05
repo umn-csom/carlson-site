@@ -110,13 +110,14 @@ class CacheDebugHeaderLimitSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Determines whether the current request is running on Acquia DEV.
+   * Determines whether cache debug headers should be limited.
    *
    * @return bool
-   *   TRUE when this request is running on Acquia DEV.
+   *   TRUE on non-production environments that emit debug headers.
    */
   protected function isDevEnvironment(): bool {
-    return ($_ENV['AH_SITE_ENVIRONMENT'] ?? NULL) === 'dev';
+    $environment = $_ENV['AH_SITE_ENVIRONMENT'] ?? 'local';
+    return in_array($environment, ['dev', 'local'], TRUE);
   }
 
   /**
