@@ -73,7 +73,7 @@ class CKEditorTemplatesDialogForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state, EditorInterface $editor = NULL): array {
+  public function buildForm(array $form, FormStateInterface $form_state, ?EditorInterface $editor = NULL): array {
     $templates = [];
 
     // Gets the templates.
