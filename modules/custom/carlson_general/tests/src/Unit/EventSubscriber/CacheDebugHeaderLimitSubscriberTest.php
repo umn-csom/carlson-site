@@ -56,11 +56,11 @@ class CacheDebugHeaderLimitSubscriberTest extends UnitTestCase {
   }
 
   /**
-   * Tests long DEV cache tag headers are trimmed and annotated.
+   * Tests long DEV cache tag headers are compressed and annotated.
    *
    * @covers ::limitDebugHeaders
    */
-  public function testLongDebugHeaderIsTrimmedOnDev(): void {
+  public function testLongDebugHeaderIsCompressedOnDev(): void {
     $_ENV['AH_SITE_ENVIRONMENT'] = 'dev';
     $subscriber = new CacheDebugHeaderLimitSubscriber();
     $response = new Response();
@@ -76,18 +76,26 @@ class CacheDebugHeaderLimitSubscriberTest extends UnitTestCase {
       strlen((string) $response->headers->get('X-Drupal-Cache-Tags')),
     );
     $this->assertStringContainsString(
-      'truncated; original-count=2000;',
-      (string) $response->headers->get('X-Carlson-Cache-Tags-Truncated'),
+      'compressed',
+      (string) $response->headers->get('X-Carlson-Cache-Tags-Compressed'),
+    );
+    $this->assertStringStartsWith(
+      'node:1',
+      (string) $response->headers->get('X-Drupal-Cache-Tags'),
+    );
+    $this->assertStringContainsString(
+      ' n:2 ',
+      ' ' . $response->headers->get('X-Drupal-Cache-Tags') . ' ',
     );
   }
 
   /**
-   * Tests long local cache tag headers are trimmed and annotated.
+   * Tests long local cache tag headers are compressed and annotated.
    *
    * @covers ::limitDebugHeaders
    */
-  public function testLongDebugHeaderIsTrimmedOnLocal(): void {
-    $_ENV['AH_SITE_ENVIRONMENT'] = 'local';
+  public function testLongDebugHeaderIsCompressedOnLocal(): void {
+    unset($_ENV['AH_SITE_ENVIRONMENT']);
     $subscriber = new CacheDebugHeaderLimitSubscriber();
     $response = new Response();
     $response->headers->set(
@@ -98,12 +106,46 @@ class CacheDebugHeaderLimitSubscriberTest extends UnitTestCase {
     $subscriber->limitDebugHeaders($this->createResponseEvent($response));
 
     $this->assertLessThanOrEqual(
-      6000,
+      16000,
       strlen((string) $response->headers->get('X-Drupal-Cache-Tags')),
     );
     $this->assertStringContainsString(
-      'truncated; original-count=2000;',
-      (string) $response->headers->get('X-Carlson-Cache-Tags-Truncated'),
+      'compressed; original-count=2000;',
+      (string) $response->headers->get('X-Carlson-Cache-Tags-Compressed'),
+    );
+    $this->assertStringContainsString(
+      'limit=16000',
+      (string) $response->headers->get('X-Carlson-Cache-Tags-Compressed'),
+    );
+  }
+
+  /**
+   * Tests local keeps more compressed tags than Acquia DEV.
+   *
+   * @covers ::limitDebugHeaders
+   */
+  public function testLocalAllowsLargerCompressedHeaderThanDev(): void {
+    $value = $this->createCacheTagHeader(2000);
+
+    $_ENV['AH_SITE_ENVIRONMENT'] = 'dev';
+    $dev_subscriber = new CacheDebugHeaderLimitSubscriber();
+    $dev_response = new Response();
+    $dev_response->headers->set('X-Drupal-Cache-Tags', $value);
+    $dev_subscriber->limitDebugHeaders(
+      $this->createResponseEvent($dev_response),
+    );
+
+    unset($_ENV['AH_SITE_ENVIRONMENT']);
+    $local_subscriber = new CacheDebugHeaderLimitSubscriber();
+    $local_response = new Response();
+    $local_response->headers->set('X-Drupal-Cache-Tags', $value);
+    $local_subscriber->limitDebugHeaders(
+      $this->createResponseEvent($local_response),
+    );
+
+    $this->assertGreaterThan(
+      strlen((string) $dev_response->headers->get('X-Drupal-Cache-Tags')),
+      strlen((string) $local_response->headers->get('X-Drupal-Cache-Tags')),
     );
   }
 
@@ -123,7 +165,7 @@ class CacheDebugHeaderLimitSubscriberTest extends UnitTestCase {
 
     $this->assertSame($value, $response->headers->get('X-Drupal-Cache-Tags'));
     $this->assertFalse(
-      $response->headers->has('X-Carlson-Cache-Tags-Truncated'),
+      $response->headers->has('X-Carlson-Cache-Tags-Compressed'),
     );
   }
 
@@ -145,7 +187,7 @@ class CacheDebugHeaderLimitSubscriberTest extends UnitTestCase {
       $response->headers->get('X-Drupal-Cache-Tags'),
     );
     $this->assertFalse(
-      $response->headers->has('X-Carlson-Cache-Tags-Truncated'),
+      $response->headers->has('X-Carlson-Cache-Tags-Compressed'),
     );
   }
 
