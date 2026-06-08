@@ -14,6 +14,92 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\user\Entity\Role;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Component\Utility\Html;
+use Drupal\carlson_general\Plugin\media\Source\CarlsonOEmbed;
+use Drupal\media\Plugin\media\Source\OEmbed;
+
+/**
+ * Implements hook_responsive_menu_off_canvas_manipulators_alter().
+ */
+function carlson_general_responsive_menu_off_canvas_manipulators_alter(array &$manipulators): void {
+  $node_access_manipulator = [
+    'callable' => 'menu.default_tree_manipulators:checkNodeAccess',
+  ];
+
+  foreach ($manipulators as $manipulator) {
+    if (($manipulator['callable'] ?? NULL) === $node_access_manipulator['callable']) {
+      return;
+    }
+  }
+
+  foreach ($manipulators as $index => $manipulator) {
+    if (($manipulator['callable'] ?? NULL) === 'menu.default_tree_manipulators:checkAccess') {
+      array_splice($manipulators, $index, 0, [$node_access_manipulator]);
+      return;
+    }
+  }
+
+  array_unshift($manipulators, $node_access_manipulator);
+}
+
+/**
+ * Implements hook_responsive_menu_off_canvas_output_alter().
+ */
+function carlson_general_responsive_menu_off_canvas_output_alter(bool &$output): void {
+  // Prevent responsive_menu from rendering the full off-canvas tree during the
+  // initial page request. Carlson replaces it with an AJAX-loaded placeholder.
+  $output = FALSE;
+}
+
+/**
+ * Implements hook_page_bottom().
+ */
+function carlson_general_page_bottom(array &$page): void {
+  if (!\Drupal\carlson_general\ResponsiveOffCanvasAjax::isEnabled()) {
+    return;
+  }
+
+  // Add the lightweight placeholder and AJAX assets to page_bottom after the
+  // default responsive_menu off-canvas output has been disabled above.
+  $page['page_bottom']['off_canvas'] =
+    \Drupal\carlson_general\ResponsiveOffCanvasAjax::buildPlaceholder();
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function carlson_general_page_attachments(array &$attachments): void {
+  // The desktop megamenu assets only matter on public site pages. Avoid
+  // adding frontend preload hints or drupalSettings to admin routes.
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+
+  // Use the stable path instead of Url::fromRoute() so a deployment where PHP
+  // code is ahead of Drupal's router cache cannot fatal before caches rebuild.
+  // The JS gracefully falls back to the older per-panel endpoints if this
+  // aggregate endpoint is not available yet.
+  $endpoint = base_path() . 'carlson-general/simple-mega-menu-panels';
+
+  // Keep the JavaScript desktop check in sync with responsive_menu so mobile
+  // visitors do not fetch desktop-only megamenu panels.
+  $breakpoint = \Drupal::config('responsive_menu.settings')
+    ->get('horizontal_media_query');
+
+  // Hand the endpoint and breakpoint to desktop-megamenu-ajax.js. That header
+  // loaded script starts one aggregate request early and fills all empty
+  // megamenu panels when the payload is ready.
+  $settings = [
+    'endpoint' => $endpoint,
+    'preload' => TRUE,
+  ];
+  if (is_string($breakpoint) && $breakpoint !== '') {
+    $settings['breakpoint'] = $breakpoint;
+  }
+
+  $attachments['#attached']['drupalSettings']['carlsonGeneral'][
+    'desktopMegaMenu'
+  ] = $settings;
+}
 
 /**
  * Implements hook_system_breadcrumb_alter().
@@ -374,4 +460,20 @@ function carlson_general_tokens($type, $tokens, array $data, array $options, Bub
     }
   }
   return $replacements;
+}
+
+/**
+ * Implements hook_media_source_info_alter().
+ *
+ * Replace the core oEmbed media source (and its derivatives, e.g. oembed:video)
+ * with one that logs fetch failures instead of flashing them. A flashed error
+ * opens an anonymous session and makes the response uncacheable (no-store),
+ * forcing an origin render on every hit. See CSM-392.
+ */
+function carlson_general_media_source_info_alter(array &$sources): void {
+  foreach ($sources as $id => $definition) {
+    if (isset($definition['class']) && is_a($definition['class'], OEmbed::class, TRUE)) {
+      $sources[$id]['class'] = CarlsonOEmbed::class;
+    }
+  }
 }

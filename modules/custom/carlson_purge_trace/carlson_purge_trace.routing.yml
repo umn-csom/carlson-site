@@ -34,6 +34,16 @@ carlson_purge_trace.download:
   requirements:
     _permission: 'view reports'
 
+carlson_purge_trace.download_all:
+  path: '/admin/reports/purge-trace/download-all'
+  defaults:
+    _controller: '\Drupal\carlson_purge_trace\Controller\PurgeTraceLogsController::downloadAllFiles'
+    _title: 'Download all purge trace files'
+  requirements:
+    _permission: 'view reports'
+  options:
+    _admin_route: TRUE
+
 carlson_purge_trace.probe:
   path: '/admin/reports/purge-trace/probe'
   defaults:
