@@ -5,7 +5,9 @@
  */
 #}
 {% for row in rows %}
-  <div{{ row.attributes.addClass(default_row_class ? 'views-row') }}>
-    {{ row.content }}
-  </div>
+  {% if 'front-blocks-item--inactive' not in row.attributes.class %}
+    <div{{ row.attributes.addClass(default_row_class ? 'views-row') }}>
+      {{ row.content }}
+    </div>
+  {% endif %}
 {% endfor %}

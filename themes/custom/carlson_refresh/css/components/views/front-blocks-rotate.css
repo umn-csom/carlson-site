@@ -1,5 +1,5 @@
 /**
- * Front blocks client-side rotation.
+ * Front blocks client-side rotation (below-the-fold pools).
  */
 
 .front-blocks-pool .front-blocks-item {
@@ -14,108 +14,8 @@
   display: none;
 }
 
-/* Hero: skeleton holds layout until images load; no-JS uses <noscript>. */
-.front-blocks-pool[data-front-blocks-pool="top_feature"] {
-  position: relative;
-}
-
-.front-blocks-pool[data-front-blocks-pool="top_feature"]:not(.is-ready) .front-blocks-item--default {
-  display: none;
-}
-
-.front-blocks-pool[data-front-blocks-pool="top_feature"]:not(.is-loaded) .view-content {
-  position: absolute;
-  inset: 0;
-  visibility: hidden;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.front-blocks-pool[data-front-blocks-pool="top_feature"]:not(.is-loaded) .front-blocks-item {
-  display: none;
-}
-
-.front-blocks-pool[data-front-blocks-pool="top_feature"]:not(.is-loaded) .front-blocks-item.is-active {
+.front-blocks-pool[data-front-blocks-pool="top_feature"] .front-blocks-item.is-active {
   display: block;
-}
-
-.front-blocks-pool[data-front-blocks-pool="top_feature"].is-loaded .front-top-features-skeleton {
-  display: none;
-}
-
-.front-blocks-pool[data-front-blocks-pool="top_feature"].is-loaded .view-content {
-  position: static;
-  visibility: visible;
-}
-
-.front-blocks-pool[data-front-blocks-pool="top_feature"].is-loaded .front-blocks-item.is-active {
-  display: block;
-}
-
-.front-top-features-skeleton {
-  position: relative;
-  z-index: 1;
-  display: block;
-  overflow: hidden;
-}
-
-.front-top-features-skeleton__image {
-  width: 100%;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.06) 25%,
-    rgba(0, 0, 0, 0.12) 37%,
-    rgba(0, 0, 0, 0.06) 63%
-  );
-  background-size: 400% 100%;
-  animation: front-blocks-skeleton 1.2s ease-in-out infinite;
-}
-
-@media (min-width: 992px) {
-  .front-top-features-skeleton__image {
-    position: absolute;
-    inset: 0;
-    height: 100%;
-    padding-bottom: 0;
-  }
-}
-
-.front-top-features-skeleton__line {
-  height: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 0.25rem;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.06) 25%,
-    rgba(0, 0, 0, 0.12) 37%,
-    rgba(0, 0, 0, 0.06) 63%
-  );
-  background-size: 400% 100%;
-  animation: front-blocks-skeleton 1.2s ease-in-out infinite;
-}
-
-.front-top-features-skeleton__line--title {
-  height: 2.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.front-top-features-skeleton__line--short {
-  width: 70%;
-}
-
-.front-top-features-skeleton__button {
-  width: 8rem;
-  height: 2.75rem;
-  margin-top: 2rem;
-  border-radius: 0.25rem;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.06) 25%,
-    rgba(0, 0, 0, 0.12) 37%,
-    rgba(0, 0, 0, 0.06) 63%
-  );
-  background-size: 400% 100%;
-  animation: front-blocks-skeleton 1.2s ease-in-out infinite;
 }
 
 /* Below-the-fold pools */

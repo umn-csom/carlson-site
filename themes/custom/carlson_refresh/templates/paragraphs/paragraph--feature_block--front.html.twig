@@ -20,7 +20,7 @@
 {% block paragraph %}
   {% block content %}
     <section class="front-top-features position-relative d-flex flex-column flex-lg-row">
-      <div class="front-top-features__image-overlay {{ overlay_position }}  embed-responsive embed-responsive-21by9 h-100 w-100">
+      <div class="front-top-features__image-overlay {{ overlay_position }} embed-responsive embed-responsive-21by9 h-100 w-100"{% if hero_lqip %} style="background-image: url({{ hero_lqip }}); background-size: cover; background-position: center;"{% endif %}>
         {{ content.field_image }}
         {{ source('@carlson_refresh/images/front-top.svg') }}
       </div>

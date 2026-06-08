@@ -19,15 +19,11 @@
 {% set attributes = attributes.setAttribute('fetchpriority', 'high') %}
 {% endif %}
 {% set lqip = attributes['data-lqip']|render %}
-{% if lqip %}
-<img{{ attributes.addClass(classes).removeAttribute('data-lqip') }}
-style="
-background-image: url({{ lqip }});
-background-size: cover;
-background-position: center;
-"
-onload="this.style.backgroundImage='none';"
+{% if lqip and attributes.loading != 'eager' %}
+<img{{ attributes.addClass(classes, 'carlson-lqip').removeAttribute('data-lqip') }}
+style="background-image: url({{ lqip }}); background-size: cover; background-position: center;"
+onload="this.classList.add('is-loaded'); this.style.backgroundImage='none';"
 />
 {% else %}
-<img{{ attributes.addClass(classes) }} />
+<img{{ attributes.addClass(classes).removeAttribute('data-lqip') }} />
 {% endif %}

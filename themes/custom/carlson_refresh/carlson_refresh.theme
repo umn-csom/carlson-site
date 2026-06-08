@@ -32,22 +32,36 @@ function carlson_refresh_preprocess_image(&$variables) {
     return;
   }
 
-  // Load the 'lqip' version of the image and convert it to a data URI.
-  /** @var \Drupal\image\ImageStyleInterface $style */
+  $data_uri = _carlson_refresh_image_lqip_data_uri($source);
+  if ($data_uri) {
+    $variables['attributes']['data-lqip'] = [$data_uri];
+  }
+}
+
+/**
+ * Build a base64 LQIP data URI for a source image file URI.
+ */
+function _carlson_refresh_image_lqip_data_uri(string $source): ?string {
+  /** @var \Drupal\image\ImageStyleInterface|null $style */
   $style = \Drupal::entityTypeManager()->getStorage('image_style')->load('lqip');
   if (!$style) {
-    return;
+    return NULL;
   }
+
   $destination = $style->buildUri($source);
-  // Create the derivative if it doesn't exist.
   if (!file_exists($destination)) {
     $style->createDerivative($source, $destination);
   }
-  if (file_exists($destination)) {
-    $data = file_get_contents($destination);
-    $data_uri = 'data:image/webp;base64,' . base64_encode($data);
-    $variables['attributes']['data-lqip'] = [$data_uri];
+  if (!file_exists($destination)) {
+    return NULL;
   }
+
+  $data = file_get_contents($destination);
+  if ($data === FALSE) {
+    return NULL;
+  }
+
+  return 'data:image/webp;base64,' . base64_encode($data);
 }
 
 /**
@@ -256,31 +270,6 @@ function carlson_refresh_preprocess(&$variables) {
 }
 
 function carlson_refresh_preprocess_html(&$variables) {
-  if (\Drupal::service('path.matcher')->isFrontPage()) {
-    $theme_path = \Drupal::service('extension.list.theme')->getPath('carlson_refresh');
-    $variables['page']['#attached']['html_head'][] = [
-      [
-        '#type' => 'html_tag',
-        '#tag' => 'link',
-        '#attributes' => [
-          'rel' => 'stylesheet',
-          'href' => '/' . $theme_path . '/css/components/views/front-blocks-rotate.css',
-        ],
-      ],
-      'front_blocks_rotate_css',
-    ];
-    $variables['page']['#attached']['html_head'][] = [
-      [
-        '#type' => 'html_tag',
-        '#tag' => 'script',
-        '#attributes' => [
-          'src' => '/' . $theme_path . '/js/front-blocks-rotate.js',
-        ],
-      ],
-      'front_blocks_rotate_js',
-    ];
-  }
-
   $variables['page']['#attached']['html_head'][] = [
     [
       '#type' => 'html_tag',
@@ -336,6 +325,12 @@ function carlson_refresh_preprocess_node(&$variables) {
 
   if ($node->isPublished() == FALSE) {
       $variables['#attached']['library'][] = 'carlson_refresh/node--unpublished';
+  }
+
+  if ($bundle === 'front_page' && $variables['view_mode'] === 'full') {
+    $variables['#attached']['library'][] = 'carlson_refresh/front-blocks-rotate';
+    // TEMP: short max-age so rotation bucket changes on reload while debugging.
+    $variables['#cache']['max-age'] = _carlson_refresh_front_blocks_bucket_seconds();
   }
 
   // Allowed view modes
@@ -1188,6 +1183,86 @@ function carlson_refresh_theme() {
 }
 
 /**
+ * Rotation bucket length in seconds.
+ *
+ * TEMP: 15 for troubleshooting (restore 300 for 5-minute buckets).
+ */
+function _carlson_refresh_front_blocks_bucket_seconds(): int {
+  return 15;
+}
+
+/**
+ * Current front blocks rotation bucket.
+ */
+function _carlson_refresh_front_blocks_rotation_seed(): int {
+  return intdiv(\Drupal::time()->getRequestTime(), _carlson_refresh_front_blocks_bucket_seconds());
+}
+
+/**
+ * Deterministic index from rotation seed and pool salt (matches front-blocks JS).
+ */
+function _carlson_refresh_front_blocks_seeded_index(int $seed, string $salt, int $length): int {
+  if ($length <= 0) {
+    return 0;
+  }
+
+  $hash = 0;
+  $str = $seed . ':' . $salt;
+  $len = strlen($str);
+  for ($i = 0; $i < $len; $i++) {
+    $hash = (($hash << 5) - $hash) + ord($str[$i]);
+    $hash = $hash & 0xFFFFFFFF;
+    if ($hash >= 0x80000000) {
+      $hash -= 0x100000000;
+    }
+  }
+
+  return abs($hash) % $length;
+}
+
+/**
+ * Linked node ID from a top-feature paragraph, for pool deduplication.
+ */
+function _carlson_refresh_top_feature_link_nid_from_paragraph($paragraph): ?string {
+  if (!$paragraph->hasField('field_link') || $paragraph->get('field_link')->isEmpty()) {
+    return NULL;
+  }
+
+  $url = $paragraph->get('field_link')->first()->getUrl();
+  if ($url->isRouted() && $url->getRouteName() === 'entity.node.canonical') {
+    return (string) $url->getRouteParameters()['node'];
+  }
+
+  return NULL;
+}
+
+/**
+ * Implements hook_preprocess_paragraph__feature_block__front().
+ */
+function carlson_refresh_preprocess_paragraph__feature_block__front(array &$variables): void {
+  /** @var \Drupal\paragraphs\Entity\Paragraph $paragraph */
+  $paragraph = $variables['paragraph'];
+  if ($paragraph->get('field_image')->isEmpty()) {
+    return;
+  }
+
+  $media = $paragraph->get('field_image')->entity;
+  if (!$media || $media->get('image')->isEmpty()) {
+    return;
+  }
+
+  $file = $media->get('image')->entity;
+  if (!$file) {
+    return;
+  }
+
+  $lqip = _carlson_refresh_image_lqip_data_uri($file->getFileUri());
+  if ($lqip) {
+    $variables['hero_lqip'] = $lqip;
+  }
+}
+
+/**
  * Front blocks view displays that use client-side rotation.
  */
 function _carlson_refresh_front_blocks_displays(): array {
@@ -1254,13 +1329,13 @@ function _carlson_refresh_preprocess_front_blocks_row(array &$row, \Drupal\views
   $row['attributes']->setAttribute('data-paragraph-id', $paragraph_id);
 
   $paragraph = \Drupal::entityTypeManager()->getStorage('paragraph')->load($paragraph_id);
-  if (!$paragraph || !$paragraph->hasField('field_link') || $paragraph->get('field_link')->isEmpty()) {
+  if (!$paragraph) {
     return;
   }
 
-  $url = $paragraph->get('field_link')->first()->getUrl();
-  if ($url->isRouted() && $url->getRouteName() === 'entity.node.canonical') {
-    $row['attributes']->setAttribute('data-link-nid', $url->getRouteParameters()['node']);
+  $link_nid = _carlson_refresh_top_feature_link_nid_from_paragraph($paragraph);
+  if ($link_nid) {
+    $row['attributes']->setAttribute('data-link-nid', $link_nid);
   }
 }
 
@@ -1273,8 +1348,14 @@ function carlson_refresh_preprocess_views_view(array &$variables): void {
     return;
   }
 
+  $variables['#attached']['library'][] = 'carlson_refresh/front-blocks-rotate';
+  $variables['#cache']['max-age'] = _carlson_refresh_front_blocks_bucket_seconds();
   $variables['attributes']['class'][] = 'front-blocks-pool';
   $variables['attributes']['data-front-blocks-pool'] = $view->current_display;
+  if ($view->current_display === 'top_feature') {
+    $variables['attributes']['class'][] = 'is-ready';
+    $variables['attributes']['data-front-blocks-seed'] = _carlson_refresh_front_blocks_rotation_seed();
+  }
   if (in_array($view->current_display, ['feature_events', 'feature_discover'], TRUE)) {
     $variables['attributes']['class'][] = 'h-100';
   }
@@ -1289,8 +1370,33 @@ function carlson_refresh_preprocess_views_view_unformatted(array &$variables): v
     return;
   }
 
+  $active_index = NULL;
+  if ($view->current_display === 'top_feature') {
+    $count = count($variables['rows']);
+    if ($count > 0) {
+      $active_index = _carlson_refresh_front_blocks_seeded_index(
+        _carlson_refresh_front_blocks_rotation_seed(),
+        'top_feature',
+        $count
+      );
+    }
+  }
+
   foreach ($variables['rows'] as $delta => &$row) {
     _carlson_refresh_preprocess_front_blocks_row($row, $view, $delta);
+
+    if ($view->current_display === 'top_feature' && $active_index !== NULL && $delta !== $active_index) {
+      $row['content'] = [];
+      $row['attributes']->addClass('front-blocks-item--inactive');
+      $row['attributes']->setAttribute('hidden', 'hidden');
+      $row['attributes']->setAttribute('aria-hidden', 'true');
+      continue;
+    }
+
+    if ($view->current_display === 'top_feature' && $active_index !== NULL && $delta === $active_index) {
+      $row['attributes']->addClass('is-active');
+      $row['attributes']->setAttribute('aria-hidden', 'false');
+    }
   }
 }
 
@@ -1298,6 +1404,37 @@ function carlson_refresh_preprocess_views_view_unformatted(array &$variables): v
  * Implements hook_views_pre_render().
  */
 function carlson_refresh_views_pre_render(\Drupal\views\ViewExecutable $view) {
+  if ($view->id() === 'front_blocks' && in_array($view->current_display, _carlson_refresh_front_blocks_displays(), TRUE)) {
+    $view->element['#attached']['library'][] = 'carlson_refresh/front-blocks-rotate';
+  }
+
+  if ($view->id() === 'front_blocks' && $view->current_display === 'top_feature') {
+    $count = count($view->result);
+    if ($count > 0) {
+      $index = _carlson_refresh_front_blocks_seeded_index(
+        _carlson_refresh_front_blocks_rotation_seed(),
+        'top_feature',
+        $count
+      );
+      $active = $view->result[$index];
+
+      $link_nid = NULL;
+      $paragraph_id = $active->node__field_front_top_field_front_top_target_id ?? NULL;
+      if ($paragraph_id) {
+        $paragraph = \Drupal::entityTypeManager()->getStorage('paragraph')->load($paragraph_id);
+        if ($paragraph) {
+          $link_nid = _carlson_refresh_top_feature_link_nid_from_paragraph($paragraph);
+        }
+      }
+      $view->element['#attached']['drupalSettings']['carlsonFrontBlocks'] = [
+        'excludedNids' => $link_nid ? [$link_nid] : [],
+        'bucketMs' => _carlson_refresh_front_blocks_bucket_seconds() * 1000,
+        'topFeatureIndex' => $index,
+        'topFeatureSeed' => _carlson_refresh_front_blocks_rotation_seed(),
+      ];
+    }
+  }
+
   // Map CSS classes to libraries for view attachment
   $class_library_map = [
     'news-hub-search' => 'carlson_refresh/news-hub-search',

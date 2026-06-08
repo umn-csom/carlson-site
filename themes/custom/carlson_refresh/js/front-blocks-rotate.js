@@ -1,13 +1,14 @@
 /**
  * @file
- * Client-side rotation for front_blocks view pools on the homepage.
+ * Client-side rotation for below-the-fold front_blocks view pools.
  */
-(function () {
+(function (Drupal, drupalSettings) {
   'use strict';
 
-  var BUCKET_MS = 300000;
+  var settings = drupalSettings.carlsonFrontBlocks || {};
+  // TEMP default: 15s (restore 300000 for 5-minute buckets).
+  var BUCKET_MS = settings.bucketMs || 15000;
   var POOL_SALTS = {
-    top_feature: 'top_feature',
     feature_news: 'feature_news',
     feature_events: 'feature_events',
     feature_discover: 'feature_discover',
@@ -30,24 +31,6 @@
   }
 
   /**
-   * Resolve a linked node ID for top-feature deduplication.
-   */
-  function getLinkNid(item) {
-    var nid = item.getAttribute('data-link-nid');
-    if (nid) {
-      return nid;
-    }
-
-    var link = item.querySelector('a[href*="/node/"]');
-    if (!link) {
-      return null;
-    }
-
-    var match = link.getAttribute('href').match(/\/node\/(\d+)/);
-    return match ? match[1] : null;
-  }
-
-  /**
    * Activate one item in a pool.
    */
   function activateItem(items, index) {
@@ -61,8 +44,6 @@
     return items[safeIndex];
   }
 
-  var HERO_LOAD_TIMEOUT_MS = 4000;
-
   /**
    * Mark a pool ready and hide inactive items.
    */
@@ -74,65 +55,6 @@
   }
 
   /**
-   * Wait for images in the active hero item, then reveal content.
-   */
-  function revealHeroWhenReady(pool) {
-    var active = pool.querySelector('.front-blocks-item.is-active');
-    var finished = false;
-
-    function finish() {
-      if (finished) {
-        return;
-      }
-      finished = true;
-      pool.classList.add('is-loaded');
-      var skeleton = pool.querySelector('.front-top-features-skeleton');
-      if (skeleton) {
-        skeleton.setAttribute('aria-hidden', 'true');
-      }
-    }
-
-    var timeoutId = window.setTimeout(finish, HERO_LOAD_TIMEOUT_MS);
-
-    if (!active) {
-      window.clearTimeout(timeoutId);
-      finish();
-      return;
-    }
-
-    var images = active.querySelectorAll('img');
-    if (!images.length) {
-      window.clearTimeout(timeoutId);
-      finish();
-      return;
-    }
-
-    var pending = 0;
-    images.forEach(function (image) {
-      if (image.complete && image.naturalWidth > 0) {
-        return;
-      }
-      pending++;
-      function done() {
-        image.removeEventListener('load', done);
-        image.removeEventListener('error', done);
-        pending--;
-        if (pending === 0) {
-          window.clearTimeout(timeoutId);
-          finish();
-        }
-      }
-      image.addEventListener('load', done);
-      image.addEventListener('error', done);
-    });
-
-    if (pending === 0) {
-      window.clearTimeout(timeoutId);
-      finish();
-    }
-  }
-
-  /**
    * Current 5-minute rotation seed.
    */
   function rotationSeed() {
@@ -140,35 +62,12 @@
   }
 
   /**
-   * Initialize the above-the-fold top feature pool synchronously.
-   *
-   * Called from an inline script immediately after the hero markup is parsed,
-   * so the selected item is shown before first paint (no default-then-swap).
-   */
-  function initTopFeaturePool() {
-    var pool = document.querySelector('[data-front-blocks-pool="top_feature"]');
-    if (!pool || pool.classList.contains('is-ready')) {
-      return;
-    }
-
-    var items = pool.querySelectorAll('.front-blocks-item');
-    if (!items.length) {
-      return;
-    }
-
-    var topItem = activateItem(items, seededIndex(rotationSeed(), POOL_SALTS.top_feature, items.length));
-    var linkNid = getLinkNid(topItem);
-    window.carlsonFrontBlocksExcludedNids = linkNid ? [linkNid] : [];
-    markPoolReady(pool);
-    revealHeroWhenReady(pool);
-  }
-
-  /**
    * Initialize below-the-fold feature pools.
    */
   function initBelowFoldPools() {
     var seed = rotationSeed();
-    var excludedNids = new Set(window.carlsonFrontBlocksExcludedNids || []);
+    var settings = drupalSettings.carlsonFrontBlocks || {};
+    var excludedNids = new Set(settings.excludedNids || []);
 
     ['feature_news', 'feature_events', 'feature_discover'].forEach(function (poolId) {
       var pool = document.querySelector('[data-front-blocks-pool="' + poolId + '"]');
@@ -191,8 +90,6 @@
     });
   }
 
-  window.carlsonFrontBlocksInitTop = initTopFeaturePool;
-
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initBelowFoldPools);
   }
@@ -200,4 +97,4 @@
     initBelowFoldPools();
   }
 
-})();
+})(Drupal, drupalSettings);
