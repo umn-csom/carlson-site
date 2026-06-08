@@ -96,10 +96,9 @@ display:
           separator: ', '
           field_api_classes: false
       pager:
-        type: some
+        type: none
         options:
           offset: 0
-          items_per_page: 1
       exposed_form:
         type: basic
         options:
@@ -120,18 +119,18 @@ display:
           custom_tag: 'node_list:front_page'
       empty: {  }
       sorts:
-        random:
-          id: random
-          table: views
-          field: random
+        delta:
+          id: delta
+          table: node__field_front_top
+          field: delta
           relationship: none
           group_type: group
           admin_label: ''
-          plugin_id: random
+          plugin_id: standard
           order: ASC
           expose:
             label: ''
-            field_identifier: random
+            field_identifier: ''
           exposed: false
       arguments:
         nid:
@@ -247,7 +246,7 @@ display:
       footer: {  }
       display_extenders: {  }
     cache_metadata:
-      max-age: 300
+      max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -655,11 +654,26 @@ display:
         operator: AND
         groups:
           1: AND
+      sorts:
+        delta:
+          id: delta
+          table: node__field_front_feature_discover
+          field: delta
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       defaults:
         relationships: false
         fields: false
         filters: false
         filter_groups: false
+        sorts: false
       relationships:
         field_front_feature_discover:
           id: field_front_feature_discover
@@ -673,7 +687,7 @@ display:
       display_description: ''
       display_extenders: {  }
     cache_metadata:
-      max-age: 300
+      max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
@@ -838,11 +852,26 @@ display:
         operator: AND
         groups:
           1: AND
+      sorts:
+        delta:
+          id: delta
+          table: node__field_front_feature_events
+          field: delta
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       defaults:
         relationships: false
         fields: false
         filters: false
         filter_groups: false
+        sorts: false
       relationships:
         field_front_feature_events:
           id: field_front_feature_events
@@ -856,7 +885,7 @@ display:
       display_description: ''
       display_extenders: {  }
     cache_metadata:
-      max-age: 300
+      max-age: -1
       contexts:
         - 'languages:language_interface'
         - url
@@ -1017,11 +1046,26 @@ display:
         operator: AND
         groups:
           1: AND
+      sorts:
+        delta:
+          id: delta
+          table: node__field_front_feature_news
+          field: delta
+          relationship: none
+          group_type: group
+          admin_label: ''
+          plugin_id: standard
+          order: ASC
+          expose:
+            label: ''
+            field_identifier: ''
+          exposed: false
       defaults:
         relationships: false
         fields: false
         filters: false
         filter_groups: false
+        sorts: false
       relationships:
         field_front_feature_news:
           id: field_front_feature_news
@@ -1035,7 +1079,7 @@ display:
       display_description: ''
       display_extenders: {  }
     cache_metadata:
-      max-age: 300
+      max-age: -1
       contexts:
         - 'languages:language_interface'
         - url
@@ -1055,7 +1099,7 @@ display:
           tokenize: false
         simple_sitemap_display_extender: {  }
     cache_metadata:
-      max-age: 300
+      max-age: -1
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'

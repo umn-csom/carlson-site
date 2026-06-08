@@ -1,0 +1,183 @@
+/**
+ * Front blocks client-side rotation.
+ */
+
+.front-blocks-pool .front-blocks-item {
+  display: none;
+}
+
+.front-blocks-pool:not(.is-ready) .front-blocks-item--default {
+  display: block;
+}
+
+.front-blocks-pool.is-ready .front-blocks-item--default:not(.is-active) {
+  display: none;
+}
+
+/* Hero: skeleton holds layout until images load; no-JS uses <noscript>. */
+.front-blocks-pool[data-front-blocks-pool="top_feature"] {
+  position: relative;
+}
+
+.front-blocks-pool[data-front-blocks-pool="top_feature"]:not(.is-ready) .front-blocks-item--default {
+  display: none;
+}
+
+.front-blocks-pool[data-front-blocks-pool="top_feature"]:not(.is-loaded) .view-content {
+  position: absolute;
+  inset: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.front-blocks-pool[data-front-blocks-pool="top_feature"]:not(.is-loaded) .front-blocks-item {
+  display: none;
+}
+
+.front-blocks-pool[data-front-blocks-pool="top_feature"]:not(.is-loaded) .front-blocks-item.is-active {
+  display: block;
+}
+
+.front-blocks-pool[data-front-blocks-pool="top_feature"].is-loaded .front-top-features-skeleton {
+  display: none;
+}
+
+.front-blocks-pool[data-front-blocks-pool="top_feature"].is-loaded .view-content {
+  position: static;
+  visibility: visible;
+}
+
+.front-blocks-pool[data-front-blocks-pool="top_feature"].is-loaded .front-blocks-item.is-active {
+  display: block;
+}
+
+.front-top-features-skeleton {
+  position: relative;
+  z-index: 1;
+  display: block;
+  overflow: hidden;
+}
+
+.front-top-features-skeleton__image {
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.06) 25%,
+    rgba(0, 0, 0, 0.12) 37%,
+    rgba(0, 0, 0, 0.06) 63%
+  );
+  background-size: 400% 100%;
+  animation: front-blocks-skeleton 1.2s ease-in-out infinite;
+}
+
+@media (min-width: 992px) {
+  .front-top-features-skeleton__image {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    padding-bottom: 0;
+  }
+}
+
+.front-top-features-skeleton__line {
+  height: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.06) 25%,
+    rgba(0, 0, 0, 0.12) 37%,
+    rgba(0, 0, 0, 0.06) 63%
+  );
+  background-size: 400% 100%;
+  animation: front-blocks-skeleton 1.2s ease-in-out infinite;
+}
+
+.front-top-features-skeleton__line--title {
+  height: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.front-top-features-skeleton__line--short {
+  width: 70%;
+}
+
+.front-top-features-skeleton__button {
+  width: 8rem;
+  height: 2.75rem;
+  margin-top: 2rem;
+  border-radius: 0.25rem;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.06) 25%,
+    rgba(0, 0, 0, 0.12) 37%,
+    rgba(0, 0, 0, 0.06) 63%
+  );
+  background-size: 400% 100%;
+  animation: front-blocks-skeleton 1.2s ease-in-out infinite;
+}
+
+/* Below-the-fold pools */
+.front-blocks-pool:not(.is-ready):not([data-front-blocks-pool="top_feature"]) .view-content {
+  position: relative;
+  min-height: 12rem;
+}
+
+.front-blocks-pool:not(.is-ready):not([data-front-blocks-pool="top_feature"]) .view-content::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.06) 25%,
+    rgba(0, 0, 0, 0.12) 37%,
+    rgba(0, 0, 0, 0.06) 63%
+  );
+  background-size: 400% 100%;
+  animation: front-blocks-skeleton 1.2s ease-in-out infinite;
+  border-radius: 0.25rem;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.front-blocks-pool.is-ready .view-content::before {
+  display: none;
+}
+
+.front-blocks-pool.is-ready .front-blocks-item {
+  display: none;
+}
+
+.front-blocks-pool.is-ready .front-blocks-item.is-active {
+  display: block;
+}
+
+/* Restore equal-height with deadlines in the three-column row. */
+.front-blocks-pool[data-front-blocks-pool="feature_events"],
+.front-blocks-pool[data-front-blocks-pool="feature_discover"] {
+  height: 100%;
+}
+
+.front-blocks-pool[data-front-blocks-pool="feature_events"] .view-content,
+.front-blocks-pool[data-front-blocks-pool="feature_discover"] .view-content {
+  height: 100%;
+}
+
+.front-blocks-pool[data-front-blocks-pool="feature_events"] .front-blocks-item--default,
+.front-blocks-pool[data-front-blocks-pool="feature_discover"] .front-blocks-item--default,
+.front-blocks-pool[data-front-blocks-pool="feature_events"] .front-blocks-item.is-active,
+.front-blocks-pool[data-front-blocks-pool="feature_discover"] .front-blocks-item.is-active {
+  height: 100%;
+}
+
+@keyframes front-blocks-skeleton {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}
