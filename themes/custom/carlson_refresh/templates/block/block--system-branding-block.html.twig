@@ -14,16 +14,13 @@
 #}
 {% if site_logo or site_name %}
   {{ attach_library('carlson_refresh/site-branding') }}
-  {% if not is_front %}<a href="{{ path('<front>') }}" aria-label="Go to the Carlson School homepage" title="Home" rel="home" class="site-branding">
-  {% else %}
-    <span class="site-branding">
-  {% endif %}
+  <a href="{{ path('<front>') }}" aria-label="Go to the Carlson School homepage" title="Home" rel="home" class="site-branding">
     {% if site_logo %}
       {{ source('@carlson_refresh/images/svg/site-branding__logo-mn-carlson--desktop.svg') }}
     {% elseif site_name %}
       {{ site_name }}
     {% endif %}
-  {% if not is_front %}</a>{% else %}</span>{% endif %}
+  </a>
 {% endif %}
 {% if site_slogan %}
   {{ attach_library('carlson_refresh/site-name-slogan') }}
