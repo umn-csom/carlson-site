@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\carlson_general\Controller;
+namespace Drupal\carlson_campaign_demo\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 
