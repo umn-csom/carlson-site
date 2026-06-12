@@ -11,12 +11,6 @@
  * file is picked up across local and remote environments.
  */
 
-// Load local vendor autoloader for site-specific libraries.
-$local_autoload = __DIR__ . '/vendor/autoload.php';
-if (file_exists($local_autoload)) {
-  require_once $local_autoload;
-}
-
 /*
  * Increase site memory
 */
