@@ -35,6 +35,10 @@ function carlson_recaptcha_form_alter(
     ];
   }
   _carlson_recaptcha_attach_captcha_fallback_callbacks($form);
+  if (_carlson_recaptcha_form_has_captcha($form)) {
+    $form['#attached']['library'][] =
+      'carlson_recaptcha/recaptcha_v3_accessibility_fix';
+  }
 }
 
 /**
@@ -61,6 +65,30 @@ function _carlson_recaptcha_attach_captcha_fallback_callbacks(array &$element): 
     CaptchaFallbackPreRender::class,
     'markV3V2Fallback',
   ];
+}
+
+/**
+ * TRUE when the form tree contains a CAPTCHA element.
+ *
+ * @param array $element
+ *   A form subtree.
+ *
+ * @return bool
+ *   TRUE when a CAPTCHA element exists somewhere in the subtree.
+ */
+function _carlson_recaptcha_form_has_captcha(array $element): bool {
+  foreach (Element::children($element) as $key) {
+    if (!isset($element[$key]) || !is_array($element[$key])) {
+      continue;
+    }
+    if (($element[$key]['#type'] ?? '') === 'captcha') {
+      return TRUE;
+    }
+    if (_carlson_recaptcha_form_has_captcha($element[$key])) {
+      return TRUE;
+    }
+  }
+  return FALSE;
 }
 
 /**
