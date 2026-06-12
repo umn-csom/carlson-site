@@ -51,6 +51,9 @@ switch ($environment) {
     $config['environment_indicator.indicator']['bg_color'] = '#4DB9AF';
     $config['environment_indicator.indicator']['name'] = 'DEV';
     $config['system.logging']['error_level'] = 'verbose';
+    if (file_exists(__DIR__ . '/cache-debug.services.yml')) {
+      $settings['container_yamls'][] = __DIR__ . '/cache-debug.services.yml';
+    }
     break;
 
   case 'test':
@@ -73,6 +76,67 @@ switch ($environment) {
     $config['environment_indicator.indicator']['name'] = 'LOCAL';
     $config['shield.settings']['shield_enable'] = FALSE;
     $config['system.logging']['error_level'] = 'verbose';
+}
+
+/**
+ * Private file path for temporary diagnostics and protected uploads.
+ */
+if ($environment === 'local') {
+  $settings['file_private_path'] = dirname(DRUPAL_ROOT)
+    . '/private/'
+    . str_replace('/', DIRECTORY_SEPARATOR, $site_path);
+}
+elseif (
+  isset($_ENV['AH_SITE_GROUP']) &&
+  isset($_ENV['AH_SITE_ENVIRONMENT'])
+) {
+  $settings['file_private_path'] = '/mnt/files/'
+    . $_ENV['AH_SITE_GROUP']
+    . '.'
+    . $_ENV['AH_SITE_ENVIRONMENT']
+    . '/'
+    . $site_path
+    . '/files-private';
+}
+
+/**
+ * Fallback: reCAPTCHA v2/v3 keys from private JSON.
+ *
+ * When carlson_recaptcha is enabled, its ConfigFactoryOverride applies the
+ * same keys at runtime; this block keeps forms working if the module is off.
+ */
+if (!empty($settings['file_private_path'])) {
+  $recaptcha_key_environment = $environment === 'prod' ? 'prod' : 'dev-test';
+  $recaptcha_key_file = $settings['file_private_path']
+    . '/recaptcha/recaptcha.'
+    . $recaptcha_key_environment
+    . '.json';
+
+  if (is_readable($recaptcha_key_file)) {
+    $recaptcha_key_contents = file_get_contents($recaptcha_key_file);
+    $recaptcha_keys = $recaptcha_key_contents === FALSE
+      ? NULL
+      : json_decode($recaptcha_key_contents, TRUE);
+
+    if (is_array($recaptcha_keys)) {
+      $recaptcha_config_map = [
+        'v2' => 'recaptcha.settings',
+        'v3' => 'recaptcha_v3.settings',
+      ];
+
+      foreach ($recaptcha_config_map as $key_version => $config_name) {
+        if (
+          !empty($recaptcha_keys[$key_version]['site_key']) &&
+          !empty($recaptcha_keys[$key_version]['secret_key'])
+        ) {
+          $config[$config_name]['site_key'] =
+            $recaptcha_keys[$key_version]['site_key'];
+          $config[$config_name]['secret_key'] =
+            $recaptcha_keys[$key_version]['secret_key'];
+        }
+      }
+    }
+  }
 }
 
 // Block robots from indexing non-prod environments.

@@ -1,0 +1,19 @@
+carlson_recaptcha.recaptcha_private_keys:
+  path: '/admin/config/people/captcha/recaptcha-private-keys'
+  defaults:
+    _form: '\Drupal\carlson_recaptcha\Form\RecaptchaPrivateKeysForm'
+    _title: 'reCAPTCHA private keys'
+  requirements:
+    _permission: 'administer CAPTCHA settings'
+  options:
+    _admin_route: TRUE
+
+carlson_recaptcha.deployment_probe:
+  path: '/admin/reports/carlson-deployment-probe'
+  defaults:
+    _controller: '\Drupal\carlson_recaptcha\Controller\DeploymentProbeController::probe'
+    _title: 'Carlson deployment probe'
+  requirements:
+    _permission: 'access site reports'
+  options:
+    _admin_route: TRUE

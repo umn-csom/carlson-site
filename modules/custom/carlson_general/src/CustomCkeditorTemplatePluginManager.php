@@ -4,6 +4,7 @@ namespace Drupal\carlson_general;
 
 use Drupal\ckeditor_templates\CkeditorTemplatePluginManager;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 
 class CustomCkeditorTemplatePluginManager extends CkeditorTemplatePluginManager {
 
@@ -14,8 +15,8 @@ class CustomCkeditorTemplatePluginManager extends CkeditorTemplatePluginManager 
    */
   protected $currentUser;
 
-  public function __construct($namespaces, $cache_backend, $module_handler, AccountInterface $current_user) {
-    parent::__construct($namespaces, $cache_backend, $module_handler);
+  public function __construct($namespaces, $cache_backend, $module_handler, LanguageManagerInterface $language_manager, AccountInterface $current_user) {
+    parent::__construct($namespaces, $cache_backend, $module_handler, $language_manager);
     $this->currentUser = $current_user;
   }
 

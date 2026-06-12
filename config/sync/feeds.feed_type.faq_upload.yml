@@ -1,0 +1,200 @@
+uuid: 4d35c33d-e178-4093-a82d-05cd794c4d4d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.faq_questions.field_answer
+    - field.field.taxonomy_term.faq_questions.field_program
+    - field.field.taxonomy_term.faq_questions.field_question
+    - field.field.taxonomy_term.faq_questions.field_show_in_view
+    - field.field.taxonomy_term.faq_questions.field_topic
+    - taxonomy.vocabulary.faq_questions
+  module:
+    - feeds_tamper
+    - taxonomy
+third_party_settings:
+  feeds_tamper:
+    tampers:
+      ea0f6ade-f7bb-429f-a0df-0e3b2e75f402:
+        find_replace:
+          - FTMBA|ftmba
+          - 'STEM MBA|stem_mba'
+          - 'Deferred Entry MBA|deferred_entry_mba'
+          - CEMBA|cemba
+          - MSBA|msba
+          - MSF|msf
+          - MHRIR|mhrir
+          - 'MS SCM|ms_scm'
+          - MMKTG|mmktg
+          - MAcc|macc
+          - EMBA|executive_mba
+          - 'Executive MBA|executive_mba'
+          - PhD|phd
+          - PTMBA|ptmba
+          - OMBA|omba
+          - MABA|maba
+          - MBT|mbt
+        separator: '|'
+        case_sensitive: true
+        word_boundaries: false
+        whole: true
+        uuid: ea0f6ade-f7bb-429f-a0df-0e3b2e75f402
+        plugin: find_replace_multiline
+        source: program
+        weight: 0
+        label: 'Find replace (multiline)'
+      6636771f-91b8-4607-a2fe-467a0d05c5e1:
+        find_replace:
+          - Overview|overview
+          - Admissions|admissions
+          - Requirements|requirements
+          - 'Tuition & Aid|tuition_aid'
+          - Curriculum|curriculum
+          - 'Student Life|student_life'
+          - 'Community & Career|community_career'
+        separator: '|'
+        case_sensitive: true
+        word_boundaries: false
+        whole: true
+        uuid: 6636771f-91b8-4607-a2fe-467a0d05c5e1
+        plugin: find_replace_multiline
+        source: topic
+        weight: 0
+        label: 'Find replace (multiline)'
+      37743e4b-3d18-4f26-b557-6d1a3c200133:
+        uuid: 37743e4b-3d18-4f26-b557-6d1a3c200133
+        plugin: skip_on_empty
+        source: page
+        weight: 0
+        label: 'Skip tampers on empty'
+      d559cb89-0d0e-4aad-962a-b03bd3afcd0a:
+        default_value: 'true'
+        only_if_empty: false
+        uuid: d559cb89-0d0e-4aad-962a-b03bd3afcd0a
+        plugin: default_value
+        source: page
+        weight: 1
+        label: 'Set value or default value'
+label: 'FAQ Upload'
+id: faq_upload
+description: 'Upload a CSV to create FAQ Taxonomy items.'
+help: ''
+import_period: -1
+import_period_per_feed: false
+fetcher: upload
+fetcher_configuration:
+  allowed_extensions: 'txt csv tsv xml opml'
+  directory: 'public://feeds'
+parser: csv
+parser_configuration:
+  delimiter: ','
+  no_headers: false
+  line_limit: 100
+processor: 'entity:taxonomy_term'
+processor_configuration:
+  values:
+    vid: faq_questions
+  langcode: en
+  insert_new: 1
+  update_existing: 0
+  update_non_existent: _keep
+  skip_hash_check: false
+  skip_validation: false
+  skip_validation_types: {  }
+  authorize: false
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 0
+custom_sources:
+  program:
+    value: Program
+    label: Program
+    machine_name: program
+    type: csv
+  topic:
+    value: Topic
+    label: Topic
+    machine_name: topic
+    type: csv
+  new_question_to_review:
+    value: 'New Question To Review'
+    label: 'New Question To Review'
+    machine_name: new_question_to_review
+    type: csv
+  questions:
+    value: Questions
+    label: Questions
+    machine_name: questions
+    type: csv
+  answers:
+    value: Answers
+    label: Answers
+    machine_name: answers
+    type: csv
+  id:
+    value: id
+    label: id
+    machine_name: id
+    type: csv
+  answer_html:
+    value: 'Answer HTML'
+    label: 'Answer HTML'
+    machine_name: answer_html
+    type: csv
+  html_answers:
+    value: 'HTML Answers'
+    label: 'HTML Answers'
+    machine_name: html_answers
+    type: csv
+  page:
+    value: Page
+    label: Page
+    machine_name: page
+    type: csv
+mappings:
+  -
+    target: field_program
+    map:
+      value: program
+    settings:
+      language: null
+  -
+    target: field_topic
+    map:
+      value: topic
+    settings:
+      language: null
+  -
+    target: field_question
+    map:
+      value: questions
+    settings:
+      language: null
+  -
+    target: tid
+    map:
+      value: id
+    settings: {  }
+    unique:
+      value: 1
+  -
+    target: name
+    map:
+      value: questions
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_answer
+    map:
+      value: html_answers
+    settings:
+      language: ''
+      format: full_html
+  -
+    target: field_show_in_view
+    map:
+      value: page
+    settings:
+      language: null

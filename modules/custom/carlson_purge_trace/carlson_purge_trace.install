@@ -1,0 +1,52 @@
+<?php
+
+/**
+ * @file
+ * Install and update hooks for the Carlson Purge Trace module.
+ */
+
+use Drupal\carlson_purge_trace\Service\PurgeTraceRuntime;
+
+/**
+ * Implements hook_install().
+ */
+function carlson_purge_trace_install(): void {
+  _carlson_purge_trace_set_default_state(TRUE);
+}
+
+/**
+ * CSM-353: Set purge trace state defaults for existing installs.
+ */
+function carlson_purge_trace_update_100101(): void {
+  _carlson_purge_trace_set_default_state(TRUE);
+}
+
+/**
+ * CSM-388: Disable purge trace logging for release.
+ */
+function carlson_purge_trace_update_100102(): void {
+  \Drupal::state()->set(PurgeTraceRuntime::STATE_ENABLED, FALSE);
+}
+
+/**
+ * Sets the default runtime state values.
+ */
+function _carlson_purge_trace_set_default_state(bool $overwrite): void {
+  $state = \Drupal::state();
+  $defaults = [
+    PurgeTraceRuntime::STATE_ENABLED => PurgeTraceRuntime::DEFAULT_ENABLED,
+    PurgeTraceRuntime::STATE_CAPTURE_CALLERS =>
+      PurgeTraceRuntime::DEFAULT_CAPTURE_CALLERS,
+    PurgeTraceRuntime::STATE_ESTIMATE_CACHE_OBJECT_IMPACT =>
+      PurgeTraceRuntime::DEFAULT_ESTIMATE_CACHE_OBJECT_IMPACT,
+    PurgeTraceRuntime::STATE_RETENTION_DAYS =>
+      PurgeTraceRuntime::DEFAULT_RETENTION_DAYS,
+  ];
+
+  foreach ($defaults as $key => $value) {
+    $missing = new \stdClass();
+    if ($overwrite || $state->get($key, $missing) === $missing) {
+      $state->set($key, $value);
+    }
+  }
+}

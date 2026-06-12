@@ -2,17 +2,18 @@ uuid: c74fd3e4-0dc2-4b62-a5b9-708f352fd124
 langcode: en
 status: true
 dependencies:
+  config:
+    - node.type.event
   module:
     - node
 id: events
 label: Events
 type: 'canonical_entities:node'
-pattern: 'events/[node:field_event_date:start_date:custom:Ymd]-[node:title]'
+pattern: '/events/[node:field_event_date:start_date:custom:Ymd]-[node:title]'
 selection_criteria:
   8e5e2ffa-47e5-489a-a81a-e45821d96996:
     id: 'entity_bundle:node'
     negate: false
-    uuid: 8e5e2ffa-47e5-489a-a81a-e45821d96996
     context_mapping:
       node: node
     bundles:

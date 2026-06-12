@@ -449,7 +449,7 @@ function answersListCallback(&$form, FormStateInterface $form_state) {
  *
  * @return array
  */
-function carlson_quiz_allowed_values_function(FieldStorageDefinitionInterface $definition, FieldableEntityInterface $entity = NULL, &$cacheable = NULL) {
+function carlson_quiz_allowed_values_function(FieldStorageDefinitionInterface $definition, ?FieldableEntityInterface $entity = NULL, mixed &$cacheable = NULL) {
   $options = [];
   if(isset($entity)) {
     $parent = $entity->getParentEntity();
@@ -474,7 +474,7 @@ function carlson_quiz_allowed_values_function(FieldStorageDefinitionInterface $d
  *
  * @return array
  */
-function carlson_quiz_allowed_values_function_answ(FieldStorageDefinitionInterface $definition, FieldableEntityInterface $entity = NULL, &$cacheable = NULL) {
+function carlson_quiz_allowed_values_function_answ(FieldStorageDefinitionInterface $definition, ?FieldableEntityInterface $entity = NULL, mixed &$cacheable = NULL) {
   $options = [];
   if(isset($entity)) {
     $parent = $entity->getParentEntity();
