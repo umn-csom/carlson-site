@@ -671,6 +671,18 @@ function carlson_refresh_preprocess_page(&$variables) {
   $search_block_instance = $block_manager->createInstance('umn_search_block', array());
   $block_output = $search_block_instance->build();
   $variables['search_block'] = $block_output;
+
+  // Explicitly add umn_search results library and settings to page
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($route_name === 'umn_search.results' || !empty($block_output)) {
+    $variables['#attached']['library'][] = 'umn_search/cse_library';
+    
+    if (!empty($block_output['#attached']['drupalSettings']['umn_search'])) {
+      $umn_settings = $block_output['#attached']['drupalSettings']['umn_search'];
+      $variables['#attached']['drupalSettings']['umn_search']['cx'] = $umn_settings['cx'];
+      $variables['#attached']['drupalSettings']['umn_search']['placeholder_text'] = $umn_settings['placeholder_text'] ?? '';
+    }
+  }
 }
 
 /**
