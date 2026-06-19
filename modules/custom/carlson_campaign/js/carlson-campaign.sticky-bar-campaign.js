@@ -266,7 +266,7 @@
    */
   function announceStickyVisible(stickyElement) {
     const announcer = getStickyAnnouncer();
-    const textContainer = stickyElement.querySelector('.campaign-sticky-bar-text');
+    const textContainer = stickyElement.querySelector('.campaign-sticky-bar__text');
     const message = textContainer ?
       textContainer.textContent.replace(/\s+/g, ' ').trim() :
       '';
@@ -345,7 +345,7 @@
           }
 
           stickyElement
-            .querySelectorAll('.campaign-sticky-bar-close')
+            .querySelectorAll('.campaign-sticky-bar__close')
             .forEach((closeButton) => {
               closeButton.addEventListener('click', (event) => {
                 event.preventDefault();
@@ -375,7 +375,7 @@
             });
 
           stickyElement
-            .querySelectorAll('.campaign-sticky-bar-text a')
+            .querySelectorAll('.campaign-sticky-bar__text a')
             .forEach((linkElement, index) => {
               linkElement.addEventListener('click', (event) => {
                 // Any link click inside the banner counts as a conversion.
