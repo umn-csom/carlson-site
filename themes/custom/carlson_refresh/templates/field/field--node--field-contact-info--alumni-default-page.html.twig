@@ -57,16 +57,41 @@
 <div class="container space-above">
   <div class="row no-gutters component-paragraph contact-cta py-4 py-xl-6 border box-shadow">
     {% for item in items %}
-      <div class="col-12 col-xl-6 contact-cta__contact px-8 px-xl-12 mb-8 mb-xl-0">
+      <div class="col-12 contact-cta__contact px-8 px-xl-12 mb-xl-8">
         <h2 class="contact-cta__contact--heading">{{ item.content.field_block_heading }}</h2>
-        {% if item.content.field_email|field_value is not empty %}
-          <div class="contact-cta__contact--email fs-18"><span class="font-weight-semi-bold">Email:</span> <a href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></div>
-        {% endif %}
-        {% if item.content.field_phone|field_value is not empty %}
-          <div class="contact-cta__contact--phone fs-18"><span class="font-weight-semi-bold">Phone:</span> <a href="{{ item.content.field_phone[0]['#url'] }}">{{ item.content.field_phone[0]['#title'] }}</a></div>
-        {% endif %}
+
+        <div class="row no-gutters">
+          <div class="col-12 col-lg-6 mb-8 mb-xl-0">
+            {% if item.content.field_block_subheading|field_value is not empty %}
+            <div class="contact-cta__contact--subheading fs-18">{{ item.content.field_block_subheading }}</div>
+            {% endif %}
+            {% if item.content.field_email|field_value is not empty %}
+            <div class="contact-cta__contact--email fs-18"><span class="font-weight-semi-bold">Email:</span> <a href="mailto:{{ item.content.field_email }}" title="email {{ item.content.field_email }}">{{ item.content.field_email }}</a></div>
+            {% endif %}
+            {% if item.content.field_phone|field_value is not empty %}
+            <div class="contact-cta__contact--phone fs-18"><span class="font-weight-semi-bold">Phone:</span> <a href="{{ item.content.field_phone[0]['#url'] }}">{{ item.content.field_phone[0]['#title'] }}</a></div>
+            {% endif %}
+          </div>
+
+          <div class="col-12 col-lg-6 px-lg-12 mb-8 mb-xl-0">
+            {% if item.content.field_show_secondary_contact['#items'].value == 1%}
+              {% if item.content.field_block_subheading2|field_value is not empty %}
+              <div class="contact-cta__contact--subheading fs-18">{{ item.content.field_block_subheading2 }}</div>
+              {% endif %}
+              {% if item.content.field_email2|field_value is not empty %}
+              <div class="contact-cta__contact--email fs-18"><span class="font-weight-semi-bold">Email:</span> <a href="mailto:{{ item.content.field_email2 }}" title="email {{ item.content.field_email2 }}">{{ item.content.field_email2 }}</a></div>
+              {% endif %}
+              {% if item.content.field_phone2|field_value is not empty %}
+              <div class="contact-cta__contact--phone fs-18"><span class="font-weight-semi-bold">Phone:</span> <a href="{{ item.content.field_phone2[0]['#url'] }}">{{ item.content.field_phone2[0]['#title'] }}</a></div>
+              {% endif %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-6 px-8 px-xl-12 d-flex align-items-end mb-8 mb-xl-0">
         {% if item.content.field_request_link|render %}
-          <div class="btn btn-primary mt-4 unb-cta-icon-request">{{ item.content.field_request_link }}</div>
+        <div class="btn btn-primary mt-4 unb-cta-icon-request">{{ item.content.field_request_link }}</div>
         {% endif %}
       </div>
       <div class="col-12 col-xl-6 contact-cta__social px-8 px-xl-12 d-flex align-items-end">
