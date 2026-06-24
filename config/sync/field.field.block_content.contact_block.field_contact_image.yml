@@ -1,0 +1,29 @@
+uuid: d74799c6-19e0-4cdb-a9fe-ce4533bcbcf0
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.contact_block
+    - field.storage.block_content.field_contact_image
+    - media.type.image
+id: block_content.contact_block.field_contact_image
+field_name: field_contact_image
+entity_type: block_content
+bundle: contact_block
+label: 'Contact Image'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
