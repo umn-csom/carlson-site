@@ -1,0 +1,23 @@
+uuid: 19a0aeab-a787-48a2-97cf-ff6b9d5622a9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.featured_faqs.field_faqs
+    - paragraphs.paragraphs_type.featured_faqs
+id: paragraph.featured_faqs.default
+targetEntityType: paragraph
+bundle: featured_faqs
+mode: default
+content:
+  field_faqs:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: faq_accordion
+      link: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true

@@ -1,0 +1,25 @@
+uuid: 79aedcb3-856f-41b6-80b6-f83c58b57bbf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.featured_faqs.field_faqs
+    - paragraphs.paragraphs_type.featured_faqs
+id: paragraph.featured_faqs.default
+targetEntityType: paragraph
+bundle: featured_faqs
+mode: default
+content:
+  field_faqs:
+    type: entity_reference_autocomplete
+    weight: 0
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true
