@@ -58,7 +58,7 @@
   {% for item in items %}
     <div class="col-md-12 contact-cta__contact">
       <h2 class="contact-cta__contact--heading h5">Program Contact</h2>
-      <div class="contact-cta__contact--person">{{ item.content.field_block_heading }}</div>
+      {# <div class="contact-cta__contact--person">{{ item.content.field_block_heading }}</div> #}
       {% if item.content.field_block_subheading|field_value is not empty %}
         <div class="contact-cta__contact--subheading">{{ item.content.field_block_subheading }}</div>
       {% endif %}
@@ -88,7 +88,7 @@
             <li class="list-inline-item contact-cta__contact--phone">Phone: {{ item.content.field_phone2 }}</li>
           {% endif %}
           {% if item.content.field_request_link|render %}
-            <li class="list-inline-item contact-cta__contact--link">{{ item.content.field_request_link }}</li>
+            <li class="list-inline-item contact-cta__contact--link mt-4">{{ item.content.field_request_link }}</li>
           {% endif %}
         </ul>
         {% endif %}
