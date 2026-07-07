@@ -1,0 +1,33 @@
+uuid: 21eebbd7-6504-4386-9833-4c226bddbe65
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_office_building
+    - node.type.faculty_profile
+    - taxonomy.vocabulary.office_buildings
+  content:
+    - 'taxonomy_term:office_buildings:a421a744-a5ad-44f8-a1a1-0c93144d951f'
+id: node.faculty_profile.field_office_building
+field_name: field_office_building
+entity_type: node
+bundle: faculty_profile
+label: 'Office Building'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    target_uuid: a421a744-a5ad-44f8-a1a1-0c93144d951f
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      office_buildings: office_buildings
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

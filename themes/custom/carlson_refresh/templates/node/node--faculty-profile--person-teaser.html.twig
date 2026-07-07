@@ -92,7 +92,7 @@
 
             {% if content.field_profile_address|field_value is not empty %}
             <div class="staff-faculty__item--address">
-              {{ content.field_profile_address|field_value }}
+              {{ content.field_profile_address|field_value }} {{ content.field_office_building == 'Other' ? content.field_custom_office_building : content.field_office_building}}
             </div>
             {% endif %}
 
