@@ -5,11 +5,13 @@ dependencies:
   config:
     - field.field.node.faculty_profile.body
     - field.field.node.faculty_profile.field_breadcrumb_title
+    - field.field.node.faculty_profile.field_custom_office_building
     - field.field.node.faculty_profile.field_email
     - field.field.node.faculty_profile.field_first_name
     - field.field.node.faculty_profile.field_last_name
     - field.field.node.faculty_profile.field_meta_tags
     - field.field.node.faculty_profile.field_middle_initial
+    - field.field.node.faculty_profile.field_office_building
     - field.field.node.faculty_profile.field_office_phone
     - field.field.node.faculty_profile.field_profile_activities
     - field.field.node.faculty_profile.field_profile_address
@@ -54,6 +56,14 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
+  field_custom_office_building:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 25
+    region: content
   field_email:
     type: basic_string
     label: hidden
@@ -91,6 +101,14 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     weight: 4
+    region: content
+  field_office_building:
+    type: entity_reference_label
+    label: hidden
+    settings:
+      link: false
+    third_party_settings: {  }
+    weight: 24
     region: content
   field_office_phone:
     type: string
