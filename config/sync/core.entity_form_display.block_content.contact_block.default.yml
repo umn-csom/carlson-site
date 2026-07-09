@@ -6,11 +6,7 @@ dependencies:
     - block_content.type.contact_block
     - field.field.block_content.contact_block.field_block_heading
     - field.field.block_content.contact_block.field_block_subheading
-    - field.field.block_content.contact_block.field_block_subheading2
-    - field.field.block_content.contact_block.field_contact_image
-    - field.field.block_content.contact_block.field_contact_image2
     - field.field.block_content.contact_block.field_email
-    - field.field.block_content.contact_block.field_email2
     - field.field.block_content.contact_block.field_link_facebook
     - field.field.block_content.contact_block.field_link_instagram
     - field.field.block_content.contact_block.field_link_linkedin
@@ -18,21 +14,17 @@ dependencies:
     - field.field.block_content.contact_block.field_link_twitter
     - field.field.block_content.contact_block.field_link_youtube
     - field.field.block_content.contact_block.field_phone
-    - field.field.block_content.contact_block.field_phone2
     - field.field.block_content.contact_block.field_request_link
-    - field.field.block_content.contact_block.field_show_secondary_contact
     - field.field.block_content.contact_block.field_social_heading
   module:
     - field_group
     - link
-    - media_library
     - telephone
 third_party_settings:
   field_group:
     group_content:
       children:
         - group_contact_info
-        - group_contact_info2
         - group_social_info
       label: Content
       region: content
@@ -48,7 +40,6 @@ third_party_settings:
         - info
         - field_block_heading
         - field_block_subheading
-        - field_contact_image
         - field_phone
         - field_email
         - field_request_link
@@ -75,31 +66,11 @@ third_party_settings:
       label: 'Social Info'
       region: content
       parent_name: group_content
-      weight: 14
-      format_type: tab
-      format_settings:
-        classes: ''
-        id: ''
-        formatter: closed
-        description: ''
-        required_fields: true
-    group_contact_info2:
-      children:
-        - field_show_secondary_contact
-        - field_block_subheading2
-        - field_contact_image2
-        - field_phone2
-        - field_email2
-      label: 'Contact Info Secondary'
-      region: content
-      parent_name: group_content
       weight: 13
       format_type: tab
       format_settings:
         classes: ''
-        show_empty_fields: false
         id: ''
-        label_as_html: false
         formatter: closed
         description: ''
         required_fields: true
@@ -124,39 +95,9 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_block_subheading2:
-    type: string_textfield
-    weight: 36
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_contact_image:
-    type: media_library_widget
-    weight: 3
-    region: content
-    settings:
-      media_types: {  }
-    third_party_settings: {  }
-  field_contact_image2:
-    type: media_library_widget
-    weight: 37
-    region: content
-    settings:
-      media_types: {  }
-    third_party_settings: {  }
   field_email:
     type: email_default
-    weight: 5
-    region: content
-    settings:
-      placeholder: ''
-      size: 60
-    third_party_settings: {  }
-  field_email2:
-    type: email_default
-    weight: 39
+    weight: 4
     region: content
     settings:
       placeholder: ''
@@ -212,32 +153,18 @@ content:
     third_party_settings: {  }
   field_phone:
     type: telephone_default
-    weight: 4
-    region: content
-    settings:
-      placeholder: ''
-    third_party_settings: {  }
-  field_phone2:
-    type: telephone_default
-    weight: 38
+    weight: 3
     region: content
     settings:
       placeholder: ''
     third_party_settings: {  }
   field_request_link:
     type: link_default
-    weight: 6
+    weight: 5
     region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
-    third_party_settings: {  }
-  field_show_secondary_contact:
-    type: boolean_checkbox
-    weight: 35
-    region: content
-    settings:
-      display_label: true
     third_party_settings: {  }
   field_social_heading:
     type: string_textfield
