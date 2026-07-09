@@ -1,0 +1,25 @@
+uuid: ad2ad719-c468-4a89-8bc0-4d4900c4546b
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.sticky_bar_campaign
+    - field.storage.block_content.field_campaign_dismiss_days
+id: block_content.sticky_bar_campaign.field_campaign_dismiss_days
+field_name: field_campaign_dismiss_days
+entity_type: block_content
+bundle: sticky_bar_campaign
+label: 'Repeat Delay'
+description: 'Set to 0 to re-offer the campaign on every page visit; Set to 729 to show in 30 days. Recommendation: 12 or more.'
+required: true
+translatable: true
+default_value:
+  -
+    value: 12
+default_value_callback: ''
+settings:
+  min: 0
+  max: 87600
+  prefix: 'Show again after '
+  suffix: ' hours'
+field_type: integer

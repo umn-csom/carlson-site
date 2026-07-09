@@ -1,0 +1,227 @@
+uuid: 76173ff1-9866-4619-bc4d-5a34dd0bf0fd
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.modal_campaign
+    - field.field.block_content.modal_campaign.field_campaign_delay_seconds
+    - field.field.block_content.modal_campaign.field_campaign_dismiss_days
+    - field.field.block_content.modal_campaign.field_campaign_end_datetime
+    - field.field.block_content.modal_campaign.field_campaign_session_key
+    - field.field.block_content.modal_campaign.field_campaign_start_datetime
+    - field.field.block_content.modal_campaign.field_campaign_stop_on_convert
+    - field.field.block_content.modal_campaign.field_campaign_text
+    - field.field.block_content.modal_campaign.field_modal_body
+    - field.field.block_content.modal_campaign.field_modal_cta_url
+    - field.field.block_content.modal_campaign.field_modal_decline_text
+    - field.field.block_content.modal_campaign.field_modal_dismiss_days
+    - field.field.block_content.modal_campaign.field_modal_eyebrow
+    - field.field.block_content.modal_campaign.field_modal_session_key
+    - field.field.block_content.modal_campaign.field_modal_show_decline
+    - field.field.block_content.modal_campaign.field_modal_title
+    - field.field.block_content.modal_campaign.field_variant_name
+  module:
+    - datetime
+    - field_group
+    - link
+    - text
+third_party_settings:
+  field_group:
+    group_call_to_action:
+      children:
+        - field_modal_cta_url
+        - field_modal_decline_text
+      label: 'Call to Action'
+      region: content
+      parent_name: group_content
+      weight: 76
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: true
+        description: ''
+        required_fields: true
+    group_content:
+      children:
+        - field_modal_eyebrow
+        - field_modal_title
+        - field_campaign_text
+        - group_call_to_action
+      label: Content
+      region: content
+      parent_name: ''
+      weight: 4
+      format_type: details
+      format_settings:
+        classes: ''
+        id: ''
+        open: true
+        description: ''
+        required_fields: true
+    group_trigger:
+      children:
+        - field_campaign_delay_seconds
+        - group_repeat
+        - group_schedule
+      label: Timing
+      region: content
+      parent_name: ''
+      weight: 5
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: true
+        description: 'Delay and repeat settings for this campaign.'
+        required_fields: true
+    group_schedule:
+      children:
+        - field_campaign_start_datetime
+        - field_campaign_end_datetime
+      label: 'Schedule (optional)'
+      region: content
+      parent_name: group_trigger
+      weight: 74
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: true
+        description: "Optionally, specify a range (in Central Time) when the campaign should be active - defaults to always active.\r\n\r\nNOTE: campaign content is embedded in page markup and hidden from users (but not necessarily bots, etc.) when inactive. Do not use scheduling for content that should remain truly secret prior to the start date/time."
+        required_fields: true
+    group_repeat:
+      children:
+        - field_campaign_dismiss_days
+        - field_campaign_stop_on_convert
+      label: Repeat
+      region: content
+      parent_name: group_trigger
+      weight: 71
+      format_type: details
+      format_settings:
+        classes: ''
+        show_empty_fields: false
+        id: ''
+        label_as_html: false
+        open: true
+        description: ''
+        required_fields: true
+id: block_content.modal_campaign.default
+targetEntityType: block_content
+bundle: modal_campaign
+mode: default
+content:
+  field_campaign_delay_seconds:
+    type: number
+    weight: 70
+    region: content
+    settings:
+      placeholder: '0'
+    third_party_settings: {  }
+  field_campaign_dismiss_days:
+    type: number
+    weight: 72
+    region: content
+    settings:
+      placeholder: '12'
+    third_party_settings: {  }
+  field_campaign_end_datetime:
+    type: datetime_default
+    weight: 81
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_campaign_session_key:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., fall_2025_campaign'
+    third_party_settings: {  }
+  field_campaign_start_datetime:
+    type: datetime_default
+    weight: 80
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_campaign_stop_on_convert:
+    type: boolean_checkbox
+    weight: 73
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_campaign_text:
+    type: text_textarea
+    weight: 75
+    region: content
+    settings:
+      rows: 10
+      placeholder: 'Main campaign message content...'
+    third_party_settings: {  }
+  field_modal_cta_url:
+    type: link_default
+    weight: 50
+    region: content
+    settings:
+      placeholder_url: 'https://example.org/'
+      placeholder_title: 'Learn more'
+    third_party_settings: {  }
+  field_modal_decline_text:
+    type: string_textfield
+    weight: 51
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., Maybe Later'
+    third_party_settings: {  }
+  field_modal_eyebrow:
+    type: string_textfield
+    weight: 72
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., Support Our Mission'
+    third_party_settings: {  }
+  field_modal_title:
+    type: string_textfield
+    weight: 74
+    region: content
+    settings:
+      size: 60
+      placeholder: 'Optional main heading'
+    third_party_settings: {  }
+  field_variant_name:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., A'
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: 'e.g., Fall 2025 Campaign'
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 3
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+hidden:
+  field_modal_body: true
+  field_modal_dismiss_days: true
+  field_modal_session_key: true
+  field_modal_show_decline: true
