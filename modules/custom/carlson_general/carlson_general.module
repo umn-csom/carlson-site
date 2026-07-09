@@ -54,14 +54,13 @@ function carlson_general_responsive_menu_off_canvas_output_alter(bool &$output):
  * Implements hook_page_bottom().
  */
 function carlson_general_page_bottom(array &$page): void {
-  if (!\Drupal\carlson_general\ResponsiveOffCanvasAjax::isEnabled()) {
-    return;
-  }
-
   // Add the lightweight placeholder and AJAX assets to page_bottom after the
   // default responsive_menu off-canvas output has been disabled above.
-  $page['page_bottom']['off_canvas'] =
+  if (\Drupal\carlson_general\ResponsiveOffCanvasAjax::isEnabled()) {
+    $page['page_bottom']['off_canvas'] =
     \Drupal\carlson_general\ResponsiveOffCanvasAjax::buildPlaceholder();
+  }
+
 }
 
 /**
@@ -99,6 +98,12 @@ function carlson_general_page_attachments(array &$attachments): void {
   $attachments['#attached']['drupalSettings']['carlsonGeneral'][
     'desktopMegaMenu'
   ] = $settings;
+
+  // Attach site-wide on non-admin routes because legacy Colorbox triggers
+  // (e.g. `colorbox-node`, `colorbox-load`) are embedded in WYSIWYG content and
+  // can appear on any front-end page; avoid admin routes to reduce risk of
+  // interfering with Drupal’s admin UI (core dialogs, editors, media library).
+  $attachments['#attached']['library'][] = 'carlson_general/carlson-general.dialog-modal';
 }
 
 /**

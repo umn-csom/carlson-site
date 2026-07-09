@@ -1,0 +1,41 @@
+{#
+/**
+ * @file
+ * Shared campaign-aware header shell for Carlson page templates.
+ *
+ * Renders the top sticky campaign, site header, and sticky site navigation.
+ * Callers may disable specific sections for templates that intentionally omit
+ * the standard header or nav.
+ */
+#}
+{% set render_site_header = render_site_header|default(true) %}
+{% set render_site_nav = render_site_nav|default(true) %}
+{% set include_umn_header = include_umn_header|default(true) %}
+{% set render_page_header_region = render_page_header_region|default(true) %}
+
+{% if campaign_sticky_top %}
+{{ campaign_sticky_top }}
+{% endif %}
+
+{% if render_site_header %}
+<header role="banner" aria-label="Site header" class="umnhf-hw">
+{% if include_umn_header %}
+{% include directory ~ '/templates/layout/umn-header.html.twig' %}
+{% endif %}
+{% if render_page_header_region and page.header %}
+  {{ page.header }}
+{% endif %}
+</header>
+{% endif %}
+
+{% if render_site_nav %}
+<div id="sticky-top-sentinel" style="height: 1px;"></div>
+<div role="region" aria-label="Site navigation" class="sticky-top site-nav">
+{% if page.navbar_primary %}
+  {{ page.navbar_primary }}
+{% endif %}
+{% if page.navbar_secondary %}
+  {{ page.navbar_secondary }}
+{% endif %}
+</div>
+{% endif %}

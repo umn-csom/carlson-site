@@ -1,0 +1,848 @@
+<?php
+
+/**
+ * @file
+ * Campaign functionality for campaign blocks and unbounce behavior.
+ */
+
+use Drupal\block\Entity\Block;
+use Drupal\Component\Utility\Xss;
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\Markup;
+
+/**
+ * Implements hook_theme().
+ */
+function carlson_campaign_theme(
+  $existing,
+  $type,
+  $theme,
+  $path,
+): array {
+  return [
+    'csm_modal_campaign' => [
+      'variables' => [
+        'campaign_id' => '',
+        'modal_id' => '',
+        'eyebrow' => '',
+        'title' => '',
+        'body' => NULL,
+        'cta_url' => '',
+        'cta_text' => '',
+        'decline_text' => '',
+      ],
+      'template' => 'csm-modal-campaign',
+    ],
+    'csm_sticky_bar_campaign' => [
+      'variables' => [
+        'campaign_id' => '',
+        'sticky_id' => '',
+        'text' => '',
+        'sticky_position' => 'bottom',
+        'sticky_color_scheme' => 'maroon',
+      ],
+      'template' => 'csm-sticky-bar-campaign',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function carlson_campaign_page_attachments(array &$attachments): void {
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+
+  $attachments['#attached']['library'][] =
+    'carlson_campaign/carlson-campaign.unbounce';
+}
+
+/**
+ * Applies shared campaign block form text cleanup.
+ */
+function _carlson_campaign_alter_block_content_form(array &$form): void {
+  $description = 'Brief description identifying this instance used in the ' .
+    'Content > Blocks list (e.g. "Fall 2025 Campaign - Variant A").';
+
+  if (isset($form['info']['widget'][0]['value'])) {
+    $form['info']['widget'][0]['value']['#description'] = $description;
+    return;
+  }
+
+  if (isset($form['info'])) {
+    $form['info']['#description'] = $description;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for modal campaign blocks.
+ */
+function carlson_campaign_form_block_content_modal_campaign_form_alter(
+  array &$form,
+  FormStateInterface $form_state,
+  string $form_id,
+): void {
+  _carlson_campaign_alter_block_content_form($form);
+
+  if (isset($form['field_modal_cta_url']['widget'][0]['title'])) {
+    $form['field_modal_cta_url']['widget'][0]['title']['#title'] = 'CTA Text';
+    $form['field_modal_cta_url']['widget'][0]['title']['#description'] =
+      'Text for CTA button or link.';
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for sticky bar campaign blocks.
+ */
+function carlson_campaign_form_block_content_sticky_bar_campaign_form_alter(
+  array &$form,
+  FormStateInterface $form_state,
+  string $form_id,
+): void {
+  _carlson_campaign_alter_block_content_form($form);
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function carlson_campaign_preprocess_block(array &$variables): void {
+  $block_content = $variables['content']['#block_content']
+    ?? $variables['elements']['content']['#block_content']
+    ?? NULL;
+  if (
+    $block_content &&
+    method_exists($block_content, 'bundle') &&
+    in_array($block_content->bundle(), [
+      'modal_campaign',
+      'sticky_bar_campaign',
+    ], TRUE)
+  ) {
+    // Use placed block visibility rules, but render campaigns separately in
+    // the page template/page_bottom so source order and accessibility stay
+    // controlled by the campaign runtime instead of the original placement.
+    $variables['attributes']['hidden'] = 'hidden';
+  }
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function carlson_campaign_preprocess_page(array &$variables): void {
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+
+  // Top-position sticky banners must render inside the main page canvas, ahead
+  // of the site header, so the admin toolbar does not cover them for editors.
+  $variables['campaign_sticky_top'] =
+    _carlson_campaign_get_sticky_bar_page_build('top');
+}
+
+/**
+ * Implements hook_page_bottom().
+ */
+function carlson_campaign_page_bottom(array &$page_bottom): void {
+  if (\Drupal::service('router.admin_context')->isAdminRoute()) {
+    return;
+  }
+
+  $build = _carlson_campaign_build_modal_campaign();
+  if ($build) {
+    $page_bottom['csm_modal_campaign'] = $build;
+  }
+
+  $build = _carlson_campaign_get_sticky_bar_page_build('bottom');
+  if ($build) {
+    $page_bottom['csm_sticky_bar_campaign'] = $build;
+  }
+}
+
+/**
+ * Returns the sticky bar build for the requested page position.
+ */
+function _carlson_campaign_get_sticky_bar_page_build(
+  string $expected_position,
+): ?array {
+  static $build_loaded = FALSE;
+  static $build = NULL;
+
+  if (!$build_loaded) {
+    // Build the sticky banner once per request so preprocess_page/page_bottom
+    // can share the same selected campaign without repeating selection logic.
+    $build = _carlson_campaign_build_sticky_bar_campaign();
+    $build_loaded = TRUE;
+  }
+
+  if ($build === NULL) {
+    return NULL;
+  }
+
+  // Only return the cached build when it matches the requested output slot.
+  // Top banners render before the header in page templates; bottom banners
+  // still render in page_bottom.
+  $sticky_position = $build['#sticky_position'] ?? 'bottom';
+  if ($sticky_position !== $expected_position) {
+    return NULL;
+  }
+
+  return $build;
+}
+
+/**
+ * Pick a safe, existing text format.
+ */
+function _carlson_campaign_pick_text_format(?string $candidate): string {
+  static $available = NULL;
+
+  if ($available === NULL) {
+    try {
+      $available = array_keys(
+        \Drupal::entityTypeManager()
+          ->getStorage('filter_format')
+          ->loadMultiple(),
+      );
+    }
+    catch (\Throwable $t) {
+      $available = [];
+    }
+  }
+
+  if ($candidate && in_array($candidate, $available, TRUE)) {
+    return $candidate;
+  }
+
+  // Prefer non-privileged formats when candidate format is unavailable.
+  foreach (['basic_html', 'basic', 'plain_text'] as $fallback) {
+    if (in_array($fallback, $available, TRUE)) {
+      return $fallback;
+    }
+  }
+
+  return 'plain_text';
+}
+
+/**
+ * Parse a campaign schedule field into a UTC timestamp.
+ */
+function _carlson_campaign_get_schedule_timestamp(
+  $campaign,
+  string $field_name,
+): ?int {
+  if (
+    !$campaign->hasField($field_name) ||
+    $campaign->get($field_name)->isEmpty()
+  ) {
+    return NULL;
+  }
+
+  $value = $campaign->get($field_name)->value ?? '';
+  if ($value === '') {
+    return NULL;
+  }
+
+  try {
+    $date = new \DateTimeImmutable($value, new \DateTimeZone('UTC'));
+    return $date->getTimestamp();
+  }
+  catch (\Throwable $t) {
+    return NULL;
+  }
+}
+
+/**
+ * Evaluate whether a campaign is active/renderable for the request schedule.
+ *
+ * Mental model:
+ * - is_renderable answers "can this campaign participate in selection?"
+ * - is_active answers "if it participates, should it outrank upcoming items?"
+ *
+ * We intentionally allow future-scheduled campaigns to remain renderable so
+ * their hidden markup can already exist in cached HTML before the start time.
+ * Expired or invalid campaigns are not renderable at all.
+ *
+ * Current schedule states:
+ * - Active now: renderable TRUE, active TRUE
+ * - Upcoming: renderable TRUE, active FALSE
+ * - Expired/invalid: renderable FALSE, active FALSE
+ */
+function _carlson_campaign_get_schedule_state($campaign): array {
+  $request_time = \Drupal::time()->getRequestTime();
+  $start_timestamp = _carlson_campaign_get_schedule_timestamp(
+    $campaign,
+    'field_campaign_start_datetime',
+  );
+  $end_timestamp = _carlson_campaign_get_schedule_timestamp(
+    $campaign,
+    'field_campaign_end_datetime',
+  );
+
+  if (
+    $start_timestamp !== NULL &&
+    $end_timestamp !== NULL &&
+    $start_timestamp >= $end_timestamp
+  ) {
+    return [
+      'is_active' => FALSE,
+      'is_renderable' => FALSE,
+      'cache_max_age' => Cache::PERMANENT,
+    ];
+  }
+
+  $is_active = TRUE;
+  $is_renderable = TRUE;
+  $transitions = [];
+
+  if ($start_timestamp !== NULL) {
+    if ($request_time < $start_timestamp) {
+      $is_active = FALSE;
+      $transitions[] = $start_timestamp - $request_time;
+    }
+  }
+
+  if ($end_timestamp !== NULL) {
+    if ($request_time >= $end_timestamp) {
+      $is_active = FALSE;
+      $is_renderable = FALSE;
+    }
+    else {
+      $transitions[] = $end_timestamp - $request_time;
+    }
+  }
+
+  return [
+    'is_active' => $is_active,
+    'is_renderable' => $is_renderable,
+    'cache_max_age' => empty($transitions)
+      ? Cache::PERMANENT
+      : min($transitions),
+  ];
+}
+
+/**
+ * Build schedule timestamps for frontend runtime checks.
+ */
+function _carlson_campaign_get_schedule_settings($campaign): array {
+  return [
+    'startTimestamp' => _carlson_campaign_get_schedule_timestamp(
+      $campaign,
+      'field_campaign_start_datetime',
+    ),
+    'endTimestamp' => _carlson_campaign_get_schedule_timestamp(
+      $campaign,
+      'field_campaign_end_datetime',
+    ),
+  ];
+}
+
+/**
+ * Creates an empty render array preserving cache metadata.
+ */
+function _carlson_campaign_empty_campaign_build(array $selected): array {
+  return [
+    '#markup' => '',
+    '#cache' => [
+      'contexts' => $selected['cache_contexts'],
+      'tags' => $selected['cache_tags'],
+      'max-age' => $selected['cache_max_age'],
+    ],
+  ];
+}
+
+/**
+ * Select the first visible placed campaign block for a bundle.
+ *
+ * Selection happens in two phases:
+ * 1. Build a candidate pool from reusable campaign content that is placed in
+ *    the active theme and passes schedule/access checks.
+ * 2. Sort those candidates so exactly one campaign of the requested type wins.
+ *
+ * The winner is chosen deterministically:
+ * - Active campaigns outrank upcoming campaigns.
+ * - Earlier theme regions outrank later regions.
+ * - Lower block weight outranks higher weight.
+ * - Block ID is the final stable tie-breaker.
+ *
+ * This is why schedule state needs both "renderable" and "active":
+ * - renderable decides whether a campaign enters the candidate pool at all
+ * - active decides whether it should outrank future campaigns in that pool
+ */
+function _carlson_campaign_get_selected_campaign(string $bundle): ?array {
+  try {
+    // Start with broad page-level cacheability and tighten/expand it as we
+    // inspect candidate content entities, access results, and placements.
+    $cache_contexts = ['user.roles', 'url.path'];
+    $cache_tags = [];
+    $cache_max_age = Cache::PERMANENT;
+
+    $block_content_storage = \Drupal::entityTypeManager()
+      ->getStorage('block_content');
+    // Load reusable block content items for this campaign bundle. Placement and
+    // visibility are handled later using block config entities.
+    $campaigns = $block_content_storage->loadByProperties([
+      'type' => $bundle,
+      'status' => 1,
+    ]);
+    if (empty($campaigns)) {
+      return [
+        'content' => NULL,
+        'cache_contexts' => $cache_contexts,
+        'cache_tags' => $cache_tags,
+        'cache_max_age' => $cache_max_age,
+      ];
+    }
+
+    $block_storage = \Drupal::entityTypeManager()->getStorage('block');
+    $active_theme = \Drupal::theme()->getActiveTheme();
+    $theme = $active_theme->getName();
+    // Region order gives a deterministic "first" campaign when multiple
+    // placements qualify on the same page.
+    $region_order = array_flip($active_theme->getRegions());
+
+    $candidates = [];
+    foreach ($campaigns as $campaign) {
+      if (method_exists($campaign, 'isPublished') && !$campaign->isPublished()) {
+        continue;
+      }
+
+      $schedule_state = _carlson_campaign_get_schedule_state($campaign);
+      $cache_max_age = Cache::mergeMaxAges(
+        $cache_max_age,
+        $schedule_state['cache_max_age'],
+      );
+      if (!$schedule_state['is_renderable']) {
+        continue;
+      }
+
+      $plugin_id = 'block_content:' . $campaign->uuid();
+      // Find placed block instances for this reusable block content in the
+      // active theme. Campaigns render separately from the block placement
+      // itself, but we still respect the editor's placement visibility rules
+      // from the original block instance.
+      $blocks = $block_storage->loadByProperties([
+        'theme' => $theme,
+        'status' => TRUE,
+        'plugin' => $plugin_id,
+      ]);
+      if (empty($blocks)) {
+        continue;
+      }
+
+      $access_result = $campaign->access('view', \Drupal::currentUser(), TRUE);
+      $cache_contexts = Cache::mergeContexts(
+        $cache_contexts,
+        $access_result->getCacheContexts(),
+      );
+      $cache_tags = Cache::mergeTags(
+        $cache_tags,
+        $access_result->getCacheTags(),
+      );
+      $cache_max_age = Cache::mergeMaxAges(
+        $cache_max_age,
+        $access_result->getCacheMaxAge(),
+      );
+      // Keep cacheability from access checks even when access denies this
+      // campaign, so cache varies correctly by the same conditions.
+      if (!$access_result->isAllowed()) {
+        continue;
+      }
+
+      foreach ($blocks as $block) {
+        // Store both content and placement metadata so we can sort by schedule
+        // priority first, then by placement, and finally render one winner.
+        $candidates[] = [
+          'block' => $block,
+          'content' => $campaign,
+          'schedule_rank' => $schedule_state['is_active'] ? 0 : 1,
+          'region_order' => $region_order[$block->getRegion()] ?? PHP_INT_MAX,
+          'weight' => (int) $block->getWeight(),
+        ];
+      }
+    }
+
+    if (empty($candidates)) {
+      return [
+        'content' => NULL,
+        'cache_contexts' => $cache_contexts,
+        'cache_tags' => $cache_tags,
+        'cache_max_age' => $cache_max_age,
+      ];
+    }
+
+    // Stable sort ensures a predictable "first eligible" campaign when several
+    // campaigns are configured. Lower schedule_rank wins, so active campaigns
+    // are selected before upcoming campaigns.
+    usort($candidates, static function (array $a, array $b): int {
+      if ($a['schedule_rank'] !== $b['schedule_rank']) {
+        return $a['schedule_rank'] <=> $b['schedule_rank'];
+      }
+      if ($a['region_order'] === $b['region_order']) {
+        if ($a['weight'] === $b['weight']) {
+          return strcmp($a['block']->id(), $b['block']->id());
+        }
+        return $a['weight'] <=> $b['weight'];
+      }
+      return $a['region_order'] <=> $b['region_order'];
+    });
+
+    $selected_content = NULL;
+    foreach ($candidates as $candidate) {
+      /** @var \Drupal\block\Entity\Block $candidate_block */
+      $candidate_block = $candidate['block'];
+      // Use Drupal core block access evaluation so all configured visibility
+      // conditions (and their cacheability metadata) are honored here too.
+      $placement_access = $candidate_block->access(
+        'view',
+        \Drupal::currentUser(),
+        TRUE,
+      );
+      $cache_contexts = Cache::mergeContexts(
+        $cache_contexts,
+        $placement_access->getCacheContexts(),
+      );
+      $cache_tags = Cache::mergeTags(
+        $cache_tags,
+        $placement_access->getCacheTags(),
+      );
+      $cache_max_age = Cache::mergeMaxAges(
+        $cache_max_age,
+        $placement_access->getCacheMaxAge(),
+      );
+      if (!$placement_access->isAllowed()) {
+        continue;
+      }
+
+      $selected_content = $candidate['content'];
+      // Once a candidate is selected, include the placement cacheability too,
+      // because placement config and visibility affect the rendered result.
+      $cache_contexts = Cache::mergeContexts(
+        $cache_contexts,
+        $candidate_block->getCacheContexts(),
+      );
+      $cache_tags = Cache::mergeTags(
+        Cache::mergeTags($cache_tags, $selected_content->getCacheTags()),
+        $candidate_block->getCacheTags(),
+      );
+      break;
+    }
+
+    return [
+      'content' => $selected_content,
+      'cache_contexts' => $cache_contexts,
+      'cache_tags' => $cache_tags,
+      'cache_max_age' => $cache_max_age,
+    ];
+  }
+  catch (\Throwable $t) {
+    return NULL;
+  }
+}
+
+/**
+ * Build the modal campaign render array from placed block visibility.
+ */
+function _carlson_campaign_build_modal_campaign(): ?array {
+  $selected = _carlson_campaign_get_selected_campaign('modal_campaign');
+  if ($selected === NULL) {
+    return NULL;
+  }
+
+  $selected_content = $selected['content'];
+  if (!$selected_content) {
+    return _carlson_campaign_empty_campaign_build($selected);
+  }
+
+  $campaign_id = $selected_content->uuid();
+  $modal_id = 'campaign-modal-' . $campaign_id;
+
+  $eyebrow = $selected_content->get('field_modal_eyebrow')->value ?? '';
+  $title = $selected_content->get('field_modal_title')->value ?? '';
+  if ($title === '') {
+    $title = 'Announcement';
+  }
+  $decline_text = '';
+  if (
+    $selected_content->hasField('field_modal_decline_text') &&
+    !$selected_content->get('field_modal_decline_text')->isEmpty()
+  ) {
+    $decline_text = trim((string) $selected_content
+      ->get('field_modal_decline_text')->value);
+  }
+
+  $body = '';
+  if (
+    $selected_content->hasField('field_campaign_text') &&
+    !$selected_content->get('field_campaign_text')->isEmpty()
+  ) {
+    $body_field = $selected_content->get('field_campaign_text');
+    $body = [
+      '#type' => 'processed_text',
+      '#text' => $body_field->value,
+      '#format' => _carlson_campaign_pick_text_format(
+        $body_field->format ?? '',
+      ),
+    ];
+  }
+
+  $cta_url = '';
+  $cta_text = '';
+  if (
+    $selected_content->hasField('field_modal_cta_url') &&
+    !$selected_content->get('field_modal_cta_url')->isEmpty()
+  ) {
+    $link = $selected_content->get('field_modal_cta_url')->first();
+    if ($link) {
+      $cta_url = $link->getUrl()->toString();
+      $cta_text = $link->title ?: 'Learn more';
+    }
+  }
+
+  // The stored field machine name still says "dismiss_days", but the current
+  // product behavior interprets this integer as repeat hours.
+  $repeat_hours = 12;
+  if (
+    $selected_content->hasField('field_campaign_dismiss_days') &&
+    !$selected_content->get('field_campaign_dismiss_days')->isEmpty()
+  ) {
+    $candidate_hours = (int) $selected_content
+      ->get('field_campaign_dismiss_days')->value;
+    if ($candidate_hours >= 0) {
+      $repeat_hours = $candidate_hours;
+    }
+  }
+
+  // Keep historical behavior by default: acknowledging the modal permanently
+  // suppresses future displays unless editors explicitly disable this toggle.
+  $stop_on_convert = TRUE;
+  if (
+    $selected_content->hasField('field_campaign_stop_on_convert') &&
+    !$selected_content->get('field_campaign_stop_on_convert')->isEmpty()
+  ) {
+    $stop_on_convert = (bool) $selected_content
+      ->get('field_campaign_stop_on_convert')->value;
+  }
+
+  // Default open delay is 0 seconds (show on page load). We accept any
+  // non-negative integer.
+  $delay_seconds = 0;
+  if (
+    $selected_content->hasField('field_campaign_delay_seconds') &&
+    !$selected_content->get('field_campaign_delay_seconds')->isEmpty()
+  ) {
+    $candidate_seconds = (int) $selected_content
+      ->get('field_campaign_delay_seconds')->value;
+    if ($candidate_seconds >= 0) {
+      $delay_seconds = $candidate_seconds;
+    }
+  }
+
+  $session_key = $selected_content->hasField('field_campaign_session_key')
+    ? ($selected_content->get('field_campaign_session_key')->value ?? '')
+    : '';
+  if ($session_key === '') {
+    $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
+  }
+  $variant_name = $selected_content->hasField('field_variant_name')
+    ? trim((string) ($selected_content->get('field_variant_name')->value ?? ''))
+    : '';
+
+  $schedule_settings = _carlson_campaign_get_schedule_settings(
+    $selected_content,
+  );
+
+  return [
+    '#theme' => 'csm_modal_campaign',
+    '#campaign_id' => $campaign_id,
+    '#modal_id' => $modal_id,
+    '#eyebrow' => $eyebrow,
+    '#title' => $title,
+    '#body' => $body,
+    '#cta_url' => $cta_url,
+    '#cta_text' => $cta_text,
+    '#decline_text' => $decline_text,
+    '#attached' => [
+      'library' => [
+        'carlson_campaign/carlson-campaign.modal-campaign',
+      ],
+      'drupalSettings' => [
+        'csmModalCampaign' => [
+          'campaignId' => $campaign_id,
+          'modalId' => $modal_id,
+          'sessionKey' => $session_key,
+          'variantName' => $variant_name,
+          // Keep the existing setting name for front-end compatibility even
+          // though the value now represents hours instead of days.
+          'dismissDays' => $repeat_hours,
+          'stopOnConvert' => $stop_on_convert,
+          'delaySeconds' => $delay_seconds,
+          'scheduleStartTimestamp' => $schedule_settings['startTimestamp'],
+          'scheduleEndTimestamp' => $schedule_settings['endTimestamp'],
+        ],
+      ],
+    ],
+    '#cache' => [
+      'contexts' => $selected['cache_contexts'],
+      'tags' => $selected['cache_tags'],
+      'max-age' => $selected['cache_max_age'],
+    ],
+  ];
+}
+
+/**
+ * Build the sticky bar campaign render array from placed block visibility.
+ */
+function _carlson_campaign_build_sticky_bar_campaign(): ?array {
+  // Reuse the shared campaign selector so sticky bars follow the same
+  // placement visibility + deterministic selection behavior as modals.
+  $selected = _carlson_campaign_get_selected_campaign('sticky_bar_campaign');
+  if ($selected === NULL) {
+    return NULL;
+  }
+
+  $selected_content = $selected['content'];
+  // No eligible content for this request, but preserve cacheability metadata so
+  // page cache varies correctly by the same conditions.
+  if (!$selected_content) {
+    return _carlson_campaign_empty_campaign_build($selected);
+  }
+
+  $campaign_id = $selected_content->uuid();
+  $sticky_id = 'campaign-sticky-bar-' . $campaign_id;
+
+  $filtered_text = '';
+  if (
+    $selected_content->hasField('field_campaign_text') &&
+    !$selected_content->get('field_campaign_text')->isEmpty()
+  ) {
+    // Sticky bar copy allows links only. Strip all other markup to keep this
+    // banner simple and predictable for styling/tracking.
+    $filtered_text = trim(
+      Xss::filter($selected_content->get('field_campaign_text')->value, ['a']),
+    );
+  }
+
+  // Empty text means nothing meaningful to render; return an empty build while
+  // retaining cache metadata from the selection process.
+  if ($filtered_text === '') {
+    return _carlson_campaign_empty_campaign_build($selected);
+  }
+
+  // Default to the product-approved recommendation (12 hours) unless the
+  // editor explicitly sets another non-negative value.
+  // The shared repeat field is reused for sticky bars, but its value now
+  // represents hours instead of days.
+  $repeat_hours = 12;
+  if (
+    $selected_content->hasField('field_campaign_dismiss_days') &&
+    !$selected_content->get('field_campaign_dismiss_days')->isEmpty()
+  ) {
+    $candidate_hours = (int) $selected_content
+      ->get('field_campaign_dismiss_days')->value;
+    if ($candidate_hours >= 0) {
+      $repeat_hours = $candidate_hours;
+    }
+  }
+
+  // Keep conversions terminal by default to match modal behavior unless the
+  // editor explicitly allows the banner to reappear after a conversion.
+  $stop_on_convert = TRUE;
+  if (
+    $selected_content->hasField('field_campaign_stop_on_convert') &&
+    !$selected_content->get('field_campaign_stop_on_convert')->isEmpty()
+  ) {
+    $stop_on_convert = (bool) $selected_content
+      ->get('field_campaign_stop_on_convert')->value;
+  }
+
+  // Default open delay is 5 seconds. A value of 0 is valid and means "show on
+  // page load", so we accept any non-negative integer.
+  $delay_seconds = 5;
+  if (
+    $selected_content->hasField('field_campaign_delay_seconds') &&
+    !$selected_content->get('field_campaign_delay_seconds')->isEmpty()
+  ) {
+    $candidate_seconds = (int) $selected_content
+      ->get('field_campaign_delay_seconds')->value;
+    if ($candidate_seconds >= 0) {
+      $delay_seconds = $candidate_seconds;
+    }
+  }
+
+  // Editors are expected to provide a required session key, but keep a stable
+  // fallback so runtime behavior still works if legacy/incomplete data exists.
+  $session_key = $selected_content->hasField('field_campaign_session_key')
+    ? ($selected_content->get('field_campaign_session_key')->value ?? '')
+    : '';
+  if ($session_key === '') {
+    $session_key = 'campaign_' . str_replace('-', '_', $campaign_id);
+  }
+  $variant_name = $selected_content->hasField('field_variant_name')
+    ? trim((string) ($selected_content->get('field_variant_name')->value ?? ''))
+    : '';
+
+  $position = 'bottom';
+  if (
+    $selected_content->hasField('field_campaign_position') &&
+    !$selected_content->get('field_campaign_position')->isEmpty()
+  ) {
+    $candidate_position = $selected_content->get('field_campaign_position')->value;
+    if (in_array($candidate_position, ['top', 'bottom'], TRUE)) {
+      $position = $candidate_position;
+    }
+  }
+
+  $color_scheme = 'maroon';
+  if (
+    $selected_content->hasField('field_campaign_color_scheme') &&
+    !$selected_content->get('field_campaign_color_scheme')->isEmpty()
+  ) {
+    $candidate_color_scheme = $selected_content
+      ->get('field_campaign_color_scheme')->value;
+    if (in_array($candidate_color_scheme, ['maroon', 'ivory'], TRUE)) {
+      $color_scheme = $candidate_color_scheme;
+    }
+  }
+
+  $schedule_settings = _carlson_campaign_get_schedule_settings(
+    $selected_content,
+  );
+
+  return [
+    '#theme' => 'csm_sticky_bar_campaign',
+    '#campaign_id' => $campaign_id,
+    '#sticky_id' => $sticky_id,
+    '#text' => Markup::create($filtered_text),
+    '#sticky_position' => $position,
+    '#sticky_color_scheme' => $color_scheme,
+    '#attached' => [
+      'library' => [
+        'carlson_campaign/carlson-campaign.sticky-bar-campaign',
+      ],
+      'drupalSettings' => [
+        'csmStickyBarCampaign' => [
+          // JS reads these values to control delay/frequency and emit tracking
+          // events with a stable campaign identifier.
+          'campaignId' => $campaign_id,
+          'stickyId' => $sticky_id,
+          'sessionKey' => $session_key,
+          'variantName' => $variant_name,
+          'position' => $position,
+          'colorScheme' => $color_scheme,
+          // Keep the existing setting name for front-end compatibility even
+          // though the value now represents hours instead of days.
+          'dismissDays' => $repeat_hours,
+          'stopOnConvert' => $stop_on_convert,
+          'delaySeconds' => $delay_seconds,
+          'scheduleStartTimestamp' => $schedule_settings['startTimestamp'],
+          'scheduleEndTimestamp' => $schedule_settings['endTimestamp'],
+        ],
+      ],
+    ],
+    '#cache' => [
+      'contexts' => $selected['cache_contexts'],
+      'tags' => $selected['cache_tags'],
+      'max-age' => $selected['cache_max_age'],
+    ],
+  ];
+}

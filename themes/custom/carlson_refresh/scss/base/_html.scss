@@ -12,6 +12,7 @@ html {
   font-size: 62.5%;
   text-size-adjust: 100%;
   scroll-behavior: smooth;
+  // Do not set overflow-x on html — it breaks position: sticky on .site-nav.
   // stylelint-disable-next-line property-no-vendor-prefix
   -webkit-text-size-adjust: 100%;
 
@@ -63,6 +64,10 @@ section {
   display: block;
 }
 
+main {
+  overflow-x: clip;
+}
+
 
 a {
   text-decoration: underline;
@@ -94,6 +99,10 @@ svg {
 
 img {
   border-style: none;
+  max-width: 100%;
+}
+
+iframe {
   max-width: 100%;
 }
 

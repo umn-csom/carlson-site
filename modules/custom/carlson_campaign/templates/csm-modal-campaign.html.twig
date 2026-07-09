@@ -1,0 +1,81 @@
+{#
+/**
+ * @file
+ * Modal Campaign markup.
+ */
+#}
+{% set eyebrow_id = modal_id ~ '__eyebrow' %}
+{% set labelledby_id = modal_id ~ '__title' %}
+{% if eyebrow %}
+  {% set labelledby_id = eyebrow_id ~ ' ' ~ labelledby_id %}
+{% endif %}
+<dialog
+  id="{{ modal_id }}"
+  class="campaign-modal campaign-modal-backdrop"
+  aria-labelledby="{{ labelledby_id }}"
+  aria-describedby="{{ modal_id }}__body"
+  data-campaign-id="{{ campaign_id }}"
+  data-tracking-id="{{ campaign_id }}"
+>
+  <div class="campaign-modal__panel" role="document">
+    <div class="campaign-modal__header">
+      <div class="csm-modal-campaign__heading">
+        {% if eyebrow %}
+          <p class="csm-modal-campaign__eyebrow mb-1" id="{{ eyebrow_id }}">{{ eyebrow }}</p>
+        {% endif %}
+        <h2 class="modal-title" id="{{ modal_id }}__title" tabindex="-1">{{ title }}</h2>
+      </div>
+      <button
+        id="{{ modal_id }}__close"
+        type="button"
+        class="campaign-modal__close"
+        aria-label="{{ 'Close'|t }}"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          width="20"
+          height="20"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            d="M4.5 4.5L15.5 15.5M15.5 4.5L4.5 15.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </button>
+    </div>
+
+    <div class="campaign-modal__body" id="{{ modal_id }}__body">
+      {{ body }}
+    </div>
+
+    {% if cta_url or decline_text %}
+      <div class="campaign-modal__footer">
+        {% if cta_url %}
+          <a
+            id="{{ modal_id }}__acknowledge"
+            href="{{ cta_url }}"
+            class="btn btn-primary campaign-modal-convert"
+          >
+            {{ cta_text }}
+          </a>
+        {% endif %}
+
+        {% if decline_text %}
+          <button
+            id="{{ modal_id }}__decline"
+            type="button"
+            class="btn btn-secondary campaign-modal-decline"
+          >
+            {{ decline_text }}
+          </button>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</dialog>
