@@ -1,0 +1,43 @@
+uuid: 25d9625e-41fb-4b74-beac-1ce8025959fc
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.emergency_banner
+    - field.field.block_content.emergency_banner.field_banner_type
+    - field.field.block_content.emergency_banner.field_message
+id: block_content.emergency_banner.default
+targetEntityType: block_content
+bundle: emergency_banner
+mode: default
+content:
+  field_banner_type:
+    type: options_select
+    weight: 26
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_message:
+    type: string_textarea
+    weight: 27
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings:
+      include_locked: true
+    third_party_settings: {  }
+hidden: {  }

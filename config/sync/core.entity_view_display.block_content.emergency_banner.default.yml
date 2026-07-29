@@ -1,0 +1,32 @@
+uuid: 782f9023-ad82-45dc-a23b-2e12d7fe7f55
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.emergency_banner
+    - field.field.block_content.emergency_banner.field_banner_type
+    - field.field.block_content.emergency_banner.field_message
+  module:
+    - options
+id: block_content.emergency_banner.default
+targetEntityType: block_content
+bundle: emergency_banner
+mode: default
+content:
+  field_banner_type:
+    type: list_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_message:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true
