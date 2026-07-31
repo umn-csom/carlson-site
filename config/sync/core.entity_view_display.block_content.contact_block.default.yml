@@ -6,7 +6,11 @@ dependencies:
     - block_content.type.contact_block
     - field.field.block_content.contact_block.field_block_heading
     - field.field.block_content.contact_block.field_block_subheading
+    - field.field.block_content.contact_block.field_block_subheading2
+    - field.field.block_content.contact_block.field_contact_image
+    - field.field.block_content.contact_block.field_contact_image2
     - field.field.block_content.contact_block.field_email
+    - field.field.block_content.contact_block.field_email2
     - field.field.block_content.contact_block.field_link_facebook
     - field.field.block_content.contact_block.field_link_instagram
     - field.field.block_content.contact_block.field_link_linkedin
@@ -14,10 +18,14 @@ dependencies:
     - field.field.block_content.contact_block.field_link_twitter
     - field.field.block_content.contact_block.field_link_youtube
     - field.field.block_content.contact_block.field_phone
+    - field.field.block_content.contact_block.field_phone2
     - field.field.block_content.contact_block.field_request_link
+    - field.field.block_content.contact_block.field_show_secondary_contact
     - field.field.block_content.contact_block.field_social_heading
+    - image.style.crop_circle_crop_200x200_
   module:
     - link
+    - media
     - telephone
 id: block_content.contact_block.default
 targetEntityType: block_content
@@ -40,12 +48,49 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
+  field_block_subheading2:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_contact_image:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: crop_circle_crop_200x200_
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 16
+    region: content
+  field_contact_image2:
+    type: media_thumbnail
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: crop_circle_crop_200x200_
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 17
+    region: content
   field_email:
     type: basic_string
     label: hidden
     settings: {  }
     third_party_settings: {  }
     weight: 0
+    region: content
+  field_email2:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 13
     region: content
   field_link_facebook:
     type: link
@@ -127,6 +172,14 @@ content:
     third_party_settings: {  }
     weight: 5
     region: content
+  field_phone2:
+    type: telephone_link
+    label: hidden
+    settings:
+      title: ''
+    third_party_settings: {  }
+    weight: 14
+    region: content
   field_request_link:
     type: link
     label: hidden
@@ -138,6 +191,16 @@ content:
       target: ''
     third_party_settings: {  }
     weight: 6
+    region: content
+  field_show_secondary_contact:
+    type: boolean
+    label: hidden
+    settings:
+      format: boolean
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 15
     region: content
   field_social_heading:
     type: string
