@@ -4,24 +4,25 @@ status: true
 dependencies:
   config:
     - block_content.type.emergency_banner
-    - field.field.block_content.emergency_banner.field_banner_type
-    - field.field.block_content.emergency_banner.field_message
+    - field.field.block_content.emergency_banner.field_campaign_color_scheme
+    - field.field.block_content.emergency_banner.field_campaign_text
   module:
     - options
+    - text
 id: block_content.emergency_banner.default
 targetEntityType: block_content
 bundle: emergency_banner
 mode: default
 content:
-  field_banner_type:
-    type: list_default
+  field_campaign_color_scheme:
+    type: list_key
     label: hidden
     settings: {  }
     third_party_settings: {  }
     weight: 0
     region: content
-  field_message:
-    type: basic_string
+  field_campaign_text:
+    type: text_default
     label: hidden
     settings: {  }
     third_party_settings: {  }

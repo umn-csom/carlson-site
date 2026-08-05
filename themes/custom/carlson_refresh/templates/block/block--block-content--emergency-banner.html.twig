@@ -1,40 +1,19 @@
-
-
-{% set options = content.field_banner_type.0['#markup'] %}
-
-{%
-  set classes = [
-  'block-content',
-  'block-content--type-' ~ bundle|clean_class,
-  'block-content--' ~ id,
-  'block-content--view-mode-' ~ view_mode|clean_class,
-  'folwell-banner',
-  options == 'emergency' ? 'emergency' : 'gold_background'
-]
-%}
-
-
 {{ attach_library('carlson_refresh/folwell_emergency_banner') }}
 
-<div{{ attributes.addClass(classes) }}>
-<button class="folwell-banner__close-element" aria-label="Close this banner">
-  <svg aria-hidden="true" data-icon="close" role="img" viewBox="0 0 352 512" xmlns="http://www.w3.org/2000/svg">
-    <path d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" fill="currentColor"></path>
-  </svg>
-</button>
 
-  <div class="folwell-banner__container">
-
-    {% if options == 'emergency' %}
-      <div class="folwell-banner__icon">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" aria-hidden="true" role="img">
-          <path fill="currentColor" d="M569.517 440.013C587.975 472.007 564.806 512 527.94 512H48.054c-36.937 0-59.999-40.055-41.577-71.987L246.423 23.985c18.467-32.009 64.72-31.951 83.154 0l239.94 416.028zM288 354c-25.405 0-46 20.595-46 46s20.595 46 46 46 46-20.595 46-46-20.595-46-46-46zm-43.673-165.346l7.418 136c.347 6.364 5.609 11.346 11.982 11.346h48.546c6.373 0 11.635-4.982 11.982-11.346l7.418-136c.375-6.874-5.098-12.654-11.982-12.654h-63.383c-6.884 0-12.356 5.78-11.981 12.654z"/>
-        </svg>
-      </div>
-    {% endif %}
-    <div class="folwell-banner__text">
-      {{ content|without('field_banner_type') }}
-    </div>
-
+<aside
+  class="emergency-campaign-sticky-bar campaign-sticky-bar campaign-sticky-bar--top campaign-sticky-bar--{{ content.field_campaign_color_scheme }}"
+  role="region"
+  aria-label="{{ 'Campaign announcement'|t }}"
+  aria-hidden="false"
+>
+  <div class="campaign-sticky-bar__inner">
+    <div class="campaign-sticky-bar__text">{{ content|without('field_campaign_color_scheme') }}</div>
   </div>
-</div>
+  <button type="button" class="emergency-campaign-sticky-bar__close campaign-sticky-bar__close" aria-label="{{ 'Dismiss sticky campaign'|t }}">
+    <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round">
+      <circle cx="10" cy="10" r="9.5"/>
+      <path d="M6 6L14 14M6 14L14 6"/>
+    </svg>
+  </button>
+</aside>

@@ -13,6 +13,10 @@
 {% set include_umn_header = include_umn_header|default(true) %}
 {% set render_page_header_region = render_page_header_region|default(true) %}
 
+{% if page.emergency_banner %}
+{{ page.emergency_banner }}
+{% endif %}
+
 {% if campaign_sticky_top %}
 {{ campaign_sticky_top }}
 {% endif %}

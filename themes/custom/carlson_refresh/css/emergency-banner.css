@@ -1,241 +1,180 @@
-/* Emergency Banner */
-.jim-look-here {
-  color: rgba(51, 51, 51, 0.15);
+/**
+ * @file
+ * Sticky bar campaign styling.
+ */
+
+.campaign-sticky-bar {
+  box-sizing: border-box;
+  font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
+  font-size: 1.7rem;
+  max-width: 100vw;
+  padding: calc(11px + env(safe-area-inset-bottom)) 54px;
+  min-height: 64px;
 }
 
-/* Folwell Banner Icon */
-.folwell-banner__icon {
-  align-self: center;
-  width: 1.75rem;
-}
-.folwell-banner__icon svg path {
-  fill: #fff;
-}
-@media (min-width: 450px) {
-  .folwell-banner__icon {
-    width: 2.5rem;
-  }
-}
-
-/* Folwell Banner */
-.folwell-banner {
-  padding: 1rem;
-  position: relative;
-}
-@media (min-width: 450px) {
-  .folwell-banner {
-    padding: 1.5rem;
-  }
-}
-@media (min-width: 650px) {
-  .folwell-banner {
-    padding: 2rem;
-  }
-}
-.folwell-banner .folwell-banner__container {
-  display: grid;
-  grid-gap: 1.25rem;
-  max-width: 1168px;
-  margin: 0 auto;
-  padding-right: 25px;
-}
-.folwell-banner .folwell-banner__text h2 {
-  margin: 0 0 0.75rem;
-  line-height: 1;
-}
-.folwell-banner .folwell-banner__text p {
-  margin: 0;
-}
-.folwell-banner .folwell-banner__close-element {
-  background: transparent;
-  margin: 0;
-  position: absolute;
-  top: 0;
+.campaign-sticky-bar--bottom {
+  bottom: 0;
+  box-shadow: 0 -6px 20px rgb(0 0 0 / 18%);
+  left: 0;
+  position: fixed;
   right: 0;
-}
-.folwell-banner .folwell-banner__close-element svg {
-  width: 1rem;
-}
-.folwell-banner .folwell-banner__close-element svg path {
-  fill: #7a0019;
-}
-.folwell-banner .folwell-banner__close-element:hover {
-  background: transparent;
-}
-.folwell-banner .folwell-banner__close-element:hover svg path {
-  fill: #000000;
-}
-.folwell-banner.emergency a.bg-maroon.btn,
-.folwell-banner.emergency a.btn.bg-maroon,
-.folwell-banner.emergency a.btn.btn-arrow.btn-give,
-.folwell-banner.emergency a.btn.btn-outline,
-.folwell-banner.emergency a.bg-maroon.btn.btn-arrow,
-.folwell-banner.emergency a.bg-maroon.btn.btn-small,
-.folwell-banner.emergency a.btn.btn-outline.gray-outline,
-.folwell-banner.emergency a.fw-btn-regular,
-.folwell-banner.emergency a.fw-btn-small,
-.folwell-banner.emergency a.fw-btn-arrow,
-.folwell-banner.emergency a.fw-btn-outline,
-.folwell-banner.emergency a.fw-btn-outline--white,
-.folwell-banner.emergency a.fw-btn-outline--gray,
-.folwell-banner.emergency a.fw-btn-full,
-.folwell-banner.emergency a.fw-btn-50,
-.folwell-banner.emergency a.fw-btn-give {
-  background-color: transparent !important;
-  border: 1px solid #fff !important;
-  color: #fff !important;
-}
-.folwell-banner.emergency a.bg-maroon.btn:visited,
-.folwell-banner.emergency a.btn.bg-maroon:visited,
-.folwell-banner.emergency a.btn.btn-arrow.btn-give:visited,
-.folwell-banner.emergency a.btn.btn-outline:visited,
-.folwell-banner.emergency a.bg-maroon.btn.btn-arrow:visited,
-.folwell-banner.emergency a.bg-maroon.btn.btn-small:visited,
-.folwell-banner.emergency a.btn.btn-outline.gray-outline:visited,
-.folwell-banner.emergency a.fw-btn-regular:visited,
-.folwell-banner.emergency a.fw-btn-small:visited,
-.folwell-banner.emergency a.fw-btn-arrow:visited,
-.folwell-banner.emergency a.fw-btn-outline:visited,
-.folwell-banner.emergency a.fw-btn-outline--white:visited,
-.folwell-banner.emergency a.fw-btn-outline--gray:visited,
-.folwell-banner.emergency a.fw-btn-full:visited,
-.folwell-banner.emergency a.fw-btn-50:visited,
-.folwell-banner.emergency a.fw-btn-give:visited {
-  color: #fff !important;
-  background-color: transparent !important;
-  border: 1px solid #fff !important;
-}
-.folwell-banner.emergency a.bg-maroon.btn:hover,
-.folwell-banner.emergency a.btn.bg-maroon:hover,
-.folwell-banner.emergency a.btn.btn-arrow.btn-give:hover,
-.folwell-banner.emergency a.btn.btn-outline:hover,
-.folwell-banner.emergency a.bg-maroon.btn.btn-arrow:hover,
-.folwell-banner.emergency a.bg-maroon.btn.btn-small:hover,
-.folwell-banner.emergency a.btn.btn-outline.gray-outline:hover,
-.folwell-banner.emergency a.fw-btn-regular:hover,
-.folwell-banner.emergency a.fw-btn-small:hover,
-.folwell-banner.emergency a.fw-btn-arrow:hover,
-.folwell-banner.emergency a.fw-btn-outline:hover,
-.folwell-banner.emergency a.fw-btn-outline--white:hover,
-.folwell-banner.emergency a.fw-btn-outline--gray:hover,
-.folwell-banner.emergency a.fw-btn-full:hover,
-.folwell-banner.emergency a.fw-btn-50:hover,
-.folwell-banner.emergency a.fw-btn-give:hover {
-  color: #fff !important;
-  background-color: #900021 !important;
-}
-.folwell-banner.emergency a.bg-maroon.btn:focus,
-.folwell-banner.emergency a.btn.bg-maroon:focus,
-.folwell-banner.emergency a.btn.btn-arrow.btn-give:focus,
-.folwell-banner.emergency a.btn.btn-outline:focus,
-.folwell-banner.emergency a.bg-maroon.btn.btn-arrow:focus,
-.folwell-banner.emergency a.bg-maroon.btn.btn-small:focus,
-.folwell-banner.emergency a.btn.btn-outline.gray-outline:focus,
-.folwell-banner.emergency a.fw-btn-regular:focus,
-.folwell-banner.emergency a.fw-btn-small:focus,
-.folwell-banner.emergency a.fw-btn-arrow:focus,
-.folwell-banner.emergency a.fw-btn-outline:focus,
-.folwell-banner.emergency a.fw-btn-outline--white:focus,
-.folwell-banner.emergency a.fw-btn-outline--gray:focus,
-.folwell-banner.emergency a.fw-btn-full:focus,
-.folwell-banner.emergency a.fw-btn-50:focus,
-.folwell-banner.emergency a.fw-btn-give:focus {
-  background-color: #900021 !important;
-  color: #fff !important;
+  width: auto;
+  z-index: 10000;
 }
 
-/* GOLD Background */
-.bg-gold,
-.gold_background {
-  background-color: #fc3;
-}
-.bg-gold .fw-btn-regular,
-.gold_background .fw-btn-regular {
-  border-color: transparent !important;
-}
-.bg-gold a:hover,
-.bg-gold .emphasis:hover,
-.gold_background a:hover,
-.gold_background .emphasis:hover {
-  color: #7a0019 !important;
-  background-color: white !important;
-  border-color: transparent !important;
-}
-.bg-gold a:focus,
-.bg-gold .emphasis:focus,
-.gold_background a:focus,
-.gold_background .emphasis:focus {
-  color: #ffde7a !important;
-  background-color: #900021 !important;
-}
-.bg-gold .emphasis:focus:after,
-.gold_background .emphasis:focus:after {
-  color: #ffde7a !important;
-}
-.bg-gold .emergency-banner__button,
-.gold_background .emergency-banner__button {
-  background: transparent !important;
-  color: #333 !important;
-  border: 1px solid #333 !important;
-}
-.bg-gold .emergency-banner__button:hover,
-.gold_background .emergency-banner__button:hover {
-  color: #333 !important;
-  background: #ffde7a !important;
+.campaign-sticky-bar--top {
+  box-shadow: 0 6px 20px rgb(0 0 0 / 14%);
+  position: relative;
+  width: 100%;
 }
 
-.emergency {
-  background: #ba0000;
-  color: #f9f7f6;
-}
-.emergency p,
-.emergency h2 {
+.campaign-sticky-bar--maroon {
+  background: #7a0019;
   color: #fff;
 }
-.emergency a {
-  color: #ffde7a;
-  border-bottom: 1px solid #ffde7a;
+
+.campaign-sticky-bar--ivory {
+  background: #e6e0d2;
+  color: #333;
+}
+
+.campaign-sticky-bar__inner {
+  margin: 0 auto;
+  max-width: 1300px;
+  min-width: 0;
+  padding: 0 11px;
+  width: 100%;
+}
+
+.campaign-sticky-bar__text {
+  font-size: 2.2rem;
+  line-height: 1.5;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.campaign-sticky-bar__text a {
   font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
 }
-.emergency a:visited {
-  color: #ffde7a;
-  border-bottom: 1px solid #ffde7a;
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar__text a {
+  color: #ffcc33;
 }
-.emergency a:hover {
-  color: #900021;
-  background-color: #ffde7a;
-  border-bottom: none;
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar__text a:hover {
+  color: #ffd766;
 }
-.emergency a:focus {
-  color: #ffde7a;
-  background-color: #900021;
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar__text a:focus-visible {
+  box-shadow: 0 0 0 2px #7a0019, 0 0 0 4px #fff;
+  outline: none;
 }
-.emergency a.emphasis, .emergency a.emphasis:visited {
-  color: #ffde7a;
-  border-bottom: 1px solid #ffde7a;
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar__text a {
+  color: #7a0019;
 }
-.emergency a.emphasis:hover, .emergency a.emphasis:visited:hover {
-  color: #900021;
-  background-color: #ffde7a;
-  border-bottom: none;
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar__text a:hover {
+  color: #5b0013;
 }
-.emergency a.emphasis:hover:after, .emergency a.emphasis:visited:hover:after {
-  color: #900021;
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar__text a:focus-visible {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 2px #17a2b8,
+    0 0 0 calc(2px + 0.35rem) rgba(23, 162, 184, 0.4);
+  outline: 0;
 }
-.emergency a.emphasis:after, .emergency a.emphasis:visited:after {
-  color: #ffde7a;
+
+.campaign-sticky-bar__close {
+  position: absolute;
+  top: calc(50% - 22px);
+  right: 10px;
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 2px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  margin-inline-start: auto;
+  height: 44px;
+  width: 44px;
+  padding: 0;
+  color: #fff;
+  transition: background-color 0.2s ease-in-out;
 }
-.emergency .folwell-banner__close-element svg path {
-  fill: #fff;
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar__close:hover {
+  background: rgb(0 0 0 / 60%);
 }
-.emergency .folwell-banner__container {
-  display: grid;
-  grid-gap: 1.5rem;
-  grid-template-columns: auto 1fr;
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar__close:focus-visible {
+  box-shadow: 0 0 0 2px #7a0019, 0 0 0 4px #fff;
+  outline: none;
 }
-.emergency .folwell-banner__container .emergency-banner__button {
-  border: solid 1px #f9f7f6 !important;
-  font-weight: normal !important;
-  color: #f9f7f6 !important;
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar__close {
+  color: #7a0019;
 }
-/*# sourceMappingURL=maps/emergency-banner.css.map */
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar__close:hover {
+  background: rgb(122 0 25 / 8%);
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar__close:focus-visible {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 2px #17a2b8,
+    0 0 0 calc(2px + 0.35rem) rgba(23, 162, 184, 0.4);
+  outline: 0;
+}
+
+.campaign-sticky-bar__close svg {
+  display: block;
+  width: 26px;
+  height: 26px;
+}
+
+@media (max-width: 1024px) {
+  .campaign-sticky-bar__text {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .campaign-sticky-bar__text {
+    font-size: 1.9rem;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 768px) {
+  .campaign-sticky-bar__text {
+    font-size: 1.8rem;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 480px) {
+  .campaign-sticky-bar__text {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .campaign-sticky-bar {
+    padding-inline: 15px 64px;
+  }
+}
+
+@media (max-width: 320px) {
+  .campaign-sticky-bar {
+    font-size: 1.2rem;
+    padding-inline: 11px 64px;
+  }
+
+  .campaign-sticky-bar__text {
+    text-align: left;
+  }
+}
