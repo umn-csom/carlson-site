@@ -33,6 +33,11 @@
   color: #fff;
 }
 
+.campaign-sticky-bar--red{
+  background: #b30000 ;
+  color: #fff;
+}
+
 .campaign-sticky-bar--ivory {
   background: #e6e0d2;
   color: #333;
@@ -61,15 +66,20 @@
   text-underline-offset: 0.2rem;
 }
 
-.campaign-sticky-bar--maroon .campaign-sticky-bar__text a {
+.campaign-sticky-bar--maroon .campaign-sticky-bar__text a, .campaign-sticky-bar--red .campaign-sticky-bar__text a {
   color: #ffcc33;
 }
 
-.campaign-sticky-bar--maroon .campaign-sticky-bar__text a:hover {
+.campaign-sticky-bar--maroon .campaign-sticky-bar__text a:hover, .campaign-sticky-bar--red .campaign-sticky-bar__text a:hover {
   color: #ffd766;
 }
 
 .campaign-sticky-bar--maroon .campaign-sticky-bar__text a:focus-visible {
+  box-shadow: 0 0 0 2px #b30000, 0 0 0 4px #fff;
+  outline: none;
+}
+
+.campaign-sticky-bar--red .campaign-sticky-bar__text a:focus-visible {
   box-shadow: 0 0 0 2px #7a0019, 0 0 0 4px #fff;
   outline: none;
 }
@@ -107,12 +117,17 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-.campaign-sticky-bar--maroon .campaign-sticky-bar__close:hover {
+.campaign-sticky-bar--maroon .campaign-sticky-bar__close:hover, .campaign-sticky-bar--red .campaign-sticky-bar__close:hover {
   background: rgb(0 0 0 / 60%);
 }
 
 .campaign-sticky-bar--maroon .campaign-sticky-bar__close:focus-visible {
   box-shadow: 0 0 0 2px #7a0019, 0 0 0 4px #fff;
+  outline: none;
+}
+
+.campaign-sticky-bar--red .campaign-sticky-bar__close:focus-visible {
+  box-shadow: 0 0 0 2px #b30000, 0 0 0 4px #fff;
   outline: none;
 }
 
