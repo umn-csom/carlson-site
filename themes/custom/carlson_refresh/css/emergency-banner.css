@@ -1,0 +1,203 @@
+/**
+ * @file
+ * Sticky bar campaign styling.
+ */
+
+.campaign-sticky-bar {
+  box-sizing: border-box;
+  font-family: "Open Sans", "Roboto", "Segoe UI", "Helvetica Neue", sans-serif;
+  font-size: 1.7rem;
+  max-width: 100vw;
+  padding: calc(11px + env(safe-area-inset-bottom)) 54px;
+  min-height: 64px;
+}
+
+.campaign-sticky-bar--bottom {
+  bottom: 0;
+  box-shadow: 0 -6px 20px rgb(0 0 0 / 18%);
+  left: 0;
+  position: fixed;
+  right: 0;
+  width: auto;
+  z-index: 10000;
+}
+
+.campaign-sticky-bar--top {
+  box-shadow: 0 6px 20px rgb(0 0 0 / 14%);
+  position: relative;
+  width: 100%;
+}
+
+.campaign-sticky-bar--maroon {
+  background: #7a0019;
+  color: #fff;
+}
+
+.campaign-sticky-bar--red{
+  background: #b30000 ;
+  color: #fff;
+}
+
+.campaign-sticky-bar--ivory {
+  background: #e6e0d2;
+  color: #333;
+}
+
+.campaign-sticky-bar__inner {
+  margin: 0 auto;
+  max-width: 1300px;
+  min-width: 0;
+  padding: 0 11px;
+  width: 100%;
+}
+
+.campaign-sticky-bar__text {
+  font-size: 2.2rem;
+  line-height: 1.5;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.campaign-sticky-bar__text a {
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 0.2rem;
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar__text a {
+  color: #ffcc33;
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar__text a:hover{
+  color: #ffd766;
+}
+
+.campaign-sticky-bar--red .campaign-sticky-bar__text a {
+  color: #ffffff;
+}
+
+.campaign-sticky-bar--red .campaign-sticky-bar__text a:hover {
+  color: #ffffff;
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar__text a:focus-visible {
+  box-shadow: 0 0 0 2px #b30000, 0 0 0 4px #fff;
+  outline: none;
+}
+
+.campaign-sticky-bar--red .campaign-sticky-bar__text a:focus-visible {
+  box-shadow: 0 0 0 2px #7a0019, 0 0 0 4px #fff;
+  outline: none;
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar__text a {
+  color: #7a0019;
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar__text a:hover {
+  color: #5b0013;
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar__text a:focus-visible {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 2px #17a2b8,
+    0 0 0 calc(2px + 0.35rem) rgba(23, 162, 184, 0.4);
+  outline: 0;
+}
+
+.campaign-sticky-bar__close {
+  position: absolute;
+  top: calc(50% - 22px);
+  right: 10px;
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 2px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  margin-inline-start: auto;
+  height: 44px;
+  width: 44px;
+  padding: 0;
+  color: #fff;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar__close:hover, .campaign-sticky-bar--red .campaign-sticky-bar__close:hover {
+  background: rgb(0 0 0 / 60%);
+}
+
+.campaign-sticky-bar--maroon .campaign-sticky-bar__close:focus-visible {
+  box-shadow: 0 0 0 2px #7a0019, 0 0 0 4px #fff;
+  outline: none;
+}
+
+.campaign-sticky-bar--red .campaign-sticky-bar__close:focus-visible {
+  box-shadow: 0 0 0 2px #b30000, 0 0 0 4px #fff;
+  outline: none;
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar__close {
+  color: #7a0019;
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar__close:hover {
+  background: rgb(122 0 25 / 8%);
+}
+
+.campaign-sticky-bar--ivory .campaign-sticky-bar__close:focus-visible {
+  box-shadow: 0 0 0 1px #fff, 0 0 0 2px #17a2b8,
+    0 0 0 calc(2px + 0.35rem) rgba(23, 162, 184, 0.4);
+  outline: 0;
+}
+
+.campaign-sticky-bar__close svg {
+  display: block;
+  width: 26px;
+  height: 26px;
+}
+
+@media (max-width: 1024px) {
+  .campaign-sticky-bar__text {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .campaign-sticky-bar__text {
+    font-size: 1.9rem;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 768px) {
+  .campaign-sticky-bar__text {
+    font-size: 1.8rem;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 480px) {
+  .campaign-sticky-bar__text {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .campaign-sticky-bar {
+    padding-inline: 15px 64px;
+  }
+}
+
+@media (max-width: 320px) {
+  .campaign-sticky-bar {
+    font-size: 1.2rem;
+    padding-inline: 11px 64px;
+  }
+
+  .campaign-sticky-bar__text {
+    text-align: left;
+  }
+}
