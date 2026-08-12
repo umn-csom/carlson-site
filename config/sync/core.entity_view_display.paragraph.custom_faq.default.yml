@@ -1,0 +1,31 @@
+uuid: 35fa3369-57ee-424a-b343-fcd7e1a4f8d8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.custom_faq.field_answer
+    - field.field.paragraph.custom_faq.field_question
+    - paragraphs.paragraphs_type.custom_faq
+  module:
+    - text
+id: paragraph.custom_faq.default
+targetEntityType: paragraph
+bundle: custom_faq
+mode: default
+content:
+  field_answer:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_question:
+    type: basic_string
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  search_api_excerpt: true
