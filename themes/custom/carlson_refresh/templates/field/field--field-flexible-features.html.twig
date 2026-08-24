@@ -55,7 +55,11 @@
 -%}
 {% if label_hidden %}
   {% set count = items|length %}
+  {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
+  <div class="container-fluid container-xl m-auto row component-paragraph flexible-features">
+  {% else %}
   <div class="row component-paragraph flexible-features">
+  {% endif %}
   {% for item in items %}
     {% set type = item.content['#paragraph'].type.0.target_id %}
     {# {% if node.gettype == 'executive_ed_program' %}
