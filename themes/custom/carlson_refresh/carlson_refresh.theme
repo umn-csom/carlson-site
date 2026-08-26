@@ -690,6 +690,13 @@ function carlson_refresh_preprocess_page(&$variables) {
       $variables['#attached']['drupalSettings']['umn_search']['placeholder_text'] = $umn_settings['placeholder_text'] ?? '';
     }
   }
+
+  // Attach quiz xml directory to page
+  // Get the active theme path dynamically
+  $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
+
+  // Attach the XML path setting to drupalSettings
+  $variables['#attached']['drupalSettings']['quiz']['xmlPath'] = '/' . $theme_path . '/js/html_campaign/quiz/xml/';
 }
 
 /**
@@ -1204,3 +1211,4 @@ function carlson_refresh_views_pre_render(\Drupal\views\ViewExecutable $view) {
     }
   }
 }
+
