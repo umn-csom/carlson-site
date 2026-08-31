@@ -55,32 +55,13 @@
 -%}
 {% if label_hidden %}
   {% set count = items|length %}
+  {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
+  <div class="container-fluid container-xl m-auto row component-paragraph flexible-features">
+  {% else %}
   <div class="row component-paragraph flexible-features">
+  {% endif %}
   {% for item in items %}
     {% set type = item.content['#paragraph'].type.0.target_id %}
-    {# {% if node.gettype == 'executive_ed_program' %}
-      {% if type == 'quote_group' %}
-        {% if count == 1 %}
-          <div class="container col-12 col-lg-12 quote-group__wrap">{{ item.content }}</div>
-        {% else %}
-          <div class="col-12 col-lg-6 col-xl-6 quote-group__wrap mb-6">{{ item.content }}</div>
-        {% endif %}
-      {% elseif type == 'video_text_below' %}
-        {% if count == 1 %}
-          <div class="container col-12 col-lg-12 align-items-center video-textbelow">{{ item.content }}</div>
-        {% else %}
-          <div class="col-12 col-lg-6 col-xl-6 align-items-center video-textbelow mb-6">{{ item.content }}</div>
-        {% endif %}
-      {% elseif type == 'video_text_right' %}
-        {% if count == 1 %}
-          <div class="container col-12 col-lg-12 align-items-center video-textright">{{ item.content }}</div>
-        {% else %}
-          <div class="col-12 col-lg-6 col-xl-6 align-items-center video-textright mb-6">{{ item.content }}</div>
-        {% endif %}
-      {% else %}
-        <div class="col-12 col-lg-12">{{ item.content }}</div>
-      {% endif %}
-    {% elseif node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %} #}
     {% if node.gettype == 'alumni_landing_page' or node.gettype == 'alumni_default_page' %}
       {% if type != 'hero' and type != 'gray_background' and type != 'quote_group' and type != 'fluid_columns' and type != 'quote' %}
         <div class="container-fluid container-xl">

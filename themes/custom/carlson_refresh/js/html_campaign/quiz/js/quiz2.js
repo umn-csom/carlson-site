@@ -733,3 +733,29 @@ ElementLoader.prototype.removePreloader = function(){
 		this._preloader = null;
 	} catch(e){}
 }
+
+
+var quiz;
+
+function init(){
+    var targetDiv = document.getElementById("quiz_container");
+
+	var xmlUrl = (typeof drupalSettings !== 'undefined' && drupalSettings.quiz && drupalSettings.quiz.xmlPath)
+		? drupalSettings.quiz.xmlPath
+		: "../xml/quiz_travel2023.xml";
+
+    if (targetDiv) {
+        quiz = new Screen({
+          id: "travelquiz", 
+          xmlPath: xmlUrl + 'quiz_travel2023.xml'
+        });
+        quiz.load(targetDiv, false);
+    }
+}
+
+// Pass jQuery safely to ensure '$' works perfectly on production
+(function ($, Drupal) {
+    $(document).ready(function() {
+        init();
+    });
+})(jQuery, Drupal);
