@@ -742,12 +742,12 @@ function init(){
 
 	var xmlUrl = (typeof drupalSettings !== 'undefined' && drupalSettings.quiz && drupalSettings.quiz.xmlPath)
 		? drupalSettings.quiz.xmlPath
-		: "../xml/quiz_travel2023.xml";
+		: "../xml/quiz_travel2026.xml";
 
     if (targetDiv) {
         quiz = new Screen({
           id: "travelquiz", 
-          xmlPath: xmlUrl + 'quiz_travel2023.xml'
+          xmlPath: xmlUrl + 'quiz_travel2026.xml'
         });
         quiz.load(targetDiv, false);
     }
