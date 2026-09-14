@@ -1,0 +1,34 @@
+uuid: 55c28947-7d94-44c5-bc65-549446f1655d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.faculty_endowed_positions.feeds_item
+    - field.field.taxonomy_term.faculty_endowed_positions.field_gift_source
+    - taxonomy.vocabulary.faculty_endowed_positions
+  module:
+    - text
+id: taxonomy_term.faculty_endowed_positions.default
+targetEntityType: taxonomy_term
+bundle: faculty_endowed_positions
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_gift_source:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  feeds_item: true
+  langcode: true
+  search_api_excerpt: true

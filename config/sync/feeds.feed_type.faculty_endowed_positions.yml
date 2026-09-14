@@ -1,0 +1,78 @@
+uuid: daea2ff2-ed81-4928-8108-90f1e9510978
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.faculty_endowed_positions.field_gift_source
+    - taxonomy.vocabulary.faculty_endowed_positions
+  module:
+    - taxonomy
+label: 'Faculty Endowed Positions'
+id: faculty_endowed_positions
+description: 'CSV upload for Faculty Endowed Positions and Gift Sources'
+help: ''
+import_period: 3600
+import_period_per_feed: false
+fetcher: upload
+fetcher_configuration:
+  allowed_extensions: 'txt csv tsv xml opml'
+  directory: 'public://feeds'
+parser: csv
+parser_configuration:
+  delimiter: ','
+  no_headers: false
+  line_limit: 100
+processor: 'entity:taxonomy_term'
+processor_configuration:
+  values:
+    vid: faculty_endowed_positions
+  langcode: en
+  insert_new: 1
+  update_existing: 0
+  update_non_existent: _keep
+  skip_hash_check: false
+  skip_validation: false
+  skip_validation_types: {  }
+  authorize: false
+  revision: false
+  expire: -1
+  owner_feed_author: false
+  owner_id: 0
+custom_sources:
+  chair_professorship_title:
+    value: 'Chair / Professorship Title'
+    label: 'Chair / Professorship Title'
+    machine_name: chair_professorship_title
+    type: csv
+  gift_from_the:
+    value: 'Gift from the'
+    label: 'Gift from the'
+    machine_name: gift_from_the
+    type: csv
+  id:
+    value: id
+    label: id
+    machine_name: id
+    type: csv
+mappings:
+  -
+    target: name
+    map:
+      value: chair_professorship_title
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: field_gift_source
+    map:
+      value: gift_from_the
+    settings:
+      language: null
+    unique: {  }
+  -
+    target: tid
+    map:
+      value: id
+    settings: {  }
+    unique:
+      value: 1
