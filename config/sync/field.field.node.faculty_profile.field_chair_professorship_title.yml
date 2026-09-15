@@ -1,0 +1,29 @@
+uuid: 62ea2ccf-2075-4dea-bb89-d05b4abd60bc
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_chair_professorship_title
+    - node.type.faculty_profile
+    - taxonomy.vocabulary.faculty_endowed_positions
+id: node.faculty_profile.field_chair_professorship_title
+field_name: field_chair_professorship_title
+entity_type: node
+bundle: faculty_profile
+label: 'Chair / Professorship Title'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      faculty_endowed_positions: faculty_endowed_positions
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

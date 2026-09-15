@@ -6,6 +6,7 @@ dependencies:
     - entity_browser.browser.media_browser
     - field.field.node.faculty_profile.body
     - field.field.node.faculty_profile.field_breadcrumb_title
+    - field.field.node.faculty_profile.field_chair_professorship_title
     - field.field.node.faculty_profile.field_custom_office_building
     - field.field.node.faculty_profile.field_email
     - field.field.node.faculty_profile.field_first_name
@@ -127,6 +128,7 @@ third_party_settings:
         - field_profile_status
         - field_profile_owner
         - field_profile_job_candidate
+        - field_chair_professorship_title
         - field_meta_tags
       label: Administrative
       region: content
@@ -240,6 +242,33 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_chair_professorship_title:
+    type: entity_reference_autocomplete
+    weight: 33
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      conditional_fields:
+        67520486-c7d7-4891-9358-85d5eeb4ca33:
+          entity_type: node
+          bundle: faculty_profile
+          dependee: group_administrative
+          settings:
+            state: visible
+            reset: false
+            condition: checked
+            grouping: AND
+            values_set: 1
+            value: ''
+            values: {  }
+            value_form: {  }
+            effect: show
+            effect_options: {  }
+            selector: ''
   field_custom_office_building:
     type: string_textfield
     weight: 18
@@ -428,7 +457,7 @@ content:
     third_party_settings: {  }
   field_profile_job_candidate:
     type: boolean_checkbox
-    weight: 33
+    weight: 32
     region: content
     settings:
       display_label: true

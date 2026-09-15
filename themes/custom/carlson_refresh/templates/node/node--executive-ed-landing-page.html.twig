@@ -76,21 +76,19 @@
 <article{{ attributes.addClass(classes) }}>
   <div{{ content_attributes.addClass('node__content', 'clearfix', 'ee-landing') }}>
     {# Home hero #}
-    <div class="section-fluid-xl">
-      <div class="row home-hero mb-12">
-        {% if content.field_hero_media|render %}
-        <div class="col-12 col-lg-7 col-xl-8 order-lg-2 home-hero__image px-0 position-relative">
-          <div class="embed-responsive embed-responsive-21by9 position-static">
-            {{ content.field_hero_media }}
-          </div>
+    <div class="row home-hero mb-12">
+      {% if content.field_hero_media|render %}
+      <div class="col-12 col-lg-7 col-xl-8 order-lg-2 home-hero__image px-0 position-relative">
+        <div class="embed-responsive embed-responsive-21by9 position-static">
+          {{ content.field_hero_media }}
         </div>
-        {% endif %}
-        <div class="col-12 {% if content.field_hero_media|render %}col-lg-5 col-xl-4{% else %}text-center justify-content-center{% endif %} order-lg-1 home-hero__intro p-8 p-lg-12 d-flex align-items-center bg-primary text-white">
-          <div>
-            <h1 class="home-hero__title">{{ label }}</h1>
-            <div class="home-hero__subhead">
-              {{ content.field_sub_heading }}
-            </div>
+      </div>
+      {% endif %}
+      <div class="col-12 {% if content.field_hero_media|render %}col-lg-5 col-xl-4{% else %}text-center justify-content-center{% endif %} order-lg-1 home-hero__intro p-8 p-lg-12 d-flex align-items-center bg-primary text-white">
+        <div>
+          <h1 class="home-hero__title">{{ label }}</h1>
+          <div class="home-hero__subhead">
+            {{ content.field_sub_heading }}
           </div>
         </div>
       </div>
