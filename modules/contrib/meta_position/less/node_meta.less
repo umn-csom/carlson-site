@@ -2,7 +2,37 @@
 @screen-sm-min: 768px;
 @tablet:  ~"screen and (min-width: @{screen-sm-min})";
 
-// Node form.
+// Specific tweaks for Gin theme.
+[dir="ltr"] body.gin--edit-form {
+  padding-right: unset;
+}
+[dir="rtl"] body.gin--edit-form {
+  padding-left: unset;
+}
+
+body.gin--edit-form {
+  a.meta-sidebar__trigger {
+    display: none;
+  }
+  .node-form {
+    .layout-node-form {
+      #gin_sidebar {
+        width: 100%;
+        position: relative;
+        padding-top: 0;
+        top: 0;
+        border-left: 0 solid transparent;
+        transform: unset ;
+        visibility: unset;
+        opacity: 1;
+        z-index: 0;
+        max-width: unset;
+      }
+    }
+  }
+}
+
+// Support for Claro theme and others.
 .node-form {
   .entity-meta details[open] {
     background-image: none;
@@ -17,31 +47,76 @@
     }
   }
 
-
   @media @tablet {
-
+    .layout-node-form {
+      display: block;
+    }
     .layout-region-node-main,
-    .layout-region-node-footer {
+    .layout-region-node-footer,
+    .layout-region--node-main,
+    .layout-region--node-footer {
       float: inherit; /* LTR */
       width: 100%;
       padding-right: 0; /* LTR */
       box-sizing: border-box;
     }
-
     [dir="rtl"] .layout-region-node-main,
-    [dir="rtl"] .layout-region-node-footer {
+    [dir="rtl"] .layout-region-node-footer,
+    [dir="rtl"] .layout-region--node-main,
+    [dir="rtl"] .layout-region--node-footer {
       float: inherit;
       padding-left: 0;
       padding-right: 0;
     }
 
-    .layout-region-node-secondary {
+    .layout-region-node-secondary,
+    .layout-region--node-secondary {
       float: inherit; /* LTR */
       width: 100%;
     }
 
-    [dir="rtl"] .layout-region-node-secondary {
+    [dir="rtl"] .layout-region-node-secondary,
+    [dir="rtl"] .layout-region--node-secondary {
       float: inherit;
+    }
+
+    .layout-region--node-main .layout-region__content,
+    .layout-region--node-footer .layout-region__content {
+      max-width: 100%;
+    }
+  }
+
+  // For Claro >= 10.3
+  @media @tablet {
+    .layout-form {
+      display: block;
+    }
+    .layout-region--main,
+    .layout-region--footer {
+      float: inherit; /* LTR */
+      width: 100%;
+      padding-right: 0; /* LTR */
+      box-sizing: border-box;
+    }
+    [dir="rtl"] .layout-region--main,
+    [dir="rtl"] .layout-region--footer {
+      float: inherit;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .layout-region--secondary {
+      float: inherit; /* LTR */
+      width: 100%;
+    }
+
+    [dir="rtl"] .layout-region--secondary{
+      float: inherit;
+    }
+
+    .layout-region--main .layout-region__content,
+    .layout-region--footer .layout-region__content {
+      max-width: 100%;
     }
   }
 }

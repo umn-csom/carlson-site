@@ -21,3 +21,9 @@ services:
       - '@theme.manager'
       - '@router.admin_context'
       - '@asset.css.optimizer'
+      - '@path_alias.manager'
+      - '@path.matcher'      
+
+  Drupal\critical_css\Hook\CriticalCssHooks:
+    class: Drupal\critical_css\Hook\CriticalCssHooks
+    autowire: true

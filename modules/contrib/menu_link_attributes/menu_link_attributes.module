@@ -147,7 +147,7 @@ function menu_link_attributes_menu_link_content_form_entity_builder($entity_type
   }
 
   if (!\Drupal::currentUser()->hasPermission('use menu link attributes')) {
-    $menu_link_options = $form_state->get('menu_link_options');
+    $menu_link_options = $form_state->get('menu_link_options') ?: [];
   }
   elseif ($menu_link->isDefaultTranslation() || !$menu_link->isDefaultTranslationAffectedOnly()) {
     $menu_link_attributes = ['attributes' => $form_state->getValue('attributes')];
@@ -194,12 +194,12 @@ function menu_link_attributes_menu_link_content_form_entity_builder($entity_type
     $menuLinkStorage = \Drupal::entityTypeManager()->getStorage($menu_link->getEntityTypeId());
     $original = $menuLinkStorage->loadRevision($menu_link->getLoadedRevisionId());
 
-    $menu_link_options = $original->get('link')->first()->options;
+    $menu_link_options = $original->get('link')->first()->options ?: [];
   }
 
   // Merge with existing options:
-  $existing_options = $menu_link->link->first()->options;
-  $menu_link->link->first()->options = NestedArray::mergeDeep($existing_options, $menu_link_options);
+  $existing_options = $menu_link->link->first()->options ?: [];
+  $menu_link->link->first()->options = NestedArray::mergeDeepArray([$existing_options, $menu_link_options], TRUE);
 
   // Set for other languages.
   if ($menu_link->isDefaultTranslation() || !$menu_link->isDefaultTranslationAffectedOnly()) {
@@ -207,7 +207,7 @@ function menu_link_attributes_menu_link_content_form_entity_builder($entity_type
       if ($language->getId() != $menu_link->language()->getId()) {
         // Merge with existing translation options:
         $existing_translation_options = $menu_link->getTranslation($language->getId())->link->first()->options;
-        $menu_link->getTranslation($language->getId())->link->first()->options = NestedArray::mergeDeep($existing_translation_options, $menu_link_options);
+        $menu_link->getTranslation($language->getId())->link->first()->options = NestedArray::mergeDeepArray([$existing_translation_options, $menu_link_options], TRUE);
       }
     }
   }

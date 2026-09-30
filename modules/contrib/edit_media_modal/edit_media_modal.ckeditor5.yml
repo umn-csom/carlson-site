@@ -3,7 +3,6 @@
 # be after it alphabetically.
 # @todo - See if there is a better way to specify this order / dependency.
 media_edit_media_modal:
-  # Requires the media module.
   provider: media
   ckeditor5:
     plugins:
@@ -17,12 +16,11 @@ media_edit_media_modal:
             name: Drupal.ckeditor5.openDialog
             invoke: false
         dialogSettings:
-          height: 75%
           dialogClass: edit-media-modal
-
   drupal:
     label: Edit Media Modal
     library: edit_media_modal/edit_media_modal_ckeditor5
+    class: Drupal\edit_media_modal\Plugin\CKEditor5Plugin\EditMediaModalSettings
     elements: false
     conditions:
       plugins:

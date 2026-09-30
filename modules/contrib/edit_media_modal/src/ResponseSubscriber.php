@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 class ResponseSubscriber implements EventSubscriberInterface {
 
   /**
-   * Constructs a new ResponceSubscriber object.
+   * Constructs a new ResponseSubscriber object.
    */
   public function __construct(protected RouteMatchInterface $routeMatch) {}
 

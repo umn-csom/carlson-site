@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\critical_css\Unit;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Drupal\Core\Asset\CssOptimizer;
 use Drupal\Core\Extension\ModuleHandler;
 use Drupal\Core\Path\CurrentPathStack;
@@ -24,6 +26,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * @coversDefaultClass \Drupal\critical_css\Asset\CriticalCssProvider
  * @group critical_css
  */
+#[Group('critical_css')]
 class CriticalCssProviderTest extends UnitTestCase {
 
   /**
@@ -46,6 +49,7 @@ class CriticalCssProviderTest extends UnitTestCase {
           'preload_non_critical_css' => FALSE,
           'dir_path' => "/css/critical",
           'excluded_ids' => '',
+          'excluded_pages' => '',
         ],
       ]
     );
@@ -72,9 +76,9 @@ class CriticalCssProviderTest extends UnitTestCase {
    *
    * @throws \ReflectionException
    */
+  #[DataProvider('sanitizePathProvider')]
   public function testSanitizePath($rawPath, $sanitizedPath) {
     $method = new \ReflectionMethod($this->criticalCssProvider, "sanitizePath");
-    $method->setAccessible(TRUE);
     $this->assertEquals($method->invoke($this->criticalCssProvider, $rawPath), $sanitizedPath);
   }
 

@@ -22,9 +22,6 @@ http_cache_control.settings:
             301_max_age:
               type: integer
               label: '301 max age'
-            5xx_max_age:
-              type: integer
-              label: '5xx max age'
             stale_while_revalidate:
               type: integer
               label: 'Stale while revalidate'
@@ -53,3 +50,38 @@ http_cache_control.settings:
             nostore:
               type: boolean
               label: 'Surrogate no-store'
+        targeted:
+          type: mapping
+          label: 'Targeted Cache-Control'
+          mapping:
+            items:
+              type: sequence
+              label: 'Targeted header definitions'
+              sequence:
+                type: mapping
+                label: 'Targeted header'
+                mapping:
+                  target:
+                    type: string
+                    label: 'Target prefix (e.g. CDN, Akamai, Cloudflare-CDN)'
+                  max_age:
+                    type: integer
+                    label: 'max-age (seconds)'
+                  no_cache:
+                    type: boolean
+                    label: 'no-cache'
+                  must_revalidate:
+                    type: boolean
+                    label: 'must-revalidate'
+                  no_store:
+                    type: boolean
+                    label: 'no-store'
+                  no_transform:
+                    type: boolean
+                    label: 'no-transform'
+                  proxy_revalidate:
+                    type: boolean
+                    label: 'proxy-revalidate'
+                  visibility:
+                    type: string
+                    label: 'public/private'

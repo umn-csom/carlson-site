@@ -7,10 +7,12 @@ use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Path\CurrentPathStack;
+use Drupal\Core\Path\PathMatcherInterface;
 use Drupal\Core\Routing\AdminContext;
 use Drupal\Core\Routing\ResettableStackedRouteMatchInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Theme\ThemeManagerInterface;
+use Drupal\path_alias\AliasManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -120,6 +122,20 @@ class CriticalCssProvider implements CriticalCssProviderInterface {
   protected $optimizer;
 
   /**
+   * An alias manager to find the alias for the current system path.
+   *
+   * @var \Drupal\path_alias\AliasManagerInterface
+   */
+  protected $aliasManager;
+
+  /**
+   * The path matcher.
+   *
+   * @var \Drupal\Core\Path\PathMatcherInterface
+   */
+  protected $pathMatcher;
+
+  /**
    * CriticalCssProvider constructor.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
@@ -140,6 +156,10 @@ class CriticalCssProvider implements CriticalCssProviderInterface {
    *   The route admin context service.
    * @param \Drupal\Core\Asset\AssetOptimizerInterface $optimizer
    *   The optimizer for a single CSS asset.
+   * @param \Drupal\path_alias\AliasManagerInterface $alias_manager
+   *   An alias manager to find the alias for the current system path.
+   * @param \Drupal\Core\Path\PathMatcherInterface $path_matcher
+   *   The path matcher service.
    */
   public function __construct(
     ModuleHandlerInterface $module_handler,
@@ -151,6 +171,8 @@ class CriticalCssProvider implements CriticalCssProviderInterface {
     ThemeManagerInterface $theme_manager,
     AdminContext $admin_context,
     AssetOptimizerInterface $optimizer,
+    AliasManagerInterface $alias_manager,
+    PathMatcherInterface $path_matcher,
   ) {
     $this->moduleHandler = $module_handler;
     $this->request = $request_stack->getCurrentRequest();
@@ -162,6 +184,8 @@ class CriticalCssProvider implements CriticalCssProviderInterface {
     $this->themeManager = $theme_manager;
     $this->adminContext = $admin_context;
     $this->optimizer = $optimizer;
+    $this->aliasManager = $alias_manager;
+    $this->pathMatcher = $path_matcher;
   }
 
   /**
@@ -214,6 +238,9 @@ class CriticalCssProvider implements CriticalCssProviderInterface {
    * module aimed to be used for a site's frontend, and not for the backend.
    */
   public function isEnabled() {
+    if ($this->isRequestPathExcluded($this->request)) {
+      return FALSE;
+    }
     $route = $this->currentRouteMatch->getRouteObject();
     $canViewAdmin = $this->currentUser->hasPermission('view the administration theme');
     $isAjaxRequest = $this->request->isXmlHttpRequest();
@@ -221,6 +248,29 @@ class CriticalCssProvider implements CriticalCssProviderInterface {
       return FALSE;
     }
     return (bool) $this->config->get('enabled');
+  }
+
+  /**
+   * Check if the path of the request is excluded via settings.
+   *
+   * @return bool
+   *   True if the path is excluded.
+   */
+  protected function isRequestPathExcluded($request) {
+    // Convert path to lowercase. This allows comparison of the same path
+    // with different case. Ex: /Page, /page, /PAGE.
+    $pages = mb_strtolower($this->config->get('excluded_pages') ?? '');
+    if (!$pages) {
+      return FALSE;
+    }
+
+    // Compare the lowercase path alias (if any) and internal path.
+    $path = $this->currentPathStack->getPath($request);
+    // Do not trim a trailing slash if that is the complete path.
+    $path = $path === '/' ? $path : rtrim($path, '/');
+    $path_alias = mb_strtolower($this->aliasManager->getAliasByPath($path));
+
+    return $this->pathMatcher->matchPath($path_alias, $pages) || (($path != $path_alias) && $this->pathMatcher->matchPath($path, $pages));
   }
 
   /**

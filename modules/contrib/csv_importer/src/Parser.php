@@ -29,7 +29,7 @@ class Parser implements ParserInterface {
   /**
    * {@inheritdoc}
    */
-  public function getCsvById(int $id, string $delimiter) {
+  public function getCsvById(int $id, string $delimiter = ',') {
     /**  @var \Drupal\file\Entity\File $entity */
     $entity = $this->getCsvEntity($id);
     $return = [];
@@ -49,7 +49,7 @@ class Parser implements ParserInterface {
    * {@inheritdoc}
    */
   public function getCsvFieldsById(int $id) {
-    $csv = $this->getCsvById($id, NULL);
+    $csv = $this->getCsvById($id);
 
     if ($csv && is_array($csv)) {
       return $csv[0];

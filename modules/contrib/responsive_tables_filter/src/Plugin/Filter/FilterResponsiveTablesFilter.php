@@ -3,8 +3,11 @@
 namespace Drupal\responsive_tables_filter\Plugin\Filter;
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
+use Drupal\filter\Attribute\Filter;
 use Drupal\filter\FilterProcessResult;
 use Drupal\filter\Plugin\FilterBase;
+use Drupal\filter\Plugin\FilterInterface;
 
 /**
  * Responsive Tables Filter class. Implements process() method only.
@@ -19,6 +22,15 @@ use Drupal\filter\Plugin\FilterBase;
  *   }
  * )
  */
+#[Filter(
+  id: 'filter_responsive_tables_filter',
+  title: new TranslatableMarkup('Apply responsive behavior to HTML tables.'),
+  type: FilterInterface::TYPE_TRANSFORM_REVERSIBLE,
+  settings: [
+    'tablesaw_type' => 'stack',
+    'tablesaw_persist' => TRUE,
+  ]
+)]
 class FilterResponsiveTablesFilter extends FilterBase {
 
   /**

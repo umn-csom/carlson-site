@@ -124,7 +124,7 @@ class UserExpireSettingsForm extends ConfigFormBase {
     $form['user_expire_roles'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Account expiration settings by role'),
-      '#description' => $this->t('Set inactivity expiration times for each user role. Enter 0 to disable expiration for a role. Enter 7776000 for 90 days.'),
+      '#description' => $this->t('Set inactivity expiration times for each user role. Enter 0 to disable expiration for a role. Enter 7776000 for 90 days. The authenticated role applies to all logged-in users, including users with additional roles such as administrator.'),
     ];
 
     foreach ($roles as $rid => $role) {
@@ -137,6 +137,33 @@ class UserExpireSettingsForm extends ConfigFormBase {
         '#title' => $this->t('Seconds of inactivity before expiring %role users', ['%role' => $role]),
         '#default_value' => $rules[$rid] ?? 0,
         '#min' => 0,
+      ];
+
+      if ($rid === RoleInterface::AUTHENTICATED_ID) {
+        $form['user_expire_roles']['user_expire_' . $rid]['#description'] = $this->t('A non-zero value here applies to all logged-in users, including users who also have more specific roles such as administrator.');
+      }
+      else {
+        $form['user_expire_roles']['user_expire_' . $rid]['#states'] = [
+          'enabled' => [
+            'input[name="user_expire_' . RoleInterface::AUTHENTICATED_ID . '"]' => ['value' => '0'],
+          ],
+        ];
+      }
+    }
+
+    if (isset($form['user_expire_roles']['user_expire_' . RoleInterface::AUTHENTICATED_ID])) {
+      $form['user_expire_roles']['authenticated_notice'] = [
+        '#type' => 'container',
+        '#markup' => $this->t('A non-zero authenticated inactivity value applies to all logged-in users. Role-specific inactivity fields are disabled while this value is non-zero.'),
+        '#states' => [
+          'invisible' => [
+            'input[name="user_expire_' . RoleInterface::AUTHENTICATED_ID . '"]' => ['value' => '0'],
+          ],
+        ],
+        '#attributes' => [
+          'class' => ['messages', 'messages--warning'],
+        ],
+        '#weight' => 100,
       ];
     }
     // Account expiration warning settings.
@@ -179,6 +206,17 @@ class UserExpireSettingsForm extends ConfigFormBase {
       '#min' => 0,
     ];
 
+    $form['warnings']['extra_settings']['expiration_date_format'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Expiration date format'),
+      '#default_value' => $config->get('expiration_date_format') ?: 'F j, Y',
+      '#description' => $this->t('PHP date format string for the [user:user_expire_date] token. For example: "F j, Y" displays as "January 15, 2026". See <a href="@url" target="_blank">PHP date format documentation</a> for options.', [
+        '@url' => 'https://www.php.net/manual/en/datetime.format.php',
+      ]),
+      '#maxlength' => 50,
+      '#required' => TRUE,
+    ];
+
     // Account expiration warning email template.
     $form['warnings']['extra_settings']['mail'] = [
       '#type' => 'fieldset',
@@ -202,7 +240,7 @@ class UserExpireSettingsForm extends ConfigFormBase {
     ];
 
     $form['warnings']['extra_settings']['mail']['help'] = [
-      '#markup' => $this->t('Available token variables for use in the email are: [site:name], [site:url], [site:mail], [user:display-name], [user:account-name], [user:mail], [site:login-url], [site:url-brief], [user:edit-url], [user:one-time-login-url], [user:cancel-url]'),
+      '#markup' => $this->t('Available token variables for use in the email are: [site:name], [site:url], [site:mail], [user:display-name], [user:account-name], [user:mail], [site:login-url], [site:url-brief], [user:edit-url], [user:one-time-login-url], [user:cancel-url], [user:user_expire_date]'),
     ];
 
     return parent::buildForm($form, $form_state);
@@ -259,6 +297,11 @@ class UserExpireSettingsForm extends ConfigFormBase {
 
     // The notification email.
     $config->set('send_expiration_warnings', $form_state->getValue('send_expiration_warnings'));
+
+    // The expiration date format.
+    if (!empty($form_state->getValue('expiration_date_format'))) {
+      $config->set('expiration_date_format', $form_state->getValue('expiration_date_format'));
+    }
 
     $config->set('expiration_warning_mail.subject', $form_state->getValue('expiration_warning_mail_subject'));
     $config->set('expiration_warning_mail.body', $form_state->getValue('expiration_warning_mail_body'));

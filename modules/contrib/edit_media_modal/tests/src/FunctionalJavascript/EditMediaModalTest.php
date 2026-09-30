@@ -15,6 +15,8 @@ use Drupal\Tests\media\Traits\MediaTypeCreationTrait;
 use Drupal\Tests\TestFileCreationTrait;
 
 /**
+ * The EditMediaModalTest object.
+ *
  * @group edit_media_modal
  */
 class EditMediaModalTest extends WebDriverTestBase {
@@ -62,7 +64,6 @@ class EditMediaModalTest extends WebDriverTestBase {
    * {@inheritdoc}
    */
   protected $defaultTheme = 'starterkit_theme';
-
 
   /**
    * {@inheritdoc}
@@ -131,7 +132,7 @@ class EditMediaModalTest extends WebDriverTestBase {
     $this->adminUser = $this->drupalCreateUser([
       'use text format test_format',
       'bypass node access',
-      'administer media'
+      'administer media',
     ]);
 
     // Create a sample media entity to be embedded.
@@ -183,7 +184,7 @@ class EditMediaModalTest extends WebDriverTestBase {
   }
 
   /**
-   * Test that media can be updated from CKeditor5
+   * Test that media can be updated from CKeditor5.
    */
   public function testUpdate() {
     $this->drupalGet($this->host->toUrl('edit-form'));
@@ -214,16 +215,6 @@ class EditMediaModalTest extends WebDriverTestBase {
     $media_storage->resetCache([$this->media->id()]);
     $this->media = Media::load($this->media->id());
     $this->assertEquals('Savory Crisp Airway', $this->media->label());
-
-    // @todo - Verify the preview is updated.
-    // When the modal is saved an attribute is updated on the media which
-    // triggers the reload. This doesn't seem to be picking up the updated
-    // media in the test - unsure if the assertWaitOnAjaxRequest picks up the
-    // preview request.
-    // $assert_session->assertWaitOnAjaxRequest();
-    // $assert_session->waitForText('Savory Crisp Airway');
-    // $this->assertNotEmpty($preview = $assert_session->waitForElementVisible('css', '.ck-widget.drupal-media > [data-drupal-media-preview="ready"] > .media', 30000));
-    // $this->assertStringContainsString('Savory Crisp Airway', $preview->getHtml());
   }
 
 }

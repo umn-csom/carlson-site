@@ -41,3 +41,18 @@ function http_cache_control_update_8102(): void {
   $config->setData($data);
   $config->save();
 }
+
+/**
+ * Remove the '5xx cache maximum age' setting (obsolete).
+ */
+function http_cache_control_update_8103(): void {
+}
+
+/**
+ * Remove the '5xx cache maximum age' setting.
+ */
+function http_cache_control_update_8104(): void {
+  $config = \Drupal::configFactory()->getEditable('http_cache_control.settings');
+  $config->clear('cache.http.5xx_max_age');
+  $config->save();
+}

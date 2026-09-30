@@ -1,11 +1,12 @@
-paragraphs_admin.delete_paragraph:
+paragraphs_admin.delete_form:
   path: '/paragraph/{paragraph}/delete'
   defaults:
+    _entity_form: 'paragraph.paragraph_delete'
     _title: 'Delete paragraph'
-    _controller: '\Drupal\paragraphs_admin\Controller\ParagraphController::deleteParagraph'
-  options:
-    _node_operation_route: TRUE
   requirements:
-    _permission: 'administer paragraphs'
-    paragraph: \d+
-    _csrf_token: 'TRUE'
+    _entity_access: 'paragraph.delete'
+  options:
+    _admin_route: TRUE
+    parameters:
+      paragraph:
+        type: 'entity:paragraph'

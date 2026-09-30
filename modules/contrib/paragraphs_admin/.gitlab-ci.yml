@@ -6,8 +6,10 @@ include:
       - '/includes/include.drupalci.variables.yml'
       - '/includes/include.drupalci.workflows.yml'
 
-variables:
-  _TARGET_CORE: "^10.3 || ^11"
+composer:
+  variables:
+    DRUPAL_CORE: "^10.3 || ^11"
+
 eslint:
   allow_failure: false
 phpcs:
