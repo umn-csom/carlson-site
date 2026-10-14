@@ -5,72 +5,55 @@
  * Main module file for User expire module.
  */
 
+use Drupal\Core\Hook\Attribute\LegacyHook;
+use Drupal\user_expire\Hook\UserExpireHooks;
 use Drupal\Core\Database\Query\Condition;
 use Drupal\Core\Database\StatementInterface;
-use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Url;
+use Drupal\user\Entity\User;
 use Drupal\user\RoleInterface;
-use Drupal\Component\Render\PlainTextOutput;
 
 /**
  * Implements hook_help().
  */
+#[LegacyHook]
 function user_expire_help($route_name, RouteMatchInterface $route_match) {
-  $output = '';
-  switch ($route_name) {
-    // Main module help for the user_expire module.
-    case 'help.page.user_expire':
-      $output = '<h3>' . t('About') . '</h3>';
-      $output .= '<dt>' . t('This module allows an administrator to define a date on which to expire a specific user account or to define a period at a role level where inactive accounts will be locked.') . '</dt>';
-      $output .= '<h3>' . t('Uses') . '</h3>';
-      $output .= '<dt>' . t('User expire settings.') . '</dt>';
-      $output .= '<dd>' . t('This module has a configuration page, see the <a href=":user_expire">User Expire settings</a>.', [
-        ':user_expire' => Url::fromRoute('user_expire.admin')->toString(),
-      ]) . '</dd>';
-      break;
-  }
-  return $output;
+  return \Drupal::service(UserExpireHooks::class)->help($route_name, $route_match);
 }
 
 /**
  * Implements hook_user_load().
  */
+#[LegacyHook]
 function user_expire_user_load($users): void {
-  foreach ($users as $uid => $user) {
-    $query = \Drupal::database()->select('user_expire', 'ue');
-
-    $expiration = $query->condition('ue.uid', $uid)
-      ->fields('ue', ['expiration'])
-      ->execute()
-      ->fetchField();
-    if (!empty($expiration)) {
-      $user->expiration = $expiration;
-    }
-  }
+  \Drupal::service(UserExpireHooks::class)->userLoad($users);
 }
 
 /**
  * Implements hook_user_login().
  */
+#[LegacyHook]
 function user_expire_user_login($account): void {
-  user_expire_notify_user();
+  \Drupal::service(UserExpireHooks::class)->userLogin($account);
 }
 
 /**
  * Implements hook_user_cancel().
  */
+#[LegacyHook]
 function user_expire_user_cancel($edit, $account, $method): void {
-  user_expire_set_expiration($account);
+  \Drupal::service(UserExpireHooks::class)->userCancel($edit, $account, $method);
 }
 
 /**
  * Implements hook_user_delete().
  */
+#[LegacyHook]
 function user_expire_user_delete($account): void {
-  user_expire_set_expiration($account);
+  \Drupal::service(UserExpireHooks::class)->userDelete($account);
 }
 
 /**
@@ -80,44 +63,9 @@ function user_expire_user_delete($account): void {
  *
  * @see \Drupal\user\ProfileForm::form()
  */
+#[LegacyHook]
 function user_expire_form_user_form_alter(&$form, FormStateInterface $form_state): void {
-  if (\Drupal::currentUser()->hasPermission('set user expiration')) {
-    $entity = $form_state->getFormObject()->getEntity();
-
-    $form['user_expire'] = [
-      '#type' => 'details',
-      '#title' => t('User expiration'),
-      '#open' => TRUE,
-      '#weight' => 5,
-    ];
-
-    $form['user_expire']['user_expiration'] = [
-      '#title' => t('Set expiration for this user'),
-      '#type' => 'checkbox',
-      '#default_value' => !empty($entity->expiration),
-    ];
-
-    $form['user_expire']['container'] = [
-      '#type' => 'container',
-      '#states' => [
-        'invisible' => [
-          ':input[name="user_expiration"]' => ['checked' => FALSE],
-        ],
-      ],
-    ];
-
-    $form['user_expire']['container']['user_expiration_date'] = [
-      '#title' => t('Expiration date'),
-      '#type' => 'datetime',
-      '#description' => t('The date on which this account will be disabled.'),
-      '#date_date_format' => 'Y-m-d',
-      '#date_time_element' => 'none',
-      '#default_value' => $entity->expiration ? DrupalDateTime::createFromTimestamp($entity->expiration) : NULL,
-      '#required' => !empty($form_state->getValue('user_expiration')),
-    ];
-  }
-
-  $form['actions']['submit']['#submit'][] = 'user_expire_user_profile_form_submit';
+  \Drupal::service(UserExpireHooks::class)->formUserFormAlter($form, $form_state);
 }
 
 /**
@@ -137,8 +85,9 @@ function user_expire_user_profile_form_submit($form, FormStateInterface $form_st
 /**
  * Implements hook_user_insert().
  */
+#[LegacyHook]
 function user_expire_user_insert(EntityInterface $entity): void {
-  _user_expire_save($entity);
+  \Drupal::service(UserExpireHooks::class)->userInsert($entity);
 }
 
 /**
@@ -170,19 +119,9 @@ function _user_expire_save(object $account): void {
 /**
  * Implements hook_cron().
  */
+#[LegacyHook]
 function user_expire_cron(): void {
-  // Start with per-role warnings (if enabled).
-  $config = \Drupal::configFactory()->get('user_expire.settings');
-  $send_expiration_warnings = $config->get('send_expiration_warnings') ?? TRUE;
-  if ($send_expiration_warnings) {
-    user_expire_expire_by_role_warning();
-  }
-
-  // Then do per-user blocking.
-  user_expire_process_per_user_expiration();
-
-  // Then per-role inactivity blocking.
-  user_expire_expire_by_role();
+  \Drupal::service(UserExpireHooks::class)->cron();
 }
 
 /**
@@ -323,6 +262,7 @@ function user_expire_expire_by_role_warning(): void {
   }
   // Find people to warn.
   $rules = user_expire_get_role_rules();
+  $rules = array_filter($rules);
 
   $warning_offset = $config->get('offset');
 
@@ -437,30 +377,96 @@ function user_expire_find_users_to_expire_by_role(string $role_id, int $seconds_
 function user_expire_get_role_rules(): mixed {
   $config_factory = \Drupal::configFactory();
   $config = $config_factory->get('user_expire.settings');
-  return $config->get('user_expire_roles') ?: [];
+  return array_filter($config->get('user_expire_roles')) ?: [];
 }
 
 /**
  * Implements hook_mail().
  */
+#[LegacyHook]
 function user_expire_mail($key, &$message, $params): void {
-  if ($key == 'expiration_warning') {
-    $token_service = \Drupal::token();
-    $language_manager = \Drupal::languageManager();
-    $langcode = $message['langcode'];
-    $variables = ['user' => $params['account']];
+  \Drupal::service(UserExpireHooks::class)->mail($key, $message, $params);
+}
 
-    $language = $language_manager->getLanguage($langcode);
-    $original_language = $language_manager->getConfigOverrideLanguage();
-    $language_manager->setConfigOverrideLanguage($language);
+/**
+ * Implements hook_token_info().
+ */
+#[LegacyHook]
+function user_expire_token_info() {
+  return \Drupal::service(UserExpireHooks::class)->tokenInfo();
+}
 
-    $config_factory = \Drupal::configFactory();
-    $config = $config_factory->get('user_expire.settings');
+/**
+ * Implements hook_tokens().
+ */
+#[LegacyHook]
+function user_expire_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
+  return \Drupal::service(UserExpireHooks::class)->tokens($type, $tokens, $data, $options, $bubbleable_metadata);
+}
 
-    $token_options = ['langcode' => $langcode, 'callback' => 'user_mail_tokens', 'clear' => TRUE];
-    $message['subject'] .= PlainTextOutput::renderFromHtml($token_service->replace($config->get('expiration_warning_mail.subject'), $variables, $token_options));
-    $message['body'][] = $token_service->replace($config->get('expiration_warning_mail.body'), $variables, $token_options);
+/**
+ * Calculate expiration date for a user based on their roles.
+ *
+ * @param \Drupal\user\Entity\User $user
+ *   The user entity.
+ *
+ * @return int|null
+ *   The expiration timestamp or NULL if no expiration applies.
+ */
+function user_expire_calculate_role_expiration($user) {
+  $rules = user_expire_get_role_rules();
 
-    $language_manager->setConfigOverrideLanguage($original_language);
+  // If no rules are configured at all, return NULL.
+  if (empty($rules)) {
+    return NULL;
   }
+
+  $inactivity_period = NULL;
+
+  // Check authenticated role first - it applies to ALL logged-in users.
+  // If the authenticated role has an expiration rule, it takes precedence over
+  // all other role-specific rules since every logged-in user has this role.
+  if (isset($rules[RoleInterface::AUTHENTICATED_ID]) && is_numeric($rules[RoleInterface::AUTHENTICATED_ID]) && $rules[RoleInterface::AUTHENTICATED_ID] > 0) {
+    $inactivity_period = $rules[RoleInterface::AUTHENTICATED_ID];
+  }
+  else {
+    // If authenticated role has no rule, check specific roles.
+    // TRUE excludes 'authenticated' role.
+    $user_roles = $user->getRoles(TRUE);
+    $shortest_period = NULL;
+
+    // Find the shortest inactivity period among the user's roles.
+    // The shortest period determines when the account will expire.
+    foreach ($user_roles as $role_id) {
+      if (isset($rules[$role_id]) && is_numeric($rules[$role_id]) && $rules[$role_id] > 0) {
+        if ($shortest_period === NULL || $rules[$role_id] < $shortest_period) {
+          $shortest_period = $rules[$role_id];
+        }
+      }
+    }
+
+    $inactivity_period = $shortest_period;
+  }
+
+  if ($inactivity_period && $inactivity_period > 0) {
+    $last_access = $user->getLastAccessedTime();
+    if ($last_access == 0) {
+      // If user never logged in, use creation time.
+      $last_access = $user->getCreatedTime();
+    }
+    return $last_access + $inactivity_period;
+  }
+
+  return NULL;
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for user entities.
+ *
+ * If the account was blocked but is now active, update the expiry so it is
+ * not re-blocked by the next cron run.
+ */
+#[LegacyHook]
+function user_expire_user_presave(User $account): void {
+  \Drupal::service(UserExpireHooks::class)->userPresave($account);
 }

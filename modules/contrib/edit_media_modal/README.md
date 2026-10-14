@@ -40,7 +40,7 @@ As default module provides an edit media link for the EditorMediaDialog. But You
   ];
 ```
 
-## CKEditor 5 intergration
+## CKEditor 5 integration
 
 The module provides a CKEditor 5 plugin as CKEditor5 does not make use of the
 `EditorMediaDialog`.

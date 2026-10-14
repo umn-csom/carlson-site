@@ -2,11 +2,12 @@
 
 namespace Drupal\element_class_formatter\Plugin\Field\FieldFormatter;
 
+use Drupal\Component\Utility\DeprecationHelper;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
- * Adds classes to #item_attributes for elements.
+ * Adds configurable classes to field formatter elements.
  */
 trait ElementClassTrait {
 
@@ -107,10 +108,16 @@ trait ElementClassTrait {
    *   The updated elements render array.
    */
   public function setEntityClass(array $elements, $class, array $entities) {
+    $attributes_key = DeprecationHelper::backwardsCompatibleCall(
+      currentVersion: \Drupal::VERSION,
+      deprecatedVersion: '11.4',
+      currentCallable: fn() => '#attributes',
+      deprecatedCallable: fn() => '#item_attributes',
+    );
     foreach ($entities as $delta => $entity) {
       // Add class.
       if (!empty($class)) {
-        $elements[$delta]['#item_attributes']['class'][] = $class;
+        $elements[$delta][$attributes_key]['class'][] = $class;
       }
     }
 

@@ -2,8 +2,10 @@
 
 /**
  * @file
- * Primary module hooks for Paragraphs Admin module.
+ * Module hooks for Paragraphs Admin module.
  */
+
+use Drupal\paragraphs_admin\Form\ParagraphDeleteForm;
 
 /**
  * Implements hook_views_data_alter().
@@ -14,4 +16,11 @@ function paragraphs_admin_views_data_alter(array &$data) {
     'help' => t('Displays a link to the top-level host entity for a paragraph.'),
     'id' => 'paragraphs_host_entity',
   ];
+}
+
+/**
+ * Implements hook_entity_type_build().
+ */
+function paragraphs_admin_entity_type_build(array &$entity_types) {
+  $entity_types['paragraph']->setFormClass('paragraph_delete', ParagraphDeleteForm::class);
 }

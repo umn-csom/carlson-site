@@ -202,13 +202,13 @@ class CssCollectionRenderer implements AssetCollectionRendererInterface {
       $debugInfoStart = "\n/* CRITICAL CSS DEBUG */\n";
       $debugInfoStart .= "/* FILE NAME SUGGESTIONS:\n";
       foreach ($filePaths as $filePath) {
-        $flag = ($filePath === $matchedFilePath) ? 'x' : '*';
-        $debugInfoStart .= "\t $flag $filePath\n";
+        $flag = ($filePath === $matchedFilePath) ? '✅' : '▪️';
+        $debugInfoStart .= "   $flag $filePath\n";
       }
       $debugInfoStart .= "*/\n";
 
       if ($matchedFilePath) {
-        $debugInfoStart .= '/* BEGIN OUTPUT from ' . Html::escape($matchedFilePath) . " */\n";
+        $debugInfoStart .= '/* 💡 BEGIN OUTPUT from ' . Html::escape($matchedFilePath) . " */\n";
         $debugInfoEnd = "\n/* END OUTPUT from " . Html::escape($matchedFilePath) . " */\n";
       }
       else {

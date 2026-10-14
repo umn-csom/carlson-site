@@ -119,3 +119,13 @@ function menu_link_attributes_update_8002(): void {
     ->getEditable('menu_link_attributes.config')
     ->set('attributes', $attributes)->save();
 }
+
+/**
+ * Add missing langcode to menu_link_attributes.config.
+ */
+function menu_link_attributes_update_8003(): void {
+  $config = \Drupal::configFactory()->getEditable('menu_link_attributes.config');
+  if (!$config->get('langcode')) {
+    $config->set('langcode', 'en')->save();
+  }
+}

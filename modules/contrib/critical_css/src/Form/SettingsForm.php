@@ -123,6 +123,16 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('excluded_ids'),
     ];
 
+    $form['critical_css_excluded_pages'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Exclude pages from Critical CSS processing'),
+      '#default_value' => $config->get('excluded_pages') ?? '',
+      '#description' => $this->t("Specify pages which should not be processed by using their paths. Enter one path per line. The '*' character is a wildcard. An example path is %canvas-wildcard for canvas (api) pages. %front is the front page.", [
+        '%canvas-wildcard' => '/canvas/*',
+        '%front' => '<front>',
+      ]),
+    ];
+
     $form['critical_css_advanced'] = [
       '#type' => 'details',
       '#open' => FALSE,
@@ -169,6 +179,14 @@ class SettingsForm extends ConfigFormBase {
         $this->t('Critical CSS base directory must not contain "..".')
       );
     }
+
+    $paths = array_map('trim', explode("\n", $form_state->getValue('critical_css_excluded_pages')));
+    foreach ($paths as $path) {
+      if (empty($path) || $path === '<front>' || str_starts_with($path, '/')) {
+        continue;
+      }
+      $form_state->setErrorByName('critical_css_excluded_pages', $this->t("The path %path requires a leading forward slash when used with the Exclude pages setting.", ['%path' => $path]));
+    }
   }
 
   /**
@@ -188,6 +206,7 @@ class SettingsForm extends ConfigFormBase {
       )
       ->set('dir_path', $form_state->getValue('critical_css_dir_path'))
       ->set('excluded_ids', $form_state->getValue('critical_css_excluded_ids'))
+      ->set('excluded_pages', $form_state->getValue('critical_css_excluded_pages'))
       ->save();
 
     parent::submitForm($form, $form_state);

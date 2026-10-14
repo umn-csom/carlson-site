@@ -19,14 +19,14 @@ use Drupal\paragraphs\Entity\Paragraph;
 class ParagraphsHostEntity extends FieldPluginBase {
 
   /**
-   * @{inheritdoc}
+   * {@inheritdoc}
    */
   public function query() {
     // Leave empty to avoid altering the query.
   }
 
   /**
-   * @{inheritdoc}
+   * {@inheritdoc}
    */
   public function render(ResultRow $values) {
     // Logic to determine the host entity ID.
@@ -43,7 +43,7 @@ class ParagraphsHostEntity extends FieldPluginBase {
    * parent is of type "Paragraph" then we assume the entity is orphaned and
    * the link has been lost to a content entity.
    *
-   * @param ResultRow $values
+   * @param \Drupal\views\ResultRow $values
    *   The result row object containing the entity.
    *
    * @return string|null
@@ -61,7 +61,8 @@ class ParagraphsHostEntity extends FieldPluginBase {
         $entity = $parent;
       }
       else {
-        break; // No more parents, break the loop.
+        // No more parents, break the loop.
+        break;
       }
     }
 
@@ -73,11 +74,12 @@ class ParagraphsHostEntity extends FieldPluginBase {
     // Paragraph entities have no canonical URL. This often indicates
     // the Paragraph may be orphaned which will be apparent from the
     // unlinked Parent/Host entity title.
-    elseif ( $entity && $entity->label()) {
+    elseif ($entity && $entity->label()) {
       return $entity->label();
     }
 
     // Return NULL if no suitable entity is found.
     return NULL;
   }
+
 }

@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\critical_css\Functional;
 
+use PHPUnit\Framework\Attributes\Group;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Drupal\Component\Utility\Html;
 use Drupal\node\Entity\NodeType;
 use Drupal\Tests\BrowserTestBase;
@@ -11,6 +13,8 @@ use Drupal\Tests\BrowserTestBase;
  *
  * @group critical_css
  */
+#[Group('critical_css')]
+#[RunTestsInSeparateProcesses]
 class CriticalCssHeadTest extends BrowserTestBase {
 
   /**

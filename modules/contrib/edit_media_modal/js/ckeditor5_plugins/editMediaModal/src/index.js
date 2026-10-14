@@ -1,4 +1,4 @@
-import EditMediaModal from './editmediamodal';
+import EditMediaModal from './edit-media-modal';
 
 export default {
   EditMediaModal,

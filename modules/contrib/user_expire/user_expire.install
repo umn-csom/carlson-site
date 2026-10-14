@@ -91,3 +91,29 @@ function user_expire_update_10202(): void {
   ]);
   $config->save();
 }
+
+/**
+ * Add expiration date format config and update email body to use date token.
+ */
+function user_expire_update_10203(): void {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('user_expire.settings');
+
+  // Set the default date format for the expiration date token.
+  $config->set('expiration_date_format', 'F j, Y');
+
+  // Update the email body to use the new [user:user_expire_date] token
+  // instead of the vague "in the near future" text.
+  // Only update if the body still contains the old default text.
+  $current_body = $config->get('expiration_warning_mail.body');
+  if ($current_body && str_contains($current_body, 'will be blocked in the near future')) {
+    $new_body = str_replace(
+      'will be blocked in the near future',
+      'will be blocked on [user:user_expire_date]',
+      $current_body
+    );
+    $config->set('expiration_warning_mail.body', $new_body);
+  }
+
+  $config->save();
+}

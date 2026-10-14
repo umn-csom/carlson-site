@@ -7,7 +7,6 @@ use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Render\RendererInterface;
 use Drupal\csv_importer\ParserInterface;
 use Drupal\csv_importer\Plugin\ImporterManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -46,13 +45,6 @@ class ImporterForm extends FormBase {
   protected $parser;
 
   /**
-   * The renderer service.
-   *
-   * @var \Drupal\Core\Render\RendererInterface
-   */
-  protected $renderer;
-
-  /**
    * The importer plugin manager service.
    *
    * @var \Drupal\csv_importer\Plugin\ImporterManager
@@ -70,17 +62,20 @@ class ImporterForm extends FormBase {
    *   The entity bundle info service.
    * @param \Drupal\csv_importer\ParserInterface $parser
    *   The parser service.
-   * @param \Drupal\Core\Render\RendererInterface $renderer
-   *   The renderer service.
    * @param \Drupal\csv_importer\Plugin\ImporterManager $importer
    *   The importer plugin manager service.
    */
-  final public function __construct(EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $entity_field_manager, EntityTypeBundleInfoInterface $entity_bundle_info, ParserInterface $parser, RendererInterface $renderer, ImporterManager $importer) {
+  final public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    EntityFieldManagerInterface $entity_field_manager,
+    EntityTypeBundleInfoInterface $entity_bundle_info,
+    ParserInterface $parser,
+    ImporterManager $importer,
+  ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->entityFieldManager = $entity_field_manager;
     $this->entityBundleInfo = $entity_bundle_info;
     $this->parser = $parser;
-    $this->renderer = $renderer;
     $this->importer = $importer;
   }
 
@@ -93,7 +88,6 @@ class ImporterForm extends FormBase {
       $container->get('entity_field.manager'),
       $container->get('entity_type.bundle.info'),
       $container->get('csv_importer.parser'),
-      $container->get('renderer'),
       $container->get('plugin.manager.importer')
     );
   }
@@ -108,7 +102,7 @@ class ImporterForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $form['importer'] = [
       '#type' => 'container',
       '#attributes' => [
@@ -187,7 +181,7 @@ class ImporterForm extends FormBase {
    * @return array
    *   Entity type options.
    */
-  protected function getEntityTypeOptions() {
+  protected function getEntityTypeOptions(): array {
     $options = [];
     $plugin_definitions = $this->importer->getDefinitions();
 
@@ -211,7 +205,7 @@ class ImporterForm extends FormBase {
    * @return array
    *   Entity type bundle options.
    */
-  protected function getEntityTypeBundleOptions(string $entity_type) {
+  protected function getEntityTypeBundleOptions(string $entity_type): array {
     $options = [];
     $entity = $this->entityTypeManager->getDefinition($entity_type);
 
@@ -239,8 +233,8 @@ class ImporterForm extends FormBase {
    * @return array
    *   Entity type fields.
    */
-  protected function getEntityTypeFields(string $entity_type, ?string $entity_type_bundle = NULL) {
-    $fields = [];
+  protected function getEntityTypeFields(string $entity_type, ?string $entity_type_bundle = NULL): array {
+    $fields = ['fields' => []];
 
     if (!$entity_type_bundle) {
       $entity_type_bundle = key($this->entityBundleInfo->getBundleInfo($entity_type));
@@ -249,47 +243,9 @@ class ImporterForm extends FormBase {
     $entity_fields = $this->entityFieldManager->getFieldDefinitions($entity_type, $entity_type_bundle);
     foreach ($entity_fields as $entity_field) {
       $fields['fields'][] = $entity_field->getName();
-
-      if ($entity_field->isRequired()) {
-        $fields['required'][] = $entity_field->getName();
-      }
     }
 
     return $fields;
-  }
-
-  /**
-   * Get entity missing fields.
-   *
-   * @param string $entity_type
-   *   Entity type.
-   * @param array $required
-   *   Entity required fields.
-   * @param array $csv
-   *   Parsed CSV.
-   *
-   * @return array
-   *   Missing fields.
-   */
-  protected function getEntityTypeMissingFields(string $entity_type, array $required, array $csv) {
-    $entity_definition = $this->entityTypeManager->getDefinition($entity_type);
-
-    if ($entity_definition->hasKey('bundle')) {
-      unset($required[array_search($entity_definition->getKey('bundle'), $required)]);
-    }
-
-    $csv_fields = [];
-
-    if (!empty($csv)) {
-      foreach ($csv[0] as $csv_row) {
-        $csv_row = explode('|', $csv_row);
-        $csv_fields[] = $csv_row[0];
-      }
-    }
-
-    $csv_fields = array_values(array_unique($csv_fields));
-
-    return array_diff($required, $csv_fields);
   }
 
   /**
@@ -307,23 +263,13 @@ class ImporterForm extends FormBase {
 
     $entity_fields = $this->getEntityTypeFields($entity_type, $entity_type_bundle);
 
-    if ($required = $this->getEntityTypeMissingFields($entity_type, $entity_fields['required'] ?? [], $csv_parse)) {
-      $render = [
-        '#theme' => 'item_list',
-        '#items' => $required,
-      ];
-
-      $this->messenger()->addError($this->t('Your CSV has missing required fields: @fields', ['@fields' => $this->renderer->render($render)]));
-    }
-    else {
-      $this->importer->createInstance('importer:' . $entity_type, [
-        'csv' => $csv_parse,
-        'csv_entity' => $this->parser->getCsvEntity($csv),
-        'entity_type' => $entity_type,
-        'entity_type_bundle' => $entity_type_bundle,
-        'fields' => $entity_fields['fields'],
-      ])->process();
-    }
+    $this->importer->createInstance('importer:' . $entity_type, [
+      'csv' => $csv_parse,
+      'csv_entity' => $this->parser->getCsvEntity($csv),
+      'entity_type' => $entity_type,
+      'entity_type_bundle' => $entity_type_bundle,
+      'fields' => $entity_fields['fields'],
+    ])->process();
   }
 
 }

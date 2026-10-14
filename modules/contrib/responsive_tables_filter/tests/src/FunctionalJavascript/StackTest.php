@@ -1,15 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Drupal\Tests\responsive_tables_filter\Functional;
 
 use Drupal\filter\Entity\FilterFormat;
 use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
+use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 
 /**
  * Tests the responsive_tables_filter filter.
  *
  * @group responsive_tables_filter
  */
+#[RunTestsInSeparateProcesses]
 class StackTest extends WebDriverTestBase {
 
   /**

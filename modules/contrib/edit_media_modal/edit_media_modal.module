@@ -5,6 +5,9 @@
  * This is the module to improve working edit media entity in modal windows.
  */
 
+use Drupal\Core\Config\ImmutableConfig;
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
+
 /**
  * Implements hook_entity_type_alter().
  */
@@ -13,4 +16,37 @@ function edit_media_modal_entity_type_alter(array &$entity_types) {
     // Override edit media form class.
     $entity_types['media']->setFormClass('edit', 'Drupal\edit_media_modal\Form\MediaForm');
   }
+}
+
+/**
+ * Implements hook_entity_form_display_alter().
+ */
+function edit_media_modal_entity_form_display_alter(EntityFormDisplayInterface &$form_display, array $context) {
+  if ($context['entity_type'] !== 'media') {
+    return;
+  }
+
+  $request = \Drupal::request();
+  if (!$request->query->has('text_format') || empty($request->query->get('text_format'))) {
+    return;
+  }
+
+  $text_editor_format = $request->query->get('text_format');
+  $config = \Drupal::config("editor.editor.{$text_editor_format}");
+  if (!$config instanceof ImmutableConfig) {
+    return;
+  }
+  $settings = $config->get('settings');
+  $view_mode = $settings["plugins"]["media_edit_media_modal"]["editMediaModal"]["editMediaModalForms"][$context["bundle"]] ?? "default";
+  $view_mode = preg_replace("/^{$context['entity_type']}\./", "{$context['entity_type']}.{$context["bundle"]}.", $view_mode);
+  if ($view_mode === $form_display->id()) {
+    return;
+  }
+
+  $new_form_display = \Drupal::entityTypeManager()->getStorage('entity_form_display')->load($view_mode);
+  if (!$new_form_display instanceof EntityFormDisplayInterface) {
+    return;
+  }
+
+  $form_display = $new_form_display;
 }

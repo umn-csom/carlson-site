@@ -5,6 +5,7 @@
  * Contains http_cache_control.module.
  */
 
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Site\Settings;
@@ -162,23 +163,6 @@ function http_cache_control_form_system_performance_settings_alter(&$form, FormS
     ],
   ];
 
-  $notes['#items'][] = t('This is subject to Drupal being able to render the response.');
-
-  $form['caching']['5xx_max_age'] = [
-    '#type' => 'select',
-    '#title' => t('5xx cache maximum age'),
-    '#default_value' => $config->get('cache.http.5xx_max_age'),
-    '#options' => $sharedOptions,
-    '#description' => [
-      [
-        '#markup' => t('The maximum time a @response_code response can be cached by proxies.', [
-          '@response_code' => '500 Internal Server Error',
-        ]),
-      ],
-      $notes,
-    ],
-  ];
-
   $form['caching']['expert_mode'] = [
     '#type' => 'checkbox',
     '#title' => t('Expert mode'),
@@ -197,7 +181,6 @@ function http_cache_control_form_system_performance_settings_alter(&$form, FormS
     '404_max_age',
     '302_max_age',
     '301_max_age',
-    '5xx_max_age',
   ];
 
   foreach ($maxAgeFields as $field) {
@@ -234,6 +217,179 @@ function http_cache_control_form_system_performance_settings_alter(&$form, FormS
     '#default_value' => $config->get('cache.surrogate.nostore'),
     '#description' => t('Instruct a surrogate proxy to not cache the page.'),
   ];
+
+  // --- Targeted Cache-Control (RFC 9213 style) -----------------------------
+  // See https://www.akamai.com/blog/news/targeted-cache-control
+  // We want to be able to add multiple field sets of elements for this. as
+  // targeted cache control can have many variants, e.g. "CDN-Cache-Control" or
+  // service specific, like the following:
+  // "Akamai-Cache-Control",
+  // "Cloudflare-CDN-Cache-Control",
+  // No Fastly support that I can find in their documentation? https://www.fastly.com/documentation/guides/full-site-delivery/caching/about-cache-control-headers/
+  $itemsKey = 'http_cache_control_targeted_items';
+
+  // Seed from form_state (during AJAX rebuilds) or config (on first build).
+  $items = $form_state->get($itemsKey);
+  if ($items === NULL) {
+    // Config key will be added later; for now it may be empty/NULL.
+    $items = $config->get('cache.targeted.items') ?: [];
+    $form_state->set($itemsKey, $items);
+  }
+
+  $wrapperId = 'targeted-cache-control-wrapper';
+
+  $form['targeted_cache_control'] = [
+    '#type' => 'details',
+    '#title' => t('Targeted Cache-Control'),
+    '#open' => FALSE,
+    '#tree' => TRUE,
+  ];
+
+  $form['targeted_cache_control']['help'] = [
+    '#type' => 'markup',
+    '#markup' => '<p>' . t('Configure additional Cache-Control-like headers such as <code>CDN-Cache-Control</code> or vendor-specific variants.') . '</p>',
+  ];
+
+  $form['targeted_cache_control']['actions'] = [
+    '#type' => 'actions',
+  ];
+
+  $hasCdn = FALSE;
+  foreach ($items as $item) {
+    if (($item['target'] ?? '') === 'CDN') {
+      $hasCdn = TRUE;
+      break;
+    }
+  }
+
+  $ajax = [
+    'callback' => '_http_cache_control_targeted_cache_control_ajax',
+    'wrapper' => $wrapperId,
+  ];
+
+  $form['targeted_cache_control']['actions']['add_cdn'] = [
+    '#type' => 'submit',
+    '#value' => t('Add CDN-Cache-Control'),
+    '#disabled' => $hasCdn,
+    '#limit_validation_errors' => [],
+    '#submit' => ['_http_cache_control_targeted_add_cdn_submit'],
+    '#ajax' => $ajax,
+  ];
+
+  $form['targeted_cache_control']['actions']['add_custom'] = [
+    '#type' => 'submit',
+    '#value' => t('Add Custom …-Cache-Control'),
+    '#limit_validation_errors' => [],
+    '#submit' => ['_http_cache_control_targeted_add_custom_submit'],
+    '#ajax' => $ajax,
+  ];
+
+  $form['targeted_cache_control']['items_wrapper'] = [
+    '#type' => 'container',
+    '#attributes' => ['id' => $wrapperId],
+  ];
+
+  // Options: reuse core’s max-age options + add a sentinel for “no-cache”.
+  $baseAgeOptions = $form['caching']['page_cache_maximum_age']['#options'];
+  // Removes core “No caching” (0)
+  unset($baseAgeOptions[0]);
+  $maxAgeOptions = ['no-cache' => t('No caching (no-cache)')] + $baseAgeOptions;
+
+  $serviceOptions = [
+    'Akamai' => t('Akamai'),
+    'Cloudflare-CDN' => t('Cloudflare-CDN'),
+    'custom' => t('Custom prefix…'),
+  ];
+
+  $form['targeted_cache_control']['items_wrapper']['items']['#element_validate'][] = '_http_cache_control_targeted_items_validate';
+
+  foreach ($items as $delta => $item) {
+    $target = $item['target'] ?? '';
+    $headerName = $target ? ($target . '-Cache-Control') : t('Targeted -Cache-Control');
+
+    $form['targeted_cache_control']['items_wrapper']['items'][$delta] = [
+      '#type' => 'details',
+      '#title' => t('@header', ['@header' => $headerName]),
+      '#open' => TRUE,
+      '#tree' => TRUE,
+    ];
+
+    // Persist target in a value element (CDN item is “fixed”).
+    $form['targeted_cache_control']['items_wrapper']['items'][$delta]['target'] = [
+      '#type' => 'value',
+      '#value' => $target,
+    ];
+
+    // Service selector only for non-CDN items.
+    if ($target !== 'CDN') {
+      $knownServices = ['Akamai', 'Cloudflare-CDN'];
+
+      $serviceDefault = $item['service']
+        ?? (in_array($target, $knownServices, TRUE) ? $target : 'custom');
+
+      $customPrefixDefault = $item['custom_prefix']
+        ?? (($serviceDefault === 'custom') ? $target : '');
+
+      $form['targeted_cache_control']['items_wrapper']['items'][$delta]['service'] = [
+        '#type' => 'select',
+        '#title' => t('Service'),
+        '#options' => $serviceOptions,
+        '#default_value' => $serviceDefault,
+      ];
+
+      $form['targeted_cache_control']['items_wrapper']['items'][$delta]['custom_prefix'] = [
+        '#type' => 'textfield',
+        '#title' => t('Custom prefix'),
+        '#default_value' => $item['custom_prefix'] ?? $customPrefixDefault,
+        '#description' => t('This becomes <code>{prefix}-Cache-Control</code>. Use only characters valid for HTTP header field-names.'),
+        '#states' => [
+          'visible' => [
+            ':input[name="targeted_cache_control[items_wrapper][items][' . $delta . '][service]"]' => ['value' => 'custom'],
+          ],
+        ],
+      ];
+    }
+
+    $form['targeted_cache_control']['items_wrapper']['items'][$delta]['max_age'] = [
+      '#type' => 'select',
+      '#title' => t('max-age'),
+      '#options' => $maxAgeOptions,
+      '#default_value' => $item['max_age'] ?? 300,
+    ];
+
+    $form['targeted_cache_control']['items_wrapper']['items'][$delta]['visibility'] = [
+      '#type' => 'select',
+      '#title' => t('Visibility'),
+      '#options' => [
+        '' => t('- none -'),
+        'public' => t('public'),
+        'private' => t('private'),
+      ],
+      '#default_value' => $item['visibility'] ?? '',
+    ];
+
+    foreach ([
+      'must_revalidate' => 'must-revalidate',
+      'no_store' => 'no-store',
+      'no_transform' => 'no-transform',
+      'proxy_revalidate' => 'proxy-revalidate',
+    ] as $key => $label) {
+      $form['targeted_cache_control']['items_wrapper']['items'][$delta][$key] = [
+        '#type' => 'checkbox',
+        '#title' => t('@d', ['@d' => $label]),
+        '#default_value' => !empty($item[$key]),
+      ];
+    }
+
+    $form['targeted_cache_control']['items_wrapper']['items'][$delta]['remove'] = [
+      '#type' => 'submit',
+      '#value' => t('Remove'),
+      '#limit_validation_errors' => [],
+      '#submit' => ['_http_cache_control_targeted_remove_submit'],
+      '#ajax' => $ajax,
+      '#tcc_delta' => $delta,
+    ];
+  }
 
   $form['revalidation'] = [
     '#type' => 'details',
@@ -290,16 +446,102 @@ function _http_cache_control_set_expert_mode_caching(array &$form, FormStateInte
 }
 
 /**
+ * Ajax callback for Targeted Cache-Control items.
+ */
+function _http_cache_control_targeted_cache_control_ajax(array &$form, FormStateInterface $form_state) {
+  return $form['targeted_cache_control']['items_wrapper'];
+}
+
+/**
+ * Add CDN-Cache-Control item submit handler.
+ */
+function _http_cache_control_targeted_add_cdn_submit(array &$form, FormStateInterface $form_state) {
+  $key = 'http_cache_control_targeted_items';
+  $items = $form_state->get($key) ?: [];
+
+  foreach ($items as $item) {
+    if (($item['target'] ?? '') === 'CDN') {
+      $form_state->setRebuild(TRUE);
+      return;
+    }
+  }
+
+  $items[] = [
+    'target' => 'CDN',
+    'max_age' => 300,
+    'visibility' => '',
+    'must_revalidate' => 0,
+    'no_store' => 0,
+    'no_transform' => 0,
+    'proxy_revalidate' => 0,
+  ];
+
+  $form_state->set($key, $items);
+  $form_state->setRebuild(TRUE);
+}
+
+/**
+ * Add {prefix}-Cache-Control item submit handler.
+ */
+function _http_cache_control_targeted_add_custom_submit(array &$form, FormStateInterface $form_state): void {
+  $key = 'http_cache_control_targeted_items';
+  $items = $form_state->get($key) ?: [];
+
+  $items[] = [
+    // Target computed later (service/custom_prefix).
+    'target' => '',
+    'service' => 'Akamai',
+    'custom_prefix' => '',
+    'max_age' => 300,
+    'visibility' => '',
+    'must_revalidate' => 0,
+    'no_store' => 0,
+    'no_transform' => 0,
+    'proxy_revalidate' => 0,
+  ];
+
+  $form_state->set($key, $items);
+  $form_state->setRebuild(TRUE);
+}
+
+/**
+ * Remove targeted item submit handler.
+ */
+function _http_cache_control_targeted_remove_submit(array &$form, FormStateInterface $form_state): void {
+  $trigger = $form_state->getTriggeringElement();
+  $delta = $trigger['#tcc_delta'] ?? NULL;
+  if ($delta === NULL) {
+    $form_state->setRebuild(TRUE);
+    return;
+  }
+
+  $key = 'http_cache_control_targeted_items';
+  $items = $form_state->get($key) ?: [];
+  unset($items[$delta]);
+
+  // Reindex.
+  $form_state->set($key, array_values($items));
+  $form_state->setRebuild(TRUE);
+}
+
+/**
  * Additional form submit handler for System Performance Settings form.
  */
 function http_cache_control_form_system_performance_settings_submit(&$form, FormStateInterface $form_state) {
   $config = \Drupal::service('config.factory')->getEditable('http_cache_control.settings');
+
+  $targetedItemsInput = $form_state->getValue(['targeted_cache_control', 'items_wrapper', 'items'])
+    ?? $form_state->getValue(['targeted_cache_control', 'items'])
+    ?? [];
+
+  $targetedItems = _http_cache_control_targeted_normalize_items($targetedItemsInput);
+  $config->set('cache.targeted.items', $targetedItems);
+
   $config
     ->set('cache.http.s_maxage', $form_state->getValue('http_s_maxage'))
     ->set('cache.http.404_max_age', $form_state->getValue('404_max_age'))
     ->set('cache.http.302_max_age', $form_state->getValue('302_max_age'))
     ->set('cache.http.301_max_age', $form_state->getValue('301_max_age'))
-    ->set('cache.http.5xx_max_age', $form_state->getValue('5xx_max_age'))
     ->set('cache.http.stale_while_revalidate', $form_state->getValue('stale_while_revalidate'))
     ->set('cache.http.stale_if_error', $form_state->getValue('stale_if_error'))
     ->set('cache.http.vary', $form_state->getValue('vary'))
@@ -309,4 +551,184 @@ function http_cache_control_form_system_performance_settings_submit(&$form, Form
     ->set('cache.http.nocache', $form_state->getValue('nocache'))
     ->set('cache.http.nostore', $form_state->getValue('nostore'))
     ->save();
+}
+
+/**
+ * Normalize Targeted Cache-Control items for storage.
+ */
+function _http_cache_control_targeted_normalize_items(array $items_input): array {
+  $out = [];
+  $seen = [];
+
+  foreach ($items_input as $item) {
+    $target = trim((string) ($item['target'] ?? ''));
+
+    // If this item has a service selector (custom items), prefer it.
+    if (!empty($item['service'])) {
+      $service = (string) $item['service'];
+      if ($service === 'custom') {
+        $target = trim((string) ($item['custom_prefix'] ?? ''));
+      }
+      else {
+        $target = trim($service);
+      }
+    }
+
+    // Conservative “prefix token” check (prevents weird chars / header
+    // injection).
+    if ($target === '' || !preg_match('/^[A-Za-z0-9][A-Za-z0-9-]*$/', $target)) {
+      continue;
+    }
+
+    // De-dupe by target.
+    if (isset($seen[$target])) {
+      continue;
+    }
+    $seen[$target] = TRUE;
+
+    $maxAgeRaw = $item['max_age'] ?? 0;
+    $noCache = ($maxAgeRaw === 'no-cache');
+    $maxAge = $noCache ? 0 : (int) $maxAgeRaw;
+
+    $visibility = (string) ($item['visibility'] ?? '');
+    if (!in_array($visibility, ['', 'public', 'private'], TRUE)) {
+      $visibility = '';
+    }
+
+    $out[] = [
+      'target' => $target,
+      'max_age' => $maxAge,
+      'no_cache' => (bool) $noCache,
+      'must_revalidate' => !empty($item['must_revalidate']),
+      'no_store' => !empty($item['no_store']),
+      'no_transform' => !empty($item['no_transform']),
+      'proxy_revalidate' => !empty($item['proxy_revalidate']),
+      'visibility' => $visibility,
+    ];
+  }
+
+  return $out;
+}
+
+/**
+ * Element validation for Targeted Cache-Control items.
+ */
+function _http_cache_control_targeted_items_validate(array &$element, FormStateInterface $form_state, array &$form) {
+  // Get the submitted items array from this element’s parents.
+  $items = NestedArray::getValue($form_state->getValues(), $element['#parents']) ?? [];
+  if (!is_array($items) || !$items) {
+    return;
+  }
+
+  $seenTargets = [];
+  $warned = [];
+
+  foreach ($items as $delta => $item) {
+    // Compute "target" the same way you do in submit normalization:
+    // CDN is fixed; otherwise service/custom_prefix drives it.
+    $service = (string) ($item['service'] ?? '');
+    $target = (string) ($item['target'] ?? '');
+
+    if ($target === 'CDN') {
+      $computed = 'CDN';
+    }
+    elseif ($service === 'custom') {
+      $computed = trim((string) ($item['custom_prefix'] ?? ''));
+      if ($computed === '') {
+        $form_state->setErrorByName(
+          _http_cache_control_errname(array_merge($element['#parents'], [$delta, 'custom_prefix'])),
+          t('Custom prefix is required when "Custom prefix…" is selected.')
+        );
+        continue;
+      }
+    }
+    else {
+      $computed = trim($service);
+    }
+
+    // If user entered full header name, strip suffix.
+    $computed = preg_replace('/-Cache-Control$/i', '', $computed);
+
+    // Hard validation: safe header token (prevents header injection / invalid
+    // names).
+    if ($computed === '' || !preg_match('/^[A-Za-z0-9][A-Za-z0-9-]*$/', $computed)) {
+      $field = ($service === 'custom')
+        ? array_merge($element['#parents'], [$delta, 'custom_prefix'])
+        : array_merge($element['#parents'], [$delta, 'service']);
+
+      $form_state->setErrorByName(
+        _http_cache_control_errname($field),
+        t('Invalid prefix. Use only letters, numbers, and hyphens (e.g. "CDN", "Akamai", "Cloudflare-CDN").')
+      );
+      continue;
+    }
+
+    // Hard validation: duplicates are confusing and can behave unpredictably.
+    if (isset($seenTargets[$computed])) {
+      $field = ($service === 'custom')
+        ? array_merge($element['#parents'], [$delta, 'custom_prefix'])
+        : array_merge($element['#parents'], [$delta, 'service']);
+
+      $form_state->setErrorByName(
+        _http_cache_control_errname($field),
+        t('Duplicate targeted prefix "@p". Each targeted header should be unique.', ['@p' => $computed])
+      );
+      continue;
+    }
+    $seenTargets[$computed] = TRUE;
+
+    // max-age / no-cache handling.
+    $maxAgeRaw = $item['max_age'] ?? 0;
+    $noCache = ($maxAgeRaw === 'no-cache') || !empty($item['no_cache']);
+    $maxAge = 0;
+
+    if (!$noCache) {
+      if (!is_numeric($maxAgeRaw) || (int) $maxAgeRaw < 0) {
+        $form_state->setErrorByName(
+          _http_cache_control_errname(array_merge($element['#parents'], [$delta, 'max_age'])),
+          t('max-age must be a non-negative integer.')
+        );
+        continue;
+      }
+      $maxAge = (int) $maxAgeRaw;
+    }
+
+    // Soft warnings (don’t block saving).
+    $noStore = !empty($item['no_store']);
+    $mustRevalidate = !empty($item['must_revalidate']);
+    $proxyRevalidate = !empty($item['proxy_revalidate']);
+
+    if ($noStore) {
+      // no-store makes most other directives moot. Warn once per submit.
+      $k = 'no-store';
+      if (empty($warned[$k])) {
+        \Drupal::messenger()->addWarning(t('Targeted Cache-Control: "no-store" overrides most other caching directives for that header.'));
+        $warned[$k] = TRUE;
+      }
+    }
+
+    if ($noCache && $maxAge > 0) {
+      $k = 'no-cache+max-age';
+      if (empty($warned[$k])) {
+        \Drupal::messenger()->addWarning(t('Targeted Cache-Control: "no-cache" makes "max-age" inoperative (it will still require revalidation).'));
+        $warned[$k] = TRUE;
+      }
+    }
+
+    if (($mustRevalidate || $proxyRevalidate) && !$noCache && $maxAge === 0 && !$noStore) {
+      $k = 'revalidate-without-freshness';
+      if (empty($warned[$k])) {
+        \Drupal::messenger()->addWarning(t('Targeted Cache-Control: revalidation directives are usually only meaningful when a freshness lifetime (max-age) is set.'));
+        $warned[$k] = TRUE;
+      }
+    }
+  }
+}
+
+/**
+ * Convert #parents array to a setErrorByName()-friendly string.
+ */
+function _http_cache_control_errname(array $parents): string {
+  $first = array_shift($parents);
+  return $parents ? ($first . '][' . implode('][', $parents)) : $first;
 }

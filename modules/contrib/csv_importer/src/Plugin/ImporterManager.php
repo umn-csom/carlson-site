@@ -23,7 +23,14 @@ class ImporterManager extends DefaultPluginManager {
    *   The module handler to invoke the alter hook with.
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
-    parent::__construct('Plugin/Importer', $namespaces, $module_handler, 'Drupal\csv_importer\Plugin\ImporterInterface', 'Drupal\csv_importer\Annotation\Importer');
+    parent::__construct(
+      'Plugin/Importer',
+      $namespaces,
+      $module_handler,
+      'Drupal\csv_importer\Plugin\ImporterInterface',
+      'Drupal\csv_importer\Attribute\Importer',
+      'Drupal\csv_importer\Annotation\Importer'
+    );
 
     $this->alterInfo('importer_info');
     $this->setCacheBackend($cache_backend, 'importer_info_plugins');

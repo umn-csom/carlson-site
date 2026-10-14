@@ -1,0 +1,29 @@
+ckeditor5.plugin.media_edit_media_modal:
+  type: mapping
+  label: 'Edit Media Modal plugin settings'
+  mapping:
+    editMediaModal:
+      type: mapping
+      label: 'Edit Media Modal config'
+      mapping:
+        dialogSettings:
+          type: mapping
+          label: 'Dialog settings'
+          mapping:
+            height:
+              type: string
+              label: 'Height'
+        extras:
+          type: mapping
+          label: 'Extra settings'
+          mapping:
+            skipAccessCheck:
+              type: boolean
+              label: 'Skip access check'
+        editMediaModalForms:
+          type: sequence
+          label: 'Media bundle → form mode map'
+          orderby: key
+          sequence:
+            type: string
+            label: 'View mode'

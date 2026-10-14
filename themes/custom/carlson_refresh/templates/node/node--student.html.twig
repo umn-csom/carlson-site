@@ -38,11 +38,11 @@
                     <div class="flex-grow-1"></div>
                   </div>
                   {% if ((content.field_profile_img|field_value is not empty) and (('Organization' in content.field_profile_type.0['#markup']) or ('Horizontal' in content.field_profile_type.0['#markup']))) %}
-                    <img src="{{ content.field_profile_img|field_target_entity.image.entity.uri.value | image_style('crop_profile_image_crop_organization') }}" alt="Profile Image" class="img-fluid">
+                    <img src="{{ content.field_profile_img|field_target_entity.image.entity.uri.value | image_style('crop_profile_image_crop_organization') }}" alt="" class="img-fluid">
                   {% elseif content.field_profile_img|field_value is not empty %}
                     {{ content.field_profile_img|field_value }}
                   {% else %}
-                    <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
+                    <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="" class="img-fluid">
                   {% endif %}
                 </div>
               </div>
@@ -125,7 +125,7 @@
                     {% if content.field_profile_img|field_value is not empty %}
                       {{ content.field_profile_img|field_value }}
                     {% else %}
-                      <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="Profile image" class="img-fluid">
+                      <img src="/{{ directory }}/images/placeholders/profile-image-placeholder.jpg" alt="" class="img-fluid">
                     {% endif %}
                   </div>
                 </div>

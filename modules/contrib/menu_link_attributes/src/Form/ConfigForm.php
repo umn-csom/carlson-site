@@ -4,6 +4,7 @@ namespace Drupal\menu_link_attributes\Form;
 
 use Drupal\Component\Serialization\Exception\InvalidDataTypeException;
 use Drupal\Component\Serialization\Yaml;
+use Drupal\Component\Utility\Html;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\TypedConfigManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -97,7 +98,7 @@ class ConfigForm extends ConfigFormBase {
 
     // Use module's YAML config file for example structure.
     $module_path = $this->moduleHandler->getModule('menu_link_attributes')->getPath();
-    $yml_text = file_get_contents($module_path . '/config/install/menu_link_attributes.config.yml');
+    $yml_text = Html::escape(file_get_contents($module_path . '/config/install/menu_link_attributes.config.yml'));
 
     $form['example'] = [
       '#type' => 'details',

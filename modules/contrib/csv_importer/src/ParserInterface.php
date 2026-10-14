@@ -18,7 +18,7 @@ interface ParserInterface {
    * @return array|null
    *   Parsed CSV.
    */
-  public function getCsvById(int $id, string $delimiter);
+  public function getCsvById(int $id, string $delimiter = ',');
 
   /**
    * Get CSV column (first row).

@@ -26,10 +26,14 @@ keep a node form usable.
 
 REQUIREMENTS
 ------------
-This module is useful only if you use the seven theme administration or any
-administration theme which extends seven (as adminimal theme for example).
+This module is useful :
 
-- node module
+  - if you use the seven theme administration or any administration theme which extends seven (as adminimal theme
+    for example) for Drupal 8 or 9.
+  - if you use the claro theme administration for Drupal 10. For sub-themes which extends Claro some CSS tweaks could be
+    needed. Support is added for the Gin theme which extends Claro (but you can use the sidebar panel, which can be
+    hidden natively with the Gin theme, to obtain similar feature provided by this module).
+
 
 INSTALLATION
 ------------
@@ -42,7 +46,7 @@ CONFIGURATION
 -------------
 
 Enable the module and select the content type on which set the metadata panel
-as vertical tabs under the nod emain form.
+as vertical tabs under the node main form.
 
 
 TROUBLESHOOTING

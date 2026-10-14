@@ -7,9 +7,7 @@ use Drupal\Tests\paragraphs\Functional\WidgetStable\ParagraphsTestBase;
 use Drupal\Tests\paragraphs\FunctionalJavascript\ParagraphsTestBaseTrait;
 
 /**
- * Tests file listing page functionality.
- *
- * @group file
+ * Paragraphs listing class for tests.
  */
 class ParagraphListingTest extends ParagraphsTestBase {
 
@@ -38,14 +36,14 @@ class ParagraphListingTest extends ParagraphsTestBase {
 
     // Users without sufficient permissions should not see paragraph listing.
     $basicUser = $this->drupalCreateUser();
-    $admin = $this->drupalCreateUser(['administer paragraphs']);
+    $admin_permissions = ['administer paragraphs'];
 
     $this->drupalLogin($basicUser);
     $this->drupalGet('admin/content/paragraphs');
     $this->assertSession()->statusCodeEquals(403);
 
     // Log in with user with right permissions and test listing.
-    $this->loginAsAdmin($admin);
+    $this->loginAsAdmin($admin_permissions);
     $this->drupalGet('admin/content/paragraphs');
     $this->assertSession()->pageTextContains('Paragraphs');
 
@@ -58,11 +56,27 @@ class ParagraphListingTest extends ParagraphsTestBase {
     $this->drupalGet('admin/content/paragraphs');
     $this->assertSession()->linkByHrefExists($delete_link);
 
-    // Delete paragraph.
-    $this->drupalGet($delete_link);
+    // Test delete confirmation page.
+    $this->clickLink('delete');
+    $this->assertSession()->pageTextContains('Are you sure you want to delete the paragraph Orphaned paragraphed_test: ?');
 
-    // Check that paragraph was deleted.
-    $this->assertSession()->pageTextContains('Paragraph ' . $pid . ' deleted.');
+    // Check if cancel button takes it back to paragraphs list.
+    $this->getSession()->getPage()->clickLink('Cancel');
+    // Check that this is paragraphs list page and this paragraph is
+    // still available.
+    $this->assertSession()->pageTextContains('Paragraphs');
+    $this->assertSession()->linkByHrefExists($delete_link);
+
+    // Finally, test delete paragraph action.
+    $this->clickLink('delete');
+    $this->getSession()->getPage()->pressButton('Delete');
+
+    // As of now we are not adding any parent entity to the paragraph created
+    // for tests so the paragraph label will return type and empty summary
+    // therefore checking the success message for orphaned paragraph.
+    $this->assertSession()->pageTextContains('The paragraph Orphaned paragraphed_test: has been deleted.');
+    // Check that paragraph was deleted and removed from the paragraphs list.
+    $this->assertSession()->pageTextContains('Paragraphs');
     $this->assertSession()->linkByHrefNotExists($delete_link);
   }
 

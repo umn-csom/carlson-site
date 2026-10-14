@@ -4,6 +4,7 @@ namespace Drupal\user_expire\Plugin\RulesAction;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Messenger\MessengerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\rules\Core\RulesActionBase;
 use Drupal\user\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -29,6 +30,8 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
  * )
  */
 class UserExpire extends RulesActionBase implements ContainerFactoryPluginInterface {
+
+  use StringTranslationTrait;
 
   /**
    * The database service.

@@ -11,6 +11,8 @@ use Drupal\media\MediaForm as CoreMediaForm;
 
 /**
  * Override Media Entity Edit Form.
+ *
+ * @phpstan-ignore classExtendsInternalClass.classExtendsInternalClass
  */
 class MediaForm extends CoreMediaForm {
 
