@@ -3,12 +3,40 @@
 
 .carlson-card {
 
+  position: relative;
+
   &:has(a.carlson-card__content:focus-visible) {
     @include focus-visible-rounded();
   }
 
-  &__content {
-    clip-path: polygon(0 0, calc(100% - 45px) 0%, 100% 25px, 100% 100%, 0 100%);
+  
+
+  a.carlson-card__content::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+  }
+
+  a.carlson-card__content {
+
+    // clip-path: polygon(0 0, calc(100% - 45px) 0%, 100% 25px, 100% 100%, 0 100%);
+    z-index: 1;
+    --card-bg-color: #{$maroon};
+
+    &.bg-primary { --card-bg-color: #{$maroon}; }
+    &.bg-primary:hover, &.bg-primary:focus {--card-bg-color: #{darken($maroon, 7.5%)};}
+    &.bg-gold { --card-bg-color: #{$gold}; }
+    &.bg-gold:hover, &.bg-gold:focus {--card-bg-color: #{darken($gold, 7.5%)};}
+    &.bg-ivory { --card-bg-color: #{$ivory}; }
+    &.bg-ivory:hover, &.bg-ivory:focus {--card-bg-color: #{darken($ivory, 7.5%)};}
+    &.bg-light-blue { --card-bg-color: #{$light-blue}; }
+    &.bg-light-blue:hover, &.bg-light-blue:focus {--card-bg-color: #{darken($light-blue, 7.5%)};}
+
+    background: linear-gradient(210deg, transparent 20px, var(--card-bg-color) 20.5px) !important;
 
     &:focus-visible {
       outline: 0;
