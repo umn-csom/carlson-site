@@ -2,14 +2,11 @@
 @import "../../abstracts/extensions";
 
 .carlson-card {
-
   position: relative;
 
   &:has(a.carlson-card__content:focus-visible) {
     @include focus-visible-rounded();
   }
-
-  
 
   a.carlson-card__content::after {
     content: "";
@@ -20,20 +17,26 @@
     left: 0;
     z-index: 10;
   }
-
-  a.carlson-card__content {
-
-    // clip-path: polygon(0 0, calc(100% - 45px) 0%, 100% 25px, 100% 100%, 0 100%);
+  
+  .carlson-card__content {
     z-index: 1;
     --card-bg-color: #{$maroon};
 
     &.bg-primary { --card-bg-color: #{$maroon}; }
-    &.bg-primary:hover, &.bg-primary:focus {--card-bg-color: #{darken($maroon, 7.5%)};}
     &.bg-gold { --card-bg-color: #{$gold}; }
-    &.bg-gold:hover, &.bg-gold:focus {--card-bg-color: #{darken($gold, 7.5%)};}
     &.bg-ivory { --card-bg-color: #{$ivory}; }
-    &.bg-ivory:hover, &.bg-ivory:focus {--card-bg-color: #{darken($ivory, 7.5%)};}
     &.bg-light-blue { --card-bg-color: #{$light-blue}; }
+
+    background: linear-gradient(210deg, transparent 20px, var(--card-bg-color) 20.5px) !important;
+  }
+
+  a.carlson-card__content {
+    // clip-path: polygon(0 0, calc(100% - 45px) 0%, 100% 25px, 100% 100%, 0 100%);
+    --card-bg-color: #{$maroon};
+
+    &.bg-primary:hover, &.bg-primary:focus {--card-bg-color: #{darken($maroon, 7.5%)};}
+    &.bg-gold:hover, &.bg-gold:focus {--card-bg-color: #{darken($gold, 7.5%)};}
+    &.bg-ivory:hover, &.bg-ivory:focus {--card-bg-color: #{darken($ivory, 7.5%)};}
     &.bg-light-blue:hover, &.bg-light-blue:focus {--card-bg-color: #{darken($light-blue, 7.5%)};}
 
     background: linear-gradient(210deg, transparent 20px, var(--card-bg-color) 20.5px) !important;
