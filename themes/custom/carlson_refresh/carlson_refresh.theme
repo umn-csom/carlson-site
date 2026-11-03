@@ -20,6 +20,15 @@ use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
  */
 function carlson_refresh_preprocess_image(&$variables) {
 
+  // Mark the Blazy blur placeholder as decorative.
+  $attributes = $variables['attributes'] ?? [];
+  $class = $attributes['class'] ?? [];
+  $class = is_string($class) ? explode(' ', $class) : (array) $class;
+  if (isset($attributes['data-b-blur']) || in_array('b-blur', $class, TRUE)) {
+    $variables['attributes']['alt'] = '';
+    $variables['attributes']['aria-hidden'] = 'true';
+  }
+
   // If we've already processed this image, return.
   if (isset($variables['data_lqip'])) {
     return;
