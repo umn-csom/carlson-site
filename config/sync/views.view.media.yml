@@ -1328,10 +1328,10 @@ display:
           columns: 4
           automatic_width: true
           alignment: horizontal
-          row_class_custom: ''
-          row_class_default: true
-          col_class_custom: ''
-          col_class_default: true
+          row_class_custom: views-row
+          row_class_default: false
+          col_class_custom: views-col
+          col_class_default: false
       row:
         type: fields
         options: {  }
@@ -1348,7 +1348,11 @@ display:
         filter_groups: false
       css_class: eb-media
       display_description: ''
-      display_extenders: {  }
+      display_extenders:
+        metatag_display_extender:
+          metatags: {  }
+          tokenize: false
+        simple_sitemap_display_extender: {  }
     cache_metadata:
       max-age: -1
       contexts:

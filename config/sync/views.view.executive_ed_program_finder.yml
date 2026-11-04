@@ -8,6 +8,9 @@ dependencies:
     - taxonomy.vocabulary.executive_ed_business_topics
     - taxonomy.vocabulary.executive_ed_levels
     - taxonomy.vocabulary.executive_ed_location
+  content:
+    - 'taxonomy_term:executive_ed_location:6ad6047d-df87-4f6d-aebf-25a37b4cf53c'
+    - 'taxonomy_term:executive_ed_location:7fae765e-d920-425b-96d7-dfbee7a06857'
   module:
     - better_exposed_filters
     - datetime
@@ -136,6 +139,7 @@ display:
                 combine_rewrite: "Program Dates Asc|Sort By Date\r\nProgram Dates Desc|Date Descending\r\nTitle Asc|Title (A-Z)\r\nTitle Desc|Title (Z-A)"
                 reset: false
                 reset_label: ''
+                no_reset: false
                 collapsible: false
                 collapsible_label: 'Sort options'
                 is_secondary: false
@@ -152,6 +156,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   open_by_default: false
+                  no_reset: false
                   hide_label: false
                   field_classes: ''
               field_ee_level_target_id:
@@ -166,6 +171,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   open_by_default: false
+                  no_reset: false
                   hide_label: false
                   field_classes: ''
               field_ee_course_location_target_id:
@@ -180,6 +186,7 @@ display:
                   collapsible: false
                   collapsible_disable_automatic_open: false
                   open_by_default: false
+                  no_reset: false
                   hide_label: false
                   field_classes: ''
       access:
@@ -508,7 +515,9 @@ display:
           admin_label: ''
           plugin_id: taxonomy_index_tid
           operator: or
-          value: {  }
+          value:
+            10041: 10041
+            16686: 16686
           group: 1
           exposed: true
           expose:
@@ -525,7 +534,7 @@ display:
             multiple: false
             remember_roles:
               authenticated: authenticated
-            reduce: false
+            reduce: true
           is_grouped: false
           group_info:
             label: 'Course Location (field_ee_course_location)'
