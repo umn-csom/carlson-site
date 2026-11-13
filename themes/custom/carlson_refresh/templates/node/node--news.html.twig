@@ -164,7 +164,11 @@
       {{ drupal_view('faces', 'block_1') }} <!-- block only for the Faces 100 -->
     {% endif %}
 
+    {# Alumni #}
     {{ drupal_view('magazine_for_news', 'block_1') }}
+    
+    {# Discovery #}
+    {{ drupal_view('magazine_for_news', 'block_2') }}
 
     {% if (content.field_news_channels|field_value is not empty) or (content.field_hub_topic|field_value is not empty)%}
       {{ attach_library('carlson_refresh/page-links') }}
