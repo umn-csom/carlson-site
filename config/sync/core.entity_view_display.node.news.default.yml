@@ -8,6 +8,8 @@ dependencies:
     - field.field.node.news.field_featured_media_faculty
     - field.field.node.news.field_flexible_features
     - field.field.node.news.field_hero_media
+    - field.field.node.news.field_hide_alumni_promo
+    - field.field.node.news.field_hide_discovery_promo
     - field.field.node.news.field_hide_from_aggregation
     - field.field.node.news.field_hub_topic
     - field.field.node.news.field_in_the_media
@@ -63,6 +65,26 @@ content:
     third_party_settings: {  }
     weight: 2
     region: content
+  field_hide_alumni_promo:
+    type: boolean
+    label: hidden
+    settings:
+      format: true-false
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 12
+    region: content
+  field_hide_discovery_promo:
+    type: boolean
+    label: hidden
+    settings:
+      format: true-false
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    weight: 13
+    region: content
   field_hide_from_aggregation:
     type: boolean
     label: above
@@ -99,6 +121,7 @@ content:
     label: hidden
     settings:
       link_to_entity: false
+      link_rel: canonical
     third_party_settings: {  }
     weight: 5
     region: content

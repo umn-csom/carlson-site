@@ -165,10 +165,14 @@
     {% endif %}
 
     {# Alumni #}
+    {% if (not content.field_hide_alumni_promo['#items'].value) or empty %}
     {{ drupal_view('magazine_for_news', 'block_1') }}
+    {% endif %}
     
     {# Discovery #}
+    {% if (not content.field_hide_discovery_promo['#items'].value ) or empty %}
     {{ drupal_view('magazine_for_news', 'block_2') }}
+    {% endif %}
 
     {% if (content.field_news_channels|field_value is not empty) or (content.field_hub_topic|field_value is not empty)%}
       {{ attach_library('carlson_refresh/page-links') }}
