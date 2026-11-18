@@ -8,6 +8,8 @@ dependencies:
     - field.field.node.news.field_featured_media_faculty
     - field.field.node.news.field_flexible_features
     - field.field.node.news.field_hero_media
+    - field.field.node.news.field_hide_alumni_promo
+    - field.field.node.news.field_hide_discovery_promo
     - field.field.node.news.field_hide_from_aggregation
     - field.field.node.news.field_hub_topic
     - field.field.node.news.field_in_the_media
@@ -92,6 +94,8 @@ third_party_settings:
     group_administrative:
       children:
         - field_hide_from_aggregation
+        - field_hide_alumni_promo
+        - field_hide_discovery_promo
         - field_news_channels
         - field_news_channel_features
         - field_hub_topic
@@ -185,6 +189,20 @@ content:
     settings:
       media_types: {  }
     third_party_settings: {  }
+  field_hide_alumni_promo:
+    type: boolean_checkbox
+    weight: 12
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_hide_discovery_promo:
+    type: boolean_checkbox
+    weight: 13
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
   field_hide_from_aggregation:
     type: boolean_checkbox
     weight: 11
@@ -194,7 +212,7 @@ content:
     third_party_settings: {  }
   field_hub_topic:
     type: options_buttons
-    weight: 14
+    weight: 16
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -224,13 +242,13 @@ content:
     third_party_settings: {  }
   field_news_channel_features:
     type: options_buttons
-    weight: 13
+    weight: 15
     region: content
     settings: {  }
     third_party_settings: {  }
   field_news_channels:
     type: options_buttons
-    weight: 12
+    weight: 14
     region: content
     settings: {  }
     third_party_settings: {  }
